@@ -119,7 +119,8 @@ create table club (
 	status char(1) default 'Y', -- COMMENT '활성화 : Y 비활성화 : N'
 	report_count	number,
 	introduce	varchar2(1000) not null,
-	enroll_question	varchar2(1000) not null
+	enroll_question	varchar2(1000) not null,
+    domain varchar2(100) not null
 );
 
 create table club_member (
