@@ -23,7 +23,22 @@
 
 <section id="main-page-sec" class="p-2 bg-info">
 	<h1>메인 페이지</h1>
-	
+	<section id="class">
+	   <div class="posts">
+	   	 <a class="card" href="${pageContext.request.contextPath}/club/clubDetail.do" }>
+             첫번째 샘플
+          </a>
+          <a class="card" href="/dagachi/news/newsDetail?no=\${newsNo}">
+             두번째 샘플
+          </a>
+          <a class="card" href="/dagachi/news/newsDetail?no=\${newsNo}">
+             세번째 샘플
+          </a>
+	   </div>
+	   
+   	<div id='btn-more-container'>
+   </div>
+</section>
 	
 	
 	
