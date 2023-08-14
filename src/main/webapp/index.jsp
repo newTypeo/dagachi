@@ -6,4 +6,7 @@
 <fmt:requestEncoding value="utf-8"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
+<h1>메인 페이지</h1>
+
+
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
