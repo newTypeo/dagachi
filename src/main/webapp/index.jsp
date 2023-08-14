@@ -23,6 +23,10 @@
 
 <section id="main-page-sec" class="p-2 bg-info">
 	<h1>메인 페이지</h1>
+	
+	
+	
+	
 </section>
 
 
