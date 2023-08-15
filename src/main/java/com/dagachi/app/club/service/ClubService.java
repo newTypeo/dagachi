@@ -8,4 +8,6 @@ public interface ClubService {
 
 	List<Club> clubSearch(String keyword);
 
+	List<Club> adminClubList();
+
 }

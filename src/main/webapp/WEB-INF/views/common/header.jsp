@@ -28,6 +28,9 @@
 <div id="container">
 	<header class="p-2 bg-primary">
 		<div>로고</div>
+		<button onclick="location.href = '${pageContext.request.contextPath}/admin/adminClubList.do';">
+			모임목록(관리자)
+		</button>
 		<button onclick="location.href = '${pageContext.request.contextPath}/member/memberLogin.do';">
 			로그인 : /member/memberLogin.do
 		</button>
