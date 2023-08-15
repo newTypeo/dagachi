@@ -22,11 +22,14 @@ public class adminController {
 	@Autowired
 	private ClubService clubService;
 	
+	/**
+	 * 관리자 회원 목록 조회
+	 * @author 종환
+	 */
 	@GetMapping("adminClubList.do")
 	public void clubList(Model model) {
 		List<Club> clubs = clubService.adminClubList();
 		model.addAttribute("clubs",clubs);
-		// log.debug("관리자 회원 목록 = {}", clubs);
 	}
 	
 	
