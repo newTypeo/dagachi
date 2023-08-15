@@ -1,5 +1,7 @@
 package com.dagachi.app.club.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,10 +50,19 @@ public class ClubController {
 //		return " ";
 //	}
 	
+	/**
+	 * 관리자 회원 목록에서 모임 검색
+	 * @author 종환
+	 */
 	@GetMapping("/clubSearch.do")
 	public ResponseEntity<?> clubSearch(@RequestParam String keyword) {
-		
-		List<Club> clubs = clubService.clubSearch(keyword);
+		List<Club> clubs = new ArrayList<>();
+		if(keyword == "") {
+			clubs = clubService.adminClubList();
+		}
+		else {
+			clubs = clubService.clubSearch(keyword);
+		}
 		// log.debug("clubs = {}", clubs);
 		return ResponseEntity.status(HttpStatus.OK).body(clubs);
 	}
