@@ -10,8 +10,35 @@
 
 <section id="club-board-sec" class="">
 
-	<form action="">
-		<input type="text" placeholder="제목" name="title" required>
+
+
+	<form name="boardFrm"
+		action="${pageContext.request.contextPath}/board/boardCreate.do"
+		enctype="multipart/form-data" method="post">
+		<div class="form-group">
+			<label for="exampleFormControlInput1"></label> <input type="text"
+				class="form-control" id="exampleFormControlInput1"
+				name="title"
+				placeholder="제목을 입력하세요">
+		</div>
+
+
+		<div class="input-group mb-3">
+			<div class="input-group-prepend">
+				<label class="input-group-text" for="inputGroupSelect01">카테고리</label>
+			</div>
+
+			<select class="custom-select" id="inputGroupSelect01" name="boardType">
+				<option selected>선택</option>
+				<option value="1" selected>자유글</option>
+				<option value="2">정모후기</option>
+				<option value="3">가입인사</option>
+				<option value="4">공지사항</option>
+			</select>
+
+		</div>
+
+
 
 		<div class="input-group mb-3">
 			<div class="input-group-prepend">
@@ -23,10 +50,41 @@
 					class="custom-file-label" for="inputGroupFile01">파일선택</label>
 			</div>
 		</div>
-		
-		<textarea  name="content"></textarea>
-		
+
+		<div class="form-group">
+			<label for="exampleFormControlTextarea1"></label>
+			<textarea class="form-control" id="exampleFormControlTextarea1"
+				rows="3" placeholder="내용을 입력하세요"></textarea>
+		</div>
+
+		<div class="btn-group-toggle" data-toggle="buttons">
+			<label class="btn btn-secondary active"> <input
+				type="checkbox"> 게시글상위고정
+			</label>
+		</div>
+
+		<button type="button" class="btn btn-primary btn-lg">제출하기</button>
+	
 	</form>
 
+
 </section>
+
+<script>
+
+document.querySelector("#inputFile01").addEventListener("change",(e) => {
+	
+		const label = e.target.nextElementSibling;
+		const files = e.target.files;
+		if(files[0]) {
+			label.innerHTML = files[0].name;
+		}
+		else {
+			label.innerHTML = "파일을 선택하세요";
+		}
+	
+});
+
+</script>
+
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
