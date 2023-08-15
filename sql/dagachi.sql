@@ -113,7 +113,6 @@ create table club (
 	club_name	varchar2(50)	not null,
 	activity_area	varchar2(100)	not null,
 	category	varchar2(20)	not null, -- COMMENT 'enum으로 만들까?'
-	tag	varchar2(200), --	COMMENT '홍보용태그 5개, 10자이하 제한',
 	created_at	date default sysdate,
 	last_activity_date	date,
 	status char(1) default 'Y', -- COMMENT '활성화 : Y 비활성화 : N'

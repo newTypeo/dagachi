@@ -28,10 +28,10 @@
 	   	 <a class="card" href="${pageContext.request.contextPath}/club/clubDetail.do" }>
              첫번째 샘플
           </a>
-          <a class="card" href="/dagachi/news/newsDetail?no=\${newsNo}">
+          <a class="card" href="${pageContext.request.contextPath}/club/clubDetail.do">
              두번째 샘플
           </a>
-          <a class="card" href="/dagachi/news/newsDetail?no=\${newsNo}">
+          <a class="card" href="${pageContext.request.contextPath}/club/clubDetail.do">
              세번째 샘플
           </a>
 	   </div>
@@ -39,9 +39,6 @@
    	<div id='btn-more-container'>
    </div>
 </section>
-	
-	
-	
 </section>
 
 
