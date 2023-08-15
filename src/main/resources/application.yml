@@ -16,8 +16,8 @@ spring:
   datasource:
     driver-class-name: oracle.jdbc.driver.OracleDriver
     url: jdbc:oracle:thin:@localhost:1521:xe
-    username: spring
-    password: spring
+    username: dagachi
+    password: dagachi
   servlet:
     multipart:
       max-file-size: 10MB

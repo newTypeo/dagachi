@@ -28,7 +28,7 @@
 		<input type="text" id="clubSearch" placeholder="검색할 모임 입력"/>
 	</span>
 	
-	<div> <a href="${pageContext.request.contextPath}/club/clubDetail.do"> 임시 디브(클럽)</a></div>
+	<div> <a href="${pageContext.request.contextPath}/club/main.do"> 임시 디브(클럽)</a></div>
 </section>
 <script>
 // 비동기 모임 검색
