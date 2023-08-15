@@ -22,4 +22,9 @@ public class ClubServiceImpl implements ClubService {
 		return clubRepository.clubSearch(keyword);
 	}
 	
+	@Override
+	public List<Club> adminClubList() {
+		return clubRepository.adminClubList();
+	}
+	
 }
