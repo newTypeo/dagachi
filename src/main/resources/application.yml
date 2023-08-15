@@ -30,7 +30,7 @@ spring:
 logging:
   level:
     root: info
-    '[com.sh.app]': debug
+    '[com.dagachi.app]': debug
     
 #mybatis
 mybatis:

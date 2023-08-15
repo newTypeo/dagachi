@@ -3,6 +3,8 @@ package com.dagachi.app.club.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -14,8 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.service.ClubService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
 @RequestMapping("/club")
+@Slf4j
 public class ClubController {
 	
 	@Autowired
@@ -43,12 +48,12 @@ public class ClubController {
 //		return " ";
 //	}
 	
-	// @RequestBody
 	@GetMapping("/clubSearch.do")
-	public void clubSearch(@RequestParam String keyword) {
+	public ResponseEntity<?> clubSearch(@RequestParam String keyword) {
 		
 		List<Club> clubs = clubService.clubSearch(keyword);
-		
+		// log.debug("clubs = {}", clubs);
+		return ResponseEntity.status(HttpStatus.OK).body(clubs);
 	}
 	
 	

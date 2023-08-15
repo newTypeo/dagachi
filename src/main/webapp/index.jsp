@@ -41,6 +41,7 @@ document.querySelector("#clubSearch").onkeyup = (e) => {
 		dataType : "json", 
 		success(clubs){
 			console.log("모임 검색 success:", clubs);
+			// 검색하면 실시간으로 여기까지 객체 가져왔음
 		}
 	});
 	
