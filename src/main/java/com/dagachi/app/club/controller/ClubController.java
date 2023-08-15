@@ -67,6 +67,16 @@ public class ClubController {
 		return ResponseEntity.status(HttpStatus.OK).body(clubs);
 	}
 	
+	@GetMapping("/chatList.do")
+	public void chatList() {
+		
+	}
+	
+	@GetMapping("/chatRoom.do")
+	public void chatRoom() {
+		
+	}
+	
 	
 	
 	
