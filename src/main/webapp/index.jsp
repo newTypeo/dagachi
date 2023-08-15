@@ -24,7 +24,7 @@
 <section id="main-page-sec" class="p-2 bg-info">
 	<h1>메인 페이지</h1>
 	
-	<div> <a href="${pageContext.request.contextPath}/club/clubDetail.do"> 임시 디브(클럽)</a></div>
+	<div> <a href="${pageContext.request.contextPath}/club/main.do"> 임시 디브(클럽)</a></div>
 </section>
 
 

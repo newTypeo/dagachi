@@ -13,11 +13,13 @@
 
 <nav>
 	<h3>메뉴 바</h3>
-	<a href="${pageContext.request.contextPath}/club/menu/"></a>
+	<a href="${pageContext.request.contextPath}/club/clubBoardList.do">게시판</a>
 </nav>
 
 <section id="club-page-sec" class="p-2 bg-danger">
 	<h1>메인 페이지</h1>
+	
+	
 </section>
 
 
