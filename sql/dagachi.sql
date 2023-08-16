@@ -581,6 +581,17 @@ references member (
 	member_id
 );
 
+alter table member add constraint uq_member_nickname unique (
+    nickname
+);
+
+alter table member add constraint uq_member_email unique (
+    email
+);
+
+alter table club add constraint uq_club_name unique (
+    club_name
+);
 
 ------------------------------------------------- 쿼리문 -------------------------------------------------
 
