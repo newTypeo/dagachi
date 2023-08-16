@@ -93,7 +93,8 @@ create sequence seq_alarm_id;
 create table member (
 	member_id	varchar2(30)	not null,
 	password	varchar2(30)	not null,
-	name	varchar2(20)	not null,
+	name	 varchar2(20)	not null,
+    nickname varchar2(30) not null,
 	phone_no	varchar2(20)	not null,
 	email	varchar2(50)	not null,
 	birthday	date	not null,
@@ -580,6 +581,17 @@ references member (
 	member_id
 );
 
+alter table member add constraint uq_member_nickname unique (
+    nickname
+);
+
+alter table member add constraint uq_member_email unique (
+    email
+);
+
+alter table club add constraint uq_club_name unique (
+    club_name
+);
 
 ------------------------------------------------- 쿼리문 -------------------------------------------------
 
