@@ -6,7 +6,7 @@
 
 <fmt:requestEncoding value="utf-8"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-
+<jsp:include page="/WEB-INF/views/common/chatBtn.jsp"></jsp:include>
 
 <nav id="main-banner" class="bg-warning">
 	<h1>배너</h1>
