@@ -1,0 +1,26 @@
+@CHARSET "UTF-8";
+
+body {
+
+}
+
+/********** club-header **********/
+header {
+	height:20px;
+}
+
+/************ club-banner *************/
+#main-banner {
+	height: 200px;
+}
+
+/********** club-page-sec **********/
+#main-page-sec {
+	height: 700px;
+}
+
+
+/********** footer **********/
+footer {
+	height: 100px;
+}

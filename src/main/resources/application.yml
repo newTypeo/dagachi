@@ -3,7 +3,7 @@
 server:
   port: 8080
   servlet:
-    context-path: /spring
+    context-path: /dagachi
     session:
       timeout: 30m
     
@@ -16,37 +16,21 @@ spring:
   datasource:
     driver-class-name: oracle.jdbc.driver.OracleDriver
     url: jdbc:oracle:thin:@localhost:1521:xe
-    username: spring
-    password: spring
+    username: dagachi
+    password: dagachi
   servlet:
     multipart:
       max-file-size: 10MB
       max-request-size: 50MB
-      location: C:/workspaces/spring_workspace/hello-springboot/src/main/webapp/resources/upload/board
-  security:
-    oauth2:
-      client:
-        registration:
-          kakao:
-            client-id: d7c98a81a81d568b5adb3eb96c26c82f
-            redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
-            authorization-grant-type: authorization_code
-            client-authentication-method: 'POST'
-            client-name: Kakao
-        provider:
-          kakao: 
-            authorization-uri: https://kauth.kakao.com/oauth/authorize
-            token-uri: https://kauth.kakao.com/oauth/token
-            user-info-uri: https://kapi.kakao.com/v2/user/me
-            user-info-authentication-method: POST
-            user-name-attribute: id
+      location: C:/workspaces/spring_workspace/dagachi/src/main/webapp/resources/upload
+
             
       
 #logback
 logging:
   level:
     root: info
-    '[com.sh.app]': debug
+    '[com.dagachi.app]': debug
     
 #mybatis
 mybatis:
@@ -54,20 +38,11 @@ mybatis:
     jdbc-type-for-null: NULL
     map-underscore-to-camel-case: true
     call-setters-on-nulls: true
-  type-aliases-package: com.sh.app, org.springframework.security.core.authority
-  type-handlers-package: com.sh.app.common.typehandler
+  # type-aliases-package: com.dagachi.project, org.springframework.security.core.authority
+  # type-handlers-package: com.dagachi.project.common.typehandler
   mapper-locations: classpath*:mapper/**/*-mapper.xml
     
-    
-# oauth
-oauth:
-  kakao:
-    authorize-uri: https://kauth.kakao.com/oauth/authorize/
-    redirect-uri: http://localhost:8080/spring/oauth/kakao/callback.do
-    rest-api-key: d7c98a81a81d568b5adb3eb96c26c82f
-    token-uri: https://kauth.kakao.com/oauth/token
-    scope: profile_nickname, account_email, profile_image
-    resource-uri-host: https://kapi.kakao.com
+
     
     
     
