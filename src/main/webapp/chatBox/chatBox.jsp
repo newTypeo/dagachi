@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>다가치</title>
+<title>채팅</title>
 
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 
@@ -19,21 +19,14 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 
 <!-- 사용자작성 css -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/chat.css" />
 
 </head>
 <body>
+	<div id="chatBox">
+		야아아ㅏㅇ
+	</div>
+</body>
+</html>
 
-<div id="container">
-	<header class="p-2 bg-primary">
-		<div>로고</div>
-		<button onclick="location.href = '${pageContext.request.contextPath}/admin/adminClubList.do';">
-			모임목록(관리자)
-		</button>
-		<button onclick="location.href = '${pageContext.request.contextPath}/member/memberLogin.do';">
-			로그인 : /member/memberLogin.do
-		</button>
-		<button onclick="location.href = '${pageContext.request.contextPath}/member/memberCreate.do';">
-			회원가입 : /member/memberCreate.do
-		</button>
-	</header>
+
