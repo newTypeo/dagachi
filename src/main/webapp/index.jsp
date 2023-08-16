@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 <fmt:requestEncoding value="utf-8"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
@@ -28,27 +29,15 @@
 	<span>
 		<input type="text" id="clubSearch" placeholder="검색할 모임 입력"/>
 	</span>
-	
 	<button>모임생성</button>
 	
 	
 	<section id="class">
 	   <div class="posts">
-	   	 <a class="card" href="${pageContext.request.contextPath}/club/clubDetail.do" }>
-             첫번째 샘플
-          </a>
-          <a class="card" href="${pageContext.request.contextPath}/club/clubDetail.do">
-             두번째 샘플
-          </a>
-          <a class="card" href="${pageContext.request.contextPath}/club/clubDetail.do">
-             세번째 샘플
-          </a>
+	   
 	   </div>
 	   
-   	<div id='btn-more-container'>
-   </div>
-</section>
-	
+	</section>
 	
 </section>
 <script>
@@ -67,6 +56,37 @@ document.querySelector("#clubSearch").onkeyup = (e) => {
 	
 	
 };
+
+// 메인페이지에 모임카드 전체 출력
+$.ajax({
+	url : "${pageContext.request.contextPath}/club/clubList.do",
+	success(clubs){
+		console.log(clubs);
+		
+		const container = document.querySelector(".posts");
+		
+		clubs.forEach((clubAndImage)=>{
+			const{clubName, category, status, reportCount, introduce, domain, renamedFilename, memberCount} = clubAndImage;
+			
+			container.innerHTML += `
+				<a class="card" href="${pageContext.request.contextPath}/club/\${domain}">
+                <div class="card-inner">
+                   <figure class="card-thumbnail">
+                      <img src="${pageContext.request.contextPath}/resources/upload/profile/\${renamedFilename}">
+                   </figure>
+                   <div class="card-body">
+                      <h3 class="card-title">\${clubName}</h3>
+                      <span class="card-introduce">\${introduce}</span>
+                      <h4 class="club-member-cnt">인원수 : \${memberCount}</h4>
+                   </div>
+                </div>
+             </a>
+			`;
+		})
+		
+	}
+});
+
 </script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

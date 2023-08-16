@@ -1,7 +1,6 @@
 package com.dagachi.app.club.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,12 +8,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.service.ClubService;
 
@@ -77,7 +74,16 @@ public class ClubController {
 		
 	}
 	
-	
+	/**
+	 * 메인에서 소모임 전체 조회(카드로 출력)
+	 * @author 준한
+	 */
+	@GetMapping("/clubList.do")
+	public ResponseEntity<?> clubList(){
+		List<ClubAndImage> clubAndImages = new ArrayList<>();
+		clubAndImages = clubService.clubList();
+		return ResponseEntity.status(HttpStatus.OK).body(clubAndImages);
+	}
 	
 	
 	

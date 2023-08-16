@@ -580,7 +580,52 @@ references member (
 	member_id
 );
 
+------------------------------------------------ 샘플 추가 -----------------------------------------------
+-- 1
+INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
+VALUES (seq_club_id.nextval, '스포츠 열정 클럽', '강남구', '스포츠', TO_DATE('2023-08-01', 'YYYY-MM-DD'), 0, '우리는 다양한 종목의 스포츠를 즐기고 관찰하는 스포츠 애호가들의 모임입니다.', '가장 좋아하는 스포츠는 무엇인가요?', 'sportsclub.com');
 
+-- 2
+INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
+VALUES (seq_club_id.nextval, '예술 창작 모임', '홍대', '예술', TO_DATE('2023-07-15', 'YYYY-MM-DD'), 0, '회화, 드로잉, 조각 등을 통해 창의력을 표현하는 공간입니다.', '어떤 종류의 예술 활동을 좋아하시나요?', 'artisticcreations.com');
+
+-- 3
+INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
+VALUES (seq_club_id.nextval, '테크 이노베이터스', '서초구', '기술', TO_DATE('2023-08-10', 'YYYY-MM-DD'), 0, '기술의 최신 동향을 탐구하고 흥미로운 프로젝트에 참여하는 곳입니다.', '어떤 프로그래밍 언어를 다룰 수 있나요?', 'techinnovators.com');
+
+-- 4
+INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
+VALUES (seq_club_id.nextval, '책벌레 모임', '종로구', '문학', TO_DATE('2023-07-30', 'YYYY-MM-DD'), 0, '책의 세계에 몰입하고 생각을 나누는 문학 토론의 장소입니다.', '최근에 읽은 좋은 책은 무엇인가요?', 'bookwormssociety.com');
+
+-- 5
+INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
+VALUES (seq_club_id.nextval, '음악 감상 클럽', '이태원', '음악', TO_DATE('2023-08-05', 'YYYY-MM-DD'), 0, '음악 애호가들이 좋아하는 노래, 악기, 작곡을 나누는 공간입니다.', '가장 좋아하는 음악 장르는 무엇인가요?', 'musicvibesclub.com');
+
+-- 6
+INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
+VALUES (seq_club_id.nextval, '그린 어스 소사이어티', '강서구', '환경', TO_DATE('2023-08-12', 'YYYY-MM-DD'), 0, '환경 인식을 높이고 지구를 보호하기 위한 활동을 공유하는 모임입니다.', '환경을 위해 실천하는 습관이 있나요?', 'greenearthsociety.com');
+
+-- 7
+INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
+VALUES (seq_club_id.nextval, '요리 열풍 클럽', '마포구', '음식', TO_DATE('2023-08-08', 'YYYY-MM-DD'), 0, '음식을 좋아하고 요리하는 열정을 공유하며 미식 토론을 즐기는 곳입니다.', '당신의 대표 요리는 무엇인가요?', 'culinarydelights.com');
+
+-- 8
+INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
+VALUES (seq_club_id.nextval, '모험을 찾아서', '용산구', '여행', TO_DATE('2023-07-20', 'YYYY-MM-DD'), 0, '짜릿한 모험을 떠나고 새로운 여행지를 탐험하며 여행 이야기를 공유하는 곳입니다.', '지금까지 다녀온 여행 중 가장 기억에 남는 곳은 어디인가요?', 'adventureseekers.com');
+
+-- 9
+INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
+VALUES (seq_club_id.nextval, '건강과 웰빙 컬렉티브', '성동구', '건강', TO_DATE('2023-08-03', 'YYYY-MM-DD'), 0, '운동 활동, 명상, 건강한 생활에 대한 토론을 통해 신체와 마음의 웰빙을 촉진하는 공간입니다.', '건강을 어떻게 관리하고 계시나요?', 'healthwellnesscollective.com');
+
+insert into club_profile values(1,'asd','1.png',sysdate);
+insert into club_profile values(2,'asd','2.png',sysdate);
+insert into club_profile values(3,'asd','3.png',sysdate);
+insert into club_profile values(4,'asd','4.png',sysdate);
+insert into club_profile values(5,'asd','5.png',sysdate);
+insert into club_profile values(6,'asd','6.png',sysdate);
+insert into club_profile values(7,'asd','7.png',sysdate);
+insert into club_profile values(8,'asd','8.png',sysdate);
+insert into club_profile values(9,'asd','9.png',sysdate);
 ------------------------------------------------- 쿼리문 -------------------------------------------------
 
 
