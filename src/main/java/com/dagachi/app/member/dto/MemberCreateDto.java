@@ -8,8 +8,6 @@ import javax.validation.constraints.Pattern;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.sh.app.member.dto.MemberCreateDto;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,26 +17,25 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MamberCreateDto {
+public class MemberCreateDto {
 	
 	
-	@NotBlank(message = "이름은 필수입니다.") 
+	@NotBlank(message = "필수") 
 	private String memberId;
 	
-	@NotBlank(message = "이름은 필수입니다.")
-	@Pattern(regexp = "\\^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[@!#_]).{8,}$", message = "비밀번호는 영문자/숫자 4글자이상이어야 합니다.")
+	@NotBlank(message = "필수")
 	private String password;
 	
-	@NotBlank(message = "이름은 필수입니다.")
+	@NotBlank(message = "필수.")
 	private String name;	
 	
-	@NotBlank(message = "이름은 필수입니다.") 
-	private String nickname;
+	@NotBlank(message = "필수") 
+	private String nickName;
 	
-	@NotBlank(message = "이름은 필수입니다.") 
+	@NotBlank(message = "필수") 
 	private String phoneNo;	
 	
-	@NotBlank(message = "이름은 필수입니다.")
+	@NotBlank(message = "필수")
 	private String email;	
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
