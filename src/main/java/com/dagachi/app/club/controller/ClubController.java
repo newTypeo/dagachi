@@ -3,7 +3,9 @@ package com.dagachi.app.club.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -16,9 +18,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
+import com.dagachi.app.club.entity.ClubBoard;
 import com.dagachi.app.club.service.ClubService;
 import com.dagachi.app.member.entity.Member;
 
+import lombok.Builder.Default;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -127,6 +131,15 @@ public class ClubController {
 		}
 //		List<Member> members = clubService.findById(id);
 	}
+
+	@GetMapping("/findBoardType.do")
+	public ResponseEntity<?> boardList(@RequestParam(required = false)int boardType){
+		
+		List<ClubBoard> boards = clubService.boardList(boardType);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(boards);
+	}
+	
 	
 	
 	

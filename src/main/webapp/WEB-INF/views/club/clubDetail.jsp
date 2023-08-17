@@ -9,6 +9,9 @@
 
 <nav id="club-banner" class="bg-primary">
 	<h2>title : 소모임 별 배너</h2>
+	
+	
+	
 </nav>
 
 <nav>

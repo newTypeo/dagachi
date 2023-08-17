@@ -57,12 +57,10 @@ document.querySelector("#clubSearch").onkeyup = (e) => {
 	
 };
 
-// 메인페이지에 모임카드 전체 출력
+// 메인페이지에 모임카드 전체 출력(준한)
 $.ajax({
 	url : "${pageContext.request.contextPath}/club/clubList.do",
 	success(clubs){
-		console.log(clubs);
-		
 		const container = document.querySelector(".posts");
 		
 		clubs.forEach((clubAndImage)=>{
@@ -70,22 +68,21 @@ $.ajax({
 			
 			container.innerHTML += `
 				<a class="card" href="${pageContext.request.contextPath}/club/&\${domain}">
-                <div class="card-inner">
-                   <figure class="card-thumbnail">
-                      <img src="${pageContext.request.contextPath}/resources/upload/profile/\${renamedFilename}">
-                   </figure>
-                   <div class="card-body">
-                      <h3 class="card-title">\${clubName}</h3>
-                      <span class="card-introduce">\${introduce}</span>
-                      <h4 class="club-member-cnt">인원수 : \${memberCount}</h4>
-                   </div>
-                </div>
-             </a>
-			`;
-		})
-		
-	}
-});
+	                <div class="card-inner">
+	                   <figure class="card-thumbnail">
+	                      <img src="${pageContext.request.contextPath}/resources/upload/profile/\${renamedFilename}">
+	                   </figure>
+	                   <div class="card-body">
+	                      <h3 class="card-title">\${clubName}</h3>
+	                      <span class="card-introduce">\${introduce}</span>
+	                      <h4 class="club-member-cnt">인원수 : \${memberCount}</h4>
+	                   </div>
+	                </div>
+	             </a>
+				`;
+			})
+		}
+	});
 
 </script>
 
