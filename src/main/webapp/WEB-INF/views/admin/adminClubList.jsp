@@ -88,7 +88,7 @@ document.querySelectorAll(".search-type").forEach((input) => {
 		const column = e.target.name;
 		// console.log("keyword, column=", keyword, column);
 		$.ajax({
-			url : "${pageContext.request.contextPath}/club/clubSearch.do",
+			url : "${pageContext.request.contextPath}/club/adminClubSearch.do",
 			data : {keyword, column},
 			dataType : "json", 
 			success(clubs){
@@ -100,6 +100,14 @@ document.querySelectorAll(".search-type").forEach((input) => {
 				}
 				else {
 					clubs.forEach((club) => {
+						// 월 일 10 미만 시 0 붙여주는 함수
+						const f = (n) => {return n < 10 ? '0' + n : n};
+						const date = new Date(`\${club.createdAt}`);
+						// year 뒷 두글자만 사용하기
+						const year = String(date.getFullYear()).substring(2);
+						const month = date.getMonth() + 1;
+						const day = date.getDate();
+						console.log("month, day", month,day)
 						html += `
 						<tr>
 							<td>\${club.clubId}</td>
@@ -109,7 +117,7 @@ document.querySelectorAll(".search-type").forEach((input) => {
 							<td>\${club.reportCount}</td>
 							<td>\${club.domain}</td>
 							<td>
-							// 날짜 parsing해서 넣어야 함 
+							    \${year}/\${f(month)}/\${f(day)}
 							</td>
 						</td>
 						</tr>

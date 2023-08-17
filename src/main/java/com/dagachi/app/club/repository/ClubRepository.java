@@ -16,7 +16,7 @@ import com.dagachi.app.member.entity.Member;
 public interface ClubRepository {
 
 	@Select("select * from club where ${column} like '%' || #{keyword} || '%'")
-	List<Club> clubSearch(String keyword, String column);
+	List<Club> adminClubSearch(String keyword, String column);
 
 	@Select("select * from club where status = 'Y' order by club_id desc")
 	List<Club> adminClubList(); 
@@ -31,6 +31,8 @@ public interface ClubRepository {
 	@Select("select * from member")
 	List<Member> adminMemberList();
 
+	@Select("select * from club where club_name like '%' || #{inputText} || '%'")
+	List<Club> clubSearch(String inputText);
 
 	@Select("select club_id from club where domain = #{domain}")
 	int clubIdFindByDomain(String domain);

@@ -10,7 +10,7 @@ import com.dagachi.app.member.entity.Member;
 
 public interface ClubService {
 
-	List<Club> clubSearch(String keyword, String column);
+	List<Club> adminClubSearch(String keyword, String column);
 
 	List<Club> adminClubList();
 
@@ -18,6 +18,8 @@ public interface ClubService {
 
 	List<Member> adminMemberList();
 
+	List<Club> clubSearch(String inputText);
+	
 	int clubIdFindByDomain(String domain);
 
 	List<ClubApply> clubApplyfindByClubId(int clubId);
