@@ -1,13 +1,15 @@
 package com.sh.app.member.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dagachi.app.member.entity.Member;
 import com.sh.app.member.dto.MemberCreateDto;
-import com.sh.app.member.entity.Member;
 import com.sh.app.member.repository.MemberRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -52,6 +54,13 @@ public class MemberServiceImpl implements MemberService {
 	public int updateMember(Member member) {
 		return memberRepository.updateMember(member);
 	}
+	
+	@Override
+	public List<Member> adminMemberList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 }
 
 

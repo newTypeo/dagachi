@@ -14,6 +14,5 @@ public interface ClubService {
 
 	List<ClubAndImage> clubList();
 
-	List<Member> adminMemberList();
 
 }

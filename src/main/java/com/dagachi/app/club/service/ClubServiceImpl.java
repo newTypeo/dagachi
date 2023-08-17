@@ -34,9 +34,4 @@ public class ClubServiceImpl implements ClubService {
 		return clubRepository.clubList();
 	}
 	
-	@Override
-	public List<Member> adminMemberList() {
-		return clubRepository.adminMemberList();
-	}
-	
 }

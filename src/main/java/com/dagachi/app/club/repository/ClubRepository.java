@@ -26,10 +26,5 @@ public interface ClubRepository {
 	            "ON c.club_id = cm.club_id")
 	List<ClubAndImage> clubList();
 	 
-	@Select("select * from member")
-	List<Member> adminMemberList();
 
-	
-	
-	
 }

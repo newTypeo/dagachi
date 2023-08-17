@@ -27,9 +27,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.dagachi.app.member.entity.Member;
 import com.sh.app.member.dto.MemberCreateDto;
 import com.sh.app.member.dto.MemberUpdateDto;
-import com.sh.app.member.entity.Member;
 import com.sh.app.member.entity.MemberDetails;
 import com.sh.app.member.service.MemberService;
 

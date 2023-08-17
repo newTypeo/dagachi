@@ -5,8 +5,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import com.dagachi.app.member.entity.Member;
 import com.sh.app.member.dto.MemberCreateDto;
-import com.sh.app.member.entity.Member;
 import com.sh.app.member.entity.MemberDetails;
 
 @Mapper
@@ -24,7 +24,7 @@ public interface MemberRepository {
 	MemberDetails loadUserByUsername(String username);
 
 	@Update("update member set name = #{name}, birthday = #{birthday}, email = #{email} where member_id = #{memberId}")
-	int updateMember(Member member);
+	int updateMember(com.dagachi.app.member.entity.Member member);
 	
 
 }
