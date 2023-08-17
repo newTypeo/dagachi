@@ -36,7 +36,7 @@
 		<button onclick="location.href = '${pageContext.request.contextPath}/member/memberCreate.do';">
 			회원가입 : /member/memberCreate.do
 		</button>
-		<button onclick="location.href = '${pageContext.request.contextPath}/member/memberFindAll.do';">
-			회원조회(관리자) : /member/memberFindAll.do
+		<button onclick="location.href = '${pageContext.request.contextPath}/admin/adminMemberList.do';">
+			회원조회(관리자) : /member/adminMemberList.do
 		</button>
 	</header>
