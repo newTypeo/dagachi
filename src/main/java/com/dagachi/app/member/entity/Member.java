@@ -10,7 +10,7 @@ import lombok.Data;
  * 나영
  * */
 @Data
-public class Mamber {
+public class Member {
 	
 	private String memberId;
 	private String password;
