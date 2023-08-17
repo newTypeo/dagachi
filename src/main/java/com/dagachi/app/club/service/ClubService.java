@@ -8,12 +8,14 @@ import com.dagachi.app.member.entity.Member;
 
 public interface ClubService {
 
-	List<Club> clubSearch(String keyword, String column);
+	List<Club> adminClubSearch(String keyword, String column);
 
 	List<Club> adminClubList();
 
 	List<ClubAndImage> clubList();
 
 	List<Member> adminMemberList();
+
+	List<Club> clubSearch(String inputText);
 
 }

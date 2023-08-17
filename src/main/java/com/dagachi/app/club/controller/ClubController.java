@@ -53,8 +53,8 @@ public class ClubController {
 	 * 관리자 회원 목록에서 모임 검색
 	 * @author 종환
 	 */
-	@GetMapping("/clubSearch.do")
-	public ResponseEntity<?> clubSearch(@RequestParam String keyword, @RequestParam String column) {
+	@GetMapping("/adminClubSearch.do")
+	public ResponseEntity<?> adminClubSearch(@RequestParam String keyword, @RequestParam String column) {
 		log.debug("keyword = {}", keyword);
 		log.debug("column = {}", column);
 		List<Club> clubs = new ArrayList<>();
@@ -62,11 +62,25 @@ public class ClubController {
 			clubs = clubService.adminClubList();
 		}
 		else {
-			clubs = clubService.clubSearch(keyword, column);
+			clubs = clubService.adminClubSearch(keyword, column);
 		}
 		// log.debug("clubs = {}", clubs);
 		return ResponseEntity.status(HttpStatus.OK).body(clubs);
 	}
+	
+	/**
+	 * 메인화면에서 모임 검색
+	 * @author 종환
+	 */
+	@GetMapping("/clubSearch.do")
+	public void clubSearch(@RequestParam String inputText) {
+		// log.debug("inputText = {}", inputText);
+		List<Club> clubs = clubService.clubSearch(inputText);
+		log.debug("clubs = {}", clubs);
+		// 8/17 여기서 마무리 했음.
+	}
+	
+	
 	
 	@GetMapping("/chatList.do")
 	public void chatList() {

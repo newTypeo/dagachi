@@ -20,8 +20,8 @@ public class ClubServiceImpl implements ClubService {
 	private ClubRepository clubRepository;
 	
 	@Override
-	public List<Club> clubSearch(String keyword, String column) {
-		return clubRepository.clubSearch(keyword, column);
+	public List<Club> adminClubSearch(String keyword, String column) {
+		return clubRepository.adminClubSearch(keyword, column);
 	}
 	
 	@Override
@@ -37,6 +37,11 @@ public class ClubServiceImpl implements ClubService {
 	@Override
 	public List<Member> adminMemberList() {
 		return clubRepository.adminMemberList();
+	}
+	
+	@Override
+	public List<Club> clubSearch(String inputText) {
+		return clubRepository.clubSearch(inputText);
 	}
 	
 }

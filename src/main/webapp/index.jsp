@@ -20,15 +20,17 @@
 		<a href="${pageContext.request.contextPath}/category/sports">운동</a>
 		<a href="${pageContext.request.contextPath}/category/guitar">기타등등 나중에 추가해</a>
 	</div>
-	
 </nav>
 
 <section id="main-page-sec" class="p-2 bg-info">
 	<h1>메인 페이지</h1>
 	
-	<span>
-		<input type="text" id="clubSearch" placeholder="검색할 모임 입력"/>
-	</span>
+	<form id="clubSearchFrm" action="${pageContext.request.contextPath}/club/clubSearch.do">
+		<span>
+			<input type="text" name="inputText" placeholder="검색할 모임 입력"/>
+		</span>
+		<button>모임검색</button>
+	</form>
 	<button>모임생성</button>
 	
 	
@@ -41,21 +43,6 @@
 	
 </section>
 <script>
-// 비동기 모임 검색
-document.querySelector("#clubSearch").onkeyup = (e) => {
-	console.log(e.target.value);
-	const keyword = e.target.value;
-	$.ajax({
-		url : "${pageContext.request.contextPath}/club/clubSearch.do",
-		data : {keyword},
-		dataType : "json", 
-		success(clubs){
-			// 검색하면 실시간으로 여기까지 객체 가져왔음
-		}
-	});
-	
-	
-};
 
 // 메인페이지에 모임카드 전체 출력
 $.ajax({

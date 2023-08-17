@@ -88,7 +88,7 @@ document.querySelectorAll(".search-type").forEach((input) => {
 		const column = e.target.name;
 		// console.log("keyword, column=", keyword, column);
 		$.ajax({
-			url : "${pageContext.request.contextPath}/club/clubSearch.do",
+			url : "${pageContext.request.contextPath}/club/adminClubSearch.do",
 			data : {keyword, column},
 			dataType : "json", 
 			success(clubs){
