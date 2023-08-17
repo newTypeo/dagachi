@@ -6,6 +6,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <jsp:include page="/WEB-INF/views/common/clubHeader.jsp"></jsp:include>
+
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -45,16 +46,18 @@
     <div class="input-form-backgroud row">
       <div class="input-form col-md-12 mx-auto">
         <h4 class="mb-3">회원가입</h4>
-      
+       
           <div class="row">
           
             <div class="col-md-6 mb-3">
               <label for="memberId">아이디</label>
               <input type="text" class="form-control" id="memberId" name = "memberId"
               placeholder="" value="" required>
-              <div class="invalid-feedback">
-                아이디를 입력해주세요.
-              </div>
+            </div>
+            
+             <div class="col-md-6 mb-3">
+              <label for="name">이름</label>
+              <input type="text" class="form-control" id="name" name = "name"  placeholder="" value="" required>
             </div>
             
              <div class="col-md-6 mb-3">
@@ -69,66 +72,39 @@
              <div class="col-md-6 mb-3">
               <label for="passwordConfirmation">비밀번호 확인</label>
               <input type="text" class="form-control" id="passwordConfirmation" name = "passwordConfirmation" placeholder="" value="" required>
-              <div class="invalid-feedback">
-                비밀번호 확인을 입력해주세요.
-              </div>
             </div>
             
-            <div class="col-md-6 mb-3">
-              <label for="name">이름</label>
-              <input type="text" class="form-control" id="name" name = "name"  placeholder="" value="" required>
-              <div class="invalid-feedback">
-                이름을 입력해주세요.
-              </div>
-            </div>
+        
             
             <div class="col-md-6 mb-3">
               <label for="nickname">닉네임</label>
               <input type="text" class="form-control" id="nickname"  name = "nickname"  placeholder="" value="" required>
-              <div class="invalid-feedback">
-                닉네임을 입력해주세요.
-              </div>
             </div>
           </div>
 
           <div class="mb-3">
             <label for="email">이메일</label>
             <input type="email" class="form-control" id="email"   name = "email" placeholder="" required>
-            <div class="invalid-feedback">
-              이메일을 입력해주세요.
-            </div>
           </div>
           
            <div class="mb-3">
             <label for="phoneNo">전화번호</label>
             <input type="text" class="form-control" id="phoneNo"  name = "phoneNo" placeholder="" required>
-            <div class="invalid-feedback">
-              전화번호 입력해주세요.
-            </div>
           </div>
 
           <div class="mb-3">
             <label for="address">주소</label>
             <input type="text" class="form-control" id="address"  name = "address" placeholder="" required>
-            <div class="invalid-feedback">
-              주소를 입력해주세요.
-            </div>
           </div>
           
            <div class="mb-3">
             <label for="mbti">mbti</label>
             <input type="text" class="form-control" id="mbti"  name = "mbti"  placeholder="몰라" required>
-            <div class="invalid-feedback">
-              mbti 입력해주세요.
-            </div>
           </div>
           
            <div class="mb-3">
             <label for="birthday">생일</label>
             <input type="date" class="form-control" id="birthday"  name = "birthday"  placeholder="" required>
-            <div class="invalid-feedback">
-              생일 입력해주세요.
-            </div>
           </div>
 
     	<div class="col-md-8 mb-3">
@@ -138,9 +114,6 @@
                 <option>M</option>
                 <option>F</option>
               </select>
-              <div class="invalid-feedback">
-                성별을 선택해주세요
-              </div>
           </div>
           
           <hr class="mb-4">
@@ -153,7 +126,6 @@
           <div class="mb-4"></div>
           
           <button class="btn btn-primary btn-lg btn-block" type="submit">가입 완료</button>
-        
       </div>
     </div>
   </div>
@@ -163,6 +135,7 @@
 
   <script>
   
+  
   document.memberCreateFrm.onsubmit = (e) => {
 	const password = document.querySelector("#password");
 	const passwordConfirmation = document.querySelector("#passwordConfirmation");
@@ -170,13 +143,15 @@
 	
 	console.log(birthday);
 
-	if(password.value !== passwordConfirmation.value) {
-		alert("비밀번호가 일치하지 않습니다.");
-		return false;
-	}
-};
+		if(password.value !== passwordConfirmation.value) {
+			alert("비밀번호가 일치하지 않습니다.");
+			return false;
+		}
+	};
+	
 
-    
+	
+	    
   </script>
 
 

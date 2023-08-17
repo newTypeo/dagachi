@@ -21,33 +21,34 @@ import lombok.NoArgsConstructor;
 public class MemberCreateDto {
 	
 	
-	@NotBlank(message = "필수") 
+	@NotBlank(message = "아이디 필수") 
 	private String memberId;
 	
-	@NotBlank(message = "필수")
+	@NotBlank(message = "비밀번호 필수")
 	private String password;
 	
-	@NotBlank(message = "필수.")
+	@NotBlank(message = "이름 필수")
 	private String name;	
 	
-	@NotBlank(message = "필수") 
+	@NotBlank(message = "닉네임 필수") 
 	private String nickname;
 	
-	@NotBlank(message = "필수") 
+	@NotBlank(message = "핸드폰 필수") 
 	private String phoneNo;	
 	
-	@NotBlank(message = "필수")
+	@NotBlank(message = "이메일 필수")
 	private String email;	
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-    @NotNull(message = "생일을 입력해주세요.")
+    @NotNull(message = "생일을 필수")
     private LocalDate birthday;
 	
+	@NotBlank(message = "성별 필수") 
 	private String gender;	
-	
+
 	private String mbti;	
 	
-	@NotBlank(message = "주소는 필수입니다.") 
+	@NotBlank(message = "주소 필수") 
 	private String address;	
 	
 	
