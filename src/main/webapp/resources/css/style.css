@@ -1,0 +1,35 @@
+@CHARSET "UTF-8";
+
+body {
+
+}
+
+/********** 전체컨테이너 **********/
+div #container {
+}
+
+/********** header **********/
+header {
+	height:100px;
+}
+
+/************ main-banner *************/
+#main-banner {
+	height: 200px;
+}
+
+/*********** main-category ************/
+#main-category {
+	height: 70px;
+}
+
+/********** main-page-sec **********/
+#main-page-sec {
+	height: 700px;
+}
+
+
+/********** footer **********/
+footer {
+	height: 100px;
+}
