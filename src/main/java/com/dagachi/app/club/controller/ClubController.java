@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.entity.Club;
+import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
 import com.dagachi.app.club.service.ClubService;
+import com.dagachi.app.member.entity.Member;
 
 import lombok.Builder.Default;
 import lombok.extern.slf4j.Slf4j;
@@ -101,10 +103,12 @@ public class ClubController {
 	 * 도메인도 domain 변수 안에 넣어놨습니다. (창환)
 	 */
 	@GetMapping("/&{domain}")
-	public String clubDetail(@PathVariable("domain") String domain) {
+	public String clubDetail(
+			@PathVariable("domain") String domain,
+			Model model) {
 //		log.debug("domain = {}", domain);
 		
-		
+		model.addAttribute("domain", domain);
 		return "club/clubDetail";
 	}
 	
@@ -119,6 +123,29 @@ public class ClubController {
 		return ResponseEntity.status(HttpStatus.OK).body(clubAndImages);
 	}
 	
+	
+	@GetMapping("/&{domain}/manageMember.do")
+	public void manageMemeber(
+			@PathVariable("domain") String domain,
+			Model model) {
+		int clubId = clubService.clubIdFindByDomain(domain); // 해당 클럽의 아이디(pk) 가져오기
+		List<ClubApply> clubApplies = clubService.clubApplyfindByClubId(clubId); // 해당 소모임에 가입 신청한 회원들 조회해서
+		
+		log.debug("clubId = {}", clubId);
+		log.debug("clubApplies = {}", clubApplies);
+		
+		List<Member> members = new ArrayList<>(); // 해당 소모임에 신청한 회원들의 
+		String memberId = "";
+		
+		// 조회된 회원 한명당 아이디를 가져와서 회원테이블에서 조회후 members배열에 담음
+		for(int i=0; i<clubApplies.size(); i++) {
+			memberId = clubApplies.get(i).getMemberId();
+//			members
+//			members.add();
+		}
+//		List<Member> members = clubService.findById(id);
+	}
+
 	@GetMapping("/findBoardType.do")
 	public ResponseEntity<?> boardList(@RequestParam(required = false)int boardType){
 		

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.entity.Club;
+import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
 import com.dagachi.app.member.entity.Member;
 
@@ -19,6 +20,10 @@ public interface ClubService {
 
 	List<Club> clubSearch(String inputText);
 	
+	int clubIdFindByDomain(String domain);
+
+	List<ClubApply> clubApplyfindByClubId(int clubId);
+
 	List<ClubBoard> boardList(int boardType);
 
 }
