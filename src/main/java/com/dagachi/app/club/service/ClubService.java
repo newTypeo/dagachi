@@ -7,7 +7,7 @@ import com.dagachi.app.club.entity.Club;
 
 public interface ClubService {
 
-	List<Club> clubSearch(String keyword);
+	List<Club> clubSearch(String keyword, String column);
 
 	List<Club> adminClubList();
 

@@ -54,13 +54,15 @@ public class ClubController {
 	 * @author 종환
 	 */
 	@GetMapping("/clubSearch.do")
-	public ResponseEntity<?> clubSearch(@RequestParam String keyword) {
+	public ResponseEntity<?> clubSearch(@RequestParam String keyword, @RequestParam String column) {
+		log.debug("keyword = {}", keyword);
+		log.debug("column = {}", column);
 		List<Club> clubs = new ArrayList<>();
 		if(keyword == "") {
 			clubs = clubService.adminClubList();
 		}
 		else {
-			clubs = clubService.clubSearch(keyword);
+			clubs = clubService.clubSearch(keyword, column);
 		}
 		// log.debug("clubs = {}", clubs);
 		return ResponseEntity.status(HttpStatus.OK).body(clubs);
