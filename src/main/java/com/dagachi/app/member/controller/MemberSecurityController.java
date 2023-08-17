@@ -48,10 +48,6 @@ public class MemberSecurityController {
 			redirectAttr.addFlashAttribute("msg", error.getDefaultMessage());
 			return "redirect:/member/memberCreate.do";
 		} 
-		
-		
-		
-		
 		String rawPassword = member.getPassword();
 		String encodedPassword = passwordEncoder.encode(rawPassword);
 		log.debug("{} -> {}", rawPassword, encodedPassword);

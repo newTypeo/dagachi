@@ -10,9 +10,5 @@ import com.dagachi.app.member.dto.MemberCreateDto;
 
 
 public interface MemberService extends UserDetailsService {
-
 	int insertMember(@Valid MemberCreateDto member);
-
-	
-	
 }

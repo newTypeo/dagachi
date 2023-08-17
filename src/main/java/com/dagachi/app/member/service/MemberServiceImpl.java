@@ -23,9 +23,7 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public int insertMember(MemberCreateDto member) {
 		int result = 0;
-		
 		result = memberRepository.insertMember(member);
-		
 		return result;
 	}
 	
