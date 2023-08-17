@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.entity.Club;
+import com.dagachi.app.club.entity.ClubBoard;
 import com.dagachi.app.member.entity.Member;
 
 public interface ClubService {
@@ -15,5 +16,7 @@ public interface ClubService {
 	List<ClubAndImage> clubList();
 
 	List<Member> adminMemberList();
+
+	List<ClubBoard> boardList(int boardType);
 
 }
