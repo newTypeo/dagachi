@@ -85,7 +85,7 @@ public class ClubController {
 //		log.debug("domain = {}", domain);
 		
 		
-		return "club/detail";
+		return "club/clubDetail";
 	}
 	
 	/**
