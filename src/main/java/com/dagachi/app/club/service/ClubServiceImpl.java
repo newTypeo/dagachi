@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.repository.ClubRepository;
 
@@ -25,6 +26,11 @@ public class ClubServiceImpl implements ClubService {
 	@Override
 	public List<Club> adminClubList() {
 		return clubRepository.adminClubList();
+	}
+	
+	@Override
+	public List<ClubAndImage> clubList() {
+		return clubRepository.clubList();
 	}
 	
 }
