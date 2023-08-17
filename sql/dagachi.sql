@@ -591,8 +591,7 @@ references member (
 alter table member add constraint uq_member_nickname unique (
     nickname
 );
-<<<<<<< HEAD
-=======
+
 
 alter table member add constraint uq_member_email unique (
     email
@@ -608,35 +607,6 @@ alter table authority add constraint fk_member_to_authorithy foreign key (
 references member (
 	member_id
 );
-------------------------------------------------- 쿼리문 -------------------------------------------------
-
--- 1
-INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
-VALUES (seq_club_id.nextval, '스포츠 열정 클럽', '강남구', '스포츠', TO_DATE('2023-08-01', 'YYYY-MM-DD'), 0, '우리는 다양한 종목의 스포츠를 즐기고 관찰하는 스포츠 애호가들의 모임입니다.', '가장 좋아하는 스포츠는 무엇인가요?', 'sportsclub.com');
->>>>>>> branch 'master' of https://github.com/newTypeo/dagachi
-
-alter table member add constraint uq_member_email unique (
-    email
-);
-
-<<<<<<< HEAD
-alter table club add constraint uq_club_name unique (
-    club_name
-);
-=======
-
--- 3
-INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
-VALUES (seq_club_id.nextval, '테크 이노베이터스', '서초구', '기술', TO_DATE('2023-08-10', 'YYYY-MM-DD'), 0, '기술의 최신 동향을 탐구하고 흥미로운 프로젝트에 참여하는 곳입니다.', '어떤 프로그래밍 언어를 다룰 수 있나요?', 'techinnovators.com');
->>>>>>> branch 'master' of https://github.com/newTypeo/dagachi
-
-alter table authority add constraint fk_member_to_authorithy foreign key (
-	member_id
-)
-references member (
-	member_id
-);
-------------------------------------------------- 쿼리문 -------------------------------------------------
 
 -- 소모임샘플
 INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
@@ -658,6 +628,8 @@ VALUES (seq_club_id.nextval, '모험을 찾아서', '용산구', '여행', TO_DA
 INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
 VALUES (seq_club_id.nextval, '건강과 웰빙 컬렉티브', '성동구', '사교/인맥', TO_DATE('2023-08-03', 'YYYY-MM-DD'), 0, '운동 활동, 명상, 건강한 생활에 대한 토론을 통해 신체와 마음의 웰빙을 촉진하는 공간입니다.', '건강을 어떻게 관리하고 계시나요?', 'healthwellnesscollective');
 
+
+
 -- 소모임사진 샘플
 insert into club_profile values(1,'asd','1.png',sysdate);
 insert into club_profile values(2,'asd','2.png',sysdate);
@@ -669,12 +641,123 @@ insert into club_profile values(7,'asd','7.png',sysdate);
 insert into club_profile values(8,'asd','8.png',sysdate);
 insert into club_profile values(9,'asd','9.png',sysdate);
 
-<<<<<<< HEAD
+
+-- 소모임 태그 샘플 데이터
+insert into club_tag (club_id, tag)
+values(1, '스포츠');
+insert into club_tag (club_id, tag)
+values(1, '축구');
+insert into club_tag (club_id, tag)
+values(1, '농구');
+insert into club_tag (club_id, tag)
+values(1, '야구');
+insert into club_tag (club_id, tag)
+values(1, '족구');
+insert into club_tag (club_id, tag)
+values(1, '배드민턴');
+
+insert into club_tag (club_id, tag)
+values(2, '음악');
+insert into club_tag (club_id, tag)
+values(2, '미술');
+insert into club_tag (club_id, tag)
+values(2, '무용');
+insert into club_tag (club_id, tag)
+values(2, '연극');
+insert into club_tag (club_id, tag)
+values(2, '영화');
+insert into club_tag (club_id, tag)
+values(2, '오페라');
+
+
+insert into club_tag (club_id, tag)
+values(3, 'JAVA');
+insert into club_tag (club_id, tag)
+values(3, '인공지능');
+insert into club_tag (club_id, tag)
+values(3, 'C');
+insert into club_tag (club_id, tag)
+values(3, '빅데이터');
+insert into club_tag (club_id, tag)
+values(3, 'AR');
+insert into club_tag (club_id, tag)
+values(3, 'VR');
+insert into club_tag (club_id, tag)
+values(3, 'IoT');
+
+insert into club_tag (club_id, tag)
+values(4, '책');
+insert into club_tag (club_id, tag)
+values(4, '독서');
+insert into club_tag (club_id, tag)
+values(4, '추리 소설');
+insert into club_tag (club_id, tag)
+values(4, '공포 소설');
+insert into club_tag (club_id, tag)
+values(4, '판타지 소설');
+
+insert into club_tag (club_id, tag)
+values(5, '클래식');
+insert into club_tag (club_id, tag)
+values(5, '재즈');
+insert into club_tag (club_id, tag)
+values(5, 'CCM');
+insert into club_tag (club_id, tag)
+values(5, '팝송');
+insert into club_tag (club_id, tag)
+values(5, '발라드');
+
+insert into club_tag (club_id, tag)
+values(6, '친환경');
+insert into club_tag (club_id, tag)
+values(6, '재활용');
+insert into club_tag (club_id, tag)
+values(6, '녹색 에너지');
+insert into club_tag (club_id, tag)
+values(6, '환경보호');
+insert into club_tag (club_id, tag)
+values(6, '지속가능성');
+insert into club_tag (club_id, tag)
+values(6, '자연보전');
+
+insert into club_tag (club_id, tag)
+values(7, '요리');
+insert into club_tag (club_id, tag)
+values(7, '한식');
+insert into club_tag (club_id, tag)
+values(7, '양식');
+insert into club_tag (club_id, tag)
+values(7, '일식');
+
+insert into club_tag (club_id, tag)
+values(8, '여행');
+insert into club_tag (club_id, tag)
+values(8, '관광지');
+insert into club_tag (club_id, tag)
+values(8, '배낭여행');
+insert into club_tag (club_id, tag)
+values(8, '해외여행');
+insert into club_tag (club_id, tag)
+values(8, '국내여행');
+insert into club_tag (club_id, tag)
+values(8, '문화체험');
+insert into club_tag (club_id, tag)
+values(8, '자연소풍');
+
+insert into club_tag (club_id, tag)
+values(9, '건강');
+insert into club_tag (club_id, tag)
+values(9, '운동');
+insert into club_tag (club_id, tag)
+values(9, '식단');
+insert into club_tag (club_id, tag)
+values(9, '스트레스 관리');
+insert into club_tag (club_id, tag)
+values(9, '건강정보');
+
 -- 멤버샘플
 insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
 values ('admin', '1234', '관리자','관리자', '956-456-7890', 'admin@naver.com', TO_DATE('1990-01-15', 'YYYY-MM-DD'), 'M', 'ISTJ', '서울시 강남구 123번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y');
-=======
->>>>>>> branch 'master' of https://github.com/newTypeo/dagachi
 insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
 values ('honggd', '1234', '홍길동','길동길동', '123-456-7890', 'honggd@naver.com', TO_DATE('1990-01-15', 'YYYY-MM-DD'), 'M', 'ISTJ', '서울시 강남구 123번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y');
 insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
@@ -836,6 +919,16 @@ insert into authority values('user28', 'MEMBER');
 insert into authority values('user29', 'MEMBER');
 insert into authority values('user30', 'MEMBER');
 
+-- 소모임 신고 샘플데이터
+insert into club_report (id, club_id, reason, reporter, created_at)
+values(seq_club_report_id.nextval, 2, '예술예술 예술이', 'user1', default);
+insert into club_report (id, club_id, reason, reporter, created_at)
+values(seq_club_report_id.nextval, 3, '저희 비밀정보를 빼갔습니다', 'honggd', default);
+insert into club_report (id, club_id, reason, reporter, created_at)
+values(seq_club_report_id.nextval, 3, '저작권 표시도 없이 공유 하고 있네요', 'user2', default);
+insert into club_report (id, club_id, reason, reporter, created_at)
+values(seq_club_report_id.nextval, 6, '환경오염 발생시킴', 'user3', default);
+
 --회원 관심사 샘플
 insert into Member_interest values('honggd','운동/스포츠');
 insert into Member_interest values('honggd','차/오토바이');
@@ -918,6 +1011,28 @@ insert into activity_area values('user27',56,52,default);
 insert into activity_area values('user28',41,42,default);
 insert into activity_area values('user29',31,52,default);
 insert into activity_area values('user30',56,58,60);
+
+-- 소모임 가입신청 샘플데이터
+insert into club_apply (club_id, member_id, answer)
+values(1, 'user1', '축구, 농구, 배구 좋아합니다');
+insert into club_apply (club_id, member_id, answer)
+values(1, 'user2', '전 축구 좋아합니다!');
+insert into club_apply (club_id, member_id, answer)
+values(2, 'user3', '예술이라고 하면 다 좋죠');
+insert into club_apply (club_id, member_id, answer)
+values(3, 'user4', '저 자바 조금 다룰 줄 압니다');
+insert into club_apply (club_id, member_id, answer)
+values(4, 'user5', '사랑은 어디로 가는가');
+insert into club_apply (club_id, member_id, answer)
+values(5, 'user6', '제가 좋아하는 음악의 장르는 힙합입니다.');
+insert into club_apply (club_id, member_id, answer)
+values(5, 'user7', '전 발라드 좋아해요');
+insert into club_apply (club_id, member_id, answer)
+values(6, 'user8', '카페에서 플라스틱이 아닌 개인 텀블러를 이용하고 있습니다');
+insert into club_apply (club_id, member_id, answer)
+values(7, 'user9', '된장찌개를 좋아해~~ 김치찌개를 좋아해~~');
+insert into club_apply (club_id, member_id, answer)
+values(8, 'user10', '홍콩이 야경이 진짜 멋있더라구요 기억에 남아요!');
 
 -- 회원신고 샘플
 insert into Member_report values(1,'honggd','user1','너무이상한 말을 합니다.',sysdate,default,default);
