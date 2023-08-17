@@ -15,5 +15,4 @@ public interface MemberRepository {
 	int insertMember(MemberCreateDto member);
 	UserDetails loadUserByUsername(String username);
 
-
 }
