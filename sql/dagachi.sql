@@ -775,6 +775,7 @@ VALUES ('user27', 2, SYSDATE, 0, 1);
 INSERT INTO club_member (member_id, club_id, enroll_at, club_member_roll, enroll_count)
 VALUES ('user28', 3, SYSDATE, 0, 1);
 INSERT INTO club_member (member_id, club_id, enroll_at, club_member_roll, enroll_count)
+
 VALUES ('user29', 4, SYSDATE, 0, 1);
 
 commit;
