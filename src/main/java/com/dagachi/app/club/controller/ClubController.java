@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -52,13 +54,15 @@ public class ClubController {
 	 * @author 종환
 	 */
 	@GetMapping("/clubSearch.do")
-	public ResponseEntity<?> clubSearch(@RequestParam String keyword) {
+	public ResponseEntity<?> clubSearch(@RequestParam String keyword, @RequestParam String column) {
+		log.debug("keyword = {}", keyword);
+		log.debug("column = {}", column);
 		List<Club> clubs = new ArrayList<>();
 		if(keyword == "") {
 			clubs = clubService.adminClubList();
 		}
 		else {
-			clubs = clubService.clubSearch(keyword);
+			clubs = clubService.clubSearch(keyword, column);
 		}
 		// log.debug("clubs = {}", clubs);
 		return ResponseEntity.status(HttpStatus.OK).body(clubs);
@@ -72,6 +76,18 @@ public class ClubController {
 	@GetMapping("/chatRoom.do")
 	public void chatRoom() {
 		
+	}
+	
+	/**
+	 * 인덱스 페이지에서 클럽 상세보기 할 때 매핑입니다.
+	 * 도메인도 domain 변수 안에 넣어놨습니다. (창환)
+	 */
+	@GetMapping("/&{domain}")
+	public String clubDetail(@PathVariable("domain") String domain) {
+//		log.debug("domain = {}", domain);
+		
+		
+		return "club/clubDetail";
 	}
 	
 	/**
