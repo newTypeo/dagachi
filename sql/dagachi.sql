@@ -591,6 +591,8 @@ references member (
 alter table member add constraint uq_member_nickname unique (
     nickname
 );
+<<<<<<< HEAD
+=======
 
 alter table member add constraint uq_member_email unique (
     email
@@ -599,6 +601,34 @@ alter table member add constraint uq_member_email unique (
 alter table club add constraint uq_club_name unique (
     club_name
 );
+
+alter table authority add constraint fk_member_to_authorithy foreign key (
+	member_id
+)
+references member (
+	member_id
+);
+------------------------------------------------- 쿼리문 -------------------------------------------------
+
+-- 1
+INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
+VALUES (seq_club_id.nextval, '스포츠 열정 클럽', '강남구', '스포츠', TO_DATE('2023-08-01', 'YYYY-MM-DD'), 0, '우리는 다양한 종목의 스포츠를 즐기고 관찰하는 스포츠 애호가들의 모임입니다.', '가장 좋아하는 스포츠는 무엇인가요?', 'sportsclub.com');
+>>>>>>> branch 'master' of https://github.com/newTypeo/dagachi
+
+alter table member add constraint uq_member_email unique (
+    email
+);
+
+<<<<<<< HEAD
+alter table club add constraint uq_club_name unique (
+    club_name
+);
+=======
+
+-- 3
+INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
+VALUES (seq_club_id.nextval, '테크 이노베이터스', '서초구', '기술', TO_DATE('2023-08-10', 'YYYY-MM-DD'), 0, '기술의 최신 동향을 탐구하고 흥미로운 프로젝트에 참여하는 곳입니다.', '어떤 프로그래밍 언어를 다룰 수 있나요?', 'techinnovators.com');
+>>>>>>> branch 'master' of https://github.com/newTypeo/dagachi
 
 alter table authority add constraint fk_member_to_authorithy foreign key (
 	member_id
@@ -639,9 +669,12 @@ insert into club_profile values(7,'asd','7.png',sysdate);
 insert into club_profile values(8,'asd','8.png',sysdate);
 insert into club_profile values(9,'asd','9.png',sysdate);
 
+<<<<<<< HEAD
 -- 멤버샘플
 insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
 values ('admin', '1234', '관리자','관리자', '956-456-7890', 'admin@naver.com', TO_DATE('1990-01-15', 'YYYY-MM-DD'), 'M', 'ISTJ', '서울시 강남구 123번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y');
+=======
+>>>>>>> branch 'master' of https://github.com/newTypeo/dagachi
 insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
 values ('honggd', '1234', '홍길동','길동길동', '123-456-7890', 'honggd@naver.com', TO_DATE('1990-01-15', 'YYYY-MM-DD'), 'M', 'ISTJ', '서울시 강남구 123번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y');
 insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
@@ -965,5 +998,4 @@ INSERT INTO board_comment (comment_id, board_id, writer, comment_ref, content, c
 VALUES (10, 2, 'user1', NULL, '오늘 모임 정말 즐거웠어요!', 1);
 
 
-
-
+commit;

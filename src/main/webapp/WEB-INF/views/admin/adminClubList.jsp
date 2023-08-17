@@ -14,16 +14,20 @@
 		<div id="search-container">
 	        <label for="searchType">검색타입 :</label> 
 	        <select id="searchType">
-	            <option value="clubName" >모임명</option>      
-	            <option value="area" >지역</option>      
-	            <option value="category" >분류</option>           
+	            <option id="searchOption" value="clubNameSearch">모임명</option>      
+	            <option id="searchOption" value="clubAreaSearch">지역</option>      
+	            <option id="searchOption" value="clubCategorySearch">카테고리</option>           
 	        </select>
 		
-				<div id="search-name" class="search-type">
-					<input type="text" id="clubSearch" placeholder="모임을 입력하세요" name="clubName">
+				<div id="search-name" class="search-type" style="display : inline-block">
+					<input type="text" id="clubNameSearch" placeholder="모임명을 입력하세요" name="club_name">
 		        </div>
-				
-				
+				<div id="search-area" class="search-type" style="display : none">
+					<input type="text" id="clubAreaSearch" placeholder="지역을 입력하세요" name="activity_area">
+		        </div>
+				<div id="search-category" class="search-type" style="display : none">
+					<input type="text" id="clubCategorySearch" placeholder="카테고리를 입력하세요" name="category">
+		        </div>
 				
 			<table id="clubListTable">
 				<thead>
@@ -65,41 +69,58 @@
 	</div>
 </section>
 <script>
-// 비동기 모임 검색
-document.querySelector("#clubSearch").onkeyup = (e) => {
-	const keyword = e.target.value;
-	$.ajax({
-		url : "${pageContext.request.contextPath}/club/clubSearch.do",
-		data : {keyword},
-		dataType : "json", 
-		success(clubs){
-			const tbody = document.querySelector("#clubListTable tbody");
-			tbody.innerHTML = '';
-			let html = '';
-			if(clubs.length == 0) {
-				html += `<tr><td colspan='7'>조회된 결과가 없습니다.</td></tr>`;
-			}
-			else {
-				clubs.forEach((club) => {
-					html += `
-					<tr>
-						<td>\${club.clubId}</td>
-						<td>\${club.clubName}</td>
-						<td>\${club.activityArea}</td>
-						<td>\${club.category}</td>
-						<td>\${club.reportCount}</td>
-						<td>\${club.domain}</td>
-					</tr>
-					`;
-				});
-			}
-			
-			tbody.innerHTML = html;
-		}
+// 검색유형 선택 시 display 설정
+document.querySelector("#searchType").onchange = (e) => {
+	document.querySelectorAll(".search-type").forEach((input) => {
+		input.style.display = 'none';
 	});
 	
-	
+	const inputId = $("#searchType option:selected").val();
+	console.log(document.querySelector(`#\${inputId}`));
+	const selectedInput = document.querySelector(`#\${inputId}`);
+	selectedInput.parentElement.style.display = 'inline-block';
 };
+
+// 검색유형 별 검색시 비동기로 모임 조회
+document.querySelectorAll(".search-type").forEach((input) => {
+	input.onkeyup = (e) => {
+		const keyword = e.target.value;
+		const column = e.target.name;
+		// console.log("keyword, column=", keyword, column);
+		$.ajax({
+			url : "${pageContext.request.contextPath}/club/clubSearch.do",
+			data : {keyword, column},
+			dataType : "json", 
+			success(clubs){
+				const tbody = document.querySelector("#clubListTable tbody");
+				tbody.innerHTML = '';
+				let html = '';
+				if(clubs.length == 0) {
+					html += `<tr><td colspan='7'>조회된 결과가 없습니다.</td></tr>`;
+				}
+				else {
+					clubs.forEach((club) => {
+						html += `
+						<tr>
+							<td>\${club.clubId}</td>
+							<td>\${club.clubName}</td>
+							<td>\${club.activityArea}</td>
+							<td>\${club.category}</td>
+							<td>\${club.reportCount}</td>
+							<td>\${club.domain}</td>
+							<td>
+							// 날짜 parsing해서 넣어야 함 
+							</td>
+						</td>
+						</tr>
+						`;
+					});
+				} // else
+				tbody.innerHTML = html;
+			} // success
+		}); // ajax
+	}; // onkeyup  
+});	// forEach
 </script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

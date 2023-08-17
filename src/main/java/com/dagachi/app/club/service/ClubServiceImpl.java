@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.repository.ClubRepository;
+import com.dagachi.app.member.entity.Member;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,8 +20,8 @@ public class ClubServiceImpl implements ClubService {
 	private ClubRepository clubRepository;
 	
 	@Override
-	public List<Club> clubSearch(String keyword) {
-		return clubRepository.clubSearch(keyword);
+	public List<Club> clubSearch(String keyword, String column) {
+		return clubRepository.clubSearch(keyword, column);
 	}
 	
 	@Override
@@ -31,6 +32,11 @@ public class ClubServiceImpl implements ClubService {
 	@Override
 	public List<ClubAndImage> clubList() {
 		return clubRepository.clubList();
+	}
+	
+	@Override
+	public List<Member> adminMemberList() {
+		return clubRepository.adminMemberList();
 	}
 	
 }
