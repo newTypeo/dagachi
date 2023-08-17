@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -30,7 +31,7 @@ public class MemberCreateDto {
 	private String name;	
 	
 	@NotBlank(message = "필수") 
-	private String nickName;
+	private String nickname;
 	
 	@NotBlank(message = "필수") 
 	private String phoneNo;	
@@ -39,7 +40,8 @@ public class MemberCreateDto {
 	private String email;	
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private LocalDateTime birthday;	
+    @NotNull(message = "생일을 입력해주세요.")
+    private LocalDate birthday;
 	
 	private String gender;	
 	

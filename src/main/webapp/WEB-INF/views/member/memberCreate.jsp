@@ -67,8 +67,8 @@
             
              
              <div class="col-md-6 mb-3">
-              <label for="password">비밀번호 확인</label>
-              <input type="text" class="form-control" id="passwordConfirmation" name = "password" placeholder="" value="" required>
+              <label for="passwordConfirmation">비밀번호 확인</label>
+              <input type="text" class="form-control" id="passwordConfirmation" name = "passwordConfirmation" placeholder="" value="" required>
               <div class="invalid-feedback">
                 비밀번호 확인을 입력해주세요.
               </div>
@@ -83,8 +83,8 @@
             </div>
             
             <div class="col-md-6 mb-3">
-              <label for="nickName">닉네임</label>
-              <input type="text" class="form-control" id="nickName"  name = "nickName"  placeholder="" value="" required>
+              <label for="nickname">닉네임</label>
+              <input type="text" class="form-control" id="nickname"  name = "nickname"  placeholder="" value="" required>
               <div class="invalid-feedback">
                 닉네임을 입력해주세요.
               </div>
@@ -160,9 +160,21 @@
   
  </form:form>
  
- 
+
   <script>
   
+  document.memberCreateFrm.onsubmit = (e) => {
+	const password = document.querySelector("#password");
+	const passwordConfirmation = document.querySelector("#passwordConfirmation");
+	const birthday = document.querySelector("#birthday");
+	
+	console.log(birthday);
+
+	if(password.value !== passwordConfirmation.value) {
+		alert("비밀번호가 일치하지 않습니다.");
+		return false;
+	}
+};
 
     
   </script>
