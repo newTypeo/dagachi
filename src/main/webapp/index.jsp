@@ -61,8 +61,6 @@ document.querySelector("#clubSearch").onkeyup = (e) => {
 $.ajax({
 	url : "${pageContext.request.contextPath}/club/clubList.do",
 	success(clubs){
-		console.log(clubs);
-		
 		const container = document.querySelector(".posts");
 		
 		clubs.forEach((clubAndImage)=>{
