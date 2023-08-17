@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.dagachi.app.club.entity.Club;
+import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.service.ClubService;
 import com.dagachi.app.member.entity.Member;
 
@@ -38,6 +39,8 @@ public class adminController {
 		log.debug("맴버를 잘 가지고 왔니 부탁이야 = {}", members);
 		model.addAttribute("members", members);
 	}
+	
+	
 	
 	
 }
