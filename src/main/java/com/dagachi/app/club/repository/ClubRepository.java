@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Select;
 
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.entity.Club;
+import com.dagachi.app.club.entity.ClubBoard;
 import com.dagachi.app.member.entity.Member;
 
 
@@ -31,6 +32,8 @@ public interface ClubRepository {
 
 	@Select("select * from club where club_name like '%' || #{inputText} || '%'")
 	List<Club> clubSearch(String inputText);
+	
+	List<ClubBoard> boardList(int boardType);
 
 	
 	
