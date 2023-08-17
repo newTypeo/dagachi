@@ -93,7 +93,7 @@ create sequence seq_alarm_id;
 ------------------------------------------------- 테이블 -------------------------------------------------
 create table member (
 	member_id	varchar2(30)	not null,
-	password	varchar2(30)	not null,
+	password	varchar2(150)	not null,
 	name	 varchar2(20)	not null,
     nickname varchar2(30) not null,
 	phone_no	varchar2(20)	not null,
@@ -615,7 +615,6 @@ VALUES (seq_club_id.nextval, '스포츠 열정 클럽', '강남구', '스포츠'
 INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
 VALUES (seq_club_id.nextval, '예술 창작 모임', '홍대', '예술', TO_DATE('2023-07-15', 'YYYY-MM-DD'), 0, '회화, 드로잉, 조각 등을 통해 창의력을 표현하는 공간입니다.', '어떤 종류의 예술 활동을 좋아하시나요?', 'artisticcreations.com');
 
-
 -- 3
 INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
 VALUES (seq_club_id.nextval, '테크 이노베이터스', '서초구', '기술', TO_DATE('2023-08-10', 'YYYY-MM-DD'), 0, '기술의 최신 동향을 탐구하고 흥미로운 프로젝트에 참여하는 곳입니다.', '어떤 프로그래밍 언어를 다룰 수 있나요?', 'techinnovators.com');
@@ -780,3 +779,12 @@ INSERT INTO club_member (member_id, club_id, enroll_at, club_member_roll, enroll
 VALUES ('user29', 4, SYSDATE, 0, 1);
 
 commit;
+
+
+
+----
+--쿼리문
+
+select * from member;
+
+
