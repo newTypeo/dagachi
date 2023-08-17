@@ -8,8 +8,6 @@ import javax.validation.constraints.Pattern;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.sh.app.member.dto.MemberCreateDto;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
