@@ -13,11 +13,11 @@ import com.dagachi.app.member.entity.Member;
 @Mapper
 public interface ClubRepository {
 
-	@Select("select * from club where club_name like '%' || #{keyword} || '%'")
-	List<Club> clubSearch(String keyword);
+	@Select("select * from club where ${column} like '%' || #{keyword} || '%'")
+	List<Club> clubSearch(String keyword, String column);
 
 	@Select("select * from club where status = 'Y' order by club_id desc")
-	List<Club> adminClubList();
+	List<Club> adminClubList(); 
 
 	 @Select("SELECT c.*, p.*, cm.member_count " +
 	            "FROM club c " +
