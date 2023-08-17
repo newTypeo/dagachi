@@ -17,7 +17,7 @@
 --SELECT 'DROP TABLE "' ||  TABLE_NAME || '" CASCADE CONSTRAINTS;' FROM user_tables;
 
 ---------------------------------------------- 테이블 삭제 ----------------------------------------------
---
+
 --DROP TABLE "MEMBER" CASCADE CONSTRAINTS;
 --DROP TABLE "CLUB" CASCADE CONSTRAINTS;
 --DROP TABLE "CLUB_MEMBER" CASCADE CONSTRAINTS;
