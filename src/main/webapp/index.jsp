@@ -29,7 +29,7 @@
 	<span>
 		<input type="text" id="clubSearch" placeholder="검색할 모임 입력"/>
 	</span>
-	<button>모임생성</button>
+	<button id="club-create-btn">모임생성</button>
 	
 	
 	<section id="class">
@@ -69,7 +69,7 @@ $.ajax({
 			const{clubName, category, status, reportCount, introduce, domain, renamedFilename, memberCount} = clubAndImage;
 			
 			container.innerHTML += `
-				<a class="card" href="${pageContext.request.contextPath}/club/\${domain}">
+				<a class="card" href="${pageContext.request.contextPath}/club/&\${domain}">
                 <div class="card-inner">
                    <figure class="card-thumbnail">
                       <img src="${pageContext.request.contextPath}/resources/upload/profile/\${renamedFilename}">
@@ -86,6 +86,11 @@ $.ajax({
 		
 	}
 });
+
+// 모임 생성 버튼
+document.querySelector("#club-create-btn").onclick = () => {
+	location.href = '${pageContext.request.contextPath}/club/clubCreate.do';
+};
 
 </script>
 
