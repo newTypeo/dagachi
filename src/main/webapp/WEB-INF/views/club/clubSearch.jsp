@@ -15,7 +15,7 @@
 		<c:if test="${not empty clubs}">
 			<c:forEach items="${clubs}" var="club" varStatus="vs">
 				<div>
-					<img src="${pageContext.request.contextPath}/resources/upload/profile/${club.renamedFilename}" width="200px">
+					<img src="${pageContext.request.contextPath}/resources/upload/profile/${club.renamedFilename}" width="150px">
 					<span>모임명 : ${club.clubName}</span>
 					<span>모임 지역 : ${club.activityArea}</span>
 					<span>모임 분류 : ${club.category}</span>

@@ -20,7 +20,7 @@
 
 <!-- 사용자작성 css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css" />
-
+ 
 </head>
 <body>
 
@@ -31,12 +31,15 @@
 			모임목록(관리자)
 		</button>
 		<button onclick="location.href = '${pageContext.request.contextPath}/member/memberLogin.do';">
-			로그인 : /member/memberLogin.do
+			로그인
 		</button>
 		<button onclick="location.href = '${pageContext.request.contextPath}/member/memberCreate.do';">
-			회원가입 : /member/memberCreate.do
+			회원가입
 		</button>
 		<button onclick="location.href = '${pageContext.request.contextPath}/admin/adminMemberList.do';">
-			회원조회(관리자) : /member/adminMemberList.do
+			회원조회(관리자)
+		</button>
+		<button onclick="location.href = '${pageContext.request.contextPath}/admin/adminQuitMemberList.do';">
+			탈퇴회원조회(관리자) : /admin/adminQuitMemberList.do
 		</button>
 	</header>
