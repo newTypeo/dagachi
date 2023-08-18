@@ -16,7 +16,17 @@
 		id desc
 	</select>
  -->
-	
+	<select id="clubApplyByFindByClubId">
+		select
+		    m.name,
+		    m.nickname,
+		    c.answer
+		from
+		    club_apply c left join member m
+		        on c.member_Id = m.member_Id
+		where
+		    club_id = #{club_id}
+	</select>
 </mapper>
 
 
