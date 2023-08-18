@@ -10,10 +10,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.entity.Club;
@@ -146,6 +149,7 @@ public class ClubController {
 //		List<Member> members = clubService.findById(id);
 	}
 
+
 //	@GetMapping("/findBoardType.do")
 //	public ResponseEntity<?> boardList(@RequestParam(required = false)int boardType){
 //		
@@ -155,7 +159,22 @@ public class ClubController {
 //	}
 //	
 	
-	
+	/**
+	 * 클럽 비활성화 버튼( 클럽테이블의 status값을 Y -> N으로 변경)
+	 * @author 준한
+	 */
+	@GetMapping("/&{domain}/clubDisabled.do")
+	public String clubDisabled(
+			@PathVariable("domain") String domain,
+			RedirectAttributes redirectAttributes
+			) {
+//		int result = clubService.clubDisabled();
+		log.debug("domain = {}",domain);
+		int clubId = clubService.clubIdFindByDomain(domain); // 해당 클럽의 아이디(pk) 가져오기
+		int result = clubService.clubDisabled(clubId);
+		redirectAttributes.addFlashAttribute("msg", "모임이 성공적으로 비활성화되었습니다.");
+		return "redirect:/";
+	}
 	
 	
 	

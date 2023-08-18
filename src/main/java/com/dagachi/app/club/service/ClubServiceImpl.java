@@ -61,4 +61,9 @@ public class ClubServiceImpl implements ClubService {
 		return clubRepository.boardList(boardType);
 	}
 	
+	@Override
+	public int clubDisabled(int clubId) {
+		return clubRepository.clubDisabled(clubId);
+	}
+	
 }

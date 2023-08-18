@@ -26,4 +26,6 @@ public interface ClubService {
 
 	List<ClubBoard> boardList(int boardType);
 
+	int clubDisabled(int clubId);
+
 }
