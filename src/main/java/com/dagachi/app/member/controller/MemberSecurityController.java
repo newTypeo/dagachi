@@ -115,7 +115,7 @@ public class MemberSecurityController {
 				.body(Map.of("available", available, "memberId", memberId));
 	}
 	
-	
+	     
 	 
 }
 
