@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dagachi.app.member.dto.MemberCreateDto;
+import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.repository.MemberRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,7 @@ public class MemberServiceImpl implements MemberService{
 		return result;
 	}
 	
+	
 	/**
 	 * Spring Security에 의해 db사용자를 조회할때 사용
 	 * - username(pk)컬럼값으로 사용자/권한 정보 조회
@@ -39,6 +41,11 @@ public class MemberServiceImpl implements MemberService{
 		if(memberDetails == null)
 			throw new UsernameNotFoundException(username);
 		return memberDetails;
+	}
+
+	@Override
+	public Member findMemberById(String memberId) {
+		return memberRepository.findMemberById(memberId);
 	}
 
 }
