@@ -3,12 +3,16 @@ package com.dagachi.app.club.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
@@ -21,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -34,10 +39,13 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.dagachi.app.club.dto.ClubAndImage;
+import com.dagachi.app.club.dto.ClubCreateDto;
 import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.ManageMember;
+
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
@@ -46,7 +54,7 @@ import com.dagachi.app.club.service.ClubService;
 import com.dagachi.app.common.DagachiUtils;
 
 import com.dagachi.app.member.entity.Member;
-
+import com.dagachi.app.member.entity.MemberDetails;
 
 import lombok.Builder.Default;
 import lombok.extern.slf4j.Slf4j;
@@ -183,7 +191,6 @@ public class ClubController {
 	public void clubCreate() throws Exception {
 		
 	}
-
 	
 	/**
 	 * 클럽 비활성화 버튼( 클럽테이블의 status값을 Y -> N으로 변경)
@@ -217,7 +224,31 @@ public class ClubController {
         return ResponseEntity.status(HttpStatus.OK).body(addressList);
 	}
 
-    
+	@PostMapping("/clubCreate.do")
+	public String clubCreate(@Valid ClubCreateDto _club, 
+			BindingResult bindingResult,
+			@AuthenticationPrincipal MemberDetails member,
+			@RequestParam(value = "upFile") MultipartFile upFile) throws IllegalStateException, IOException {
+		
+		// 1. 파일저장
+		String upload = "";
+		
+		if(!upFile.isEmpty()) {
+			String originalFilename = upFile.getOriginalFilename();
+			String renamedFilename = DagachiUtils.getRenameFilename(originalFilename); // 20230807_142828888_123.jpg
+			File destFile = new File(renamedFilename); // 부모디렉토리 생략가능. spring.servlet.multipart.location 값을 사용
+			upFile.transferTo(destFile); // 실제파일 저장
+			
+//			Attachment attach = 
+//					Attachment.builder()
+//					.originalFilename(originalFilename)
+//					.renamedFilename(renamedFilename)
+//					.build();
+//			attachments.add(attach);
+		}
+		
+		return "redirect:/dagachi/club/clubCreate.do";
+	}
 	
 	
 }
