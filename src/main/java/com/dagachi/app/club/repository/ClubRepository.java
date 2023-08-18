@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.dagachi.app.club.dto.ClubAndImage;
+import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.ManageMember;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
@@ -37,9 +38,8 @@ public interface ClubRepository {
 	List<Member> adminMemberList();
 
 	
-	@Select("select * from club where club_name like '%' || #{inputText} || '%'")
-	List<Club> clubSearch(String inputText);
-
+	List<ClubSearchDto> clubSearch(String inputText);
+	
 	
 	@Select("select club_id from club where domain = #{domain}")
 	int clubIdFindByDomain(String domain);
@@ -47,6 +47,11 @@ public interface ClubRepository {
 	
 	List<ClubBoard> boardList(int boardType);
 
+	
+	@Select("select count(*) from club_member where club_id = #{clubId}")
+	int countClubMember(int clubId);
+	
+	
 	@Update("update club set status = 'N' where club_id = #{clubId}")
 	int clubDisabled(int clubId);
 
