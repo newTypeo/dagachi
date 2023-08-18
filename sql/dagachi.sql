@@ -130,7 +130,7 @@ create table club_member (
 	club_id	number	not null,
 	enroll_at	 date	default sysdate,
 	last_activity_date	date,
-	club_member_roll number	 default 0, -- 	COMMENT '0 : 일반회원 (default) 1: 임원 (최대 5명) null가능 2: 서브리더 (1명) null가능 3: 리더 (1명) notnull',
+	club_member_role number	 default 0, -- 	COMMENT '0 : 일반회원 (default) 1: 임원 (최대 5명) null가능 2: 서브리더 (1명) null가능 3: 리더 (1명) notnull',
 	enroll_count	number default 0
 );
 
@@ -829,67 +829,67 @@ insert into member (member_id, password, name, nickname, phone_no, email, birthd
 VALUES ('user30', 'password30', '이민재','2민재', '888-777-6666', 'user30@example.com', TO_DATE('1988-12-10', 'YYYY-MM-DD'), 'M', 'ENTP', '서울시 마포구 3030번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y',default);
 
 -- 소모임에 가입한 멤버테이블 샘플
-INSERT INTO club_member (member_id, club_id, enroll_at, club_member_roll, enroll_count)
+INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
 VALUES ('honggd', 1, SYSDATE, 3, 1);
-INSERT INTO club_member (member_id, club_id, enroll_at, club_member_roll, enroll_count)
+INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
 VALUES ('user1', 2, SYSDATE, 3, 1);
-INSERT INTO club_member (member_id, club_id, enroll_at, club_member_roll, enroll_count)
+INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
 VALUES ('user2', 3, SYSDATE, 0, 1);
-INSERT INTO club_member (member_id, club_id, enroll_at, club_member_roll, enroll_count)
+INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
 VALUES ('user3', 4, SYSDATE, 0, 1);
-INSERT INTO club_member (member_id, club_id, enroll_at, club_member_roll, enroll_count)
+INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
 VALUES ('user4', 5, SYSDATE, 0, 1);
-INSERT INTO club_member (member_id, club_id, enroll_at, club_member_roll, enroll_count)
+INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
 VALUES ('user5', 6, SYSDATE, 0, 1);
-INSERT INTO club_member (member_id, club_id, enroll_at, club_member_roll, enroll_count)
+INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
 VALUES ('user6', 7, SYSDATE, 0, 1);
-INSERT INTO club_member (member_id, club_id, enroll_at, club_member_roll, enroll_count)
+INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
 VALUES ('user7', 8, SYSDATE, 0, 1);
-INSERT INTO club_member (member_id, club_id, enroll_at, club_member_roll, enroll_count)
+INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
 VALUES ('user8', 9, SYSDATE, 0, 1);
-INSERT INTO club_member (member_id, club_id, enroll_at, club_member_roll, enroll_count)
+INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
 VALUES ('user9', 1, SYSDATE, 0, 1);
-INSERT INTO club_member (member_id, club_id, enroll_at, club_member_roll, enroll_count)
+INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
 VALUES ('user10', 2, SYSDATE, 0, 1);
-INSERT INTO club_member (member_id, club_id, enroll_at, club_member_roll, enroll_count)
+INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
 VALUES ('user11', 3, SYSDATE, 0, 1);
-INSERT INTO club_member (member_id, club_id, enroll_at, club_member_roll, enroll_count)
+INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
 VALUES ('user12', 4, SYSDATE, 0, 1);
-INSERT INTO club_member (member_id, club_id, enroll_at, club_member_roll, enroll_count)
+INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
 VALUES ('user13', 5, SYSDATE, 0, 1);
-INSERT INTO club_member (member_id, club_id, enroll_at, club_member_roll, enroll_count)
+INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
 VALUES ('user14', 6, SYSDATE, 0, 1);
-INSERT INTO club_member (member_id, club_id, enroll_at, club_member_roll, enroll_count)
+INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
 VALUES ('user15', 7, SYSDATE, 0, 1);
-INSERT INTO club_member (member_id, club_id, enroll_at, club_member_roll, enroll_count)
+INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
 VALUES ('user16', 8, SYSDATE, 0, 1);
-INSERT INTO club_member (member_id, club_id, enroll_at, club_member_roll, enroll_count)
+INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
 VALUES ('user17', 9, SYSDATE, 0, 1);
-INSERT INTO club_member (member_id, club_id, enroll_at, club_member_roll, enroll_count)
+INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
 VALUES ('user18', 1, SYSDATE, 0, 1);
-INSERT INTO club_member (member_id, club_id, enroll_at, club_member_roll, enroll_count)
+INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
 VALUES ('user19', 2, SYSDATE, 0, 1);
-INSERT INTO club_member (member_id, club_id, enroll_at, club_member_roll, enroll_count)
+INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
 VALUES ('user20', 3, SYSDATE, 0, 1);
-INSERT INTO club_member (member_id, club_id, enroll_at, club_member_roll, enroll_count)
+INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
 VALUES ('user21', 4, SYSDATE, 0, 1);
-INSERT INTO club_member (member_id, club_id, enroll_at, club_member_roll, enroll_count)
+INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
 VALUES ('user22', 5, SYSDATE, 0, 1);
-INSERT INTO club_member (member_id, club_id, enroll_at, club_member_roll, enroll_count)
+INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
 VALUES ('user23', 6, SYSDATE, 0, 1);
-INSERT INTO club_member (member_id, club_id, enroll_at, club_member_roll, enroll_count)
+INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
 VALUES ('user24', 7, SYSDATE, 0, 1);
-INSERT INTO club_member (member_id, club_id, enroll_at, club_member_roll, enroll_count)
+INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
 VALUES ('user25', 8, SYSDATE, 0, 1);
-INSERT INTO club_member (member_id, club_id, enroll_at, club_member_roll, enroll_count)
+INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
 VALUES ('user26', 1, SYSDATE, 0, 1);
-INSERT INTO club_member (member_id, club_id, enroll_at, club_member_roll, enroll_count)
+INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
 VALUES ('user27', 2, SYSDATE, 0, 1);
-INSERT INTO club_member (member_id, club_id, enroll_at, club_member_roll, enroll_count)
+INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
 VALUES ('user28', 3, SYSDATE, 0, 1);
-INSERT INTO club_member (member_id, club_id, enroll_at, club_member_roll, enroll_count)
+INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
 VALUES ('user29', 4, SYSDATE, 0, 1);
-INSERT INTO club_member (member_id, club_id, enroll_at, club_member_roll, enroll_count)
+INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
 VALUES ('user30', 4, SYSDATE, 0, 1);
 
 -- 회원권한 샘플

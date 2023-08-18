@@ -1,15 +1,18 @@
 package com.dagachi.app.club.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dagachi.app.club.dto.ClubAndImage;
+import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.ManageMember;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubBoard;
+import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubDetails;
 import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.club.entity.ClubTag;
@@ -75,12 +78,30 @@ public class ClubServiceImpl implements ClubService {
 	public List<ManageMember> clubApplyByFindByClubId(int clubId) {
 		return clubRepository.clubApplyByFindByClubId(clubId);
 	}
-		
+	
+	
 	@Override
 	public int clubDisabled(int clubId) {
 		return clubRepository.clubDisabled(clubId);
 	}
 	
+	
+	@Override
+	public List<ClubMember> clubMemberByFindAllByClubId(int clubId) {
+		return clubRepository.clubMemberByFindAllByClubId(clubId);
+	}
+	
+	
+	@Override
+	public List<JoinClubMember> clubMemberInfoByFindByMemberId(List<ClubMember> clubMembers) {
+		List<JoinClubMember> joinClubMembers = new ArrayList<>();
+		for(ClubMember clubMember : clubMembers) {
+			joinClubMembers.add(clubRepository.clubMemberInfoByFindByMemberId(clubMember.getMemberId()));
+		}
+		
+		return joinClubMembers;
+	}
+		
 	@Override
 	public int insertClub(Club club) {
 		int result = 0;

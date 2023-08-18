@@ -42,6 +42,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.dagachi.app.club.dto.ClubAndImage;
+import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.ClubCreateDto;
 import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.ManageMember;
@@ -49,6 +50,7 @@ import com.dagachi.app.club.dto.ManageMember;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
+import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubDetails;
 import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.club.service.ClubService;
@@ -161,6 +163,10 @@ public class ClubController {
 	
 
 
+	/**
+	 * 해당 모임의 회원관리 클릭시
+	 * @author 창환
+	 */
 	@GetMapping("/&{domain}/manageMember.do")
 	public String manageMemeber(
 			@PathVariable("domain") String domain,
@@ -171,10 +177,15 @@ public class ClubController {
 //		log.debug("clubId = {}", clubId);
 //		log.debug("clubApplies = {}", clubApplies);
 		
+		List<ClubMember> clubMembers = clubService.clubMemberByFindAllByClubId(clubId); // clubId로 club_member 조회
+//		log.debug("clubMembers = {}", clubMembers);
 		
 		
+		List<JoinClubMember> joinClubMembersInfo = clubService.clubMemberInfoByFindByMemberId(clubMembers);	// 해당 모임에 가입된 회원 정보(이름, 닉네임, 가입일)
+		log.debug("joinClubMembersInfo = {}", joinClubMembersInfo);
 		
 		model.addAttribute("clubApplies", clubApplies);
+		model.addAttribute("joinClubMembersInfo", joinClubMembersInfo);
 		
 		return "/club/manageMember";
 	}
