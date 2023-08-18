@@ -3,11 +3,8 @@ package com.dagachi.app.club.service;
 import java.util.List;
 
 import com.dagachi.app.club.dto.ClubAndImage;
-<<<<<<< HEAD
 import com.dagachi.app.club.dto.ClubSearchDto;
-=======
 import com.dagachi.app.club.dto.ManageMember;
->>>>>>> branch 'master' of https://github.com/newTypeo/dagachi.git
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
