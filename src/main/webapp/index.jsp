@@ -29,8 +29,6 @@
 
 <section id="main-page-sec" class="p-2 bg-info">
 	<h1>메인 페이지</h1>
-	
-
 
 	
 	<section id="class">
@@ -43,6 +41,8 @@
 </section>
 <script>
 
+
+
 $.ajax({
 	url : "${pageContext.request.contextPath}/club/clubList.do",
 	success(clubs){
@@ -52,18 +52,17 @@ $.ajax({
 			const{clubName, category, status, reportCount, introduce, domain, renamedFilename, memberCount} = clubAndImage;
 			
 			container.innerHTML += `
-				<a class="card" href="${pageContext.request.contextPath}/club/&\${domain}">
-                <div class="card-inner">
-                   <figure class="card-thumbnail">
-                      <img src="${pageContext.request.contextPath}/resources/upload/profile/\${renamedFilename}">
-                   </figure>
-                   <div class="card-body">
-                      <h3 class="card-title">\${clubName}</h3>
-                      <span class="card-introduce">\${introduce}</span>
-                      <h4 class="club-member-cnt">인원수 : \${memberCount}</h4>
-                   </div>
-                </div>
-             </a>
+				<div class="card" style="width: 18rem;" href="${pageContext.request.contextPath}/club/&\${domain}">
+				  <img src="${pageContext.request.contextPath}/resources/upload/profile/\${renamedFilename}" class="card-img-top" alt="...">
+				  <div class="card-body">
+				    <h5 class="card-title">\${clubName}</h5>
+				    <p class="card-text">\${introduce}</p>
+				  </div>
+				  <ul class="list-group list-group-flush">
+				    <li class="list-group-item">\${category}</li>
+				    <li class="list-group-item">인원수 : \${memberCount}</li>
+				  </ul>
+				</div>
 			`;
 		})
 		
