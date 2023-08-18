@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+
 import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.Update;
 
@@ -77,6 +78,23 @@ public interface ClubRepository {
 
 
 	
+	List<ClubBoard> boardList(ClubBoard clubBoard);
+
+	@Select("select * from club where domain= #{domain}")
+	Club findByDomain(String domain);
+
+	@Select("select * from club_board where club_id= #{clubId} and board_id =#{boardId}")
+	ClubBoard findByBoard(ClubBoard _clubBoard);
+
+	@Select("select * from club_board where board_id= #{boardId}")
+	ClubBoard findByBoardId(int boardId);
+
+	@Update("update club_board set title=#{title}, content=#{content}, type=#{type} , status=#{status}, like_count=#{likeCount} where board_id=#{boardId}")
+	int updateBoard(ClubBoard _board);
+
+
+
+
 	@Update("update club_member set club_member_role = #{clubMemberRole} where member_id = #{memberId}")
 	int clubMemberRoleUpdate(ClubMemberRoleUpdate member);
 
