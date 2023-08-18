@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
@@ -12,6 +13,7 @@ import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.ManageMember;
 import com.dagachi.app.club.entity.Club;
+import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubDetails;
@@ -24,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
+@Transactional
 public class ClubServiceImpl implements ClubService {
 
 
@@ -73,10 +76,29 @@ public class ClubServiceImpl implements ClubService {
 	
 	
 	@Override
-	public List<ClubBoard> boardList(int boardType) {
-		return clubRepository.boardList(boardType);
+	public List<ClubBoard> boardList(ClubBoard clubBoard) {
+		return clubRepository.boardList(clubBoard);
 	}
 	
+	@Override
+	public Club findByDomain(String domain) {
+		return clubRepository.findByDomain(domain);
+	}
+	
+	@Override
+	public ClubBoard findByBoard(ClubBoard _clubBoard) {
+		return clubRepository.findByBoard(_clubBoard);
+	}
+	
+	@Override
+	public ClubBoard findByBoardId(int boardId) {
+		return clubRepository.findByBoardId(boardId);
+	}
+
+	@Override
+	public int updateBoard(ClubBoard _board) {
+		return clubRepository.updateBoard(_board);
+	}
 	
 	@Override
 	public List<ManageMember> clubApplyByFindByClubId(int clubId) {
@@ -164,6 +186,20 @@ public class ClubServiceImpl implements ClubService {
 	public int clubMemberRoleUpdate(ClubMemberRoleUpdate member) {
 		return clubRepository.clubMemberRoleUpdate(member);
 	}
+
+
+	@Override
+	public List<ClubApply> clubApplyfindByClubId(int clubId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public List<ClubBoard> boardList(int boardType) {
+		return null;
+	}
+	
 	
 }
 
