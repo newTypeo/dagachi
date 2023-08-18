@@ -20,13 +20,16 @@
 	        </select>
 		
 				<div id="search-name" class="search-type" style="display : inline-block">
-					<input type="text" id="clubNameSearch" placeholder="모임명을 입력하세요" name="club_name">
+					<input type="text" id="clubNameSearch" placeholder="모임명을 입력하세요">
+					<button onclick="searchClub(this);" name="club_name">검색</button>
 		        </div>
 				<div id="search-area" class="search-type" style="display : none">
-					<input type="text" id="clubAreaSearch" placeholder="지역을 입력하세요" name="activity_area">
+					<input type="text" id="clubAreaSearch" placeholder="지역을 입력하세요" >
+					<button onclick="searchClub(this);" name="activity_area">검색</button>
 		        </div>
 				<div id="search-category" class="search-type" style="display : none">
-					<input type="text" id="clubCategorySearch" placeholder="카테고리를 입력하세요" name="category">
+					<input type="text" id="clubCategorySearch" placeholder="카테고리를 입력하세요">
+					<button onclick="searchClub(this);" name="category">검색</button>
 		        </div>
 				
 			<table id="clubListTable">
@@ -81,54 +84,15 @@ document.querySelector("#searchType").onchange = (e) => {
 	selectedInput.parentElement.style.display = 'inline-block';
 };
 
-// 검색유형 별 검색시 비동기로 모임 조회
-document.querySelectorAll(".search-type").forEach((input) => {
-	input.onkeyup = (e) => {
-		const keyword = e.target.value;
-		const column = e.target.name;
-		// console.log("keyword, column=", keyword, column);
-		$.ajax({
-			url : "${pageContext.request.contextPath}/club/adminClubSearch.do",
-			data : {keyword, column},
-			dataType : "json", 
-			success(clubs){
-				const tbody = document.querySelector("#clubListTable tbody");
-				tbody.innerHTML = '';
-				let html = '';
-				if(clubs.length == 0) {
-					html += `<tr><td colspan='7'>조회된 결과가 없습니다.</td></tr>`;
-				}
-				else {
-					clubs.forEach((club) => {
-						// 월 일 10 미만 시 0 붙여주는 함수
-						const f = (n) => {return n < 10 ? '0' + n : n};
-						const date = new Date(`\${club.createdAt}`);
-						// year 뒷 두글자만 사용하기
-						const year = String(date.getFullYear()).substring(2);
-						const month = date.getMonth() + 1;
-						const day = date.getDate();
-						console.log("month, day", month,day)
-						html += `
-						<tr>
-							<td>\${club.clubId}</td>
-							<td>\${club.clubName}</td>
-							<td>\${club.activityArea}</td>
-							<td>\${club.category}</td>
-							<td>\${club.reportCount}</td>
-							<td>\${club.domain}</td>
-							<td>
-							    \${year}/\${f(month)}/\${f(day)}
-							</td>
-						</td>
-						</tr>
-						`;
-					});
-				} // else
-				tbody.innerHTML = html;
-			} // success
-		}); // ajax
-	}; // onkeyup  
-});	// forEach
+const searchClub = (btnTag) => {
+	const keyword = btnTag.previousElementSibling.value;
+	const column = btnTag.name;
+	console.log("keyword, column", keyword, column);
+	window.href = "${pageContext.request.contextPath}/adminClubList.do";
+};
+
+
+
 </script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

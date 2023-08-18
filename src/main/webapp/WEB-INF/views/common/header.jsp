@@ -28,11 +28,12 @@
 
 <!-- 사용자작성 css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css" />
-
+ 
 </head>
 <body>
 
 <div id="container">
+
 	<header>
 		<div id="main-logo-container">
 			<img id="main-logo" src="${pageContext.request.contextPath}/resources/images/004.png" class="p-2">
@@ -44,5 +45,6 @@
 			<a href="${pageContext.request.contextPath}/member/memberCreate.do">회원가입</a>
 		</div>
 		
+
 	</header>
 	<jsp:include page="/WEB-INF/views/common/navBar.jsp"></jsp:include>
