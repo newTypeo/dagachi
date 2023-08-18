@@ -71,11 +71,13 @@ public class MemberServiceImpl implements MemberService{
 	 * - username에 해당하는 사용자가 없는 경우 UsernameNotFoundException 던져야 한다.
 	 */
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		UserDetails memberDetails = memberRepository.loadUserByUsername(username);
+	public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
+		
+		UserDetails memberDetails = memberRepository.loadUserByUsername(memberId);
 		log.debug("memberDetails = {}", memberDetails);
 		if(memberDetails == null)
-			throw new UsernameNotFoundException(username);
+			throw new UsernameNotFoundException(memberId);
+		log.debug("username이뭔데!!!!!!!!={}", memberId);
 		return memberDetails;
 	}
 

@@ -767,7 +767,7 @@ values ('user2', 'password2', '이철수','흔한이름철쑤', '555-123-4567', 
 insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
 values ('user3', 'password3', '박미영','박미영팀장', '111-222-3333', 'user3@example.com', TO_DATE('1995-12-10', 'YYYY-MM-DD'), 'F', 'ISFJ', '대구시 수성구 101번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y');
 insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
-values ('user4', 'password4', '정민준','정민준짱', '444-555-6666', 'user4@example.com', TO_DATE('1988-06-25', 'YYYY-MM-DD'), 'M', 'ENTJ', '인천시 남구 202번지', 1, SYSDATE, NULL, SYSDATE, NULL, 'Y'
+values ('user4', 'password4', '정민준','정민준짱', '444-555-6666', 'user4@example.com', TO_DATE('1988-06-25', 'YYYY-MM-DD'), 'M', 'ENTJ', '인천시 남구 202번지', 1, SYSDATE, NULL, SYSDATE, NULL, 'Y');
 insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
 values ('user5', 'password5', '강서연','이쁘니서연', '777-888-9999', 'user5@example.com', TO_DATE('1999-04-08', 'YYYY-MM-DD'), 'F', 'INFJ', '광주시 동구 303번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y');
 insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
@@ -1113,8 +1113,8 @@ INSERT INTO board_comment (comment_id, board_id, writer, comment_ref, content, c
 VALUES (10, 2, 'user1', NULL, '오늘 모임 정말 즐거웠어요!', 1);
 
 
-
-
+select * from member;
+select * from authority;
 commit;
 
 
