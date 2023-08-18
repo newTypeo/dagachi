@@ -69,6 +69,7 @@ const refuseApply = () => {
 						<td>${clubMember.enrollAt}</td>
 						<td>
 							<button>추방</button>
+							
 						</td>
 						<td>
 							<select id="searchType" class="" title="${clubMember.memberId}">
