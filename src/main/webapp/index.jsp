@@ -45,7 +45,6 @@
 </section>
 <script>
 
-// 메인페이지에 모임카드 전체 출력(준한)
 $.ajax({
 	url : "${pageContext.request.contextPath}/club/clubList.do",
 	success(clubs){
