@@ -3,6 +3,19 @@ package com.dagachi.app.club.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.bind.DefaultValue;
@@ -14,13 +27,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
 import com.dagachi.app.club.service.ClubService;
+
+import com.dagachi.app.common.DagachiUtils;
+
 import com.dagachi.app.member.entity.Member;
+
 
 import lombok.Builder.Default;
 import lombok.extern.slf4j.Slf4j;
@@ -123,7 +142,8 @@ public class ClubController {
 		return ResponseEntity.status(HttpStatus.OK).body(clubAndImages);
 	}
 	
-	
+
+
 	@GetMapping("/&{domain}/manageMember.do")
 	public void manageMemeber(
 			@PathVariable("domain") String domain,
@@ -154,9 +174,32 @@ public class ClubController {
 //		return ResponseEntity.status(HttpStatus.OK).body(boards);
 //	}
 //	
+	@GetMapping("/clubCreate.do")
+	public void clubCreate() throws Exception {
+		
+	}
+
 	
-	
-	
+	@GetMapping("/findAddress.do")
+	public ResponseEntity<?> findAddress(String keyword) throws UnsupportedEncodingException {
+		
+		if (keyword == null || keyword == "") return null;
+		String SearchType = "address";
+		
+		JsonArray documents = DagachiUtils.kakaoMapApi(keyword, SearchType);
+
+        Gson gson = new Gson();
+
+        List<String> addressList = new ArrayList<>();
+        for (JsonElement document : documents) {
+            JsonObject item = document.getAsJsonObject();
+            String addressName = item.get("address_name").getAsString();
+            addressList.add(addressName);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(addressList);
+	}
+
+    
 	
 	
 }
