@@ -55,17 +55,17 @@
 	<div id="club-create-form-wrapper">
 		<h1>소모임 생성</h1>
 		<form:form name="clubCreateFrm"
-		action="${pageContext.request.contextPath}/board/clubCreate.do"
+		action="${pageContext.request.contextPath}/club/clubCreate.do"
 		enctype="multipart/form-data" method="post">
 		
 			<label for="club_name">소모임 이름</label>
 			<div class="input-group">
-				<input type="text" class="form-control" id="club_name" name="club_name">
+				<input type="text" class="form-control" id="club_name" name="clubName">
 			</div>
 
 			<label for="activity_area">주 활동지</label>
 			<div class="input-group">
-				<input type="text" class="form-control" id="activity_area" name="activity_area" readonly aria-describedby="button-addon2">
+				<input type="text" class="form-control" id="activity_area" name="activityArea" readonly aria-describedby="button-addon2">
 				<div class="input-group-append">
 					<button class="btn btn-outline-secondary" type="button" data-toggle="modal" 
 					data-target="#activity-area-modal" id="activity-area-search-btn">검색</button>
@@ -73,8 +73,8 @@
 			</div>
 			
 			<div class="form-group">
-				<label for="catetory">카테고리</label> <select class="form-control"
-					id="catetory" name="catetory">
+				<label for="category">카테고리</label> <select class="form-control"
+					id="category" name="category">
 					<option disabled selected>-카테고리 선택-</option>
 					<option>차/오토바이</option>
 					<option>게임/오락</option>
@@ -131,7 +131,7 @@
 			<div class="form-group">
 				<label for="enroll_question">가입질문</label>
 				<textarea class="form-control" id="enroll_question"
-					name="enroll_question" rows="3"></textarea>
+					name="enrollQuestion" rows="3"></textarea>
 			</div>
 
 			<button class="btn btn-primary" type="submit">소모임 생성</button>

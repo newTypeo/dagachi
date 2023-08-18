@@ -49,6 +49,8 @@ import com.dagachi.app.club.dto.ManageMember;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
+import com.dagachi.app.club.entity.ClubDetails;
+import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.club.service.ClubService;
 
 import com.dagachi.app.common.DagachiUtils;
@@ -231,23 +233,43 @@ public class ClubController {
 			@RequestParam(value = "upFile") MultipartFile upFile) throws IllegalStateException, IOException {
 		
 		// 1. 파일저장
-		String upload = "";
-		
+		String uploadDir = "/clubProfile/";
+		ClubProfile clubProfile = null;
 		if(!upFile.isEmpty()) {
 			String originalFilename = upFile.getOriginalFilename();
 			String renamedFilename = DagachiUtils.getRenameFilename(originalFilename); // 20230807_142828888_123.jpg
-			File destFile = new File(renamedFilename); // 부모디렉토리 생략가능. spring.servlet.multipart.location 값을 사용
+			File destFile = new File(uploadDir + renamedFilename); // 부모디렉토리 생략가능. spring.servlet.multipart.location 값을 사용
 			upFile.transferTo(destFile); // 실제파일 저장
 			
-//			Attachment attach = 
-//					Attachment.builder()
-//					.originalFilename(originalFilename)
-//					.renamedFilename(renamedFilename)
-//					.build();
-//			attachments.add(attach);
+			clubProfile = ClubProfile.builder()
+					.originalFilename(originalFilename)
+					.renamedFilename(renamedFilename)
+					.build();
 		}
 		
-		return "redirect:/dagachi/club/clubCreate.do";
+		List<String> tagList = new ArrayList<>();
+		for (String tag : _club.getTags().split(",")) {
+			tagList.add(tag);
+		}
+		
+		// 2. db저장
+		ClubDetails club = ClubDetails.builder()
+				.clubName(_club.getClubName())
+				.activityArea(_club.getActivityArea())
+				.category(_club.getCategory())
+				.tagList(tagList)
+				.domain(_club.getDomain())
+				.introduce(_club.getIntroduce())
+				.enrollQuestion(_club.getEnrollQuestion())
+				.clubProfile(clubProfile)
+				.build();
+		
+		System.out.println(club);
+				
+		int result = clubService.insertClub(club);
+		
+		
+		return "redirect:/club/clubCreate.do";
 	}
 	
 	
