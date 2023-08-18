@@ -44,6 +44,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.ClubCreateDto;
+import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
 import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.ManageMember;
 
@@ -190,6 +191,31 @@ public class ClubController {
 		return "/club/manageMember";
 	}
 
+	
+	/**
+	 * 해당 모임의 방장, 부방장은 모임에 가입되어있는 회원의 권한을 변경 가능
+	 * @author 창환
+	 */
+	@PostMapping("/&{domain}/clubMemberRole.do")
+	public String clubMemberRoleUpdate(
+			@PathVariable("domain") String domain,
+			@RequestParam String memberId,
+			@RequestParam int clubMemberRole) {
+		
+		log.debug("memberId = {}", memberId);
+		log.debug("clubMemberRole = {}", clubMemberRole);
+		
+		ClubMemberRoleUpdate member = ClubMemberRoleUpdate.builder()
+				.memberId(memberId)
+				.clubMemberRole(clubMemberRole)
+				.build();
+		
+		log.debug("member = {}", member);
+		int result = clubService.clubMemberRoleUpdate(member);
+		log.debug("result = {}", result);
+		
+		return "redirect:/club/&" + domain + "/manageMember.do";
+	}
 	
 	
 //	@GetMapping("/findBoardType.do")

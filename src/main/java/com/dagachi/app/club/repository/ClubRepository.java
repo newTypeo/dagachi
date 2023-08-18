@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.Update;
 
 import com.dagachi.app.club.dto.ClubAndImage;
+import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
 import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.ManageMember;
@@ -88,7 +89,12 @@ public interface ClubRepository {
    @Insert("insert into club_tag values (#{clubId}, #{tag})")
    int insertClubTag(ClubTag clubTag);
 
-   
+
+	
+	@Update("update club_member set club_member_role = #{clubMemberRole} where member_id = #{memberId}")
+	int clubMemberRoleUpdate(ClubMemberRoleUpdate member);
+
+
 
 
 
