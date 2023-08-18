@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dagachi.app.club.dto.ClubAndImage;
+import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
 import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.ManageMember;
@@ -121,6 +122,12 @@ public class ClubServiceImpl implements ClubService {
 		}
 		
 		return result;
+	}
+
+	
+	@Override
+	public int clubMemberRoleUpdate(ClubMemberRoleUpdate member) {
+		return clubRepository.clubMemberRoleUpdate(member);
 	}
 	
 }
