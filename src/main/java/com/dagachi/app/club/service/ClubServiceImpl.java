@@ -122,10 +122,9 @@ public class ClubServiceImpl implements ClubService {
 			ClubTag clubTag = new ClubTag(club.getClubId(), tag);
 			result = clubRepository.insertClubTag(clubTag);
 		}
-		
 		return result;
 	}
-
+	
 	
 	@Override
 	public int clubMemberRoleUpdate(ClubMemberRoleUpdate member) {
