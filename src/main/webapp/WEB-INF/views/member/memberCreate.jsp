@@ -134,8 +134,6 @@
  
 
   <script>
-  
-  
   document.memberCreateFrm.onsubmit = (e) => {
 	const password = document.querySelector("#password");
 	const passwordConfirmation = document.querySelector("#passwordConfirmation");
@@ -148,10 +146,6 @@
 			return false;
 		}
 	};
-	
-
-	
-	    
   </script>
 
 
