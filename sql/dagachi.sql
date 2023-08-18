@@ -1116,6 +1116,7 @@ VALUES (10, 2, 'user1', NULL, '오늘 모임 정말 즐거웠어요!', 1);
 
 commit;
 
+<<<<<<< HEAD
 select 
 	  	c.*,
         cp.club_id profile_club_id,
@@ -1127,5 +1128,24 @@ from
             on c.club_id = cp.club_id
 where 
 	  	club_name like '%클럽%';
+=======
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+>>>>>>> branch 'master' of https://github.com/newTypeo/dagachi.git
 
 
