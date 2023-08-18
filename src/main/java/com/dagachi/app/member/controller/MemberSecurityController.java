@@ -37,77 +37,76 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/member")
 public class MemberSecurityController {
 
-	@Autowired
-	private MemberService memberService;
-	
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-	
-	@GetMapping("/memberCreate.do")
-	public void memberCreate() {}
-	
-	@PostMapping("/memberCreate.do")
-	public String create(
-			@Valid MemberCreateDto member,
-			BindingResult bindingResult, 
-			RedirectAttributes redirectAttr) {
-		
-		if(bindingResult.hasErrors()) { //에러 나면 
-			ObjectError error = bindingResult.getAllErrors().get(0);
-			redirectAttr.addFlashAttribute("msg", error.getDefaultMessage());
-			return "redirect:/member/memberCreate.do";
-		} 
-		
-		String rawPassword = member.getPassword();
-		String encodedPassword = passwordEncoder.encode(rawPassword);
-		log.debug("{} -> {}", rawPassword, encodedPassword);
-		member.setPassword(encodedPassword);
-		
-		int result = memberService.insertMember(member);
-		redirectAttr.addFlashAttribute("msg", "회원가입 완료");
-		return "redirect:/";
-	}
+   @Autowired
+   private MemberService memberService;
+   
+   @Autowired
+   private PasswordEncoder passwordEncoder;
+   
+   @GetMapping("/memberCreate.do")
+   public void memberCreate() {}
+   
+   @PostMapping("/memberCreate.do")
+   public String create(
+         @Valid MemberCreateDto member,
+         BindingResult bindingResult, 
+         RedirectAttributes redirectAttr) {
+      
+      if(bindingResult.hasErrors()) { //에러 나면 
+         ObjectError error = bindingResult.getAllErrors().get(0);
+         redirectAttr.addFlashAttribute("msg", error.getDefaultMessage());
+         return "redirect:/member/memberCreate.do";
+      } 
+      
+      String rawPassword = member.getPassword();
+      String encodedPassword = passwordEncoder.encode(rawPassword);
+      log.debug("{} -> {}", rawPassword, encodedPassword);
+      member.setPassword(encodedPassword);
+      
+      int result = memberService.insertMember(member);
+      redirectAttr.addFlashAttribute("msg", "회원가입 완료");
+      return "redirect:/";
+   }
 
-	@GetMapping("/memberLogin.do")
-	public void memberLogin() {}
-	
-//	@PostMapping("/memberLogin.do") 
-//	public String memberLogin(	
-//			@Valid MemberLoginDto _member,
-//			BindingResult bindingResult, 
-//			Model model
-//			) {
-//		
-//				Member member = memberService.findMemberById(_member.getMemberId());
-//				
-//				log.debug("member = {}", member);
-//				
-//				if(member != null && passwordEncoder.matches(_member.getPassword(), member.getPassword())) {
-//					model.addAttribute("loginMember", member);
-//					log.debug("member = {}", member);
-//				}
-//				else {
-//					return "redirect:/";
-//				}
-//				return "redirect:/";
-//		
-//	}
-	
-	//회원 아이디 중복 여부를 확인하기 위해 사용하는 코드 
-	@GetMapping("/checkIdDuplicate.do")
-	@ResponseBody
-	public ResponseEntity<?> checkIdDuplicate(@RequestParam String memberId) {
-		boolean available = false;
-		try {
-			UserDetails memberDetails = memberService.loadUserByUsername(memberId);
-		} catch (UsernameNotFoundException e) {
-			available = true;
-		}
-		
-		return ResponseEntity
-				.status(HttpStatus.OK)
-				.body(Map.of("available", available, "memberId", memberId));
-	}
-	 
+   @GetMapping("/memberLogin.do")
+   public void memberLogin() {}
+   
+//   @PostMapping("/memberLogin.do") 
+//   public String memberLogin(   
+//         @Valid MemberLoginDto _member,
+//         BindingResult bindingResult, 
+//         Model model
+//         ) {
+//      
+//            Member member = memberService.findMemberById(_member.getMemberId());
+//            
+//            log.debug("member = {}", member);
+//            
+//            if(member != null && passwordEncoder.matches(_member.getPassword(), member.getPassword())) {
+//               model.addAttribute("loginMember", member);
+//               log.debug("member = {}", member);
+//            }
+//            else {
+//               return "redirect:/";
+//            }
+//            return "redirect:/";
+//      
+//   }
+   
+   //회원 아이디 중복 여부를 확인하기 위해 사용하는 코드 
+   @GetMapping("/checkIdDuplicate.do")
+   @ResponseBody
+   public ResponseEntity<?> checkIdDuplicate(@RequestParam String memberId) {
+      boolean available = false;
+      try {
+         UserDetails memberDetails = memberService.loadUserByUsername(memberId);
+      } catch (UsernameNotFoundException e) {
+         available = true;
+      }
+      
+      return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(Map.of("available", available, "memberId", memberId));
+   }
+    
 }
-

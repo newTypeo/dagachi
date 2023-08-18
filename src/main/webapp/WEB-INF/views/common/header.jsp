@@ -39,4 +39,7 @@
 		<button onclick="location.href = '${pageContext.request.contextPath}/admin/adminMemberList.do';">
 			회원조회(관리자)
 		</button>
+		<button onclick="location.href = '${pageContext.request.contextPath}/admin/adminQuitMemberList.do';">
+			탈퇴회원조회(관리자) : /admin/adminQuitMemberList.do
+		</button>
 	</header>

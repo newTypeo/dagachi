@@ -26,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ClubServiceImpl implements ClubService {
 
+
 	@Autowired
 	private ClubRepository clubRepository;
 	
@@ -133,3 +134,4 @@ public class ClubServiceImpl implements ClubService {
 	}
 	
 }
+
