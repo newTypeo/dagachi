@@ -63,22 +63,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			//.passwordParameter("password") // 똑같으면 그냥 안적어도 된다
 			.defaultSuccessUrl("/")
 			.permitAll(); // 모두 허용해달라
-//		
-//		http.logout()
-//			.logoutUrl("/member/memberLogout.do")
-//			.logoutSuccessUrl("/")
-//			.permitAll();
 		
 		
-//		SecureRandom random = new SecureRandom(); // 보안상의 이유로 key값 무작위로 받아오는 코드부분
-//		byte[] keyBytes = new byte[64];
-//		random.nextBytes(keyBytes);
-//		String generatedKey = Base64.getUrlEncoder().withoutPadding().encodeToString(keyBytes);
-//
-//		http.rememberMe()
-//		    .tokenRepository(tokenRepository())
-//		    .key(generatedKey)
-//		    .tokenValiditySeconds(60 * 60 * 24 * 14); // 2주
+		// logout
+		http.logout()
+			.logoutUrl("/member/memberLogout.do") /// 로그아웃 url 연결
+			.logoutSuccessUrl("/"); 
+		
+		
+		SecureRandom random = new SecureRandom(); // 보안상의 이유로 key값 무작위로 받아오는 코드부분
+		byte[] keyBytes = new byte[64];
+		random.nextBytes(keyBytes);
+		String generatedKey = Base64.getUrlEncoder().withoutPadding().encodeToString(keyBytes);
+
+		http.rememberMe()
+		    .tokenRepository(tokenRepository())
+		    .key(generatedKey)
+		    .tokenValiditySeconds(60 * 60 * 24 * 14); // 2주
+		
+		http.oauth2Login()
+			.loginPage("/member/memberLogin.do")
+			.userInfoEndpoint()
+			.userService(oauth2UserService);
 	}
 	
 	
