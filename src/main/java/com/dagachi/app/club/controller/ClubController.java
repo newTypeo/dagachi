@@ -146,14 +146,14 @@ public class ClubController {
 //		List<Member> members = clubService.findById(id);
 	}
 
-	@GetMapping("/findBoardType.do")
-	public ResponseEntity<?> boardList(@RequestParam(required = false)int boardType){
-		
-		List<ClubBoard> boards = clubService.boardList(boardType);
-		
-		return ResponseEntity.status(HttpStatus.OK).body(boards);
-	}
-	
+//	@GetMapping("/findBoardType.do")
+//	public ResponseEntity<?> boardList(@RequestParam(required = false)int boardType){
+//		
+//		List<ClubBoard> boards = clubService.boardList(boardType);
+//		
+//		return ResponseEntity.status(HttpStatus.OK).body(boards);
+//	}
+//	
 	
 	
 	
