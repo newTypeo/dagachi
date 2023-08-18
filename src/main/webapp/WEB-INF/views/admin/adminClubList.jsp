@@ -7,9 +7,9 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
 
-<section id="main-page-sec" class="p-2 club-list">
-	<h1>모임목록 페이지</h1>
+<section id="admin-club-list-sec" class="p-2 club-list">
 	
+	<h1>모임목록 페이지</h1>
 	<div id="club-list-wrapper">
 		<div id="search-container">
 	        <label for="searchType">검색타입 :</label> 
@@ -20,13 +20,16 @@
 	        </select>
 		
 				<div id="search-name" class="search-type" style="display : inline-block">
-					<input type="text" id="clubNameSearch" placeholder="모임명을 입력하세요" name="club_name">
+					<input type="text" id="clubNameSearch" placeholder="모임명을 입력하세요">
+					<button onclick="searchClub(this);" name="club_name">검색</button>
 		        </div>
 				<div id="search-area" class="search-type" style="display : none">
-					<input type="text" id="clubAreaSearch" placeholder="지역을 입력하세요" name="activity_area">
+					<input type="text" id="clubAreaSearch" placeholder="지역을 입력하세요" >
+					<button onclick="searchClub(this);" name="activity_area">검색</button>
 		        </div>
 				<div id="search-category" class="search-type" style="display : none">
-					<input type="text" id="clubCategorySearch" placeholder="카테고리를 입력하세요" name="category">
+					<input type="text" id="clubCategorySearch" placeholder="카테고리를 입력하세요">
+					<button onclick="searchClub(this);" name="category">검색</button>
 		        </div>
 				
 			<table id="clubListTable">
@@ -81,46 +84,15 @@ document.querySelector("#searchType").onchange = (e) => {
 	selectedInput.parentElement.style.display = 'inline-block';
 };
 
-// 검색유형 별 검색시 비동기로 모임 조회
-document.querySelectorAll(".search-type").forEach((input) => {
-	input.onkeyup = (e) => {
-		const keyword = e.target.value;
-		const column = e.target.name;
-		// console.log("keyword, column=", keyword, column);
-		$.ajax({
-			url : "${pageContext.request.contextPath}/club/clubSearch.do",
-			data : {keyword, column},
-			dataType : "json", 
-			success(clubs){
-				const tbody = document.querySelector("#clubListTable tbody");
-				tbody.innerHTML = '';
-				let html = '';
-				if(clubs.length == 0) {
-					html += `<tr><td colspan='7'>조회된 결과가 없습니다.</td></tr>`;
-				}
-				else {
-					clubs.forEach((club) => {
-						html += `
-						<tr>
-							<td>\${club.clubId}</td>
-							<td>\${club.clubName}</td>
-							<td>\${club.activityArea}</td>
-							<td>\${club.category}</td>
-							<td>\${club.reportCount}</td>
-							<td>\${club.domain}</td>
-							<td>
-							// 날짜 parsing해서 넣어야 함 
-							</td>
-						</td>
-						</tr>
-						`;
-					});
-				} // else
-				tbody.innerHTML = html;
-			} // success
-		}); // ajax
-	}; // onkeyup  
-});	// forEach
+const searchClub = (btnTag) => {
+	const keyword = btnTag.previousElementSibling.value;
+	const column = btnTag.name;
+	console.log("keyword, column", keyword, column);
+	window.href = "${pageContext.request.contextPath}/adminClubList.do";
+};
+
+
+
 </script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

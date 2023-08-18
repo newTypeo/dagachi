@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dagachi.app.Pagination;
 import com.dagachi.app.club.entity.Club;
+import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.service.ClubService;
 import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.service.MemberService;
@@ -43,11 +44,32 @@ public class adminController {
 		List<Club> clubs = clubService.adminClubList();
 		model.addAttribute("clubs",clubs);
 	}
-	
+
 	/**
 	 * 관리자 회원 목록 조회
 	 * @author 현우
 	 */
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
 	@GetMapping("adminMemberList.do")
 	public void memberList(
 			@RequestParam(defaultValue = "1") int page,
@@ -128,4 +150,5 @@ public class adminController {
 		log.debug("members = {}", members);
 		return ResponseEntity.status(HttpStatus.OK).body(members);
 	}
+
 }

@@ -1,6 +1,5 @@
 package com.dagachi.app.member.service;
 
-
 import java.util.List;
 import java.util.Map;
 
@@ -30,20 +29,6 @@ public class MemberServiceImpl implements MemberService{
 		int result = 0;
 		result = memberRepository.insertMember(member);
 		return result;
-	}
-	
-	/**
-	 * Spring Security에 의해 db사용자를 조회할때 사용
-	 * - username(pk)컬럼값으로 사용자/권한 정보 조회
-	 * - username에 해당하는 사용자가 없는 경우 UsernameNotFoundException 던져야 한다.
-	 */
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		UserDetails memberDetails = memberRepository.loadUserByUsername(username);
-		log.debug("memberDetails = {}", memberDetails);
-		if(memberDetails == null)
-			throw new UsernameNotFoundException(username);
-		return memberDetails;
 	}
 	
 	@Override
@@ -77,6 +62,26 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public int getTotalCount() {
 		return memberRepository.getTotalCount();
+	
+	}	
+	
+	/**
+	 * Spring Security에 의해 db사용자를 조회할때 사용
+	 * - username(pk)컬럼값으로 사용자/권한 정보 조회
+	 * - username에 해당하는 사용자가 없는 경우 UsernameNotFoundException 던져야 한다.
+	 */
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		UserDetails memberDetails = memberRepository.loadUserByUsername(username);
+		log.debug("memberDetails = {}", memberDetails);
+		if(memberDetails == null)
+			throw new UsernameNotFoundException(username);
+		return memberDetails;
+	}
+
+	@Override
+	public Member findMemberById(String memberId) {
+		return memberRepository.findMemberById(memberId);
 	}
 
 }

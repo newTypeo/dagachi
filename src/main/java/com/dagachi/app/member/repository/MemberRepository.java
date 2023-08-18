@@ -2,7 +2,6 @@ package com.dagachi.app.member.repository;
 
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -19,7 +18,11 @@ public interface MemberRepository {
 
 	@Insert("insert into member values (#{memberId}, #{password},#{name}, #{nickname}, #{phoneNo}, #{email}, #{birthday, jdbcType=DATE}, #{gender}, #{mbti},  #{address}, 0, SYSDATE, NULL, SYSDATE, NULL, 'Y')")
 	int insertMember(MemberCreateDto member);
+	
 	UserDetails loadUserByUsername(String username);
+	
+	@Select("select * from member where member_id =#{memberId}")
+	Member findMemberById(String memberId);
 	
 	@Select("select * from member")
 	List<Member> adminMemberList(RowBounds rowBounds);
@@ -35,5 +38,6 @@ public interface MemberRepository {
 	
 	@Select("select count(*) from member")
 	int getTotalCount();
+	
 
 }

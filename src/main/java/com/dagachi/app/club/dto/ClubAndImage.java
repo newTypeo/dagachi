@@ -1,7 +1,5 @@
 package com.dagachi.app.club.dto;
 
-import java.time.LocalDateTime;
-
 import lombok.Data;
 
 @Data
