@@ -51,18 +51,18 @@
           
             <div class="col-md-6 mb-3">
               <label for="memberId">아이디</label>
-              <input type="text" class="form-control" id="memberId" name = "memberId"
+              <input type="text" class="form-control" id="memberId"  value="honggddd"  name = "memberId"
               placeholder="" value="" required>
             </div>
             
              <div class="col-md-6 mb-3">
               <label for="name">이름</label>
-              <input type="text" class="form-control" id="name" name = "name"  placeholder="" value="" required>
+              <input type="text" class="form-control" id="name" name = "name"  value="방식이" value="" required>
             </div>
             
              <div class="col-md-6 mb-3">
               <label for="password">비밀번호</label>
-              <input type="text" class="form-control" id="password" name = "password" placeholder="" value="" required>
+              <input type="text" class="form-control" id="password" name = "password" value="Json@!1" value="" required>
               <div class="invalid-feedback">
                 비밀번호 입력해주세요.
               </div>
@@ -71,56 +71,56 @@
              
              <div class="col-md-6 mb-3">
               <label for="passwordConfirmation">비밀번호 확인</label>
-              <input type="text" class="form-control" id="passwordConfirmation" name = "passwordConfirmation" placeholder="" value="" required>
+              <input type="text" class="form-control" id="passwordConfirmation" name = "passwordConfirmation" value="Json@!1" value="" required>
             </div>
             
         
             
             <div class="col-md-6 mb-3">
               <label for="nickname">닉네임</label>
-              <input type="text" class="form-control" id="nickname"  name = "nickname"  placeholder="" value="" required>
+              <input type="text" class="form-control" id="nickname"  name = "nickname"  value="Nokil" value="" required>
             </div>
           </div>
 
           <div class="mb-3">
             <label for="email">이메일</label>
-            <input type="email" class="form-control" id="email"   name = "email" placeholder="" required>
+            <input type="email" class="form-control" id="email"   name = "email" value="Jso2122n@naver.com" required>
           </div>
           
            <div class="mb-3">
             <label for="phoneNo">전화번호</label>
-            <input type="text" class="form-control" id="phoneNo"  name = "phoneNo" placeholder="" required>
+            <input type="text" class="form-control" id="phoneNo"  name = "phoneNo" value="010-9999-9999" required>
           </div>
 
           <div class="mb-3">
             <label for="address">나의 집주소</label>
-            <input type="text" class="form-control" id="address"  name = "address" placeholder="" required>
+            <input type="text" class="form-control" id="address"  name = "address" value="강남역" required>
           </div>
           
           
-          <div class="mb-3">
+  <!--         <div class="mb-3">
             <label for="main_area_id">주활동 지역</label>
             <input type="text" class="form-control" id="main_area_id"  name = "main_area_id" placeholder="" required>
-          </div>
+          </div> -->
           
           <div class="mb-3">
             <label for="mbti">mbti</label>
-            <input type="text" class="form-control" id="mbti"  name = "mbti"  placeholder="" required>
+            <input type="text" class="form-control" id="mbti"  name = "mbti"  value="entj" required>
           </div>
           
-           <div class="mb-3">
+<!--            <div class="mb-3">
             <label for="interest">관심사</label>
             <input type="text" class="form-control" id="interest"  name = "interest"  placeholder="" required>
-          </div>
+          </div> -->
           
           <div class="mb-3">
             <label for="birthday">생일</label>
-            <input type="date" class="form-control" id="birthday"  name = "birthday"  placeholder="" required>
+            <input type="date" class="form-control" id="birthday"  name = "birthday"  value="2008-09-09" required>
           </div>
 
     	<div class="col-md-8 mb-3">
               <label for="gender">성별</label>
-              <select class="custom-select d-block w-100" id="gender" name = "gender"  >
+              <select class="custom-select d-block w-100" id="gender"   name = "gender"  >
                 <option value=""></option>
                 <option>M</option>
                 <option>F</option>
