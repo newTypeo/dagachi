@@ -3,6 +3,19 @@ package com.dagachi.app.club.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.bind.DefaultValue;
@@ -17,13 +30,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
 import com.dagachi.app.club.service.ClubService;
+
+import com.dagachi.app.common.DagachiUtils;
+
 import com.dagachi.app.member.entity.Member;
+
 
 import lombok.Builder.Default;
 import lombok.extern.slf4j.Slf4j;
@@ -126,7 +147,8 @@ public class ClubController {
 		return ResponseEntity.status(HttpStatus.OK).body(clubAndImages);
 	}
 	
-	
+
+
 	@GetMapping("/&{domain}/manageMember.do")
 	public void manageMemeber(
 			@PathVariable("domain") String domain,
@@ -158,6 +180,11 @@ public class ClubController {
 //		return ResponseEntity.status(HttpStatus.OK).body(boards);
 //	}
 //	
+	@GetMapping("/clubCreate.do")
+	public void clubCreate() throws Exception {
+		
+	}
+
 	
 	/**
 	 * 클럽 비활성화 버튼( 클럽테이블의 status값을 Y -> N으로 변경)
@@ -165,17 +192,33 @@ public class ClubController {
 	 */
 	@GetMapping("/&{domain}/clubDisabled.do")
 	public String clubDisabled(
-			@PathVariable("domain") String domain,
-			RedirectAttributes redirectAttributes
+			@PathVariable("domain") String domain
 			) {
-//		int result = clubService.clubDisabled();
-		log.debug("domain = {}",domain);
 		int clubId = clubService.clubIdFindByDomain(domain); // 해당 클럽의 아이디(pk) 가져오기
 		int result = clubService.clubDisabled(clubId);
-		redirectAttributes.addFlashAttribute("msg", "모임이 성공적으로 비활성화되었습니다.");
 		return "redirect:/";
 	}
 	
+	@GetMapping("/findAddress.do")
+	public ResponseEntity<?> findAddress(String keyword) throws UnsupportedEncodingException {
+		
+		if (keyword == null || keyword == "") return null;
+		String SearchType = "address";
+		
+		JsonArray documents = DagachiUtils.kakaoMapApi(keyword, SearchType);
+
+        Gson gson = new Gson();
+
+        List<String> addressList = new ArrayList<>();
+        for (JsonElement document : documents) {
+            JsonObject item = document.getAsJsonObject();
+            String addressName = item.get("address_name").getAsString();
+            addressList.add(addressName);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(addressList);
+	}
+
+    
 	
 	
 }
