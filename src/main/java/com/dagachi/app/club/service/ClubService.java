@@ -35,6 +35,19 @@ public interface ClubService {
 	
 	int clubIdFindByDomain(String domain);
 
+	List<ClubApply> clubApplyfindByClubId(int clubId);
+
+	List<ClubBoard> boardList(ClubBoard clubBoard);
+
+	Club findByDomain(String domain);
+
+	ClubBoard findByBoard(ClubBoard _clubBoard);
+
+	ClubBoard findByBoardId(int boardId);
+
+	int updateBoard(ClubBoard _board);
+
+
 	
 	List<ClubBoard> boardList(int boardType);
 

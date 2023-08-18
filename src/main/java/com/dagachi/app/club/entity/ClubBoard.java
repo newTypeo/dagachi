@@ -1,5 +1,7 @@
 package com.dagachi.app.club.entity;
 
+import java.time.LocalDateTime;
+
 import com.dagachi.app.club.common.Status;
 
 import lombok.AllArgsConstructor;
@@ -18,6 +20,8 @@ public class ClubBoard {
 	private String writer;
 	private String title;
 	private String content;
+	private LocalDateTime createdAt;
+	private int type;
 	private Status status;
 	private int likeCount;
 	

@@ -10,7 +10,7 @@
 	  from
 	  	member
 	  where
-	  	member_id = #{username}
+	  	member_id = #{memberId}
 	</select>
 	
 	<resultMap type="memberDetails" id="memberAuthMap">
@@ -34,7 +34,7 @@
 	  from
 	  	authority
 	  where
-	  	member_id = #{username}
+	  	member_id = #{memberId}
 	</select>
 	
 	<resultMap type="simpleGrantedAuthority" id="simpleGrantedAuthorityMap">
