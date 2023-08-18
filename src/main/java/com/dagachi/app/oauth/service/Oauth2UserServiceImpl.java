@@ -10,11 +10,16 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.stereotype.Service;
 
 import com.dagachi.app.member.dto.MemberCreateDto;
+import com.dagachi.app.member.entity.MemberDetails;
 import com.dagachi.app.member.service.MemberService;
 
+import lombok.extern.slf4j.Slf4j;
 
+@Service
+@Slf4j
 public class Oauth2UserServiceImpl extends DefaultOAuth2UserService {
 	
 	@Autowired

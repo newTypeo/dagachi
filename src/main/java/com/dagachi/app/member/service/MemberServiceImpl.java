@@ -28,6 +28,7 @@ public class MemberServiceImpl implements MemberService{
 		return result;
 	}
 	
+	
 	/**
 	 * Spring Security에 의해 db사용자를 조회할때 사용
 	 * - username(pk)컬럼값으로 사용자/권한 정보 조회

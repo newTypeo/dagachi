@@ -18,7 +18,6 @@ public interface MemberRepository {
 	
 	UserDetails loadUserByUsername(String username);
 	
-	
 	@Select("select * from member where member_id =#{memberId}")
 	Member findMemberById(String memberId);
 	
