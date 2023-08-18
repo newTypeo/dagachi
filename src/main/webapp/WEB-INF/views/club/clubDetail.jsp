@@ -10,7 +10,7 @@
 <nav id="club-banner" class="bg-primary">
 	<h2>title : 소모임 별 배너
 		<button id="clubDisabled">모임 비활성화</button>
-		<button>모임 수정</button>
+		<button id="clubUpdate">모임 수정</button>
 	</h2>
 	
 	

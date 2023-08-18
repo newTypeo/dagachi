@@ -25,7 +25,6 @@
 <section id="main-page-sec" class="p-2 bg-info">
 	<h1>메인 페이지</h1>
 	
-
 	<form id="clubSearchFrm" action="${pageContext.request.contextPath}/club/clubSearch.do">
 		<span>
 			<input type="text" name="inputText" placeholder="검색할 모임 입력"/>
@@ -33,7 +32,6 @@
 		<button>모임검색</button>
 	</form>
 	<button>모임생성</button>
-
 	
 	
 	<section id="class">
@@ -57,28 +55,21 @@ $.ajax({
 			
 			container.innerHTML += `
 				<a class="card" href="${pageContext.request.contextPath}/club/&\${domain}">
-                <div class="card-inner">
-                   <figure class="card-thumbnail">
-                      <img src="${pageContext.request.contextPath}/resources/upload/profile/\${renamedFilename}">
-                   </figure>
-                   <div class="card-body">
-                      <h3 class="card-title">\${clubName}</h3>
-                      <span class="card-introduce">\${introduce}</span>
-                      <h4 class="club-member-cnt">인원수 : \${memberCount}</h4>
-                   </div>
-                </div>
-             </a>
-			`;
-		})
-		
-	}
-});
-
-
-// 모임 생성 버튼
-document.querySelector("#club-create-btn").onclick = () => {
-	location.href = '${pageContext.request.contextPath}/club/clubCreate.do';
-};
+	                <div class="card-inner">
+	                   <figure class="card-thumbnail">
+	                      <img src="${pageContext.request.contextPath}/resources/upload/profile/\${renamedFilename}">
+	                   </figure>
+	                   <div class="card-body">
+	                      <h3 class="card-title">\${clubName}</h3>
+	                      <span class="card-introduce">\${introduce}</span>
+	                      <h4 class="club-member-cnt">인원수 : \${memberCount}</h4>
+	                   </div>
+	                </div>
+	             </a>
+				`;
+			})
+		}
+	});
 
 </script>
 
