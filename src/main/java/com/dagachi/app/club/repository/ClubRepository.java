@@ -2,6 +2,7 @@ package com.dagachi.app.club.repository;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -112,12 +113,15 @@ public interface ClubRepository {
 
 	@Update("update club set club_name = #{clubName}, activity_area=#{activityArea}, category=#{category}, introduce=#{introduce}, enroll_question = #{enrollQuestion} where club_id = #{clubId}")
 	int updateClub(ClubDetails club);
+	
+	@Delete("delete club_tag where club_id=#{clubId}")
+	int deleteClubTag(ClubDetails club);
 
 	@Update("update club_profile set original_filename = #{originalFilename}, renamed_filename=#{renamedFilename} where club_id=#{clubId}")
 	int updateClubProfile(ClubProfile clubProfile);
+
 	
-	@Update("update club_tag set tag = #{clubTag} where club_id=#{clubId}")
-	int updateClubTag(ClubTag clubTag);
+	
 
 	
 

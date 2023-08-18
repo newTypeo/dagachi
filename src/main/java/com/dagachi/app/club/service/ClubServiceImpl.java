@@ -151,10 +151,11 @@ public class ClubServiceImpl implements ClubService {
 			clubProfile.setClubId(club.getClubId());
 			result = clubRepository.updateClubProfile(clubProfile);
 		}
+		result = clubRepository.deleteClubTag(club);
 		// clubTag 저장
 		for (String tag : ((ClubDetails) club).getTagList()) {
 			ClubTag clubTag = new ClubTag(club.getClubId(), tag);
-			result = clubRepository.updateClubTag(clubTag);
+			result = clubRepository.insertClubTag(clubTag);
 		}
 		
 		return result;

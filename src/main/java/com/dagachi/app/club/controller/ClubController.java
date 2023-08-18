@@ -353,9 +353,6 @@ public class ClubController {
 		club.setClubId(clubId);
 		
 		System.out.println(club);
-		log.debug("clubbbbbbbbbb={}",club);
-		log.debug("clubId={}",clubId);
-				
 		int result = clubService.updateClub(club);
 		
 		

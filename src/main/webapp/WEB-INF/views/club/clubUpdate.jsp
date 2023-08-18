@@ -76,24 +76,24 @@
 				<label for="category">카테고리</label> <select class="form-control"
 					id="category" name="category">
 					<option disabled selected></option>
-					<option>차/오토바이</option>
-					<option>게임/오락</option>
-					<option>여행</option>
-					<option>운동/스포츠</option>
-					<option>인문학/독서</option>
-					<option>업종/직무</option>
-					<option>언어/회화</option>
-					<option>공연/축제</option>
-					<option>음악/악기</option>
-					<option>공예/만들기</option>
-					<option>댄스/무용</option>
-					<option>봉사활동</option>
-					<option>사교/인맥</option>
-					<option>사진/영상</option>
-					<option>야구관람</option>
-					<option>요리/제조</option>
-					<option>애완동물</option>
-					<option>자유주제</option>
+					<option value="차/오토바이" ${club.category eq '차/오토바이' ? 'selected' : ''}>차/오토바이</option>
+					<option value="게임/오락" ${club.category eq '게임/오락' ? 'selected' : ''}>게임/오락</option>
+					<option value="여행" ${club.category eq '여행' ? 'selected' : ''}>여행</option>
+					<option value="운동/스포츠" ${club.category eq '운동/스포츠' ? 'selected' : ''}>운동/스포츠</option>
+					<option value="인문학/독서" ${club.category eq '인문학/독서' ? 'selected' : ''}>인문학/독서</option>
+					<option value="업종/직무" ${club.category eq '업종/직무' ? 'selected' : ''}>업종/직무</option>
+					<option value="언어/회화" ${club.category eq '언어/회화' ? 'selected' : ''}>언어/회화</option>
+					<option value="공연/축제" ${club.category eq '공연/축제' ? 'selected' : ''}>공연/축제</option>
+					<option value="음악/악기" ${club.category eq '음악/악기' ? 'selected' : ''}>음악/악기</option>
+					<option value="공예/만들기" ${club.category eq '공예/만들기' ? 'selected' : ''}>공예/만들기</option>
+					<option value="댄스/무용" ${club.category eq '댄스/무용' ? 'selected' : ''}>댄스/무용</option>
+					<option value="봉사활동" ${club.category eq '봉사활동' ? 'selected' : ''}>봉사활동</option>
+					<option value="사교/인맥" ${club.category eq '사교/인맥' ? 'selected' : ''}>사교/인맥</option>
+					<option value="사진/영상" ${club.category eq '사진/영상' ? 'selected' : ''}>사진/영상</option>
+					<option value="야구관람" ${club.category eq '야구관람' ? 'selected' : ''}>야구관람</option>
+					<option value="요리/제조" ${club.category eq '요리/제조' ? 'selected' : ''}>요리/제조</option>
+					<option value="애완동물" ${club.category eq '애완동물' ? 'selected' : ''}>애완동물</option>
+					<option value="자유주제" ${club.category eq '자유주제' ? 'selected' : ''}>자유주제</option>
 				</select>
 			</div>
 
