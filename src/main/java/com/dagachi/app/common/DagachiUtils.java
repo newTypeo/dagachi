@@ -6,6 +6,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -13,6 +16,10 @@ import com.google.gson.JsonObject;
 
 public class DagachiUtils {
 	
+	/**
+	 * 카카오지도
+	 * @author ssusss
+	 */
 	public static JsonArray kakaoMapApi(String keyword, String SearchType) throws UnsupportedEncodingException {
 		String apiKey = "0b08c9c74b754bc22377c45ec5ce2736";
 		String query = keyword; // 검색할 행정동 정보
@@ -35,6 +42,10 @@ public class DagachiUtils {
  	
 	
 
+	/**
+	 * 카카도 지도
+	 * @author ssusss
+	 */
 	public static JsonObject fetchJsonData(String url, String apiKey) throws Exception {
         URL requestUrl = new URL(url);
         HttpURLConnection connection = (HttpURLConnection) requestUrl.openConnection();
@@ -53,5 +64,25 @@ public class DagachiUtils {
         in.close();
 
         return new Gson().fromJson(response.toString(), JsonObject.class);
+	}
+	
+	
+	/**
+	 * yyyyMMdd_HHmmssSSS_123.png
+	 * 
+	 * @param originalFilename
+	 * @return
+	 */
+	public static String getRenameFilename(String originalFilename) {
+		// 확장자 
+		String ext = "";
+		int dotIndex = originalFilename.lastIndexOf(".");
+		if(dotIndex > -1)
+			ext = originalFilename.substring(dotIndex); // .jpg
+		
+		// 형식객체
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS_");
+		DecimalFormat df = new DecimalFormat("000"); 
+		return sdf.format(new Date()) + df.format(Math.random() * 1000) + ext;
 	}
 }
