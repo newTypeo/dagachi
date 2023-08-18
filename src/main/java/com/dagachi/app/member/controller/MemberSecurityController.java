@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,6 +28,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.dagachi.app.member.dto.MemberCreateDto;
 import com.dagachi.app.member.dto.MemberLoginDto;
 import com.dagachi.app.member.entity.Member;
+import com.dagachi.app.member.entity.MemberDetails;
 import com.dagachi.app.member.service.MemberService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -69,7 +71,11 @@ public class MemberSecurityController {
 	}
 
 	@GetMapping("/memberLogin.do")
-	public void memberLogin() {}
+	public void memberLogin(Authentication authentication) {
+		log.debug("authentication = {}", authentication);
+//		MemberDetails principal = (MemberDetails) authentication.getPrincipal();
+//		log.debug("principal = {}", principal);
+	}
 	
 //	@PostMapping("/memberLogin.do") 
 //	public String memberLogin(	
