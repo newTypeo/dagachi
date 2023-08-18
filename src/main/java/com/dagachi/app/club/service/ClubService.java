@@ -8,6 +8,7 @@ import com.dagachi.app.club.dto.ManageMember;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
+import com.dagachi.app.club.entity.ClubDetails;
 import com.dagachi.app.member.entity.Member;
 
 public interface ClubService {
@@ -37,5 +38,8 @@ public interface ClubService {
 	
 	
 	int clubDisabled(int clubId);
+
+
+	int insertClub(Club club);
 
 }

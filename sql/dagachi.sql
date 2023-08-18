@@ -1116,36 +1116,6 @@ VALUES (10, 2, 'user1', NULL, '오늘 모임 정말 즐거웠어요!', 1);
 
 commit;
 
-<<<<<<< HEAD
-select 
-	  	c.*,
-        cp.club_id profile_club_id,
-        original_filename,
-        renamed_filename,
-        cp.created_at profile_created_at
-from 
-	  	club c left join club_profile cp
-            on c.club_id = cp.club_id
-where 
-	  	club_name like '%클럽%';
-=======
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
->>>>>>> branch 'master' of https://github.com/newTypeo/dagachi.git
+select * from club_tag;
 
 
