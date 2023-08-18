@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dagachi.app.member.dto.MemberCreateDto;
+import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.repository.MemberRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +40,11 @@ public class MemberServiceImpl implements MemberService{
 		if(memberDetails == null)
 			throw new UsernameNotFoundException(username);
 		return memberDetails;
+	}
+
+	@Override
+	public Member findMemberById(String memberId) {
+		return memberRepository.findMemberById(memberId);
 	}
 
 }

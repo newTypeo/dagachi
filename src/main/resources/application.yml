@@ -54,7 +54,21 @@ mybatis:
   # type-aliases-package: com.dagachi.project, org.springframework.security.core.authority
   # type-handlers-package: com.dagachi.project.common.typehandler
   mapper-locations: classpath*:mapper/**/*-mapper.xml
-    
+ 
+ 
+      
+# oauth
+oauth:
+  kakao:
+    authorize-uri: https://kauth.kakao.com/oauth/authorize/
+    redirect-uri: http://localhost:8080/spring/oauth/kakao/callback.do
+    rest-api-key: 0b08c9c74b754bc22377c45ec5ce2736
+    token-uri: https://kauth.kakao.com/oauth/token
+    scope: profile_nickname, account_email, profile_image
+    resource-uri-host: https://kapi.kakao.com
+
+
+ 
 
     
     

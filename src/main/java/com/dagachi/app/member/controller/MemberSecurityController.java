@@ -59,6 +59,9 @@ public class MemberSecurityController {
 	}
 	
 	
+	@GetMapping("/memberLogin.do")
+	public void memberLogin() {}
+	
 	
 	
 }

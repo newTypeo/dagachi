@@ -93,16 +93,27 @@
           </div>
 
           <div class="mb-3">
-            <label for="address">주소</label>
+            <label for="address">나의 집주소</label>
             <input type="text" class="form-control" id="address"  name = "address" placeholder="" required>
           </div>
           
-           <div class="mb-3">
+          
+          <div class="mb-3">
+            <label for="main_area_id">주활동 지역</label>
+            <input type="text" class="form-control" id="main_area_id"  name = "main_area_id" placeholder="" required>
+          </div>
+          
+          <div class="mb-3">
             <label for="mbti">mbti</label>
-            <input type="text" class="form-control" id="mbti"  name = "mbti"  placeholder="몰라" required>
+            <input type="text" class="form-control" id="mbti"  name = "mbti"  placeholder="" required>
           </div>
           
            <div class="mb-3">
+            <label for="interest">관심사</label>
+            <input type="text" class="form-control" id="interest"  name = "interest"  placeholder="" required>
+          </div>
+          
+          <div class="mb-3">
             <label for="birthday">생일</label>
             <input type="date" class="form-control" id="birthday"  name = "birthday"  placeholder="" required>
           </div>
