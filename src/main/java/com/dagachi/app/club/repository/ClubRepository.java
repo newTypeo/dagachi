@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
 import com.dagachi.app.club.dto.ClubAndImage;
+import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
@@ -31,8 +32,7 @@ public interface ClubRepository {
 	@Select("select * from member")
 	List<Member> adminMemberList();
 
-	@Select("select * from club where club_name like '%' || #{inputText} || '%'")
-	List<Club> clubSearch(String inputText);
+	List<ClubSearchDto> clubSearch(String inputText);
 
 	@Select("select club_id from club where domain = #{domain}")
 	int clubIdFindByDomain(String domain);
@@ -41,6 +41,9 @@ public interface ClubRepository {
 	List<ClubApply> clubApplyfindByClubId(int clubId);
 	
 	List<ClubBoard> boardList(int boardType);
+
+	@Select("select count(*) from club_member where club_id = #{clubId}")
+	int countClubMember(int clubId);
 
 	
 	

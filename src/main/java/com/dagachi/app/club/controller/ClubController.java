@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dagachi.app.club.dto.ClubAndImage;
+import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
@@ -79,11 +80,11 @@ public class ClubController {
 	 * @author 종환
 	 */
 	@GetMapping("/clubSearch.do")
-	public void clubSearch(@RequestParam String inputText) {
+	public void clubSearch(@RequestParam String inputText, Model model) {
 		// log.debug("inputText = {}", inputText);
-		List<Club> clubs = clubService.clubSearch(inputText);
+		List<ClubSearchDto> clubs = clubService.clubSearch(inputText);
 		log.debug("clubs = {}", clubs);
-		// 8/17 여기서 마무리 했음.
+		model.addAttribute("clubs", clubs);
 	}
 	
 	
