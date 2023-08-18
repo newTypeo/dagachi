@@ -32,33 +32,7 @@ public class MemberController {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
-	@GetMapping("/memberCreate.do")
-	public void memberCreate() {}
-	
-	@PostMapping("/memberCreate.do")
-	public String memberCreate(
-			@Valid MemberCreateDto member,
-			BindingResult bindingResult, 
-			RedirectAttributes redirectAttr) {
-		log.debug("member = {}", member);
-		
-		System.out.println(member);
-		
-		if(bindingResult.hasErrors()) {
-			ObjectError error = bindingResult.getAllErrors().get(0);
-			redirectAttr.addFlashAttribute("msg", error.getDefaultMessage());
-			return "redirect:/member/memberCreate.do";
-		} 
-		String rawPassword = member.getPassword();
-		String encodedPassword = passwordEncoder.encode(rawPassword);
-		log.debug("{} -> {}", rawPassword, encodedPassword);
-		member.setPassword(encodedPassword);
-		
-		int result = memberService.insertMember(member);
-		redirectAttr.addFlashAttribute("msg", "🎉🎉🎉 회원가입을 축하드립니다.🎉🎉🎉");
-		return "redirect:/";
-	}
-	
+
 
 	
 }

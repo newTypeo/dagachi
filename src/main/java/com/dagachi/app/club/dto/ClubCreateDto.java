@@ -7,8 +7,6 @@ public class ClubCreateDto {
 	private String clubName;
 	private String activityArea;
 	private String category;
-	private String originalFilename;
-	private String renamedFilename;
 	private String tags;
 	private String domain;
 	private String introduce;
