@@ -2,17 +2,22 @@ package com.dagachi.app.club.repository;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.Update;
 
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.JoinClubMember;
+import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.ManageMember;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
 import com.dagachi.app.club.entity.ClubMember;
+import com.dagachi.app.club.entity.ClubProfile;
+import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.member.entity.Member;
 
 
@@ -39,9 +44,8 @@ public interface ClubRepository {
 	List<Member> adminMemberList();
 
 	
-	@Select("select * from club where club_name like '%' || #{inputText} || '%'")
-	List<Club> clubSearch(String inputText);
-
+	List<ClubSearchDto> clubSearch(String inputText);
+	
 	
 	@Select("select club_id from club where domain = #{domain}")
 	int clubIdFindByDomain(String domain);
@@ -49,6 +53,11 @@ public interface ClubRepository {
 	
 	List<ClubBoard> boardList(int boardType);
 
+	
+	@Select("select count(*) from club_member where club_id = #{clubId}")
+	int countClubMember(int clubId);
+	
+	
 	@Update("update club set status = 'N' where club_id = #{clubId}")
 	int clubDisabled(int clubId);
 
@@ -61,6 +70,25 @@ public interface ClubRepository {
 
 	
 	JoinClubMember clubMemberInfoByFindByMemberId(String memberId);
+	
+	
+	@Insert("insert into club values (seq_club_id.nextVal, #{clubName}, #{activityArea}, #{category}, default, sysdate, default, 0, #{introduce}, #{enrollQuestion}, #{domain})")
+	@SelectKey(
+			before = false, 
+			keyProperty = "clubId", 
+			resultType = int.class,
+			statement = "select seq_club_id.currval from dual")
+	int insertClub(Club club);
+
+	
+	@Insert("insert into club_profile values (#{clubId}, #{originalFilename}, #{renamedFilename}, default)")
+	int insertClubProfile(ClubProfile clubProfile);
+
+	
+	@Insert("insert into club_tag values (#{clubId}, #{tag})")
+	int insertClubTag(ClubTag clubTag);
+
+	
 
 	
 	

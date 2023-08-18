@@ -8,11 +8,14 @@ import org.springframework.stereotype.Service;
 
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.JoinClubMember;
+import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.ManageMember;
 import com.dagachi.app.club.entity.Club;
-import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
 import com.dagachi.app.club.entity.ClubMember;
+import com.dagachi.app.club.entity.ClubDetails;
+import com.dagachi.app.club.entity.ClubProfile;
+import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.club.repository.ClubRepository;
 import com.dagachi.app.member.entity.Member;
 
@@ -51,8 +54,11 @@ public class ClubServiceImpl implements ClubService {
 	
 	
 	@Override
-	public List<Club> clubSearch(String inputText) {
-		return clubRepository.clubSearch(inputText);
+	public List<ClubSearchDto> clubSearch(String inputText) {
+		List<ClubSearchDto> clubs = clubRepository.clubSearch(inputText);
+		// 모임 인원 가져오기
+		for (ClubSearchDto club : clubs) club.setMemberCount(clubRepository.countClubMember(club.getClubId()));
+		return clubs;
 	}
 	
 	
@@ -94,6 +100,27 @@ public class ClubServiceImpl implements ClubService {
 		}
 		
 		return joinClubMembers;
+	}
+		
+	@Override
+	public int insertClub(Club club) {
+		int result = 0;
+		// club 저장
+		result = clubRepository.insertClub(club);
+		log.debug("club = " + club);
+		// clubProfile 저장
+		ClubProfile clubProfile = ((ClubDetails) club).getClubProfile();
+		if(clubProfile != null) {
+			clubProfile.setClubId(club.getClubId());
+			result = clubRepository.insertClubProfile(clubProfile);
+		}
+		// clubTag 저장
+		for (String tag : ((ClubDetails) club).getTagList()) {
+			ClubTag clubTag = new ClubTag(club.getClubId(), tag);
+			result = clubRepository.insertClubTag(clubTag);
+		}
+		
+		return result;
 	}
 	
 }
