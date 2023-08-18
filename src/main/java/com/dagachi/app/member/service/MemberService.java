@@ -1,5 +1,9 @@
 package com.dagachi.app.member.service;
 
+import java.util.List;
+import java.util.Map;
+
+import javax.validation.Valid;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 
@@ -14,5 +18,15 @@ public interface MemberService extends UserDetailsService {
 
 	Member findMemberById(String memberId);
 	
+	List<Member> adminMemberList(Map<String, Object> params);
+
+	List<Member> memberSearch(String keyword, String column, Map<String, Object> params);
+
+	List<Member> adminQuitMemberList();
+
+	List<Member> quitMemberSearch(String keyword, String column);
+
+	int getTotalCount();
 	
+
 }
