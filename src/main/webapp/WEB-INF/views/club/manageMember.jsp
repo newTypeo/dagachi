@@ -28,7 +28,10 @@
 						<td>${vs.count}</td>
 						<td>${clubApply.name}</td>
 						<td>${clubApply.answer}</td>
-						<td><button>가입승인</button></td>
+						<td>
+							<button value="${clubApply.memberId}" onclick="permitApply();">승인</button>
+							<button value="${clubApply.memberId}" onclick="refuseApply();">거절</button>
+						</td>
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -37,6 +40,14 @@
 </div>
 
 <br/><br/><br/><br/>
+<script>
+const permitApply = () => {
+	
+};
+const refuseApply = () => {
+	
+};
+</script>
 
 <div>
 	<fieldset>
@@ -59,6 +70,7 @@
 						<td>${clubMember.enrollAt}</td>
 						<td>
 							<button>추방</button>
+							
 						</td>
 						<td>
 							<select id="searchType" class="" title="${clubMember.memberId}">

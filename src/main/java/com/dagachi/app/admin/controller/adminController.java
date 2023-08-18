@@ -33,6 +33,26 @@ public class adminController {
 		model.addAttribute("clubs",clubs);
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@GetMapping("adminMemberList.do")
 	public void memberList(Model model) {
 		List<Member> members = clubService.adminMemberList();

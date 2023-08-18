@@ -67,13 +67,9 @@ public class MemberSecurityController {
 		redirectAttr.addFlashAttribute("msg", "회원가입 완료");
 		return "redirect:/";
 	}
-	
-	
-	
 
 	@GetMapping("/memberLogin.do")
 	public void memberLogin() {}
-
 	
 //	@PostMapping("/memberLogin.do") 
 //	public String memberLogin(	
@@ -97,8 +93,6 @@ public class MemberSecurityController {
 //		
 //	}
 	
-	
-	
 	//회원 아이디 중복 여부를 확인하기 위해 사용하는 코드 
 	@GetMapping("/checkIdDuplicate.do")
 	@ResponseBody
@@ -114,8 +108,6 @@ public class MemberSecurityController {
 				.status(HttpStatus.OK)
 				.body(Map.of("available", available, "memberId", memberId));
 	}
-	
-	     
 	 
 }
 

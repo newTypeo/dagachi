@@ -69,7 +69,7 @@ mybatis:
     jdbc-type-for-null: NULL
     map-underscore-to-camel-case: true
     call-setters-on-nulls: true
-  # type-aliases-package: com.dagachi.project, org.springframework.security.core.authority
+  type-aliases-package: com.dagachi.app, org.springframework.security.core.authority
   # type-handlers-package: com.dagachi.project.common.typehandler
   mapper-locations: classpath*:mapper/**/*-mapper.xml
  
