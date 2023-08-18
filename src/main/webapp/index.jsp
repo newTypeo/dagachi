@@ -20,16 +20,20 @@
 		<a href="${pageContext.request.contextPath}/category/sports">운동</a>
 		<a href="${pageContext.request.contextPath}/category/guitar">기타등등 나중에 추가해</a>
 	</div>
-	
 </nav>
 
 <section id="main-page-sec" class="p-2 bg-info">
 	<h1>메인 페이지</h1>
 	
-	<span>
-		<input type="text" id="clubSearch" placeholder="검색할 모임 입력"/>
-	</span>
+
+	<form id="clubSearchFrm" action="${pageContext.request.contextPath}/club/clubSearch.do">
+		<span>
+			<input type="text" name="inputText" placeholder="검색할 모임 입력"/>
+		</span>
+		<button>모임검색</button>
+	</form>
 	<button>모임생성</button>
+
 	
 	
 	<section id="class">
@@ -41,21 +45,6 @@
 	
 </section>
 <script>
-// 비동기 모임 검색
-document.querySelector("#clubSearch").onkeyup = (e) => {
-	console.log(e.target.value);
-	const keyword = e.target.value;
-	$.ajax({
-		url : "${pageContext.request.contextPath}/club/clubSearch.do",
-		data : {keyword},
-		dataType : "json", 
-		success(clubs){
-			// 검색하면 실시간으로 여기까지 객체 가져왔음
-		}
-	});
-	
-	
-};
 
 // 메인페이지에 모임카드 전체 출력(준한)
 $.ajax({
@@ -68,21 +57,28 @@ $.ajax({
 			
 			container.innerHTML += `
 				<a class="card" href="${pageContext.request.contextPath}/club/&\${domain}">
-	                <div class="card-inner">
-	                   <figure class="card-thumbnail">
-	                      <img src="${pageContext.request.contextPath}/resources/upload/profile/\${renamedFilename}">
-	                   </figure>
-	                   <div class="card-body">
-	                      <h3 class="card-title">\${clubName}</h3>
-	                      <span class="card-introduce">\${introduce}</span>
-	                      <h4 class="club-member-cnt">인원수 : \${memberCount}</h4>
-	                   </div>
-	                </div>
-	             </a>
-				`;
-			})
-		}
-	});
+                <div class="card-inner">
+                   <figure class="card-thumbnail">
+                      <img src="${pageContext.request.contextPath}/resources/upload/profile/\${renamedFilename}">
+                   </figure>
+                   <div class="card-body">
+                      <h3 class="card-title">\${clubName}</h3>
+                      <span class="card-introduce">\${introduce}</span>
+                      <h4 class="club-member-cnt">인원수 : \${memberCount}</h4>
+                   </div>
+                </div>
+             </a>
+			`;
+		})
+		
+	}
+});
+
+
+// 모임 생성 버튼
+document.querySelector("#club-create-btn").onclick = () => {
+	location.href = '${pageContext.request.contextPath}/club/clubCreate.do';
+};
 
 </script>
 

@@ -26,7 +26,7 @@
 
 
 	<table class="table">
-		<thead class="thead-light">
+		<thead class="thead-light" id="boardTable">
 			<tr>
 				<th scope="col">제목</th>
 				<th scope="col">First</th>
@@ -34,7 +34,7 @@
 				<th scope="col">Handle</th>
 			</tr>
 		</thead>
-		<tbody>dsf</tbody>
+		<tbody></tbody>
 	</table>
 
 </section>
@@ -43,7 +43,7 @@
 <script>
 	document.querySelector("#boardType").addEventListener("change",(e)=>{
 		const boardType =e.target.value;
-		const tbody =document.querySelector(".thead-light tbody");
+		const tbody =document.querySelector("#boardTable tbody");
 		console.log(tbody);
 		
 		$.ajax({
