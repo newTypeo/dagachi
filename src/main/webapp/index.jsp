@@ -25,12 +25,7 @@
 <section id="main-page-sec" class="p-2 bg-info">
 	<h1>메인 페이지</h1>
 	
-<<<<<<< HEAD
-	<span>
-		<input type="text" id="clubSearch" placeholder="검색할 모임 입력"/>
-	</span>
-	<button id="club-create-btn">모임생성</button>
-=======
+
 	<form id="clubSearchFrm" action="${pageContext.request.contextPath}/club/clubSearch.do">
 		<span>
 			<input type="text" name="inputText" placeholder="검색할 모임 입력"/>
@@ -38,7 +33,7 @@
 		<button>모임검색</button>
 	</form>
 	<button>모임생성</button>
->>>>>>> branch 'master' of https://github.com/newTypeo/dagachi
+
 	
 	
 	<section id="class">
