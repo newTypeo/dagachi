@@ -1,16 +1,73 @@
 @CHARSET "UTF-8";
 
+/* #2990D0 */
 body {
+	font-family: 'IBM Plex Sans KR', sans-serif;
+}
+/* 수직 스크롤바 */
+::-webkit-scrollbar {
+	width: 12px; /* 스크롤바 너비 */
+}
 
+/* 스크롤바 트랙 */
+::-webkit-scrollbar-track {
+	background: #f1f1f1;
+}
+
+/* 스크롤바 색상 */
+::-webkit-scrollbar-thumb {
+	background: #bbb;
+	border-radius: 5px;
+}
+
+/* 마우스 hover 시 스크롤바 색상 */
+::-webkit-scrollbar-thumb:hover {
+	background: #aaa;
+	border-radius: 5px;
 }
 
 /********** 전체컨테이너 **********/
 div #container {
+	
 }
 
 /********** header **********/
 header {
-	height:100px;
+	height: 200px;
+	margin: 0 auto;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	max-width: 1320px;
+	padding: 0 10px;
+}
+
+#main-logo-container {
+	margin: 0 auto;
+}
+
+#main-logo {
+	height: 170px;
+	margin-top: 20px;
+}
+
+header #header-nav-container {
+	float: right;
+	top: 130px;
+	position: absolute;
+}
+
+header #header-nav-container a {
+	font-family: 'IBM Plex Sans KR', sans-serif;
+	font-size: 15px;
+	color: #666;
+	margin-left: 10px;
+}
+
+header #header-nav-container span {
+	font-size: 15px;
+	color: #666;
+	margin-left: 10px;
 }
 
 /************ main-banner *************/
@@ -28,7 +85,6 @@ header {
 	height: 700px;
 }
 
-
 /********** footer **********/
 footer {
 	height: 100px;
@@ -36,44 +92,42 @@ footer {
 
 section .posts .card {
 	box-sizing: border-box;
-    position: relative;
-    
-    text-decoration: none;
+	position: relative;
+	text-decoration: none;
 	display: block;
-    width: 20%;
-    color: #051619;
-    border: 1px solid #051619;
-    border-width: 0 1px 1px 0;
-    cursor: pointer;
+	width: 20%;
+	color: #051619;
+	border: 1px solid #051619;
+	border-width: 0 1px 1px 0;
+	cursor: pointer;
 }
 
 .card-thumbnail {
 	box-sizing: border-box;
-    position: relative;
-    
-    margin: 0;
-    padding-bottom: 75%;
-    border-bottom: 1px solid #051619;
-    border-radius: 0;
-    overflow: hidden;
+	position: relative;
+	margin: 0;
+	padding-bottom: 75%;
+	border-bottom: 1px solid #051619;
+	border-radius: 0;
+	overflow: hidden;
 }
 
 .card-thumbnail img {
 	position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
 }
 
 section .posts {
 	/* background-color: coral; */
 	display: flex;
-    flex-wrap: wrap;
-    position: relative;
-    border-color: #051619;
-    border-style: solid;
-    border-width: 0 0 0 1px;
-    z-index: 10px;
+	flex-wrap: wrap;
+	position: relative;
+	border-color: #051619;
+	border-style: solid;
+	border-width: 0 0 0 1px;
+	z-index: 10px;
 }

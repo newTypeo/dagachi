@@ -58,7 +58,7 @@ public class MemberController {
 		redirectAttr.addFlashAttribute("msg", "🎉🎉🎉 회원가입을 축하드립니다.🎉🎉🎉");
 		return "redirect:/";
 	}
-	
+
 
 	
 }
