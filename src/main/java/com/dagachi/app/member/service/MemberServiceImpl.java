@@ -1,11 +1,18 @@
 package com.dagachi.app.member.service;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.swing.Spring;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
 
 import com.dagachi.app.member.dto.MemberCreateDto;
 import com.dagachi.app.member.entity.Member;
@@ -42,10 +49,11 @@ public class MemberServiceImpl implements MemberService{
 			throw new UsernameNotFoundException(username);
 		return memberDetails;
 	}
-
 	@Override
 	public Member findMemberById(String memberId) {
 		return memberRepository.findMemberById(memberId);
 	}
+	
+
 
 }

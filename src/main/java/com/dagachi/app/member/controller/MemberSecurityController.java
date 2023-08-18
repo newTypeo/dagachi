@@ -70,28 +70,7 @@ public class MemberSecurityController {
 
 	@GetMapping("/memberLogin.do")
 	public void memberLogin() {}
-	
-//	@PostMapping("/memberLogin.do") 
-//	public String memberLogin(	
-//			@Valid MemberLoginDto _member,
-//			BindingResult bindingResult, 
-//			Model model
-//			) {
-//		
-//				Member member = memberService.findMemberById(_member.getMemberId());
-//				
-//				log.debug("member = {}", member);
-//				
-//				if(member != null && passwordEncoder.matches(_member.getPassword(), member.getPassword())) {
-//					model.addAttribute("loginMember", member);
-//					log.debug("member = {}", member);
-//				}
-//				else {
-//					return "redirect:/";
-//				}
-//				return "redirect:/";
-//		
-//	}
+
 	
 	//회원 아이디 중복 여부를 확인하기 위해 사용하는 코드 
 	@GetMapping("/checkIdDuplicate.do")

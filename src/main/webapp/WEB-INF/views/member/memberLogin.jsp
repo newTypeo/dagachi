@@ -13,17 +13,15 @@
 
 <fmt:requestEncoding value="utf-8"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-
+	
 		<form:form
 			action="${pageContext.request.contextPath}/member/memberLogin.do"
 			method="post">
 			<div class="modal-body">
-			
-					<input 
-						type="text" class="form-control" name="memberId"
+					아이디 <input type="text" class="form-control" name="memberId"
 						placeholder="아이디" value="" required> 
 					<br /> 
-					<input
+					비번 <input
 						type="password" class="form-control" name="password"
 						placeholder="비밀번호" value="" required>
 					</div>
