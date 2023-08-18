@@ -32,7 +32,7 @@
 		</span>
 		<button>모임검색</button>
 	</form>
-	<button>모임생성</button>
+	<button id="club-create-btn">모임생성</button>
 
 	
 	
