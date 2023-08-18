@@ -7,9 +7,9 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
 
-<section id="main-page-sec" class="p-2 club-list">
-	<h1>모임목록 페이지</h1>
+<section id="admin-club-list-sec" class="p-2 club-list">
 	
+	<h1>모임목록 페이지</h1>
 	<div id="club-list-wrapper">
 		<div id="search-container">
 	        <label for="searchType">검색타입 :</label> 
