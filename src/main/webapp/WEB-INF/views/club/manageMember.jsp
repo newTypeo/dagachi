@@ -47,4 +47,51 @@ const refuseApply = () => {
 	
 };
 </script>
+
+<div>
+	<fieldset>
+		<legend>모임 회원</legend>
+		<table>
+			<thead>
+				<tr>
+					<th>번호</th>
+					<th>회원이름</th>
+					<th>가입일</th>
+					<th>추방</th>
+					<th>직위</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${joinClubMembersInfo}" var="clubMember" varStatus="vs">
+					<tr>
+						<td>${vs.count}</td>
+						<td>${clubMember.name}</td>
+						<td>${clubMember.enrollAt}</td>
+						<td>
+							<button>추방</button>
+						</td>
+						<td>
+							<select id="searchType" class="" title="${clubMember.memberId}">
+					            <option value="0" 
+					            	${clubMember.clubMemberRole eq 0 ? 'selected' : ''}>회원</option>
+					            <option value="3" 
+					            	${clubMember.clubMemberRole eq 3 ? 'selected' : ''}>부방장</option>
+	        				</select>
+						</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+	</fieldset>
+</div>
+
+<script>
+document.querySelectorAll('#searchType').forEach((select) => {
+	select.onchange = (e) => {
+		console.log(e.target.value);
+		console.log(e.target.title);
+	};
+});
+</script>
+
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

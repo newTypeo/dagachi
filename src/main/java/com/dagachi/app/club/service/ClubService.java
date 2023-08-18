@@ -3,11 +3,13 @@ package com.dagachi.app.club.service;
 import java.util.List;
 
 import com.dagachi.app.club.dto.ClubAndImage;
+import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.ManageMember;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
+import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubDetails;
 import com.dagachi.app.member.entity.Member;
 
@@ -40,6 +42,12 @@ public interface ClubService {
 	int clubDisabled(int clubId);
 
 
+	List<ClubMember> clubMemberByFindAllByClubId(int clubId);
+
+
+	List<JoinClubMember> clubMemberInfoByFindByMemberId(List<ClubMember> clubMembers);
+	
+	
 	int insertClub(Club club);
 
 }
