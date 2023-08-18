@@ -9,6 +9,8 @@ import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
 import com.dagachi.app.club.entity.ClubDetails;
+import com.dagachi.app.club.entity.ClubProfile;
+import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.member.entity.Member;
 
 public interface ClubService {
@@ -41,5 +43,16 @@ public interface ClubService {
 
 
 	int insertClub(Club club);
+
+
+	Club findClubById(int clubId);
+	ClubProfile findClubProfileById(int clubId);
+	List<ClubTag> findClubTagById(int clubId);
+
+
+
+	int updateClub(ClubDetails club);
+	
+
 
 }

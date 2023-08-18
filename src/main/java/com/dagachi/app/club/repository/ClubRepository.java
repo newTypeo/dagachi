@@ -14,6 +14,7 @@ import com.dagachi.app.club.dto.ManageMember;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
+import com.dagachi.app.club.entity.ClubDetails;
 import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.member.entity.Member;
@@ -76,6 +77,24 @@ public interface ClubRepository {
 
 	@Insert("insert into club_tag values (#{clubId}, #{tag})")
 	int insertClubTag(ClubTag clubTag);
+
+	@Select("select * from club where club_Id = #{clubId}")
+	Club findClubById(int clubId);
+
+	@Select("select * from club_profile where club_Id = #{clubId}")
+	ClubProfile findClubProfileById(int clubId);
+
+	@Select("select * from club_tag where club_Id = #{clubId}")
+	List<ClubTag> findClubTagById(int clubId);
+
+	@Update("update club set club_name = #{clubName}, activity_area=#{activityArea}, category=#{category}, introduce=#{introduce}, enroll_question = #{enrollQuestion} where club_id = #{clubId}")
+	int updateClub(ClubDetails club);
+
+	@Update("update club_profile set original_filename = #{originalFilename}, renamed_filename=#{renamedFilename} where club_id=#{clubId}")
+	int updateClubProfile(ClubProfile clubProfile);
+	
+	@Update("update club_tag set tag = #{clubTag} where club_id=#{clubId}")
+	int updateClubTag(ClubTag clubTag);
 
 	
 

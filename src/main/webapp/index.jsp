@@ -70,6 +70,10 @@ $.ajax({
 			})
 		}
 	});
+	
+document.querySelector("#club-create-btn").onclick = () => {
+    location.href = '${pageContext.request.contextPath}/club/clubCreate.do';
+};
 
 </script>
 

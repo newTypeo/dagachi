@@ -102,4 +102,38 @@ public class ClubServiceImpl implements ClubService {
 		return result;
 	}
 	
+	@Override
+	public Club findClubById(int clubId) {
+		return clubRepository.findClubById(clubId);
+	}
+	@Override
+	public ClubProfile findClubProfileById(int clubId) {
+		return clubRepository.findClubProfileById(clubId);
+	}
+	@Override
+	public List<ClubTag> findClubTagById(int clubId) {
+		return clubRepository.findClubTagById(clubId);
+	}
+	
+	@Override
+	public int updateClub(ClubDetails club) {
+		int result = 0;
+		// club 저장
+		result = clubRepository.updateClub(club);
+		log.debug("club = " + club);
+		// clubProfile 저장
+		ClubProfile clubProfile = ((ClubDetails) club).getClubProfile();
+		if(clubProfile != null) {
+			clubProfile.setClubId(club.getClubId());
+			result = clubRepository.updateClubProfile(clubProfile);
+		}
+		// clubTag 저장
+		for (String tag : ((ClubDetails) club).getTagList()) {
+			ClubTag clubTag = new ClubTag(club.getClubId(), tag);
+			result = clubRepository.updateClubTag(clubTag);
+		}
+		
+		return result;
+	}
+	
 }
