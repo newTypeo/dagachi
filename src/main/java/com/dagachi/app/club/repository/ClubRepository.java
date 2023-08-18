@@ -7,10 +7,12 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.dagachi.app.club.dto.ClubAndImage;
+import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.ManageMember;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
+import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.member.entity.Member;
 
 
@@ -52,6 +54,13 @@ public interface ClubRepository {
 
 	
 	List<ManageMember> clubApplyByFindByClubId(int clubId);
+
+	
+	@Select("select * from club_member where club_id = #{clubId}")
+	List<ClubMember> clubMemberByFindAllByClubId(int clubId);
+
+	
+	JoinClubMember clubMemberInfoByFindByMemberId(String memberId);
 
 	
 	
