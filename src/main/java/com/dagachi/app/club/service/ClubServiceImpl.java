@@ -69,5 +69,10 @@ public class ClubServiceImpl implements ClubService {
 	public List<ManageMember> clubApplyByFindByClubId(int clubId) {
 		return clubRepository.clubApplyByFindByClubId(clubId);
 	}
+		
+	@Override
+	public int clubDisabled(int clubId) {
+		return clubRepository.clubDisabled(clubId);
+	}
 	
 }

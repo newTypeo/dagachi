@@ -33,5 +33,8 @@ public interface ClubService {
 
 	
 	List<ManageMember> clubApplyByFindByClubId(int clubId);
+	
+	
+	int clubDisabled(int clubId);
 
 }

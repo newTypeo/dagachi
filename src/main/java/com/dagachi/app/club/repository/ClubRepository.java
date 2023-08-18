@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.ManageMember;
@@ -45,6 +46,9 @@ public interface ClubRepository {
 
 	
 	List<ClubBoard> boardList(int boardType);
+
+	@Update("update club set status = 'N' where club_id = #{clubId}")
+	int clubDisabled(int clubId);
 
 	
 	List<ManageMember> clubApplyByFindByClubId(int clubId);
