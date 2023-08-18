@@ -1,6 +1,5 @@
 package com.dagachi.app.club.service;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +9,10 @@ import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.ManageMember;
 import com.dagachi.app.club.entity.Club;
-import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
+import com.dagachi.app.club.entity.ClubDetails;
+import com.dagachi.app.club.entity.ClubProfile;
+import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.club.repository.ClubRepository;
 import com.dagachi.app.member.entity.Member;
 
@@ -78,6 +79,27 @@ public class ClubServiceImpl implements ClubService {
 	@Override
 	public int clubDisabled(int clubId) {
 		return clubRepository.clubDisabled(clubId);
+	}
+	
+	@Override
+	public int insertClub(Club club) {
+		int result = 0;
+		// club 저장
+		result = clubRepository.insertClub(club);
+		log.debug("club = " + club);
+		// clubProfile 저장
+		ClubProfile clubProfile = ((ClubDetails) club).getClubProfile();
+		if(clubProfile != null) {
+			clubProfile.setClubId(club.getClubId());
+			result = clubRepository.insertClubProfile(clubProfile);
+		}
+		// clubTag 저장
+		for (String tag : ((ClubDetails) club).getTagList()) {
+			ClubTag clubTag = new ClubTag(club.getClubId(), tag);
+			result = clubRepository.insertClubTag(clubTag);
+		}
+		
+		return result;
 	}
 	
 }
