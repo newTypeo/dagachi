@@ -20,16 +20,20 @@
 		<a href="${pageContext.request.contextPath}/category/sports">운동</a>
 		<a href="${pageContext.request.contextPath}/category/guitar">기타등등 나중에 추가해</a>
 	</div>
-	
 </nav>
 
 <section id="main-page-sec" class="p-2 bg-info">
 	<h1>메인 페이지</h1>
 	
-	<span>
-		<input type="text" id="clubSearch" placeholder="검색할 모임 입력"/>
-	</span>
-	<button>모임생성</button>
+
+	<form id="clubSearchFrm" action="${pageContext.request.contextPath}/club/clubSearch.do">
+		<span>
+			<input type="text" name="inputText" placeholder="검색할 모임 입력"/>
+		</span>
+		<button>모임검색</button>
+	</form>
+	<button id="club-create-btn">모임생성</button>
+
 	
 	
 	<section id="class">
@@ -41,35 +45,18 @@
 	
 </section>
 <script>
-// 비동기 모임 검색
-document.querySelector("#clubSearch").onkeyup = (e) => {
-	console.log(e.target.value);
-	const keyword = e.target.value;
-	$.ajax({
-		url : "${pageContext.request.contextPath}/club/clubSearch.do",
-		data : {keyword},
-		dataType : "json", 
-		success(clubs){
-			// 검색하면 실시간으로 여기까지 객체 가져왔음
-		}
-	});
-	
-	
-};
 
-// 메인페이지에 모임카드 전체 출력
+// 메인페이지에 모임카드 전체 출력(준한)
 $.ajax({
 	url : "${pageContext.request.contextPath}/club/clubList.do",
 	success(clubs){
-		console.log(clubs);
-		
 		const container = document.querySelector(".posts");
 		
 		clubs.forEach((clubAndImage)=>{
 			const{clubName, category, status, reportCount, introduce, domain, renamedFilename, memberCount} = clubAndImage;
 			
 			container.innerHTML += `
-				<a class="card" href="${pageContext.request.contextPath}/club/\${domain}">
+				<a class="card" href="${pageContext.request.contextPath}/club/&\${domain}">
                 <div class="card-inner">
                    <figure class="card-thumbnail">
                       <img src="${pageContext.request.contextPath}/resources/upload/profile/\${renamedFilename}">
@@ -86,6 +73,12 @@ $.ajax({
 		
 	}
 });
+
+
+// 모임 생성 버튼
+document.querySelector("#club-create-btn").onclick = () => {
+	location.href = '${pageContext.request.contextPath}/club/clubCreate.do';
+};
 
 </script>
 
