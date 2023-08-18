@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dagachi.app.club.dto.ClubAndImage;
+import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
 import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.ManageMember;
@@ -24,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 public class ClubServiceImpl implements ClubService {
+
 
 	@Autowired
 	private ClubRepository clubRepository;
@@ -121,8 +123,47 @@ public class ClubServiceImpl implements ClubService {
 			ClubTag clubTag = new ClubTag(club.getClubId(), tag);
 			result = clubRepository.insertClubTag(clubTag);
 		}
-		
 		return result;
 	}
 	
+	@Override
+	public Club findClubById(int clubId) {
+		return clubRepository.findClubById(clubId);
+	}
+	@Override
+	public ClubProfile findClubProfileById(int clubId) {
+		return clubRepository.findClubProfileById(clubId);
+	}
+	@Override
+	public List<ClubTag> findClubTagById(int clubId) {
+		return clubRepository.findClubTagById(clubId);
+	}
+	
+	@Override
+	public int updateClub(ClubDetails club) {
+		int result = 0;
+		// club 저장
+		result = clubRepository.updateClub(club);
+		log.debug("club = " + club);
+		// clubProfile 저장
+		ClubProfile clubProfile = ((ClubDetails) club).getClubProfile();
+		if(clubProfile != null) {
+			clubProfile.setClubId(club.getClubId());
+			result = clubRepository.updateClubProfile(clubProfile);
+		}
+		result = clubRepository.deleteClubTag(club);
+		// clubTag 저장
+		for (String tag : ((ClubDetails) club).getTagList()) {
+			ClubTag clubTag = new ClubTag(club.getClubId(), tag);
+			result = clubRepository.insertClubTag(clubTag);
+		}
+		
+		return result;
+	}
+	@Override
+	public int clubMemberRoleUpdate(ClubMemberRoleUpdate member) {
+		return clubRepository.clubMemberRoleUpdate(member);
+	}
+	
 }
+

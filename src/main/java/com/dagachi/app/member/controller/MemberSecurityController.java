@@ -37,36 +37,37 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/member")
 public class MemberSecurityController {
 
-	@Autowired
-	private MemberService memberService;
-	
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-	
-	@GetMapping("/memberCreate.do")
-	public void memberCreate() {}
-	
-	@PostMapping("/memberCreate.do")
-	public String create(
-			@Valid MemberCreateDto member,
-			BindingResult bindingResult, 
-			RedirectAttributes redirectAttr) {
-		
-		if(bindingResult.hasErrors()) { //에러 나면 
-			ObjectError error = bindingResult.getAllErrors().get(0);
-			redirectAttr.addFlashAttribute("msg", error.getDefaultMessage());
-			return "redirect:/member/memberCreate.do";
-		} 
-		
-		String rawPassword = member.getPassword();
-		String encodedPassword = passwordEncoder.encode(rawPassword);
-		log.debug("{} -> {}", rawPassword, encodedPassword);
-		member.setPassword(encodedPassword);
-		
-		int result = memberService.insertMember(member);
-		redirectAttr.addFlashAttribute("msg", "회원가입 완료");
-		return "redirect:/";
-	}
+   @Autowired
+   private MemberService memberService;
+   
+   @Autowired
+   private PasswordEncoder passwordEncoder;
+   
+   @GetMapping("/memberCreate.do")
+   public void memberCreate() {}
+   
+   @PostMapping("/memberCreate.do")
+   public String create(
+         @Valid MemberCreateDto member,
+         BindingResult bindingResult, 
+         RedirectAttributes redirectAttr) {
+      
+      if(bindingResult.hasErrors()) { //에러 나면 
+         ObjectError error = bindingResult.getAllErrors().get(0);
+         redirectAttr.addFlashAttribute("msg", error.getDefaultMessage());
+         return "redirect:/member/memberCreate.do";
+      } 
+      
+      String rawPassword = member.getPassword();
+      String encodedPassword = passwordEncoder.encode(rawPassword);
+      log.debug("{} -> {}", rawPassword, encodedPassword);
+      member.setPassword(encodedPassword);
+      
+      int result = memberService.insertMember(member);
+      redirectAttr.addFlashAttribute("msg", "회원가입 완료");
+      return "redirect:/";
+   }
+
 
 	@GetMapping("/memberLogin.do")
 	public void memberLogin() {}
@@ -88,5 +89,5 @@ public class MemberSecurityController {
 				.body(Map.of("available", available, "memberId", memberId));
 	}
 	 
-}
 
+}

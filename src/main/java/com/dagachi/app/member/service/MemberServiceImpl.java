@@ -1,11 +1,9 @@
 package com.dagachi.app.member.service;
 
-
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import javax.swing.Spring;
-
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -35,6 +33,39 @@ public class MemberServiceImpl implements MemberService{
 		return result;
 	}
 	
+	@Override
+	public List<Member> adminMemberList(Map<String, Object> params) {
+		int limit = (int) params.get("limit");
+		int page = (int) params.get("page");
+		int offset = (page - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		return memberRepository.adminMemberList(rowBounds);
+	}
+	
+	@Override
+	public List<Member> memberSearch(String keyword, String column, Map<String, Object> params) {
+		int limit = (int) params.get("limit");
+		int page = (int) params.get("page");
+		int offset = (page - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		return memberRepository.memberSearch(keyword, column, rowBounds);
+	}
+	
+	@Override
+	public List<Member> adminQuitMemberList() {
+		return memberRepository.adminQuitMemberList();
+	}
+	
+	@Override
+	public List<Member> quitMemberSearch(String keyword, String column) {
+		return memberRepository.quitMemberSearch(keyword, column);
+	}
+	
+	@Override
+	public int getTotalCount() {
+		return memberRepository.getTotalCount();
+	
+	}	
 	
 	/**
 	 * Spring Security에 의해 db사용자를 조회할때 사용
