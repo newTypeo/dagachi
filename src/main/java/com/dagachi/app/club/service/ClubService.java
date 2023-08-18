@@ -24,6 +24,16 @@ public interface ClubService {
 
 	List<ClubApply> clubApplyfindByClubId(int clubId);
 
-	List<ClubBoard> boardList(int boardType);
+	List<ClubBoard> boardList(ClubBoard clubBoard);
+
+	Club findByDomain(String domain);
+
+	ClubBoard findByBoard(ClubBoard _clubBoard);
+
+	ClubBoard findByBoardId(int boardId);
+
+	int updateBoard(ClubBoard _board);
+
+
 
 }

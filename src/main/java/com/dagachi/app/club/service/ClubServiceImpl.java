@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.entity.Club;
@@ -16,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
+@Transactional
 public class ClubServiceImpl implements ClubService {
 
 	@Autowired
@@ -57,8 +59,27 @@ public class ClubServiceImpl implements ClubService {
 	}
 	
 	@Override
-	public List<ClubBoard> boardList(int boardType) {
-		return clubRepository.boardList(boardType);
+	public List<ClubBoard> boardList(ClubBoard clubBoard) {
+		return clubRepository.boardList(clubBoard);
 	}
 	
+	@Override
+	public Club findByDomain(String domain) {
+		return clubRepository.findByDomain(domain);
+	}
+	
+	@Override
+	public ClubBoard findByBoard(ClubBoard _clubBoard) {
+		return clubRepository.findByBoard(_clubBoard);
+	}
+	
+	@Override
+	public ClubBoard findByBoardId(int boardId) {
+		return clubRepository.findByBoardId(boardId);
+	}
+
+	@Override
+	public int updateBoard(ClubBoard _board) {
+		return clubRepository.updateBoard(_board);
+	}
 }

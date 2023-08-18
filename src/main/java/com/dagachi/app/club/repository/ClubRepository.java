@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.entity.Club;
@@ -40,7 +41,22 @@ public interface ClubRepository {
 	@Select("select * from club_apply where club_id = #{clubId}")
 	List<ClubApply> clubApplyfindByClubId(int clubId);
 	
-	List<ClubBoard> boardList(int boardType);
+	List<ClubBoard> boardList(ClubBoard clubBoard);
+
+	@Select("select * from club where domain= #{domain}")
+	Club findByDomain(String domain);
+
+	@Select("select * from club_board where club_id= #{clubId} and board_id =#{boardId}")
+	ClubBoard findByBoard(ClubBoard _clubBoard);
+
+	@Select("select * from club_board where board_id= #{boardId}")
+	ClubBoard findByBoardId(int boardId);
+
+	@Update("update club_board set title=#{title}, content=#{content}, type=#{type} , status=#{status}, like_count=#{likeCount} where board_id=#{boardId}")
+	int updateBoard(ClubBoard _board);
+
+
+
 
 	
 	

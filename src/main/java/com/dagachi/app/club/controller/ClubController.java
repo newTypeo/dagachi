@@ -11,9 +11,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.entity.Club;
@@ -28,6 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/club")
 @Slf4j
+@SessionAttributes
 public class ClubController {
 	
 	@Autowired
@@ -38,13 +42,23 @@ public class ClubController {
 	}
 	
 	
-	@GetMapping("/clubBoardList.do")
-	public void boardList() {
+	@GetMapping("/&{domain}/clubBoardList.do")
+	public String boardList(
+			@PathVariable("domain") String domain,
+			Model model
+	) {
+		model.addAttribute("domain", domain);
+		return "/club/clubBoardList";
 	}
 	
-	@GetMapping("/clubBoardCreate.do")
-	public void boardCreate() {
+	@GetMapping("/&{domain}/clubBoardCreate.do")
+	public String boardCreate(
+			@PathVariable("domain") String domain,
+			Model model
+	) {
 		
+		model.addAttribute("domain", domain);
+		return "/club/clubBoardCreate";
 	}
 	
 //	@PostMapping("/clubBoardCreate.do")
@@ -146,17 +160,123 @@ public class ClubController {
 //		List<Member> members = clubService.findById(id);
 	}
 
-//	@GetMapping("/findBoardType.do")
-//	public ResponseEntity<?> boardList(@RequestParam(required = false)int boardType){
+	@GetMapping("/{domain}/findBoardType.do")
+	public ResponseEntity<?> boardList(
+			@RequestParam(required = false, defaultValue = "0" )int boardType,
+			@PathVariable("domain") String domain
+	){
+	
+
+		Club club= clubService.findByDomain(domain);
+		int clubId=club.getClubId();
+		
+		
+		int _type = (boardType != 0) ? boardType : 0;
+		
+		ClubBoard clubBoard=ClubBoard.builder()
+				.clubId(clubId)
+				.type(_type)
+				.build();
+		
+		List<ClubBoard> boards= clubService.boardList(clubBoard);
+		
+		
+		return ResponseEntity.status(HttpStatus.OK).body(boards);
+	}
+	
+	@GetMapping("/{domain}/boardDetail.do")
+	public String cluboardDetail(
+			@PathVariable("domain") String domain,
+			@RequestParam int no,
+			Model model
+	) {
+		ClubBoard clubBoard= clubBoardGet(domain, no);
+		
+		model.addAttribute("clubBoard",clubBoard);
+		
+		return "/club/clubBoardDetail";
+	}
+	
+	@PostMapping("/{domain}/likeCheck.do")
+	public ResponseEntity<?> likeCheck(
+			@RequestParam int boardId,
+			@RequestParam boolean like,
+			@PathVariable("domain") String domain
+	){
+		
+		ClubBoard board= clubService.findByBoardId(boardId);
+		log.debug("board ={}", board);
+		log.debug("boardId ={}", boardId);
+		int likeCount= board.getLikeCount();
+		int result;
+		if(like) {
+			likeCount=likeCount+1;
+			board.setLikeCount(likeCount);
+			result = clubService.updateBoard(board);
+		}
+		else {
+			likeCount=likeCount-1;
+			board.setLikeCount(likeCount);
+			result= clubService.updateBoard(board);
+		}
+		
+		
+		return ResponseEntity.status(HttpStatus.OK).body(board);
+	}
+	
+	@GetMapping("/{domain}/boardUpdate.do")
+	public String boardUpdate(
+			@PathVariable("domain") String domain,
+			@RequestParam int no,
+			Model model
+	) {
+		ClubBoard clubBoard= clubBoardGet(domain, no);
+		
+		model.addAttribute("clubBoard",clubBoard);
+		model.addAttribute("domain",domain);
+		
+		return "/club/clubBoardUpdate";
+	}
+	
+//	@PostMapping("/{domain}/boardUpdate.do")
+//	public String boardUpdate(
+//			@PathVariable("domain") String domain,
+//			@RequestParam int no,
+//			@RequestParam String title,
+//			@RequestParam int boardType,
+//			@RequestParam String content
+//			
+//	) {
+//		ClubBoard board= clubBoardGet(domain, no);
 //		
-//		List<ClubBoard> boards = clubService.boardList(boardType);
+//			board=ClubBoard.builder()
+//					.title(title)
+//					.type(boardType)
+//					.content(content)
+//					.build();
 //		
-//		return ResponseEntity.status(HttpStatus.OK).body(boards);
+//		int result=clubService.updateBoard(board);
+//		
+//		
+//		return "/club/clubBoardDetail";
 //	}
-//	
 	
 	
 	
 	
+	public ClubBoard clubBoardGet(String domain, int no) {
+		
+		Club club= clubService.findByDomain(domain);
+		int clubId=club.getClubId();
+		int boardId = no;
+		ClubBoard _clubBoard=ClubBoard.builder()
+				.clubId(clubId)
+				.boardId(boardId)
+				.build();
+
+		ClubBoard clubBoard=clubService.findByBoard(_clubBoard);
+		
+		return clubBoard;
+	}
 	
 }
