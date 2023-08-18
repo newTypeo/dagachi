@@ -25,14 +25,13 @@
 <section id="main-page-sec" class="p-2 bg-info">
 	<h1>메인 페이지</h1>
 	
-
 	<form id="clubSearchFrm" action="${pageContext.request.contextPath}/club/clubSearch.do">
 		<span>
 			<input type="text" name="inputText" placeholder="검색할 모임 입력"/>
 		</span>
 		<button>모임검색</button>
 	</form>
-	<button>모임생성</button>
+	<button id="club-create-btn">모임생성</button>
 
 	
 	
@@ -46,7 +45,6 @@
 </section>
 <script>
 
-// 메인페이지에 모임카드 전체 출력(준한)
 $.ajax({
 	url : "${pageContext.request.contextPath}/club/clubList.do",
 	success(clubs){
@@ -57,27 +55,24 @@ $.ajax({
 			
 			container.innerHTML += `
 				<a class="card" href="${pageContext.request.contextPath}/club/&\${domain}">
-                <div class="card-inner">
-                   <figure class="card-thumbnail">
-                      <img src="${pageContext.request.contextPath}/resources/upload/profile/\${renamedFilename}">
-                   </figure>
-                   <div class="card-body">
-                      <h3 class="card-title">\${clubName}</h3>
-                      <span class="card-introduce">\${introduce}</span>
-                      <h4 class="club-member-cnt">인원수 : \${memberCount}</h4>
-                   </div>
-                </div>
-             </a>
-			`;
-		})
-		
-	}
-});
-
-
-// 모임 생성 버튼
+	                <div class="card-inner">
+	                   <figure class="card-thumbnail">
+	                      <img src="${pageContext.request.contextPath}/resources/upload/profile/\${renamedFilename}">
+	                   </figure>
+	                   <div class="card-body">
+	                      <h3 class="card-title">\${clubName}</h3>
+	                      <span class="card-introduce">\${introduce}</span>
+	                      <h4 class="club-member-cnt">인원수 : \${memberCount}</h4>
+	                   </div>
+	                </div>
+	             </a>
+				`;
+			})
+		}
+	});
+	
 document.querySelector("#club-create-btn").onclick = () => {
-	location.href = '${pageContext.request.contextPath}/club/clubCreate.do';
+    location.href = '${pageContext.request.contextPath}/club/clubCreate.do';
 };
 
 </script>

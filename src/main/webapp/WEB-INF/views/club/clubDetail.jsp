@@ -10,7 +10,7 @@
 <nav id="club-banner" class="bg-primary">
 	<h2>title : 소모임 별 배너
 		<button id="clubDisabled">모임 비활성화</button>
-		<button>모임 수정</button>
+		<button id="club-update-btn">모임 수정</button>
 	</h2>
 	
 	
@@ -40,6 +40,10 @@
             alert('모임이 성공적으로 비활성화 되었습니다.');
         }
     };
+    
+document.querySelector("#club-update-btn").onclick = () => {
+	location.href = '${pageContext.request.contextPath}/club/&'+domain+'/clubUpdate.do';
+}
 </script>
 
 
