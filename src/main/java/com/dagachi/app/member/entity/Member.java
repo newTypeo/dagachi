@@ -1,5 +1,6 @@
 package com.dagachi.app.member.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.dagachi.app.club.entity.Club;
@@ -18,7 +19,7 @@ public class Member {
 	private String nickname;
 	private String phoneNo;	
 	private String email;	
-	private LocalDateTime birthday;	
+	private LocalDate birthday;	
 	private String gender;	
 	private String mbti;	
 	private String address;	

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -17,36 +18,37 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MamberCreateDto {
+public class MemberCreateDto {
 	
 	
-	@NotBlank(message = "이름은 필수입니다.") 
+	@NotBlank(message = "아이디 필수") 
 	private String memberId;
 	
-	@NotBlank(message = "이름은 필수입니다.")
-	@Pattern(regexp = "\\^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[@!#_]).{8,}$", message = "비밀번호는 영문자/숫자 4글자이상이어야 합니다.")
+	@NotBlank(message = "비밀번호 필수")
 	private String password;
 	
-	@NotBlank(message = "이름은 필수입니다.")
+	@NotBlank(message = "이름 필수")
 	private String name;	
 	
-	@NotBlank(message = "이름은 필수입니다.") 
+	@NotBlank(message = "닉네임 필수") 
 	private String nickname;
 	
-	@NotBlank(message = "이름은 필수입니다.") 
+	@NotBlank(message = "핸드폰 필수") 
 	private String phoneNo;	
 	
-	@NotBlank(message = "이름은 필수입니다.")
+	@NotBlank(message = "이메일 필수")
 	private String email;	
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private LocalDateTime birthday;	
+    @NotNull(message = "생일을 필수")
+    private LocalDate birthday;
 	
+	@NotBlank(message = "성별 필수") 
 	private String gender;	
-	
+
 	private String mbti;	
 	
-	@NotBlank(message = "주소는 필수입니다.") 
+	@NotBlank(message = "주소 필수") 
 	private String address;	
 	
 	

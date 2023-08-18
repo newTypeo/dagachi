@@ -14,19 +14,22 @@
 		<div id="search-container">
 	        <label for="searchType">검색타입 :</label> 
 	        <select id="searchType">
-	            <option value="memberName" value="memberNameSearch">이름</option>      
-	            <option value="memberId" value="memberIdSearch" >ID</option>      
-	            <option value="category" value="memberAddressSearch" >주소</option>           
+	            <option id="searchOption" value="memberNameSearch">이름</option>      
+	            <option id="searchOption" value="memberIdSearch" >ID</option>      
+	            <option id="searchOption" value="memberAddressSearch" >주소</option>           
 	        </select>
 		
 				<div id="search-name" class="search-type" style="display : inline-block">
-					<input type="text" id="memberNameSearch" placeholder="이름을 입력하세요" name="name">
+					<input type="text" id="memberNameSearch" placeholder="이름을 입력하세요">
+					<button onclick="searchMember(this);" name="name" >검색</button>
 		        </div>
 		        <div id="search-id" class="search-type" style="display : none">
-					<input type="text" id="memberIdSearch" placeholder="ID을 입력하세요" name="member_id">
+					<input type="text" id="memberIdSearch" placeholder="ID을 입력하세요">
+					<button onclick="searchMember(this);" name="member_id" >검색</button>
 		        </div>
 				<div id="search-address" class="search-type" style="display : none">
-					<input type="text" id="memberAddressSearch" placeholder="주소를 입력하세요" name="address">
+					<input type="text" id="memberAddressSearch" placeholder="주소를 입력하세요" >
+					<button onclick="searchMember(this);" name="address" >검색</button>
 		        </div>
 				
 	
@@ -60,11 +63,11 @@
 							<td>${member.gender}</td>
 							<%-- <td>${member.birthday}</td> --%>
 							<td>
-								<fmt:parseDate value="${member.birthday}" var="birthday"  pattern="yyyy-MM-dd'T'HH:mm"></fmt:parseDate>
+								<fmt:parseDate value="${member.birthday}" var="birthday"  pattern="yyyy-MM-dd"></fmt:parseDate>
 								<fmt:formatDate value="${birthday}" pattern="yy/MM/dd" />
 							</td>
 							<td>
-								<fmt:parseDate value="${member.enrollDate}" var="enrollDate"  pattern="yyyy-MM-dd'T'HH:mm"></fmt:parseDate>
+								<fmt:parseDate value="${member.enrollDate}" var="enrollDate"  pattern="yyyy-MM-dd"></fmt:parseDate>
 								<fmt:formatDate value="${enrollDate}" pattern="yy/MM/dd" />
 							</td>
 						</tr>
@@ -74,63 +77,38 @@
 			</table>
 		</div>
 	</div>
+	<div id="pagebar-wrapper">	
+		<c:if test="${empty pagebar}">
+				<span></span>
+		</c:if>
+		<c:if test="${not empty pagebar}">
+				<span>${pagebar}</span>
+		</c:if>
+	</div>
 </section>
 <script>
 // 검색유형 선택 시 display 설정
 document.querySelector("#searchType").onchange = (e) => {
-	documnet.querySelectorAll(".search-type").forEach((input) => {
+	document.querySelectorAll(".search-type").forEach((input) => {
 		input.style.display = 'none';
 	});
 	
 	const inputId = $("#searchType option:selected").val();
 	console.log(document.querySelector(`#\${inputId}`));
 	const selectedInput = document.querySelector(`#\${inputId}`);
-	selectedInput.parentElement.style.display = 'inline-block';	
+	selectedInput.parentElement.style.display = 'inline-block';
 };
 
-// 검색유형 별 검색시 비동기로 모임 조회
-document.querySelectorAll(".search-type").forEach((input) => {
-	input.onkeyup = (e) => {
-		const ketword = e.target.value;
-		const column = e.target.name;
-		console.log("keyword, column=", keyword, column);
-		$.ajax({
-			url : "${pageContext.request.contextPath}/admin/memberSearch.do",
-			data : {keyword, column},
-			dataType : "json",
-			success(members) {
-				const tbody = document.querySelector("#memberListTable tbody");
-				tbody.innerHTML = '';
-				let html = '';
-				if(members.length == 0) {
-					html += `<tr><td colspan='7'>조회된 결과가 없습니다.</td></tr>`;
-				}
-				else {
-					members.forEach((member) => {
-						html += `
-							<tr>
-								<td>\${member.memberId}</td>
-								<td>\${member.name}</td>
-								<td>\${member.nickname}</td>
-								<td>\${member.phoneNo}</td>
-								<td>\${member.address}</td>
-								<td>\${member.gender}</td>
-								<td>
-								// birthday
-								</td>
-								<td>
-								// enrollDate
-								</td>
-							</td>
-							</tr>
-							`;
-					}); // else 하위 forEach
-				} // else
-				tbody.innerHTML = html;
-			} // success
-		}); // ajax
-	} // onkeyup
-}); // forEach
+// 검색유형 별 검색시 동기로 회원 조회
+const searchMember = (btnTag) => {
+	console.log(btnTag);
+	const keyword = btnTag.previousElementSibling.value;
+	const column = btnTag.name;
+	console.log("keyword, column", keyword, column);
+	window.href = "{pageContext.request.contextPath}/admin/memberSearch"
+};
+
 </script>
+
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
