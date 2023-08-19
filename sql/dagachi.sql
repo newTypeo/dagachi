@@ -1115,8 +1115,8 @@ VALUES (10, 2, 'user1', NULL, '오늘 모임 정말 즐거웠어요!', 1);
 
 select * from member;
 
-
 commit;
+
 
 
 

@@ -31,6 +31,13 @@
 					<input type="text" id="clubCategorySearch" placeholder="카테고리를 입력하세요">
 					<button onclick="searchClub(this);" name="category">검색</button>
 		        </div>
+				<form 
+					name="searchClubFrm"
+					action="${pageContext.request.contextPath}/admin/adminClubList.do">
+					<input type="hidden" name="keyword" id="keywordHidden">
+					<input type="hidden" name="column" id="columnHidden">
+				</form>
+				
 				
 			<table id="clubListTable">
 				<thead>
@@ -60,7 +67,7 @@
 							<td>${club.reportCount}</td>
 							<td>${club.domain}</td>
 							<td>
-								<fmt:parseDate value="${club.createdAt}" var="createdAt"  pattern="yyyy-MM-dd'T'HH:mm:ss"></fmt:parseDate>
+								<fmt:parseDate value="${club.createdAt}" var="createdAt"  pattern="yyyy-MM-dd'T'HH:mm"></fmt:parseDate>
 								<fmt:formatDate value="${createdAt}" pattern="yy/MM/dd" />
 							</td>
 						</tr>
@@ -69,6 +76,14 @@
 				</tbody>
 			</table>
 		</div>
+	</div>
+	<div id="pagebar-wrapper">	
+		<c:if test="${empty pagebar}">
+				<span></span>
+		</c:if>
+		<c:if test="${not empty pagebar}">
+				<span>${pagebar}</span>
+		</c:if>
 	</div>
 </section>
 <script>
@@ -87,8 +102,10 @@ document.querySelector("#searchType").onchange = (e) => {
 const searchClub = (btnTag) => {
 	const keyword = btnTag.previousElementSibling.value;
 	const column = btnTag.name;
-	console.log("keyword, column", keyword, column);
-	window.href = "${pageContext.request.contextPath}/adminClubList.do";
+	// console.log("keyword, column", keyword, column);
+	document.querySelector("#keywordHidden").value = keyword;
+	document.querySelector("#columnHidden").value = column;
+	document.searchClubFrm.submit();
 };
 
 

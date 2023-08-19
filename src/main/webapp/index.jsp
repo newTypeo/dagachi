@@ -15,7 +15,7 @@
 </nav>
 <nav>
 	<a href="${pageContext.request.contextPath}/admin/adminMemberList.do">회원조회(관리자)</a>
-	<a href="${pageContext.request.contextPath}/admin/adminClubList.do">모임목록(관리자)</a>
+	<a href="${pageContext.request.contextPath}/admin/adminClubList.do?keyword=&column=">모임목록(관리자)</a>
 </nav>
 <nav id="main-category" class="bg-success">
 	<h3>카테고리</h3>

@@ -1,6 +1,7 @@
 package com.dagachi.app.club.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -9,6 +10,7 @@ import org.apache.ibatis.annotations.Select;
 
 import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.session.RowBounds;
 
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
@@ -29,7 +31,7 @@ import com.dagachi.app.member.entity.Member;
 public interface ClubRepository {
 
    @Select("select * from club where ${column} like '%' || #{keyword} || '%'")
-   List<Club> adminClubSearch(String keyword, String column);
+   List<Club> adminClubSearch(RowBounds rowBounds, Map<String, Object> params);
 
    
    @Select("select * from club where status = 'Y' order by club_id desc")

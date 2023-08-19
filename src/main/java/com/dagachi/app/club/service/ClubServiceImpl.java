@@ -2,7 +2,9 @@ package com.dagachi.app.club.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,8 +37,12 @@ public class ClubServiceImpl implements ClubService {
 	
 	
 	@Override
-	public List<Club> adminClubSearch(String keyword, String column) {
-		return clubRepository.adminClubSearch(keyword, column);
+	public List<Club> adminClubSearch(Map<String, Object> params) {
+		int limit = (int) params.get("limit");
+		int page = (int) params.get("page");
+		int offset = (page - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		return clubRepository.adminClubSearch(rowBounds, params);
 	}
 	
 	

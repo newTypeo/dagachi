@@ -88,24 +88,6 @@ public class ClubController {
 //		return " ";
 //	}
 	
-	/**
-	 * 관리자 회원 목록에서 모임 검색
-	 * @author 종환
-	 */
-	@GetMapping("/adminClubSearch.do")
-	public ResponseEntity<?> adminClubSearch(@RequestParam String keyword, @RequestParam String column) {
-		log.debug("keyword = {}", keyword);
-		log.debug("column = {}", column);
-		List<Club> clubs = new ArrayList<>();
-		if(keyword == "") {
-			clubs = clubService.adminClubList();
-		}
-		else {
-			clubs = clubService.adminClubSearch(keyword, column);
-		}
-		// log.debug("clubs = {}", clubs);
-		return ResponseEntity.status(HttpStatus.OK).body(clubs);
-	}
 	
 	/**
 	 * 메인화면에서 모임 검색

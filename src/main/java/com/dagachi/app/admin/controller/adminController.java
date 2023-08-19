@@ -40,36 +40,41 @@ public class adminController {
 	 * @author 종환
 	 */
 	@GetMapping("adminClubList.do")
-	public void clubList(Model model) {
-		List<Club> clubs = clubService.adminClubList();
-		model.addAttribute("clubs",clubs);
+	public void clubList(
+			@RequestParam(defaultValue = "1") int page,
+			@RequestParam String keyword, 
+			@RequestParam String column, 
+			HttpServletRequest request,
+			Model model) {
+		int limit = 10;
+		Map<String, Object> params = Map.of(
+				"page", page,
+				"limit", limit,
+				"keyword", keyword,
+				"column", column
+				);
+		List<Club> clubs = new ArrayList<>();
+		if(keyword == "") {
+			clubs = clubService.adminClubList();
+		}
+		else {
+			clubs = clubService.adminClubSearch(params);
+		}
+		
+		model.addAttribute("clubs", clubs);
+		
+		// 전체게시물 수
+		int totalCount = clubs.size();
+		String url = request.getRequestURI();
+		String pageBar = Pagination.getPagebar(page, limit, totalCount, url);
+		model.addAttribute("pagebar", pageBar);
+		
 	}
 
 	/**
 	 * 관리자 회원 목록 조회
 	 * @author 현우
 	 */
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
 	@GetMapping("adminMemberList.do")
 	public void memberList(
 			@RequestParam(defaultValue = "1") int page,
