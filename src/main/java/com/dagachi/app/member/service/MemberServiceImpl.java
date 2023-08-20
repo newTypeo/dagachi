@@ -16,9 +16,10 @@ import com.dagachi.app.member.repository.MemberRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Transactional(rollbackFor = Exception.class)
+
 @Service
 @Slf4j
+@Transactional(rollbackFor = Exception.class)
 public class MemberServiceImpl implements MemberService{
 	
 	@Autowired
@@ -26,9 +27,7 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public int insertMember(MemberCreateDto member) {
-		int result = 0;
-		result = memberRepository.insertMember(member);
-		return result;
+		return memberRepository.insertMember(member);
 	}
 	
 	@Override
@@ -62,7 +61,6 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public int getTotalCount() {
 		return memberRepository.getTotalCount();
-	
 	}	
 	
 	/**
@@ -74,10 +72,8 @@ public class MemberServiceImpl implements MemberService{
 	public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
 		
 		UserDetails memberDetails = memberRepository.loadUserByUsername(memberId);
-		log.debug("memberDetails = {}", memberDetails);
 		if(memberDetails == null)
 			throw new UsernameNotFoundException(memberId);
-		log.debug("username이뭔데!!!!!!!!={}", memberId);
 		return memberDetails;
 	}
 

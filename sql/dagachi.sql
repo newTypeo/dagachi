@@ -110,6 +110,14 @@ create table member (
 	status char(1) default 'Y'
 );
 
+-- security rememeberme 를 위해 만들어진 테이블
+create table persistent_logins (
+    username varchar(64) not null,
+    series varchar(64) primary key, -- pk
+    token varchar(64) not null, -- username, password, expiry time을 hasing한 값
+    last_used timestamp not null
+);
+
 create table club (
 	club_id	number	not null,
 	club_name	varchar2(50)	not null,
