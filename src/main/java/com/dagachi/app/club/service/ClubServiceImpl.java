@@ -62,8 +62,18 @@ public class ClubServiceImpl implements ClubService {
 	
 	
 	@Override
-	public List<ClubSearchDto> clubSearch(String inputText) {
-		List<ClubSearchDto> clubs = clubRepository.clubSearch(inputText);
+	public List<ClubSearchDto> clubSearch(Map<String, Object> params) {
+		if((String) params.get("getCount") != null) {
+			return clubRepository.clubSearch(params);
+		}
+		
+		int limit = (int) params.get("limit");
+		int page = (int) params.get("page");
+		int offset = (page - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		List<ClubSearchDto> clubs = clubRepository.clubSearch(rowBounds, params);
+		
 		// 모임 인원 가져오기
 		for (ClubSearchDto club : clubs) 
 			club.setMemberCount(clubRepository.countClubMember(club.getClubId()));

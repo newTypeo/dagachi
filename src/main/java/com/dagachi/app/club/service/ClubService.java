@@ -25,7 +25,7 @@ public interface ClubService {
 	
 	List<Member> adminMemberList();
 	
-	List<ClubSearchDto> clubSearch(String inputText);
+	List<ClubSearchDto> clubSearch(Map<String, Object> params);
 	
 	int clubIdFindByDomain(String domain);
 
