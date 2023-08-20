@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.dagachi.app.club.dto.ClubAndImage;
+import com.dagachi.app.club.dto.ClubBoardCreateDto;
 import com.dagachi.app.club.dto.ClubCreateDto;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
 import com.dagachi.app.club.dto.ClubSearchDto;
@@ -33,6 +34,7 @@ import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.ManageMember;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubBoard;
+import com.dagachi.app.club.entity.ClubBoardAttachment;
 import com.dagachi.app.club.entity.ClubDetails;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
@@ -80,13 +82,36 @@ public class ClubController {
 		return "/club/clubBoardCreate";
 	}
 	
-//	@PostMapping("/clubBoardCreate.do")
-//	public String boardCreate1(
-//			
-//	) {
-//		
-//		return " ";
-//	}
+	@PostMapping("/{domain}/boardCreate.do")
+	public String boardCreate(
+			@Valid ClubBoardCreateDto _board,
+			BindingResult bindingResult,
+			@RequestParam(value = "upFile", required = false) List<MultipartFile> upFiles
+	) throws IllegalStateException, IOException{
+		List<ClubBoardAttachment> attachments = new ArrayList<>();
+		for(MultipartFile upFile : upFiles) {
+			if(!upFile.isEmpty()) {
+				String originalFilename = upFile.getOriginalFilename();
+				String renamedFilename = DagachiUtils.getRenameFilename(originalFilename);
+				File destFile = new File(renamedFilename);
+				upFile.transferTo(destFile);
+				
+				ClubBoardAttachment attach=
+						ClubBoardAttachment.builder()
+						.originalFilename(originalFilename)
+						.renamedFilename(renamedFilename)
+						.build();
+				log.debug("attach = {}",attach);
+				log.debug("_board = {}",_board);
+				attachments.add(attach);
+				
+			}
+		}
+		
+		
+		//지금 문제잇음
+		return "/club/clubBoardList";
+	}
 	
 	/**
 	 * 관리자 회원 목록에서 모임 검색
@@ -140,6 +165,7 @@ public class ClubController {
 			@PathVariable("domain") String domain,
 			Model model) {
 //		log.debug("domain = {}", domain);
+		
 		
 		model.addAttribute("domain", domain);
 		return "club/clubDetail";
@@ -263,17 +289,7 @@ public class ClubController {
 		
 		return "/club/clubBoardUpdate";
 	}
-	
-//	@PostMapping("/{domain}/boardUpdate.do")
-//	public String boardUpdate(
-//			@PathVariable("domain") String domain,
-//			@RequestParam int no,
-//			@RequestParam String title,
-//			@RequestParam int boardType,
-//			@RequestParam String content
-//			
-//	) {
-//		ClubBoard board= clubBoardGet(domain, no);
+
 
 	
 	/**
