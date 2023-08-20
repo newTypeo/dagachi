@@ -12,13 +12,14 @@
 	<h1>모임목록 페이지</h1>
 	<div id="club-list-wrapper">
 		<div id="search-container">
-	        <label for="searchType">검색타입 :</label> 
-	        <select id="searchType">
-	            <option id="searchOption" value="clubNameSearch">모임명</option>      
-	            <option id="searchOption" value="clubAreaSearch">지역</option>      
-	            <option id="searchOption" value="clubCategorySearch">카테고리</option>           
-	        </select>
-		
+			<div id="searchBar-wrap">
+		        <label for="searchType">검색타입 :</label> 
+		        <select id="searchType">
+		            <option id="searchOption" value="clubNameSearch">모임명</option>      
+		            <option id="searchOption" value="clubAreaSearch">지역</option>      
+		            <option id="searchOption" value="clubCategorySearch">카테고리</option>           
+		        </select>
+			
 				<div id="search-name" class="search-type" style="display : inline-block">
 					<input type="text" id="clubNameSearch" placeholder="모임명을 입력하세요">
 					<button onclick="searchClub(this);" name="club_name">검색</button>
@@ -31,6 +32,8 @@
 					<input type="text" id="clubCategorySearch" placeholder="카테고리를 입력하세요">
 					<button onclick="searchClub(this);" name="category">검색</button>
 		        </div>
+			</div>
+			
 				<form 
 					name="searchClubFrm"
 					action="${pageContext.request.contextPath}/admin/adminClubList.do">
@@ -38,46 +41,47 @@
 					<input type="hidden" name="column" id="columnHidden">
 				</form>
 				
-				
-			<table id="clubListTable">
-				<thead>
-					<tr>
-						<th>번호</th>
-						<th>모임명</th>
-						<th>지역</th>
-						<th>분류</th>
-						<th>신고</th>
-						<th>도메인</th>
-						<th>생성일</th>
-					</tr>
-				</thead>
-				<tbody>
-				<c:if test="${empty clubs}">
-					<tr>
-						<td colspan="7">조회된 모임이 없습니다.</td>
-					</tr>
-				</c:if>
-				<c:if test="${not empty clubs}">
-					<c:forEach items="${clubs}" var="club" varStatus="vs">
+			<div>
+				<table id="clubListTable">
+					<thead>
 						<tr>
-							<td>${club.clubId}</td>
-							<td>${club.clubName}</td>
-							<td>${club.activityArea}</td>
-							<td>${club.category}</td>
-							<td>${club.reportCount}</td>
-							<td>${club.domain}</td>
-							<td>
-								<fmt:parseDate value="${club.createdAt}" var="createdAt"  pattern="yyyy-MM-dd'T'HH:mm"></fmt:parseDate>
-								<fmt:formatDate value="${createdAt}" pattern="yy/MM/dd" />
-							</td>
+							<th>번호</th>
+							<th>모임명</th>
+							<th>지역</th>
+							<th>분류</th>
+							<th>신고</th>
+							<th>도메인</th>
+							<th>생성일</th>
 						</tr>
-					</c:forEach>
-				</c:if>
-				</tbody>
-			</table>
+					</thead>
+					<tbody>
+					<c:if test="${empty clubs}">
+						<tr>
+							<td colspan="7">조회된 모임이 없습니다.</td>
+						</tr>
+					</c:if>
+					<c:if test="${not empty clubs}">
+						<c:forEach items="${clubs}" var="club" varStatus="vs">
+							<tr>
+								<td>${club.clubId}</td>
+								<td>${club.clubName}</td>
+								<td>${club.activityArea}</td>
+								<td>${club.category}</td>
+								<td>${club.reportCount}</td>
+								<td>${club.domain}</td>
+								<td>
+									<fmt:parseDate value="${club.createdAt}" var="createdAt"  pattern="yyyy-MM-dd'T'HH:mm"></fmt:parseDate>
+									<fmt:formatDate value="${createdAt}" pattern="yy/MM/dd" />
+								</td>
+							</tr>
+						</c:forEach>
+					</c:if>
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
-	<div id="pagebar-wrapper">	
+	<div id="pagebar-wrapper" class="text-center">	
 		<c:if test="${empty pagebar}">
 				<span></span>
 		</c:if>
@@ -107,7 +111,6 @@ const searchClub = (btnTag) => {
 	document.querySelector("#columnHidden").value = column;
 	document.searchClubFrm.submit();
 };
-
 
 
 </script>
