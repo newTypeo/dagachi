@@ -4,8 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +27,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.dagachi.app.Pagination;
 import com.dagachi.app.club.dto.ClubAndImage;
+import com.dagachi.app.club.dto.ClubBoardCreateDto;
 import com.dagachi.app.club.dto.ClubCreateDto;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
 import com.dagachi.app.club.dto.ClubSearchDto;
@@ -33,6 +38,7 @@ import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.ManageMember;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubBoard;
+import com.dagachi.app.club.entity.ClubBoardAttachment;
 import com.dagachi.app.club.entity.ClubDetails;
 import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubMember;
@@ -81,13 +87,36 @@ public class ClubController {
 		return "/club/clubBoardCreate";
 	}
 	
-//	@PostMapping("/clubBoardCreate.do")
-//	public String boardCreate1(
-//			
-//	) {
-//		
-//		return " ";
-//	}
+	@PostMapping("/{domain}/boardCreate.do")
+	public String boardCreate(
+			@Valid ClubBoardCreateDto _board,
+			BindingResult bindingResult,
+			@RequestParam(value = "upFile", required = false) List<MultipartFile> upFiles
+	) throws IllegalStateException, IOException{
+		List<ClubBoardAttachment> attachments = new ArrayList<>();
+		for(MultipartFile upFile : upFiles) {
+			if(!upFile.isEmpty()) {
+				String originalFilename = upFile.getOriginalFilename();
+				String renamedFilename = DagachiUtils.getRenameFilename(originalFilename);
+				File destFile = new File(renamedFilename);
+				upFile.transferTo(destFile);
+				
+				ClubBoardAttachment attach=
+						ClubBoardAttachment.builder()
+						.originalFilename(originalFilename)
+						.renamedFilename(renamedFilename)
+						.build();
+				log.debug("attach = {}",attach);
+				log.debug("_board = {}",_board);
+				attachments.add(attach);
+				
+			}
+		}
+		
+		
+		//지금 문제잇음
+		return "/club/clubBoardList";
+	}
 	
 	
 	/**
@@ -95,11 +124,30 @@ public class ClubController {
 	 * @author 종환
 	 */
 	@GetMapping("/clubSearch.do")
-	public void clubSearch(@RequestParam String inputText, Model model) {
-		// log.debug("inputText = {}", inputText);
-		List<ClubSearchDto> clubs = clubService.clubSearch(inputText);
-		log.debug("clubs = {}", clubs);
+	public void clubSearch(
+			@RequestParam(defaultValue = "1") int page,
+			@RequestParam String inputText,
+			HttpServletRequest request,
+			Model model) {
+		int limit = 10;
+		String getCount = "getCount";
+		
+		Map<String, Object> params = new HashMap<>();
+        params.put("page", page);
+        params.put("limit", limit);
+        params.put("inputText", inputText);
+		
+		List<ClubSearchDto> clubs = clubService.clubSearch(params);
 		model.addAttribute("clubs", clubs);
+		
+		params.put("getCount", getCount);
+		int totalCount = clubService.clubSearch(params).size();
+		String url = request.getRequestURI();
+		url += "#&inputText=" + inputText;
+		String pageBar = Pagination.getPagebar(page, limit, totalCount, url);
+		pageBar = pageBar.replaceAll("\\?", "&");
+		pageBar = pageBar.replaceAll("#&", "\\?");
+		model.addAttribute("pagebar", pageBar);
 	}
 	
 	
@@ -124,10 +172,12 @@ public class ClubController {
 			@PathVariable("domain") String domain,
 			Model model) {
 //		log.debug("domain = {}", domain);
+
 		int clubId = clubService.findByDomain(domain).getClubId();
 		log.debug("clubId = {}", clubId);
 		ClubLayout layout = clubService.findLayoutById(clubId);
 	
+
 		model.addAttribute("domain", domain);
 		model.addAttribute("layout", layout);
 		return "club/clubDetail";
@@ -252,17 +302,7 @@ public class ClubController {
 		
 		return "/club/clubBoardUpdate";
 	}
-	
-//	@PostMapping("/{domain}/boardUpdate.do")
-//	public String boardUpdate(
-//			@PathVariable("domain") String domain,
-//			@RequestParam int no,
-//			@RequestParam String title,
-//			@RequestParam int boardType,
-//			@RequestParam String content
-//			
-//	) {
-//		ClubBoard board= clubBoardGet(domain, no);
+
 
 	
 	/**

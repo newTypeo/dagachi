@@ -47,8 +47,8 @@ public interface ClubRepository {
    List<Member> adminMemberList();
 
    
-   List<ClubSearchDto> clubSearch(String inputText);
-   
+   List<ClubSearchDto> clubSearch(RowBounds rowBounds, Map<String, Object> params);
+   List<ClubSearchDto> clubSearch(Map<String, Object> params);
    
    @Select("select club_id from club where domain = #{domain}")
    int clubIdFindByDomain(String domain);
@@ -140,6 +140,7 @@ public interface ClubRepository {
 	@Select("select * from club_layout where club_Id = #{clubId}")
 	ClubLayout findLayoutById(int clubId);
 
+	
 	
 
 
