@@ -196,7 +196,7 @@ body {
               <button class="btn btn-primary btn-lg btn-block" type="submit">가입 하기</button>
          </div>
       </div> 
-      
+       
     <div id="changeStep">
         <div id="changePrevious">
             <button type="button" onclick="previousStep()" id="previousButton" style="display: none;">이전</button>
