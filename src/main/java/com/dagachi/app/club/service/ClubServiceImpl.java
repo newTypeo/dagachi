@@ -19,6 +19,7 @@ import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubDetails;
+import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.club.repository.ClubRepository;
@@ -203,6 +204,9 @@ public class ClubServiceImpl implements ClubService {
 		return null;
 	}
 	
-	
+	@Override
+	public ClubLayout findLayoutById(int clubId) {
+		return clubRepository.findLayoutById(clubId);
+	}
 }
 

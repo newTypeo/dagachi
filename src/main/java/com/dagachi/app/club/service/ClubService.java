@@ -13,6 +13,7 @@ import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubDetails;
+import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.member.entity.Member;
@@ -60,6 +61,8 @@ public interface ClubService {
 	int updateClub(ClubDetails club);
 	
 	int clubMemberRoleUpdate(ClubMemberRoleUpdate member);
+
+	ClubLayout findLayoutById(int clubId);
 
 
 }

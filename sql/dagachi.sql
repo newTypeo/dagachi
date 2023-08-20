@@ -1142,6 +1142,9 @@ VALUES (9, 2, 'user10', NULL, '일정 변경에 대해 추가 정보 부탁드�
 INSERT INTO board_comment (comment_id, board_id, writer, comment_ref, content, comment_level)
 VALUES (10, 2, 'user1', NULL, '오늘 모임 정말 즐거웠어요!', 1);
 
+-- 클럽 레이아웃 샘플
+insert into club_layout (club_id, type, font, background_color, font_color, point_color, title, main_image, main_content)
+values (1, default, null, '#dddddd', '#778899', '#496682', 'sportClubTitleSample.png', 'sportClubMainSample.png', '스포츠 열정 클럽에 오신것을 환영합니다!');
 
 select * from member where name = '이은주';
 
