@@ -19,6 +19,7 @@ import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubDetails;
+import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.club.repository.ClubRepository;
@@ -37,20 +38,17 @@ public class ClubServiceImpl implements ClubService {
 	
 	
 	@Override
-	public List<Club> adminClubSearch(Map<String, Object> params) {
+	public List<Club> adminClubList(Map<String, Object> params) {
+		if((String) params.get("getCount") != null) {
+			return clubRepository.adminClubList(params);
+		}
 		int limit = (int) params.get("limit");
 		int page = (int) params.get("page");
 		int offset = (page - 1) * limit;
 		RowBounds rowBounds = new RowBounds(offset, limit);
-		return clubRepository.adminClubSearch(rowBounds, params);
+		return clubRepository.adminClubList(rowBounds, params);
 	}
-	
-	
-	@Override
-	public List<Club> adminClubList() {
-		return clubRepository.adminClubList();
-	}
-	
+
 	
 	@Override
 	public List<ClubAndImage> clubList() {
@@ -65,8 +63,18 @@ public class ClubServiceImpl implements ClubService {
 	
 	
 	@Override
-	public List<ClubSearchDto> clubSearch(String inputText) {
-		List<ClubSearchDto> clubs = clubRepository.clubSearch(inputText);
+	public List<ClubSearchDto> clubSearch(Map<String, Object> params) {
+		if((String) params.get("getCount") != null) {
+			return clubRepository.clubSearch(params);
+		}
+		
+		int limit = (int) params.get("limit");
+		int page = (int) params.get("page");
+		int offset = (page - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		List<ClubSearchDto> clubs = clubRepository.clubSearch(rowBounds, params);
+		
 		// 모임 인원 가져오기
 		for (ClubSearchDto club : clubs) 
 			club.setMemberCount(clubRepository.countClubMember(club.getClubId()));
@@ -206,6 +214,9 @@ public class ClubServiceImpl implements ClubService {
 		return null;
 	}
 	
-	
+	@Override
+	public ClubLayout findLayoutById(int clubId) {
+		return clubRepository.findLayoutById(clubId);
+	}
 }
 

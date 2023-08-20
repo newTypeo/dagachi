@@ -21,6 +21,7 @@ import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
 import com.dagachi.app.club.entity.ClubDetails;
+import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.club.entity.ClubTag;
@@ -30,13 +31,9 @@ import com.dagachi.app.member.entity.Member;
 @Mapper
 public interface ClubRepository {
 
-   @Select("select * from club where ${column} like '%' || #{keyword} || '%'")
-   List<Club> adminClubSearch(RowBounds rowBounds, Map<String, Object> params);
-
    
-   @Select("select * from club where status = 'Y' order by club_id desc")
-   List<Club> adminClubList(); 
-
+   List<Club> adminClubList(RowBounds rowBounds, Map<String, Object> params); 
+   List<Club> adminClubList(Map<String, Object> params);
    
    @Select("SELECT c.*, p.*, cm.member_count " +
                "FROM club c " +
@@ -50,8 +47,8 @@ public interface ClubRepository {
    List<Member> adminMemberList();
 
    
-   List<ClubSearchDto> clubSearch(String inputText);
-   
+   List<ClubSearchDto> clubSearch(RowBounds rowBounds, Map<String, Object> params);
+   List<ClubSearchDto> clubSearch(Map<String, Object> params);
    
    @Select("select club_id from club where domain = #{domain}")
    int clubIdFindByDomain(String domain);
@@ -139,6 +136,16 @@ public interface ClubRepository {
 
 	@Update("update club_profile set original_filename = #{originalFilename}, renamed_filename=#{renamedFilename} where club_id=#{clubId}")
 	int updateClubProfile(ClubProfile clubProfile);
+	
+	@Select("select * from club_layout where club_Id = #{clubId}")
+	ClubLayout findLayoutById(int clubId);
+
+	
+	
+
+
+	
+
 
 	
 	

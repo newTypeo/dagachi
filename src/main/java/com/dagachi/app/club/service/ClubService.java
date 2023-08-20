@@ -13,19 +13,20 @@ import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubDetails;
+import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.member.entity.Member;
 
 public interface ClubService {
 
-	List<Club> adminClubList();
+	List<Club> adminClubList(Map<String, Object> params);
 
 	List<ClubAndImage> clubList();
 	
 	List<Member> adminMemberList();
 	
-	List<ClubSearchDto> clubSearch(String inputText);
+	List<ClubSearchDto> clubSearch(Map<String, Object> params);
 	
 	int clubIdFindByDomain(String domain);
 
@@ -61,6 +62,7 @@ public interface ClubService {
 	
 	int clubMemberRoleUpdate(ClubMemberRoleUpdate member);
 
-	List<Club> adminClubSearch(Map<String, Object> params);
+	ClubLayout findLayoutById(int clubId);
+
 
 }
