@@ -4,8 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.dagachi.app.Pagination;
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.ClubCreateDto;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
@@ -94,11 +98,30 @@ public class ClubController {
 	 * @author 종환
 	 */
 	@GetMapping("/clubSearch.do")
-	public void clubSearch(@RequestParam String inputText, Model model) {
-		// log.debug("inputText = {}", inputText);
-		List<ClubSearchDto> clubs = clubService.clubSearch(inputText);
-		log.debug("clubs = {}", clubs);
+	public void clubSearch(
+			@RequestParam(defaultValue = "1") int page,
+			@RequestParam String inputText,
+			HttpServletRequest request,
+			Model model) {
+		int limit = 10;
+		String getCount = "getCount";
+		
+		Map<String, Object> params = new HashMap<>();
+        params.put("page", page);
+        params.put("limit", limit);
+        params.put("inputText", inputText);
+		
+		List<ClubSearchDto> clubs = clubService.clubSearch(params);
 		model.addAttribute("clubs", clubs);
+		
+		params.put("getCount", getCount);
+		int totalCount = clubService.clubSearch(params).size();
+		String url = request.getRequestURI();
+		url += "#&inputText=" + inputText;
+		String pageBar = Pagination.getPagebar(page, limit, totalCount, url);
+		pageBar = pageBar.replaceAll("\\?", "&");
+		pageBar = pageBar.replaceAll("#&", "\\?");
+		model.addAttribute("pagebar", pageBar);
 	}
 	
 	

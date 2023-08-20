@@ -25,6 +25,14 @@
 			</c:forEach>
 		</c:if>
 	</div>
+	<div id="pagebar-wrapper">	
+		<c:if test="${empty pagebar}">
+				<span></span>
+		</c:if>
+		<c:if test="${not empty pagebar}">
+				<span>${pagebar}</span>
+		</c:if>
+	</div>
 </section>
 	
 	

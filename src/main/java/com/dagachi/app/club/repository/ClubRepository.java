@@ -46,8 +46,8 @@ public interface ClubRepository {
    List<Member> adminMemberList();
 
    
-   List<ClubSearchDto> clubSearch(String inputText);
-   
+   List<ClubSearchDto> clubSearch(RowBounds rowBounds, Map<String, Object> params);
+   List<ClubSearchDto> clubSearch(Map<String, Object> params);
    
    @Select("select club_id from club where domain = #{domain}")
    int clubIdFindByDomain(String domain);
@@ -136,6 +136,7 @@ public interface ClubRepository {
 	@Update("update club_profile set original_filename = #{originalFilename}, renamed_filename=#{renamedFilename} where club_id=#{clubId}")
 	int updateClubProfile(ClubProfile clubProfile);
 
+	
 	
 
 
