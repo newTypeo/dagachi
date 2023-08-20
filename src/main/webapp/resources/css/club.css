@@ -4,20 +4,85 @@ body {
 
 }
 
+section {
+	width: 1320px;
+	margin: 0 auto;
+}
+
+
 /********** club-header **********/
 header {
 	height:100px;
 }
 
-/************ club-banner *************/
-#main-banner {
-	height: 200px;
+/************ club-title *************/
+#club-title img {
+	width: 1320px;
 }
 
-/********** club-page-sec **********/
-#main-page-sec {
-	height: 700px;
+#default-title {
+	width: 1320px;
+	height: 100px;
+	background-color: pink;
 }
+
+
+/********** club-page-article **********/
+#club-page-article {
+	width: 1320px;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+#club-main-container {
+	background-color: lightgreen;
+	width: 1320px;
+	padding: 20px;
+}
+
+#club-main-image-container {
+	display: flex;
+	justify-content: center;
+} 
+#club-main-content-container {
+	display: flex;
+	justify-content: center;
+	font-weight: bold;
+	font-size: 24px;
+}
+
+#club-notice-container {
+	background-color: lightpink;
+	width: 1320px;
+	font-weight: bold;
+	font-size: 20px;
+}
+
+#club-gallery-container {
+	background-color: lightblue;
+	width: 1320px;
+	height: 120px;
+}
+
+#club-board-container {
+	background-color: lightyellow;
+	width: 660px;
+	height: 320px;
+}
+
+#club-schedule-container {
+	background-color: lightcyan;
+	width: 660px;
+	height: 320px;
+}
+
+
+
+
+
+
+
+
 
 
 /********** footer **********/

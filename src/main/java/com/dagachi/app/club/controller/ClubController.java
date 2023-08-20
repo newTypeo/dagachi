@@ -40,6 +40,7 @@ import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubBoard;
 import com.dagachi.app.club.entity.ClubBoardAttachment;
 import com.dagachi.app.club.entity.ClubDetails;
+import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.club.entity.ClubTag;
@@ -164,17 +165,24 @@ public class ClubController {
 	/**
 	 * 인덱스 페이지에서 클럽 상세보기 할 때 매핑입니다.
 	 * 도메인도 domain 변수 안에 넣어놨습니다. (창환)
+	 * - layout 가져오도록 수정(동찬)
 	 */
 	@GetMapping("/&{domain}")
 	public String clubDetail(
 			@PathVariable("domain") String domain,
 			Model model) {
 //		log.debug("domain = {}", domain);
-		
-		
+
+		int clubId = clubService.findByDomain(domain).getClubId();
+		log.debug("clubId = {}", clubId);
+		ClubLayout layout = clubService.findLayoutById(clubId);
+	
+
 		model.addAttribute("domain", domain);
+		model.addAttribute("layout", layout);
 		return "club/clubDetail";
 	}
+	
 	
 	/**
 	 * 메인에서 소모임 전체 조회(카드로 출력)

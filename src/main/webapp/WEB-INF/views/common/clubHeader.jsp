@@ -23,7 +23,7 @@
 </head>
 <body>
 <div id="container">
-	<header class="p-2 bg-primary">
+	<header class="p-2">
 		<div>미니로고</div>
 		<button onclick="location.href = '${pageContext.request.contextPath}/member/memberLogin.do';">
 			로그인 : /member/memberLogin.do
