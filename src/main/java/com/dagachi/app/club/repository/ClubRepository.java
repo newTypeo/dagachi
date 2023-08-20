@@ -30,13 +30,9 @@ import com.dagachi.app.member.entity.Member;
 @Mapper
 public interface ClubRepository {
 
-   @Select("select * from club where ${column} like '%' || #{keyword} || '%'")
-   List<Club> adminClubSearch(RowBounds rowBounds, Map<String, Object> params);
-
    
-   @Select("select * from club where status = 'Y' order by club_id desc")
-   List<Club> adminClubList(); 
-
+   List<Club> adminClubList(RowBounds rowBounds, Map<String, Object> params); 
+   List<Club> adminClubList(Map<String, Object> params);
    
    @Select("SELECT c.*, p.*, cm.member_count " +
                "FROM club c " +
@@ -139,6 +135,12 @@ public interface ClubRepository {
 
 	@Update("update club_profile set original_filename = #{originalFilename}, renamed_filename=#{renamedFilename} where club_id=#{clubId}")
 	int updateClubProfile(ClubProfile clubProfile);
+
+	
+
+
+	
+
 
 	
 	

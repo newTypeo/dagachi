@@ -19,7 +19,7 @@ import com.dagachi.app.member.entity.Member;
 
 public interface ClubService {
 
-	List<Club> adminClubList();
+	List<Club> adminClubList(Map<String, Object> params);
 
 	List<ClubAndImage> clubList();
 	
@@ -61,6 +61,5 @@ public interface ClubService {
 	
 	int clubMemberRoleUpdate(ClubMemberRoleUpdate member);
 
-	List<Club> adminClubSearch(Map<String, Object> params);
 
 }
