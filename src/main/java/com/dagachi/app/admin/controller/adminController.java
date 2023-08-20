@@ -1,6 +1,7 @@
 package com.dagachi.app.admin.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -47,28 +48,27 @@ public class adminController {
 			HttpServletRequest request,
 			Model model) {
 		int limit = 10;
-		Map<String, Object> params = Map.of(
-				"page", page,
-				"limit", limit,
-				"keyword", keyword,
-				"column", column
-				);
-		List<Club> clubs = new ArrayList<>();
-		if(keyword == "") {
-			clubs = clubService.adminClubList();
-		}
-		else {
-			clubs = clubService.adminClubSearch(params);
-		}
+		String getCount = "getCount";
 		
+		Map<String, Object> params = new HashMap<>();
+        params.put("page", page);
+        params.put("limit", limit);
+        params.put("keyword", keyword);
+        params.put("column", column);
+        
+		List<Club> clubs = clubService.adminClubList(params);
+		// log.debug("clubs= {}", clubs);
 		model.addAttribute("clubs", clubs);
 		
 		// 전체게시물 수
-		int totalCount = clubs.size();
+		params.put("getCount", getCount);
+		int totalCount = clubService.adminClubList(params).size();
 		String url = request.getRequestURI();
+		url += "#&keyword=" + keyword + "&column=" + column;
 		String pageBar = Pagination.getPagebar(page, limit, totalCount, url);
+		pageBar = pageBar.replaceAll("\\?", "&");
+		pageBar = pageBar.replaceAll("#&", "\\?");
 		model.addAttribute("pagebar", pageBar);
-		
 	}
 
 	/**

@@ -37,20 +37,17 @@ public class ClubServiceImpl implements ClubService {
 	
 	
 	@Override
-	public List<Club> adminClubSearch(Map<String, Object> params) {
+	public List<Club> adminClubList(Map<String, Object> params) {
+		if((String) params.get("getCount") != null) {
+			return clubRepository.adminClubList(params);
+		}
 		int limit = (int) params.get("limit");
 		int page = (int) params.get("page");
 		int offset = (page - 1) * limit;
 		RowBounds rowBounds = new RowBounds(offset, limit);
-		return clubRepository.adminClubSearch(rowBounds, params);
+		return clubRepository.adminClubList(rowBounds, params);
 	}
-	
-	
-	@Override
-	public List<Club> adminClubList() {
-		return clubRepository.adminClubList();
-	}
-	
+
 	
 	@Override
 	public List<ClubAndImage> clubList() {
