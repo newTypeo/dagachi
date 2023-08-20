@@ -1,6 +1,7 @@
 package com.dagachi.app.club.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -9,6 +10,7 @@ import org.apache.ibatis.annotations.Select;
 
 import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.session.RowBounds;
 
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
@@ -28,13 +30,9 @@ import com.dagachi.app.member.entity.Member;
 @Mapper
 public interface ClubRepository {
 
-   @Select("select * from club where ${column} like '%' || #{keyword} || '%'")
-   List<Club> adminClubSearch(String keyword, String column);
-
    
-   @Select("select * from club where status = 'Y' order by club_id desc")
-   List<Club> adminClubList(); 
-
+   List<Club> adminClubList(RowBounds rowBounds, Map<String, Object> params); 
+   List<Club> adminClubList(Map<String, Object> params);
    
    @Select("SELECT c.*, p.*, cm.member_count " +
                "FROM club c " +
@@ -48,8 +46,8 @@ public interface ClubRepository {
    List<Member> adminMemberList();
 
    
-   List<ClubSearchDto> clubSearch(String inputText);
-   
+   List<ClubSearchDto> clubSearch(RowBounds rowBounds, Map<String, Object> params);
+   List<ClubSearchDto> clubSearch(Map<String, Object> params);
    
    @Select("select club_id from club where domain = #{domain}")
    int clubIdFindByDomain(String domain);
@@ -137,6 +135,13 @@ public interface ClubRepository {
 
 	@Update("update club_profile set original_filename = #{originalFilename}, renamed_filename=#{renamedFilename} where club_id=#{clubId}")
 	int updateClubProfile(ClubProfile clubProfile);
+
+	
+	
+
+
+	
+
 
 	
 	

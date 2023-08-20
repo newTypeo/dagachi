@@ -15,16 +15,7 @@
 </nav>
 <nav>
 	<a href="${pageContext.request.contextPath}/admin/adminMemberList.do">회원조회(관리자)</a>
-	<a href="${pageContext.request.contextPath}/admin/adminClubList.do">모임목록(관리자)</a>
-</nav>
-<nav id="main-category" class="bg-success">
-	<h3>카테고리</h3>
-	<div>
-		<a href="${pageContext.request.contextPath}/category/game">게임</a>
-		<a href="${pageContext.request.contextPath}/category/trip">여행</a>
-		<a href="${pageContext.request.contextPath}/category/sports">운동</a>
-		<a href="${pageContext.request.contextPath}/category/guitar">기타등등 나중에 추가해</a>
-	</div>
+	<a href="${pageContext.request.contextPath}/admin/adminClubList.do?keyword=&column=">모임목록(관리자)</a>
 </nav>
 
 <section id="main-page-sec" class="p-2 bg-info">

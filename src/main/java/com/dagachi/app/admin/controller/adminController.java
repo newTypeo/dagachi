@@ -1,6 +1,7 @@
 package com.dagachi.app.admin.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,36 +41,40 @@ public class adminController {
 	 * @author 종환
 	 */
 	@GetMapping("adminClubList.do")
-	public void clubList(Model model) {
-		List<Club> clubs = clubService.adminClubList();
-		model.addAttribute("clubs",clubs);
+	public void clubList(
+			@RequestParam(defaultValue = "1") int page,
+			@RequestParam String keyword, 
+			@RequestParam String column, 
+			HttpServletRequest request,
+			Model model) {
+		int limit = 10;
+		String getCount = "getCount";
+		
+		Map<String, Object> params = new HashMap<>();
+        params.put("page", page);
+        params.put("limit", limit);
+        params.put("keyword", keyword);
+        params.put("column", column);
+        
+		List<Club> clubs = clubService.adminClubList(params);
+		// log.debug("clubs= {}", clubs);
+		model.addAttribute("clubs", clubs);
+		
+		// 전체게시물 수
+		params.put("getCount", getCount);
+		int totalCount = clubService.adminClubList(params).size();
+		String url = request.getRequestURI();
+		url += "#&keyword=" + keyword + "&column=" + column;
+		String pageBar = Pagination.getPagebar(page, limit, totalCount, url);
+		pageBar = pageBar.replaceAll("\\?", "&");
+		pageBar = pageBar.replaceAll("#&", "\\?");
+		model.addAttribute("pagebar", pageBar);
 	}
 
 	/**
 	 * 관리자 회원 목록 조회
 	 * @author 현우
 	 */
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
 	@GetMapping("adminMemberList.do")
 	public void memberList(
 			@RequestParam(defaultValue = "1") int page,

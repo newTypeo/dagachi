@@ -36,7 +36,9 @@
 
 	<header>
 		<div id="main-logo-container">
-			<img id="main-logo" src="${pageContext.request.contextPath}/resources/images/004.png" class="p-2">
+			<a href="${pageContext.request.contextPath}">
+				<img id="main-logo" src="${pageContext.request.contextPath}/resources/images/004.png" class="p-2">
+			</a>
 		</div>
 		
 		<div id="header-nav-container">

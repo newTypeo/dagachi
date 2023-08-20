@@ -36,4 +36,18 @@
 	  		club_name like '%' || #{inputText} || '%'
 	</select>
 	
+	<select id="adminClubList">
+	 select
+	 	* 
+	 from 
+	 	club
+	 <if test="keyword != null and keyword != ''">
+		 where 
+		 ${column} like '%' || #{keyword} || '%'
+	 </if> 
+	 order by
+	 	created_at desc
+	</select>
+	
+	
 </mapper>

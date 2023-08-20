@@ -2,7 +2,9 @@ package com.dagachi.app.club.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,16 +37,17 @@ public class ClubServiceImpl implements ClubService {
 	
 	
 	@Override
-	public List<Club> adminClubSearch(String keyword, String column) {
-		return clubRepository.adminClubSearch(keyword, column);
+	public List<Club> adminClubList(Map<String, Object> params) {
+		if((String) params.get("getCount") != null) {
+			return clubRepository.adminClubList(params);
+		}
+		int limit = (int) params.get("limit");
+		int page = (int) params.get("page");
+		int offset = (page - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		return clubRepository.adminClubList(rowBounds, params);
 	}
-	
-	
-	@Override
-	public List<Club> adminClubList() {
-		return clubRepository.adminClubList();
-	}
-	
+
 	
 	@Override
 	public List<ClubAndImage> clubList() {
@@ -59,8 +62,18 @@ public class ClubServiceImpl implements ClubService {
 	
 	
 	@Override
-	public List<ClubSearchDto> clubSearch(String inputText) {
-		List<ClubSearchDto> clubs = clubRepository.clubSearch(inputText);
+	public List<ClubSearchDto> clubSearch(Map<String, Object> params) {
+		if((String) params.get("getCount") != null) {
+			return clubRepository.clubSearch(params);
+		}
+		
+		int limit = (int) params.get("limit");
+		int page = (int) params.get("page");
+		int offset = (page - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		List<ClubSearchDto> clubs = clubRepository.clubSearch(rowBounds, params);
+		
 		// 모임 인원 가져오기
 		for (ClubSearchDto club : clubs) 
 			club.setMemberCount(clubRepository.countClubMember(club.getClubId()));
