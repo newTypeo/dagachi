@@ -83,5 +83,7 @@ public interface ClubService {
 	
 	int kickMember(KickMember kickMember);
 
+	List<Member> findMemberByClubId(int clubId);
+
 
 }

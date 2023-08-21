@@ -272,5 +272,10 @@ public class ClubServiceImpl implements ClubService {
 		return clubRepository.findgalleryById(clubId);
 	}
 	
+	@Override
+	public List<Member> findMemberByClubId(int clubId) {
+		return clubRepository.findMemberByClubId(clubId);
+	}
+	
 }
 

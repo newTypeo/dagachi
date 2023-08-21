@@ -51,6 +51,7 @@ import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.club.service.ClubService;
 import com.dagachi.app.common.DagachiUtils;
+import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.entity.MemberDetails;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -612,8 +613,11 @@ public class ClubController {
 			@PathVariable("domain") String domain,
 			Model model
 			) {
+		int clubId = clubService.clubIdFindByDomain(domain);
 		Club club = clubService.findByDomain(domain);
+		List<Member> members= clubService.findMemberByClubId(clubId);
 		
+		model.addAttribute("members",members);
 		model.addAttribute("club",club);
 		
 		return "/club/clubMemberList";

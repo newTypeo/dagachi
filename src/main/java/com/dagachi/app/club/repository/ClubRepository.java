@@ -167,6 +167,9 @@ public interface ClubRepository {
 
 	@Delete("delete from club_member where club_id = #{clubId} and member_id = #{memberId}")
 	int kickMember(KickMember kickMember);
+	
+	@Select("select * from member m join (select * from club_member where club_id = #{clubId}) b on m.member_id = b.member_id")
+	List<Member> findMemberByClubId(int clubId);
 
 	
 }
