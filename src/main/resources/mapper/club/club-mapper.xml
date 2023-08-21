@@ -23,30 +23,35 @@
  
 
 	<select id="clubSearch">
-	  select 
-		  	c.*,
-	        cp.club_id profile_club_id,
-	        original_filename,
-	        renamed_filename,
-	        cp.created_at profile_created_at
-	  from 
-		  	club c left join club_profile cp
-	            on c.club_id = cp.club_id
-	  where 
-	  		club_name like '%' || #{inputText} || '%'
-	  		or
-	  		category like '%' || #{inputText} || '%'
-	  		or
-	  		activity_area like '%' || #{inputText} || '%'
-	  		and
-	  		status = 'Y'
+	 select 
+	  	c.*,
+        cp.club_id profile_club_id,
+        original_filename,
+        renamed_filename,
+        cp.created_at profile_created_at
+	 from 
+	  	club c left join club_profile cp
+            on c.club_id = cp.club_id
+	 where 
+  		club_name like '%' || #{inputText} || '%'
+  		or
+  		category like '%' || #{inputText} || '%'
+  		or
+  		activity_area like '%' || #{inputText} || '%'
+  		and
+  		status = 'Y'
 	</select>
 	
 	<select id="searchClubWithFilter">
-	select
-		*
-	from
-		club
+	select 
+	  	c.*,
+        cp.club_id profile_club_id,
+        original_filename,
+        renamed_filename,
+        cp.created_at profile_created_at
+  	from 
+	  	club c left join club_profile cp
+            on c.club_id = cp.club_id
 	where
 	(club_name like '%' || #{inputText} || '%'
 	or
