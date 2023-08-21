@@ -307,8 +307,8 @@ public class ClubController {
 		
 //		log.debug("memberRole = {}", memberRole);
 		
-		model.addAttribute("clubApplies", clubApplies);
 
+		model.addAttribute("clubId", clubId); // 가입승인 시 필요 (종환)
 		model.addAttribute("joinClubMembersInfo", joinClubMembersInfo); // 해당 모임에 가입된 회원 정보 [방장제외](아아디, 이름, 닉네임, 가입일, 회원 권한)
 		model.addAttribute("host", host); // 해당 모임의 방장 정보(아이디, 이름, 닉네임, 가입일, 권한)
 		model.addAttribute("loginMemberId", loginMemberId); // 로그인한 회원의 아이디
