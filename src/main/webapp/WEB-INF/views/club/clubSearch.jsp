@@ -35,7 +35,7 @@
 			<c:forEach items="${clubs}" var="club" varStatus="vs">
 				<div>
 					<c:if test="${not empty club.renamedFilename}">
-					<img src="${pageContext.request.contextPath}/resources/upload/profile/${club.renamedFilename}" width="150px">
+					<img src="${pageContext.request.contextPath}/resources/upload/club/profile/${club.renamedFilename}" width="150px">
 					</c:if>
 					<c:if test="${empty club.renamedFilename}">
 					<img src="${pageContext.request.contextPath}/resources/images/001.png" width="150px">
