@@ -32,7 +32,6 @@
 					<input type="text" id="clubCategorySearch" placeholder="카테고리를 입력하세요">
 					<button onclick="searchClub(this);" name="category">검색</button>
 		        </div>
-			</div>
 			
 				<form 
 					name="searchClubFrm"
@@ -41,7 +40,7 @@
 					<input type="hidden" name="column" id="columnHidden">
 				</form>
 				
-			<div>
+			
 				<table id="clubListTable">
 					<thead>
 						<tr>

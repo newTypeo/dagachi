@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -38,6 +37,7 @@ import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
 import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.ClubUpdateDto;
 import com.dagachi.app.club.dto.JoinClubMember;
+import com.dagachi.app.club.dto.KickMember;
 import com.dagachi.app.club.dto.ManageMember;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubBoard;
@@ -266,10 +266,10 @@ public class ClubController {
 //		log.debug("clubMembers = {}", clubMembers);
 		
 		List<JoinClubMember> joinClubMembersInfo = clubService.clubMemberInfoByFindByMemberId(clubMembers);	// 해당 모임에 가입된 회원 정보(이름, 닉네임, 가입일)
-		log.debug("joinClubMembersInfo = {}", joinClubMembersInfo);
+//		log.debug("joinClubMembersInfo = {}", joinClubMembersInfo);
 		
 		JoinClubMember host = clubService.hostFindByClubId(clubId);
-		log.debug("host = {}", host);
+//		log.debug("host = {}", host);
 		
 		
 		String loginMemberId = member.getMemberId(); // 로그인 한 회원 아이디
@@ -283,12 +283,31 @@ public class ClubController {
 //		log.debug("memberRole = {}", memberRole);
 		
 		model.addAttribute("clubApplies", clubApplies);
-		model.addAttribute("joinClubMembersInfo", joinClubMembersInfo);
+		model.addAttribute("joinClubMembersInfo", joinClubMembersInfo); // 해당 모임에 가입된 회원 정보 [방장제외](아아디, 이름, 닉네임, 가입일, 회원 권한)
 		model.addAttribute("host", host); // 해당 모임의 방장 정보(아이디, 이름, 닉네임, 가입일, 권한)
-		model.addAttribute("loginMemberId", loginMemberId);
+		model.addAttribute("loginMemberId", loginMemberId); // 로그인한 회원의 아이디
 		model.addAttribute("memberRole", memberRole); // 해당 모임에서 로그인한 회원의 권한
 		
 		return "/club/manageMember";
+	}
+	
+	
+	@PostMapping("/&{domain}/kickMember.do")
+	public String kickMember(
+			@PathVariable("domain") String domain,
+			@RequestParam String memberId,
+			KickMember kickMember) {
+		
+//		log.debug("domain = {}", domain);
+//		log.debug("memberId = {}", memberId);
+		int clubId = clubService.clubIdFindByDomain(domain); // clubId 찾아오기
+		
+		kickMember.setClubId(clubId);
+		kickMember.setMemberId(memberId);
+		
+		int result = clubService.kickMember(kickMember); // club_member 테이블에서 해당 회원 삭제
+		
+		return "redirect:/club/&" + domain + "/manageMember.do";
 	}
 
 

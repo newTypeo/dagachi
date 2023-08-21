@@ -34,37 +34,42 @@ public class MemberServiceImpl implements MemberService{
 	
 	@Override
 	public List<Member> adminMemberList(Map<String, Object> params) {
+		if((String) params.get("getCount") != null) {
+			return memberRepository.adminMemberList(params);
+		}
 		int limit = (int) params.get("limit");
 		int page = (int) params.get("page");
 		int offset = (page - 1) * limit;
 		RowBounds rowBounds = new RowBounds(offset, limit);
-		return memberRepository.adminMemberList(rowBounds);
+		return memberRepository.adminMemberList(rowBounds, params);
 	}
 	
 	@Override
-	public List<Member> memberSearch(String keyword, String column, Map<String, Object> params) {
+	public List<Member> adminQuitMemberList(Map<String, Object> params) {
+		if((String) params.get("getCount") != null) {
+		return memberRepository.adminQuitMemberList(params);
+		}
+		
 		int limit = (int) params.get("limit");
 		int page = (int) params.get("page");
 		int offset = (page - 1) * limit;
 		RowBounds rowBounds = new RowBounds(offset, limit);
-		return memberRepository.memberSearch(keyword, column, rowBounds);
+		return memberRepository.adminQuitMemberList(rowBounds, params);
 	}
 	
 	@Override
-	public List<Member> adminQuitMemberList() {
-		return memberRepository.adminQuitMemberList();
+	public List<Member> adminReportMemberList(Map<String, Object> params) {
+		if((String) params.get("getCount") != null) {
+			return memberRepository.adminReportMemberList(params);
+			}
+			
+			int limit = (int) params.get("limit");
+			int page = (int) params.get("page");
+			int offset = (page - 1) * limit;
+			RowBounds rowBounds = new RowBounds(offset, limit);
+			return memberRepository.adminReportMemberList(rowBounds, params);
 	}
-	
-	@Override
-	public List<Member> quitMemberSearch(String keyword, String column) {
-		return memberRepository.quitMemberSearch(keyword, column);
-	}
-	
-	@Override
-	public int getTotalCount() {
-		return memberRepository.getTotalCount();
-	}	
-	
+
 	/**
 	 * Spring Security에 의해 db사용자를 조회할때 사용
 	 * - username(pk)컬럼값으로 사용자/권한 정보 조회
@@ -83,6 +88,8 @@ public class MemberServiceImpl implements MemberService{
 		return memberRepository.findMemberById(memberId);
 	}
 	
+
+
 
 
 }

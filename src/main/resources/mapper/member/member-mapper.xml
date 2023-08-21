@@ -65,4 +65,45 @@
 		</constructor>
 	</resultMap>
 	
+	<select id="adminMemberList">
+	 select
+	 	* 
+	 from 
+	 	member
+	 <if test="keyword != null and keyword != ''">
+		 where 
+		 ${column} like '%' || #{keyword} || '%'
+	 </if> 
+	 order by
+	 	enroll_date desc
+	</select>
+	
+	<select id="adminQuitMemberList">
+	 select
+	 	* 
+	 from 
+	 	member
+	 where 
+		withdrawal_date is not null
+	 <if test="keyword != null and keyword != ''">
+		and ${column} like '%' || #{keyword} || '%'
+	 </if> 
+	 order by
+	 	withdrawal_date desc
+	</select>
+	
+	<select id="adminReportMemberList">
+	 select
+	 	* 
+	 from 
+	 	member
+	 where 
+		report_count != 0
+	 <if test="keyword != null and keyword != ''">
+		 and ${column} like '%' || #{keyword} || '%'
+	 </if> 
+	 order by
+	 	enroll_date desc
+	</select>
+	
 </mapper>

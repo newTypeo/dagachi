@@ -6,39 +6,39 @@
 <fmt:requestEncoding value="utf-8" />
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
-<section id="admin-quit-member-list-sec" class="p-2 quit-member-list">
-	<h1>탈퇴 회원목록 페이지</h1>
+<section id="admin-report-member-list-sec" class="p-2 report-member-list">
+	<h1>신고 회원목록 페이지</h1>
 
-	<div id="quit-member-list-wrapper">
+	<div id="report-member-list-wrapper">
 		<div id="search-container">
 			<div id="searchBar-wrap">
 				<label for="searchType">검색타입 :</label> 
 				<select id="searchType">
-					<option id="searchOption" value="quitMemberNameSearch">이름</option>
-					<option id="searchOption" value="quitMemberIdSearch">ID</option>
-					<option id="searchOption" value="quitMemberAddressSearch">주소</option>
+					<option id="searchOption" value="reportMemberNameSearch">이름</option>
+					<option id="searchOption" value="reportMemberIdSearch">ID</option>
+					<option id="searchOption" value="reportMemberAddressSearch">주소</option>
 				</select>
 
 				<div id="search-name" class="search-type" style="display: inline-block">
-					<input type="text" id="quitMemberNameSearch" placeholder="이름을 입력하세요" name="name">
-					<button onclick="quitSearchMember(this);" name="name">검색</button>
+					<input type="text" id="reportMemberNameSearch" placeholder="이름을 입력하세요" name="name">
+					<button onclick="reportSearchMember(this);" name="name">검색</button>
 				</div>
 				<div id="search-id" class="search-type" style="display: none">
-					<input type="text" id="quitMemberIdSearch" placeholder="ID을 입력하세요" name="member_id">
-					<button onclick="quitSearchMember(this);" name="member_id">검색</button>
+					<input type="text" id="reportMemberIdSearch" placeholder="ID을 입력하세요" name="member_id">
+					<button onclick="reportSearchMember(this);" name="member_id">검색</button>
 				</div>
 				<div id="search-address" class="search-type" style="display: none">
-					<input type="text" id="quitMemberAddressSearch" placeholder="주소를 입력하세요" name="address">
-					<button onclick="quitSearchMember(this);" name="address">검색</button>
+					<input type="text" id="reportMemberAddressSearch" placeholder="주소를 입력하세요" name="address">
+					<button onclick="reportSearchMember(this);" name="address">검색</button>
 				</div>
 
-				<form name="searchQuitMemberFrm"
-					action="${pageContext.request.contextPath}/admin/adminQuitMemberList.do">
+				<form name="searchReportMemberFrm"
+					action="${pageContext.request.contextPath}/admin/adminReportMemberList.do">
 					<input type="hidden" name="keyword" id="keywordHidden"> <input
 						type="hidden" name="column" id="columnHidden">
 				</form>
 
-				<table id="quitMemberListTable">
+				<table id="reportMemberListTable">
 					<thead>
 						<tr>
 							<th>ID</th>
@@ -46,7 +46,8 @@
 							<th>닉네임</th>
 							<th>연락처</th>
 							<th>주소</th>
-							<th>성별</th>						
+							<th>성별</th>
+							<th>신고누적횟수</th>
 							<th>생년월일</th>
 							<th>가입일</th>
 						</tr>
@@ -66,7 +67,7 @@
 									<td>${member.phoneNo}</td>
 									<td>${member.address}</td>
 									<td>${member.gender}</td>
-									
+									<td>${member.reportCount}</td>
 									<%-- <td>${member.birthday}</td> --%>
 									<td><fmt:parseDate value="${member.birthday}"
 											var="birthday" pattern="yyyy-MM-dd"></fmt:parseDate> <fmt:formatDate
@@ -105,13 +106,13 @@ document.querySelector("#searchType").onchange = (e) => {
 };
 
 //검색유형 별 검색시 동기로 탈퇴회원 조회
-const quitSearchMember = (btnTag) => {
+const reportSearchMember = (btnTag) => {
 	console.log(btnTag);
 	const keyword = btnTag.previousElementSibling.value;
 	const column = btnTag.name;
 	document.querySelector("#keywordHidden").value = keyword;
 	document.querySelector("#columnHidden").value = column;
-	document.searchQuitMemberFrm.submit();
+	document.searchReportMemberFrm.submit();
 };
 
 </script>
