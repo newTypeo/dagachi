@@ -1,3 +1,4 @@
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -6,6 +7,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%
+    List<?> boardAndImages = (List<?>) request.getAttribute("boardAndImages");
+    int count = 0;
+%>
 <fmt:requestEncoding value="utf-8"/>
 <jsp:include page="/WEB-INF/views/common/clubHeader.jsp"></jsp:include>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/club.css"/>
@@ -27,6 +32,7 @@
 	<nav>
 		<button id="clubDisabled">모임 비활성화</button>
 		<button id="club-update-btn">모임 수정</button>
+		<a href ="${pageContext.request.contextPath}/club/&${domain}/clubMemberList.do">모임내 회원조회</a>
 	</nav>
 	
 	<nav>
@@ -53,7 +59,7 @@
 					더보기<i class="fa-solid fa-angle-right"></i>
 				</a>
 			</div>
-			<div class="container-main">
+			<div class="container-main container-main-long">
 				<c:forEach items="${boardAndImages}" var="board">
 					<c:if test="${board.type eq 4}">
 						<div>
@@ -81,7 +87,7 @@
 				</a>
 			</div>
 			<div class="container-main">
-				<c:forEach items="${galleries}" var="gallery">
+				<c:forEach items="${galleries}" var="gallery" >
 					<div>
 						<a href="/">
 							<img src="${pageContext.request.contextPath}/resources/upload/club/gallery/${gallery.renamedFilename}" class="img-thumbnail">
@@ -98,7 +104,7 @@
 					더보기<i class="fa-solid fa-angle-right"></i>
 				</a>
 			</div>
-			<div class="container-main">
+			<div class="container-main container-main-short">
 				<c:forEach items="${boardAndImages}" var="board">
 					<c:if test="${board.type eq 1}">
 						<div>
@@ -125,7 +131,7 @@
 					더보기<i class="fa-solid fa-angle-right"></i>
 				</a>
 			</div>
-			<div class="container-main">
+			<div class="container-main container-main-short">
 				<c:forEach items="${boardAndImages}" var="board">
 					<c:if test="${board.type eq 3}">
 						<div>
@@ -152,7 +158,7 @@
 					더보기<i class="fa-solid fa-angle-right"></i>
 				</a>
 			</div>
-			<div class="container-main">
+			<div class="container-main container-main-short">
 				<c:forEach items="${boardAndImages}" var="board">
 					<c:if test="${board.type eq 2}">
 						<div>
