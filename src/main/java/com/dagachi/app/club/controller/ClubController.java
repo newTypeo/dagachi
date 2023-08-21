@@ -180,7 +180,6 @@ public class ClubController {
         params.put("inputText", inputText);
         
         List<ClubSearchDto> clubs = clubService.searchClubWithFilter(params);
-		model.addAttribute("clubs", clubs);
 		
 		params.put("getCount", getCount);
 		int totalCount = clubService.searchClubWithFilter(params).size();
@@ -190,6 +189,10 @@ public class ClubController {
 		String pageBar = Pagination.getPagebar(page, LIMIT, totalCount, url);
 		pageBar = pageBar.replaceAll("\\?", "&");
 		pageBar = pageBar.replaceAll("#&", "\\?");
+		
+		model.addAttribute("area", area);
+		model.addAttribute("category", category);
+		model.addAttribute("clubs", clubs);
 		model.addAttribute("pagebar", pageBar);
 		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("inputText", inputText);
@@ -244,31 +247,39 @@ public class ClubController {
 			){
 		List<ClubAndImage> clubAndImages = new ArrayList<>();
 		clubAndImages = clubService.clubList();
-		for(ClubAndImage cAI: clubAndImages) {
-			int clubId = clubService.clubIdFindByDomain(cAI.getDomain());
-			List<String> clubTag = (List)clubService.findClubTagById(clubId);
-		}
+//		for(ClubAndImage cAI: clubAndImages) {
+//			int clubId = clubService.clubIdFindByDomain(cAI.getDomain());
+//			List<String> clubTag = (List)clubService.findClubTagById(clubId);
+//		}
+//		System.out.println(clubTag);
 		return ResponseEntity.status(HttpStatus.OK).body(clubAndImages);
 	}
 	
 	/**
-	 * 로그인 했을때 소모임 추천 출력(카드)
+	 * 로그인 했을때 로그인객체의 관심사로 소모임 추천 출력(카드)
 	 * @author 준한
 	 */
 	@GetMapping("/loginClubList.do")
 	public ResponseEntity<?> loginClubList(
 			@AuthenticationPrincipal MemberDetails member
 			){
+		log.debug("ddddddddddddddddddddddddddddddddddddddddddd");
 		String memberId = member.getMemberId();
 		
 		List<ClubAndImage> clubAndImages = new ArrayList<>();
 		clubAndImages = clubService.clubListById(memberId);
-		log.debug("좀가져오렴 제발...={}", clubAndImages);
 		return ResponseEntity.status(HttpStatus.OK).body(clubAndImages);
 	}
 	
 
-
+	@GetMapping("/categoryList.do")
+	public ResponseEntity<?> categoryList(
+			@RequestParam String category) {
+		log.debug(category);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(category);
+	}
+	
 	/**
 	 * 해당 모임의 회원관리 클릭시
 	 * @author 창환
@@ -313,6 +324,10 @@ public class ClubController {
 	}
 	
 	
+	/**
+	 * 해당 모임의 회원 강제 탈퇴
+	 * @author 창환
+	 */
 	@PostMapping("/&{domain}/kickMember.do")
 	public String kickMember(
 			@PathVariable("domain") String domain,
@@ -603,5 +618,18 @@ public class ClubController {
 		
 		return clubBoard;
 	}
+	
+	@GetMapping("/&{domain}/clubMemberList.do")
+	public String clubMemberList(
+			@PathVariable("domain") String domain,
+			Model model
+			) {
+		Club club = clubService.findByDomain(domain);
+		
+		model.addAttribute("club",club);
+		
+		return "/club/clubMemberList";
+	}
+	
 	
 }

@@ -32,6 +32,7 @@
 	<nav>
 		<button id="clubDisabled">모임 비활성화</button>
 		<button id="club-update-btn">모임 수정</button>
+		<a href ="${pageContext.request.contextPath}/club/&${domain}/clubMemberList.do">모임내 회원조회</a>
 	</nav>
 	
 	<nav>
