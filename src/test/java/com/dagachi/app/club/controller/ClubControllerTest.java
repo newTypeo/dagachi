@@ -11,12 +11,14 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubBoard;
 import com.dagachi.app.club.service.ClubService;
 
 @SpringBootTest
+@Transactional
 class ClubControllerTest {
 
 	@Autowired
@@ -24,6 +26,16 @@ class ClubControllerTest {
 	@Test
 	void test() {
 		assertThat(clubService).isNotNull();
+	}
+	
+	@DisplayName("소모임 한개찾기")
+	@ParameterizedTest
+	void creatboardCreate() {
+		
+		String title = "title";
+		int type  = 1;
+		String content = "content";
+		
 	}
 
 	

@@ -4,8 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +27,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.dagachi.app.Pagination;
 import com.dagachi.app.club.dto.ClubAndImage;
+import com.dagachi.app.club.dto.ClubBoardCreateDto;
 import com.dagachi.app.club.dto.ClubCreateDto;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
 import com.dagachi.app.club.dto.ClubSearchDto;
@@ -33,7 +38,9 @@ import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.ManageMember;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubBoard;
+import com.dagachi.app.club.entity.ClubBoardAttachment;
 import com.dagachi.app.club.entity.ClubDetails;
+import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.club.entity.ClubTag;
@@ -80,43 +87,67 @@ public class ClubController {
 		return "/club/clubBoardCreate";
 	}
 	
-//	@PostMapping("/clubBoardCreate.do")
-//	public String boardCreate1(
-//			
-//	) {
-//		
-//		return " ";
-//	}
-	
-	/**
-	 * 관리자 회원 목록에서 모임 검색
-	 * @author 종환
-	 */
-	@GetMapping("/adminClubSearch.do")
-	public ResponseEntity<?> adminClubSearch(@RequestParam String keyword, @RequestParam String column) {
-		log.debug("keyword = {}", keyword);
-		log.debug("column = {}", column);
-		List<Club> clubs = new ArrayList<>();
-		if(keyword == "") {
-			clubs = clubService.adminClubList();
+	@PostMapping("/{domain}/boardCreate.do")
+	public String boardCreate(
+			@Valid ClubBoardCreateDto _board,
+			BindingResult bindingResult,
+			@RequestParam(value = "upFile", required = false) List<MultipartFile> upFiles
+	) throws IllegalStateException, IOException{
+		List<ClubBoardAttachment> attachments = new ArrayList<>();
+		for(MultipartFile upFile : upFiles) {
+			if(!upFile.isEmpty()) {
+				String originalFilename = upFile.getOriginalFilename();
+				String renamedFilename = DagachiUtils.getRenameFilename(originalFilename);
+				File destFile = new File(renamedFilename);
+				upFile.transferTo(destFile);
+				
+				ClubBoardAttachment attach=
+						ClubBoardAttachment.builder()
+						.originalFilename(originalFilename)
+						.renamedFilename(renamedFilename)
+						.build();
+				log.debug("attach = {}",attach);
+				log.debug("_board = {}",_board);
+				attachments.add(attach);
+				
+			}
 		}
-		else {
-			clubs = clubService.adminClubSearch(keyword, column);
-		}
-		// log.debug("clubs = {}", clubs);
-		return ResponseEntity.status(HttpStatus.OK).body(clubs);
+		
+		
+		//지금 문제잇음
+		return "/club/clubBoardList";
 	}
+	
 	
 	/**
 	 * 메인화면에서 모임 검색
 	 * @author 종환
 	 */
 	@GetMapping("/clubSearch.do")
-	public void clubSearch(@RequestParam String inputText, Model model) {
-		// log.debug("inputText = {}", inputText);
-		List<ClubSearchDto> clubs = clubService.clubSearch(inputText);
-		log.debug("clubs = {}", clubs);
+	public void clubSearch(
+			@RequestParam(defaultValue = "1") int page,
+			@RequestParam String inputText,
+			HttpServletRequest request,
+			Model model) {
+		int limit = 10;
+		String getCount = "getCount";
+		
+		Map<String, Object> params = new HashMap<>();
+        params.put("page", page);
+        params.put("limit", limit);
+        params.put("inputText", inputText);
+		
+		List<ClubSearchDto> clubs = clubService.clubSearch(params);
 		model.addAttribute("clubs", clubs);
+		
+		params.put("getCount", getCount);
+		int totalCount = clubService.clubSearch(params).size();
+		String url = request.getRequestURI();
+		url += "#&inputText=" + inputText;
+		String pageBar = Pagination.getPagebar(page, limit, totalCount, url);
+		pageBar = pageBar.replaceAll("\\?", "&");
+		pageBar = pageBar.replaceAll("#&", "\\?");
+		model.addAttribute("pagebar", pageBar);
 	}
 	
 	
@@ -134,25 +165,38 @@ public class ClubController {
 	/**
 	 * 인덱스 페이지에서 클럽 상세보기 할 때 매핑입니다.
 	 * 도메인도 domain 변수 안에 넣어놨습니다. (창환)
+	 * - layout 가져오도록 수정(동찬)
 	 */
 	@GetMapping("/&{domain}")
 	public String clubDetail(
 			@PathVariable("domain") String domain,
 			Model model) {
 //		log.debug("domain = {}", domain);
-		
+
+		int clubId = clubService.findByDomain(domain).getClubId();
+		log.debug("clubId = {}", clubId);
+		ClubLayout layout = clubService.findLayoutById(clubId);
+	
+
 		model.addAttribute("domain", domain);
+		model.addAttribute("layout", layout);
 		return "club/clubDetail";
 	}
+	
 	
 	/**
 	 * 메인에서 소모임 전체 조회(카드로 출력)
 	 * @author 준한
 	 */
 	@GetMapping("/clubList.do")
-	public ResponseEntity<?> clubList(){
+	public ResponseEntity<?> clubList(
+			){
 		List<ClubAndImage> clubAndImages = new ArrayList<>();
 		clubAndImages = clubService.clubList();
+		for(ClubAndImage cAI: clubAndImages) {
+			int clubId = clubService.clubIdFindByDomain(cAI.getDomain());
+			List<String> clubTag = (List)clubService.findClubTagById(clubId);
+		}
 		return ResponseEntity.status(HttpStatus.OK).body(clubAndImages);
 	}
 	
@@ -263,17 +307,7 @@ public class ClubController {
 		
 		return "/club/clubBoardUpdate";
 	}
-	
-//	@PostMapping("/{domain}/boardUpdate.do")
-//	public String boardUpdate(
-//			@PathVariable("domain") String domain,
-//			@RequestParam int no,
-//			@RequestParam String title,
-//			@RequestParam int boardType,
-//			@RequestParam String content
-//			
-//	) {
-//		ClubBoard board= clubBoardGet(domain, no);
+
 
 	
 	/**

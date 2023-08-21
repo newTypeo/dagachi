@@ -7,7 +7,7 @@
 	<jsp:param value="게시판" name="title" />
 </jsp:include>
 <script>
-	window.onload = function() {
+	window.onload = ()=>{
 		renderBoardList(0);
 	};
 </script>
@@ -70,7 +70,7 @@
 					const {boardId,clubId,content,createdAt,likeCount,status,title,type,writer} = board;
 					let typeText;
 					switch(type){
-						case 1: typeText ="자유글"; break;
+						case 1: typeText ="자유게시판"; break;
 						case 2: typeText ="정모후기"; break;
 						case 3: typeText ="가입인사"; break;
 						case 4: typeText ="공지사항"; break;

@@ -1,15 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+   pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec"
+   uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <jsp:include page="/WEB-INF/views/common/clubHeader.jsp"></jsp:include>
 
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+   href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+   integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+   crossorigin="anonymous">
 
   <style>
     body {
@@ -41,8 +44,9 @@
 
 <body>
 
- <form:form name="memberCreateFrm" action="" method="POST">
+ <form:form name="memberCreateFrm" action="" method="POST" modelAttribute="member">
   <div class="container">
+
     <div class="input-form-backgroud row">
       <div class="input-form col-md-12 mx-auto">
         <h4 class="mb-3">회원가입</h4>
@@ -67,14 +71,11 @@
                 비밀번호 입력해주세요.
               </div>
             </div>
-            
              
              <div class="col-md-6 mb-3">
               <label for="passwordConfirmation">비밀번호 확인</label>
               <input type="text" class="form-control" id="passwordConfirmation" name = "passwordConfirmation" value="Json@!1" value="" required>
             </div>
-            
-        
             
             <div class="col-md-6 mb-3">
               <label for="nickname">닉네임</label>
@@ -96,27 +97,18 @@
             <label for="address">나의 집주소</label>
             <input type="text" class="form-control" id="address"  name = "address" value="강남역" required>
           </div>
-          
-          
-  <!--         <div class="mb-3">
-            <label for="main_area_id">주활동 지역</label>
-            <input type="text" class="form-control" id="main_area_id"  name = "main_area_id" placeholder="" required>
-          </div> -->
+
           
           <div class="mb-3">
             <label for="mbti">mbti</label>
             <input type="text" class="form-control" id="mbti"  name = "mbti"  value="entj" required>
           </div>
+
           
-<!--            <div class="mb-3">
-            <label for="interest">관심사</label>
-            <input type="text" class="form-control" id="interest"  name = "interest"  placeholder="" required>
-          </div> -->
-          
-          <div class="mb-3">
-            <label for="birthday">생일</label>
-            <input type="date" class="form-control" id="birthday"  name = "birthday"  value="2008-09-09" required>
-          </div>
+       	<div class="col-md-6 mb-3">
+		    <label for="birthday">생일</label>
+		    <input type="date" class="form-control" name="birthday" id="birthday" value="1999-09-09"/>
+		</div>
 
     	<div class="col-md-8 mb-3">
               <label for="gender">성별</label>
@@ -142,7 +134,6 @@
   </div>
   
  </form:form>
- 
 
   <script>
   document.memberCreateFrm.onsubmit = (e) => {
@@ -158,6 +149,5 @@
 		}
 	};
   </script>
-
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
