@@ -1,16 +1,18 @@
-<<<<<<< HEAD
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+   pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec"
+   uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <jsp:include page="/WEB-INF/views/common/clubHeader.jsp"></jsp:include>
 
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+   href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+   integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+   crossorigin="anonymous">
 
   <style>
     body {
@@ -39,10 +41,14 @@
     }
   </style>
 </head>
+
 <body>
 
- <form:form name="memberCreateFrm" action="" method="POST">
+ <form:form name="memberCreateFrm" action="" method="POST" modelAttribute="member">
   <div class="container">
+
+  <input type="hidden" name="_csrf" th:attr="value=${_csrf.token}" />
+  
     <div class="input-form-backgroud row">
       <div class="input-form col-md-12 mx-auto">
         <h4 class="mb-3">회원가입</h4>
@@ -93,6 +99,7 @@
             <label for="address">나의 집주소</label>
             <input type="text" class="form-control" id="address"  name = "address" value="강남역" required>
           </div>
+
           
           <div class="mb-3">
             <label for="mbti">mbti</label>
@@ -129,7 +136,6 @@
   </div>
   
  </form:form>
- 
 
   <script>
   document.memberCreateFrm.onsubmit = (e) => {
@@ -145,6 +151,5 @@
 		}
 	};
   </script>
-
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
