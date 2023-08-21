@@ -7,11 +7,12 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
 
-<section id="main-page-sec" class="p-2 member-list">
+<section id="admin-member-list-sec" class="p-2 member-list">
 	<h1>회원목록 페이지</h1>
 	
 	<div id="member-list-wrapper">
 		<div id="search-container">
+			<div id="searchBar-wrap">
 	        <label for="searchType">검색타입 :</label> 
 	        <select id="searchType">
 	            <option id="searchOption" value="memberNameSearch">이름</option>      
@@ -31,6 +32,13 @@
 					<input type="text" id="memberAddressSearch" placeholder="주소를 입력하세요" >
 					<button onclick="searchMember(this);" name="address" >검색</button>
 		        </div>
+		        
+		        <form 
+					name="searchMemberFrm"
+					action="${pageContext.request.contextPath}/admin/adminMemberList.do">
+					<input type="hidden" name="keyword" id="keywordHidden">
+					<input type="hidden" name="column" id="columnHidden">
+				</form>
 				
 	
 			<table id="memberListTable">
@@ -76,8 +84,9 @@
 				</tbody>
 			</table>
 		</div>
+	  </div>
 	</div>
-	<div id="pagebar-wrapper">	
+	<div id="pagebar-wrapper" class="text-center">	
 		<c:if test="${empty pagebar}">
 				<span></span>
 		</c:if>
@@ -104,8 +113,9 @@ const searchMember = (btnTag) => {
 	console.log(btnTag);
 	const keyword = btnTag.previousElementSibling.value;
 	const column = btnTag.name;
-	console.log("keyword, column", keyword, column);
-	window.href = "{pageContext.request.contextPath}/admin/memberSearch"
+	document.querySelector("#keywordHidden").value = keyword;
+	document.querySelector("#columnHidden").value = column;
+	document.searchMemberFrm.submit();
 };
 
 </script>

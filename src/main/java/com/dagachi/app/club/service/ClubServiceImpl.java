@@ -16,6 +16,7 @@ import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
 import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.GalleryAndImageDto;
 import com.dagachi.app.club.dto.JoinClubMember;
+import com.dagachi.app.club.dto.KickMember;
 import com.dagachi.app.club.dto.ManageMember;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
@@ -78,6 +79,26 @@ public class ClubServiceImpl implements ClubService {
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
 		List<ClubSearchDto> clubs = clubRepository.clubSearch(rowBounds, params);
+		
+		// 모임 인원 가져오기
+		for (ClubSearchDto club : clubs) 
+			club.setMemberCount(clubRepository.countClubMember(club.getClubId()));
+		
+		return clubs;
+	}
+	
+	@Override
+	public List<ClubSearchDto> searchClubWithFilter(Map<String, Object> params) {
+		if((String) params.get("getCount") != null) {
+			return clubRepository.searchClubWithFilter(params);
+		}
+		
+		int limit = (int) params.get("limit");
+		int page = (int) params.get("page");
+		int offset = (page - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		List<ClubSearchDto> clubs = clubRepository.searchClubWithFilter(rowBounds, params);
 		
 		// 모임 인원 가져오기
 		for (ClubSearchDto club : clubs) 
@@ -226,6 +247,9 @@ public class ClubServiceImpl implements ClubService {
 	}
 	
 	@Override
+	public List<ClubAndImage> clubListById(String memberId) {
+		return clubRepository.clubListById(memberId);
+	}
 	public List<BoardAndImageDto> findBoardAndImageById(int clubId) {
 		return clubRepository.findBoardAndImageById(clubId);
 	}
@@ -236,6 +260,11 @@ public class ClubServiceImpl implements ClubService {
 	@Override
 	public int memberRoleFindByMemberId(ClubMemberRole clubMemberRole) {
 		return clubRepository.memberRoleFindByMemberId(clubMemberRole);
+	}
+
+	@Override
+	public int kickMember(KickMember kickMember) {
+		return clubRepository.kickMember(kickMember);
 	}
 	
 	@Override

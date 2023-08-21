@@ -8,6 +8,7 @@ import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
 import com.dagachi.app.club.dto.JoinClubMember;
+import com.dagachi.app.club.dto.KickMember;
 import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.GalleryAndImageDto;
 import com.dagachi.app.club.dto.ManageMember;
@@ -68,6 +69,9 @@ public interface ClubService {
 
 	ClubLayout findLayoutById(int clubId);
 
+	List<ClubAndImage> clubListById(String memberId);
+	
+	List<ClubSearchDto> searchClubWithFilter(Map<String, Object> params);
 
 	List<BoardAndImageDto> findBoardAndImageById(int clubId);
 
@@ -76,6 +80,8 @@ public interface ClubService {
 	int memberRoleFindByMemberId(ClubMemberRole clubMemberRole);
 
 	List<GalleryAndImageDto> findgalleryById(int clubId);
+	
+	int kickMember(KickMember kickMember);
 
 
 }

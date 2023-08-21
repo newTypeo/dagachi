@@ -20,13 +20,9 @@ public interface MemberService extends UserDetailsService {
 	
 	List<Member> adminMemberList(Map<String, Object> params);
 
-	List<Member> memberSearch(String keyword, String column, Map<String, Object> params);
+	List<Member> adminQuitMemberList(Map<String, Object> params);
 
-	List<Member> adminQuitMemberList();
+	List<Member> adminReportMemberList(Map<String, Object> params);
 
-	List<Member> quitMemberSearch(String keyword, String column);
-
-	int getTotalCount();
-	
 
 }
