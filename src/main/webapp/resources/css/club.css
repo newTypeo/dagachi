@@ -4,6 +4,10 @@ body {
 
 }
 
+a {
+	cursor: pointer;
+}
+
 section {
 	width: 1320px;
 	margin: 0 auto;
@@ -35,9 +39,11 @@ header {
 }
 
 #club-main-container {
-	background-color: lightgreen;
-	width: 1320px;
-	padding: 20px;
+	width: 1200px;
+	margin: 0 60px;
+	padding-top: 20px;
+	border: 5px solid #ccc;
+	border-radius: 5px;
 }
 
 #club-main-image-container {
@@ -51,27 +57,70 @@ header {
 	font-size: 24px;
 }
 
-#club-notice-container {
-	background-color: lightpink;
-	width: 1320px;
-	font-weight: bold;
+.container-header {
+	margin: 10px 20px 0 20px;
+	border-bottom: 1px solid;
+}
+.container-header > span:first-child {
 	font-size: 20px;
+	font-weight: bold;
+}
+.container-header > a:last-child {
+	font-size: 16px;
+	float: right;	
+	font-weight: 600;
+}
+.container-main > div {
+	padding-bottom: 7px;
+	margin: 8px 20px 0 20px;
+	border-bottom: 1px solid #ccc;
+}
+.container-main > div > span:first-child {
+	font-size: 16px;
+}
+.container-main > div > span:nth-of-type(3) {
+	width: 51px;
+	float: right;
+	margin: 0 5px;
+}
+.container-main > div > span:nth-of-type(2),
+.container-main > div > a:nth-of-type(2) {
+	float: right;
+}
+
+#club-notice-container {
+	width: 1320px;
 }
 
 #club-gallery-container {
-	background-color: lightblue;
 	width: 1320px;
-	height: 120px;
+}
+
+#club-gallery-container > .container-main {
+	display: flex;	
+	flex-wrap: wrap;
+}
+
+.img-thumbnail {
+	width: 180px;
 }
 
 #club-board-container {
-	background-color: lightyellow;
+	width: 660px;
+	height: 320px;
+}
+
+#club-greetings-container {
+	width: 660px;
+	height: 320px;
+}
+
+#club-reivew-container {
 	width: 660px;
 	height: 320px;
 }
 
 #club-schedule-container {
-	background-color: lightcyan;
 	width: 660px;
 	height: 320px;
 }

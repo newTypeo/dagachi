@@ -23,18 +23,53 @@
  
 
 	<select id="clubSearch">
-	  select 
-		  	c.*,
-	        cp.club_id profile_club_id,
-	        original_filename,
-	        renamed_filename,
-	        cp.created_at profile_created_at
-	  from 
-		  	club c left join club_profile cp
-	            on c.club_id = cp.club_id
-	  where 
-	  		club_name like '%' || #{inputText} || '%'
+	 select 
+	  	c.*,
+        cp.club_id profile_club_id,
+        original_filename,
+        renamed_filename,
+        cp.created_at profile_created_at
+	 from 
+	  	club c left join club_profile cp
+            on c.club_id = cp.club_id
+	 where 
+  		club_name like '%' || #{inputText} || '%'
+  		or
+  		category like '%' || #{inputText} || '%'
+  		or
+  		activity_area like '%' || #{inputText} || '%'
+  		and
+  		status = 'Y'
+  	order by
+		c.created_at desc
 	</select>
+	
+	<select id="searchClubWithFilter">
+	select 
+	  	c.*,
+        cp.club_id profile_club_id,
+        original_filename,
+        renamed_filename,
+        cp.created_at profile_created_at
+  	from 
+	  	club c left join club_profile cp
+            on c.club_id = cp.club_id
+	where
+	(club_name like '%' || #{inputText} || '%'
+	or
+	category like '%' || #{inputText} || '%'
+	or
+	activity_area like '%' || #{inputText} || '%')
+	<if test="area != null and area != ''">
+		and activity_area = #{area}
+	</if>
+	<if test="category != null and category != ''">
+		and category = #{category}
+	</if>
+	order by
+		c.created_at desc
+	</select>
+	
 	
 	<select id="adminClubList">
 	 select

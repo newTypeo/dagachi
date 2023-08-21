@@ -2,6 +2,8 @@ package com.dagachi.app.club.entity;
 
 import java.time.LocalDateTime;
 
+import com.dagachi.app.club.common.Status;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,6 +20,6 @@ public class ClubBoardAttachment {
 	private String originalFilename;
 	private String renamedFilename;
 	private LocalDateTime createAt;
-	private char thumbnail;
+	private Status thumbnail;
 	
 }

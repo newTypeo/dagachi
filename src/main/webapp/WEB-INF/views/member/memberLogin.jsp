@@ -18,12 +18,18 @@
 			action="${pageContext.request.contextPath}/member/memberLogin.do"
 			method="post">
 			<div class="modal-body">
-					아이디 <input type="text" class="form-control" name="memberId"
-						placeholder="아이디" value="" required> 
+						<c:if test="${param.error ne null}">
+							<div class="alert alert-danger" role="alert">
+								아이디 또는 비밀번호가 일치하지 않습니다.
+							</div>
+						</c:if>
+					<input 
+						type="text" class="form-control" name="memberId"
+						placeholder="아이디" value="honggd" required> 
 					<br /> 
 					비번 <input
 						type="password" class="form-control" name="password"
-						placeholder="비밀번호" value="" required>
+						placeholder="비밀번호" value="1234" required>
 					</div>
 				<div class="modal-footer d-flex flex-column" style="align-items: unset;">
 					<div>
