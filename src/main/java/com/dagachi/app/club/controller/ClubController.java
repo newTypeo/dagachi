@@ -246,6 +246,22 @@ public class ClubController {
 		return ResponseEntity.status(HttpStatus.OK).body(clubAndImages);
 	}
 	
+	/**
+	 * 로그인 했을때 소모임 추천 출력(카드)
+	 * @author 준한
+	 */
+	@GetMapping("/loginClubList.do")
+	public ResponseEntity<?> loginClubList(
+			@AuthenticationPrincipal MemberDetails member
+			){
+		String memberId = member.getMemberId();
+		
+		List<ClubAndImage> clubAndImages = new ArrayList<>();
+		clubAndImages = clubService.clubListById(memberId);
+		log.debug("좀가져오렴 제발...={}", clubAndImages);
+		return ResponseEntity.status(HttpStatus.OK).body(clubAndImages);
+	}
+	
 
 
 	/**
@@ -461,6 +477,7 @@ public class ClubController {
 			@RequestParam(value = "upFile") MultipartFile upFile) throws IllegalStateException, IOException {
 		
 		// 1. 파일저장
+
 		String uploadDir = "/club/profile/";
 		ClubProfile clubProfile = null;
 		if(!upFile.isEmpty()) {
@@ -531,7 +548,7 @@ public class ClubController {
 		int clubId = clubService.clubIdFindByDomain(domain);
 		// 1. 파일저장
 		
-		String uploadDir = "/clubProfile/";
+		String uploadDir = "/club/Profile/";
 		ClubProfile clubProfile = null;
 		if(!upFile.isEmpty()) {
 			String originalFilename = upFile.getOriginalFilename();

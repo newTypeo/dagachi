@@ -67,8 +67,9 @@ public interface ClubService {
 
 	ClubLayout findLayoutById(int clubId);
 
+	List<ClubAndImage> clubListById(String memberId);
+	
 	List<ClubSearchDto> searchClubWithFilter(Map<String, Object> params);
-
 
 	List<BoardAndImageDto> findBoardAndImageById(int clubId);
 

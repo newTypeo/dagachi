@@ -243,6 +243,9 @@ public class ClubServiceImpl implements ClubService {
 	}
 	
 	@Override
+	public List<ClubAndImage> clubListById(String memberId) {
+		return clubRepository.clubListById(memberId);
+	}
 	public List<BoardAndImageDto> findBoardAndImageById(int clubId) {
 		return clubRepository.findBoardAndImageById(clubId);
 	}
