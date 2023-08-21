@@ -4,8 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +19,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.dagachi.app.Pagination;
 import com.dagachi.app.club.dto.ClubAndImage;
+import com.dagachi.app.club.dto.ClubBoardCreateDto;
 import com.dagachi.app.club.dto.ClubCreateDto;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
 import com.dagachi.app.club.dto.ClubSearchDto;
@@ -30,7 +37,10 @@ import com.dagachi.app.club.dto.ClubUpdateDto;
 import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.ManageMember;
 import com.dagachi.app.club.entity.Club;
+import com.dagachi.app.club.entity.ClubBoard;
+import com.dagachi.app.club.entity.ClubBoardAttachment;
 import com.dagachi.app.club.entity.ClubDetails;
+import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.club.entity.ClubTag;
@@ -47,6 +57,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/club")
 @Slf4j
+@SessionAttributes
 public class ClubController {
 	
 	@Autowired
@@ -57,52 +68,86 @@ public class ClubController {
 	}
 	
 	
-	@GetMapping("/clubBoardList.do")
-	public void boardList() {
+	@GetMapping("/&{domain}/clubBoardList.do")
+	public String boardList(
+			@PathVariable("domain") String domain,
+			Model model
+	) {
+		model.addAttribute("domain", domain);
+		return "/club/clubBoardList";
 	}
 	
-	@GetMapping("/clubBoardCreate.do")
-	public void boardCreate() {
+	@GetMapping("/&{domain}/clubBoardCreate.do")
+	public String boardCreate(
+			@PathVariable("domain") String domain,
+			Model model
+	) {
 		
+		model.addAttribute("domain", domain);
+		return "/club/clubBoardCreate";
 	}
 	
-//	@PostMapping("/clubBoardCreate.do")
-//	public String boardCreate1(
-//			
-//	) {
-//		
-//		return " ";
-//	}
-	
-	/**
-	 * 관리자 회원 목록에서 모임 검색
-	 * @author 종환
-	 */
-	@GetMapping("/adminClubSearch.do")
-	public ResponseEntity<?> adminClubSearch(@RequestParam String keyword, @RequestParam String column) {
-		log.debug("keyword = {}", keyword);
-		log.debug("column = {}", column);
-		List<Club> clubs = new ArrayList<>();
-		if(keyword == "") {
-			clubs = clubService.adminClubList();
+	@PostMapping("/{domain}/boardCreate.do")
+	public String boardCreate(
+			@Valid ClubBoardCreateDto _board,
+			BindingResult bindingResult,
+			@RequestParam(value = "upFile", required = false) List<MultipartFile> upFiles
+	) throws IllegalStateException, IOException{
+		List<ClubBoardAttachment> attachments = new ArrayList<>();
+		for(MultipartFile upFile : upFiles) {
+			if(!upFile.isEmpty()) {
+				String originalFilename = upFile.getOriginalFilename();
+				String renamedFilename = DagachiUtils.getRenameFilename(originalFilename);
+				File destFile = new File(renamedFilename);
+				upFile.transferTo(destFile);
+				
+				ClubBoardAttachment attach=
+						ClubBoardAttachment.builder()
+						.originalFilename(originalFilename)
+						.renamedFilename(renamedFilename)
+						.build();
+				log.debug("attach = {}",attach);
+				log.debug("_board = {}",_board);
+				attachments.add(attach);
+				
+			}
 		}
-		else {
-			clubs = clubService.adminClubSearch(keyword, column);
-		}
-		// log.debug("clubs = {}", clubs);
-		return ResponseEntity.status(HttpStatus.OK).body(clubs);
+		
+		
+		//지금 문제잇음
+		return "/club/clubBoardList";
 	}
+	
 	
 	/**
 	 * 메인화면에서 모임 검색
 	 * @author 종환
 	 */
 	@GetMapping("/clubSearch.do")
-	public void clubSearch(@RequestParam String inputText, Model model) {
-		// log.debug("inputText = {}", inputText);
-		List<ClubSearchDto> clubs = clubService.clubSearch(inputText);
-		log.debug("clubs = {}", clubs);
+	public void clubSearch(
+			@RequestParam(defaultValue = "1") int page,
+			@RequestParam String inputText,
+			HttpServletRequest request,
+			Model model) {
+		int limit = 10;
+		String getCount = "getCount";
+		
+		Map<String, Object> params = new HashMap<>();
+        params.put("page", page);
+        params.put("limit", limit);
+        params.put("inputText", inputText);
+		
+		List<ClubSearchDto> clubs = clubService.clubSearch(params);
 		model.addAttribute("clubs", clubs);
+		
+		params.put("getCount", getCount);
+		int totalCount = clubService.clubSearch(params).size();
+		String url = request.getRequestURI();
+		url += "#&inputText=" + inputText;
+		String pageBar = Pagination.getPagebar(page, limit, totalCount, url);
+		pageBar = pageBar.replaceAll("\\?", "&");
+		pageBar = pageBar.replaceAll("#&", "\\?");
+		model.addAttribute("pagebar", pageBar);
 	}
 	
 	
@@ -120,16 +165,24 @@ public class ClubController {
 	/**
 	 * 인덱스 페이지에서 클럽 상세보기 할 때 매핑입니다.
 	 * 도메인도 domain 변수 안에 넣어놨습니다. (창환)
+	 * - layout 가져오도록 수정(동찬)
 	 */
 	@GetMapping("/&{domain}")
 	public String clubDetail(
 			@PathVariable("domain") String domain,
 			Model model) {
 //		log.debug("domain = {}", domain);
-		
+
+		int clubId = clubService.findByDomain(domain).getClubId();
+		log.debug("clubId = {}", clubId);
+		ClubLayout layout = clubService.findLayoutById(clubId);
+	
+
 		model.addAttribute("domain", domain);
+		model.addAttribute("layout", layout);
 		return "club/clubDetail";
 	}
+	
 	
 	/**
 	 * 메인에서 소모임 전체 조회(카드로 출력)
@@ -171,6 +224,86 @@ public class ClubController {
 		return "/club/manageMember";
 	}
 
+
+	@GetMapping("/{domain}/findBoardType.do")
+	public ResponseEntity<?> boardList(
+			@RequestParam(required = false, defaultValue = "0" )int boardType,
+			@PathVariable("domain") String domain
+	){
+	
+
+		Club club= clubService.findByDomain(domain);
+		int clubId=club.getClubId();
+		
+		
+		int _type = (boardType != 0) ? boardType : 0;
+		
+		ClubBoard clubBoard=ClubBoard.builder()
+				.clubId(clubId)
+				.type(_type)
+				.build();
+		
+		List<ClubBoard> boards= clubService.boardList(clubBoard);
+		
+		
+		return ResponseEntity.status(HttpStatus.OK).body(boards);
+	}
+	
+	@GetMapping("/{domain}/boardDetail.do")
+	public String cluboardDetail(
+			@PathVariable("domain") String domain,
+			@RequestParam int no,
+			Model model
+	) {
+		ClubBoard clubBoard= clubBoardGet(domain, no);
+		
+		model.addAttribute("clubBoard",clubBoard);
+		
+		return "/club/clubBoardDetail";
+	}
+	
+	@PostMapping("/{domain}/likeCheck.do")
+	public ResponseEntity<?> likeCheck(
+			@RequestParam int boardId,
+			@RequestParam boolean like,
+			@PathVariable("domain") String domain
+	){
+		
+		ClubBoard board= clubService.findByBoardId(boardId);
+		log.debug("board ={}", board);
+		log.debug("boardId ={}", boardId);
+		int likeCount= board.getLikeCount();
+		int result;
+		if(like) {
+			likeCount=likeCount+1;
+			board.setLikeCount(likeCount);
+			result = clubService.updateBoard(board);
+		}
+		else {
+			likeCount=likeCount-1;
+			board.setLikeCount(likeCount);
+			result= clubService.updateBoard(board);
+		}
+		
+		
+		return ResponseEntity.status(HttpStatus.OK).body(board);
+	}
+	
+	@GetMapping("/{domain}/boardUpdate.do")
+	public String boardUpdate(
+			@PathVariable("domain") String domain,
+			@RequestParam int no,
+			Model model
+	) {
+		ClubBoard clubBoard= clubBoardGet(domain, no);
+		
+		model.addAttribute("clubBoard",clubBoard);
+		model.addAttribute("domain",domain);
+		
+		return "/club/clubBoardUpdate";
+	}
+
+
 	
 	/**
 	 * 해당 모임의 방장, 부방장은 모임에 가입되어있는 회원의 권한을 변경 가능
@@ -197,15 +330,7 @@ public class ClubController {
 		return "redirect:/club/&" + domain + "/manageMember.do";
 	}
 	
-	
-//	@GetMapping("/findBoardType.do")
-//	public ResponseEntity<?> boardList(@RequestParam(required = false)int boardType){
-//		
-//		List<ClubBoard> boards = clubService.boardList(boardType);
-//		
-//		return ResponseEntity.status(HttpStatus.OK).body(boards);
-//	}
-//	
+
 	@GetMapping("/clubCreate.do")
 	public void clubCreate() throws Exception {
 		
@@ -359,5 +484,19 @@ public class ClubController {
 		return "redirect:/";
 	}
 	
+	public ClubBoard clubBoardGet(String domain, int no) {
+		
+		Club club= clubService.findByDomain(domain);
+		int clubId=club.getClubId();
+		int boardId = no;
+		ClubBoard _clubBoard=ClubBoard.builder()
+				.clubId(clubId)
+				.boardId(boardId)
+				.build();
+
+		ClubBoard clubBoard=clubService.findByBoard(_clubBoard);
+		
+		return clubBoard;
+	}
 	
 }

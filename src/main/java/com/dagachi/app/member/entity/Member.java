@@ -5,9 +5,21 @@ import java.time.LocalDateTime;
 
 import com.dagachi.app.club.entity.Club;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Data // 회원 
+
+
+/**
+ * 나영
+ * */
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+
 public class Member {
 	
 	private String memberId; // 회원 아이디

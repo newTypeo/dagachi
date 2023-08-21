@@ -15,22 +15,11 @@
 </nav>
 <nav>
 	<a href="${pageContext.request.contextPath}/admin/adminMemberList.do">회원조회(관리자)</a>
-	<a href="${pageContext.request.contextPath}/admin/adminClubList.do">모임목록(관리자)</a>
-</nav>
-<nav id="main-category" class="bg-success">
-	<h3>카테고리</h3>
-	<div>
-		<a href="${pageContext.request.contextPath}/category/game">게임</a>
-		<a href="${pageContext.request.contextPath}/category/trip">여행</a>
-		<a href="${pageContext.request.contextPath}/category/sports">운동</a>
-		<a href="${pageContext.request.contextPath}/category/guitar">기타등등 나중에 추가해</a>
-	</div>
+	<a href="${pageContext.request.contextPath}/admin/adminClubList.do?keyword=&column=">모임목록(관리자)</a>
 </nav>
 
 <section id="main-page-sec" class="p-2 bg-info">
 	<h1>메인 페이지</h1>
-	
-
 
 	
 	<section id="class">
@@ -43,6 +32,8 @@
 </section>
 <script>
 
+
+// card의 div태그 a태그로 교체함 - 동찬
 $.ajax({
 	url : "${pageContext.request.contextPath}/club/clubList.do",
 	success(clubs){
@@ -52,18 +43,17 @@ $.ajax({
 			const{clubName, category, status, reportCount, introduce, domain, renamedFilename, memberCount} = clubAndImage;
 			
 			container.innerHTML += `
-				<a class="card" href="${pageContext.request.contextPath}/club/&\${domain}">
-                <div class="card-inner">
-                   <figure class="card-thumbnail">
-                      <img src="${pageContext.request.contextPath}/resources/upload/profile/\${renamedFilename}">
-                   </figure>
-                   <div class="card-body">
-                      <h3 class="card-title">\${clubName}</h3>
-                      <span class="card-introduce">\${introduce}</span>
-                      <h4 class="club-member-cnt">인원수 : \${memberCount}</h4>
-                   </div>
-                </div>
-             </a>
+				<a class="card" style="width: 18rem;" href="${pageContext.request.contextPath}/club/&\${domain}">
+				  <img src="${pageContext.request.contextPath}/resources/upload/profile/\${renamedFilename}" class="card-img-top" alt="...">
+				  <div class="card-body">
+				    <h5 class="card-title">\${clubName}</h5>
+				    <p class="card-text">\${introduce}</p>
+				  </div>
+				  <ul class="list-group list-group-flush">
+				    <li class="list-group-item">\${category}</li>
+				    <li class="list-group-item">인원수 : \${memberCount}</li>
+				  </ul>
+				</a>
 			`;
 		})
 		

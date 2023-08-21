@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.dagachi.app.member.dto.MemberCreateDto;
@@ -60,7 +61,7 @@ public class MemberSecurityController {
       
       String rawPassword = member.getPassword();
       String encodedPassword = passwordEncoder.encode(rawPassword);
-      log.debug("{} -> {}", rawPassword, encodedPassword);
+      log.debug("회원가입 완료{} -> {}", rawPassword, encodedPassword);
       member.setPassword(encodedPassword);
       
       int result = memberService.insertMember(member);
@@ -71,7 +72,6 @@ public class MemberSecurityController {
 
 	@GetMapping("/memberLogin.do")
 	public void memberLogin() {}
-
 	
 	//회원 아이디 중복 여부를 확인하기 위해 사용하는 코드 
 	@GetMapping("/checkIdDuplicate.do")
@@ -83,11 +83,10 @@ public class MemberSecurityController {
 		} catch (UsernameNotFoundException e) {
 			available = true;
 		}
-		
 		return ResponseEntity
 				.status(HttpStatus.OK)
 				.body(Map.of("available", available, "memberId", memberId));
-	}                                                                                   
-	 
+	}
+
 
 }

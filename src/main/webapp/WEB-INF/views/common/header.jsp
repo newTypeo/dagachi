@@ -31,20 +31,39 @@
  
 </head>
 <body>
+<sec:authorize access="isAuthenticated()">
+	<form:form 
+		name="memberLogoutFrm" 
+		action="${pageContext.request.contextPath}/member/memberLogout.do" 
+		method="POST"></form:form>
+</sec:authorize>
 
 <div id="container">
 
 	<header>
+	
+	
 		<div id="main-logo-container">
-			<img id="main-logo" src="${pageContext.request.contextPath}/resources/images/004.png" class="p-2">
+			<a href="${pageContext.request.contextPath}">
+				<img id="main-logo" src="${pageContext.request.contextPath}/resources/images/004.png" class="p-2">
+			</a>
 		</div>
-		
-		<div id="header-nav-container">
-			<a href="${pageContext.request.contextPath}/member/memberLogin.do">로그인</a>
-			<span>|</span>
-			<a href="${pageContext.request.contextPath}/member/memberCreate.do">회원가입</a>
-		</div>
-		
+		<sec:authorize access="isAnonymous()">
+			<div id="header-nav-container">
+				<a href="${pageContext.request.contextPath}/member/memberLogin.do">로그인</a>
+				<span>|</span>
+				<a href="${pageContext.request.contextPath}/member/memberCreate.do">회원가입</a>
+				<span>|</span>
+			</div>
+		</sec:authorize>
+			 
+			 
+		<sec:authorize access="isAuthenticated()">
+			    <span>
+			    <a title="<sec:authentication property="authorities"/>"><sec:authentication property="principal.username"/></a>님, 안녕하삼</span>
+			    &nbsp;
+			    <button type="button"onclick="document.memberLogoutFrm.submit();">로그아웃</button>
+		</sec:authorize>
 
 	</header>
 	<jsp:include page="/WEB-INF/views/common/navBar.jsp"></jsp:include>

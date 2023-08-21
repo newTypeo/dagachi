@@ -8,6 +8,8 @@
 		<span>카테고리</span>
 	</div>
 	
+	<div id="nav-blank"></div>
+	
 	<div id="search-container">
 		<form id="clubSearchFrm" action="${pageContext.request.contextPath}/club/clubSearch.do">
 			<input type="text" name="inputText" id="search-club-box" placeholder="검색할 모임 입력"/>
@@ -75,6 +77,12 @@ categoryContainer.addEventListener('mouseover', () => {
 categoryModalContainer.addEventListener('mouseover', () => {
 	categoryModalLeft.style.display = "block";
 });
+categoryModalRight.addEventListener('mouseover', () => {
+	categoryModalRight.style.display = "block";
+	categoryModalLeft.addEventListener('mouseover', () => {
+		categoryModalRight.style.display = "block";
+	});
+});
 
 
 categoryContainer.addEventListener('mouseout', () => {
@@ -89,12 +97,10 @@ categoryModalContainer.addEventListener('mouseout', () => {
 categoryA.forEach((element) => {
 	element.addEventListener("mouseenter", function() {
 		categoryModalRight.style.display = "block";
-	    console.log("마우스를 올렸습니다.");
 	});
 
 	element.addEventListener("mouseleave", function() {
 		categoryModalRight.style.display = "block";
-	    console.log("마우스가 벗어났습니다.");
 	});
 });
 

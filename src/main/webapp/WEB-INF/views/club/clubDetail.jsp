@@ -3,32 +3,67 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <fmt:requestEncoding value="utf-8"/>
 <jsp:include page="/WEB-INF/views/common/clubHeader.jsp"></jsp:include>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/club.css"/>
-
-<nav id="club-banner" class="bg-primary">
-	<h2>title : 소모임 별 배너
+<section>
+	<nav id="club-title" class="">
+		
+		<c:if test="${layout.title eq null}">
+			<div id="default-title">
+				<h2>${domain}</h2>
+			</div>
+		</c:if>
+		
+		<c:if test="${layout.title ne null}">
+			<img src="${pageContext.request.contextPath}/resources/upload/clubTitle/${layout.title}">
+		</c:if>
+	
+	</nav>
+	
+	<nav>
 		<button id="clubDisabled">모임 비활성화</button>
 		<button id="club-update-btn">모임 수정</button>
-	</h2>
+	</nav>
 	
+	<nav>
+		<h3>메뉴 바</h3>
+		<a href="${pageContext.request.contextPath}/club/&${domain}/clubBoardList.do">게시판</a>
+		<a href="${pageContext.request.contextPath}/club/&${domain}/chatRoom.do">채팅</a>
+		<a href="${pageContext.request.contextPath}/club/&${domain}/manageMember.do">회원관리</a>
+	</nav>
 	
-	
-</nav>
-
-<nav>
-	<h3>메뉴 바</h3>
-	<a href="${pageContext.request.contextPath}/club/&${domain}/clubBoardList.do">게시판</a>
-	<a href="${pageContext.request.contextPath}/club/&${domain}/chatRoom.do">채팅</a>
-	<a href="${pageContext.request.contextPath}/club/&${domain}/manageMember.do">회원관리</a>
-</nav>
-
-<section id="club-page-sec" class="p-2 bg-danger">
-	<h1>메인 페이지</h1>
-	
-	
+	<article id="club-page-article">
+		<div id="club-main-container">
+			<div id="club-main-image-container">
+				<img src="${pageContext.request.contextPath}/resources/upload/clubMain/${layout.mainImage}">
+			</div>
+			<div id="club-main-content-container">
+				<p style="color: ${layout.fontColor}">${layout.mainContent}</p>
+			</div>
+		</div>
+		
+		<div id="club-notice-container">
+			<p style="color: ${layout.pointColor}">공지</p>
+		</div>
+		
+		<div id="club-gallery-container">
+			<span>갤러리</span>
+		</div>
+		
+		<div id="club-board-container">
+			<span>게시판</span>
+		</div>
+		
+		<div id="club-schedule-container">
+			<span>일정</span>
+		</div>
+	</article>
 </section>
+
 <script>
 // 준한(모임 비활성화)
 	const domain = "<%= request.getAttribute("domain") %>"; // 서버 사이드에서 domain 값을 가져와서 설정
@@ -44,6 +79,9 @@
 document.querySelector("#club-update-btn").onclick = () => {
 	location.href = '${pageContext.request.contextPath}/club/&'+domain+'/clubUpdate.do';
 }
+
+console.log('${layout}');
+document.body.style.background = '${layout.backgroundColor}';
 </script>
 
 
