@@ -50,9 +50,9 @@ $.ajax({
 		
 		clubs.forEach((clubAndImage)=>{
 			const{clubName, category, status, reportCount, introduce, domain, renamedFilename, memberCount} = clubAndImage;
-			
-			container.innerHTML += `
-				<a class="card" href="${pageContext.request.contextPath}/club/&\${domain}">
+		
+		container.innerHTML += `
+			<a class="card" href="${pageContext.request.contextPath}/club/&\${domain}">
                 <div class="card-inner">
                    <figure class="card-thumbnail">
                       <img src="${pageContext.request.contextPath}/resources/upload/profile/\${renamedFilename}">
