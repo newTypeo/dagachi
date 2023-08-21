@@ -71,12 +71,27 @@ header {
 	font-weight: 600;
 }
 .container-main > div {
-	padding-bottom: 7px;
 	margin: 8px 20px 0 20px;
 	border-bottom: 1px solid #ccc;
 }
+.container-main-long > div > a:first-of-type {
+	display: inline-block;
+    width: 800px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.container-main-short > div > a:first-of-type {
+	display: inline-block;
+    width: 390px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 .container-main > div > span:first-child {
 	font-size: 16px;
+	top: -6px;
+    position: relative;
 }
 .container-main > div > span:nth-of-type(3) {
 	width: 51px;
@@ -107,22 +122,26 @@ header {
 
 #club-board-container {
 	width: 660px;
-	height: 320px;
+	height: 400px;
+	overflow: hidden;
 }
 
 #club-greetings-container {
 	width: 660px;
-	height: 320px;
+	height: 400px;
+	overflow: hidden;
 }
 
 #club-reivew-container {
 	width: 660px;
-	height: 320px;
+	height: 400px;
+	overflow: hidden;
 }
 
 #club-schedule-container {
 	width: 660px;
-	height: 320px;
+	height: 400px;
+	overflow: hidden;
 }
 
 
