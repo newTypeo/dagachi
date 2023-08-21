@@ -151,7 +151,7 @@ public interface ClubRepository {
 	List<ClubSearchDto> searchClubWithFilter(Map<String, Object> params);
 	List<ClubSearchDto> searchClubWithFilter(RowBounds rowBounds, Map<String, Object> params);
 
-	@Select("select * from club_board cb left join club_board_attachment ca on cb.board_id = ca.board_id where (ca.thumbnail = 'Y' or ca.thumbnail is null) and club_id = #{clubId} order by cb.board_id desc")
+	@Select("select * from (select * from club_board cb left join club_board_attachment ca on cb.board_id = ca.board_id where (ca.thumbnail = 'Y' or ca.thumbnail is null) and club_id = #{clubId} order by cb.board_id desc) where rownum <= 100")
 	List<BoardAndImageDto> findBoardAndImageById(int clubId);
 
 	JoinClubMember hostFindByClubId(int clubId);
