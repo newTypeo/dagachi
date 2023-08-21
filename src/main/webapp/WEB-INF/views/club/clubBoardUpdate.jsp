@@ -11,6 +11,7 @@
 <script>
 window.onload = function() {
 	checkType();
+	renderAtt();
 };
 </script>
 
@@ -33,13 +34,13 @@ window.onload = function() {
 				<label class="input-group-text" for="inputGroupSelect01">카테고리</label>
 			</div>
 
-			<select class="custom-select" id="inputGroupSelect01"
-				name="boardType">
+			<select class="custom-select" id="inputGroupSelect01" name="type">
 				<option selected>선택</option>
 				<option value="1">자유글</option>
 				<option value="2">정모후기</option>
 				<option value="3">가입인사</option>
 				<option value="4">공지사항</option>
+				<option value="5"hidden">필독</option>
 			</select>
 
 		</div>
@@ -56,20 +57,11 @@ window.onload = function() {
 					class="custom-file-label" for="inputGroupFile01">파일선택</label>
 			</div>
 		</div>
-		<c:if test="${!attachments.isEmpty()}">
-			<div>
-				<h4>이전 첨부파일 삭제</h4>
-				<ul>
-					<c:forEach items="${attachments}" var="attachment" varStatus="vs">
-						<li><input type="checkbox" class="delFile" id="delFile${vs}"
-							value="${attachment.id}" /> ${attachment.originalFilename}</li>
-					</c:forEach>
-				</ul>
-			</div>
-		</c:if>
 
 		<div id="attachBox">
-			<li></li>
+			<ul>
+
+			</ul>
 		</div>
 
 		<div class="form-group">
@@ -79,10 +71,16 @@ window.onload = function() {
 		</div>
 
 
-		<div class="btn-group-toggle" data-toggle="buttons">
-			<label class="btn btn-secondary active"> <input
-				type="checkbox"> 게시글상위고정
-			</label>
+		<div class="input-group mb-3">
+			<div class="input-group-prepend">
+				<div class="input-group-text">
+					<input type="checkbox"
+						aria-label="Checkbox for following text input" id="mustRead">
+				</div>
+			</div>
+			<input type="text" class="form-control"
+				aria-label="Text input with checkbox"
+				value="필독을 선택하시면 게시판 상단에 고정됩니다." readonly>
 		</div>
 
 		<button type="submit" class="btn btn-primary btn-lg">수정하기</button>
@@ -95,38 +93,66 @@ window.onload = function() {
 <script>
 
 
-document.querySelectorAll(".delFile").addEventListener("click",(e)=>{
-	
-	const delFile=  e.target;
-	const attNo=delFile.value;
 
-	$.ajax({
-		url : '${pageContext.request.contextPath}/club/${domain}/delAttachment.do',
-		method:"POST",
-		data :{attNo},
-		success(boards){
-
-		}
-	});
-	
-});
 
 
 const renderAtt=()=>{
-	$.ajax({
-		url : '${pageContext.request.contextPath}/club/${domain}/findAttachments.do?no=${clubBoard.boardId}',
-		method:"POST",
-		data :{attNo},
-		success(boards){
+	
+	const no ="${clubBoard.boardId}";
+	const domain ="${domain}";
 
+	
+	$.ajax({
+		url : '${pageContext.request.contextPath}/club/findAttachments.do',
+		method:"GET",
+		data :{no,domain},
+		success(attachs){
+		
+			if(attachs.length>0){
+				const liBox=document.querySelector("#attachBox ul");
+				let html='';
+				html =attachs.reduce((html,attach)=>{
+				const {boardId, id, originalFilename,renamedFilename,thumbnail,createAt} =attach
+				
+				return html +`
+					<li>
+						<input type="checkbox" class="delFile"
+						value="\${id}" /> \${originalFilename}
+						<button type="button" class="attdel" onclick="attdel(this)" value="\${id}">삭제하기</button>
+					</li>
+				`;
+					
+				},"");
+				
+				liBox.innerHTML= html;
+			}
+			
 		}
 	});
-}
+};
+
+const attdel=(e)=>{
+	
+	if(confirm("첨부파일을 삭제하시겠습니까?")){
+		const id=e.value;
+		const token= document.boardFrm._csrf.value;
+		
+		$.ajax({
+			url : '${pageContext.request.contextPath}/club/delAttach.do',
+			method:"POST",
+			data :{id},
+			headers: {
+				"X-CSRF-TOKEN": token
+			},
+			success(data){
+				renderAtt();
+			}
+		});
+	}
+};
 
 
-document.querySelector("#attachBox").addEventListener("click",(e)=>{
 
-});
 
 document.querySelector("#inputFile01").addEventListener("change",(e) => {
 	
@@ -145,6 +171,19 @@ const checkType=()=>{
 	const type= "${clubBoard.type}";
 	document.querySelector("#inputGroupSelect01").value= type;
 };
+
+document.querySelector("#mustRead").addEventListener("click",(e) => {
+	const checkBox= e.target;
+	
+	const type =document.querySelector("#inputGroupSelect01");
+	
+	if(e.target.checked){
+		type.value=5;
+	}else{
+		type.value=1;
+	}
+	
+});
 
 
 </script>

@@ -304,5 +304,10 @@ public class ClubServiceImpl implements ClubService {
 		return clubRepository.findgalleryById(clubId);
 	}
 	
+	@Override
+	public int delAttachment(int id) {
+		return clubRepository.delAttachment(id);
+	}
+	
 }
 

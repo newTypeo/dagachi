@@ -91,5 +91,7 @@ public interface ClubService {
 	
 	int kickMember(KickMember kickMember);
 
+	int delAttachment(int id);
+
 
 }
