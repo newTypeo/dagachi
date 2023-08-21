@@ -68,7 +68,7 @@
 							<a class="fontColors">${board.title}</a>
 							<span>
 								<fmt:parseDate value="${board.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="createdAt"/>
-		    					<fmt:formatDate value="${createdAt}" pattern="yy-MM-dd HH:mm"/>
+		    					<fmt:formatDate value="${createdAt}" pattern="yy.MM.dd HH:mm"/>
 							</span>
 							<span>❤${board.likeCount < 100 ? board.likeCount : '99+'}</span>
 							<a href="/" class="fontColors">
@@ -113,7 +113,7 @@
 							<a class="fontColors">${board.title}</a>
 							<span>
 								<fmt:parseDate value="${board.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="createdAt"/>
-		    					<fmt:formatDate value="${createdAt}" pattern="yy-MM-dd HH:mm"/>
+		    					<fmt:formatDate value="${createdAt}" pattern="yy.MM.dd HH:mm"/>
 							</span>
 							<span>❤${board.likeCount < 100 ? board.likeCount : '99+'}</span>
 							<a href="/" class="fontColors">
@@ -140,7 +140,7 @@
 							<a class="fontColors">${board.title}</a>
 							<span>
 								<fmt:parseDate value="${board.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="createdAt"/>
-		    					<fmt:formatDate value="${createdAt}" pattern="yy-MM-dd HH:mm"/>
+		    					<fmt:formatDate value="${createdAt}" pattern="yy.MM.dd HH:mm"/>
 							</span>
 							<span>❤${board.likeCount < 100 ? board.likeCount : '99+'}</span>
 							<a href="/" class="fontColors">
@@ -167,7 +167,7 @@
 							<a class="fontColors">${board.title}</a>
 							<span>
 								<fmt:parseDate value="${board.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="createdAt"/>
-		    					<fmt:formatDate value="${createdAt}" pattern="yy-MM-dd HH:mm"/>
+		    					<fmt:formatDate value="${createdAt}" pattern="yy.MM.dd HH:mm"/>
 							</span>
 							<span>❤${board.likeCount < 100 ? board.likeCount : '99+'}</span>
 							<a href="/" class="fontColors">
@@ -188,7 +188,6 @@
 			</div>
 		</div>
 	</article>
-	<div>${layout}</div>
 </section>
 
 <script>
