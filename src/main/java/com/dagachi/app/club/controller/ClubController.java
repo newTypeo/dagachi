@@ -413,13 +413,13 @@ public class ClubController {
 
 	@PostMapping("/{domain}/boardUpdate.do")
 	public String boardUpdate(@PathVariable("domain") String domain, @RequestParam int no, @RequestParam String title,
-			@RequestParam int boardType, @RequestParam String content,
+			@RequestParam int type, @RequestParam String content,
 			@RequestParam(value = "upFile", required = false) List<MultipartFile> upFiles) throws IllegalStateException, IOException {
 		ClubBoard _board = clubBoardGet(domain, no);
 
-		_board = ClubBoard.builder().content(content).title(title).type(boardType).build();
+		_board = ClubBoard.builder().content(content).title(title).type(type).build();
 
-		List<ClubBoardAttachment> attachments= new ArrayList<>();
+		List<ClubBoardAttachment> attachments= findAttachments(_board.getBoardId());
 		if(!upFiles.isEmpty() && upFiles !=null)
 			attachments=insertAttachment(upFiles,attachments);
 		
@@ -638,9 +638,19 @@ public class ClubController {
 		return ResponseEntity.status(HttpStatus.OK).body(attachments);
 	}
 	
+	@PostMapping("/delAttach.do")
+	public ResponseEntity<?> delAttachment(
+		 @RequestParam int id
+	){
+		int result= clubService.delAttachment(id);
+		
+		
+		return ResponseEntity.status(HttpStatus.OK).body(result);
+	}
 	
 	
-	@GetMapping("/&{domain}/clubMemberList.do")
+	
+	@GetMapping("/clubMemberList.do")
 	public String clubMemberList(
 			@PathVariable("domain") String domain,
 			Model model

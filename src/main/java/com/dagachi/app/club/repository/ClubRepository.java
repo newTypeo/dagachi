@@ -190,6 +190,9 @@ public interface ClubRepository {
 	@Delete("delete from club_member where club_id = #{clubId} and member_id = #{memberId}")
 	int kickMember(KickMember kickMember);
 	
+	@Delete("delete from club_board_attachment where id=#{id}")
+	int delAttachment(int id);
+
 	@Select("select * from member m join (select * from club_member where club_id = #{clubId}) b on m.member_id = b.member_id")
 	List<Member> findMemberByClubId(int clubId);
 	
