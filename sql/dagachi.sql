@@ -1271,7 +1271,7 @@ select * from club_member where club_id = 2;
 --update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'honggd';
 
 
-
+select * from (select * from club_board cb left join club_board_attachment ca on cb.board_id = ca.board_id where (ca.thumbnail = 'Y' or ca.thumbnail is null) and club_id = 1 order by cb.board_id desc) where rownum <= 100;
 
 
 

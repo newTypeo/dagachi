@@ -168,6 +168,5 @@ public interface ClubRepository {
 	@Delete("delete from club_member where club_id = #{clubId} and member_id = #{memberId}")
 	int kickMember(KickMember kickMember);
 
-	
 }
    
