@@ -18,9 +18,6 @@
 
 ---------------------------------------------- 테이블 삭제 ----------------------------------------------
 
----------------------------------------------- 초기화블럭 ----------------------------------------------
-
-
 --DROP TABLE "MEMBER" CASCADE CONSTRAINTS;
 --DROP TABLE "CLUB" CASCADE CONSTRAINTS;
 --DROP TABLE "CLUB_MEMBER" CASCADE CONSTRAINTS;
@@ -46,22 +43,6 @@
 --DROP TABLE "CLUB_BOARD" CASCADE CONSTRAINTS;
 --DROP TABLE "CLUB_GALLERY" CASCADE CONSTRAINTS;
 --DROP TABLE "AUTHORITY" CASCADE CONSTRAINTS;
---drop sequence seq_club_id;
---drop sequence seq_club_report_id;
---drop sequence seq_chat_log_id;
---drop sequence seq_member_id;
---drop sequence seq_member_report_id;
---drop sequence seq_member_like_id;
---drop sequence seq_club_gallery_id;
---drop sequence seq_club_board_id;
---drop sequence seq_club_gallery_attachment_id;
---drop sequence seq_club_board_attachment_id;
---drop sequence seq_board_comment_id;
---drop sequence seq_club_schedule_id;
---drop sequence seq_club_schedule_place_id;
---drop sequence seq_main_page_id;
---drop sequence seq_admin_notice_id;
---drop sequence seq_alarm_id;
 
 ------------------------------------------------- 시퀀스 -------------------------------------------------
 create sequence seq_club_id;
@@ -86,25 +67,47 @@ create sequence seq_admin_notice_id;
 
 create sequence seq_alarm_id;
 
+---------------------------------------------- 시퀀스 삭제 ----------------------------------------------
+--drop sequence seq_club_id;
+--drop sequence seq_club_report_id;
+--drop sequence seq_chat_log_id;
+--
+--drop sequence seq_member_id;
+--drop sequence seq_member_report_id;
+--drop sequence seq_member_like_id;
+--
+--drop sequence seq_club_gallery_id;
+--drop sequence seq_club_board_id;
+--drop sequence seq_club_gallery_attachment_id;
+--drop sequence seq_club_board_attachment_id;
+--drop sequence seq_board_comment_id;
+--
+--drop sequence seq_club_schedule_id;
+--drop sequence seq_club_schedule_place_id;
+--
+--drop sequence seq_main_page_id;
+--drop sequence seq_admin_notice_id;
+--
+--drop sequence seq_alarm_id;
+
 ------------------------------------------------- 테이블 -------------------------------------------------
 create table member (
-	member_id	varchar2(30),
-	password	varchar2(150),
-	name	 varchar2(20),
-    	nickname varchar2(30),
-	phone_no	varchar2(20),
-	email	varchar2(50),
-	birthday	date,
-	gender	char(1), -- 	COMMENT 'M, F'
+	member_id	varchar2(30)	not null,
+	password	varchar2(150)	not null,
+	name	 varchar2(20)	not null,
+    nickname varchar2(30) not null,
+	phone_no	varchar2(20)	not null,
+	email	varchar2(50)	not null,
+	birthday	date	not null,
+	gender	char(1)	not null, -- 	COMMENT 'M, F'
 	mbti	varchar(10)	,
-	address	varchar2(200),
+	address	varchar2(200)	not null,
 	report_count	number	default 0,
 	enroll_date	date default sysdate,
 	withdrawal_date	date, --  COMMENT 'null 이면 회원'
 	password_change_date	date default sysdate,
 	last_login_date date,
-	status char(1) default 'Y',
-    member_role char(1) default 'M' not null
+	status char(1) default 'Y'
 );
 
 -- security rememeberme 를 위해 만들어진 테이블
@@ -637,11 +640,9 @@ INSERT INTO club (club_id, club_name, activity_area, category, last_activity_dat
 VALUES (seq_club_id.nextval, '모험을 찾아서', '용산구', '여행', TO_DATE('2023-07-20', 'YYYY-MM-DD'), 0, '짜릿한 모험을 떠나고 새로운 여행지를 탐험하며 여행 이야기를 공유하는 곳입니다.', '지금까지 다녀온 여행 중 가장 기억에 남는 곳은 어디인가요?', 'adventureseekers');
 INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
 VALUES (seq_club_id.nextval, '건강과 웰빙 컬렉티브', '성동구', '사교/인맥', TO_DATE('2023-08-03', 'YYYY-MM-DD'), 0, '운동 활동, 명상, 건강한 생활에 대한 토론을 통해 신체와 마음의 웰빙을 촉진하는 공간입니다.', '건강을 어떻게 관리하고 계시나요?', 'healthwellnesscollective');
-
 -- 추가 모임 샘플 데이터
 INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
 VALUES (seq_club_id.nextval, '야구팬 클럽', '종로구', '야구관람', TO_DATE('2023-08-10', 'YYYY-MM-DD'), 0, '야구를 사랑하는 팬들의 모임입니다.', '가장 좋아하는 야구팀은 무엇인가요?', 'baseballfan');
-
 
 INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
 VALUES (seq_club_id.nextval, '축구 열광 클럽', '마포구', '운동/스포츠', TO_DATE('2023-08-15', 'YYYY-MM-DD'), 0, '세계 각국의 축구 경기를 열광하며 시청하는 모임입니다.', '가장 좋아하는 축구 선수는 누구인가요?', 'shotforlove');
@@ -666,6 +667,7 @@ VALUES (seq_club_id.nextval, '사진촬영과 나눔', '중랑구', '사진/영�
 
 INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
 VALUES (seq_club_id.nextval, '자연과 함께하는 스케치', '강북구', '공예/만들기', TO_DATE('2023-08-14', 'YYYY-MM-DD'), 0, '자연 풍경을 스케치로 그리며 즐기는 예술가들의 클럽입니다.', '가장 좋아하는 스케치 장소는 어디인가요?', 'sketchup');
+
 
 
 -- 소모임사진 샘플
@@ -1125,13 +1127,13 @@ VALUES (3, 1, 'user9', '오늘의 운동 대회', '모두들 오늘 운동 대�
 INSERT INTO club_board (board_id, club_id, writer, title, content, type, like_count)
 VALUES (4, 1, 'user18', '가입 인사드립니다', '안녕하세요! 이번에 가입한 신규 회원입니다. 모두 잘 부탁드립니다~', 3, 5);
 INSERT INTO club_board (board_id, club_id, writer, title, content, type, like_count)
-VALUES (5, 1, 'user26', '자유롭게 이야기 나눠요', '어떤 주제든 자유롭게 이야기 나누는 공간입니다. 새로운 음악 추천해주세요!', 1, 10);
+VALUES (5, 1, 'user26', '자유롭게 이야기 나눠요', '어떤 주제든 자유롭게 이야기 나누는 공간입니다. 새로운 음악 추천해주세요!', 0, 10);
 INSERT INTO club_board (board_id, club_id, writer, title, content, type, like_count)
 VALUES (6, 2, 'user1', '공지사항: 동아리 활동 일정 변경', '안녕하세요, 동아리 활동 일정이 변경되었습니다. 확인 부탁드립니다.', 4, 32);
 INSERT INTO club_board (board_id, club_id, writer, title, content, type, like_count)
 VALUES (7, 2, 'user10', '오늘의 모임 후기', '오늘의 모임이 정말 재미있었어요! 같이 참여한 분들 감사합니다~', 2, 18);
 INSERT INTO club_board (board_id, club_id, writer, title, content, type, like_count)
-VALUES (8, 2, 'user27', '자유롭게 토론해요', '새로운 주제에 대한 토론을 자유롭게 나누는 공간입니다. 의견을 나눠주세요!', 1, 7);
+VALUES (8, 2, 'user27', '자유롭게 토론해요', '새로운 주제에 대한 토론을 자유롭게 나누는 공간입니다. 의견을 나눠주세요!', 0, 7);
 INSERT INTO club_board (board_id, club_id, writer, title, content, type, like_count)
 VALUES (9, 2, 'user19', '회원들과 함께하는 캠프', '다음 주 캠프에 참가하실 분들은 미리 연락 부탁드립니다. 준비물 안내 드립니다!', 1, 11);
 INSERT INTO club_board (board_id, club_id, writer, title, content, type, like_count)
@@ -1163,22 +1165,11 @@ VALUES (10, 2, 'user1', NULL, '오늘 모임 정말 즐거웠어요!', 1);
 insert into club_layout (club_id, type, font, background_color, font_color, point_color, title, main_image, main_content)
 values (1, default, null, '#dddddd', '#778899', '#496682', 'sportClubTitleSample.png', 'sportClubMainSample.png', '스포츠 열정 클럽에 오신것을 환영합니다!');
 
--- 클럽보드 사진파일 샘플
-insert into club_board_attachment (id, board_id, original_filename, renamed_filename, created_at, thumbnail)
-values (seq_club_board_attachment_id.nextval, 1, 'welcomeSample.png', 'welcomeSample.png', sysdate, 'Y');
-insert into club_board_attachment (id, board_id, original_filename, renamed_filename, created_at, thumbnail)
-values (seq_club_board_attachment_id.nextval, 2, 'musicSample1.png', 'musicSample1.png', sysdate, 'Y');
-insert into club_board_attachment (id, board_id, original_filename, renamed_filename, created_at, thumbnail)
-values (seq_club_board_attachment_id.nextval, 2, 'musicSample2.png', 'musicSample2.png', sysdate, 'N');
+select * from club;
+select * from member_interest;
+select * from member where name = '이은주';
 
 commit;
-
-
-
---update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'user26';
-
-
-
 
 
 

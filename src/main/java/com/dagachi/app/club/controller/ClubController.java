@@ -243,11 +243,12 @@ public class ClubController {
 			int clubId = clubService.clubIdFindByDomain(cAI.getDomain());
 			List<String> clubTag = (List)clubService.findClubTagById(clubId);
 		}
+//		System.out.println(clubTag);
 		return ResponseEntity.status(HttpStatus.OK).body(clubAndImages);
 	}
 	
 	/**
-	 * 로그인 했을때 소모임 추천 출력(카드)
+	 * 로그인 했을때 로그인객체의 관심사로 소모임 추천 출력(카드)
 	 * @author 준한
 	 */
 	@GetMapping("/loginClubList.do")
@@ -258,7 +259,6 @@ public class ClubController {
 		
 		List<ClubAndImage> clubAndImages = new ArrayList<>();
 		clubAndImages = clubService.clubListById(memberId);
-		log.debug("좀가져오렴 제발...={}", clubAndImages);
 		return ResponseEntity.status(HttpStatus.OK).body(clubAndImages);
 	}
 	
@@ -601,5 +601,18 @@ public class ClubController {
 		
 		return clubBoard;
 	}
+	
+	@GetMapping("/&{domain}/clubMemberList.do")
+	public String clubMemberList(
+			@PathVariable("domain") String domain,
+			Model model
+			) {
+		Club club = clubService.findByDomain(domain);
+		
+		model.addAttribute("club",club);
+		
+		return "/club/clubMemberList";
+	}
+	
 	
 }
