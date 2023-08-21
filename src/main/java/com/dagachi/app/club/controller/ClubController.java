@@ -192,8 +192,10 @@ public class ClubController {
 	public ResponseEntity<?> clubList(){
 		List<ClubAndImage> clubAndImages = new ArrayList<>();
 		clubAndImages = clubService.clubList();
-		log.debug("clubAndImage = {}" , clubAndImages);
-		System.out.println("아아아아아");
+		for(ClubAndImage cAI: clubAndImages) {
+			int clubId = clubService.clubIdFindByDomain(cAI.getDomain());
+			List<String> clubTag = (List)clubService.findClubTagById(clubId);
+		}
 		return ResponseEntity.status(HttpStatus.OK).body(clubAndImages);
 	}
 	
