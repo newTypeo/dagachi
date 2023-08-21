@@ -1154,12 +1154,8 @@ VALUES (10, 2, 'user1', NULL, '오늘 모임 정말 즐거웠어요!', 1);
 insert into club_layout (club_id, type, font, background_color, font_color, point_color, title, main_image, main_content)
 values (1, default, null, '#dddddd', '#778899', '#496682', 'sportClubTitleSample.png', 'sportClubMainSample.png', '스포츠 열정 클럽에 오신것을 환영합니다!');
 
-select * from member where name = '이은주';
 
 commit;
-
-
-
 
 
 
