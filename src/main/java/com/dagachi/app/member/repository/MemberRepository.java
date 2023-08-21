@@ -2,6 +2,7 @@ package com.dagachi.app.member.repository;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -25,20 +26,22 @@ public interface MemberRepository {
 	@Select("select * from member where member_id =#{memberId}")
 	Member findMemberById(String memberId);
 	
-	@Select("select * from member")
-	List<Member> adminMemberList(RowBounds rowBounds);
-	
-	@Select("select * from member where ${column} like '%' || #{keyword} || '%'")
-	List<Member> memberSearch(String keyword, String column, RowBounds rowBounds);
-	
-	@Select("select * from member where withdrawal_date is null")
-	List<Member> adminQuitMemberList();
-	
-	@Select("select * from member where ${column} like '%' || #{keyword} || '%' and withdrawal_date is null")
-	List<Member> quitMemberSearch(String keyword, String column);
-	
+	//회원 목록 조회 및 검색
+	List<Member> adminMemberList(RowBounds rowBounds, Map<String, Object> params);
+	List<Member> adminMemberList(Map<String, Object> params);
+	//탈퇴회원 목록 조회 및 검색
+	List<Member> adminQuitMemberList(RowBounds rowBounds, Map<String, Object> params);
+	List<Member> adminQuitMemberList(Map<String, Object> params);
+	//신고회원 목록 조회 및 검색
+	List<Member> adminReportMemberList(RowBounds rowBounds, Map<String, Object> params);
+	List<Member> adminReportMemberList(Map<String, Object> params);
+
 	@Select("select count(*) from member")
 	int getTotalCount();
+
+
+	
+
 	
 
 }
