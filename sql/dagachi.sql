@@ -115,6 +115,7 @@ create table persistent_logins (
     last_used timestamp not null
 );
 
+
 create table club (
 	club_id	number	not null,
 	club_name	varchar2(50)	not null,
