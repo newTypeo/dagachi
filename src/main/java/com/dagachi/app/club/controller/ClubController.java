@@ -220,10 +220,10 @@ public class ClubController {
 //		log.debug("clubMembers = {}", clubMembers);
 		
 		List<JoinClubMember> joinClubMembersInfo = clubService.clubMemberInfoByFindByMemberId(clubMembers);	// 해당 모임에 가입된 회원 정보(이름, 닉네임, 가입일)
-		log.debug("joinClubMembersInfo = {}", joinClubMembersInfo);
+//		log.debug("joinClubMembersInfo = {}", joinClubMembersInfo);
 		
 		JoinClubMember host = clubService.hostFindByClubId(clubId);
-		log.debug("host = {}", host);
+//		log.debug("host = {}", host);
 		
 		
 		String loginMemberId = member.getMemberId(); // 로그인 한 회원 아이디
@@ -237,12 +237,27 @@ public class ClubController {
 //		log.debug("memberRole = {}", memberRole);
 		
 		model.addAttribute("clubApplies", clubApplies);
-		model.addAttribute("joinClubMembersInfo", joinClubMembersInfo);
+		model.addAttribute("joinClubMembersInfo", joinClubMembersInfo); // 해당 모임에 가입된 회원 정보 [방장제외](아아디, 이름, 닉네임, 가입일, 회원 권한)
 		model.addAttribute("host", host); // 해당 모임의 방장 정보(아이디, 이름, 닉네임, 가입일, 권한)
-		model.addAttribute("loginMemberId", loginMemberId);
+		model.addAttribute("loginMemberId", loginMemberId); // 로그인한 회원의 아이디
 		model.addAttribute("memberRole", memberRole); // 해당 모임에서 로그인한 회원의 권한
 		
 		return "/club/manageMember";
+	}
+	
+	
+	@PostMapping("/&{domain}/kickMember.do")
+	public String kickMember(
+			@PathVariable("domain") String domain,
+			@RequestParam String memberId) {
+		
+//		log.debug("domain = {}", domain);
+//		log.debug("memberId = {}", memberId);
+		int clubId = clubService.clubIdFindByDomain(domain); // clubId 찾아오기
+		
+//		int result = clubService.kickMember()
+		
+		return "redirect:/club/&" + domain + "/manageMember.do";
 	}
 
 
