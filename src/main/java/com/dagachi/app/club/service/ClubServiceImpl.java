@@ -21,6 +21,9 @@ import com.dagachi.app.club.dto.ManageMember;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
+import com.dagachi.app.club.entity.ClubBoardAttachment;
+import com.dagachi.app.club.entity.ClubBoardDetails;
+import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubDetails;
 import com.dagachi.app.club.entity.ClubGalleryAttachment;
 import com.dagachi.app.club.entity.ClubLayout;
@@ -34,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class ClubServiceImpl implements ClubService {
 
 
@@ -190,6 +193,11 @@ public class ClubServiceImpl implements ClubService {
 	}
 	
 	@Override
+	public List<ClubBoardAttachment> findAttachments(int no) {
+		return clubRepository.findAttachments(no);
+	}
+	
+	@Override
 	public Club findClubById(int clubId) {
 		return clubRepository.findClubById(clubId);
 	}
@@ -247,10 +255,33 @@ public class ClubServiceImpl implements ClubService {
 	}
 	
 	@Override
+	public int postBoard(ClubBoard clubBoard) {
+		int result=0;
+		
+		result =clubRepository.postBoard(clubBoard);
+		
+		log.debug("clubBoard={}",clubBoard);
+		List<ClubBoardAttachment> attachments=((ClubBoardDetails)clubBoard).getAttachments();
+		if(attachments != null && !attachments.isEmpty()) {
+			for(ClubBoardAttachment attach : attachments) {
+				attach.setBoardId(clubBoard.getBoardId());
+				result= clubRepository.insetAttachment(attach);
+				log.debug("attach={}",attach);
+			}
+		}
+		
+		return result;
+	}
+	
+	@Override
+	public ClubBoardAttachment findAttachment(int attachNo) {
+		return clubRepository.findAttachment(attachNo);
+	}
+	@Override
 	public List<ClubAndImage> clubListById(String memberId) {
 		return clubRepository.clubListById(memberId);
 	}
-	
+
 	@Override
 	public List<BoardAndImageDto> findBoardAndImageById(int clubId) {
 		return clubRepository.findBoardAndImageById(clubId);
@@ -272,8 +303,19 @@ public class ClubServiceImpl implements ClubService {
 	}
 	
 	@Override
+
+	public int insertClubRecentVisitd(String memberId, int clubId) {
+		return clubRepository.insertClubRecentVisitd(memberId, clubId);
+	}
+
 	public List<GalleryAndImageDto> findgalleryById(int clubId) {
 		return clubRepository.findgalleryById(clubId);
+
+	}
+	
+	@Override
+	public List<Member> findMemberByClubId(int clubId) {
+		return clubRepository.findMemberByClubId(clubId);
 	}
 	
 }

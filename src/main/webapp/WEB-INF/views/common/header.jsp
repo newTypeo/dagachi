@@ -63,6 +63,7 @@
 			    <a title="<sec:authentication property="authorities"/>"><sec:authentication property="principal.username"/></a>님, 안녕하삼</span>
 			    &nbsp;
 			    <button type="button"onclick="document.memberLogoutFrm.submit();">로그아웃</button>
+			    <a href="${pageContext.request.contextPath}/club/clubsRecentVisited.do">최근 본 모임</a>
 		</sec:authorize>
 
 	</header>

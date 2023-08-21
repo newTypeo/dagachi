@@ -135,6 +135,7 @@ create table persistent_logins (
     last_used timestamp not null
 );
 
+
 create table club (
 	club_id	number	not null,
 	club_name	varchar2(50)	not null,
@@ -337,6 +338,13 @@ create table authority (
     auth varchar2(20)   not null
 );
 
+create table recent_visit_list (
+    member_id varchar2(30) not null,
+    club_id number not null,
+    recent_date date default sysdate
+);
+
+
 alter table member add constraint pk_member primary key (
 	member_id
 );
@@ -508,6 +516,7 @@ references club_schedule (
 	schedule_id
 );
 
+
 --alter table club_schedule_enroll_member add constraint fk_club_member_to_club_schedule_enroll_member_1 foreign key (
 --	member_id
 --)
@@ -631,6 +640,13 @@ alter table authority add constraint fk_member_to_authorithy foreign key (
 )
 references member (
 	member_id
+);
+
+alter table recent_visit_list add constraint fk_recent_check_list foreign key (
+    member_id
+)
+references  member(
+member_id
 );
 
 alter table club add constraint uq_club_domain unique (
@@ -1266,9 +1282,6 @@ values (seq_club_gallery_attachment_id.nextval, 10, 'gallerySample10.png', 'gall
 
 commit;
 
-
-select * from club_member where club_id = 2;
---update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'honggd';
 
 
 select * from (select * from club_board cb left join club_board_attachment ca on cb.board_id = ca.board_id where (ca.thumbnail = 'Y' or ca.thumbnail is null) and club_id = 1 order by cb.board_id desc) where rownum <= 100;

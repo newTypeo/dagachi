@@ -8,7 +8,7 @@
 	<jsp:param value="게시글 작성" name="title" />
 </jsp:include>
 
-<script >
+<script>
 window.onload = function() {
 	checkType();
 };
@@ -23,10 +23,8 @@ window.onload = function() {
 		enctype="multipart/form-data" method="post">
 		<div class="form-group">
 			<label for="exampleFormControlInput1"></label> <input type="text"
-				class="form-control" id="exampleFormControlInput1"
-				name="title"
-				placeholder="제목을 입력하세요"
-				value="${clubBoard.title}">
+				class="form-control" id="exampleFormControlInput1" name="title"
+				placeholder="제목을 입력하세요" value="${clubBoard.title}">
 		</div>
 
 
@@ -35,9 +33,10 @@ window.onload = function() {
 				<label class="input-group-text" for="inputGroupSelect01">카테고리</label>
 			</div>
 
-			<select class="custom-select" id="inputGroupSelect01" name="boardType">
+			<select class="custom-select" id="inputGroupSelect01"
+				name="boardType">
 				<option selected>선택</option>
-				<option value="1" >자유글</option>
+				<option value="1">자유글</option>
 				<option value="2">정모후기</option>
 				<option value="3">가입인사</option>
 				<option value="4">공지사항</option>
@@ -57,12 +56,28 @@ window.onload = function() {
 					class="custom-file-label" for="inputGroupFile01">파일선택</label>
 			</div>
 		</div>
+		<c:if test="${!attachments.isEmpty()}">
+			<div>
+				<h4>이전 첨부파일 삭제</h4>
+				<ul>
+					<c:forEach items="${attachments}" var="attachment" varStatus="vs">
+						<li><input type="checkbox" class="delFile" id="delFile${vs}"
+							value="${attachment.id}" /> ${attachment.originalFilename}</li>
+					</c:forEach>
+				</ul>
+			</div>
+		</c:if>
+
+		<div id="attachBox">
+			<li></li>
+		</div>
 
 		<div class="form-group">
 			<label for="exampleFormControlTextarea1"></label>
-			<textarea class="form-control" id="exampleFormControlTextarea1" name="content"
-				rows="3" placeholder="내용을 입력하세요" >${clubBoard.content}</textarea>
+			<textarea class="form-control" id="exampleFormControlTextarea1"
+				name="content" rows="3" placeholder="내용을 입력하세요">${clubBoard.content}</textarea>
 		</div>
+
 
 		<div class="btn-group-toggle" data-toggle="buttons">
 			<label class="btn btn-secondary active"> <input
@@ -71,13 +86,47 @@ window.onload = function() {
 		</div>
 
 		<button type="submit" class="btn btn-primary btn-lg">수정하기</button>
-	
+
 	</form:form>
 
 
 </section>
 
 <script>
+
+
+document.querySelectorAll(".delFile").addEventListener("click",(e)=>{
+	
+	const delFile=  e.target;
+	const attNo=delFile.value;
+
+	$.ajax({
+		url : '${pageContext.request.contextPath}/club/${domain}/delAttachment.do',
+		method:"POST",
+		data :{attNo},
+		success(boards){
+
+		}
+	});
+	
+});
+
+
+const renderAtt=()=>{
+	$.ajax({
+		url : '${pageContext.request.contextPath}/club/${domain}/findAttachments.do?no=${clubBoard.boardId}',
+		method:"POST",
+		data :{attNo},
+		success(boards){
+
+		}
+	});
+}
+
+
+document.querySelector("#attachBox").addEventListener("click",(e)=>{
+
+});
 
 document.querySelector("#inputFile01").addEventListener("change",(e) => {
 	
