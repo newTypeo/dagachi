@@ -192,9 +192,14 @@ public class ClubController {
 	 * @author 준한
 	 */
 	@GetMapping("/clubList.do")
-	public ResponseEntity<?> clubList(){
+	public ResponseEntity<?> clubList(
+			){
 		List<ClubAndImage> clubAndImages = new ArrayList<>();
 		clubAndImages = clubService.clubList();
+		for(ClubAndImage cAI: clubAndImages) {
+			int clubId = clubService.clubIdFindByDomain(cAI.getDomain());
+			List<String> clubTag = (List)clubService.findClubTagById(clubId);
+		}
 		return ResponseEntity.status(HttpStatus.OK).body(clubAndImages);
 	}
 	
