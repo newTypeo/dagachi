@@ -42,15 +42,22 @@ body {
 </style>
 </head>
 
-<body></body>
-
-
-
-   <form:form name="memberCreateFrm" action="" method="POST" modelAttribute="member">
-      <input type="hidden" name="_csrf" th:attr="value=${_csrf.token}" />
-      
+<body>
+  
+ <form:form name="memberCreateFrm" action="" method="POST" modelAttribute="member">
+   
       <div id="step1" class="step active"> <!-- 아이디,이름,닉네임 받으 -->
     	 <div>1단계</div>
+
+         <div class="input-group-prepend" style="padding:0px;">
+		    <span class="input-group-text">프로필 사진 등록하기</span>
+		  </div>
+		  <div class="custom-file">
+		    <input type="file" class="custom-file-input" name="upFile" id="upFile1" multiple>
+		    <label class="custom-file-label" for="upFile1">파일을 선택하세요</label>
+		  </div>                                                                                                                                                                   
+
+    	 
          <div class="col-md-6 mb-3">
             <label for="memberId">아이디</label> 
             <input type="memberId"
@@ -120,70 +127,59 @@ body {
                required>
          </div>
          
-            <div  class="col-md-6 mb-3">
+     <!--        <div  class="col-md-6 mb-3">
             <label for="address-add">집주소 상세</label> <input type="text"
                class="form-control" id="address-add" name="address-add" value="104동"
                required> 
          </div>
-      <!--    <div  class="col-md-6 mb-3" >
-            <label for="mainAreaId">주활동 지역</label> <input type="text"
-               class="form-control" id="mainAreaId" name="main_area_id"
-               placeholder="" required>
-         </div> -->
-         
+          -->
+          
 			<label for="activity_area">주 활동지</label>
 			<div class="input-group">
-				<input type="text" class="form-control" id="activity_area" name="main_area_id" readonly aria-describedby="button-addon2">
+				<input type="text" class="form-control" id="activity_area" name="activityArea" readonly aria-describedby="button-addon2">
 				<div class="input-group-append">
 					<button class="btn btn-outline-secondary" type="button" data-toggle="modal" 
-					data-target="#activity-area-modal" id="activity-area-search-btn">검색</button>
+					data-target="#activity-area-modal" id="activity-area-search-btn" >검색</button>
 				</div>
 			</div>
-			  
-          <label for="mainAreaId">서브 활동지역1</label>
-               <input type="text" class="form-control" id="mainAreaId"  name = "main_area_id" placeholder="" required>
+			
+          <label for="sub1AreaId">서브 활동지역1</label>
+               <input type="text" class="form-control" id="sub1AreaId"  name = "sub1AreaId" placeholder="" 
+                value="부산" required>
              </div>        
            <div class="mb-3">
-               <label for="mainAreaId">서브 활동지역2</label>
-               <input type="text" class="form-control" id="mainAreaId"  name = "main_area_id" placeholder="" required>
+               <label for="sub2AreaId">서브 활동지역2</label>
+               <input type="text" class="form-control" id="sub2AreaId"  name = "sub2AreaId" 
+                 value="양양" placeholder="" required>
            </div>                       
           
       </div>
       
       <div id="step5" class="step"><!-- 엠비티아이  -->
-         <!--  6   -->
-         <div  class="col-md-6 mb-3">
-         <fieldset>
+		<div class="col-md-6 mb-3">
             <label for="mbti">mbti</label> 
             <!-- <input type="text" class="form-control" id="mbti" name="mbti" value="entj" required> -->
-         <div id= "category" class = "cat">
-	         <ul>
-	         	<li> 
-				  <li><input type='checkbox' name='catg' value='ISFJ' onclick='getCheckboxValue()'/> ISFJ</li>
-				  <li><input type='checkbox' name='catg' value='INTJ' onclick='getCheckboxValue()'/> INTJ</li>
-		          <li><input type='checkbox' name='catg' value='ISTJ' onclick='getCheckboxValue()'/> ISTJ</li>
-				  <li><input type='checkbox' name='catg' value='ISTJ' onclick='getCheckboxValue()'/> ISTJ</li>
-				  <li><input type='checkbox' name='catg' value='ISTP' onclick='getCheckboxValue()'/> ISTP</li>
-				  <li><input type='checkbox' name='catg' value='ISFP' onclick='getCheckboxValue()'/> ISFP</li>
-				  <li><input type='checkbox' name='catg' value='INTP' onclick='getCheckboxValue()'/> INTP</li>
-				  <li><input type='checkbox' name='catg' value='ESTJ' onclick='getCheckboxValue()'/> ESTJ</li>
-				  <li><input type='checkbox' name='catg' value='ESFJ' onclick='getCheckboxValue()'/> ESFJ</li>
-				  <li><input type='checkbox' name='catg' value='ENTJ' onclick='getCheckboxValue()'/> ENTJ</li>
-				  <li><input type='checkbox' name='catg' value='ESTP' onclick='getCheckboxValue()'/> ESTP</li>
-				  <li><input type='checkbox' name='catg' value='ESFP' onclick='getCheckboxValue()'/> ESFP</li>
-				  <li><input type='checkbox' name='catg' value='ENTP' onclick='getCheckboxValue()'/> ENTP</li>
-				  <li><input type='checkbox' name='catg' value='없음' onclick='getCheckboxValue()'/> 없음</li>
-		        </ul>
-		</div>
-		
-			</fieldset>
-			<button type = "button" id = "selectb">선택</button>
-			<div id = "selectCat"></div>
+       		  <div id= "category" class = "cat">
+				<select class="form-control"
+					id="mbti" name="mbti">
+					<option disabled selected>-카테고리 선택-</option>
+					<option>ISFJ</option>
+					<option>INTJ</option>
+					<option>ISTJ</option>
+					<option>ISFJ</option>
+					<option>ISTP</option>
+					<option>ISFP</option>
+					<option>INTP</option>
+					<option>ESTJ</option>
+					<option>ESFJ</option>
+					<option>ENTJ</option>
+					<option>ESTP</option>
+					<option>ESFP</option>
+					<option>ENTP</option>
+					<option>없음</option>
+				</select>
 			</div>
-		</div>
-   
-
-  <div id='result'></div>
+  	 	</div>
       </div>
       
       <div id="step6" class="step"><!--관심사-->
@@ -213,7 +209,6 @@ body {
 					<option>자유주제</option>
 				</select>
 			</div>
-			 
       </div>
       
       <div id="step7"  class="step" > <!-- 가입 완료 버튼 -->
@@ -264,77 +259,62 @@ body {
 			</div>
 		</div>
 	</div>
-      
-      
+	
    </form:form>
-
+</body>
 
  <script>
+ const addressSearchBox = document.querySelector("#address-search-box");
+ const addressBox = document.querySelector(".address-box");	
 
-  const addressSearchBox = document.querySelector("#address-search-box");
-  const addressBox = document.querySelector(".address-box");	
-
-  addressSearchBox.onkeyup = (e) => {
-  	$.ajax({
-  		url : '${pageContext.request.contextPath}/club/findAddress.do',
-  		data : { keyword : e.target.value },
-  		method : "GET",
-  		success(addressList) {
-  			if (addressList == '') {
-  				addressBox.innerHTML = '<p>검색 결과가 존재하지 않습니다.</p>';
-  				return;
-  			}
-  			
-  			addressBox.innerHTML = "";
-  			addressList.forEach((address) => {
-  				addressBox.innerHTML += `
-  					<p class='address-checked'>\${address}</p>
-  				`;
-  			});
-  		}
-  	});
-  }
+ addressSearchBox.onkeyup = (e) => {
+ 	$.ajax({
+ 		url : '${pageContext.request.contextPath}/club/findAddress.do',
+ 		data : { keyword : e.target.value },
+ 		method : "GET",
+ 		success(addressList) {
+ 			if (addressList == '') {
+ 				addressBox.innerHTML = '<p>검색 결과가 존재하지 않습니다.</p>';
+ 				return;
+ 			}
+ 			
+ 			addressBox.innerHTML = "";
+ 			addressList.forEach((address) => {
+ 				addressBox.innerHTML += `
+ 					<p class='address-checked'>\${address}</p>
+ 				`;
+ 			});
+ 		}
+ 	});
+ }
 
 
-  document.addEventListener('click', (e) => {
-      const clickedElement = e.target;
-      
-      if (clickedElement.matches(".address-checked")) {
-          addressSearchBox.value = e.target.innerHTML;
-      }
-      if (clickedElement.matches("#address-confirm-btn")) {
-      	document.querySelector("#activity_area").value = addressSearchBox.value;
-      	$('#activity-area-modal').modal('hide');
-      }
-  });
-  
-  
-  //mbti 체크박스
-	window.onload = function() {
-		// 모든 input 요소 가져오기
-		var allInputs = document.getElementsByTagName("input");
-		var categories = document.getElementsByName("catg");
-		var writeC = '';
+ document.addEventListener('click', (e) => {
+     const clickedElement = e.target;
+     
+     if (clickedElement.matches(".address-checked")) {
+         addressSearchBox.value = e.target.innerHTML;
+     }
+     
+     if (clickedElement.matches("#address-confirm-btn")) {
+     	document.querySelector("#activity_area").value = addressSearchBox.value;
+     	$('#activity-area-modal').modal('hide');
+     }
+ });
 
-		// 카테고리 선택을 누르면 카테고리를 기록
-		document.getElementById("select").onclick = function() {
-		    for (var i = 0; i < categories.length; i++) {
-		        if (categories[i].checked) {
-		            writeC += categories[i].value;
-		        }
-		    }
-		    document.getElementById("selectCat").innerText = writeC;
-
-		
+	document.querySelectorAll("[name=upFile]").forEach((input) => {
+		input.onchange = (e) => {
+			const label = e.target.nextElementSibling;
+			const files = e.target.files;
+			if(files[0]) {
+				label.innerHTML = files[0].name;
+			}
+			else {
+				label.innerHTML = "파일을 선택하세요";
+			}
 		}
+	});
 
-		// 카테고리 내 checkbox를 클릭하면 c() 함수 실행
-		for (var i = 0; i < categories.length; i++) {
-		    categories[i].onclick = c;
-		}
-
-
-	}
 		  
 </script>
 

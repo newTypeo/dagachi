@@ -3,6 +3,8 @@ package com.dagachi.app.member.service;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,8 +14,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 
+import com.dagachi.app.club.entity.ClubDetails;
+import com.dagachi.app.club.entity.ClubProfile;
+import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.member.dto.MemberCreateDto;
 import com.dagachi.app.member.entity.Member;
+import com.dagachi.app.member.entity.MemberDetails;
+import com.dagachi.app.member.entity.MemberProfile;
 import com.dagachi.app.member.repository.MemberRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -27,10 +34,7 @@ public class MemberServiceImpl implements MemberService{
 	@Autowired
 	private MemberRepository memberRepository;
 
-	@Override
-	public int insertMember(MemberCreateDto member) {
-		return memberRepository.insertMember(member);
-	}
+
 	
 	@Override
 	public List<Member> adminMemberList(Map<String, Object> params) {
@@ -82,6 +86,28 @@ public class MemberServiceImpl implements MemberService{
 	public Member findMemberById(String memberId) {
 		return memberRepository.findMemberById(memberId);
 	}
+
+	@Override
+	public int insertMember(MemberDetails member1) {
+		
+		int result = 0;
+		
+		result = memberRepository.insertMember(member1);
+		log.debug("member = " + member1);
+		
+		MemberProfile memberProfile = ((MemberDetails) member1).getMemberProfile();
+		if(memberProfile != null) {
+			memberProfile.setMemberId(member1.getMemberId());
+			result = memberRepository.insertMemberProfile(memberProfile);
+		}
+		
+		 memberRepository.insertActivityArea(member1);
+		 memberRepository.insertMemberInterest(member1);
+		
+		
+		return result;
+	}
+
 	
 
 
