@@ -148,6 +148,8 @@ public class ClubController {
 		pageBar = pageBar.replaceAll("\\?", "&");
 		pageBar = pageBar.replaceAll("#&", "\\?");
 		model.addAttribute("pagebar", pageBar);
+		model.addAttribute("totalCount", totalCount);
+		model.addAttribute("inputText", inputText);
 	}
 	
 	

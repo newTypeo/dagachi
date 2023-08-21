@@ -8,6 +8,7 @@
 	
 	
 <section id="club-search-sec" class="p-2 club-search">
+	<div>검색결과(${totalCount})</div>
 	<div>
 		<c:if test="${empty clubs}">
 			<div>검색결과가 없습니다.</div>
@@ -37,7 +38,8 @@
 	
 	
 <script>
-
+// 검색창에 검색내용 남기기
+document.querySelector("input[name=inputText]").value = '${inputText}';
 </script>
 
 
