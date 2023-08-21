@@ -1175,11 +1175,12 @@ values (seq_club_board_attachment_id.nextval, 2, 'musicSample2.png', 'musicSampl
 commit;
 
 
-select * from member;
+
+--update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'user26';
 
 
 
---update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'honggd';
+
 
 
 
