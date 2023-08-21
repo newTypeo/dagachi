@@ -65,7 +65,7 @@
 		and category = #{category}
 	</if>
 	order by
-		created_at desc
+		c.created_at desc
 	</select>
 	
 	
