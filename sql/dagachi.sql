@@ -272,9 +272,9 @@ create table club_layout (
 	club_id	number	not null,
 	type	number default 0,
 	font	varchar2(200),
-	background_color	varchar2(50),
-	font_color	varchar2(50),
-	point_color	varchar2(50),
+	background_color	varchar2(50) default '#ffffff',
+	font_color	varchar2(50) default '#000000',
+	point_color	varchar2(50) default '#000000',
 	title	varchar2(200),
 	main_image	varchar2(200),
 	main_content	varchar2(1000)
@@ -1087,11 +1087,11 @@ insert into member_like values(2,'honggd','user2',sysdate);
 
 -- 소모임 일정 샘플
 INSERT INTO club_schedule (schedule_id, club_id, title, start_date, end_date, expence, capacity, alarm_date, status)
-VALUES (1, 1, '두근두근 축구데이트', TO_DATE('2023-08-20', 'YYYY-MM-DD'), TO_DATE('2023-08-20', 'YYYY-MM-DD'), 5000, 10, TO_DATE('2023-08-18', 'YYYY-MM-DD'), 'Y');
+VALUES (seq_club_schedule_id, 1, '두근두근 축구데이트', TO_DATE('2023-08-20', 'YYYY-MM-DD'), TO_DATE('2023-08-20', 'YYYY-MM-DD'), 5000, 10, TO_DATE('2023-08-18', 'YYYY-MM-DD'), 'Y');
 INSERT INTO club_schedule (schedule_id, club_id, title, start_date, end_date, expence, capacity, alarm_date, status)
-VALUES (2, 1, '두근두근 농구데이트', TO_DATE('2023-09-05', 'YYYY-MM-DD'), TO_DATE('2023-09-05', 'YYYY-MM-DD'), 3000, 15, TO_DATE('2023-09-02', 'YYYY-MM-DD'), 'Y');
+VALUES (seq_club_schedule_id, 1, '두근두근 농구데이트', TO_DATE('2023-09-05', 'YYYY-MM-DD'), TO_DATE('2023-09-05', 'YYYY-MM-DD'), 3000, 15, TO_DATE('2023-09-02', 'YYYY-MM-DD'), 'Y');
 INSERT INTO club_schedule (schedule_id, club_id, title, start_date, end_date, expence, capacity, alarm_date, status)
-VALUES (3, 1, '신나는 볼링데이트', TO_DATE('2023-09-15', 'YYYY-MM-DD'), TO_DATE('2023-09-17', 'YYYY-MM-DD'), 0, 10, TO_DATE('2023-09-10', 'YYYY-MM-DD'), 'Y');
+VALUES (seq_club_schedule_id, 1, '신나는 볼링데이트', TO_DATE('2023-09-15', 'YYYY-MM-DD'), TO_DATE('2023-09-17', 'YYYY-MM-DD'), 0, 10, TO_DATE('2023-09-10', 'YYYY-MM-DD'), 'Y');
 
 -- 소모임 일정 참가회원 샘플
 INSERT INTO club_schedule_enroll_member (member_id, club_id, schedule_id)
@@ -1105,55 +1105,55 @@ VALUES ('user18', 1, 3);
 
 -- 소모임 일정 장소 샘플
 INSERT INTO club_schedule_place (id, schedule_id, name, address, sequence, start_time)
-VALUES (1, 1, '강남 축구장', '서울시 강남구', 1, TO_DATE('2023-08-20 10:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+VALUES (seq_club_schedule_place_id, 1, '강남 축구장', '서울시 강남구', 1, TO_DATE('2023-08-20 10:00:00', 'YYYY-MM-DD HH24:MI:SS'));
 INSERT INTO club_schedule_place (id, schedule_id, name, address, sequence, start_time)
-VALUES (2, 2, '마포 농구장 B', '서울시 마포구', 2, TO_DATE('2023-09-05 19:30:00', 'YYYY-MM-DD HH24:MI:SS'));
+VALUES (seq_club_schedule_place_id, 2, '마포 농구장 B', '서울시 마포구', 2, TO_DATE('2023-09-05 19:30:00', 'YYYY-MM-DD HH24:MI:SS'));
 INSERT INTO club_schedule_place (id, schedule_id, name, address, sequence, start_time)
-VALUES (3, 3, '관악 볼링장', '서울시 관악구', 3, TO_DATE('2023-09-15 14:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+VALUES (seq_club_schedule_place_id, 3, '관악 볼링장', '서울시 관악구', 3, TO_DATE('2023-09-15 14:00:00', 'YYYY-MM-DD HH24:MI:SS'));
 
 -- 소모임 게시판 샘플
 INSERT INTO club_board (board_id, club_id, writer, title, content, type, like_count)
-VALUES (1, 1, 'honggd', '동아리 가입 안내', '안녕하세요! 우리 동아리에 가입하신 여러분을 환영합니다. 첫 모임은 다음 주 토요일에 있을 예정입니다. 함께 즐거운 시간 보내요!', 4, 15);
+VALUES (seq_club_board_id, 1, 'honggd', '동아리 가입 안내', '안녕하세요! 우리 동아리에 가입하신 여러분을 환영합니다. 첫 모임은 다음 주 토요일에 있을 예정입니다. 함께 즐거운 시간 보내요!', 4, 15);
 INSERT INTO club_board (board_id, club_id, writer, title, content, type, like_count)
-VALUES (2, 1, 'user9', '음악 동호회 공연 안내', '안녕하세요, 음악 동호회입니다. 다음 달에 예정된 공연에 대한 정보를 공유합니다. 많은 관심 부탁드립니다!', 1, 8);
+VALUES (seq_club_board_id, 1, 'user9', '음악 동호회 공연 안내', '안녕하세요, 음악 동호회입니다. 다음 달에 예정된 공연에 대한 정보를 공유합니다. 많은 관심 부탁드립니다!', 1, 8);
 INSERT INTO club_board (board_id, club_id, writer, title, content, type, like_count)
-VALUES (3, 1, 'user9', '오늘의 운동 대회', '모두들 오늘 운동 대회에서 최선을 다해주셔서 감사합니다. 정말 즐거운 시간이었습니다!', 2, 23);
+VALUES (seq_club_board_id, 1, 'user9', '오늘의 운동 대회', '모두들 오늘 운동 대회에서 최선을 다해주셔서 감사합니다. 정말 즐거운 시간이었습니다!', 2, 23);
 INSERT INTO club_board (board_id, club_id, writer, title, content, type, like_count)
-VALUES (4, 1, 'user18', '가입 인사드립니다', '안녕하세요! 이번에 가입한 신규 회원입니다. 모두 잘 부탁드립니다~', 3, 5);
+VALUES (seq_club_board_id, 1, 'user18', '가입 인사드립니다', '안녕하세요! 이번에 가입한 신규 회원입니다. 모두 잘 부탁드립니다~', 3, 5);
 INSERT INTO club_board (board_id, club_id, writer, title, content, type, like_count)
-VALUES (5, 1, 'user26', '자유롭게 이야기 나눠요', '어떤 주제든 자유롭게 이야기 나누는 공간입니다. 새로운 음악 추천해주세요!', 1, 10);
+VALUES (seq_club_board_id, 1, 'user26', '자유롭게 이야기 나눠요', '어떤 주제든 자유롭게 이야기 나누는 공간입니다. 새로운 음악 추천해주세요!', 1, 10);
 INSERT INTO club_board (board_id, club_id, writer, title, content, type, like_count)
-VALUES (6, 2, 'user1', '공지사항: 동아리 활동 일정 변경', '안녕하세요, 동아리 활동 일정이 변경되었습니다. 확인 부탁드립니다.', 4, 32);
+VALUES (seq_club_board_id, 2, 'user1', '공지사항: 동아리 활동 일정 변경', '안녕하세요, 동아리 활동 일정이 변경되었습니다. 확인 부탁드립니다.', 4, 32);
 INSERT INTO club_board (board_id, club_id, writer, title, content, type, like_count)
-VALUES (7, 2, 'user10', '오늘의 모임 후기', '오늘의 모임이 정말 재미있었어요! 같이 참여한 분들 감사합니다~', 2, 18);
+VALUES (seq_club_board_id, 2, 'user10', '오늘의 모임 후기', '오늘의 모임이 정말 재미있었어요! 같이 참여한 분들 감사합니다~', 2, 18);
 INSERT INTO club_board (board_id, club_id, writer, title, content, type, like_count)
-VALUES (8, 2, 'user27', '자유롭게 토론해요', '새로운 주제에 대한 토론을 자유롭게 나누는 공간입니다. 의견을 나눠주세요!', 1, 7);
+VALUES (seq_club_board_id, 2, 'user27', '자유롭게 토론해요', '새로운 주제에 대한 토론을 자유롭게 나누는 공간입니다. 의견을 나눠주세요!', 1, 7);
 INSERT INTO club_board (board_id, club_id, writer, title, content, type, like_count)
-VALUES (9, 2, 'user19', '회원들과 함께하는 캠프', '다음 주 캠프에 참가하실 분들은 미리 연락 부탁드립니다. 준비물 안내 드립니다!', 1, 11);
+VALUES (seq_club_board_id, 2, 'user19', '회원들과 함께하는 캠프', '다음 주 캠프에 참가하실 분들은 미리 연락 부탁드립니다. 준비물 안내 드립니다!', 1, 11);
 INSERT INTO club_board (board_id, club_id, writer, title, content, type, like_count)
-VALUES (10, 2, 'user27', '안녕하세요!', '안녕하세요! 모든 회원분들께 즐거운 하루 되세요~', 3, 3);
+VALUES (seq_club_board_id, 2, 'user27', '안녕하세요!', '안녕하세요! 모든 회원분들께 즐거운 하루 되세요~', 3, 3);
 
 -- 댓글 샘플
 INSERT INTO board_comment (comment_id, board_id, writer, comment_ref, content, comment_level)
-VALUES (1, 1, 'user9', NULL, '가입하려면 어떻게 해야하나요?', 1);
+VALUES (seq_board_comment_id, 1, 'user9', NULL, '가입하려면 어떻게 해야하나요?', 1);
 INSERT INTO board_comment (comment_id, board_id, writer, comment_ref, content, comment_level)
-VALUES (2, 1, 'user18', NULL, '음악 공연 날짜가 궁금합니다.', 1);
+VALUES (seq_board_comment_id, 1, 'user18', NULL, '음악 공연 날짜가 궁금합니다.', 1);
 INSERT INTO board_comment (comment_id, board_id, writer, comment_ref, content, comment_level)
-VALUES (3, 1, 'user26', NULL, '오늘 운동 대회 재밌었어요!', 1);
+VALUES (seq_board_comment_id, 1, 'user26', NULL, '오늘 운동 대회 재밌었어요!', 1);
 INSERT INTO board_comment (comment_id, board_id, writer, comment_ref, content, comment_level)
-VALUES (4, 1, 'user26', 1, '가입 방법은 홈페이지에서 신청하면 됩니다.', 2);
+VALUES (seq_board_comment_id, 1, 'user26', 1, '가입 방법은 홈페이지에서 신청하면 됩니다.', 2);
 INSERT INTO board_comment (comment_id, board_id, writer, comment_ref, content, comment_level)
-VALUES (5, 1, 'user26', 2, '음악 공연은 다음 달 10일에 있을 예정입니다.', 2);
+VALUES (seq_board_comment_id, 1, 'user26', 2, '음악 공연은 다음 달 10일에 있을 예정입니다.', 2);
 INSERT INTO board_comment (comment_id, board_id, writer, comment_ref, content, comment_level)
-VALUES (6, 1, 'user26', 3, '운동 대회에서 여러분과 함께해서 기뻤습니다!', 2);
+VALUES (seq_board_comment_id, 1, 'user26', 3, '운동 대회에서 여러분과 함께해서 기뻤습니다!', 2);
 INSERT INTO board_comment (comment_id, board_id, writer, comment_ref, content, comment_level)
-VALUES (7, 2, 'user19', NULL, '환영합니다! 함께 즐거운 시간 보내요~', 1);
+VALUES (seq_board_comment_id, 2, 'user19', NULL, '환영합니다! 함께 즐거운 시간 보내요~', 1);
 INSERT INTO board_comment (comment_id, board_id, writer, comment_ref, content, comment_level)
-VALUES (8, 2, 'user27', NULL, '오늘의 주제는 뭐에요?', 1);
+VALUES (seq_board_comment_id, 2, 'user27', NULL, '오늘의 주제는 뭐에요?', 1);
 INSERT INTO board_comment (comment_id, board_id, writer, comment_ref, content, comment_level)
-VALUES (9, 2, 'user10', NULL, '일정 변경에 대해 추가 정보 부탁드립니다.', 1);
+VALUES (seq_board_comment_id, 2, 'user10', NULL, '일정 변경에 대해 추가 정보 부탁드립니다.', 1);
 INSERT INTO board_comment (comment_id, board_id, writer, comment_ref, content, comment_level)
-VALUES (10, 2, 'user1', NULL, '오늘 모임 정말 즐거웠어요!', 1);
+VALUES (seq_board_comment_id, 2, 'user1', NULL, '오늘 모임 정말 즐거웠어요!', 1);
 
 -- 클럽 레이아웃 샘플
 insert into club_layout (club_id, type, font, background_color, font_color, point_color, title, main_image, main_content)
@@ -1167,13 +1167,42 @@ values (seq_club_board_attachment_id.nextval, 2, 'musicSample1.png', 'musicSampl
 insert into club_board_attachment (id, board_id, original_filename, renamed_filename, created_at, thumbnail)
 values (seq_club_board_attachment_id.nextval, 2, 'musicSample2.png', 'musicSample2.png', sysdate, 'N');
 
+-- 클럽갤러리 샘플
+insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 10, 'Y');
+insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 20, 'Y');
+insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 30, 'Y');
+insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 14, 'Y');
+insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 15, 'Y');
+insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 13, 'Y');
+insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 187, 'Y');
+insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 12, 'Y');
+insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 5, 'Y');
+insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 7, 'Y');
+
+-- 클럽갤러리 사진 샘플
+insert into club_gallery_attachment (id, gallery_id, original_filename, renamed_filename, created_at, thumbnail)
+values (seq_club_gallery_attachment_id.nextval, 1, 'gallerySample1.png', 'gallerySample1.png', sysdate, 'Y');
+insert into club_gallery_attachment (id, gallery_id, original_filename, renamed_filename, created_at, thumbnail)
+values (seq_club_gallery_attachment_id.nextval, 2, 'gallerySample2.png', 'gallerySample2.png', sysdate, 'Y');
+insert into club_gallery_attachment (id, gallery_id, original_filename, renamed_filename, created_at, thumbnail)
+values (seq_club_gallery_attachment_id.nextval, 3, 'gallerySample3.png', 'gallerySample3.png', sysdate, 'Y');
+insert into club_gallery_attachment (id, gallery_id, original_filename, renamed_filename, created_at, thumbnail)
+values (seq_club_gallery_attachment_id.nextval, 4, 'gallerySample4.png', 'gallerySample4.png', sysdate, 'Y');
+insert into club_gallery_attachment (id, gallery_id, original_filename, renamed_filename, created_at, thumbnail)
+values (seq_club_gallery_attachment_id.nextval, 5, 'gallerySample5.png', 'gallerySample5.png', sysdate, 'Y');
+insert into club_gallery_attachment (id, gallery_id, original_filename, renamed_filename, created_at, thumbnail)
+values (seq_club_gallery_attachment_id.nextval, 6, 'gallerySample6.png', 'gallerySample6.png', sysdate, 'Y');
+insert into club_gallery_attachment (id, gallery_id, original_filename, renamed_filename, created_at, thumbnail)
+values (seq_club_gallery_attachment_id.nextval, 7, 'gallerySample7.png', 'gallerySample7.png', sysdate, 'Y');
+insert into club_gallery_attachment (id, gallery_id, original_filename, renamed_filename, created_at, thumbnail)
+values (seq_club_gallery_attachment_id.nextval, 8, 'gallerySample8.png', 'gallerySample8.png', sysdate, 'Y');
+insert into club_gallery_attachment (id, gallery_id, original_filename, renamed_filename, created_at, thumbnail)
+values (seq_club_gallery_attachment_id.nextval, 9, 'gallerySample9.png', 'gallerySample9.png', sysdate, 'Y');
+insert into club_gallery_attachment (id, gallery_id, original_filename, renamed_filename, created_at, thumbnail)
+values (seq_club_gallery_attachment_id.nextval, 10, 'gallerySample10.png', 'gallerySample10.png', sysdate, 'Y');
+
 commit;
 
-
-
 --update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'honggd';
-
-
-
 
 
