@@ -312,6 +312,19 @@ create table admin_notice (
 	status	char(1) default 'Y'
 );
 
+create table admin_Inquiry (
+	Inquiry_id 	number		NOT NULL,
+	writer varchar2(30)		NOT NULL,
+	title	varchar2(200)		NOT NULL,
+	content	varchar2(4000)		NOT NULL,
+	created_at	date	DEFAULT sysdate	NULL,
+	type	number	DEFAULT 1 NOT NULL  ,
+	status	char(1)	DEFAULT 0 NULL ,
+	admin_id	varchar2(30)	NULL,
+	response	varchar2(2000)	NULL
+);
+
+
 create table authority (
     member_id varchar2(30),
     auth varchar2(20)   not null
