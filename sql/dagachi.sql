@@ -43,6 +43,26 @@
 --DROP TABLE "CLUB_BOARD" CASCADE CONSTRAINTS;
 --DROP TABLE "CLUB_GALLERY" CASCADE CONSTRAINTS;
 --DROP TABLE "AUTHORITY" CASCADE CONSTRAINTS;
+<<<<<<< HEAD
+--DROP TABLE "PERSISTENT_LOGINS" CASCADE CONSTRAINTS;
+--drop sequence seq_club_id;
+--drop sequence seq_club_report_id;
+--drop sequence seq_chat_log_id;
+--drop sequence seq_member_id;
+--drop sequence seq_member_report_id;
+--drop sequence seq_member_like_id;
+--drop sequence seq_club_gallery_id;
+--drop sequence seq_club_board_id;
+--drop sequence seq_club_gallery_attachment_id;
+--drop sequence seq_club_board_attachment_id;
+--drop sequence seq_board_comment_id;
+--drop sequence seq_club_schedule_id;
+--drop sequence seq_club_schedule_place_id;
+--drop sequence seq_main_page_id;
+--drop sequence seq_admin_notice_id;
+--drop sequence seq_alarm_id;
+=======
+>>>>>>> branch 'master' of https://github.com/newTypeo/dagachi.git
 
 ------------------------------------------------- 시퀀스 -------------------------------------------------
 create sequence seq_club_id;
@@ -1204,6 +1224,12 @@ insert into club_gallery_attachment (id, gallery_id, original_filename, renamed_
 values (seq_club_gallery_attachment_id.nextval, 10, 'gallerySample10.png', 'gallerySample10.png', sysdate, 'Y');
 
 commit;
+
+
+select * from club_member where club_id = 2;
+--update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'honggd';
+
+
 
 
 

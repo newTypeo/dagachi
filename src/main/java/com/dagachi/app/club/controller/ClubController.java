@@ -247,10 +247,10 @@ public class ClubController {
 			){
 		List<ClubAndImage> clubAndImages = new ArrayList<>();
 		clubAndImages = clubService.clubList();
-		for(ClubAndImage cAI: clubAndImages) {
-			int clubId = clubService.clubIdFindByDomain(cAI.getDomain());
-			List<String> clubTag = (List)clubService.findClubTagById(clubId);
-		}
+//		for(ClubAndImage cAI: clubAndImages) {
+//			int clubId = clubService.clubIdFindByDomain(cAI.getDomain());
+//			List<String> clubTag = (List)clubService.findClubTagById(clubId);
+//		}
 //		System.out.println(clubTag);
 		return ResponseEntity.status(HttpStatus.OK).body(clubAndImages);
 	}
@@ -263,6 +263,7 @@ public class ClubController {
 	public ResponseEntity<?> loginClubList(
 			@AuthenticationPrincipal MemberDetails member
 			){
+		log.debug("ddddddddddddddddddddddddddddddddddddddddddd");
 		String memberId = member.getMemberId();
 		
 		List<ClubAndImage> clubAndImages = new ArrayList<>();
@@ -271,7 +272,14 @@ public class ClubController {
 	}
 	
 
-
+	@GetMapping("/categoryList.do")
+	public ResponseEntity<?> categoryList(
+			@RequestParam String category) {
+		log.debug(category);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(category);
+	}
+	
 	/**
 	 * 해당 모임의 회원관리 클릭시
 	 * @author 창환
@@ -316,6 +324,10 @@ public class ClubController {
 	}
 	
 	
+	/**
+	 * 해당 모임의 회원 강제 탈퇴
+	 * @author 창환
+	 */
 	@PostMapping("/&{domain}/kickMember.do")
 	public String kickMember(
 			@PathVariable("domain") String domain,
