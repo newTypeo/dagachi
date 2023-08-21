@@ -46,6 +46,7 @@
 --DROP TABLE "CLUB_BOARD" CASCADE CONSTRAINTS;
 --DROP TABLE "CLUB_GALLERY" CASCADE CONSTRAINTS;
 --DROP TABLE "AUTHORITY" CASCADE CONSTRAINTS;
+--DROP TABLE "PERSISTENT_LOGINS" CASCADE CONSTRAINTS;
 --drop sequence seq_club_id;
 --drop sequence seq_club_report_id;
 --drop sequence seq_chat_log_id;
@@ -103,8 +104,7 @@ create table member (
 	withdrawal_date	date, --  COMMENT 'null 이면 회원'
 	password_change_date	date default sysdate,
 	last_login_date date,
-	status char(1) default 'Y',
-    member_role char(1) default 'M' not null
+	status char(1) default 'Y'
 );
 
 -- security rememeberme 를 위해 만들어진 테이블
@@ -1174,8 +1174,8 @@ values (seq_club_board_attachment_id.nextval, 2, 'musicSample2.png', 'musicSampl
 commit;
 
 
-
---update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'user26';
+select * from club_member where club_id = 2;
+--update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'honggd';
 
 
 

@@ -65,6 +65,8 @@ document.querySelector("#club-create-btn").onclick = () => {
 	location.href = '${pageContext.request.contextPath}/club/clubCreate.do';
 };
 
+	  
+
 const categoryContainer = document.querySelector("#category-container");
 const categoryModalContainer = document.querySelector("#category-modal-container");
 const categoryModalLeft = document.querySelector("#category-modal-left");
@@ -95,9 +97,24 @@ categoryModalContainer.addEventListener('mouseout', () => {
 });
 
 categoryA.forEach((element) => {
-	element.addEventListener("mouseenter", function() {
+	element.addEventListener("mouseenter", function(e) {
 		categoryModalRight.style.display = "block";
-	});
+		console.log(e.target);
+		
+		const value = e.target;
+		
+		$.ajax({
+			url: "${pageContext.request.contextPath}/club/categoryList.do",
+			data: {
+				category : value 
+			},
+			success(response) {
+				console.log('success');
+			}
+		});
+		
+		
+		
 
 	element.addEventListener("mouseleave", function() {
 		categoryModalRight.style.display = "block";
@@ -106,6 +123,7 @@ categoryA.forEach((element) => {
 
 
 
+});
 
 
 
