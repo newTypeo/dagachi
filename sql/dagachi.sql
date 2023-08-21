@@ -92,6 +92,7 @@ create sequence seq_alarm_id;
 
 ------------------------------------------------- 테이블 -------------------------------------------------
 create table member (
+
 	member_id	varchar2(30),
 	password	varchar2(150),
 	name	 varchar2(20),
@@ -109,6 +110,14 @@ create table member (
 	last_login_date date,
 	status char(1) default 'Y',
     member_role char(1) default 'M' not null
+);
+
+-- security rememeberme 를 위해 만들어진 테이블
+create table persistent_logins (
+    username varchar(64) not null,
+    series varchar(64) primary key, -- pk
+    token varchar(64) not null, -- username, password, expiry time을 hasing한 값
+    last_used timestamp not null
 );
 
 create table club (
@@ -613,9 +622,6 @@ references member (
 INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
 VALUES (seq_club_id.nextval, '스포츠 열정 클럽', '강남구', '운동/스포츠', TO_DATE('2023-08-01', 'YYYY-MM-DD'), 0, '우리는 다양한 종목의 스포츠를 즐기고 관찰하는 스포츠 애호가들의 모임입니다.', '가장 좋아하는 스포츠는 무엇인가요?', 'sportsclub');
 INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
-
--- 3
-
 VALUES (seq_club_id.nextval, '예술 창작 모임', '홍대', '공연/축제', TO_DATE('2023-07-15', 'YYYY-MM-DD'), 0, '회화, 드로잉, 조각 등을 통해 창의력을 표현하는 공간입니다.', '어떤 종류의 예술 활동을 좋아하시나요?', 'artisticcreations');
 INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
 VALUES (seq_club_id.nextval, '테크 이노베이터스', '서초구', '자유주제', TO_DATE('2023-08-10', 'YYYY-MM-DD'), 0, '기술의 최신 동향을 탐구하고 흥미로운 프로젝트에 참여하는 곳입니다.', '어떤 프로그래밍 언어를 다룰 수 있나요?', 'techinnovators');
@@ -632,6 +638,36 @@ VALUES (seq_club_id.nextval, '모험을 찾아서', '용산구', '여행', TO_DA
 INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
 VALUES (seq_club_id.nextval, '건강과 웰빙 컬렉티브', '성동구', '사교/인맥', TO_DATE('2023-08-03', 'YYYY-MM-DD'), 0, '운동 활동, 명상, 건강한 생활에 대한 토론을 통해 신체와 마음의 웰빙을 촉진하는 공간입니다.', '건강을 어떻게 관리하고 계시나요?', 'healthwellnesscollective');
 
+-- 추가 모임 샘플 데이터
+INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
+VALUES (seq_club_id.nextval, '야구팬 클럽', '종로구', '운동/스포츠', TO_DATE('2023-08-10', 'YYYY-MM-DD'), 0, '야구를 사랑하는 팬들의 모임입니다.', '가장 좋아하는 야구팀은 무엇인가요?', 'sportsclub');
+
+INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
+VALUES (seq_club_id.nextval, '축구 열광 클럽', '마포구', '운동/스포츠', TO_DATE('2023-08-15', 'YYYY-MM-DD'), 0, '세계 각국의 축구 경기를 열광하며 시청하는 모임입니다.', '가장 좋아하는 축구 선수는 누구인가요?', 'sportsclub');
+
+INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
+VALUES (seq_club_id.nextval, '등산 동호회', '용산구', '운동/스포츠', TO_DATE('2023-08-05', 'YYYY-MM-DD'), 0, '자연을 느끼며 등산을 즐기는 사람들의 모임입니다.', '가장 기억에 남는 등산 코스는 어디인가요?', 'sportsclub');
+
+INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
+VALUES (seq_club_id.nextval, '요가 스승님의 밋밋한 밤', '서초구', '운동/스포츠', TO_DATE('2023-08-08', 'YYYY-MM-DD'), 0, '요가를 사랑하는 사람들의 모임입니다. 함께 몸과 마음을 단련합니다.', '요가를 시작하게 된 계기는 무엇인가요?', 'sportsclub');
+
+INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
+VALUES (seq_club_id.nextval, '미식가의 향연', '강서구', '음식/요리', TO_DATE('2023-08-12', 'YYYY-MM-DD'), 0, '다양한 음식을 만들고 맛보는 미식가들의 클럽입니다.', '가장 기억에 남는 맛집은 어디인가요?', 'foodclub');
+
+INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
+VALUES (seq_club_id.nextval, '영화광들의 모임', '송파구', '예술/문화', TO_DATE('2023-08-18', 'YYYY-MM-DD'), 0, '다양한 장르의 영화를 감상하며 토론하는 모임입니다.', '가장 인상 깊게 본 영화는 무엇인가요?', 'cultureclub');
+
+INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
+VALUES (seq_club_id.nextval, 'IT 기술 공유 네트워크', '강동구', '기술/학문', TO_DATE('2023-08-09', 'YYYY-MM-DD'), 0, '다양한 IT 분야의 기술과 지식을 공유하는 모임입니다.', '가장 최근에 공부한 프로그래밍 언어는 무엇인가요?', 'techclub');
+
+INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
+VALUES (seq_club_id.nextval, '사진촬영과 나눔', '중랑구', '예술/문화', TO_DATE('2023-08-06', 'YYYY-MM-DD'), 0, '사진을 사랑하는 사람들이 모여 서로의 작품을 공유하고 배우는 모임입니다.', '가장 좋아하는 사진 장비는 무엇인가요?', 'cultureclub');
+
+INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
+VALUES (seq_club_id.nextval, '자연과 함께하는 스케치', '강북구', '예술/문화', TO_DATE('2023-08-14', 'YYYY-MM-DD'), 0, '자연 풍경을 스케치로 그리며 즐기는 예술가들의 클럽입니다.', '가장 좋아하는 스케치 장소는 어디인가요?', 'cultureclub');
+
+INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
+VALUES (seq_club_id.nextval, '독서 모임 "책벌레들"', '노원구', '문학/독서', TO_DATE('2023-08-20', 'YYYY-MM-DD'), 0, '다양한 장르의 책을 읽고 토론하는 독서 모임입니다.', '가장 인상 깊게 읽은 책은 무엇인가요?', 'literatureclub');
 
 
 -- 소모임사진 샘플
@@ -760,70 +796,70 @@ insert into club_tag (club_id, tag)
 values(9, '건강정보');
 
 -- 멤버샘플
-insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status, member_role)
-values ('admin', '1234', '관리자','관리자', '956-456-7890', 'admin@naver.com', TO_DATE('1990-01-15', 'YYYY-MM-DD'), 'M', 'ISTJ', '서울시 강남구 123번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y', default);
-insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status, member_role)
-values ('honggd', '1234', '홍길동','길동길동', '123-456-7890', 'honggd@naver.com', TO_DATE('1990-01-15', 'YYYY-MM-DD'), 'M', 'ISTJ', '서울시 강남구 123번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y',default);
-insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status, member_role)
-values ('user1', 'password1', '김영희','영희얌', '987-654-3210', 'user1@example.com', TO_DATE('1992-03-20', 'YYYY-MM-DD'), 'F', 'ENFP', '서울시 종로구 456번지', 1, SYSDATE, NULL, SYSDATE, NULL, 'Y',default);
-insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status, member_role)
-values ('user2', 'password2', '이철수','흔한이름철쑤', '555-123-4567', 'user2@example.com', TO_DATE('1985-08-05', 'YYYY-MM-DD'), 'M', 'INTP', '부산시 해운대구 789번지', 2, SYSDATE, NULL, SYSDATE, NULL, 'Y',default);
-insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status, member_role)
-values ('user3', 'password3', '박미영','박미영팀장', '111-222-3333', 'user3@example.com', TO_DATE('1995-12-10', 'YYYY-MM-DD'), 'F', 'ISFJ', '대구시 수성구 101번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y',default);
-insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status, member_role)
-values ('user4', 'password4', '정민준','정민준짱', '444-555-6666', 'user4@example.com', TO_DATE('1988-06-25', 'YYYY-MM-DD'), 'M', 'ENTJ', '인천시 남구 202번지', 1, SYSDATE, NULL, SYSDATE, NULL, 'Y',default);
-insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status, member_role)
-values ('user5', 'password5', '강서연','이쁘니서연', '777-888-9999', 'user5@example.com', TO_DATE('1999-04-08', 'YYYY-MM-DD'), 'F', 'INFJ', '광주시 동구 303번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y',default);
-insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status, member_role)
-values ('user6', 'password6', '윤동휘','나두동휘야', '222-333-4444', 'user6@example.com', TO_DATE('1994-09-30', 'YYYY-MM-DD'), 'M', 'ESTP', '대전시 서구 404번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y',default);
-insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status, member_role)
-values ('user7', 'password7', '서지원','지1', '999-888-7777', 'user7@example.com', TO_DATE('1987-11-02', 'YYYY-MM-DD'), 'F', 'ENTP', '울산시 중구 505번지', 3, SYSDATE, NULL, SYSDATE, NULL, 'Y',default);
-insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status, member_role)
-values ('user8', 'password8', '김동하','김동하짱짱맨', '555-444-3333', 'user8@example.com', TO_DATE('1991-07-12', 'YYYY-MM-DD'), 'M', 'ISFP', '세종시 606번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y',default);
-insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status, member_role)
-values('user9', 'password9', '임소현','소혀니', '777-666-5555', 'user9@example.com', TO_DATE('1993-02-28', 'YYYY-MM-DD'), 'F', 'ENFJ', '제주시 707번지', 1, SYSDATE, NULL, SYSDATE, NULL, 'Y',default);
-insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status, member_role)
-VALUES ('user10', 'password10', '박재현','재현짱짱우', '555-666-7777', 'user10@example.com', TO_DATE('1993-11-18', 'YYYY-MM-DD'), 'M', 'ISTJ', '서울시 중구 1010번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y',default);
-insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status, member_role)
-VALUES ('user11', 'password11', '김민수','나도민수야', '888-777-6666', 'user11@example.com', TO_DATE('1990-05-08', 'YYYY-MM-DD'), 'F', 'ENFP', '인천시 동구 1111번지', 1, SYSDATE, NULL, SYSDATE, NULL, 'Y',default);
-insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status, member_role)
-VALUES ('user12', 'password12', '정현우','혀어누', '111-222-3333', 'user12@example.com', TO_DATE('1995-10-03', 'YYYY-MM-DD'), 'M', 'ISTJ', '부산시 사하구 1212번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y',default);
-insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status, member_role)
-VALUES ('user13', 'password13', '이서영','이서영', '777-888-9999', 'user13@example.com', TO_DATE('1988-08-28', 'YYYY-MM-DD'), 'F', 'INFP', '서울시 송파구 1313번지', 1, SYSDATE, NULL, SYSDATE, NULL, 'Y',default);
-insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status, member_role)
-VALUES ('user14', 'password14', '이준호','주노주노', '222-333-4444', 'user14@example.com', TO_DATE('1995-09-05', 'YYYY-MM-DD'), 'M', 'INTP', '경기도 수원시 1414번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y',default);
-insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status, member_role)
-VALUES ('user15', 'password15', '장지훈','jihun', '444-555-6666', 'user15@example.com', TO_DATE('1992-06-28', 'YYYY-MM-DD'), 'M', 'ESTJ', '대전시 유성구 1515번지', 2, SYSDATE, NULL, SYSDATE, NULL, 'Y',default);
-insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status, member_role)
-VALUES ('user16', 'password16', '김은지','금지', '555-666-7777', 'user16@example.com', TO_DATE('1987-07-20', 'YYYY-MM-DD'), 'F', 'ESFJ', '경북 포항시 1616번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y',default);
-insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status, member_role)
-VALUES ('user17', 'password17', '박민재','민쟈', '888-777-6666', 'user17@example.com', TO_DATE('1989-12-15', 'YYYY-MM-DD'), 'M', 'ENTP', '광주시 서구 1717번지', 1, SYSDATE, NULL, SYSDATE, NULL, 'Y',default);
-insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status, member_role)
-VALUES ('user18', 'password18', '송민준','보낼송', '111-222-3333', 'user18@example.com', TO_DATE('1995-10-03', 'YYYY-MM-DD'), 'M', 'ISTJ', '서울시 중랑구 1818번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y',default);
-insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status, member_role)
-VALUES ('user19', 'password19', '김하영','하영공주', '555-444-3333', 'user19@example.com', TO_DATE('1992-04-12', 'YYYY-MM-DD'), 'F', 'ENFJ', '경기도 고양시 1919번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y',default);
-insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status, member_role)
-VALUES ('user20', 'password20', '이준서','준쏘', '777-888-9999', 'user20@example.com', TO_DATE('1988-10-15', 'YYYY-MM-DD'), 'M', 'ISFJ', '인천시 연수구 2020번지', 1, SYSDATE, NULL, SYSDATE, NULL, 'Y',default);
-insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status, member_role)
-VALUES ('user21', 'password21', '박지윤','지유니맨', '888-777-6666', 'user21@example.com', TO_DATE('1991-07-22', 'YYYY-MM-DD'), 'F', 'ISTP', '서울시 강서구 2121번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y',default);
-insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status, member_role)
-VALUES ('user22', 'password22', '이민우','미누미누', '111-222-3333', 'user22@example.com', TO_DATE('1993-09-05', 'YYYY-MM-DD'), 'M', 'ESFP', '경기도 수원시 2222번지', 1, SYSDATE, NULL, SYSDATE, NULL, 'Y',default);
-insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status, member_role)
-VALUES ('user23', 'password23', '김하진','하지니', '555-666-7777', 'user23@example.com', TO_DATE('1990-12-28', 'YYYY-MM-DD'), 'F', 'INTJ', '대전시 서구 2323번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y',default);
-insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status, member_role)
-VALUES ('user24', 'password24', '정승우','승우얌', '888-777-6666', 'user24@example.com', TO_DATE('1991-03-10', 'YYYY-MM-DD'), 'M', 'ENFP', '서울시 동작구 2424번지', 1, SYSDATE, NULL, SYSDATE, NULL, 'Y',default);
-insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status, member_role)
-VALUES ('user25', 'password25', '이아름','아르미', '111-222-3333', 'user25@example.com', TO_DATE('1996-02-18', 'YYYY-MM-DD'), 'F', 'ISFP', '경기도 용인시 2525번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y',default);
-insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status, member_role)
-VALUES ('user26', 'password26', '김재희','재히', '555-666-7777', 'user26@example.com', TO_DATE('1988-07-20', 'YYYY-MM-DD'), 'M', 'ENTJ', '대구시 북구 2626번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y',default);
-insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status, member_role)
-VALUES ('user27', 'password27', '신민지','신민지이', '888-777-6666', 'user27@example.com', TO_DATE('1989-11-15', 'YYYY-MM-DD'), 'F', 'INFJ', '서울시 양천구 2727번지', 1, SYSDATE, NULL, SYSDATE, NULL, 'Y',default);
-insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status, member_role)
-VALUES ('user28', 'password28', '장태준','장태준회사', '111-222-3333', 'user28@example.com', TO_DATE('1994-10-03', 'YYYY-MM-DD'), 'M', 'ISTP', '경기도 부천시 2828번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y',default);
-insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status, member_role)
-VALUES ('user29', 'password29', '한승민','스응미니', '555-666-7777', 'user29@example.com', TO_DATE('1993-09-05', 'YYYY-MM-DD'), 'M', 'ESFJ', '대전시 중구 2929번지', 1, SYSDATE, NULL, SYSDATE, NULL, 'Y',default);
-insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status, member_role)
-VALUES ('user30', 'password30', '이민재','2민재', '888-777-6666', 'user30@example.com', TO_DATE('1988-12-10', 'YYYY-MM-DD'), 'M', 'ENTP', '서울시 마포구 3030번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y',default);
+insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
+values ('admin', '1234', '관리자','관리자', '956-456-7890', 'admin@naver.com', TO_DATE('1990-01-15', 'YYYY-MM-DD'), 'M', 'ISTJ', '서울시 강남구 123번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y');
+insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
+values ('honggd', '1234', '홍길동','길동길동', '123-456-7890', 'honggd@naver.com', TO_DATE('1990-01-15', 'YYYY-MM-DD'), 'M', 'ISTJ', '서울시 강남구 123번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y');
+insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
+values ('user1', 'password1', '김영희','영희얌', '987-654-3210', 'user1@example.com', TO_DATE('1992-03-20', 'YYYY-MM-DD'), 'F', 'ENFP', '서울시 종로구 456번지', 1, SYSDATE, NULL, SYSDATE, NULL, 'Y');
+insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
+values ('user2', 'password2', '이철수','흔한이름철쑤', '555-123-4567', 'user2@example.com', TO_DATE('1985-08-05', 'YYYY-MM-DD'), 'M', 'INTP', '부산시 해운대구 789번지', 2, SYSDATE, NULL, SYSDATE, NULL, 'Y');
+insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
+values ('user3', 'password3', '박미영','박미영팀장', '111-222-3333', 'user3@example.com', TO_DATE('1995-12-10', 'YYYY-MM-DD'), 'F', 'ISFJ', '대구시 수성구 101번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y');
+insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
+values ('user4', 'password4', '정민준','정민준짱', '444-555-6666', 'user4@example.com', TO_DATE('1988-06-25', 'YYYY-MM-DD'), 'M', 'ENTJ', '인천시 남구 202번지', 1, SYSDATE, NULL, SYSDATE, NULL, 'Y');
+insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
+values ('user5', 'password5', '강서연','이쁘니서연', '777-888-9999', 'user5@example.com', TO_DATE('1999-04-08', 'YYYY-MM-DD'), 'F', 'INFJ', '광주시 동구 303번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y');
+insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
+values ('user6', 'password6', '윤동휘','나두동휘야', '222-333-4444', 'user6@example.com', TO_DATE('1994-09-30', 'YYYY-MM-DD'), 'M', 'ESTP', '대전시 서구 404번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y');
+insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
+values ('user7', 'password7', '서지원','지1', '999-888-7777', 'user7@example.com', TO_DATE('1987-11-02', 'YYYY-MM-DD'), 'F', 'ENTP', '울산시 중구 505번지', 3, SYSDATE, NULL, SYSDATE, NULL, 'Y');
+insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
+values ('user8', 'password8', '김동하','김동하짱짱맨', '555-444-3333', 'user8@example.com', TO_DATE('1991-07-12', 'YYYY-MM-DD'), 'M', 'ISFP', '세종시 606번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y');
+insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
+values('user9', 'password9', '임소현','소혀니', '777-666-5555', 'user9@example.com', TO_DATE('1993-02-28', 'YYYY-MM-DD'), 'F', 'ENFJ', '제주시 707번지', 1, SYSDATE, NULL, SYSDATE, NULL, 'Y');
+insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
+VALUES ('user10', 'password10', '박재현','재현짱짱우', '555-666-7777', 'user10@example.com', TO_DATE('1993-11-18', 'YYYY-MM-DD'), 'M', 'ISTJ', '서울시 중구 1010번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y');
+insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
+VALUES ('user11', 'password11', '김민수','나도민수야', '888-777-6666', 'user11@example.com', TO_DATE('1990-05-08', 'YYYY-MM-DD'), 'F', 'ENFP', '인천시 동구 1111번지', 1, SYSDATE, NULL, SYSDATE, NULL, 'Y');
+insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
+VALUES ('user12', 'password12', '정현우','혀어누', '111-222-3333', 'user12@example.com', TO_DATE('1995-10-03', 'YYYY-MM-DD'), 'M', 'ISTJ', '부산시 사하구 1212번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y');
+insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
+VALUES ('user13', 'password13', '이서영','이서영', '777-888-9999', 'user13@example.com', TO_DATE('1988-08-28', 'YYYY-MM-DD'), 'F', 'INFP', '서울시 송파구 1313번지', 1, SYSDATE, NULL, SYSDATE, NULL, 'Y');
+insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
+VALUES ('user14', 'password14', '이준호','주노주노', '222-333-4444', 'user14@example.com', TO_DATE('1995-09-05', 'YYYY-MM-DD'), 'M', 'INTP', '경기도 수원시 1414번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y');
+insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
+VALUES ('user15', 'password15', '장지훈','jihun', '444-555-6666', 'user15@example.com', TO_DATE('1992-06-28', 'YYYY-MM-DD'), 'M', 'ESTJ', '대전시 유성구 1515번지', 2, SYSDATE, NULL, SYSDATE, NULL, 'Y');
+insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
+VALUES ('user16', 'password16', '김은지','금지', '555-666-7777', 'user16@example.com', TO_DATE('1987-07-20', 'YYYY-MM-DD'), 'F', 'ESFJ', '경북 포항시 1616번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y');
+insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
+VALUES ('user17', 'password17', '박민재','민쟈', '888-777-6666', 'user17@example.com', TO_DATE('1989-12-15', 'YYYY-MM-DD'), 'M', 'ENTP', '광주시 서구 1717번지', 1, SYSDATE, NULL, SYSDATE, NULL, 'Y');
+insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
+VALUES ('user18', 'password18', '송민준','보낼송', '111-222-3333', 'user18@example.com', TO_DATE('1995-10-03', 'YYYY-MM-DD'), 'M', 'ISTJ', '서울시 중랑구 1818번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y');
+insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
+VALUES ('user19', 'password19', '김하영','하영공주', '555-444-3333', 'user19@example.com', TO_DATE('1992-04-12', 'YYYY-MM-DD'), 'F', 'ENFJ', '경기도 고양시 1919번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y');
+insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
+VALUES ('user20', 'password20', '이준서','준쏘', '777-888-9999', 'user20@example.com', TO_DATE('1988-10-15', 'YYYY-MM-DD'), 'M', 'ISFJ', '인천시 연수구 2020번지', 1, SYSDATE, NULL, SYSDATE, NULL, 'Y');
+insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
+VALUES ('user21', 'password21', '박지윤','지유니맨', '888-777-6666', 'user21@example.com', TO_DATE('1991-07-22', 'YYYY-MM-DD'), 'F', 'ISTP', '서울시 강서구 2121번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y');
+insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
+VALUES ('user22', 'password22', '이민우','미누미누', '111-222-3333', 'user22@example.com', TO_DATE('1993-09-05', 'YYYY-MM-DD'), 'M', 'ESFP', '경기도 수원시 2222번지', 1, SYSDATE, NULL, SYSDATE, NULL, 'Y');
+insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
+VALUES ('user23', 'password23', '김하진','하지니', '555-666-7777', 'user23@example.com', TO_DATE('1990-12-28', 'YYYY-MM-DD'), 'F', 'INTJ', '대전시 서구 2323번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y');
+insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
+VALUES ('user24', 'password24', '정승우','승우얌', '888-777-6666', 'user24@example.com', TO_DATE('1991-03-10', 'YYYY-MM-DD'), 'M', 'ENFP', '서울시 동작구 2424번지', 1, SYSDATE, NULL, SYSDATE, NULL, 'Y');
+insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
+VALUES ('user25', 'password25', '이아름','아르미', '111-222-3333', 'user25@example.com', TO_DATE('1996-02-18', 'YYYY-MM-DD'), 'F', 'ISFP', '경기도 용인시 2525번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y');
+insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
+VALUES ('user26', 'password26', '김재희','재히', '555-666-7777', 'user26@example.com', TO_DATE('1988-07-20', 'YYYY-MM-DD'), 'M', 'ENTJ', '대구시 북구 2626번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y');
+insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
+VALUES ('user27', 'password27', '신민지','신민지이', '888-777-6666', 'user27@example.com', TO_DATE('1989-11-15', 'YYYY-MM-DD'), 'F', 'INFJ', '서울시 양천구 2727번지', 1, SYSDATE, NULL, SYSDATE, NULL, 'Y');
+insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
+VALUES ('user28', 'password28', '장태준','장태준회사', '111-222-3333', 'user28@example.com', TO_DATE('1994-10-03', 'YYYY-MM-DD'), 'M', 'ISTP', '경기도 부천시 2828번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y');
+insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
+VALUES ('user29', 'password29', '한승민','스응미니', '555-666-7777', 'user29@example.com', TO_DATE('1993-09-05', 'YYYY-MM-DD'), 'M', 'ESFJ', '대전시 중구 2929번지', 1, SYSDATE, NULL, SYSDATE, NULL, 'Y');
+insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
+VALUES ('user30', 'password30', '이민재','2민재', '888-777-6666', 'user30@example.com', TO_DATE('1988-12-10', 'YYYY-MM-DD'), 'M', 'ENTP', '서울시 마포구 3030번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y');
 
 -- 소모임에 가입한 멤버테이블 샘플
 INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
@@ -1116,26 +1152,13 @@ VALUES (9, 2, 'user10', NULL, '일정 변경에 대해 추가 정보 부탁드�
 INSERT INTO board_comment (comment_id, board_id, writer, comment_ref, content, comment_level)
 VALUES (10, 2, 'user1', NULL, '오늘 모임 정말 즐거웠어요!', 1);
 
+-- 클럽 레이아웃 샘플
+insert into club_layout (club_id, type, font, background_color, font_color, point_color, title, main_image, main_content)
+values (1, default, null, '#dddddd', '#778899', '#496682', 'sportClubTitleSample.png', 'sportClubMainSample.png', '스포츠 열정 클럽에 오신것을 환영합니다!');
+
+select * from member where name = '이은주';
 
 commit;
-
-    
-select 
-	  	c.*,
-        cp.club_id profile_club_id,
-        original_filename,
-        renamed_filename,
-        cp.created_at profile_created_at
-from 
-	  	club c left join club_profile cp
-            on c.club_id = cp.club_id
-where 
-	  	club_name like '%클럽%';
-
-
-
-select * from club_tag;
 
 select * from member;
 
-commit;

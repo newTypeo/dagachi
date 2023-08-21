@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.dagachi.app.member.dto.MemberCreateDto;
 import com.dagachi.app.member.entity.Member;
+import com.dagachi.app.member.entity.MemberDetails;
 
 
 @Mapper
@@ -19,7 +20,7 @@ public interface MemberRepository {
 	@Insert("insert into member values (#{memberId}, #{password},#{name}, #{nickname}, #{phoneNo}, #{email}, #{birthday, jdbcType=DATE}, #{gender}, #{mbti},  #{address}, 0, SYSDATE, NULL, SYSDATE, NULL, 'Y')")
 	int insertMember(MemberCreateDto member);
 	
-	UserDetails loadUserByUsername(String username);
+	MemberDetails loadUserByUsername(String memberId);
 	
 	@Select("select * from member where member_id =#{memberId}")
 	Member findMemberById(String memberId);

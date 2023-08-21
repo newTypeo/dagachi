@@ -18,28 +18,52 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 
+<!-- 아이콘 링크 -->
+<script src="https://kit.fontawesome.com/d7ccac7be9.js" crossorigin="anonymous"></script>
+
+<!-- 폰트 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&display=swap" rel="stylesheet">
+
 <!-- 사용자작성 css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css" />
  
 </head>
 <body>
+<sec:authorize access="isAuthenticated()">
+	<form:form 
+		name="memberLogoutFrm" 
+		action="${pageContext.request.contextPath}/member/memberLogout.do" 
+		method="POST"></form:form>
+</sec:authorize>
 
 <div id="container">
-	<header class="p-2 bg-primary">
-		<div>로고</div>
-		<button onclick="location.href = '${pageContext.request.contextPath}/admin/adminClubList.do';">
-			모임목록(관리자)
-		</button>
-		<button onclick="location.href = '${pageContext.request.contextPath}/member/memberLogin.do';">
-			로그인
-		</button>
-		<button onclick="location.href = '${pageContext.request.contextPath}/member/memberCreate.do';">
-			회원가입
-		</button>
-		<button onclick="location.href = '${pageContext.request.contextPath}/admin/adminMemberList.do';">
-			회원조회(관리자)
-		</button>
-		<button onclick="location.href = '${pageContext.request.contextPath}/admin/adminQuitMemberList.do';">
-			탈퇴회원조회(관리자) : /admin/adminQuitMemberList.do
-		</button>
+
+	<header>
+	
+	
+		<div id="main-logo-container">
+			<a href="${pageContext.request.contextPath}">
+				<img id="main-logo" src="${pageContext.request.contextPath}/resources/images/004.png" class="p-2">
+			</a>
+		</div>
+		<sec:authorize access="isAnonymous()">
+			<div id="header-nav-container">
+				<a href="${pageContext.request.contextPath}/member/memberLogin.do">로그인</a>
+				<span>|</span>
+				<a href="${pageContext.request.contextPath}/member/memberCreate.do">회원가입</a>
+				<span>|</span>
+			</div>
+		</sec:authorize>
+			 
+			 
+		<sec:authorize access="isAuthenticated()">
+			    <span>
+			    <a title="<sec:authentication property="authorities"/>"><sec:authentication property="principal.username"/></a>님, 안녕하삼</span>
+			    &nbsp;
+			    <button type="button"onclick="document.memberLogoutFrm.submit();">로그아웃</button>
+		</sec:authorize>
+
 	</header>
+	<jsp:include page="/WEB-INF/views/common/navBar.jsp"></jsp:include>

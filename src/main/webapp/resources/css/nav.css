@@ -1,0 +1,129 @@
+@CHARSET "UTF-8";
+
+#main-nav-bar {
+	max-width: 1320px;
+	padding: 10px;
+	margin: 0 auto;
+	display: flex;
+	align-items: center;
+	border-bottom: 1px solid #aaa;
+}
+#category-container{
+	height: 40px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+#category-container span {
+	margin: 0 10px;
+	font-size: 15px;
+	color: #777;
+}
+
+#nav-blank {
+	width: 101px;
+}
+
+#search-club-box {
+	width: 360px;
+	height: 50px;
+	padding-left: 20px;
+	border: 4px solid #2990D0;
+	border-bottom-left-radius: 12px;
+	border-top-left-radius: 12px;
+}
+
+#club-create-btn {
+	width: 160px;
+	font-family: 'IBM Plex Sans KR', sans-serif;
+	background-color: #2990D0;
+	color: #f3f3f3;
+}
+
+#search-container {
+	margin: 0 auto;
+	display: flex;
+}
+
+#search-club-btn {
+	border: none;
+	height: 36px;
+	background-color: transparent;
+	color: #666;
+	position: relative;
+	right: 47px;
+}
+
+#search-detail {
+	background-color: #2990D0;
+	color: #eee;
+	width: 100px;
+	height: 50px;
+	border: 4px solid #2990D0;
+	border-bottom-right-radius: 12px;
+	border-top-right-radius: 12px;
+	position: relative;
+	left: -44px;
+	display: flex;
+	flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    cursor: pointer;
+}
+#search-detail i {
+	margin-left: 4px;
+	margin-top: 3px;
+}
+
+#category-modal-container {
+	background-color: white;
+    position: absolute;
+    display: flex;
+    transform: translate(0px, 319px);
+    box-sizing: border-box;
+    z-index: 10;
+}
+
+#category-modal-left {
+	box-sizing: border-box;
+	border: 1px solid #999;
+	width: 180px;
+    height: 598px;
+	position: relative;
+    z-index: 10;
+	display: none;
+}
+#category-modal-left-upper {
+	height: 540px;
+	display: flex;
+  	overflow-y: auto;
+    flex-direction: column;
+    padding: 23px;
+}
+#category-modal-left-lower {
+	height: 57px;
+	border-top: 1px solid #999;
+	display: flex;
+	align-items: center;
+    justify-content: center;
+}
+#category-modal-right {
+	background-color: yellow;
+	box-sizing: border-box;
+	border-width: 1px 1px 1px 0;
+	border-style: solid;
+	border-color: #999;
+	width: 320px;
+    height: 598px;
+	position: relative;
+    z-index: 10;
+    display: none;
+}
+
+#category-modal-left-upper a:hover {
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+
