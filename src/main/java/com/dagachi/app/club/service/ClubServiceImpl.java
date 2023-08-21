@@ -300,8 +300,14 @@ public class ClubServiceImpl implements ClubService {
 	}
 	
 	@Override
+
+	public int insertClubRecentVisitd(String memberId, int clubId) {
+		return clubRepository.insertClubRecentVisitd(memberId, clubId);
+	}
+
 	public List<GalleryAndImageDto> findgalleryById(int clubId) {
 		return clubRepository.findgalleryById(clubId);
+
 	}
 	
 }
