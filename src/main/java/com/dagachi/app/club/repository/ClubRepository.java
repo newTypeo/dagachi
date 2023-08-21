@@ -143,7 +143,7 @@ public interface ClubRepository {
 	@Select("select * from club_layout where club_Id = #{clubId}")
 	ClubLayout findLayoutById(int clubId);
 	
-	@Select("select * from club c join member_interest i on c.category = i.interest where member_id = #{memberId}")
+	@Select("select * from (SELECT a.*, b.count AS member_count FROM (SELECT c.*, i.member_id FROM club c JOIN member_interest i ON c.category = i.interest WHERE i.member_id = #{memberId}) a LEFT JOIN (SELECT club_id, COUNT(*) AS count FROM club_member GROUP BY club_id) b ON a.club_id = b.club_id) c left join (select * from club_profile) d on c.club_id = d.club_id")
 	List<ClubAndImage> clubListById(String memberId);
 	
 	List<ClubSearchDto> searchClubWithFilter(Map<String, Object> params);
