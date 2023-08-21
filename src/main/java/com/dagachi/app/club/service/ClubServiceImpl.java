@@ -9,17 +9,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
+import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
-import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.ClubSearchDto;
+import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.ManageMember;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
-import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubDetails;
 import com.dagachi.app.club.entity.ClubLayout;
+import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.club.repository.ClubRepository;
@@ -238,5 +240,19 @@ public class ClubServiceImpl implements ClubService {
 	public ClubLayout findLayoutById(int clubId) {
 		return clubRepository.findLayoutById(clubId);
 	}
+	
+	@Override
+	public List<BoardAndImageDto> findBoardAndImageById(int clubId) {
+		return clubRepository.findBoardAndImageById(clubId);
+	}
+	public JoinClubMember hostFindByClubId(int clubId) {
+		return clubRepository.hostFindByClubId(clubId);
+	}
+	
+	@Override
+	public int memberRoleFindByMemberId(ClubMemberRole clubMemberRole) {
+		return clubRepository.memberRoleFindByMemberId(clubMemberRole);
+	}
+	
 }
 
