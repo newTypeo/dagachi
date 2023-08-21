@@ -8,11 +8,15 @@
 	<jsp:param value="게시글 작성" name="title" />
 </jsp:include>
 
+<script>
+
+</script>
+
 <section id="club-board-sec" class="">
 
 
 
-	<form name="boardFrm"
+	<form:form name="boardFrm"
 		action="${pageContext.request.contextPath}/club/${domain}/boardCreate.do"
 		enctype="multipart/form-data" method="post">
 		<div class="form-group">
@@ -27,14 +31,14 @@
 				<label class="input-group-text" for="inputGroupSelect01">카테고리</label>
 			</div>
 
-			<select class="custom-select" id="inputGroupSelect01"
-				name="type">
+			<select class="custom-select" id="inputGroupSelect01" name="type">
 				<option value="1" selected>자유글</option>
 				<option value="2">정모후기</option>
 				<option value="3">가입인사</option>
 				<option value="4">공지사항</option>
 				<option value="5" hidden>필독</option>
 			</select>
+
 
 		</div>
 
@@ -45,17 +49,18 @@
 				<span class="input-group-text" id="inputFileAddon01">Upload</span>
 			</div>
 			<div class="custom-file">
-				<input type="file" name="upFile" class="custom-file-input" id="inputFile01"
-					aria-describedby="inputGroupFileAddon01" multiple> <label
-					class="custom-file-label" for="inputGroupFile01">파일선택</label>
+				<input type="file" name="upFile" class="custom-file-input"
+					id="inputFile01" aria-describedby="inputGroupFileAddon01" multiple>
+				<label class="custom-file-label" for="inputGroupFile01">파일선택</label>
 			</div>
 		</div>
 
 		<div class="form-group">
 			<label for="exampleFormControlTextarea1"></label>
-			<textarea class="form-control" name="content" id="exampleFormControlTextarea1"
-				rows="3" placeholder="내용을 입력하세요"></textarea>
+			<textarea class="form-control" id="exampleFormControlTextarea1"
+				name="content" rows="3" placeholder="내용을 입력하세요"></textarea>
 		</div>
+
 
 		<div class="input-group mb-3">
 			<div class="input-group-prepend">
@@ -68,15 +73,15 @@
 				aria-label="Text input with checkbox"
 				value="필독을 선택하시면 게시판 상단에 고정됩니다." readonly>
 		</div>
-
 		<button type="submit" class="btn btn-primary btn-lg">제출하기</button>
-		
-	</form>
+
+	</form:form>
 
 
 </section>
 
 <script>
+
 
 document.boardFrm.addEventListener("submit",(e)=>{
 	const frm=e.target;
@@ -120,6 +125,7 @@ document.querySelector("#mustRead").addEventListener("click",(e) => {
 	}
 	
 });
+
 
 </script>
 

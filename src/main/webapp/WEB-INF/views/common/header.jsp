@@ -65,6 +65,7 @@
 			    <button type="button"onclick="document.memberLogoutFrm.submit();">로그아웃</button>
 			    <button type="button"onclick="withdrawalMember();">회원탈퇴</button>
 			    <form:form name="memberDeleteFrm" action="${pageContext.request.contextPath}/member/memberDelete.do" method="post"></form:form>
+			    <a href="${pageContext.request.contextPath}/club/clubsRecentVisited.do">최근 본 모임</a>
 		</sec:authorize>
 
 	</header>
