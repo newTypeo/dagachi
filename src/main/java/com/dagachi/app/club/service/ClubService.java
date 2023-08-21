@@ -10,12 +10,14 @@ import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
 import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.KickMember;
 import com.dagachi.app.club.dto.ClubSearchDto;
+import com.dagachi.app.club.dto.GalleryAndImageDto;
 import com.dagachi.app.club.dto.ManageMember;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubDetails;
+import com.dagachi.app.club.entity.ClubGalleryAttachment;
 import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.club.entity.ClubTag;
@@ -77,6 +79,8 @@ public interface ClubService {
 
 	int memberRoleFindByMemberId(ClubMemberRole clubMemberRole);
 
+	List<GalleryAndImageDto> findgalleryById(int clubId);
+	
 	int kickMember(KickMember kickMember);
 
 
