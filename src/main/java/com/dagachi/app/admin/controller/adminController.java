@@ -79,82 +79,103 @@ public class adminController {
 	@GetMapping("adminMemberList.do")
 	public void memberList(
 			@RequestParam(defaultValue = "1") int page,
+			@RequestParam String keyword,
+			@RequestParam String column,
 			HttpServletRequest request,
 			Model model) {
 		int limit = 10;
-		Map<String, Object> params = Map.of(
-				"page", page,
-				"limit", limit
-				);	
+		
+		log.debug("키워드야 안녕?", keyword);
+		
+		String getCount = "getCount";
+		Map<String, Object> params = new HashMap<>();
+        params.put("page", page);
+        params.put("limit", limit);
+        params.put("keyword", keyword);
+        params.put("column", column);
+        
 		List<Member> members = memberService.adminMemberList(params);
 		model.addAttribute("members", members);
 		
 		// 전체게시물 수
-		int totalCount = memberService.getTotalCount();
+		params.put("getCount", getCount);
+		int totalCount = memberService.adminMemberList(params).size();
 		String url = request.getRequestURI();
+		url += "#&keyword=" + keyword + "&column=" + column;
 		String pageBar = Pagination.getPagebar(page, limit, totalCount, url);
+		pageBar = pageBar.replaceAll("\\?", "&");
+		pageBar = pageBar.replaceAll("#&", "\\?");
 		model.addAttribute("pagebar", pageBar);
 	}
-	/**
-	 * 관리자 회원 목록에서 회원 검색
-	 * @author 현우
-	 */	
-	@GetMapping("memberSearch.do")
-	public ResponseEntity<?> memberSearch(
-			@RequestParam String keyword, 
-			@RequestParam String column,
-			@RequestParam(defaultValue = "1") int page,
-			HttpServletRequest request,
-			Model model
-			) {
-		int limit = 10;
-		Map<String, Object> params = Map.of(
-				"page", page,
-				"limit", limit
-				);	
-		log.debug("keyword = {}", keyword);
-		log.debug("column = {}", column);
-		List<Member> members = new ArrayList<>();
-		if(keyword == "") {
-			members = memberService.adminMemberList(params);
-		} else {
-			members = memberService.memberSearch(keyword, column, params);
-		}
-		log.debug("members = {}", members);
-		
-		//  pagebar
-		int totalCount = members.size();
-		String url = request.getRequestURI();
-		String pageBar = Pagination.getPagebar(page, limit, totalCount, url);
-		model.addAttribute("pagebar", pageBar);
-			
-		return ResponseEntity.status(HttpStatus.OK).body(members);
-	}
+	
 	/**
 	 * 관리자 탈퇴 회원 목록에서 탈퇴 회원 조회
 	 * @author 현우
 	 */
 	@GetMapping("adminQuitMemberList.do")
-	public void quitMemberList(Model model) {
-		List<Member> members = memberService.adminQuitMemberList();
+	public void quitMemberList(
+			@RequestParam(defaultValue = "1") int page,
+			@RequestParam String keyword,
+			@RequestParam String column,
+			HttpServletRequest request,
+			Model model) {
+		int limit = 10;
+		String getCount = "getCount";
+		
+		Map<String, Object> params = new HashMap<>();
+		params.put("page", page);
+		params.put("limit", limit);
+		params.put("keyword", keyword);
+		params.put("column", column);
+		
+		List<Member> members = memberService.adminQuitMemberList(params);
 		model.addAttribute("members", members);
+		
+		// 전체 게시물 수
+		params.put("getCount", getCount);
+		int totalCount = memberService.adminQuitMemberList(params).size();
+		String url = request.getRequestURI();
+		url += "#&keyword=" + keyword + "&column=" + column;
+		String pageBar = Pagination.getPagebar(page, limit, totalCount, url);
+		pageBar = pageBar.replaceAll("\\?", "&");
+		pageBar = pageBar.replaceAll("#&", "\\?");
+		model.addAttribute("pagebar", pageBar);
 	}
 	/**
-	 * 관리자 탈퇴 회원 목록에서 탈퇴 회원 검색
+	 * 관리자 신고 회원 목록에서 신고 회원 조회
 	 * @author 현우
 	 */
-	@GetMapping("quitMemberSearch.do")
-	public ResponseEntity<?> quitMemberSearch(@RequestParam String keyword, @RequestParam String column) {
-		log.debug("keyword = {}", keyword);
-		log.debug("column = {}", column);
-		List<Member> members = new ArrayList<>();
-		if(keyword == "") {
-			members = memberService.adminQuitMemberList();
-		} else {
-			members = memberService.quitMemberSearch(keyword, column);
-		}
-		log.debug("members = {}", members);
-		return ResponseEntity.status(HttpStatus.OK).body(members);
+	@GetMapping("adminReportMemberList.do")
+	public void repotMemberList(
+			@RequestParam(defaultValue = "1") int page,
+			@RequestParam String keyword,
+			@RequestParam String column,
+			HttpServletRequest request,
+			Model model) {
+		
+		int limit = 10;
+		String getCount = "getCount"; 
+		log.debug("키워드 : ", keyword);
+		log.debug("컬럼 : ", column);
+		
+		Map<String, Object> params = new HashMap<>();
+		params.put("page", page);
+		params.put("limit", limit);
+		params.put("keyword", keyword);
+		params.put("column", column);
+		
+		List<Member> members = memberService.adminReportMemberList(params);
+		model.addAttribute("members", members);
+		
+		// 전체 게시물 수
+		params.put("getCount", getCount);
+		int totalCount = memberService.adminReportMemberList(params).size();
+		String url = request.getRequestURI();
+		url += "#&keyword=" + keyword + "&column=" + column;
+		String pageBar = Pagination.getPagebar(page, limit, totalCount, url);
+		pageBar = pageBar.replaceAll("\\?", "&");
+		pageBar = pageBar.replaceAll("#&", "\\?");
+		model.addAttribute("pagebar", pageBar);
+		
 	}
-
 }

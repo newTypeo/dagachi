@@ -16,7 +16,10 @@
 
 --SELECT 'DROP TABLE "' ||  TABLE_NAME || '" CASCADE CONSTRAINTS;' FROM user_tables;
 
+---------------------------------------------- 테이블 삭제 ----------------------------------------------
+
 ---------------------------------------------- 초기화블럭 ----------------------------------------------
+
 
 --DROP TABLE "MEMBER" CASCADE CONSTRAINTS;
 --DROP TABLE "CLUB" CASCADE CONSTRAINTS;
@@ -88,7 +91,7 @@ create table member (
 	member_id	varchar2(30),
 	password	varchar2(150),
 	name	 varchar2(20),
-    nickname varchar2(30),
+    	nickname varchar2(30),
 	phone_no	varchar2(20),
 	email	varchar2(50),
 	birthday	date,
@@ -100,7 +103,8 @@ create table member (
 	withdrawal_date	date, --  COMMENT 'null 이면 회원'
 	password_change_date	date default sysdate,
 	last_login_date date,
-	status char(1) default 'Y'
+	status char(1) default 'Y',
+    member_role char(1) default 'M' not null
 );
 
 -- security rememeberme 를 위해 만들어진 테이블
@@ -633,6 +637,7 @@ INSERT INTO club (club_id, club_name, activity_area, category, last_activity_dat
 VALUES (seq_club_id.nextval, '모험을 찾아서', '용산구', '여행', TO_DATE('2023-07-20', 'YYYY-MM-DD'), 0, '짜릿한 모험을 떠나고 새로운 여행지를 탐험하며 여행 이야기를 공유하는 곳입니다.', '지금까지 다녀온 여행 중 가장 기억에 남는 곳은 어디인가요?', 'adventureseekers');
 INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
 VALUES (seq_club_id.nextval, '건강과 웰빙 컬렉티브', '성동구', '사교/인맥', TO_DATE('2023-08-03', 'YYYY-MM-DD'), 0, '운동 활동, 명상, 건강한 생활에 대한 토론을 통해 신체와 마음의 웰빙을 촉진하는 공간입니다.', '건강을 어떻게 관리하고 계시나요?', 'healthwellnesscollective');
+
 -- 추가 모임 샘플 데이터
 INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
 VALUES (seq_club_id.nextval, '야구팬 클럽', '종로구', '야구관람', TO_DATE('2023-08-10', 'YYYY-MM-DD'), 0, '야구를 사랑하는 팬들의 모임입니다.', '가장 좋아하는 야구팀은 무엇인가요?', 'baseballfan');
@@ -661,7 +666,6 @@ VALUES (seq_club_id.nextval, '사진촬영과 나눔', '중랑구', '사진/영�
 
 INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
 VALUES (seq_club_id.nextval, '자연과 함께하는 스케치', '강북구', '공예/만들기', TO_DATE('2023-08-14', 'YYYY-MM-DD'), 0, '자연 풍경을 스케치로 그리며 즐기는 예술가들의 클럽입니다.', '가장 좋아하는 스케치 장소는 어디인가요?', 'sketchup');
-
 
 
 -- 소모임사진 샘플
@@ -1170,10 +1174,11 @@ values (seq_club_board_attachment_id.nextval, 2, 'musicSample2.png', 'musicSampl
 commit;
 
 
+select * from member;
+
+
 
 --update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'honggd';
-
-
 
 
 
