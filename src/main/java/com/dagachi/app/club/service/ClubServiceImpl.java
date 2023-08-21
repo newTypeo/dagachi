@@ -218,5 +218,10 @@ public class ClubServiceImpl implements ClubService {
 	public ClubLayout findLayoutById(int clubId) {
 		return clubRepository.findLayoutById(clubId);
 	}
+	
+	@Override
+	public List<ClubAndImage> clubListById(String memberId) {
+		return clubRepository.clubListById(memberId);
+	}
 }
 

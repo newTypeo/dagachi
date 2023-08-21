@@ -64,5 +64,7 @@ public interface ClubService {
 
 	ClubLayout findLayoutById(int clubId);
 
+	List<ClubAndImage> clubListById(String memberId);
+
 
 }
