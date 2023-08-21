@@ -42,6 +42,29 @@
 	  		status = 'Y'
 	</select>
 	
+	<select id="searchClubWithFilter">
+	select
+		*
+	from
+		club
+	where
+	club_name like '%' || #{inputText} || '%'
+	or
+	category like '%' || #{inputText} || '%'
+	or
+	activity_area like '%' || #{inputText} || '%'
+	<if test="area != null">
+		and activity_area = #{area}
+	</if>
+	<if test="category != null">
+		and category = #{category}
+	</if>
+		
+	order by
+		created_at desc
+	</select>
+	
+	
 	<select id="adminClubList">
 	 select
 	 	* 

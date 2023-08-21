@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,8 +58,10 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/club")
 @Slf4j
-@SessionAttributes
+@SessionAttributes({"inputText"})
 public class ClubController {
+	
+	static final int LIMIT = 10;
 	
 	@Autowired
 	private ClubService clubService;
@@ -129,12 +132,11 @@ public class ClubController {
 			@RequestParam String inputText,
 			HttpServletRequest request,
 			Model model) {
-		int limit = 10;
 		String getCount = "getCount";
 		
 		Map<String, Object> params = new HashMap<>();
         params.put("page", page);
-        params.put("limit", limit);
+        params.put("limit", LIMIT);
         params.put("inputText", inputText);
 		
 		List<ClubSearchDto> clubs = clubService.clubSearch(params);
@@ -144,12 +146,51 @@ public class ClubController {
 		int totalCount = clubService.clubSearch(params).size();
 		String url = request.getRequestURI();
 		url += "#&inputText=" + inputText;
-		String pageBar = Pagination.getPagebar(page, limit, totalCount, url);
+		String pageBar = Pagination.getPagebar(page, LIMIT, totalCount, url);
 		pageBar = pageBar.replaceAll("\\?", "&");
 		pageBar = pageBar.replaceAll("#&", "\\?");
 		model.addAttribute("pagebar", pageBar);
 		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("inputText", inputText);
+	}
+	
+	/**
+	 * 메인에서 모임 검색 후 필터 추가 검색
+	 * @author 종환
+	 */
+	@GetMapping("/searchClubWithFilter.do")
+	public String searchClubWithFilter(
+			@RequestParam(defaultValue = "1") int page,
+			@RequestParam String category,
+			@RequestParam String area,
+			HttpServletRequest request,
+			HttpSession session,
+			Model model) {
+		String getCount = "getCount";
+		String inputText = (String) session.getAttribute("inputText");
+		Map<String, Object> params = new HashMap<>();
+		params.put("area", area);
+        params.put("page", page);
+        params.put("limit", LIMIT);
+        params.put("category", category);
+        params.put("inputText", inputText);
+        
+        List<ClubSearchDto> clubs = clubService.searchClubWithFilter(params);
+		model.addAttribute("clubs", clubs);
+		
+		params.put("getCount", getCount);
+		int totalCount = clubService.searchClubWithFilter(params).size();
+		log.debug("totalCount, clubs = {}{}", totalCount, clubs);
+		String url = request.getRequestURI();
+		url += "#&inputText=" + inputText + "&area=" + area + "&category=" + category;
+		String pageBar = Pagination.getPagebar(page, LIMIT, totalCount, url);
+		pageBar = pageBar.replaceAll("\\?", "&");
+		pageBar = pageBar.replaceAll("#&", "\\?");
+		model.addAttribute("pagebar", pageBar);
+		model.addAttribute("totalCount", totalCount);
+		model.addAttribute("inputText", inputText);
+        
+		return "/club/clubSearch";
 	}
 	
 	

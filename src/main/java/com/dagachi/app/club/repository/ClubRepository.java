@@ -139,6 +139,9 @@ public interface ClubRepository {
 	
 	@Select("select * from club_layout where club_Id = #{clubId}")
 	ClubLayout findLayoutById(int clubId);
+	
+	List<ClubSearchDto> searchClubWithFilter(Map<String, Object> params);
+	List<ClubSearchDto> searchClubWithFilter(RowBounds rowBounds, Map<String, Object> params);
 
 	
 	

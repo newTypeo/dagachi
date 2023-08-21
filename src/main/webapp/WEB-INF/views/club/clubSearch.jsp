@@ -24,7 +24,6 @@
 		    
 		    <label for="tag">모임 태그:</label>
 		    <input type="text" id="tag" name="">
-		    <input type="hidden">
 		    <button>필터 적용</button>
 		</form>
 	</div>
@@ -35,7 +34,12 @@
 		<c:if test="${not empty clubs}">
 			<c:forEach items="${clubs}" var="club" varStatus="vs">
 				<div>
+					<c:if test="${not empty club.renamedFilename}">
 					<img src="${pageContext.request.contextPath}/resources/upload/profile/${club.renamedFilename}" width="150px">
+					</c:if>
+					<c:if test="${empty club.renamedFilename}">
+					<img src="${pageContext.request.contextPath}/resources/images/001.png" width="150px">
+					</c:if>
 					<span>모임명 : ${club.clubName}</span>
 					<span>모임 지역 : ${club.activityArea}</span>
 					<span>모임 분류 : ${club.category}</span>
