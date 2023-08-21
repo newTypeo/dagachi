@@ -11,6 +11,8 @@ import com.dagachi.app.club.dto.ManageMember;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
+import com.dagachi.app.club.entity.ClubBoardAttachment;
+import com.dagachi.app.club.entity.ClubBoardDetails;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubDetails;
 import com.dagachi.app.club.entity.ClubLayout;
@@ -63,6 +65,12 @@ public interface ClubService {
 	int clubMemberRoleUpdate(ClubMemberRoleUpdate member);
 
 	ClubLayout findLayoutById(int clubId);
+
+	int postBoard(ClubBoard clubBoard);
+
+	List<ClubBoardAttachment> findAttachments(int no);
+
+	ClubBoardAttachment findAttachment(int attachNo);
 
 
 }

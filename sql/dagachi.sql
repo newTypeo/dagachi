@@ -1108,25 +1108,25 @@ VALUES (3, 3, '관악 볼링장', '서울시 관악구', 3, TO_DATE('2023-09-15 
 
 -- 소모임 게시판 샘플
 INSERT INTO club_board (board_id, club_id, writer, title, content, type, like_count)
-VALUES (1, 1, 'honggd', '동아리 가입 안내', '안녕하세요! 우리 동아리에 가입하신 여러분을 환영합니다. 첫 모임은 다음 주 토요일에 있을 예정입니다. 함께 즐거운 시간 보내요!', 4, 15);
+VALUES (seq_club_board_id.nextval, 1, 'honggd', '동아리 가입 안내', '안녕하세요! 우리 동아리에 가입하신 여러분을 환영합니다. 첫 모임은 다음 주 토요일에 있을 예정입니다. 함께 즐거운 시간 보내요!', 4, 15);
 INSERT INTO club_board (board_id, club_id, writer, title, content, type, like_count)
-VALUES (2, 1, 'user9', '음악 동호회 공연 안내', '안녕하세요, 음악 동호회입니다. 다음 달에 예정된 공연에 대한 정보를 공유합니다. 많은 관심 부탁드립니다!', 1, 8);
+VALUES (seq_club_board_id.nextval, 1, 'user9', '음악 동호회 공연 안내', '안녕하세요, 음악 동호회입니다. 다음 달에 예정된 공연에 대한 정보를 공유합니다. 많은 관심 부탁드립니다!', 1, 8);
 INSERT INTO club_board (board_id, club_id, writer, title, content, type, like_count)
-VALUES (3, 1, 'user9', '오늘의 운동 대회', '모두들 오늘 운동 대회에서 최선을 다해주셔서 감사합니다. 정말 즐거운 시간이었습니다!', 2, 23);
+VALUES (seq_club_board_id.nextval, 1, 'user9', '오늘의 운동 대회', '모두들 오늘 운동 대회에서 최선을 다해주셔서 감사합니다. 정말 즐거운 시간이었습니다!', 2, 23);
 INSERT INTO club_board (board_id, club_id, writer, title, content, type, like_count)
-VALUES (4, 1, 'user18', '가입 인사드립니다', '안녕하세요! 이번에 가입한 신규 회원입니다. 모두 잘 부탁드립니다~', 3, 5);
+VALUES (seq_club_board_id.nextval, 1, 'user18', '가입 인사드립니다', '안녕하세요! 이번에 가입한 신규 회원입니다. 모두 잘 부탁드립니다~', 3, 5);
 INSERT INTO club_board (board_id, club_id, writer, title, content, type, like_count)
-VALUES (5, 1, 'user26', '자유롭게 이야기 나눠요', '어떤 주제든 자유롭게 이야기 나누는 공간입니다. 새로운 음악 추천해주세요!', 0, 10);
+VALUES (seq_club_board_id.nextval, 1, 'user26', '자유롭게 이야기 나눠요', '어떤 주제든 자유롭게 이야기 나누는 공간입니다. 새로운 음악 추천해주세요!', 0, 10);
 INSERT INTO club_board (board_id, club_id, writer, title, content, type, like_count)
-VALUES (6, 2, 'user1', '공지사항: 동아리 활동 일정 변경', '안녕하세요, 동아리 활동 일정이 변경되었습니다. 확인 부탁드립니다.', 4, 32);
+VALUES (seq_club_board_id.nextval, 2, 'user1', '공지사항: 동아리 활동 일정 변경', '안녕하세요, 동아리 활동 일정이 변경되었습니다. 확인 부탁드립니다.', 4, 32);
 INSERT INTO club_board (board_id, club_id, writer, title, content, type, like_count)
-VALUES (7, 2, 'user10', '오늘의 모임 후기', '오늘의 모임이 정말 재미있었어요! 같이 참여한 분들 감사합니다~', 2, 18);
+VALUES (seq_club_board_id.nextval, 2, 'user10', '오늘의 모임 후기', '오늘의 모임이 정말 재미있었어요! 같이 참여한 분들 감사합니다~', 2, 18);
 INSERT INTO club_board (board_id, club_id, writer, title, content, type, like_count)
-VALUES (8, 2, 'user27', '자유롭게 토론해요', '새로운 주제에 대한 토론을 자유롭게 나누는 공간입니다. 의견을 나눠주세요!', 0, 7);
+VALUES (seq_club_board_id.nextval, 2, 'user27', '자유롭게 토론해요', '새로운 주제에 대한 토론을 자유롭게 나누는 공간입니다. 의견을 나눠주세요!', 0, 7);
 INSERT INTO club_board (board_id, club_id, writer, title, content, type, like_count)
-VALUES (9, 2, 'user19', '회원들과 함께하는 캠프', '다음 주 캠프에 참가하실 분들은 미리 연락 부탁드립니다. 준비물 안내 드립니다!', 1, 11);
+VALUES (seq_club_board_id.nextval, 2, 'user19', '회원들과 함께하는 캠프', '다음 주 캠프에 참가하실 분들은 미리 연락 부탁드립니다. 준비물 안내 드립니다!', 1, 11);
 INSERT INTO club_board (board_id, club_id, writer, title, content, type, like_count)
-VALUES (10, 2, 'user27', '안녕하세요!', '안녕하세요! 모든 회원분들께 즐거운 하루 되세요~', 3, 3);
+VALUES (seq_club_board_id.nextval, 2, 'user27', '안녕하세요!', '안녕하세요! 모든 회원분들께 즐거운 하루 되세요~', 3, 3);
 
 -- 댓글 샘플
 INSERT INTO board_comment (comment_id, board_id, writer, comment_ref, content, comment_level)

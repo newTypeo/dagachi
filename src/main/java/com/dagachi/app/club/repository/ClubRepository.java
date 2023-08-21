@@ -20,6 +20,8 @@ import com.dagachi.app.club.dto.ManageMember;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
+import com.dagachi.app.club.entity.ClubBoardAttachment;
+import com.dagachi.app.club.entity.ClubBoardDetails;
 import com.dagachi.app.club.entity.ClubDetails;
 import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubMember;
@@ -139,6 +141,28 @@ public interface ClubRepository {
 	
 	@Select("select * from club_layout where club_Id = #{clubId}")
 	ClubLayout findLayoutById(int clubId);
+	
+	@Insert("insert into club_board (board_id, club_id, writer, title, content, type) " +
+	        "values (seq_club_board_id.nextval, #{clubId}, #{writer}, #{title}, #{content}, #{type})")
+	@SelectKey(
+			before = false, 
+			keyProperty = "boardId", 
+			resultType = int.class,
+			statement = "select seq_club_board_id.currval from dual")
+	int postBoard(ClubBoard clubBoard);
+	
+	@Insert("insert into club_board_attachment (id, board_id, original_filename, renamed_filename,created_at, thumbnail) " +
+	        "values (seq_club_board_attachment_id.nextval, #{boardId}, #{originalFilename}, #{renamedFilename}, default , #{thumbnail})")
+	int insetAttachment(ClubBoardAttachment attach);
+	
+	@Select("select * from club_board_attachment where board_id = #{no}")
+	List<ClubBoardAttachment> findAttachments(int no);
+	
+	@Select("select * from club_board_attachment where id = #{attachNo}")
+	ClubBoardAttachment findAttachment(int attachNo);
+	
+	
+
 
 	
 	

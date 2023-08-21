@@ -36,12 +36,12 @@
 // card의 div태그 a태그로 교체함 - 동찬
 $.ajax({
 	url : "${pageContext.request.contextPath}/club/clubList.do",
+	method:"GET",
 	success(clubs){
 		const container = document.querySelector(".posts");
-		
 		clubs.forEach((clubAndImage)=>{
+			console.log("dsdfsd");
 			const{clubName, category, status, reportCount, introduce, domain, renamedFilename, memberCount} = clubAndImage;
-			
 			container.innerHTML += `
 				<a class="card" style="width: 18rem;" href="${pageContext.request.contextPath}/club/&\${domain}">
 				  <img src="${pageContext.request.contextPath}/resources/upload/profile/\${renamedFilename}" class="card-img-top" alt="...">
