@@ -47,8 +47,6 @@
  <form:form name="memberCreateFrm" action="" method="POST" modelAttribute="member">
   <div class="container">
 
-  <input type="hidden" name="_csrf" th:attr="value=${_csrf.token}" />
-  
     <div class="input-form-backgroud row">
       <div class="input-form col-md-12 mx-auto">
         <h4 class="mb-3">회원가입</h4>
@@ -107,10 +105,10 @@
           </div>
 
           
-          <div class="mb-3">
-            <label for="birthday">생일</label>
-            <input type="date" class="form-control" id="birthday"  name = "birthday"  value="2008-09-09" required>
-          </div>
+       	<div class="col-md-6 mb-3">
+		    <label for="birthday">생일</label>
+		    <input type="date" class="form-control" name="birthday" id="birthday" value="1999-09-09"/>
+		</div>
 
     	<div class="col-md-8 mb-3">
               <label for="gender">성별</label>

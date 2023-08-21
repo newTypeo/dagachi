@@ -52,11 +52,15 @@ public class MemberSecurityController {
          @Valid MemberCreateDto member,
          BindingResult bindingResult, 
          RedirectAttributes redirectAttr) {
+	   
+	
+       log.debug("냥 -> {}", member);
       
       if(bindingResult.hasErrors()) { //에러 나면 
          ObjectError error = bindingResult.getAllErrors().get(0);
          redirectAttr.addFlashAttribute("msg", error.getDefaultMessage());
-         return "redirect:/member/memberCreate.do";
+         log.debug("오류 -> {}", member);
+         return "redirect:/member/memberCreate.do"; 
       } 
       
       String rawPassword = member.getPassword();
@@ -68,7 +72,6 @@ public class MemberSecurityController {
       redirectAttr.addFlashAttribute("msg", "회원가입 완료");
       return "redirect:/";
    }
-
 
 	@GetMapping("/memberLogin.do")
 	public void memberLogin() {}
@@ -87,6 +90,6 @@ public class MemberSecurityController {
 				.status(HttpStatus.OK)
 				.body(Map.of("available", available, "memberId", memberId));
 	}
-
+	 
 
 }

@@ -18,7 +18,7 @@
 <fmt:requestEncoding value="utf-8"/>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-	
+
 		<form:form
 			action="${pageContext.request.contextPath}/member/memberLogin.do"
 			method="post">
@@ -28,11 +28,11 @@
 								아이디 또는 비밀번호가 일치하지 않습니다.
 							</div>
 						</c:if>
-					아이디<input 
+					<input 
 						type="text" class="form-control" name="memberId"
 						placeholder="아이디" value="honggddd" required> 
 					<br /> 
-					비번 <input
+					<input
 						type="password" class="form-control" name="password"
 						placeholder="비밀번호" value="Json@!1" required>
 					</div>
@@ -47,8 +47,8 @@
 						</div>
 						<div>
 							<button type="submit" class="btn btn-outline-success">로그인</button>
-						</div> 
-				</div>   
+						</div>
+				</div>
 			</div>
 		</form:form>			
 						
