@@ -12,7 +12,7 @@
 	
 	<div id="search-container">
 		<form id="clubSearchFrm" action="${pageContext.request.contextPath}/club/clubSearch.do">
-			<input type="text" name="inputText" id="search-club-box" placeholder="검색할 모임 입력"/>
+			<input type="text" name="inputText" id="search-club-box" placeholder="검색할 모임 입력" required/>
 			<button id="search-club-btn"><i class="fa-solid fa-magnifying-glass fa-xl"></i></button>
 		</form>
 		<div id="search-detail">상세검색<i class="fa-solid fa-chevron-down" style="color: #eee;"></i></div>
