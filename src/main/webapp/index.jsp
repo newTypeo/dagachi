@@ -37,28 +37,30 @@
 
 // card의 div태그 a태그로 교체함 - 동찬
 $.ajax({
+
 	url : "${pageContext.request.contextPath}/club/clubList.do",
 	success(clubs){
 		const container = document.querySelector(".posts");
 		
 		clubs.forEach((clubAndImage)=>{
-			const{clubName, category, status, reportCount, introduce, domain, renamedFilename, memberCount} = clubAndImage;
-			
-			container.innerHTML += `
-				<a class="card" style="width: 18rem;" href="${pageContext.request.contextPath}/club/&\${domain}">
-				  <img src="${pageContext.request.contextPath}/resources/upload/profile/\${renamedFilename}" class="card-img-top" alt="...">
-				  <div class="card-body">
-				    <h5 class="card-title">\${clubName}</h5>
-				    <p class="card-text">\${introduce}</p>
-				  </div>
-				  <ul class="list-group list-group-flush">
-				    <li class="list-group-item">\${category}</li>
-				    <li class="list-group-item">인원수 : \${memberCount}</li>
-				  </ul>
-				</a>
-			`;
-		})
-		
+			const { clubName, category, status, reportCount, introduce, domain, renamedFilename, memberCount } = clubAndImage;
+			if (status !== false) {
+				
+				container.innerHTML += `
+					<a class="card" style="width: 18rem;" href="${pageContext.request.contextPath}/club/&\${domain}">
+					  <img src="${pageContext.request.contextPath}/resources/upload/club/profile/\${renamedFilename}" class="card-img-top" alt="...">
+					  <div class="card-body">
+					    <h5 class="card-title">\${clubName}</h5>
+					    <p class="card-text">\${introduce}</p>
+					  </div>
+					  <ul class="list-group list-group-flush">
+					    <li class="list-group-item">\${category}</li>
+					    <li class="list-group-item">인원수 : \${memberCount}</li>
+					  </ul>
+					</a>
+				`;
+			}
+		});
 	}
 });
 

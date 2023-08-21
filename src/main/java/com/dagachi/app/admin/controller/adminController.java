@@ -69,6 +69,7 @@ public class adminController {
 		pageBar = pageBar.replaceAll("\\?", "&");
 		pageBar = pageBar.replaceAll("#&", "\\?");
 		model.addAttribute("pagebar", pageBar);
+		
 	}
 
 	/**

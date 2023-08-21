@@ -35,9 +35,11 @@ header {
 }
 
 #club-main-container {
-	background-color: lightgreen;
-	width: 1320px;
-	padding: 20px;
+	width: 1200px;
+	margin: 0 60px;
+	padding-top: 20px;
+	border: 5px solid #ccc;
+	border-radius: 5px;
 }
 
 #club-main-image-container {
@@ -54,8 +56,26 @@ header {
 #club-notice-container {
 	background-color: lightpink;
 	width: 1320px;
-	font-weight: bold;
+}
+#club-notice-container > div {
+	margin: 10px 20px 0 20px;
+	border-bottom: 1px solid;
+}
+.container-header > span:first-child {
 	font-size: 20px;
+	font-weight: bold;
+}
+.container-header > a:last-child {
+	font-size: 16px;
+	float: right;	
+	font-weight: 600;
+}
+.container-main > div {
+	padding-bottom: 5px;
+	border-color: #ddd;
+}
+.container-main > div > span:first-child {
+	font-size: 16px;
 }
 
 #club-gallery-container {

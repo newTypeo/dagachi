@@ -9,17 +9,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
+import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
-import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.ClubSearchDto;
+import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.ManageMember;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
-import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubDetails;
 import com.dagachi.app.club.entity.ClubLayout;
+import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.club.repository.ClubRepository;
@@ -74,6 +76,26 @@ public class ClubServiceImpl implements ClubService {
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
 		List<ClubSearchDto> clubs = clubRepository.clubSearch(rowBounds, params);
+		
+		// 모임 인원 가져오기
+		for (ClubSearchDto club : clubs) 
+			club.setMemberCount(clubRepository.countClubMember(club.getClubId()));
+		
+		return clubs;
+	}
+	
+	@Override
+	public List<ClubSearchDto> searchClubWithFilter(Map<String, Object> params) {
+		if((String) params.get("getCount") != null) {
+			return clubRepository.searchClubWithFilter(params);
+		}
+		
+		int limit = (int) params.get("limit");
+		int page = (int) params.get("page");
+		int offset = (page - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		List<ClubSearchDto> clubs = clubRepository.searchClubWithFilter(rowBounds, params);
 		
 		// 모임 인원 가져오기
 		for (ClubSearchDto club : clubs) 
@@ -218,5 +240,19 @@ public class ClubServiceImpl implements ClubService {
 	public ClubLayout findLayoutById(int clubId) {
 		return clubRepository.findLayoutById(clubId);
 	}
+	
+	@Override
+	public List<BoardAndImageDto> findBoardAndImageById(int clubId) {
+		return clubRepository.findBoardAndImageById(clubId);
+	}
+	public JoinClubMember hostFindByClubId(int clubId) {
+		return clubRepository.hostFindByClubId(clubId);
+	}
+	
+	@Override
+	public int memberRoleFindByMemberId(ClubMemberRole clubMemberRole) {
+		return clubRepository.memberRoleFindByMemberId(clubMemberRole);
+	}
+	
 }
 
