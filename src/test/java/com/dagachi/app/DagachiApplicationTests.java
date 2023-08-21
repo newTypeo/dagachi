@@ -1,4 +1,4 @@
-package com.dagachi.project;
+package com.dagachi.app;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
