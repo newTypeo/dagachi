@@ -82,7 +82,7 @@ const refuseApply = () => {
 							<td>${clubMember.name}</td>
 							<td>${clubMember.enrollAt}</td>
 							<td>
-								<button>추방</button>
+								<button id="kick" value="${clubMember.memberId}">추방</button>
 							</td>
 							<td>
 								<select id="searchType" class="" title="${clubMember.memberId}">
@@ -111,7 +111,7 @@ const refuseApply = () => {
 							</c:if>
 							<c:if test="${clubMember.clubMemberRole eq 1 or clubMember.clubMemberRole eq 0}">
 								<td>
-									<button>추방</button>
+									<button id="kick" value="${clubMember.memberId}">추방</button>
 								</td>
 							</c:if>
 							<td>
@@ -152,7 +152,7 @@ const refuseApply = () => {
 							</c:if>
 							<c:if test="${clubMember.clubMemberRole eq 0}">
 								<td>
-									<button>추방</button>
+									<button id="kick" value="${clubMember.memberId}">추방</button>
 								</td>
 							</c:if>
 							<td>
@@ -173,7 +173,16 @@ const refuseApply = () => {
 		</table>
 	</fieldset>
 </div>
+<%-- 회원추방시 사용 되는 폼 --%>
+<form:form
+	name="kickMember"
+	action="${pageContext.request.contextPath}/club/&${domain}/kickMember.do"
+	method="post">
 
+	<input type="hidden" id="memberId" name="memberId" />
+</form:form>
+
+<%-- 회원권한 변경시 사용 되는 폼 --%>
 <form:form
 	name="clubMemberRoleUpdateFrm" 
 	action="${pageContext.request.contextPath}/club/&${domain}/clubMemberRole.do" 
@@ -184,6 +193,22 @@ const refuseApply = () => {
 </form:form>
 
 <script>
+document.querySelectorAll('#kick').forEach((kickButton) => {
+	kickButton.onclick = (e) => {
+		
+		const memberName = e.target.parentElement.previousElementSibling.previousElementSibling.innerText;
+		
+		if(confirm(`\${memberName}님을 추방하시겠습니까?`)) {
+			const frm = document.kickMember;
+			
+			frm.memberId.value = e.target.value;
+			console.log(e.target.value);
+			
+			frm.submit();
+		}
+	};
+});
+
 document.querySelectorAll('#searchType').forEach((select) => {
 	select.onchange = (e) => {
 		const frm = document.clubMemberRoleUpdateFrm;
