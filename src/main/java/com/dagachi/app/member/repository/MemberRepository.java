@@ -4,9 +4,11 @@ package com.dagachi.app.member.repository;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -38,6 +40,9 @@ public interface MemberRepository {
 
 	@Select("select count(*) from member")
 	int getTotalCount();
+
+	@Update("update member set status = 'N' where member_id = #{memberId}")
+	int memberDelete(String memberId);
 
 
 	
