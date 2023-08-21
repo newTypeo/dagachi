@@ -63,24 +63,111 @@ const refuseApply = () => {
 				</tr>
 			</thead>
 			<tbody>
+				<tr>
+					<td>1</td>
+					<td>${host.name}</td>
+					<td>${host.enrollAt}</td>
+					<td></td>
+					<td>
+						<select id="host">
+							<option selected disabled>방장</option>
+						</select>
+					</td>
+				</tr>
 				<c:forEach items="${joinClubMembersInfo}" var="clubMember" varStatus="vs">
-					<tr>
-						<td>${vs.count}</td>
-						<td>${clubMember.name}</td>
-						<td>${clubMember.enrollAt}</td>
-						<td>
-							<button>추방</button>
-							
-						</td>
-						<td>
-							<select id="searchType" class="" title="${clubMember.memberId}">
-					            <option value="0" 
-					            	${clubMember.clubMemberRole eq 0 ? 'selected' : ''}>회원</option>
-					            <option value="2" 
-					            	${clubMember.clubMemberRole eq 2 ? 'selected' : ''}>부방장</option>
-	        				</select>
-						</td>
-					</tr>
+					<!-- 방장일 경우에 -->
+					<c:if test="${memberRole eq 3}">
+						<tr>
+							<td>${vs.count+1}</td>
+							<td>${clubMember.name}</td>
+							<td>${clubMember.enrollAt}</td>
+							<td>
+								<button>추방</button>
+							</td>
+							<td>
+								<select id="searchType" class="" title="${clubMember.memberId}">
+						            <option value="2" 
+						            	${clubMember.clubMemberRole eq 2 ? 'selected' : ''}>부방장</option>
+						            <option value="1" 
+						            	${clubMember.clubMemberRole eq 1 ? 'selected' : ''}>임원</option>
+						            <option value="0" 
+						            	${clubMember.clubMemberRole eq 0 ? 'selected' : ''}>회원</option>
+		        				</select>
+							</td>
+						</tr>
+					</c:if>
+					
+					<!-- 부방장일 경우에 -->
+					<c:if test="${memberRole eq 2}">
+						<tr>
+							<td>${vs.count+1}</td>
+							<td>${clubMember.name}</td>
+							<td>${clubMember.enrollAt}</td>
+							<c:if test="${clubMember.clubMemberRole eq 3 or clubMember.clubMemberRole eq 2 or
+										loginMemberId eq clubMember.memberId}">
+								<td>
+									<button disabled>추방</button>
+								</td>
+							</c:if>
+							<c:if test="${clubMember.clubMemberRole eq 1 or clubMember.clubMemberRole eq 0}">
+								<td>
+									<button>추방</button>
+								</td>
+							</c:if>
+							<td>
+								<select id="searchType" class="" title="${clubMember.memberId}">
+									<c:if test="${loginMemberId ne clubMember.memberId}">
+										<option value="2" 
+							            	${clubMember.clubMemberRole eq 2 ? 'selected' : ''} disabled>부방장</option>
+							            <option value="1" 
+							            	${clubMember.clubMemberRole eq 1 ? 'selected' : ''}>임원</option>
+							            <option value="0" 
+							            	${clubMember.clubMemberRole eq 0 ? 'selected' : ''}>회원</option>
+						            </c:if>
+						            	
+						            <!-- 로그인한 회원아이디와 모임에 가입된 회원 아이디가 같을 경우에 -->
+						            <c:if test="${loginMemberId eq clubMember.memberId}">
+										<option value="2" 
+							            	${clubMember.clubMemberRole eq 2 ? 'selected' : ''} disabled>부방장</option>
+							            <option value="1" 
+							            	${clubMember.clubMemberRole eq 1 ? 'selected' : ''} disabled>임원</option>
+							            <option value="0" 
+							            	${clubMember.clubMemberRole eq 0 ? 'selected' : ''} disabled>회원</option>
+						            </c:if>
+		        				</select>
+							</td>
+						</tr>
+					</c:if>
+					
+					<!-- 임원일 경우에 -->
+					<c:if test="${memberRole eq 1}">
+						<tr>
+							<td>${vs.count+1}</td>
+							<td>${clubMember.name}</td>
+							<td>${clubMember.enrollAt}</td>
+							<c:if test="${clubMember.clubMemberRole ne 0}">
+								<td>
+									<button disabled>추방</button>
+								</td>
+							</c:if>
+							<c:if test="${clubMember.clubMemberRole eq 0}">
+								<td>
+									<button>추방</button>
+								</td>
+							</c:if>
+							<td>
+								<select id="searchType" class="" title="${clubMember.memberId}">
+									<option value="2" 
+						            	${clubMember.clubMemberRole eq 2 ? 'selected' : ''} disabled>부방장</option>
+						            <option value="1" 
+						            	${clubMember.clubMemberRole eq 1 ? 'selected' : ''} disabled>임원</option>
+						            <option value="0" 
+						            	${clubMember.clubMemberRole eq 0 ? 'selected' : ''} disabled>회원</option>
+		        				</select>
+							</td>
+						</tr>
+					</c:if>
+					
 				</c:forEach>
 			</tbody>
 		</table>
@@ -109,10 +196,10 @@ document.querySelectorAll('#searchType').forEach((select) => {
 		let role;
 		
 		switch(memberRole) {
-		case '0' : role = '회원'; break;
-		case '1' : role = '임원'; break;
-		case '2' : role = '부방장'; break;
-		case '3' : role = '방장'; break;
+			case '0' : role = '회원'; break;
+			case '1' : role = '임원'; break;
+			case '2' : role = '부방장'; break;
+			case '3' : role = '방장'; break;
 		}
 		
 		if(confirm(`\${memberName}님의 권한을 \${role}로 변경?`)) {

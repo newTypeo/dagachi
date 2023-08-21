@@ -37,6 +37,18 @@
 		where
 			c.member_id = #{memberId}
 	</select>
+	
+	
+	<select id="hostFindByClubId">
+		select
+		    *
+		from
+		    club_member c left join member m
+		        on c.member_id = m.member_id
+		where
+		    c.club_id = #{clubId} and
+		    c.club_member_role = 3
+	</select>
 </mapper>
 
 
