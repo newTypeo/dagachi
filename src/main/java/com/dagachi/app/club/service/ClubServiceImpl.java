@@ -281,10 +281,13 @@ public class ClubServiceImpl implements ClubService {
 	public List<ClubAndImage> clubListById(String memberId) {
 		return clubRepository.clubListById(memberId);
 	}
+
 	@Override
 	public List<BoardAndImageDto> findBoardAndImageById(int clubId) {
 		return clubRepository.findBoardAndImageById(clubId);
 	}
+	
+	@Override
 	public JoinClubMember hostFindByClubId(int clubId) {
 		return clubRepository.hostFindByClubId(clubId);
 	}
@@ -300,8 +303,19 @@ public class ClubServiceImpl implements ClubService {
 	}
 	
 	@Override
+
+	public int insertClubRecentVisitd(String memberId, int clubId) {
+		return clubRepository.insertClubRecentVisitd(memberId, clubId);
+	}
+
 	public List<GalleryAndImageDto> findgalleryById(int clubId) {
 		return clubRepository.findgalleryById(clubId);
+
+	}
+	
+	@Override
+	public List<Member> findMemberByClubId(int clubId) {
+		return clubRepository.findMemberByClubId(clubId);
 	}
 	
 	@Override

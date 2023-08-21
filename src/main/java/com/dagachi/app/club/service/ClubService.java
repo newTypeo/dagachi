@@ -92,6 +92,10 @@ public interface ClubService {
 	int kickMember(KickMember kickMember);
 
 	int delAttachment(int id);
+	
+	List<Member> findMemberByClubId(int clubId);
+	
+	int insertClubRecentVisitd(String memberId, int clubId);
 
 
 }

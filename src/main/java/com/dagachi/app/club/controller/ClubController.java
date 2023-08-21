@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,6 +54,7 @@ import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.club.service.ClubService;
 import com.dagachi.app.common.DagachiUtils;
+import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.entity.MemberDetails;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -201,14 +203,20 @@ public class ClubController {
 	 * 수정(동찬)
 	 */
 	@GetMapping("/&{domain}")
-	public String clubDetail(@PathVariable("domain") String domain, Model model) {
-//		log.debug("domain = {}", domain);
+	public String clubDetail(
+			@PathVariable("domain") String domain,
+			@AuthenticationPrincipal MemberDetails member,
+			Model model) {
 
 		int clubId = clubService.findByDomain(domain).getClubId();
+		String memberId = member.getMemberId();
+		
 		ClubLayout layout = clubService.findLayoutById(clubId);
 
 		List<BoardAndImageDto> boardAndImages = clubService.findBoardAndImageById(clubId);
 		List<GalleryAndImageDto> galleries = clubService.findgalleryById(clubId);
+
+		int result = clubService.insertClubRecentVisitd(memberId, clubId);
 		
 		System.out.println(clubId);
 
@@ -233,6 +241,7 @@ public class ClubController {
 //			int clubId = clubService.clubIdFindByDomain(cAI.getDomain());
 //			List<String> clubTag = (List)clubService.findClubTagById(clubId);
 //		}
+
 //		System.out.println(clubTag);
 		return ResponseEntity.status(HttpStatus.OK).body(clubAndImages);
 	}
@@ -646,13 +655,19 @@ public class ClubController {
 			@PathVariable("domain") String domain,
 			Model model
 			) {
+		int clubId = clubService.clubIdFindByDomain(domain);
 		Club club = clubService.findByDomain(domain);
+		List<Member> members= clubService.findMemberByClubId(clubId);
 		
+		model.addAttribute("members",members);
 		model.addAttribute("club",club);
 		
 		return "/club/clubMemberList";
 	}
 	
+	
+	@GetMapping("/clubsRecentVisited.do")
+	public void clubsRecentVisited(){}
 	
 }
 
