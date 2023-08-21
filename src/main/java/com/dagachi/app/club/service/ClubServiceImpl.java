@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
@@ -221,6 +222,9 @@ public class ClubServiceImpl implements ClubService {
 	}
 	
 	@Override
+	public List<BoardAndImageDto> findBoardAndImageById(int clubId) {
+		return clubRepository.findBoardAndImageById(clubId);
+	}
 	public JoinClubMember hostFindByClubId(int clubId) {
 		return clubRepository.hostFindByClubId(clubId);
 	}

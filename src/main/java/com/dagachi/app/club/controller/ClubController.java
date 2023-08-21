@@ -23,10 +23,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.dagachi.app.Pagination;
+import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.ClubBoardCreateDto;
 import com.dagachi.app.club.dto.ClubCreateDto;
@@ -174,11 +176,12 @@ public class ClubController {
 //		log.debug("domain = {}", domain);
 
 		int clubId = clubService.findByDomain(domain).getClubId();
-		log.debug("clubId = {}", clubId);
 		ClubLayout layout = clubService.findLayoutById(clubId);
-	
-
+		List<BoardAndImageDto> boardAndImages = clubService.findBoardAndImageById(clubId);
+		log.debug("boardAndImages = {}", boardAndImages);
+		
 		model.addAttribute("domain", domain);
+		model.addAttribute("boardAndImages", boardAndImages);
 		model.addAttribute("layout", layout);
 		return "club/clubDetail";
 	}
@@ -411,7 +414,7 @@ public class ClubController {
 			@RequestParam(value = "upFile") MultipartFile upFile) throws IllegalStateException, IOException {
 		
 		// 1. 파일저장
-		String uploadDir = "/clubProfile/";
+		String uploadDir = "/club/profile/";
 		ClubProfile clubProfile = null;
 		if(!upFile.isEmpty()) {
 			String originalFilename = upFile.getOriginalFilename();

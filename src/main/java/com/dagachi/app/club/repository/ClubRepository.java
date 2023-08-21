@@ -12,6 +12,7 @@ import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.session.RowBounds;
 
+import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
@@ -141,9 +142,10 @@ public interface ClubRepository {
 	@Select("select * from club_layout where club_Id = #{clubId}")
 	ClubLayout findLayoutById(int clubId);
 	
-	
+	@Select("select * from club_board cb left join club_board_attachment ca on cb.board_id = ca.board_id where ca.thumbnail = 'Y' or ca.thumbnail is null and club_id = #{clubId}")
+	List<BoardAndImageDto> findBoardAndImageById(int clubId);
+
 	JoinClubMember hostFindByClubId(int clubId);
-	
 	
 	@Select("select club_member_role from club_member where club_id = #{clubId} and member_id = #{loginMemberId}")
 	int memberRoleFindByMemberId(ClubMemberRole clubMemberRole);
