@@ -15,6 +15,7 @@ import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
 import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.JoinClubMember;
+import com.dagachi.app.club.dto.KickMember;
 import com.dagachi.app.club.dto.ManageMember;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
@@ -232,6 +233,11 @@ public class ClubServiceImpl implements ClubService {
 	@Override
 	public int memberRoleFindByMemberId(ClubMemberRole clubMemberRole) {
 		return clubRepository.memberRoleFindByMemberId(clubMemberRole);
+	}
+
+	@Override
+	public int kickMember(KickMember kickMember) {
+		return clubRepository.kickMember(kickMember);
 	}
 	
 }

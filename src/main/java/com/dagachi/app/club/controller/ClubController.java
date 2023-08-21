@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,6 +36,7 @@ import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
 import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.ClubUpdateDto;
 import com.dagachi.app.club.dto.JoinClubMember;
+import com.dagachi.app.club.dto.KickMember;
 import com.dagachi.app.club.dto.ManageMember;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubBoard;
@@ -252,13 +252,17 @@ public class ClubController {
 	@PostMapping("/&{domain}/kickMember.do")
 	public String kickMember(
 			@PathVariable("domain") String domain,
-			@RequestParam String memberId) {
+			@RequestParam String memberId,
+			KickMember kickMember) {
 		
 //		log.debug("domain = {}", domain);
 //		log.debug("memberId = {}", memberId);
 		int clubId = clubService.clubIdFindByDomain(domain); // clubId 찾아오기
 		
-//		int result = clubService.kickMember()
+		kickMember.setClubId(clubId);
+		kickMember.setMemberId(memberId);
+		
+		int result = clubService.kickMember(kickMember); // club_member 테이블에서 해당 회원 삭제
 		
 		return "redirect:/club/&" + domain + "/manageMember.do";
 	}

@@ -195,12 +195,17 @@ const refuseApply = () => {
 <script>
 document.querySelectorAll('#kick').forEach((kickButton) => {
 	kickButton.onclick = (e) => {
-		const frm = document.kickMember;
 		
-		frm.memberId.value = e.target.value;
-		console.log(e.target.value);
+		const memberName = e.target.parentElement.previousElementSibling.previousElementSibling.innerText;
 		
-		frm.submit();
+		if(confirm(`\${memberName}님을 추방하시겠습니까?`)) {
+			const frm = document.kickMember;
+			
+			frm.memberId.value = e.target.value;
+			console.log(e.target.value);
+			
+			frm.submit();
+		}
 	};
 });
 
