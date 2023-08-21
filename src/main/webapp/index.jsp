@@ -15,7 +15,9 @@
 	<h1>배너</h1>
 </nav>
 <nav>
-	<a href="${pageContext.request.contextPath}/admin/adminMemberList.do">회원조회(관리자)</a>
+	<a href="${pageContext.request.contextPath}/admin/adminMemberList.do?keyword=&column=">회원조회(관리자)</a>
+	<a href="${pageContext.request.contextPath}/admin/adminQuitMemberList.do?keyword=&column=">탈퇴회원조회(관리자)</a>
+	<a href="${pageContext.request.contextPath}/admin/adminReportMemberList.do?keyword=&column=">신고회원조회(관리자)</a>
 	<a href="${pageContext.request.contextPath}/admin/adminClubList.do?keyword=&column=">모임목록(관리자)</a>
 </nav>
 

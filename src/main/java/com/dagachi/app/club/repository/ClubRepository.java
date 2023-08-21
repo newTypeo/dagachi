@@ -17,6 +17,7 @@ import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
 import com.dagachi.app.club.dto.JoinClubMember;
+import com.dagachi.app.club.dto.KickMember;
 import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.ManageMember;
 import com.dagachi.app.club.entity.Club;
@@ -145,6 +146,9 @@ public interface ClubRepository {
 	@Select("select * from club c join member_interest i on c.category = i.interest where member_id = #{memberId}")
 	List<ClubAndImage> clubListById(String memberId);
 	
+	List<ClubSearchDto> searchClubWithFilter(Map<String, Object> params);
+	List<ClubSearchDto> searchClubWithFilter(RowBounds rowBounds, Map<String, Object> params);
+	
 	@Select("select * from club_board cb left join club_board_attachment ca on cb.board_id = ca.board_id where ca.thumbnail = 'Y' or ca.thumbnail is null and club_id = #{clubId}")
 	List<BoardAndImageDto> findBoardAndImageById(int clubId);
 
@@ -152,6 +156,9 @@ public interface ClubRepository {
 	
 	@Select("select club_member_role from club_member where club_id = #{clubId} and member_id = #{loginMemberId}")
 	int memberRoleFindByMemberId(ClubMemberRole clubMemberRole);
+	
+	@Delete("delete from club_member where club_id = #{clubId} and member_id = #{memberId}")
+	int kickMember(KickMember kickMember);
 
 	
 	
