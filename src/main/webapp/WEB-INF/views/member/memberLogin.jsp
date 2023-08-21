@@ -30,11 +30,11 @@
 						</c:if>
 					<input 
 						type="text" class="form-control" name="memberId"
-						placeholder="아이디" value="honggddd" required> 
+						placeholder="아이디" value="honggd" required> 
 					<br /> 
 					<input
 						type="password" class="form-control" name="password"
-						placeholder="비밀번호" value="Json@!1" required>
+						placeholder="비밀번호" value="1234" required>
 					</div>
 				<div class="modal-footer d-flex flex-column" style="align-items: unset;">
 					<div>

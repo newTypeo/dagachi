@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
+import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
 import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.ClubSearchDto;
@@ -65,7 +66,12 @@ public interface ClubService {
 
 	ClubLayout findLayoutById(int clubId);
 
+
 	List<BoardAndImageDto> findBoardAndImageById(int clubId);
+
+	JoinClubMember hostFindByClubId(int clubId);
+
+	int memberRoleFindByMemberId(ClubMemberRole clubMemberRole);
 
 
 }

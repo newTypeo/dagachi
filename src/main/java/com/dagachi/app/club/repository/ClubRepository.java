@@ -14,6 +14,7 @@ import org.apache.ibatis.session.RowBounds;
 
 import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
+import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
 import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.ClubSearchDto;
@@ -66,7 +67,7 @@ public interface ClubRepository {
    int clubDisabled(int clubId);
 
    
-   @Select("select * from club_member where club_id = #{clubId}")
+   @Select("select * from club_member where club_id = #{clubId} and club_member_role != 3")
    List<ClubMember> clubMemberByFindAllByClubId(int clubId);
 
    
@@ -143,6 +144,11 @@ public interface ClubRepository {
 	
 	@Select("select * from club_board cb left join club_board_attachment ca on cb.board_id = ca.board_id where ca.thumbnail = 'Y' or ca.thumbnail is null and club_id = #{clubId}")
 	List<BoardAndImageDto> findBoardAndImageById(int clubId);
+
+	JoinClubMember hostFindByClubId(int clubId);
+	
+	@Select("select club_member_role from club_member where club_id = #{clubId} and member_id = #{loginMemberId}")
+	int memberRoleFindByMemberId(ClubMemberRole clubMemberRole);
 
 	
 	
