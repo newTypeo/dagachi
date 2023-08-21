@@ -117,7 +117,9 @@ section .posts .card {
     padding: 1.25rem;
     height: 30%;
 }
-
+#main-page-sec {
+    height: fit-content;
+}
 
 
 section .posts {
