@@ -19,11 +19,13 @@ import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
 import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.KickMember;
 import com.dagachi.app.club.dto.ClubSearchDto;
+import com.dagachi.app.club.dto.GalleryAndImageDto;
 import com.dagachi.app.club.dto.ManageMember;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
 import com.dagachi.app.club.entity.ClubDetails;
+import com.dagachi.app.club.entity.ClubGalleryAttachment;
 import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
@@ -148,8 +150,8 @@ public interface ClubRepository {
 	
 	List<ClubSearchDto> searchClubWithFilter(Map<String, Object> params);
 	List<ClubSearchDto> searchClubWithFilter(RowBounds rowBounds, Map<String, Object> params);
-	
-	@Select("select * from club_board cb left join club_board_attachment ca on cb.board_id = ca.board_id where ca.thumbnail = 'Y' or ca.thumbnail is null and club_id = #{clubId}")
+
+	@Select("select * from club_board cb left join club_board_attachment ca on cb.board_id = ca.board_id where (ca.thumbnail = 'Y' or ca.thumbnail is null) and club_id = #{clubId} order by cb.board_id desc")
 	List<BoardAndImageDto> findBoardAndImageById(int clubId);
 
 	JoinClubMember hostFindByClubId(int clubId);
@@ -157,23 +159,15 @@ public interface ClubRepository {
 	@Select("select club_member_role from club_member where club_id = #{clubId} and member_id = #{loginMemberId}")
 	int memberRoleFindByMemberId(ClubMemberRole clubMemberRole);
 	
+	@Select("select * from (select * from club_gallery cg left join club_gallery_attachment ca on cg.gallery_id = ca.gallery_id where (ca.thumbnail = 'Y' or ca.thumbnail is null) and club_id = #{clubId} order by cg.gallery_id desc) where rownum <= 6")
+	List<GalleryAndImageDto> findgalleryById(int clubId);
+	
+	@Insert("insert into club_layout values (#{clubId}, default, default, default, default, default, default, default, default)")
+	int insertLayout(int clubId);
+
 	@Delete("delete from club_member where club_id = #{clubId} and member_id = #{memberId}")
 	int kickMember(KickMember kickMember);
 
-	
-	
-
-
-	
-
-
-	
-	
-
-	
-
-	
-	
 	
 }
    

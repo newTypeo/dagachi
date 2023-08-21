@@ -36,6 +36,7 @@ import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
 import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.ClubUpdateDto;
+import com.dagachi.app.club.dto.GalleryAndImageDto;
 import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.KickMember;
 import com.dagachi.app.club.dto.ManageMember;
@@ -43,6 +44,7 @@ import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubBoard;
 import com.dagachi.app.club.entity.ClubBoardAttachment;
 import com.dagachi.app.club.entity.ClubDetails;
+import com.dagachi.app.club.entity.ClubGalleryAttachment;
 import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
@@ -178,7 +180,6 @@ public class ClubController {
         params.put("inputText", inputText);
         
         List<ClubSearchDto> clubs = clubService.searchClubWithFilter(params);
-		model.addAttribute("clubs", clubs);
 		
 		params.put("getCount", getCount);
 		int totalCount = clubService.searchClubWithFilter(params).size();
@@ -188,6 +189,10 @@ public class ClubController {
 		String pageBar = Pagination.getPagebar(page, LIMIT, totalCount, url);
 		pageBar = pageBar.replaceAll("\\?", "&");
 		pageBar = pageBar.replaceAll("#&", "\\?");
+		
+		model.addAttribute("area", area);
+		model.addAttribute("category", category);
+		model.addAttribute("clubs", clubs);
 		model.addAttribute("pagebar", pageBar);
 		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("inputText", inputText);
@@ -221,9 +226,12 @@ public class ClubController {
 		int clubId = clubService.findByDomain(domain).getClubId();
 		ClubLayout layout = clubService.findLayoutById(clubId);
 		List<BoardAndImageDto> boardAndImages = clubService.findBoardAndImageById(clubId);
-		log.debug("boardAndImages = {}", boardAndImages);
+		List<GalleryAndImageDto> galleries = clubService.findgalleryById(clubId);
+		
+		System.out.println(clubId);
 		
 		model.addAttribute("domain", domain);
+		model.addAttribute("galleries", galleries);
 		model.addAttribute("boardAndImages", boardAndImages);
 		model.addAttribute("layout", layout);
 		return "club/clubDetail";
@@ -508,11 +516,8 @@ public class ClubController {
 				.enrollQuestion(_club.getEnrollQuestion())
 				.clubProfile(clubProfile)
 				.build();
-		
-		System.out.println(club);
 				
 		int result = clubService.insertClub(club);
-		
 		
 		return "redirect:/club/clubCreate.do";
 	}
