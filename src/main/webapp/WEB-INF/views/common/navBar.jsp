@@ -99,9 +99,8 @@ categoryModalContainer.addEventListener('mouseout', () => {
 categoryA.forEach((element) => {
 	element.addEventListener("mouseenter", function(e) {
 		categoryModalRight.style.display = "block";
-		console.log(e.target);
 		
-		const value = e.target;
+		const value = e.target.innerText;
 		
 		$.ajax({
 			url: "${pageContext.request.contextPath}/club/categoryList.do",
