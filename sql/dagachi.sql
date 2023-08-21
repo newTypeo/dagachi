@@ -92,16 +92,16 @@ create sequence seq_alarm_id;
 
 ------------------------------------------------- 테이블 -------------------------------------------------
 create table member (
-	member_id	varchar2(30)	not null,
-	password	varchar2(150)	not null,
-	name	 varchar2(20)	not null,
-    nickname varchar2(30) not null,
-	phone_no	varchar2(20)	not null,
-	email	varchar2(50)	not null,
-	birthday	date	not null,
-	gender	char(1)	not null, -- 	COMMENT 'M, F'
+	member_id	varchar2(30),
+	password	varchar2(150),
+	name	 varchar2(20),
+    nickname varchar2(30),
+	phone_no	varchar2(20),
+	email	varchar2(50),
+	birthday	date,
+	gender	char(1), -- 	COMMENT 'M, F'
 	mbti	varchar(10)	,
-	address	varchar2(200)	not null,
+	address	varchar2(200),
 	report_count	number	default 0,
 	enroll_date	date default sysdate,
 	withdrawal_date	date, --  COMMENT 'null 이면 회원'
@@ -1169,4 +1169,12 @@ select * from club;
 select * from member where name = '이은주';
 
 commit;
+
+
+
+--update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'honggd';
+
+
+
+
 
