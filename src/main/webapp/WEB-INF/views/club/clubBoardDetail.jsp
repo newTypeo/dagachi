@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="게시글" name="title" />
 </jsp:include>
@@ -12,26 +12,40 @@
 
 	<div>
 		<div>${clubBoard.title}</div>
+	
+		<c:if test="${!attachments.isEmpty()}">
+			<div class="dropdown">
+				<button class="btn btn-secondary dropdown-toggle" type="button"
+					data-toggle="dropdown" aria-expanded="false">DownLoad button</button>
+				<div class="dropdown-menu">
+					<c:forEach items="${attachments}" var="attachment">
+						<a class="dropdown-item" href="#">${attachment.originalFilename}</a>
+					</c:forEach>
+				</div>
+			</div>
+		</c:if>
 		<div>${clubBoard.content}</div>
 		<div>${clubBoard.writer}</div>
 		<div>${clubBoard.createdAt}</div>
 		<div id="likeCount">${clubBoard.likeCount}</div>
-	
+
 	</div>
 	<div>
 		<div id="hartContainer">
 			<div id="hartButton">❤</div>
-			<input type="checkbox" id="like" style="display : none;">
-			<label for="hartButton" ></label>
+			<input type="checkbox" id="like" style="display: none;"> <label
+				for="hartButton"></label>
 		</div>
 		<div>
-			<button type="button" class="btn btn-secondary btn-lg" onclick="updateButton()">수정</button>
-			<button type="button" class="btn btn-secondary btn-lg" onclick="deleteButton()">삭제</button>
+			<button type="button" class="btn btn-secondary btn-lg"
+				onclick="updateButton()">수정</button>
+			<button type="button" class="btn btn-secondary btn-lg"
+				onclick="deleteButton()">삭제</button>
 		</div>
 	</div>
-	
-		<form:form name="detailFrm"></form:form>
-	
+
+	<form:form name="detailFrm"></form:form>
+
 </section>
 
 <script>

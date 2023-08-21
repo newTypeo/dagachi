@@ -24,6 +24,8 @@ import com.dagachi.app.club.dto.ManageMember;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
+import com.dagachi.app.club.entity.ClubBoardAttachment;
+import com.dagachi.app.club.entity.ClubBoardDetails;
 import com.dagachi.app.club.entity.ClubDetails;
 import com.dagachi.app.club.entity.ClubGalleryAttachment;
 import com.dagachi.app.club.entity.ClubLayout;
@@ -145,6 +147,26 @@ public interface ClubRepository {
 	@Select("select * from club_layout where club_Id = #{clubId}")
 	ClubLayout findLayoutById(int clubId);
 	
+	@Insert("insert into club_board (board_id, club_id, writer, title, content, type) " +
+	        "values (seq_club_board_id.nextval, #{clubId}, #{writer}, #{title}, #{content}, #{type})")
+	@SelectKey(
+			before = false, 
+			keyProperty = "boardId", 
+			resultType = int.class,
+			statement = "select seq_club_board_id.currval from dual")
+	int postBoard(ClubBoard clubBoard);
+	
+	@Insert("insert into club_board_attachment (id, board_id, original_filename, renamed_filename,created_at, thumbnail) " +
+	        "values (seq_club_board_attachment_id.nextval, #{boardId}, #{originalFilename}, #{renamedFilename}, default , #{thumbnail})")
+	int insetAttachment(ClubBoardAttachment attach);
+	
+	@Select("select * from club_board_attachment where board_id = #{no}")
+	List<ClubBoardAttachment> findAttachments(int no);
+	
+	@Select("select * from club_board_attachment where id = #{attachNo}")
+	ClubBoardAttachment findAttachment(int attachNo);
+	
+
 	@Select("select * from (SELECT a.*, b.count AS member_count FROM (SELECT c.*, i.member_id FROM club c JOIN member_interest i ON c.category = i.interest WHERE i.member_id = #{memberId}) a LEFT JOIN (SELECT club_id, COUNT(*) AS count FROM club_member GROUP BY club_id) b ON a.club_id = b.club_id) c left join (select * from club_profile) d on c.club_id = d.club_id")
 	List<ClubAndImage> clubListById(String memberId);
 	
