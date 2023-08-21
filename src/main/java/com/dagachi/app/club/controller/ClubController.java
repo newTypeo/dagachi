@@ -192,6 +192,8 @@ public class ClubController {
 	public ResponseEntity<?> clubList(){
 		List<ClubAndImage> clubAndImages = new ArrayList<>();
 		clubAndImages = clubService.clubList();
+		log.debug("clubAndImage = {}" , clubAndImages);
+		System.out.println("아아아아아");
 		return ResponseEntity.status(HttpStatus.OK).body(clubAndImages);
 	}
 	
