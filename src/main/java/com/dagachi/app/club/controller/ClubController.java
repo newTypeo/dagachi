@@ -178,7 +178,6 @@ public class ClubController {
         params.put("inputText", inputText);
         
         List<ClubSearchDto> clubs = clubService.searchClubWithFilter(params);
-		model.addAttribute("clubs", clubs);
 		
 		params.put("getCount", getCount);
 		int totalCount = clubService.searchClubWithFilter(params).size();
@@ -188,6 +187,10 @@ public class ClubController {
 		String pageBar = Pagination.getPagebar(page, LIMIT, totalCount, url);
 		pageBar = pageBar.replaceAll("\\?", "&");
 		pageBar = pageBar.replaceAll("#&", "\\?");
+		
+		model.addAttribute("area", area);
+		model.addAttribute("category", category);
+		model.addAttribute("clubs", clubs);
 		model.addAttribute("pagebar", pageBar);
 		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("inputText", inputText);

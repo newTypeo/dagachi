@@ -40,6 +40,8 @@
   		activity_area like '%' || #{inputText} || '%'
   		and
   		status = 'Y'
+  	order by
+		c.created_at desc
 	</select>
 	
 	<select id="searchClubWithFilter">
