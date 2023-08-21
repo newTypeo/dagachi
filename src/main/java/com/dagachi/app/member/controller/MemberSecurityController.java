@@ -87,7 +87,7 @@ public class MemberSecurityController {
 		return ResponseEntity
 				.status(HttpStatus.OK)
 				.body(Map.of("available", available, "memberId", memberId));
-	}
+	}                                                                                   
 	 
 
 }

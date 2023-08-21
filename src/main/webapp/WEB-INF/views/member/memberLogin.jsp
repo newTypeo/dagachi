@@ -36,8 +36,8 @@
 						</div>
 						<div>
 							<button type="submit" class="btn btn-outline-success">로그인</button>
-						</div>
-				</div>
+						</div> 
+				</div>   
 			</div>
 		</form:form>			
 						
