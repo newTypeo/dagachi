@@ -34,6 +34,12 @@
 	            on c.club_id = cp.club_id
 	  where 
 	  		club_name like '%' || #{inputText} || '%'
+	  		or
+	  		category like '%' || #{inputText} || '%'
+	  		or
+	  		activity_area like '%' || #{inputText} || '%'
+	  		and
+	  		status = 'Y'
 	</select>
 	
 	<select id="adminClubList">
