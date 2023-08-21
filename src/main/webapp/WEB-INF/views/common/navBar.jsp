@@ -12,10 +12,10 @@
 	
 	<div id="search-container">
 		<form id="clubSearchFrm" action="${pageContext.request.contextPath}/club/clubSearch.do">
-			<input type="text" name="inputText" id="search-club-box" placeholder="검색할 모임 입력"/>
+			<input type="text" name="inputText" id="search-club-box" placeholder="검색할 모임 입력" required/>
 			<button id="search-club-btn"><i class="fa-solid fa-magnifying-glass fa-xl"></i></button>
 		</form>
-		<div id="search-detail">상세검색<i class="fa-solid fa-chevron-down" style="color: #eee;"></i></div>
+		<!-- <div id="search-detail">상세검색<i class="fa-solid fa-chevron-down" style="color: #eee;"></i></div> -->
 	</div>
 	
 	
@@ -65,6 +65,8 @@ document.querySelector("#club-create-btn").onclick = () => {
 	location.href = '${pageContext.request.contextPath}/club/clubCreate.do';
 };
 
+	  
+
 const categoryContainer = document.querySelector("#category-container");
 const categoryModalContainer = document.querySelector("#category-modal-container");
 const categoryModalLeft = document.querySelector("#category-modal-left");
@@ -95,9 +97,23 @@ categoryModalContainer.addEventListener('mouseout', () => {
 });
 
 categoryA.forEach((element) => {
-	element.addEventListener("mouseenter", function() {
+	element.addEventListener("mouseenter", function(e) {
 		categoryModalRight.style.display = "block";
-	});
+		
+		const value = e.target.innerText;
+		
+		$.ajax({
+			url: "${pageContext.request.contextPath}/club/categoryList.do",
+			data: {
+				category : value 
+			},
+			success(response) {
+				console.log('success');
+			}
+		});
+		
+		
+		
 
 	element.addEventListener("mouseleave", function() {
 		categoryModalRight.style.display = "block";
@@ -106,6 +122,7 @@ categoryA.forEach((element) => {
 
 
 
+});
 
 
 

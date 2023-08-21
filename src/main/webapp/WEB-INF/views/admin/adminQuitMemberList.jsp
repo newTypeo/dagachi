@@ -6,69 +6,89 @@
 <fmt:requestEncoding value="utf-8" />
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
-<section id="main-page-sec" class="p-2 quit-ember-list">
+<section id="admin-quit-member-list-sec" class="p-2 quit-member-list">
 	<h1>탈퇴 회원목록 페이지</h1>
 
 	<div id="quit-member-list-wrapper">
 		<div id="search-container">
-			<label for="searchType">검색타입 :</label> 
-			<select id="searchType">
-				<option id="searchOption" value="quitMemberNameSearch">이름</option>
-				<option id="searchOption" value="quitMemberIdSearch">ID</option>
-				<option id="searchOption" value="quitMemberAddressSearch">주소</option>
-			</select>
+			<div id="searchBar-wrap">
+				<label for="searchType">검색타입 :</label> 
+				<select id="searchType">
+					<option id="searchOption" value="quitMemberNameSearch">이름</option>
+					<option id="searchOption" value="quitMemberIdSearch">ID</option>
+					<option id="searchOption" value="quitMemberAddressSearch">주소</option>
+				</select>
 
-			<div id="search-name" class="search-type" style="display: inline-block">
-				<input type="text" id="quitMemberNameSearch" placeholder="이름을 입력하세요" name="name">
-			</div>
-			<div id="search-id" class="search-type" style="display: none">
-				<input type="text" id="quitMemberIdSearch" placeholder="ID을 입력하세요" name="member_id">
-			</div>
-			<div id="search-address" class="search-type" style="display: none">
-				<input type="text" id="quitMemberAddressSearch" placeholder="주소를 입력하세요" name="address">
-			</div>
+				<div id="search-name" class="search-type" style="display: inline-block">
+					<input type="text" id="quitMemberNameSearch" placeholder="이름을 입력하세요" name="name">
+					<button onclick="quitSearchMember(this);" name="name">검색</button>
+				</div>
+				<div id="search-id" class="search-type" style="display: none">
+					<input type="text" id="quitMemberIdSearch" placeholder="ID을 입력하세요" name="member_id">
+					<button onclick="quitSearchMember(this);" name="member_id">검색</button>
+				</div>
+				<div id="search-address" class="search-type" style="display: none">
+					<input type="text" id="quitMemberAddressSearch" placeholder="주소를 입력하세요" name="address">
+					<button onclick="quitSearchMember(this);" name="address">검색</button>
+				</div>
 
-			<table id="quitMemberListTable">
-				<thead>
-					<tr>
-						<th>ID</th>
-						<th>이름</th>
-						<th>닉네임</th>
-						<th>연락처</th>
-						<th>주소</th>
-						<th>성별</th>
-						<th>생년월일</th>
-						<th>가입일</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:if test="${empty members}">
+				<form name="searchQuitMemberFrm"
+					action="${pageContext.request.contextPath}/admin/adminQuitMemberList.do">
+					<input type="hidden" name="keyword" id="keywordHidden"> <input
+						type="hidden" name="column" id="columnHidden">
+				</form>
+
+				<table id="quitMemberListTable">
+					<thead>
 						<tr>
-							<td colspan="7">조회된 회원이 없습니다.</td>
+							<th>ID</th>
+							<th>이름</th>
+							<th>닉네임</th>
+							<th>연락처</th>
+							<th>주소</th>
+							<th>성별</th>						
+							<th>생년월일</th>
+							<th>가입일</th>
 						</tr>
-					</c:if>
-					<c:if test="${not empty members}">
-						<c:forEach items="${members}" var="member" varStatus="vs">
+					</thead>
+					<tbody>
+						<c:if test="${empty members}">
 							<tr>
-								<td>${member.memberId}</td>
-								<td>${member.name}</td>
-								<td>${member.nickname}</td>
-								<td>${member.phoneNo}</td>
-								<td>${member.address}</td>
-								<td>${member.gender}</td>
-								<%-- <td>${member.birthday}</td> --%>
-								<td><fmt:parseDate value="${member.birthday}"
-										var="birthday" pattern="yyyy-MM-dd"></fmt:parseDate> <fmt:formatDate
-										value="${birthday}" pattern="yy/MM/dd" /></td>
-								<td><fmt:parseDate value="${member.enrollDate}"
-										var="enrollDate" pattern="yyyy-MM-dd"></fmt:parseDate> <fmt:formatDate
-										value="${enrollDate}" pattern="yy/MM/dd" /></td>
+								<td colspan="7">조회된 회원이 없습니다.</td>
 							</tr>
-						</c:forEach>
-					</c:if>
-				</tbody>
-			</table>
+						</c:if>
+						<c:if test="${not empty members}">
+							<c:forEach items="${members}" var="member" varStatus="vs">
+								<tr>
+									<td>${member.memberId}</td>
+									<td>${member.name}</td>
+									<td>${member.nickname}</td>
+									<td>${member.phoneNo}</td>
+									<td>${member.address}</td>
+									<td>${member.gender}</td>
+									
+									<%-- <td>${member.birthday}</td> --%>
+									<td><fmt:parseDate value="${member.birthday}"
+											var="birthday" pattern="yyyy-MM-dd"></fmt:parseDate> <fmt:formatDate
+											value="${birthday}" pattern="yy/MM/dd" /></td>
+									<td><fmt:parseDate value="${member.enrollDate}"
+											var="enrollDate" pattern="yyyy-MM-dd"></fmt:parseDate> <fmt:formatDate
+											value="${enrollDate}" pattern="yy/MM/dd" /></td>
+								</tr>
+							</c:forEach>
+						</c:if>
+					</tbody>
+				</table>
+			</div>
 		</div>
+	</div>
+	<div id="pagebar-wrapper" class="text-center">
+		<c:if test="${empty pagebar}">
+			<span></span>
+		</c:if>
+		<c:if test="${not empty pagebar}">
+			<span>${pagebar}</span>
+		</c:if>
 	</div>
 </section>
 <script>
@@ -84,49 +104,16 @@ document.querySelector("#searchType").onchange = (e) => {
 	selectedInput.parentElement.style.display = 'inline-block';
 };
 
-//검색유형 별 검색시 비동기로 모임 조회
-document.querySelectorAll(".search-type").forEach((input) => {
-	input.onkeyup = (e) => {
-		const keyword = e.target.value;
-		const column = e.target.name;
-		console.log("keyword, column=", keyword, column);
-		$.ajax({
-			url : "${pageContext.request.contextPath}/admin/quitMemberSearch.do",
-			data : {keyword, column},
-			dataType : "json",
-			success(members) {
-				const tbody = document.querySelector("#quitMemberListTable tbody");
-				tbody.innerHTML = '';
-				let html = '';
-				if(members.length == 0) {
-					html += `<tr><td colspan='7'>조회된 결과가 없습니다.</td></tr>`;
-				}
-				else {
-					members.forEach((member) => {
-						html += `
-							<tr>
-								<td>\${member.memberId}</td>
-								<td>\${member.name}</td>
-								<td>\${member.nickname}</td>
-								<td>\${member.phoneNo}</td>
-								<td>\${member.address}</td>
-								<td>\${member.gender}</td>
-								<td>
-								// birthday
-								</td>
-								<td>
-								// enrollDate
-								</td>
-							</td>
-							</tr>
-							`;
-					}); // else 하위 forEach
-				} // else
-				tbody.innerHTML = html;
-			} // success
-		}); // ajax
-	} // onkeyup
-}); // forEach
+//검색유형 별 검색시 동기로 탈퇴회원 조회
+const quitSearchMember = (btnTag) => {
+	console.log(btnTag);
+	const keyword = btnTag.previousElementSibling.value;
+	const column = btnTag.name;
+	document.querySelector("#keywordHidden").value = keyword;
+	document.querySelector("#columnHidden").value = column;
+	document.searchQuitMemberFrm.submit();
+};
+
 </script>
 
 
