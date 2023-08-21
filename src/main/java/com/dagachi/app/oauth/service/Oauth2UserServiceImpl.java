@@ -25,6 +25,8 @@ public class Oauth2UserServiceImpl extends DefaultOAuth2UserService {
 	@Autowired
 	private MemberService memberService;
 	
+	
+	// 카카오톡 로그인 
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 		

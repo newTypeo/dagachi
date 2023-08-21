@@ -189,7 +189,8 @@ public class ClubController {
 	 * @author 준한
 	 */
 	@GetMapping("/clubList.do")
-	public ResponseEntity<?> clubList(){
+	public ResponseEntity<?> clubList(
+			){
 		List<ClubAndImage> clubAndImages = new ArrayList<>();
 		clubAndImages = clubService.clubList();
 		for(ClubAndImage cAI: clubAndImages) {

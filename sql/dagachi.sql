@@ -17,7 +17,7 @@
 --SELECT 'DROP TABLE "' ||  TABLE_NAME || '" CASCADE CONSTRAINTS;' FROM user_tables;
 
 ---------------------------------------------- 테이블 삭제 ----------------------------------------------
---
+
 --DROP TABLE "MEMBER" CASCADE CONSTRAINTS;
 --DROP TABLE "CLUB" CASCADE CONSTRAINTS;
 --DROP TABLE "CLUB_MEMBER" CASCADE CONSTRAINTS;
@@ -642,7 +642,7 @@ INSERT INTO club (club_id, club_name, activity_area, category, last_activity_dat
 VALUES (seq_club_id.nextval, '건강과 웰빙 컬렉티브', '성동구', '사교/인맥', TO_DATE('2023-08-03', 'YYYY-MM-DD'), 0, '운동 활동, 명상, 건강한 생활에 대한 토론을 통해 신체와 마음의 웰빙을 촉진하는 공간입니다.', '건강을 어떻게 관리하고 계시나요?', 'healthwellnesscollective');
 -- 추가 모임 샘플 데이터
 INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
-VALUES (seq_club_id.nextval, '야구팬 클럽', '종로구', '운동/스포츠', TO_DATE('2023-08-10', 'YYYY-MM-DD'), 0, '야구를 사랑하는 팬들의 모임입니다.', '가장 좋아하는 야구팀은 무엇인가요?', 'baseballfan');
+VALUES (seq_club_id.nextval, '야구팬 클럽', '종로구', '야구관람', TO_DATE('2023-08-10', 'YYYY-MM-DD'), 0, '야구를 사랑하는 팬들의 모임입니다.', '가장 좋아하는 야구팀은 무엇인가요?', 'baseballfan');
 
 INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
 VALUES (seq_club_id.nextval, '축구 열광 클럽', '마포구', '운동/스포츠', TO_DATE('2023-08-15', 'YYYY-MM-DD'), 0, '세계 각국의 축구 경기를 열광하며 시청하는 모임입니다.', '가장 좋아하는 축구 선수는 누구인가요?', 'shotforlove');
@@ -654,22 +654,19 @@ INSERT INTO club (club_id, club_name, activity_area, category, last_activity_dat
 VALUES (seq_club_id.nextval, '요가 스승님의 밋밋한 밤', '서초구', '운동/스포츠', TO_DATE('2023-08-08', 'YYYY-MM-DD'), 0, '요가를 사랑하는 사람들의 모임입니다. 함께 몸과 마음을 단련합니다.', '요가를 시작하게 된 계기는 무엇인가요?', 'yogafire');
 
 INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
-VALUES (seq_club_id.nextval, '미식가의 향연', '강서구', '음식/요리', TO_DATE('2023-08-12', 'YYYY-MM-DD'), 0, '다양한 음식을 만들고 맛보는 미식가들의 클럽입니다.', '가장 기억에 남는 맛집은 어디인가요?', 'foodfood');
+VALUES (seq_club_id.nextval, '미식가의 향연', '강서구', '요리/제조', TO_DATE('2023-08-12', 'YYYY-MM-DD'), 0, '다양한 음식을 만들고 맛보는 미식가들의 클럽입니다.', '가장 기억에 남는 맛집은 어디인가요?', 'foodfood');
 
 INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
-VALUES (seq_club_id.nextval, '영화광들의 모임', '송파구', '예술/문화', TO_DATE('2023-08-18', 'YYYY-MM-DD'), 0, '다양한 장르의 영화를 감상하며 토론하는 모임입니다.', '가장 인상 깊게 본 영화는 무엇인가요?', 'ilikethatmoviemovie');
+VALUES (seq_club_id.nextval, '영화광들의 모임', '송파구', '공연/축제', TO_DATE('2023-08-18', 'YYYY-MM-DD'), 0, '다양한 장르의 영화를 감상하며 토론하는 모임입니다.', '가장 인상 깊게 본 영화는 무엇인가요?', 'ilikethatmoviemovie');
 
 INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
-VALUES (seq_club_id.nextval, 'IT 기술 공유 네트워크', '강동구', '기술/학문', TO_DATE('2023-08-09', 'YYYY-MM-DD'), 0, '다양한 IT 분야의 기술과 지식을 공유하는 모임입니다.', '가장 최근에 공부한 프로그래밍 언어는 무엇인가요?', 'techshare');
+VALUES (seq_club_id.nextval, 'IT 기술 공유 네트워크', '강동구', '자유주제', TO_DATE('2023-08-09', 'YYYY-MM-DD'), 0, '다양한 IT 분야의 기술과 지식을 공유하는 모임입니다.', '가장 최근에 공부한 프로그래밍 언어는 무엇인가요?', 'techshare');
 
 INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
-VALUES (seq_club_id.nextval, '사진촬영과 나눔', '중랑구', '예술/문화', TO_DATE('2023-08-06', 'YYYY-MM-DD'), 0, '사진을 사랑하는 사람들이 모여 서로의 작품을 공유하고 배우는 모임입니다.', '가장 좋아하는 사진 장비는 무엇인가요?', 'photodonation');
+VALUES (seq_club_id.nextval, '사진촬영과 나눔', '중랑구', '사진/영상', TO_DATE('2023-08-06', 'YYYY-MM-DD'), 0, '사진을 사랑하는 사람들이 모여 서로의 작품을 공유하고 배우는 모임입니다.', '가장 좋아하는 사진 장비는 무엇인가요?', 'photodonation');
 
 INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
-VALUES (seq_club_id.nextval, '자연과 함께하는 스케치', '강북구', '예술/문화', TO_DATE('2023-08-14', 'YYYY-MM-DD'), 0, '자연 풍경을 스케치로 그리며 즐기는 예술가들의 클럽입니다.', '가장 좋아하는 스케치 장소는 어디인가요?', 'sketchup');
-
-INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
-VALUES (seq_club_id.nextval, '독서 모임 "책벌레들"', '노원구', '문학/독서', TO_DATE('2023-08-20', 'YYYY-MM-DD'), 0, '다양한 장르의 책을 읽고 토론하는 독서 모임입니다.', '가장 인상 깊게 읽은 책은 무엇인가요?', 'bullecut');
+VALUES (seq_club_id.nextval, '자연과 함께하는 스케치', '강북구', '공예/만들기', TO_DATE('2023-08-14', 'YYYY-MM-DD'), 0, '자연 풍경을 스케치로 그리며 즐기는 예술가들의 클럽입니다.', '가장 좋아하는 스케치 장소는 어디인가요?', 'sketchup');
 
 
 
@@ -683,6 +680,15 @@ insert into club_profile values(6,'asd','6.png',sysdate);
 insert into club_profile values(7,'asd','7.png',sysdate);
 insert into club_profile values(8,'asd','8.png',sysdate);
 insert into club_profile values(9,'asd','9.png',sysdate);
+insert into club_profile values(10,'asd','10.png',sysdate);
+insert into club_profile values(11,'asd','11.png',sysdate);
+insert into club_profile values(12,'asd','12.png',sysdate);
+insert into club_profile values(13,'asd','13.png',sysdate);
+insert into club_profile values(14,'asd','14.png',sysdate);
+insert into club_profile values(15,'asd','15.png',sysdate);
+insert into club_profile values(16,'asd','16.png',sysdate);
+insert into club_profile values(17,'asd','17.png',sysdate);
+insert into club_profile values(18,'asd','18.png',sysdate);
 
 
 -- 소모임 태그 샘플 데이터
@@ -1163,9 +1169,4 @@ select * from club;
 select * from member where name = '이은주';
 
 commit;
-
-
-
-
-
 
