@@ -1159,5 +1159,10 @@ select * from member where name = '이은주';
 commit;
 
 
+--update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'honggd';
+
+
+select club_member_role from club_member where club_id = 1 and member_id = 'honggd';
+
 
 

@@ -73,11 +73,7 @@ public class MemberSecurityController {
    }
 
 	@GetMapping("/memberLogin.do")
-	public void memberLogin(Authentication authentication) {
-		log.debug("authentication = {}", authentication);
-//		MemberDetails principal = (MemberDetails) authentication.getPrincipal();
-//		log.debug("principal = {}", principal);
-	}
+	public void memberLogin() {}
 	
 	//회원 아이디 중복 여부를 확인하기 위해 사용하는 코드 
 	@GetMapping("/checkIdDuplicate.do")

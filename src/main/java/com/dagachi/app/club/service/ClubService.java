@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.dagachi.app.club.dto.ClubAndImage;
+import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
 import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.ClubSearchDto;
@@ -63,6 +64,10 @@ public interface ClubService {
 	int clubMemberRoleUpdate(ClubMemberRoleUpdate member);
 
 	ClubLayout findLayoutById(int clubId);
+
+	JoinClubMember hostFindByClubId(int clubId);
+
+	int memberRoleFindByMemberId(ClubMemberRole clubMemberRole);
 
 
 }
