@@ -14,6 +14,7 @@ import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
 import com.dagachi.app.club.dto.ClubSearchDto;
+import com.dagachi.app.club.dto.GalleryAndImageDto;
 import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.KickMember;
 import com.dagachi.app.club.dto.ManageMember;
@@ -21,6 +22,7 @@ import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
 import com.dagachi.app.club.entity.ClubDetails;
+import com.dagachi.app.club.entity.ClubGalleryAttachment;
 import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
@@ -182,6 +184,8 @@ public class ClubServiceImpl implements ClubService {
 			ClubTag clubTag = new ClubTag(club.getClubId(), tag);
 			result = clubRepository.insertClubTag(clubTag);
 		}
+		// layout 생성
+		result = clubRepository.insertLayout(club.getClubId());
 		return result;
 	}
 	
@@ -261,6 +265,11 @@ public class ClubServiceImpl implements ClubService {
 	@Override
 	public int kickMember(KickMember kickMember) {
 		return clubRepository.kickMember(kickMember);
+	}
+	
+	@Override
+	public List<GalleryAndImageDto> findgalleryById(int clubId) {
+		return clubRepository.findgalleryById(clubId);
 	}
 	
 }

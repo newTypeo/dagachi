@@ -17,6 +17,9 @@
 		        <option value="강남구">강남구</option>
 		        <option value="마포구">마포구</option>
 		        <option value="종로구">종로구</option>
+		        <option value="송파구">송파구</option>
+		        <option value="중랑구">중랑구</option>
+		        <option value="강북구">강북구</option>
 		    </select>
 		    
 		    <label for="category">모임 분류:</label>
@@ -71,6 +74,15 @@ document.querySelectorAll("#category-modal-left-upper a").forEach((a) => {
 		<option value="\${a.innerHTML}" name="\${a.innerHTML}">\${a.innerHTML}</option>
 	`;
 });
+
+if(${not empty area}) {
+	// console.log(document.querySelector("[value='" + '${area}' + "']"));
+	document.querySelector("[value='" + '${area}' + "']").selected = 'true';
+}
+if(${not empty category}) {
+	// console.log(document.querySelector("[value='" + '${category}' + "']"));
+	document.querySelector("[value='" + '${category}' + "']").selected = 'true';
+}
 
 </script>
 

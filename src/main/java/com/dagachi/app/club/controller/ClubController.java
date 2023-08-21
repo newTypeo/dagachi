@@ -36,6 +36,7 @@ import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
 import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.ClubUpdateDto;
+import com.dagachi.app.club.dto.GalleryAndImageDto;
 import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.KickMember;
 import com.dagachi.app.club.dto.ManageMember;
@@ -43,6 +44,7 @@ import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubBoard;
 import com.dagachi.app.club.entity.ClubBoardAttachment;
 import com.dagachi.app.club.entity.ClubDetails;
+import com.dagachi.app.club.entity.ClubGalleryAttachment;
 import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
@@ -178,7 +180,6 @@ public class ClubController {
         params.put("inputText", inputText);
         
         List<ClubSearchDto> clubs = clubService.searchClubWithFilter(params);
-		model.addAttribute("clubs", clubs);
 		
 		params.put("getCount", getCount);
 		int totalCount = clubService.searchClubWithFilter(params).size();
@@ -188,6 +189,10 @@ public class ClubController {
 		String pageBar = Pagination.getPagebar(page, LIMIT, totalCount, url);
 		pageBar = pageBar.replaceAll("\\?", "&");
 		pageBar = pageBar.replaceAll("#&", "\\?");
+		
+		model.addAttribute("area", area);
+		model.addAttribute("category", category);
+		model.addAttribute("clubs", clubs);
 		model.addAttribute("pagebar", pageBar);
 		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("inputText", inputText);
@@ -221,9 +226,12 @@ public class ClubController {
 		int clubId = clubService.findByDomain(domain).getClubId();
 		ClubLayout layout = clubService.findLayoutById(clubId);
 		List<BoardAndImageDto> boardAndImages = clubService.findBoardAndImageById(clubId);
-		log.debug("boardAndImages = {}", boardAndImages);
+		List<GalleryAndImageDto> galleries = clubService.findgalleryById(clubId);
+		
+		System.out.println(clubId);
 		
 		model.addAttribute("domain", domain);
+		model.addAttribute("galleries", galleries);
 		model.addAttribute("boardAndImages", boardAndImages);
 		model.addAttribute("layout", layout);
 		return "club/clubDetail";
@@ -243,11 +251,12 @@ public class ClubController {
 			int clubId = clubService.clubIdFindByDomain(cAI.getDomain());
 			List<String> clubTag = (List)clubService.findClubTagById(clubId);
 		}
+//		System.out.println(clubTag);
 		return ResponseEntity.status(HttpStatus.OK).body(clubAndImages);
 	}
 	
 	/**
-	 * 로그인 했을때 소모임 추천 출력(카드)
+	 * 로그인 했을때 로그인객체의 관심사로 소모임 추천 출력(카드)
 	 * @author 준한
 	 */
 	@GetMapping("/loginClubList.do")
@@ -258,7 +267,6 @@ public class ClubController {
 		
 		List<ClubAndImage> clubAndImages = new ArrayList<>();
 		clubAndImages = clubService.clubListById(memberId);
-		log.debug("좀가져오렴 제발...={}", clubAndImages);
 		return ResponseEntity.status(HttpStatus.OK).body(clubAndImages);
 	}
 	
@@ -508,11 +516,8 @@ public class ClubController {
 				.enrollQuestion(_club.getEnrollQuestion())
 				.clubProfile(clubProfile)
 				.build();
-		
-		System.out.println(club);
 				
 		int result = clubService.insertClub(club);
-		
 		
 		return "redirect:/club/clubCreate.do";
 	}
@@ -601,5 +606,18 @@ public class ClubController {
 		
 		return clubBoard;
 	}
+	
+	@GetMapping("/&{domain}/clubMemberList.do")
+	public String clubMemberList(
+			@PathVariable("domain") String domain,
+			Model model
+			) {
+		Club club = clubService.findByDomain(domain);
+		
+		model.addAttribute("club",club);
+		
+		return "/club/clubMemberList";
+	}
+	
 	
 }
