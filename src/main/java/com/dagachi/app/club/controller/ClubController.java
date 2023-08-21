@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -215,13 +216,18 @@ public class ClubController {
 	@GetMapping("/&{domain}")
 	public String clubDetail(
 			@PathVariable("domain") String domain,
+			@AuthenticationPrincipal MemberDetails member,
 			Model model) {
 //		log.debug("domain = {}", domain);
 
 		int clubId = clubService.findByDomain(domain).getClubId();
+		String memberId = member.getMemberId();
+		
 		ClubLayout layout = clubService.findLayoutById(clubId);
 		List<BoardAndImageDto> boardAndImages = clubService.findBoardAndImageById(clubId);
 		log.debug("boardAndImages = {}", boardAndImages);
+		
+		int result = clubService.insertClubRecentVisitd(memberId, clubId);
 		
 		model.addAttribute("domain", domain);
 		model.addAttribute("boardAndImages", boardAndImages);
@@ -239,10 +245,10 @@ public class ClubController {
 			){
 		List<ClubAndImage> clubAndImages = new ArrayList<>();
 		clubAndImages = clubService.clubList();
-		for(ClubAndImage cAI: clubAndImages) {
-			int clubId = clubService.clubIdFindByDomain(cAI.getDomain());
-			List<String> clubTag = (List)clubService.findClubTagById(clubId);
-		}
+//		for(ClubAndImage cAI: clubAndImages) {
+//			int clubId = clubService.clubIdFindByDomain(cAI.getDomain());
+//			List<String> clubTag = (List)clubService.findClubTagById(clubId);
+//		}
 		return ResponseEntity.status(HttpStatus.OK).body(clubAndImages);
 	}
 	
@@ -601,5 +607,8 @@ public class ClubController {
 		
 		return clubBoard;
 	}
+	
+	@GetMapping("/clubsRecentVisited.do")
+	public void clubsRecentVisited(){}
 	
 }

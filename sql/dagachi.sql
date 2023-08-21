@@ -103,8 +103,7 @@ create table member (
 	withdrawal_date	date, --  COMMENT 'null 이면 회원'
 	password_change_date	date default sysdate,
 	last_login_date date,
-	status char(1) default 'Y',
-    member_role char(1) default 'M' not null
+	status char(1) default 'Y'
 );
 
 -- security rememeberme 를 위해 만들어진 테이블
@@ -318,6 +317,13 @@ create table authority (
     auth varchar2(20)   not null
 );
 
+create table recent_visit_list (
+    member_id varchar2(30) not null,
+    club_id number not null,
+    recent_date date default sysdate
+);
+
+
 alter table member add constraint pk_member primary key (
 	member_id
 );
@@ -489,6 +495,7 @@ references club_schedule (
 	schedule_id
 );
 
+
 --alter table club_schedule_enroll_member add constraint fk_club_member_to_club_schedule_enroll_member_1 foreign key (
 --	member_id
 --)
@@ -612,6 +619,13 @@ alter table authority add constraint fk_member_to_authorithy foreign key (
 )
 references member (
 	member_id
+);
+
+alter table recent_visit_list add constraint fk_recent_check_list foreign key (
+    member_id
+)
+references  member(
+member_id
 );
 
 alter table club add constraint uq_club_domain unique (
@@ -1174,10 +1188,12 @@ values (seq_club_board_attachment_id.nextval, 2, 'musicSample2.png', 'musicSampl
 
 commit;
 
+select * from member;
+select * from club;
 
+select * from recent_visit_list;
 
 --update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'user26';
-
 
 
 

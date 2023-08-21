@@ -79,5 +79,7 @@ public interface ClubService {
 
 	int kickMember(KickMember kickMember);
 
+	int insertClubRecentVisitd(String memberId, int clubId);
+
 
 }

@@ -263,5 +263,10 @@ public class ClubServiceImpl implements ClubService {
 		return clubRepository.kickMember(kickMember);
 	}
 	
+	@Override
+	public int insertClubRecentVisitd(String memberId, int clubId) {
+		return clubRepository.insertClubRecentVisitd(memberId, clubId);
+	}
+	
 }
 
