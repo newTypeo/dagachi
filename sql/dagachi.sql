@@ -17,7 +17,7 @@
 --SELECT 'DROP TABLE "' ||  TABLE_NAME || '" CASCADE CONSTRAINTS;' FROM user_tables;
 
 ---------------------------------------------- 테이블 삭제 ----------------------------------------------
-
+--
 --DROP TABLE "MEMBER" CASCADE CONSTRAINTS;
 --DROP TABLE "CLUB" CASCADE CONSTRAINTS;
 --DROP TABLE "CLUB_MEMBER" CASCADE CONSTRAINTS;
@@ -43,6 +43,7 @@
 --DROP TABLE "CLUB_BOARD" CASCADE CONSTRAINTS;
 --DROP TABLE "CLUB_GALLERY" CASCADE CONSTRAINTS;
 --DROP TABLE "AUTHORITY" CASCADE CONSTRAINTS;
+
 
 ------------------------------------------------- 시퀀스 -------------------------------------------------
 create sequence seq_club_id;
@@ -1154,7 +1155,7 @@ VALUES (10, 2, 'user1', NULL, '오늘 모임 정말 즐거웠어요!', 1);
 insert into club_layout (club_id, type, font, background_color, font_color, point_color, title, main_image, main_content)
 values (1, default, null, '#dddddd', '#778899', '#496682', 'sportClubTitleSample.png', 'sportClubMainSample.png', '스포츠 열정 클럽에 오신것을 환영합니다!');
 
-select * from member where name = '이은주';
+select * from member;
 
 commit;
 
