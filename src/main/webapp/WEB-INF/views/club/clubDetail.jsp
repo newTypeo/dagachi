@@ -19,7 +19,7 @@
 		</c:if>
 		
 		<c:if test="${layout.title ne null}">
-			<img src="${pageContext.request.contextPath}/resources/upload/clubTitle/${layout.title}">
+			<img src="${pageContext.request.contextPath}/resources/upload/club/title/${layout.title}">
 		</c:if>
 	
 	</nav>
@@ -39,15 +39,36 @@
 	<article id="club-page-article">
 		<div id="club-main-container">
 			<div id="club-main-image-container">
-				<img src="${pageContext.request.contextPath}/resources/upload/clubMain/${layout.mainImage}">
+				<img src="${pageContext.request.contextPath}/resources/upload/club/main/${layout.mainImage}">
 			</div>
 			<div id="club-main-content-container">
-				<p style="color: ${layout.fontColor}">${layout.mainContent}</p>
+				<p class="fontColors">${layout.mainContent}</p>
 			</div>
 		</div>
 		
 		<div id="club-notice-container">
-			<p style="color: ${layout.pointColor}">공지</p>
+			<div class="container-header" style="border-color: ${layout.pointColor}">
+				<span class="fontColors">공지사항</span>
+				<a class="pointColors" href="/">
+					더보기<i class="fa-solid fa-angle-right"></i>
+				</a>
+			</div>
+			<div class="container-main">
+				<c:forEach items="${boardAndImages}" var="board">
+					<c:if test="${board.type eq 4}">
+						<div>
+							<span class="badge badge-danger">공지</span>
+							<a class="fontColors">${board.title}</a>
+							<span class="fontColors">${board.writer}</span>
+							<span>
+								<fmt:parseDate value="${board.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="createdAt"/>
+		    					<fmt:formatDate value="${createdAt}" pattern="yy-MM-dd HH:mm"/>
+							</span>
+							<span>❤${board.likeCount}</span>
+						</div>
+					</c:if>
+				</c:forEach>
+			</div>
 		</div>
 		
 		<div id="club-gallery-container">
@@ -82,6 +103,15 @@ document.querySelector("#club-update-btn").onclick = () => {
 
 console.log('${layout}');
 document.body.style.background = '${layout.backgroundColor}';
+
+document.querySelectorAll('.fontColors').forEach((elem) => {
+	elem.style.color = '${layout.fontColor}';
+});
+
+document.querySelectorAll('.pointColors').forEach((elem) => {
+	elem.style.color = '${layout.pointColor}';
+});
+
 </script>
 
 
