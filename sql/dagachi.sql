@@ -92,16 +92,16 @@ create sequence seq_alarm_id;
 
 ------------------------------------------------- 테이블 -------------------------------------------------
 create table member (
-	member_id	varchar2(30)	not null,
-	password	varchar2(150)	not null,
-	name	 varchar2(20)	not null,
-    nickname varchar2(30) not null,
-	phone_no	varchar2(20)	not null,
-	email	varchar2(50)	not null,
-	birthday	date	not null,
-	gender	char(1)	not null, -- 	COMMENT 'M, F'
+	member_id	varchar2(30),
+	password	varchar2(150),
+	name	 varchar2(20),
+    nickname varchar2(30),
+	phone_no	varchar2(20),
+	email	varchar2(50),
+	birthday	date,
+	gender	char(1), -- 	COMMENT 'M, F'
 	mbti	varchar(10)	,
-	address	varchar2(200)	not null,
+	address	varchar2(200),
 	report_count	number	default 0,
 	enroll_date	date default sysdate,
 	withdrawal_date	date, --  COMMENT 'null 이면 회원'
@@ -613,13 +613,7 @@ references member (
 INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
 VALUES (seq_club_id.nextval, '스포츠 열정 클럽', '강남구', '운동/스포츠', TO_DATE('2023-08-01', 'YYYY-MM-DD'), 0, '우리는 다양한 종목의 스포츠를 즐기고 관찰하는 스포츠 애호가들의 모임입니다.', '가장 좋아하는 스포츠는 무엇인가요?', 'sportsclub');
 INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
-<<<<<<< HEAD
-VALUES (seq_club_id.nextval, '예술 창작 모임', '홍대', '예술', TO_DATE('2023-07-15', 'YYYY-MM-DD'), 0, '회화, 드로잉, 조각 등을 통해 창의력을 표현하는 공간입니다.', '어떤 종류의 예술 활동을 좋아하시나요?', 'artisticcreations.com');
-
--- 3
-=======
 VALUES (seq_club_id.nextval, '예술 창작 모임', '홍대', '공연/축제', TO_DATE('2023-07-15', 'YYYY-MM-DD'), 0, '회화, 드로잉, 조각 등을 통해 창의력을 표현하는 공간입니다.', '어떤 종류의 예술 활동을 좋아하시나요?', 'artisticcreations');
->>>>>>> branch 'master' of https://github.com/newTypeo/dagachi
 INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
 VALUES (seq_club_id.nextval, '테크 이노베이터스', '서초구', '자유주제', TO_DATE('2023-08-10', 'YYYY-MM-DD'), 0, '기술의 최신 동향을 탐구하고 흥미로운 프로젝트에 참여하는 곳입니다.', '어떤 프로그래밍 언어를 다룰 수 있나요?', 'techinnovators');
 INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
@@ -1122,22 +1116,22 @@ VALUES (10, 2, 'user1', NULL, '오늘 모임 정말 즐거웠어요!', 1);
 
 commit;
 
-    
-select 
-	  	c.*,
-        cp.club_id profile_club_id,
-        original_filename,
-        renamed_filename,
-        cp.created_at profile_created_at
-from 
-	  	club c left join club_profile cp
-            on c.club_id = cp.club_id
-where 
-	  	club_name like '%클럽%';
 
 
 
-select * from club_tag;
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

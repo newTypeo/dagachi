@@ -61,13 +61,14 @@ public class MemberSecurityController {
 		} 
 		
 		String rawPassword = member.getPassword();
-		String encodedPassword = passwordEncoder.encode(rawPassword);
+		String encodedPassword = passwordEncoder.encode(rawPassword); // <-- 이 코드가 암호화 시키는 코드입니다. 비밀번호를 넣고 입력하세요 ^^
 		log.debug("{} -> {}", rawPassword, encodedPassword);
 		member.setPassword(encodedPassword);
 		
 		int result = memberService.insertMember(member);
 		redirectAttr.addFlashAttribute("msg", "회원가입 완료");
 		return "redirect:/";
+		
 	}
 
 	@GetMapping("/memberLogin.do")
