@@ -200,6 +200,10 @@ public class ClubController {
 		return ResponseEntity.status(HttpStatus.OK).body(clubAndImages);
 	}
 	
+	/**
+	 * 로그인 했을때 소모임 추천 출력(카드)
+	 * @author 준한
+	 */
 	@GetMapping("/loginClubList.do")
 	public ResponseEntity<?> loginClubList(
 			@AuthenticationPrincipal MemberDetails member
@@ -208,10 +212,6 @@ public class ClubController {
 		
 		List<ClubAndImage> clubAndImages = new ArrayList<>();
 		clubAndImages = clubService.clubListById(memberId);
-		for(ClubAndImage cAI: clubAndImages) {
-			int clubId = clubService.clubIdFindByDomain(cAI.getDomain());
-			List<String> clubTag = (List)clubService.findClubTagById(clubId);
-		}
 		return ResponseEntity.status(HttpStatus.OK).body(clubAndImages);
 	}
 	
