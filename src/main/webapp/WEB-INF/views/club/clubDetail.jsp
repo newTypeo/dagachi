@@ -1,3 +1,4 @@
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -7,6 +8,10 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%
+    List<?> boardAndImages = (List<?>) request.getAttribute("boardAndImages");
+    int count = 0;
+%>
 <fmt:requestEncoding value="utf-8"/>
 <jsp:include page="/WEB-INF/views/common/clubHeader.jsp"></jsp:include>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/club.css"/>
@@ -28,6 +33,7 @@
 	<nav>
 		<button id="clubDisabled">모임 비활성화</button>
 		<button id="club-update-btn">모임 수정</button>
+		<a href ="${pageContext.request.contextPath}/club/&${domain}/clubMemberList.do">모임내 회원조회</a>
 	</nav>
 	
 	<nav>
@@ -47,43 +53,142 @@
 			</div>
 		</div>
 		
-		<div id="club-notice-container">
+		<div id="club-notice-container" class="preview-container">
 			<div class="container-header" style="border-color: ${layout.pointColor}">
 				<span class="fontColors">공지사항</span>
 				<a class="pointColors" href="/">
 					더보기<i class="fa-solid fa-angle-right"></i>
 				</a>
 			</div>
-			<div class="container-main">
+			<div class="container-main container-main-long">
 				<c:forEach items="${boardAndImages}" var="board">
 					<c:if test="${board.type eq 4}">
 						<div>
 							<span class="badge badge-danger">공지</span>
 							<a class="fontColors">${board.title}</a>
-							<span class="fontColors">${board.writer}</span>
 							<span>
 								<fmt:parseDate value="${board.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="createdAt"/>
 		    					<fmt:formatDate value="${createdAt}" pattern="yy-MM-dd HH:mm"/>
 							</span>
-							<span>❤${board.likeCount}</span>
+							<span>❤${board.likeCount < 100 ? board.likeCount : '99+'}</span>
+							<a href="/" class="fontColors">
+								${board.writer}
+							</a>
 						</div>
 					</c:if>
 				</c:forEach>
 			</div>
 		</div>
 		
-		<div id="club-gallery-container">
-			<span>갤러리</span>
+		<div id="club-gallery-container" class="preview-container">
+			<div class="container-header" style="border-color: ${layout.pointColor}">
+				<span class="fontColors">갤러리</span>
+				<a class="pointColors" href="/">
+					더보기<i class="fa-solid fa-angle-right"></i>
+				</a>
+			</div>
+			<div class="container-main">
+				<c:forEach items="${galleries}" var="gallery" >
+					<div>
+						<a href="/">
+							<img src="${pageContext.request.contextPath}/resources/upload/club/gallery/${gallery.renamedFilename}" class="img-thumbnail">
+						</a>
+					</div>
+				</c:forEach>
+			</div>
 		</div>
 		
-		<div id="club-board-container">
-			<span>게시판</span>
+		<div id="club-board-container" class="preview-container">
+			<div class="container-header" style="border-color: ${layout.pointColor}">
+				<span class="fontColors">자유게시판</span>
+				<a class="pointColors" href="/">
+					더보기<i class="fa-solid fa-angle-right"></i>
+				</a>
+			</div>
+			<div class="container-main container-main-short">
+				<c:forEach items="${boardAndImages}" var="board">
+					<c:if test="${board.type eq 1}">
+						<div>
+							<span class="pointColors">·</span>
+							<a class="fontColors">${board.title}</a>
+							<span>
+								<fmt:parseDate value="${board.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="createdAt"/>
+		    					<fmt:formatDate value="${createdAt}" pattern="yy-MM-dd HH:mm"/>
+							</span>
+							<span>❤${board.likeCount < 100 ? board.likeCount : '99+'}</span>
+							<a href="/" class="fontColors">
+								${board.writer}
+							</a>
+						</div>
+					</c:if>
+				</c:forEach>
+			</div>
 		</div>
 		
-		<div id="club-schedule-container">
-			<span>일정</span>
+		<div id="club-greetings-container" class="preview-container">
+			<div class="container-header" style="border-color: ${layout.pointColor}">
+				<span class="fontColors">가입인사</span>
+				<a class="pointColors" href="/">
+					더보기<i class="fa-solid fa-angle-right"></i>
+				</a>
+			</div>
+			<div class="container-main container-main-short">
+				<c:forEach items="${boardAndImages}" var="board">
+					<c:if test="${board.type eq 3}">
+						<div>
+							<span class="pointColors">·</span>
+							<a class="fontColors">${board.title}</a>
+							<span>
+								<fmt:parseDate value="${board.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="createdAt"/>
+		    					<fmt:formatDate value="${createdAt}" pattern="yy-MM-dd HH:mm"/>
+							</span>
+							<span>❤${board.likeCount < 100 ? board.likeCount : '99+'}</span>
+							<a href="/" class="fontColors">
+								${board.writer}
+							</a>
+						</div>
+					</c:if>
+				</c:forEach>
+			</div>
+		</div>
+		
+		<div id="club-reivew-container" class="preview-container">
+			<div class="container-header" style="border-color: ${layout.pointColor}">
+				<span class="fontColors">정모후기</span>
+				<a class="pointColors" href="/">
+					더보기<i class="fa-solid fa-angle-right"></i>
+				</a>
+			</div>
+			<div class="container-main container-main-short">
+				<c:forEach items="${boardAndImages}" var="board">
+					<c:if test="${board.type eq 2}">
+						<div>
+							<span class="pointColors">·</span>
+							<a class="fontColors">${board.title}</a>
+							<span>
+								<fmt:parseDate value="${board.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="createdAt"/>
+		    					<fmt:formatDate value="${createdAt}" pattern="yy-MM-dd HH:mm"/>
+							</span>
+							<span>❤${board.likeCount < 100 ? board.likeCount : '99+'}</span>
+							<a href="/" class="fontColors">
+								${board.writer}
+							</a>
+						</div>
+					</c:if>
+				</c:forEach>
+			</div>
+		</div>
+		
+		<div id="club-schedule-container" class="preview-container">
+			<div class="container-header" style="border-color: ${layout.pointColor}">
+				<span class="fontColors">일정</span>
+				<a class="pointColors" href="/">
+					더보기<i class="fa-solid fa-angle-right"></i>
+				</a>
+			</div>
 		</div>
 	</article>
+	<div>${layout}</div>
 </section>
 
 <script>

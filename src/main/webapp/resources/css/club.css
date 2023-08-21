@@ -4,6 +4,10 @@ body {
 
 }
 
+a {
+	cursor: pointer;
+}
+
 section {
 	width: 1320px;
 	margin: 0 auto;
@@ -53,11 +57,7 @@ header {
 	font-size: 24px;
 }
 
-#club-notice-container {
-	background-color: lightpink;
-	width: 1320px;
-}
-#club-notice-container > div {
+.container-header {
 	margin: 10px 20px 0 20px;
 	border-bottom: 1px solid;
 }
@@ -71,29 +71,77 @@ header {
 	font-weight: 600;
 }
 .container-main > div {
-	padding-bottom: 5px;
-	border-color: #ddd;
+	margin: 8px 20px 0 20px;
+	border-bottom: 1px solid #ccc;
+}
+.container-main-long > div > a:first-of-type {
+	display: inline-block;
+    width: 800px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.container-main-short > div > a:first-of-type {
+	display: inline-block;
+    width: 390px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .container-main > div > span:first-child {
 	font-size: 16px;
+	top: -6px;
+    position: relative;
+}
+.container-main > div > span:nth-of-type(3) {
+	width: 51px;
+	float: right;
+	margin: 0 5px;
+}
+.container-main > div > span:nth-of-type(2),
+.container-main > div > a:nth-of-type(2) {
+	float: right;
+}
+
+#club-notice-container {
+	width: 1320px;
 }
 
 #club-gallery-container {
-	background-color: lightblue;
 	width: 1320px;
-	height: 120px;
+}
+
+#club-gallery-container > .container-main {
+	display: flex;	
+	flex-wrap: wrap;
+}
+
+.img-thumbnail {
+	width: 180px;
 }
 
 #club-board-container {
-	background-color: lightyellow;
 	width: 660px;
-	height: 320px;
+	height: 400px;
+	overflow: hidden;
+}
+
+#club-greetings-container {
+	width: 660px;
+	height: 400px;
+	overflow: hidden;
+}
+
+#club-reivew-container {
+	width: 660px;
+	height: 400px;
+	overflow: hidden;
 }
 
 #club-schedule-container {
-	background-color: lightcyan;
 	width: 660px;
-	height: 320px;
+	height: 400px;
+	overflow: hidden;
 }
 
 
