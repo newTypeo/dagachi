@@ -142,6 +142,9 @@ public interface ClubRepository {
 	@Select("select * from club_layout where club_Id = #{clubId}")
 	ClubLayout findLayoutById(int clubId);
 	
+	List<ClubSearchDto> searchClubWithFilter(Map<String, Object> params);
+	List<ClubSearchDto> searchClubWithFilter(RowBounds rowBounds, Map<String, Object> params);
+	
 	@Select("select * from club_board cb left join club_board_attachment ca on cb.board_id = ca.board_id where ca.thumbnail = 'Y' or ca.thumbnail is null and club_id = #{clubId}")
 	List<BoardAndImageDto> findBoardAndImageById(int clubId);
 
