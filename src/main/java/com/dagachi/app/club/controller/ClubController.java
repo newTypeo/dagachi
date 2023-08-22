@@ -44,6 +44,7 @@ import com.dagachi.app.club.dto.GalleryAndImageDto;
 import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.KickMember;
 import com.dagachi.app.club.dto.ManageMember;
+import com.dagachi.app.club.dto.SearchClubBoard;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubBoard;
 import com.dagachi.app.club.entity.ClubBoardAttachment;
@@ -794,6 +795,18 @@ public class ClubController {
 		
 		String msg= "게시글이 삭제되었습니다.";
 		return ResponseEntity.status(HttpStatus.OK).body(msg);
+	}
+	
+	@GetMapping("/{domain}/searchClubBoard.do")
+	public ResponseEntity<?> searchClubBoard(
+			@PathVariable("domain") String domain,
+			@RequestParam String searchKeywordVal,
+			@RequestParam String searchTypeVal,
+			@RequestParam int boardTypeVal
+	){
+//		Map<Object, String> serchBoardMap=
+		
+		return ResponseEntity.status(HttpStatus.OK).body(null);
 	}
 	
 }
