@@ -107,5 +107,7 @@ public interface ClubService {
 	
 	List<ClubScheduleAndMemberDto> findScheduleById(int clubId);
 
+	int delClubBoard(int boardId);
+
 
 }

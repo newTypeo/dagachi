@@ -58,7 +58,21 @@
 	const deleteButton=()=>{
 		if(confirm("게시글을 삭제하시겠습니까?")){
 			
+			const token= document.detailFrm._csrf.value;
+			const boardId= "${clubBoard.boardId}";
 			
+			$.ajax({
+				url : '${pageContext.request.contextPath}/club/${domain}/delBoard.do',
+				method:"POST",
+				data :{ boardId },
+				headers: {
+					"X-CSRF-TOKEN": token
+				},
+				success(data){
+					alert(data);
+					window.location.href = "${pageContext.request.contextPath}/club/&${domain}/clubBoardList.do";
+				}
+			});
 		}
 			
 		

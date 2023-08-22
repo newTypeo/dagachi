@@ -210,6 +210,9 @@ public interface ClubRepository {
 	int permitApply(Map<String, Object> params);
 	
 	List<ClubScheduleAndMemberDto> findScheduleById(int clubId);
+	
+	@Delete("delete from club_board where board_Id=#{boardId}")
+	int delClubBoard(int boardId);
 
 }
    
