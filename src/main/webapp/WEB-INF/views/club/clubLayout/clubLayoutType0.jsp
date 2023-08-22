@@ -13,8 +13,27 @@
 
 	
 <article id="club-page-article">
-	<div id="club-myInfo-container">
-	
+	<div id="club-util-box">
+		<div id="club-myInfo-container"></div>
+		<div id="club-total-container" class="fontColors" style="border-color: ${layout.pointColor}">
+			<div>
+				<a>📄전체글보기</a>
+			</div>
+			<div>
+				<a>📢공지사항</a>
+				<a>🐳자유게시판</a>
+				<a>✋가입인사</a>
+				<a>🎉정모후기</a>
+			</div>
+			<div>
+				<a>📅일정</a>
+			</div>
+		</div>
+		<div id="club-search-container1">
+			<form action="">
+				
+			</form>
+		</div>
 	</div>
 	
 	<div id="club-main-container">
