@@ -254,7 +254,6 @@ public class ClubController {
 	public ResponseEntity<?> loginClubList(
 			@AuthenticationPrincipal MemberDetails member
 			){
-		log.debug("ddddddddddddddddddddddddddddddddddddddddddd");
 		String memberId = member.getMemberId();
 		
 		List<ClubAndImage> clubAndImages = new ArrayList<>();

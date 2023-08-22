@@ -31,6 +31,7 @@
 	   		<div class="posts">
 	   			<script>
 		   		// card의 div태그 a태그로 교체함 - 동찬
+		   		// 로그인 안했을때 카드출력
 		   			$.ajax({
 	
 		   				url : "${pageContext.request.contextPath}/club/clubList.do",
