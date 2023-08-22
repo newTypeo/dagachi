@@ -98,6 +98,8 @@ public interface ClubService {
 	
 	int insertClubRecentVisitd(String memberId, int clubId);
 
+	int permitApply(Map<String, Object> params);
+	
 	List<ClubScheduleAndMemberDto> findScheduleById(int clubId);
 
 

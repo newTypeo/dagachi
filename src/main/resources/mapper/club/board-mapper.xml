@@ -32,6 +32,7 @@
  
 	<select id="clubApplyByFindByClubId">
 		select
+			m.member_id,
 		    m.name,
 		    m.nickname,
 		    c.answer

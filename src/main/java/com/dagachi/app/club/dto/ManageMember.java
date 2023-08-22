@@ -1,7 +1,5 @@
 package com.dagachi.app.club.dto;
 
-import com.dagachi.app.member.entity.Member;
-
 import lombok.Data;
 
 @Data
