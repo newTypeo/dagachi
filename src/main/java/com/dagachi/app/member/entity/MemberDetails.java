@@ -9,12 +9,18 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 @Data
 @ToString(callSuper = true)
-public class MemberDetails extends Member implements UserDetails, OAuth2User {
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
+public class MemberDetails extends Member implements UserDetails, OAuth2User{
 	
 	/**
 	 * WAS상에서 MemberDetails객체 단위로 입출력 진행시의 식별번호
@@ -23,6 +29,11 @@ public class MemberDetails extends Member implements UserDetails, OAuth2User {
 	
 	private List<SimpleGrantedAuthority> authorities;
 	private Map<String, Object> attributes;
+	private MemberProfile memberProfile;
+	private ActivityArea activityArea;
+	private List<String> memberInterest;
+
+	
 	
 	
 	@Override
@@ -30,17 +41,19 @@ public class MemberDetails extends Member implements UserDetails, OAuth2User {
 		return this.attributes;
 	}
 	
-	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return this.authorities;
 	}
+	
+
 
 	@Override
 	public String getUsername() {
 		return this.getMemberId();
 	}
-
+	
+	
 	/**
 	 * 만료된 사용자인가?
 	 */
