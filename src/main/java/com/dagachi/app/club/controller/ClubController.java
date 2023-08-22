@@ -51,6 +51,7 @@ import com.dagachi.app.club.entity.ClubGalleryAttachment;
 import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
+import com.dagachi.app.club.entity.ClubRecentVisited;
 import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.club.service.ClubService;
 import com.dagachi.app.common.DagachiUtils;
@@ -206,16 +207,31 @@ public class ClubController {
 			@PathVariable("domain") String domain,
 			@AuthenticationPrincipal MemberDetails member,
 			Model model) {
-
-		int clubId = clubService.findByDomain(domain).getClubId();
+		log.debug("membersssss = {}",member);
+		int clubId = clubService.clubIdFindByDomain(domain);
 		String memberId = member.getMemberId();
+		 
 		
 		ClubLayout layout = clubService.findLayoutById(clubId);
 
 		List<BoardAndImageDto> boardAndImages = clubService.findBoardAndImageById(clubId);
 		List<GalleryAndImageDto> galleries = clubService.findgalleryById(clubId);
-
-		int result = clubService.insertClubRecentVisitd(memberId, clubId);
+		
+		
+		// 최근 본 모임 전체 조회 (현우)
+		List<ClubRecentVisited> recentVisitClubs = clubService.findAllrecentVisitClubs();
+		
+		int checkDuplicate = clubService.checkDuplicateClubId(clubId);
+		
+		log.debug("recentVisitClubs = {}", recentVisitClubs);
+		
+		// 최근 본 모임 클릭 시 중복검사 후 db에 삽입
+		if(checkDuplicate == 0) {
+			int result = clubService.insertClubRecentVisitd(memberId, clubId);						
+			
+		
+	}
+		
 		
 		System.out.println(clubId);
 

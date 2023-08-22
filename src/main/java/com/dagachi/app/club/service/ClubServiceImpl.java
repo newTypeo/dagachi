@@ -29,6 +29,7 @@ import com.dagachi.app.club.entity.ClubGalleryAttachment;
 import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
+import com.dagachi.app.club.entity.ClubRecentVisited;
 import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.club.repository.ClubRepository;
 import com.dagachi.app.member.entity.Member;
@@ -308,6 +309,15 @@ public class ClubServiceImpl implements ClubService {
 	public List<GalleryAndImageDto> findgalleryById(int clubId) {
 		return clubRepository.findgalleryById(clubId);
 
+	}
+	@Override
+	public List<ClubRecentVisited> findAllrecentVisitClubs() {
+		return clubRepository.findAllrecentVisitClubs();
+	}
+	
+	@Override
+	public int checkDuplicateClubId(int clubId) {
+		return clubRepository.checkDuplicateClubId(clubId);
 	}
 	
 }

@@ -31,6 +31,7 @@ import com.dagachi.app.club.entity.ClubGalleryAttachment;
 import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
+import com.dagachi.app.club.entity.ClubRecentVisited;
 import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.member.entity.Member;
 
@@ -192,6 +193,12 @@ public interface ClubRepository {
 	
 	@Insert("insert into recent_visit_list values(#{memberId}, #{clubId}, default)")
 	int insertClubRecentVisitd(String memberId, int clubId);
+	
+	@Select("select * from recent_visit_list")
+	List<ClubRecentVisited> findAllrecentVisitClubs();
+	
+	@Select("select count(*) from recent_visit_list where club_id = #{clubId}")
+	int checkDuplicateClubId(int clubId);
 
 	
 }

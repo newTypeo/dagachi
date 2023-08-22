@@ -101,7 +101,7 @@
 </section>
 
 
-<<<<<<< HEAD
+<script>
 // card의 div태그 a태그로 교체함 - 동찬
 $.ajax({
 	url : "${pageContext.request.contextPath}/club/clubList.do",
@@ -133,6 +133,5 @@ $.ajax({
 
 </script>
 
-=======
->>>>>>> branch 'master' of https://github.com/newTypeo/dagachi
+
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
