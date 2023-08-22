@@ -100,6 +100,7 @@ public interface ClubService {
 	
 	int insertClubRecentVisitd(String memberId, int clubId);
 
+	int updateThumbnail(ClubBoardAttachment clubBoardAttachment);
 	List<ClubAndImage> categoryList(String category);
 	
 	int permitApply(Map<String, Object> params);

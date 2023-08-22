@@ -100,6 +100,7 @@ public class ClubController {
 
 	@PostMapping("/{domain}/boardCreate.do")
 	public String boardCreate(@Valid ClubBoardCreateDto _board, @PathVariable("domain") String domain,
+			
 			BindingResult bindingResult, @RequestParam(value = "upFile", required = false) List<MultipartFile> upFiles)
 			throws IllegalStateException, IOException {
 		List<ClubBoardAttachment> attachments= new ArrayList<>();
@@ -113,7 +114,7 @@ public class ClubController {
 
 		int result = clubService.postBoard(clubBoard);
 
-		
+		//작성자 수정해야함
 		return "/club/clubBoardList";
 	}
 
@@ -468,26 +469,29 @@ public class ClubController {
 			@RequestParam(value = "upFile", required = false) List<MultipartFile> upFiles) throws IllegalStateException, IOException {
 		ClubBoard _board = clubBoardGet(domain, no);
 
-		_board = ClubBoard.builder().content(content).title(title).type(type).build();
-
-		List<ClubBoardAttachment> attachments= findAttachments(_board.getBoardId());
+		_board.setContent(content);
+		_board.setTitle(title);
+		_board.setType(type);
+		
+		List<ClubBoardAttachment> attachments= new ArrayList<>();
 		if(!upFiles.isEmpty() && upFiles !=null)
 			attachments=insertAttachment(upFiles,attachments);
-		
-	
 		
 		ClubBoardDetails clubBoard = ClubBoardDetails
 				.builder().attachments(attachments)
 				.title(_board.getTitle())
 				.content(_board.getContent())
 				.type(_board.getType())
+				.boardId(_board.getBoardId())
+				.likeCount(_board.getLikeCount())
+				.status(_board.getStatus())
 				.build();
 		
-		
+		int result= clubService.updateBoard(clubBoard);
 		
 		log.debug("clubBoard = {}", clubBoard);
 
-		return "club/clubBoardDetaile";
+		return "redirect:/club/"+domain+"/boardDetail.do?no="+no;
 	}
 
 	/**
@@ -666,11 +670,11 @@ public class ClubController {
 				ClubBoardAttachment attach = ClubBoardAttachment.builder().originalFilename(originalFilename)
 						.renamedFilename(renamedFilename).build();
 				log.debug("attach = {}", attach);
-				if (i == 0)
-					attach.setThumbnail(Status.Y);
+				if(!attachments.isEmpty() && i==0) 
+						attach.setThumbnail(Status.Y);
 				else
 					attach.setThumbnail(Status.N);
-
+					
 				attachments.add(attach);
 			}
 		}
@@ -693,13 +697,24 @@ public class ClubController {
 	public ResponseEntity<?> delAttachment(
 		 @RequestParam int id
 	){
-		int result= clubService.delAttachment(id);
+		int result=0;
+		List<ClubBoardAttachment> attachments = new ArrayList<>();
+		ClubBoardAttachment attach= clubService.findAttachment(id);
+		int no=attach.getBoardId();
+		result= clubService.delAttachment(id);
+		if(attach.getThumbnail() == Status.Y) {
+			attachments = findAttachments(no);
+			if(!attachments.isEmpty()) {
+				attachments.get(0).setThumbnail(Status.Y);
+				result=clubService.updateThumbnail(attachments.get(0));
+			}
+		}
 		
-		
-		return ResponseEntity.status(HttpStatus.OK).body(result);
+		return ResponseEntity.status(HttpStatus.OK).body(attachments);
 	}
 	
 	
+
 	
 	/**
 	 * @author 준한
