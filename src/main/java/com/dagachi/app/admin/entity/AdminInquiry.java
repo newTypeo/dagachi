@@ -20,7 +20,7 @@ public class AdminInquiry {
 	private String content; 
 	private LocalDateTime createdAt;
 	private int type;
-	private int status;
+	private int status; 
 	private String adminId;
 	private String response;
 	
