@@ -16,6 +16,7 @@ import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
+import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
 import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.KickMember;
 import com.dagachi.app.club.dto.ClubSearchDto;
@@ -191,8 +192,15 @@ public interface ClubRepository {
 	@Delete("delete from club_member where club_id = #{clubId} and member_id = #{memberId}")
 	int kickMember(KickMember kickMember);
 	
+	@Delete("delete from club_board_attachment where id=#{id}")
+	int delAttachment(int id);
+
+	@Select("select * from member m join (select * from club_member where club_id = #{clubId}) b on m.member_id = b.member_id")
+	List<Member> findMemberByClubId(int clubId);
+	
 	@Insert("insert into recent_visit_list values(#{memberId}, #{clubId}, default)")
 	int insertClubRecentVisitd(String memberId, int clubId);
+
 	
 	@Select("select * from recent_visit_list")
 	List<ClubRecentVisited> findAllrecentVisitClubs();
@@ -200,6 +208,12 @@ public interface ClubRepository {
 	@Select("select count(*) from recent_visit_list where club_id = #{clubId}")
 	int checkDuplicateClubId(int clubId);
 
+
 	
+	@Insert("insert into club_member values(#{memberId}, #{clubId}, default, null, default, default)")
+	int permitApply(Map<String, Object> params);
+	
+	List<ClubScheduleAndMemberDto> findScheduleById(int clubId);
+
 }
    

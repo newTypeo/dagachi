@@ -22,83 +22,121 @@
 </nav>
 
 <section id="main-page-sec" class="p-2 bg-info">
-	<h1>메인 페이지</h1>
-
 	
 	
-	    <sec:authorize access="isAnonymous()">
-	    <section id="class">
-	   		<div class="posts">
-	   			<script>
-		   		// card의 div태그 a태그로 교체함 - 동찬
-		   			$.ajax({
-	
-		   				url : "${pageContext.request.contextPath}/club/clubList.do",
-		   				success(clubs){
-		   					const container = document.querySelector(".posts");
-		   					
-		   					clubs.forEach((clubAndImage)=>{
-		   						const { clubName, category, status, reportCount, introduce, domain, renamedFilename, memberCount } = clubAndImage;
-		   						if (status !== false) {
-		   							
-		   							container.innerHTML += `
-		   								<a class="card" style="width: 18rem;" href="${pageContext.request.contextPath}/club/&\${domain}">
-		   								  <img src="${pageContext.request.contextPath}/resources/upload/club/profile/\${renamedFilename}" class="card-img-top" alt="...">
-		   								  <div class="card-body">
-		   								    <h5 class="card-title">\${clubName}</h5>
-		   								    <p class="card-text">\${introduce}</p>
-		   								  </div>
-		   								  <ul class="list-group list-group-flush">
-		   								    <li class="list-group-item">\${category}</li>
-		   								    <li class="list-group-item">인원수 : \${memberCount}</li>
-		   								  </ul>
-		   								</a>
-		   							`;
-		   						}
-		   					});
-		   				}
-		   			});
-	   			</script>
-	   		</div>
-		</section>
-		</sec:authorize>
-		<sec:authorize access="isAuthenticated()">
+   <sec:authorize access="isAnonymous()">
+   <section id="class">
+  		<div class="posts">
+  			<script>
+   		// card의 div태그 a태그로 교체함 - 동찬
+   		// 로그인 안했을때 카드출력
+   			$.ajax({
+			    url: "${pageContext.request.contextPath}/club/clubList.do",
+			    success: function(clubs) {
+			        const container = document.querySelector(".posts");
+			
+			        clubs.forEach((clubAndImage) => {
+			            const { clubName, category, status, reportCount, introduce, domain, renamedFilename, memberCount } = clubAndImage;
+			            if (status !== false) {
+			
+			                const card = document.createElement("a");
+			                card.classList.add("card");
+			                card.style.width = "18rem";
+			                card.addEventListener("click", function(event) {
+			                    event.preventDefault(); // Prevent the default link behavior
+			                    alert("로그인 후 이용 가능합니다."); // Display the alert message
+			                });
+			
+			                card.innerHTML = `
+			                    <img src="${pageContext.request.contextPath}/resources/upload/club/profile/\${renamedFilename}" class="card-img-top" alt="...">
+			                    <div class="card-body">
+			                        <h5 class="card-title">\${clubName}</h5>
+			                        <p class="card-text">\${introduce}</p>
+			                    </div>
+			                    <ul class="list-group list-group-flush">
+			                        <li class="list-group-item">\${category}</li>
+			                        <li class="list-group-item">인원수 : \${memberCount}</li>
+			                    </ul>
+			                `;
+			
+			                container.appendChild(card);
+			            }
+			        });
+			    }
+			});
+  			</script>
+  		</div>
+</section>
+</sec:authorize>
+	<sec:authorize access="isAuthenticated()">
 		<section id="class2">
+		<h1>추천 목록</h1>
 	   		<div class="posts2">
+		   		<script>
+			   		$.ajax({
+			   			url : "${pageContext.request.contextPath}/club/loginClubList.do",
+			   			success(clubs){
+			   				const container = document.querySelector(".posts2");
+			   				
+			   				clubs.forEach((clubAndImage)=>{
+			   					const { clubName, category, status, reportCount, introduce, domain, renamedFilename, memberCount } = clubAndImage;
+			   					if (status !== false) {
+			   						
+			   						container.innerHTML += `
+			   							<a class="card" style="width: 18rem;" href="${pageContext.request.contextPath}/club/&\${domain}">
+			   							<img src="${pageContext.request.contextPath}/resources/upload/club/profile/\${renamedFilename}" class="card-img-top" alt="...">
+			   							  <div class="card-body">
+			   							    <h5 class="card-title">\${clubName}</h5>
+			   							    <p class="card-text">\${introduce}</p>
+			   							  </div>
+			   							  <ul class="list-group list-group-flush">
+			   							    <li class="list-group-item">\${category}</li>
+			   							    <li class="list-group-item">인원수 : \${memberCount}</li>
+			   							  </ul>
+			   							</a>
+			   						`;
+			   					}
+			   				});
+			   			}
+			   		});
+			   		
+		   		</script>
+	   		</div>
+	   		<h1>모든 모임</h1>
+	   		<div class="posts3">
 	   		<script>
 	   		$.ajax({
-	   			url : "${pageContext.request.contextPath}/club/loginClubList.do",
-	   			success(clubs){
-	   				const container = document.querySelector(".posts2");
-	   				
-	   				clubs.forEach((clubAndImage)=>{
-	   					const { clubName, category, status, reportCount, introduce, domain, renamedFilename, memberCount } = clubAndImage;
-	   					if (status !== false) {
-	   						
-	   						container.innerHTML += `
-	   							<a class="card" style="width: 18rem;" href="${pageContext.request.contextPath}/club/&\${domain}">
-	   							<img src="${pageContext.request.contextPath}/resources/upload/club/profile/\${renamedFilename}" class="card-img-top" alt="...">
-	   							  <div class="card-body">
-	   							    <h5 class="card-title">\${clubName}</h5>
-	   							    <p class="card-text">\${introduce}</p>
-	   							  </div>
-	   							  <ul class="list-group list-group-flush">
-	   							    <li class="list-group-item">\${category}</li>
-	   							    <li class="list-group-item">인원수 : \${memberCount}</li>
-	   							  </ul>
-	   							</a>
-	   						`;
-	   					}
-	   				});
-	   			}
-	   		});
+   				url : "${pageContext.request.contextPath}/club/clubList.do",
+   				success(clubs){
+   					const container = document.querySelector(".posts3");
+   					
+   					clubs.forEach((clubAndImage)=>{
+   						const { clubName, category, status, reportCount, introduce, domain, renamedFilename, memberCount} = clubAndImage;
+   						if (status !== false) {
+   							
+   							container.innerHTML += `
+   								<a class="card" style="width: 18rem;" href="${pageContext.request.contextPath}/club/&\${domain}">
+   								  <img src="${pageContext.request.contextPath}/resources/upload/club/profile/\${renamedFilename}" class="card-img-top" alt="...">
+   								  <div class="card-body">
+   								    <h5 class="card-title">\${clubName}</h5>
+   								    <p class="card-text">\${introduce}</p>
+   								  </div>
+   								  <ul class="list-group list-group-flush">
+   								    <li class="list-group-item">\${category}</li>
+   								    <li class="list-group-item">인원수 : \${memberCount}</li>
+   								  </ul>
+   								</a>
+   							`;
+   						}
+   					});
+   				}
+   			});
 	   		</script>
 	   		</div>
 		</section>
-		</sec:authorize>
-	   
-	
 </section>
+	</sec:authorize>
+
 
 
 <script>

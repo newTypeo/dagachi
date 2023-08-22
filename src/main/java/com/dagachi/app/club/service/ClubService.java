@@ -7,6 +7,7 @@ import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
+import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
 import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.KickMember;
 import com.dagachi.app.club.dto.ClubSearchDto;
@@ -92,11 +93,20 @@ public interface ClubService {
 	
 	int kickMember(KickMember kickMember);
 
+	int delAttachment(int id);
+	
+	List<Member> findMemberByClubId(int clubId);
+	
 	int insertClubRecentVisitd(String memberId, int clubId);
 
 	List<ClubRecentVisited> findAllrecentVisitClubs();
 
 	int checkDuplicateClubId(int clubId);
+
+	int permitApply(Map<String, Object> params);
+	
+	List<ClubScheduleAndMemberDto> findScheduleById(int clubId);
+
 
 
 }
