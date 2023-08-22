@@ -5,20 +5,20 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param value="게시글 작성" name="title" />
+	<jsp:param value="관리자에게 문의하기" name="title" />
 </jsp:include>
 
 <section id="club-board-sec" class="">
-
-
- ,ㅡㅡ,,,                                                  
-	<form name="boardFrm"
-		action="${pageContext.request.contextPath}/club/${domain}/boardCreate.do"
+                           
+	<form name="InquiryFrm"
+		action="${pageContext.request.contextPath}/member/memberAdminInquiry.do"
 		enctype="multipart/form-data" method="post">
 		<div class="form-group">
+		
 			<label for="exampleFormControlInput1"></label> <input type="text"
 				class="form-control" id="exampleFormControlInput1" name="title"
 				placeholder="제목을 입력하세요">
+				
 		</div>
 
 
@@ -36,23 +36,26 @@
 			</select>
 
 		</div>
->
+
 		<div class="form-group">
 			<label for="exampleFormControlTextarea1"></label>
 			<textarea class="form-control" name="content" id="exampleFormControlTextarea1"
 				rows="3" placeholder="내용을 입력하세요"></textarea>
 		</div>
 
-		<div class="input-group mb-3">
-			<div class="input-group-prepend">
-				<div class="input-group-text">
-					<input type="checkbox"
-						aria-label="Checkbox for following text input" id="mustRead">
-				</div>
-			</div>
-		</div>
 
-		<button type="submit" class="btn btn-primary btn-lg">제출하기</button>
+		<button type="submit" class="btn btn-primary btn-lg">문의 하기</button>
+		
+		
+		
+		<div class="form-group">
+			<label for="exampleFormControlTextarea1"></label>
+			<textarea class="form-control" name="content" id="exampleFormControlTextarea1"
+				rows="3" placeholder="내용을 입력하세요"></textarea>
+		</div>
+		
+		<button type="submit" class="btn btn-primary btn-lg">답변 하기</button>
+		
 		
 	</form>
 

@@ -20,7 +20,6 @@ import com.dagachi.app.member.entity.MemberProfile;
 
 @Mapper
 public interface MemberRepository {
-
 	
 	MemberDetails loadUserByUsername(String memberId);
 	
@@ -42,25 +41,31 @@ public interface MemberRepository {
 
 	@Update("update member set status = 'N' where member_id = #{memberId}")
 	int memberDelete(String memberId);
-
-
 	
+	/*
+	 * // 멤버 회원가입 추가 ( 지우지마삼 )
+	 * 
+	 * @Insert("insert into member values (#{memberId}, #{password},#{name}, #{nickname}, #{phoneNo}, #{email}, #{birthday, jdbcType=DATE}, #{gender}, #{mbti},  #{address}, 0, SYSDATE, NULL, SYSDATE, NULL, 'Y')"
+	 * ) int insertMember(MemberDetails member1);
+	 * 
+	 * // 지역
+	 * 
+	 * @Insert("INSERT INTO activity_area values(#{memberId}, #{main_area_id}, #{sub1_area_id}, #{sub2_area_id})"
+	 * ) void insertActivityArea(MemberDetails member1);
+	 * 
+	 * // 관심사
+	 * 
+	 * @Insert("INSERT INTO member_interest values(#{memberId}, #{Interest})") void
+	 * insertMemberInterest(MemberDetails member1);
+	 * 
+	 * // 프로필 사진
+	 * 
+	 * @Insert("INSERT INTO member_profile values(#{memberId},#{original_filename},#{renamed_filename},default)"
+	 * ) int insertMemberProfile(MemberProfile memberProfile);
+	 */
 
-	
-	// 멤버
+	/*임시 회원가입 (지우지 마삼) */
 	@Insert("insert into member values (#{memberId}, #{password},#{name}, #{nickname}, #{phoneNo}, #{email}, #{birthday, jdbcType=DATE}, #{gender}, #{mbti},  #{address}, 0, SYSDATE, NULL, SYSDATE, NULL, 'Y')")
-	int insertMember(MemberDetails member1);
+	int insertMember(MemberCreateDto member);
 	
-	// 지역
-	@Insert("INSERT INTO activity_area values(#{memberId}, #{main_area_id}, #{sub1_area_id}, #{sub2_area_id})")
-	void insertActivityArea(MemberDetails member1);
-	
-	// 관심사
-	@Insert("INSERT INTO member_interest values(#{memberId}, #{Interest})")
-	void insertMemberInterest(MemberDetails member1);
-	
-	// 프로필 사진
-	@Insert("INSERT INTO member_profile values(#{memberId},#{original_filename},#{renamed_filename},default)")
-	int insertMemberProfile(MemberProfile memberProfile);
-
 }

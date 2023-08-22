@@ -15,7 +15,7 @@ import com.dagachi.app.member.entity.MemberDetails;
 
 public interface MemberService extends UserDetailsService {
 	
-	int insertMember(MemberDetails member1);
+	
 
 	Member findMemberById(String memberId);
 	
@@ -30,6 +30,9 @@ public interface MemberService extends UserDetailsService {
 	int getTotalCount();
 	
 	int memberDelete(String memberId);
+
+	/*임시로그인*/
+	int insertMember(@Valid MemberCreateDto member);
 
 
 }

@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class AdminServiceImpl implements AdminService{
 
 }

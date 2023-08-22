@@ -62,71 +62,35 @@ public class MemberSecurityController {
    @GetMapping("/memberCreate.do")
    public void memberCreate() {}
    
-   @PostMapping("/memberCreate.do")
-   public String create(
-         @Valid MemberCreateDto _member,
-         BindingResult bindingResult, 
-         RedirectAttributes redirectAttr,
-         @AuthenticationPrincipal MemberDetails member,
-         @RequestParam(value = "upFile", required = false) MultipartFile upFile
-         ) throws IllegalStateException, IOException {
-       log.debug("냥 -> {}", member);
-
-      
-      if(bindingResult.hasErrors()) { //에러 나면 
-         ObjectError error = bindingResult.getAllErrors().get(0);
-         redirectAttr.addFlashAttribute("msg", error.getDefaultMessage());
-         // log.debug("오류 -> {}", member);
-         return "redirect:/member/memberCreate.do"; 
-      } 
-      
-      // 파일 저장 
- 
-      String uploadDir = "/memberProfile/";
-      MemberProfile memberProfile = null;
-		if(!upFile.isEmpty()) { 
-			String originalFilename = upFile.getOriginalFilename();
-			String renamedFilename = DagachiUtils.getRenameFilename(originalFilename); // 20230807_142828888_123.jpg
-			File destFile = new File(uploadDir + renamedFilename); // 부모디렉토리 생략가능. spring.servlet.multipart.location 값을 사용
-			upFile.transferTo(destFile); // 실제파일 저장
-		
-			memberProfile = memberProfile.builder()
-					.originalFilename(originalFilename)
-					.renamedFilename(renamedFilename)
-					.build();
-		}
-      String rawPassword = member.getPassword();
-      String encodedPassword = passwordEncoder.encode(rawPassword);
-      // log.debug("회원가입 완료{} -> {}", rawPassword, encodedPassword);
-      member.setPassword(encodedPassword);
-      
-      List<String> memberInterest = new ArrayList<>();
-		for (String Interest : _member.getInterest().split(",")) {
-			memberInterest.add(Interest);
-		}
 	
-		ActivityArea activityArea = new ActivityArea();
+	@GetMapping("/memberAdminInquiry.do")
+	public void InquiryCreate() {
+	}
 
-  	// 2. db저장
-      MemberDetails member1 = MemberDetails.builder()
-				.memberId(_member.getMemberId())
-				.password(_member.getPassword())
-				.name(_member.getName())
-				.nickname(_member.getMemberId())
-				.phoneNo(_member.getPhoneNo())
-				.email(_member.getMemberId())
-				.birthday(_member.getBirthday())
-				.gender(_member.getGender())
-				.memberInterest(memberInterest)
-				.memberProfile(memberProfile)
-				.activityArea(activityArea)
-				.build();
-				
-		
-      int result = memberService.insertMember(member1);
-      redirectAttr.addFlashAttribute("msg", "회원가입 완료");
-      return "redirect:/";
-   }
+	@GetMapping("memberAdminInquiryList.do")
+	public void InquiryList() {
+	}
+	
+	  /*임시회원가입*/
+	  @PostMapping("/memberCreate.do")
+	   public String create(
+	         @Valid MemberCreateDto member,
+	         BindingResult bindingResult, 
+	         RedirectAttributes redirectAttr) {
+	      if(bindingResult.hasErrors()) { //에러 나면 
+	         ObjectError error = bindingResult.getAllErrors().get(0);
+	         redirectAttr.addFlashAttribute("msg", error.getDefaultMessage());
+	         // log.debug("오류 -> {}", member);
+	         return "redirect:/member/memberCreate.do"; 
+	      } 
+	      String rawPassword = member.getPassword();
+	      String encodedPassword = passwordEncoder.encode(rawPassword);
+	      // log.debug("회원가입 완료{} -> {}", rawPassword, encodedPassword);
+	      member.setPassword(encodedPassword);
+	      int result = memberService.insertMember(member);
+	      redirectAttr.addFlashAttribute("msg", "회원가입 완료");
+	      return "redirect:/";
+	   }
 
 	@GetMapping("/memberLogin.do")
 	public void memberLogin() {}
@@ -158,6 +122,57 @@ public class MemberSecurityController {
 		
 		return "redirect:/";
 	}
+
+	/* 수정중인 회원가입 지우지 마삼
+	 * @PostMapping("/memberCreate.do") public String create(
+	 * 
+	 * @Valid MemberCreateDto _member, BindingResult bindingResult,
+	 * RedirectAttributes redirectAttr,
+	 * 
+	 * @AuthenticationPrincipal MemberDetails member,
+	 * 
+	 * @RequestParam(value = "upFile", required = false) MultipartFile upFile )
+	 * throws IllegalStateException, IOException { log.debug("냥 -> {}", member);
+	 * 
+	 * 
+	 * if(bindingResult.hasErrors()) { //에러 나면 ObjectError error =
+	 * bindingResult.getAllErrors().get(0); redirectAttr.addFlashAttribute("msg",
+	 * error.getDefaultMessage()); // log.debug("오류 -> {}", member); return
+	 * "redirect:/member/memberCreate.do"; }
+	 * 
+	 * // 파일 저장
+	 * 
+	 * String uploadDir = "/memberProfile/"; MemberProfile memberProfile = null;
+	 * if(!upFile.isEmpty()) { String originalFilename =
+	 * upFile.getOriginalFilename(); String renamedFilename =
+	 * DagachiUtils.getRenameFilename(originalFilename); //
+	 * 20230807_142828888_123.jpg File destFile = new File(uploadDir +
+	 * renamedFilename); // 부모디렉토리 생략가능. spring.servlet.multipart.location 값을 사용
+	 * upFile.transferTo(destFile); // 실제파일 저장
+	 * 
+	 * memberProfile = memberProfile.builder() .originalFilename(originalFilename)
+	 * .renamedFilename(renamedFilename) .build(); } String rawPassword =
+	 * member.getPassword(); String encodedPassword =
+	 * passwordEncoder.encode(rawPassword); // log.debug("회원가입 완료{} -> {}",
+	 * rawPassword, encodedPassword); member.setPassword(encodedPassword);
+	 * 
+	 * List<String> memberInterest = new ArrayList<>(); for (String Interest :
+	 * _member.getInterest().split(",")) { memberInterest.add(Interest); }
+	 * 
+	 * ActivityArea activityArea = new ActivityArea();
+	 * 
+	 * // 2. db저장 MemberDetails member1 = MemberDetails.builder()
+	 * .memberId(_member.getMemberId()) .password(_member.getPassword())
+	 * .name(_member.getName()) .nickname(_member.getMemberId())
+	 * .phoneNo(_member.getPhoneNo()) .email(_member.getMemberId())
+	 * .birthday(_member.getBirthday()) .gender(_member.getGender())
+	 * .memberInterest(memberInterest) .memberProfile(memberProfile)
+	 * .activityArea(activityArea) .build();
+	 * 
+	 * 
+	 * int result = memberService.insertMember(member1);
+	 * redirectAttr.addFlashAttribute("msg", "회원가입 완료"); return "redirect:/"; }
+	 */
 	
 
 }
