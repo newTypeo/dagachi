@@ -226,9 +226,11 @@ public interface ClubRepository {
 	
 	List<ClubScheduleAndMemberDto> findScheduleById(int clubId);
 	
-
 	@Select("select * from recent_visit_list r join club c on r.club_id = c.club_id join club_profile w on c.club_id = w.club_id where member_id = #{loginMemberId}")
 	List<ClubAndImage> recentVisitClubs(String loginMemberId);
+
+	@Delete("delete from club_board where board_Id=#{boardId}")
+	int delClubBoard(int boardId);
 
 	@Insert("insert into Club_apply( #{clubId},#{memberId},#{answer})")
 	 int ClubEnroll(ClubEnrollDto enroll);

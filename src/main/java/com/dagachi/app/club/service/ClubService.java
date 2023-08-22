@@ -116,10 +116,10 @@ public interface ClubService {
 	
 	List<ClubScheduleAndMemberDto> findScheduleById(int clubId);
 
-
 	List<ClubAndImage> recentVisitClubs(String loginMemberId);
 
-
+	int delClubBoard(int boardId);
+	
 	int ClubEnroll(ClubEnrollDto enroll);
 
 
