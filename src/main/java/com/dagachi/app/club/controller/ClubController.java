@@ -254,7 +254,6 @@ public class ClubController {
 	public ResponseEntity<?> loginClubList(
 			@AuthenticationPrincipal MemberDetails member
 			){
-		log.debug("ddddddddddddddddddddddddddddddddddddddddddd");
 		String memberId = member.getMemberId();
 		
 		List<ClubAndImage> clubAndImages = new ArrayList<>();
@@ -307,8 +306,8 @@ public class ClubController {
 		
 //		log.debug("memberRole = {}", memberRole);
 		
-		model.addAttribute("clubApplies", clubApplies);
 
+		model.addAttribute("clubId", clubId); // 가입승인 시 필요 (종환)
 		model.addAttribute("joinClubMembersInfo", joinClubMembersInfo); // 해당 모임에 가입된 회원 정보 [방장제외](아아디, 이름, 닉네임, 가입일, 회원 권한)
 		model.addAttribute("host", host); // 해당 모임의 방장 정보(아이디, 이름, 닉네임, 가입일, 권한)
 		model.addAttribute("loginMemberId", loginMemberId); // 로그인한 회원의 아이디
@@ -413,13 +412,13 @@ public class ClubController {
 
 	@PostMapping("/{domain}/boardUpdate.do")
 	public String boardUpdate(@PathVariable("domain") String domain, @RequestParam int no, @RequestParam String title,
-			@RequestParam int boardType, @RequestParam String content,
+			@RequestParam int type, @RequestParam String content,
 			@RequestParam(value = "upFile", required = false) List<MultipartFile> upFiles) throws IllegalStateException, IOException {
 		ClubBoard _board = clubBoardGet(domain, no);
 
-		_board = ClubBoard.builder().content(content).title(title).type(boardType).build();
+		_board = ClubBoard.builder().content(content).title(title).type(type).build();
 
-		List<ClubBoardAttachment> attachments= new ArrayList<>();
+		List<ClubBoardAttachment> attachments= findAttachments(_board.getBoardId());
 		if(!upFiles.isEmpty() && upFiles !=null)
 			attachments=insertAttachment(upFiles,attachments);
 		
@@ -638,9 +637,19 @@ public class ClubController {
 		return ResponseEntity.status(HttpStatus.OK).body(attachments);
 	}
 	
+	@PostMapping("/delAttach.do")
+	public ResponseEntity<?> delAttachment(
+		 @RequestParam int id
+	){
+		int result= clubService.delAttachment(id);
+		
+		
+		return ResponseEntity.status(HttpStatus.OK).body(result);
+	}
 	
 	
-	@GetMapping("/&{domain}/clubMemberList.do")
+	
+	@GetMapping("/clubMemberList.do")
 	public String clubMemberList(
 			@PathVariable("domain") String domain,
 			Model model

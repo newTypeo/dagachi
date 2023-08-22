@@ -29,7 +29,7 @@
 						<td>${clubApply.name}</td>
 						<td>${clubApply.answer}</td>
 						<td>
-							<button value="${clubApply.memberId}" onclick="permitApply();">승인</button>
+							<button value="${clubApply.memberId}" onclick="permitApply(${clubId}, ${clubApply.});">승인</button>
 							<button value="${clubApply.memberId}" onclick="refuseApply();">거절</button>
 						</td>
 					</tr>
@@ -39,15 +39,16 @@
 	</fieldset>
 </div>
 
-<br/><br/><br/><br/>
 <script>
 const permitApply = () => {
-	
+	// console.log(clubApply);
 };
 const refuseApply = () => {
 	
 };
 </script>
+<br/><br/><br/><br/>
+
 
 <div>
 	<fieldset>
