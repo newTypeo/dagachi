@@ -144,7 +144,9 @@ header {
 	overflow: hidden;
 }
 
-
+#club-button {
+	float : right;
+}
 
 
 

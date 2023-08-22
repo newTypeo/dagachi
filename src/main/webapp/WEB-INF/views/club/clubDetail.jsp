@@ -30,9 +30,17 @@
 	
 	</nav>
 	
-	<nav>
-		<button id="clubDisabled">모임 비활성화</button>
-		<button id="club-update-btn">모임 수정</button>
+	<nav id="club-button">
+		<!-- 방장일 경우에 -->
+		<c:if test ="${memberRole eq 3}">
+			<button type="button" class="btn btn-success" id="club-update-btn">모임 수정</button>
+			<button type="button" class="btn btn-danger" id="clubDisabled">모임 삭제</button>
+		</c:if>
+		<!-- 관리자일 경우에 -->
+		<c:if test = "${memberId eq 'admin'}">
+			<button type="button" class="btn btn-danger" id="clubDisabled">모임 비활성화</button>
+		</c:if>
+		
 		<a href ="${pageContext.request.contextPath}/club/&${domain}/clubMemberList.do">모임내 회원조회</a>
 	</nav>
 	
