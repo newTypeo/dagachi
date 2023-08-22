@@ -34,6 +34,7 @@ import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.ClubBoardCreateDto;
 import com.dagachi.app.club.dto.ClubCreateDto;
 import com.dagachi.app.club.dto.ClubManageApplyDto;
+import com.dagachi.app.club.dto.ClubEnrollDto;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
 import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
@@ -83,7 +84,12 @@ public class ClubController {
 	@GetMapping("/&{domain}/clubEnroll.do")
 	public String ClubEnroll(@PathVariable("domain") String domain, Model model) {
 		model.addAttribute("domain", domain);
+		int club = clubService.clubIdFindByDomain(domain);
+		model.addAttribute("club", club);
+			
+		log.debug("club={}", club);
 		return "/club/clubEnroll";
+		
 	}
 
 	@GetMapping("/&{domain}/clubBoardList.do")
@@ -98,9 +104,25 @@ public class ClubController {
 		model.addAttribute("domain", domain);
 		return "/club/clubBoardCreate";
 	}
+	
+	
+
+	@PostMapping("/&{domain}/clubEnroll.do")
+	public String ClubEnroll(@Valid ClubEnrollDto Enroll, @PathVariable("domain") String domain,
+			BindingResult bindingResult, @RequestParam(value = "upFile", required = false) List<MultipartFile> upFiles)
+			throws IllegalStateException, IOException {
+			
+		Club club = clubService.findByDomain(domain);
+		int clubId = club.getClubId();
+		
+		int result = clubService.ClubEnroll(Enroll);
+		return "/club/clubBoardCreate";
+	}
+	
 
 	@PostMapping("/{domain}/boardCreate.do")
 	public String boardCreate(@Valid ClubBoardCreateDto _board, @PathVariable("domain") String domain,
+			
 			BindingResult bindingResult, @RequestParam(value = "upFile", required = false) List<MultipartFile> upFiles)
 			throws IllegalStateException, IOException {
 		List<ClubBoardAttachment> attachments= new ArrayList<>();
@@ -114,7 +136,7 @@ public class ClubController {
 
 		int result = clubService.postBoard(clubBoard);
 
-		
+		//작성자 수정해야함
 		return "/club/clubBoardList";
 	}
 
@@ -163,6 +185,7 @@ public class ClubController {
 			HttpServletRequest request,
 			HttpSession session,
 			Model model) {
+		
 		String getCount = "getCount";
 		String inputText = (String) session.getAttribute("inputText");
 		Map<String, Object> params = new HashMap<>();
@@ -468,26 +491,29 @@ public class ClubController {
 			@RequestParam(value = "upFile", required = false) List<MultipartFile> upFiles) throws IllegalStateException, IOException {
 		ClubBoard _board = clubBoardGet(domain, no);
 
-		_board = ClubBoard.builder().content(content).title(title).type(type).build();
-
-		List<ClubBoardAttachment> attachments= findAttachments(_board.getBoardId());
+		_board.setContent(content);
+		_board.setTitle(title);
+		_board.setType(type);
+		
+		List<ClubBoardAttachment> attachments= new ArrayList<>();
 		if(!upFiles.isEmpty() && upFiles !=null)
 			attachments=insertAttachment(upFiles,attachments);
-		
-	
 		
 		ClubBoardDetails clubBoard = ClubBoardDetails
 				.builder().attachments(attachments)
 				.title(_board.getTitle())
 				.content(_board.getContent())
 				.type(_board.getType())
+				.boardId(_board.getBoardId())
+				.likeCount(_board.getLikeCount())
+				.status(_board.getStatus())
 				.build();
 		
-		
+		int result= clubService.updateBoard(clubBoard);
 		
 		log.debug("clubBoard = {}", clubBoard);
 
-		return "club/clubBoardDetaile";
+		return "redirect:/club/"+domain+"/boardDetail.do?no="+no;
 	}
 
 	/**
@@ -595,7 +621,6 @@ public class ClubController {
 		log.debug("club = {}", club);
 		log.debug("clubProfile={}", clubProfile);
 		log.debug("clubTag = {}", clubTagList);
-
 		model.addAttribute("club", club);
 		model.addAttribute("clubProfile", clubProfile);
 		model.addAttribute("clubTagList", clubTagList);
@@ -622,7 +647,7 @@ public class ClubController {
 			clubProfile = ClubProfile.builder().originalFilename(originalFilename).renamedFilename(renamedFilename)
 					.build();
 		}
-
+ 
 		List<String> tagList = new ArrayList<>();
 		for (String tag : _club.getTags().split(",")) {
 			tagList.add(tag);
@@ -666,11 +691,11 @@ public class ClubController {
 				ClubBoardAttachment attach = ClubBoardAttachment.builder().originalFilename(originalFilename)
 						.renamedFilename(renamedFilename).build();
 				log.debug("attach = {}", attach);
-				if (i == 0)
-					attach.setThumbnail(Status.Y);
+				if(!attachments.isEmpty() && i==0) 
+						attach.setThumbnail(Status.Y);
 				else
 					attach.setThumbnail(Status.N);
-
+					
 				attachments.add(attach);
 			}
 		}
@@ -693,13 +718,24 @@ public class ClubController {
 	public ResponseEntity<?> delAttachment(
 		 @RequestParam int id
 	){
-		int result= clubService.delAttachment(id);
+		int result=0;
+		List<ClubBoardAttachment> attachments = new ArrayList<>();
+		ClubBoardAttachment attach= clubService.findAttachment(id);
+		int no=attach.getBoardId();
+		result= clubService.delAttachment(id);
+		if(attach.getThumbnail() == Status.Y) {
+			attachments = findAttachments(no);
+			if(!attachments.isEmpty()) {
+				attachments.get(0).setThumbnail(Status.Y);
+				result=clubService.updateThumbnail(attachments.get(0));
+			}
+		}
 		
-		
-		return ResponseEntity.status(HttpStatus.OK).body(result);
+		return ResponseEntity.status(HttpStatus.OK).body(attachments);
 	}
 	
 	
+
 	
 	/**
 	 * @author 준한
