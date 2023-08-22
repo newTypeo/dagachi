@@ -10,13 +10,22 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <fmt:requestEncoding value="utf-8"/>
 <jsp:include page="/WEB-INF/views/common/clubHeader.jsp"></jsp:include>
-
-
-
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/club.css"/>
+             
+
+
 <section>
-	<nav id="club-title" class="">
-		
+
+
+	<button 
+		class="btn btn-outline-success my-2 my-sm-0" 
+		type="button" 
+		onclick="location.href = '${pageContext.request.contextPath}/club/&${domain}/clubEnroll.do'">
+		가입신청하기
+	</button>
+	
+	
+		<nav id="club-title" class="">
 		<c:if test="${layout.title eq null}">
 			<div id="default-title">
 				<h2>${domain}</h2>

@@ -52,7 +52,7 @@ window.onload = function() {
 				<span class="input-group-text" id="inputFileAddon01">Upload</span>
 			</div>
 			<div class="custom-file">
-				<input type="file" class="custom-file-input" id="inputFile01"
+				<input type="file" name="upFile" class="custom-file-input" id="inputFile01"
 					aria-describedby="inputGroupFileAddon01" multiple> <label
 					class="custom-file-label" for="inputGroupFile01">파일선택</label>
 			</div>

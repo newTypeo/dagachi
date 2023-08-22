@@ -68,6 +68,8 @@
 			    <form:form name="memberDeleteFrm" action="${pageContext.request.contextPath}/member/memberDelete.do" method="post"></form:form>
 			    <a href="${pageContext.request.contextPath}/club/clubsRecentVisited.do">최근 본 모임</a>
 		</sec:authorize>
+				<a href="${pageContext.request.contextPath}/member/memberAdminInquiryList.do">문의하기</a>
+				
 
 	</header>
 	
