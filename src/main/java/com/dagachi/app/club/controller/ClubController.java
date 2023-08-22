@@ -33,6 +33,8 @@ import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.ClubBoardCreateDto;
 import com.dagachi.app.club.dto.ClubCreateDto;
+import com.dagachi.app.club.dto.ClubManageApplyDto;
+import com.dagachi.app.club.dto.ClubEnrollDto;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
 import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
@@ -62,9 +64,9 @@ import com.google.gson.JsonObject;
 
 import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 @RequestMapping("/club")
-@Slf4j
 @SessionAttributes({"inputText"})
 public class ClubController {
 
@@ -82,7 +84,12 @@ public class ClubController {
 	@GetMapping("/&{domain}/clubEnroll.do")
 	public String ClubEnroll(@PathVariable("domain") String domain, Model model) {
 		model.addAttribute("domain", domain);
+		int club = clubService.clubIdFindByDomain(domain);
+		model.addAttribute("club", club);
+			
+		log.debug("club={}", club);
 		return "/club/clubEnroll";
+		
 	}
 
 	@GetMapping("/&{domain}/clubBoardList.do")
@@ -97,6 +104,21 @@ public class ClubController {
 		model.addAttribute("domain", domain);
 		return "/club/clubBoardCreate";
 	}
+	
+	
+
+	@PostMapping("/&{domain}/clubEnroll.do")
+	public String ClubEnroll(@Valid ClubEnrollDto Enroll, @PathVariable("domain") String domain,
+			BindingResult bindingResult, @RequestParam(value = "upFile", required = false) List<MultipartFile> upFiles)
+			throws IllegalStateException, IOException {
+			
+		Club club = clubService.findByDomain(domain);
+		int clubId = club.getClubId();
+		
+		int result = clubService.ClubEnroll(Enroll);
+		return "/club/clubBoardCreate";
+	}
+	
 
 	@PostMapping("/{domain}/boardCreate.do")
 	public String boardCreate(@Valid ClubBoardCreateDto _board, @PathVariable("domain") String domain,
@@ -120,7 +142,6 @@ public class ClubController {
 
 	/**
 	 * 메인화면에서 모임 검색
-	 * 
 	 * @author 종환
 	 */
 	@GetMapping("/clubSearch.do")
@@ -164,6 +185,7 @@ public class ClubController {
 			HttpServletRequest request,
 			HttpSession session,
 			Model model) {
+		
 		String getCount = "getCount";
 		String inputText = (String) session.getAttribute("inputText");
 		Map<String, Object> params = new HashMap<>();
@@ -195,22 +217,22 @@ public class ClubController {
 	}
 
 	@GetMapping("/chatList.do")
-	public void chatList() {
-
-	}
+	public void chatList() {}
 
 	@GetMapping("/chatRoom.do")
-	public void chatRoom() {
+	public void chatRoom() {}
 
-	}
-
-	@PostMapping("/&{domain}/permitApply.do")
+	/**
+	 * 가입신청 승인 & 거절 - 승인시에는 dto.isPermit이 true로 온다.
+	 * @author 종환
+	 */
+	@PostMapping("/&{domain}/manageApply.do")
 	public String permitApply(
-			@RequestParam int clubId,
-			@RequestParam String memberId,
-			@PathVariable("domain") String domain) {
-		Map<String, Object> params = Map.of("clubId", clubId, "memberId", memberId);
-		int result = clubService.permitApply(params);
+			@PathVariable("domain") String domain,
+			ClubManageApplyDto clubManageApplyDto) {
+		
+		if(clubManageApplyDto.isPermit()) clubService.permitApply(clubManageApplyDto); // 가입 승인
+									else clubService.refuseApply(clubManageApplyDto); // 가입 거절
 		
 		return "redirect:/club/&" + domain + "/manageMember.do";
 	}
@@ -218,7 +240,7 @@ public class ClubController {
 	
 	/**
 	 * 인덱스 페이지에서 클럽 상세보기 할 때 매핑입니다. 도메인도 domain 변수 안에 넣어놨습니다. (창환) - layout 가져오도록
-	 * 수정(동찬)
+	 * @author 동찬
 	 */
 	@GetMapping("/&{domain}")
 	public String clubDetail(
@@ -336,7 +358,7 @@ public class ClubController {
 
 		List<ManageMember> clubApplies = clubService.clubApplyByFindByClubId(clubId); // clubId로 club_apply, member 테이블 조인
 //		log.debug("clubId = {}", clubId);
-		log.debug("clubApplies = {}", clubApplies);
+//		log.debug("clubApplies = {}", clubApplies);
 		
 		List<ClubMember> clubMembers = clubService.clubMemberByFindAllByClubId(clubId); // clubId로 club_member 조회(방장 제외)
 //		log.debug("clubMembers = {}", clubMembers);
@@ -599,7 +621,6 @@ public class ClubController {
 		log.debug("club = {}", club);
 		log.debug("clubProfile={}", clubProfile);
 		log.debug("clubTag = {}", clubTagList);
-
 		model.addAttribute("club", club);
 		model.addAttribute("clubProfile", clubProfile);
 		model.addAttribute("clubTagList", clubTagList);
@@ -626,7 +647,7 @@ public class ClubController {
 			clubProfile = ClubProfile.builder().originalFilename(originalFilename).renamedFilename(renamedFilename)
 					.build();
 		}
-
+ 
 		List<String> tagList = new ArrayList<>();
 		for (String tag : _club.getTags().split(",")) {
 			tagList.add(tag);

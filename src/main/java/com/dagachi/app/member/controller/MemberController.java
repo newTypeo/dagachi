@@ -43,8 +43,8 @@ public class MemberController {
 	    		) {
 		 	Member member = memberService.findMemberBymemberId(memberId);
 		 
-		 	model.addAttribute("member",member);
-		 	model.addAttribute("loginMember",loginMember);
+		 	model.addAttribute("member",member); // 내가 보고있는 상대방
+		 	model.addAttribute("loginMember",loginMember); // 현재 로그인 되어있는 객체
 	
 	        return "member/memberDetail";
 	    }
