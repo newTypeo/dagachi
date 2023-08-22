@@ -102,6 +102,8 @@ public interface ClubService {
 
 	List<ClubAndImage> categoryList(String category);
 	
+	int permitApply(Map<String, Object> params);
+	
 	List<ClubScheduleAndMemberDto> findScheduleById(int clubId);
 
 

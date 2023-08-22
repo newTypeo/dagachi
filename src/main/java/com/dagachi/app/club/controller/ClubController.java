@@ -20,7 +20,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,7 +47,6 @@ import com.dagachi.app.club.entity.ClubBoard;
 import com.dagachi.app.club.entity.ClubBoardAttachment;
 import com.dagachi.app.club.entity.ClubBoardDetails;
 import com.dagachi.app.club.entity.ClubDetails;
-import com.dagachi.app.club.entity.ClubGalleryAttachment;
 import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
@@ -61,7 +59,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.nimbusds.jose.crypto.impl.AAD;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -199,6 +196,18 @@ public class ClubController {
 
 	}
 
+	@PostMapping("/&{domain}/permitApply.do")
+	public String permitApply(
+			@RequestParam int clubId,
+			@RequestParam String memberId,
+			@PathVariable("domain") String domain) {
+		Map<String, Object> params = Map.of("clubId", clubId, "memberId", memberId);
+		int result = clubService.permitApply(params);
+		
+		return "redirect:/club/&" + domain + "/manageMember.do";
+	}
+	
+	
 	/**
 	 * 인덱스 페이지에서 클럽 상세보기 할 때 매핑입니다. 도메인도 domain 변수 안에 넣어놨습니다. (창환) - layout 가져오도록
 	 * 수정(동찬)
@@ -319,7 +328,7 @@ public class ClubController {
 
 		List<ManageMember> clubApplies = clubService.clubApplyByFindByClubId(clubId); // clubId로 club_apply, member 테이블 조인
 //		log.debug("clubId = {}", clubId);
-//		log.debug("clubApplies = {}", clubApplies);
+		log.debug("clubApplies = {}", clubApplies);
 		
 		List<ClubMember> clubMembers = clubService.clubMemberByFindAllByClubId(clubId); // clubId로 club_member 조회(방장 제외)
 //		log.debug("clubMembers = {}", clubMembers);
@@ -342,12 +351,12 @@ public class ClubController {
 		
 //		log.debug("memberRole = {}", memberRole);
 		
-
-		model.addAttribute("clubId", clubId); // 가입승인 시 필요 (종환)
-		model.addAttribute("joinClubMembersInfo", joinClubMembersInfo); // 해당 모임에 가입된 회원 정보 [방장제외](아아디, 이름, 닉네임, 가입일, 회원 권한)
 		model.addAttribute("host", host); // 해당 모임의 방장 정보(아이디, 이름, 닉네임, 가입일, 권한)
-		model.addAttribute("loginMemberId", loginMemberId); // 로그인한 회원의 아이디
+		model.addAttribute("clubId", clubId); // 가입승인 시 필요 (종환)
 		model.addAttribute("memberRole", memberRole); // 해당 모임에서 로그인한 회원의 권한
+		model.addAttribute("clubApplies", clubApplies);
+		model.addAttribute("loginMemberId", loginMemberId); // 로그인한 회원의 아이디
+		model.addAttribute("joinClubMembersInfo", joinClubMembersInfo); // 해당 모임에 가입된 회원 정보 [방장제외](아아디, 이름, 닉네임, 가입일, 회원 권한)
 		
 		return "/club/manageMember";
 	}

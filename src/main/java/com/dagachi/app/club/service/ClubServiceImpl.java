@@ -339,6 +339,11 @@ public class ClubServiceImpl implements ClubService {
 	}
 	
 	@Override
+	public int permitApply(Map<String, Object> params) {
+		return clubRepository.permitApply(params);
+	}
+	
+	@Override
 	public List<ClubScheduleAndMemberDto> findScheduleById(int clubId) {
 		return clubRepository.findScheduleById(clubId);
 	}

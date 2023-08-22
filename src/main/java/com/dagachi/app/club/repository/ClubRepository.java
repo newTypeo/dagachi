@@ -204,6 +204,9 @@ public interface ClubRepository {
 	List<ClubAndImage> categoryList(String category);
 
 
+	@Insert("insert into club_member values(#{memberId}, #{clubId}, default, null, default, default)")
+	int permitApply(Map<String, Object> params);
+	
 	List<ClubScheduleAndMemberDto> findScheduleById(int clubId);
 
 }
