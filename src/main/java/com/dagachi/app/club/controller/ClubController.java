@@ -647,7 +647,7 @@ public class ClubController {
 			clubProfile = ClubProfile.builder().originalFilename(originalFilename).renamedFilename(renamedFilename)
 					.build();
 		}
-
+ 
 		List<String> tagList = new ArrayList<>();
 		for (String tag : _club.getTags().split(",")) {
 			tagList.add(tag);
