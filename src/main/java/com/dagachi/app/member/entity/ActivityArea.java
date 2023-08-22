@@ -22,3 +22,4 @@ public class ActivityArea extends Member{
 	private String sub2AreaId; //서브지역
 
 }
+ 

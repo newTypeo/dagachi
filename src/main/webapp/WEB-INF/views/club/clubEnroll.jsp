@@ -39,7 +39,6 @@ window.onload = () => {
 		aria-labelledby="EnorllModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-			
 				<div class="modal-header">
 					<h5 class="modal-title" id="loginModalLabel">가입하기</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -47,23 +46,29 @@ window.onload = () => {
 					</button>
 					
 				</div>
-				<!--로그인폼 -->
-				
-				<!-- https://getbootstrap.com/docs/4.1/components/forms/#overview -->
 				<form:form
-					action="${pageContext.request.contextPath}/member/memberLogin.do"
+					action="${pageContext.request.contextPath}/clud/memberLogin.do"
 					method="post">
-					<div class="modal-body">
-						가입 질문
-						<input 
-							type="text" class="form-control" name=""
-							placeholder="" value="" required> 
-						<br /> 
-					</div>
+					 <div class="modal-body">
+					 
+						${clud.club_name}모임 가입 질문
+							<br/> 
+								${clud.enroll_question}
+							<br/> 
+							<input 
+								type="text" class="form-control" name=""
+								placeholder="" value="" required> 
+							<br/> 
+							<div>모임 가입 신청 란입니다. 추후 수정이 불가능하니 신중하게 
+								답변해주세요 </div>
+							
+						</div>
+									
+					
 					<div class="modal-footer d-flex flex-column" style="align-items: unset;">
 						<div class="d-flex justify-content-between">
 							<div>
-								<button type="submit" class="btn btn-outline-success">가입하기</button>
+								<button type="submit" class="btn btn-outline-success">가입 신청 하기</button>
 								<button type="button" class="btn btn-outline-success" data-dismiss="modal">취소</button>
 							</div>
 						</div>
