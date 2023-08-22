@@ -200,6 +200,8 @@ public interface ClubRepository {
 	@Insert("insert into recent_visit_list values(#{memberId}, #{clubId}, default)")
 	int insertClubRecentVisitd(String memberId, int clubId);
 	
+	@Update("update club_board_attachment set thumbnail=#{thumbnail} where id=#{id}")
+	int updateThumbnail(ClubBoardAttachment clubBoardAttachment);
 	
 	List<ClubAndImage> categoryList(String category);
 
