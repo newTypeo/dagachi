@@ -54,6 +54,7 @@
 				<span>|</span>
 				<a href="${pageContext.request.contextPath}/member/memberCreate.do">회원가입</a>
 				<span>|</span>
+				<a href="${pageContext.request.contextPath}/member/memberFind.do">아이디/비밀번호찾기</a>
 			</div>
 		</sec:authorize>
 			 

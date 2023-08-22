@@ -295,7 +295,15 @@ public class ClubServiceImpl implements ClubService {
 	
 	@Override
 	public int memberRoleFindByMemberId(ClubMemberRole clubMemberRole) {
-		return clubRepository.memberRoleFindByMemberId(clubMemberRole);
+		int result = 0;
+		try {
+			result = clubRepository.memberRoleFindByMemberId(clubMemberRole);
+		} catch (Exception e) {
+			System.out.println("헉");
+			result = 10;
+			System.out.println(result);
+		}
+		return result;
 	}
 
 	@Override

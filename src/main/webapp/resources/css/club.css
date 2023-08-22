@@ -19,6 +19,140 @@ header {
 	height:100px;
 }
 
+<<<<<<< HEAD
+=======
+/************ club-title *************/
+#club-title img {
+	width: 1320px;
+}
+
+#default-title {
+	width: 1320px;
+	height: 100px;
+	background-color: pink;
+}
+
+
+/********** club-page-article **********/
+#club-page-article {
+	width: 1320px;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+#club-main-container {
+	width: 1200px;
+	margin: 0 60px;
+	padding-top: 20px;
+	border: 5px solid #ccc;
+	border-radius: 5px;
+}
+
+#club-main-image-container {
+	display: flex;
+	justify-content: center;
+} 
+#club-main-content-container {
+	display: flex;
+	justify-content: center;
+	font-weight: bold;
+	font-size: 24px;
+}
+
+.container-header {
+	margin: 10px 20px 0 20px;
+	border-bottom: 1px solid;
+}
+.container-header > span:first-child {
+	font-size: 20px;
+	font-weight: bold;
+}
+.container-header > a:last-child {
+	font-size: 16px;
+	float: right;	
+	font-weight: 600;
+}
+.container-main > div {
+	margin: 8px 20px 0 20px;
+	border-bottom: 1px solid #ccc;
+}
+.container-main-long > div > a:first-of-type {
+	display: inline-block;
+    width: 800px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.container-main-short > div > a:first-of-type {
+	display: inline-block;
+    width: 390px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.container-main > div > span:first-child {
+	font-size: 16px;
+	top: -6px;
+    position: relative;
+}
+.container-main > div > span:nth-of-type(3) {
+	width: 51px;
+	float: right;
+	margin: 0 5px;
+}
+.container-main > div > span:nth-of-type(2),
+.container-main > div > a:nth-of-type(2) {
+	float: right;
+}
+
+#club-notice-container {
+	width: 1320px;
+}
+
+#club-gallery-container {
+	width: 1320px;
+}
+
+#club-gallery-container > .container-main {
+	display: flex;	
+	flex-wrap: wrap;
+}
+
+.img-thumbnail {
+	width: 180px;
+}
+
+#club-board-container {
+	width: 660px;
+	height: 400px;
+	overflow: hidden;
+}
+
+#club-greetings-container {
+	width: 660px;
+	height: 400px;
+	overflow: hidden;
+}
+
+#club-reivew-container {
+	width: 660px;
+	height: 400px;
+	overflow: hidden;
+}
+
+#club-schedule-container {
+	width: 660px;
+	height: 400px;
+	overflow: hidden;
+}
+
+#club-button {
+	float : right;
+}
+
+
+
+>>>>>>> branch 'master' of https://github.com/newTypeo/dagachi
 
 
 

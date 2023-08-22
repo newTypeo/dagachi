@@ -11,7 +11,48 @@
 <fmt:requestEncoding value="utf-8"/>
 <jsp:include page="/WEB-INF/views/common/clubHeader.jsp"></jsp:include>
 
-<jsp:include page="/WEB-INF/views/club/clubLayout/clubLayoutType0.jsp"></jsp:include>
+
+
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/club.css"/>
+<section>
+	<nav id="club-title" class="">
+		
+		<c:if test="${layout.title eq null}">
+			<div id="default-title">
+				<h2>${domain}</h2>
+			</div>
+		</c:if>
+		
+		<c:if test="${layout.title ne null}">
+			<img src="${pageContext.request.contextPath}/resources/upload/club/title/${layout.title}">
+		</c:if>
+	
+	</nav>
+	
+	<nav id="club-button">
+		<!-- 방장일 경우에 -->
+		<c:if test ="${memberRole eq 3}">
+			<button type="button" class="btn btn-success" id="club-update-btn">모임 수정</button>
+			<button type="button" class="btn btn-danger" id="clubDisabled">모임 삭제</button>
+		</c:if>
+		<!-- 관리자일 경우에 -->
+		<c:if test = "${memberId eq 'admin'}">
+			<button type="button" class="btn btn-danger" id="clubDisabled">모임 비활성화</button>
+		</c:if>
+		
+		<a href ="${pageContext.request.contextPath}/club/&${domain}/clubMemberList.do">모임내 회원조회</a>
+	</nav>
+	
+	<nav>
+		<h3>메뉴 바</h3>
+		<a href="${pageContext.request.contextPath}/club/&${domain}/clubBoardList.do">게시판</a>
+		<a href="${pageContext.request.contextPath}/club/&${domain}/chatRoom.do">채팅</a>
+		<a href="${pageContext.request.contextPath}/club/&${domain}/manageMember.do">회원관리</a>
+	</nav>
+	
+	<jsp:include page="/WEB-INF/views/club/clubLayout/clubLayoutType0.jsp"></jsp:include>
+	
+</section>
 
 <script>
 // 준한(모임 비활성화)
