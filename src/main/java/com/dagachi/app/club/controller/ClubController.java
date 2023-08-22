@@ -743,9 +743,6 @@ public class ClubController {
 	}
 	
 	
-	@GetMapping("/clubsRecentVisited.do")
-	public void clubsRecentVisited(){}
-	
 }
 
 

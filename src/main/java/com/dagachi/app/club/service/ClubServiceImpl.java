@@ -357,5 +357,10 @@ public class ClubServiceImpl implements ClubService {
 	public List<ClubScheduleAndMemberDto> findScheduleById(int clubId) {
 		return clubRepository.findScheduleById(clubId);
 	}
+	
+	@Override
+	public List<ClubAndImage> recentVisitClubs(String loginMemberId) {
+		return clubRepository.recentVisitClubs(loginMemberId);
+	}
 }
 

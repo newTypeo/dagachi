@@ -111,6 +111,8 @@ public interface ClubService {
 	
 	List<ClubScheduleAndMemberDto> findScheduleById(int clubId);
 
+	List<ClubAndImage> recentVisitClubs(String loginMemberId);
+
 
 
 }
