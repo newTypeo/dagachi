@@ -35,6 +35,9 @@
 			<button type="button" class="btn btn-success" id="club-update-btn">모임 수정</button>
 			<button type="button" class="btn btn-danger" id="clubDisabled">모임 삭제</button>
 		</c:if>
+		
+		<button type="button" class="btn btn-danger" id="clubReport">🚨<button>
+		
 		<!-- 관리자일 경우에 -->
 		<c:if test = "${memberId eq 'admin'}">
 			<button type="button" class="btn btn-danger" id="clubDisabled">모임 비활성화</button>
@@ -55,6 +58,13 @@
 </section>
 
 <script>
+
+document.querySelector("#clubReport").onclick = () => {
+	if(confirm("모임을 신고하실껀가용?")) {
+		
+	}
+};
+
 // 준한(모임 비활성화)
 	const domain = "<%= request.getAttribute("domain") %>"; // 서버 사이드에서 domain 값을 가져와서 설정
     document.querySelector("#clubDisabled").onclick = (e) => {
@@ -65,7 +75,7 @@
             alert('모임이 성공적으로 비활성화 되었습니다.');
         }
     };
-    
+  
 document.querySelector("#club-update-btn").onclick = () => {
 	location.href = '${pageContext.request.contextPath}/club/&'+domain+'/clubUpdate.do';
 }
