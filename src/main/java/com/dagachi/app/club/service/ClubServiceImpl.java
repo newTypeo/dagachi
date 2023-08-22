@@ -13,6 +13,7 @@ import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
+import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
 import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.GalleryAndImageDto;
 import com.dagachi.app.club.dto.JoinClubMember;
@@ -163,10 +164,12 @@ public class ClubServiceImpl implements ClubService {
 	}
 
 	@Override
-	public List<JoinClubMember> clubMemberInfoByFindByMemberId(List<ClubMember> clubMembers) {
+	public List<JoinClubMember> clubMemberInfoByFindByMemberId(List<ClubMember> clubMembers, int clubId) {
 		List<JoinClubMember> joinClubMembers = new ArrayList<>();
-		for (ClubMember clubMember : clubMembers) {
-			joinClubMembers.add(clubRepository.clubMemberInfoByFindByMemberId(clubMember.getMemberId()));
+
+		for(ClubMember clubMember : clubMembers) {
+			Map<String, Object> params = Map.of("clubId", clubId, "memberId", clubMember.getMemberId());
+			joinClubMembers.add(clubRepository.clubMemberInfoByFindByMemberId(params));
 		}
 
 		return joinClubMembers;
@@ -295,7 +298,15 @@ public class ClubServiceImpl implements ClubService {
 
 	@Override
 	public int memberRoleFindByMemberId(ClubMemberRole clubMemberRole) {
-		return clubRepository.memberRoleFindByMemberId(clubMemberRole);
+		int result = 0;
+		try {
+			result = clubRepository.memberRoleFindByMemberId(clubMemberRole);
+		} catch (Exception e) {
+			System.out.println("헉");
+			result = 10;
+			System.out.println(result);
+		}
+		return result;
 	}
 
 	@Override
@@ -322,6 +333,21 @@ public class ClubServiceImpl implements ClubService {
 	@Override
 	public int delAttachment(int id) {
 		return clubRepository.delAttachment(id);
+	}
+
+	@Override
+	public List<ClubAndImage> categoryList(String category) {
+		return clubRepository.categoryList(category);
+	}
+	
+	@Override
+	public int permitApply(Map<String, Object> params) {
+		return clubRepository.permitApply(params);
+	}
+	
+	@Override
+	public List<ClubScheduleAndMemberDto> findScheduleById(int clubId) {
+		return clubRepository.findScheduleById(clubId);
 	}
 
 	@Override

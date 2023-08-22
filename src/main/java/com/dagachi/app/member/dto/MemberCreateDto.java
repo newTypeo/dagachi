@@ -2,24 +2,30 @@ package com.dagachi.app.member.dto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import com.dagachi.app.member.entity.MemberDetails;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(callSuper = true)
 public class MemberCreateDto {
-	
 	@NotBlank(message = "아이디는 필수 입력 값입니다.")
 	private String memberId;// 아이디 
 	
@@ -44,10 +50,6 @@ public class MemberCreateDto {
 	
 	@NotBlank(message = "성별 필수 입력 값입니다.") 
 	private String gender;// 성별 
-	
-	private String originalFilename;// 원본 파일 저장명
-	
-	private String renamedFilename;// 저장 파일명
 	
 	private int mainAreaId; // 주 활동 지역
 	

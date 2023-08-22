@@ -20,7 +20,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +35,7 @@ import com.dagachi.app.club.dto.ClubBoardCreateDto;
 import com.dagachi.app.club.dto.ClubCreateDto;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
+import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
 import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.ClubUpdateDto;
 import com.dagachi.app.club.dto.GalleryAndImageDto;
@@ -47,7 +47,6 @@ import com.dagachi.app.club.entity.ClubBoard;
 import com.dagachi.app.club.entity.ClubBoardAttachment;
 import com.dagachi.app.club.entity.ClubBoardDetails;
 import com.dagachi.app.club.entity.ClubDetails;
-import com.dagachi.app.club.entity.ClubGalleryAttachment;
 import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
@@ -60,7 +59,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.nimbusds.jose.crypto.impl.AAD;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -78,6 +76,13 @@ public class ClubController {
 
 	@GetMapping("/main.do")
 	public void Detail() {
+	}
+	
+
+	@GetMapping("/&{domain}/clubEnroll.do")
+	public String ClubEnroll(@PathVariable("domain") String domain, Model model) {
+		model.addAttribute("domain", domain);
+		return "/club/clubEnroll";
 	}
 
 	@GetMapping("/&{domain}/clubBoardList.do")
@@ -199,6 +204,18 @@ public class ClubController {
 
 	}
 
+	@PostMapping("/&{domain}/permitApply.do")
+	public String permitApply(
+			@RequestParam int clubId,
+			@RequestParam String memberId,
+			@PathVariable("domain") String domain) {
+		Map<String, Object> params = Map.of("clubId", clubId, "memberId", memberId);
+		int result = clubService.permitApply(params);
+		
+		return "redirect:/club/&" + domain + "/manageMember.do";
+	}
+	
+	
 	/**
 	 * 인덱스 페이지에서 클럽 상세보기 할 때 매핑입니다. 도메인도 domain 변수 안에 넣어놨습니다. (창환) - layout 가져오도록
 	 * 수정(동찬)
@@ -209,21 +226,29 @@ public class ClubController {
 			@AuthenticationPrincipal MemberDetails member,
 			Model model) {
 
-		int clubId = clubService.findByDomain(domain).getClubId();
+		int clubId = clubService.clubIdFindByDomain(domain);
 		String memberId = member.getMemberId();
-		
 		ClubLayout layout = clubService.findLayoutById(clubId);
 
 		List<BoardAndImageDto> boardAndImages = clubService.findBoardAndImageById(clubId);
 		List<GalleryAndImageDto> galleries = clubService.findgalleryById(clubId);
+		List<ClubScheduleAndMemberDto> schedules = clubService.findScheduleById(clubId);
 
+		
 		int result = clubService.insertClubRecentVisitd(memberId, clubId);
 		
-		System.out.println(clubId);
-
+		ClubMemberRole clubMemberRole = ClubMemberRole.builder()
+				.clubId(clubId)
+				.loginMemberId(memberId)
+				.build();
+		// 로그인한 회원 아이디로 해당 모임의 권한 가져오기
+		int memberRole = clubService.memberRoleFindByMemberId(clubMemberRole);
+		model.addAttribute("memberId",memberId);
+		model.addAttribute("memberRole",memberRole);
 		model.addAttribute("domain", domain);
 		model.addAttribute("galleries", galleries);
 		model.addAttribute("boardAndImages", boardAndImages);
+		model.addAttribute("schedules", schedules);
 		model.addAttribute("layout", layout);
 		return "club/clubDetail";
 	}
@@ -255,7 +280,6 @@ public class ClubController {
 	public ResponseEntity<?> loginClubList(
 			@AuthenticationPrincipal MemberDetails member
 			){
-		log.debug("ddddddddddddddddddddddddddddddddddddddddddd");
 		String memberId = member.getMemberId();
 		
 		List<ClubAndImage> clubAndImages = new ArrayList<>();
@@ -264,12 +288,38 @@ public class ClubController {
 	}
 
 
+	/**
+	 * 사용자가 해당 카테고리를 hover한 값을 db에서 조회 후 반환
+	 * @author 창환
+	 */
 	@GetMapping("/categoryList.do")
 	public ResponseEntity<?> categoryList(
 			@RequestParam String category) {
-		log.debug(category);
+//		log.debug(category);
 		
-		return ResponseEntity.status(HttpStatus.OK).body(category);
+		// 사용자가 hover한 카테고리 이름을 바탕으로 db에서 조회
+		List<ClubAndImage> _clubAndImages = clubService.categoryList(category);
+		
+		// 5개만 뽑아서 넘겨줄 리스트 생성
+		List<ClubAndImage> clubAndImages = new ArrayList<>();
+		
+		// 조회한 결과가 존재하고, 조회된 결과가 5개 이상인 경우
+		if(_clubAndImages != null && !_clubAndImages.isEmpty() && !(_clubAndImages.size() <= 5)) {
+			// 5개만 리스트에 담음
+			for(int i=0; i<4; i++) {
+				clubAndImages.add(_clubAndImages.get(i));
+			}
+		}
+		// 조회된 결과가 5개 미만인 경우
+		else {
+			for(ClubAndImage one : _clubAndImages) {
+				clubAndImages.add(one);
+			}
+		}
+		
+		System.out.println(clubAndImages);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(clubAndImages);
 	}
 	
 	/**
@@ -286,12 +336,13 @@ public class ClubController {
 
 		List<ManageMember> clubApplies = clubService.clubApplyByFindByClubId(clubId); // clubId로 club_apply, member 테이블 조인
 //		log.debug("clubId = {}", clubId);
-//		log.debug("clubApplies = {}", clubApplies);
+		log.debug("clubApplies = {}", clubApplies);
 		
 		List<ClubMember> clubMembers = clubService.clubMemberByFindAllByClubId(clubId); // clubId로 club_member 조회(방장 제외)
 //		log.debug("clubMembers = {}", clubMembers);
+
 		
-		List<JoinClubMember> joinClubMembersInfo = clubService.clubMemberInfoByFindByMemberId(clubMembers);	// 해당 모임에 가입된 회원 정보(이름, 닉네임, 가입일)
+		List<JoinClubMember> joinClubMembersInfo = clubService.clubMemberInfoByFindByMemberId(clubMembers, clubId);	// 해당 모임에 가입된 회원 정보(이름, 닉네임, 가입일)
 //		log.debug("joinClubMembersInfo = {}", joinClubMembersInfo);
 		
 		JoinClubMember host = clubService.hostFindByClubId(clubId);
@@ -308,12 +359,12 @@ public class ClubController {
 		
 //		log.debug("memberRole = {}", memberRole);
 		
-
-		model.addAttribute("clubId", clubId); // 가입승인 시 필요 (종환)
-		model.addAttribute("joinClubMembersInfo", joinClubMembersInfo); // 해당 모임에 가입된 회원 정보 [방장제외](아아디, 이름, 닉네임, 가입일, 회원 권한)
 		model.addAttribute("host", host); // 해당 모임의 방장 정보(아이디, 이름, 닉네임, 가입일, 권한)
-		model.addAttribute("loginMemberId", loginMemberId); // 로그인한 회원의 아이디
+		model.addAttribute("clubId", clubId); // 가입승인 시 필요 (종환)
 		model.addAttribute("memberRole", memberRole); // 해당 모임에서 로그인한 회원의 권한
+		model.addAttribute("clubApplies", clubApplies);
+		model.addAttribute("loginMemberId", loginMemberId); // 로그인한 회원의 아이디
+		model.addAttribute("joinClubMembersInfo", joinClubMembersInfo); // 해당 모임에 가입된 회원 정보 [방장제외](아아디, 이름, 닉네임, 가입일, 회원 권한)
 		
 		return "/club/manageMember";
 	}
@@ -664,11 +715,18 @@ public class ClubController {
 	
 	
 
-	@GetMapping("/clubMemberList.do")
+	
+	/**
+	 * @author 준한
+	 * 클럽 내 가입되어있는 회원들 조회페이지로 이동
+	 */
+	@GetMapping("/&{domain}/clubMemberList.do")
 	public String clubMemberList(
 			@PathVariable("domain") String domain,
+			@AuthenticationPrincipal MemberDetails member,
 			Model model
 			) {
+		String memberId = member.getMemberId();
 		int clubId = clubService.clubIdFindByDomain(domain);
 		Club club = clubService.findByDomain(domain);
 		List<Member> members= clubService.findMemberByClubId(clubId);
