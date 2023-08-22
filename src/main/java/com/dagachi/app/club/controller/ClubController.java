@@ -208,9 +208,8 @@ public class ClubController {
 			@AuthenticationPrincipal MemberDetails member,
 			Model model) {
 
-		int clubId = clubService.findByDomain(domain).getClubId();
+		int clubId = clubService.clubIdFindByDomain(domain);
 		String memberId = member.getMemberId();
-		
 		ClubLayout layout = clubService.findLayoutById(clubId);
 
 		List<BoardAndImageDto> boardAndImages = clubService.findBoardAndImageById(clubId);
@@ -218,8 +217,14 @@ public class ClubController {
 
 		int result = clubService.insertClubRecentVisitd(memberId, clubId);
 		
-		System.out.println(clubId);
-
+		ClubMemberRole clubMemberRole = ClubMemberRole.builder()
+				.clubId(clubId)
+				.loginMemberId(memberId)
+				.build();
+		// 로그인한 회원 아이디로 해당 모임의 권한 가져오기
+		int memberRole = clubService.memberRoleFindByMemberId(clubMemberRole);
+		model.addAttribute("memberId",memberId);
+		model.addAttribute("memberRole",memberRole);
 		model.addAttribute("domain", domain);
 		model.addAttribute("galleries", galleries);
 		model.addAttribute("boardAndImages", boardAndImages);
@@ -649,11 +654,17 @@ public class ClubController {
 	
 	
 	
-	@GetMapping("/clubMemberList.do")
+	/**
+	 * @author 준한
+	 * 클럽 내 가입되어있는 회원들 조회페이지로 이동
+	 */
+	@GetMapping("/&{domain}/clubMemberList.do")
 	public String clubMemberList(
 			@PathVariable("domain") String domain,
+			@AuthenticationPrincipal MemberDetails member,
 			Model model
 			) {
+		String memberId = member.getMemberId();
 		int clubId = clubService.clubIdFindByDomain(domain);
 		Club club = clubService.findByDomain(domain);
 		List<Member> members= clubService.findMemberByClubId(clubId);
