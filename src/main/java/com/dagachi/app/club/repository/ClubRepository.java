@@ -16,6 +16,7 @@ import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
+import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
 import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.KickMember;
 import com.dagachi.app.club.dto.ClubSearchDto;
@@ -76,7 +77,7 @@ public interface ClubRepository {
    List<ClubMember> clubMemberByFindAllByClubId(int clubId);
 
    
-   JoinClubMember clubMemberInfoByFindByMemberId(String memberId);
+   JoinClubMember clubMemberInfoByFindByMemberId(Map<String, Object> params);
    
    
 
@@ -201,6 +202,9 @@ public interface ClubRepository {
 	
 	
 	List<ClubAndImage> categoryList(String category);
+
+
+	List<ClubScheduleAndMemberDto> findScheduleById(int clubId);
 
 }
    

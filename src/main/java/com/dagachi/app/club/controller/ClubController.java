@@ -36,6 +36,7 @@ import com.dagachi.app.club.dto.ClubBoardCreateDto;
 import com.dagachi.app.club.dto.ClubCreateDto;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
+import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
 import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.ClubUpdateDto;
 import com.dagachi.app.club.dto.GalleryAndImageDto;
@@ -208,21 +209,29 @@ public class ClubController {
 			@AuthenticationPrincipal MemberDetails member,
 			Model model) {
 
-		int clubId = clubService.findByDomain(domain).getClubId();
+		int clubId = clubService.clubIdFindByDomain(domain);
 		String memberId = member.getMemberId();
-		
 		ClubLayout layout = clubService.findLayoutById(clubId);
 
 		List<BoardAndImageDto> boardAndImages = clubService.findBoardAndImageById(clubId);
 		List<GalleryAndImageDto> galleries = clubService.findgalleryById(clubId);
+		List<ClubScheduleAndMemberDto> schedules = clubService.findScheduleById(clubId);
 
+		
 		int result = clubService.insertClubRecentVisitd(memberId, clubId);
 		
-		System.out.println(clubId);
-
+		ClubMemberRole clubMemberRole = ClubMemberRole.builder()
+				.clubId(clubId)
+				.loginMemberId(memberId)
+				.build();
+		// 로그인한 회원 아이디로 해당 모임의 권한 가져오기
+		int memberRole = clubService.memberRoleFindByMemberId(clubMemberRole);
+		model.addAttribute("memberId",memberId);
+		model.addAttribute("memberRole",memberRole);
 		model.addAttribute("domain", domain);
 		model.addAttribute("galleries", galleries);
 		model.addAttribute("boardAndImages", boardAndImages);
+		model.addAttribute("schedules", schedules);
 		model.addAttribute("layout", layout);
 		return "club/clubDetail";
 	}
@@ -314,8 +323,9 @@ public class ClubController {
 		
 		List<ClubMember> clubMembers = clubService.clubMemberByFindAllByClubId(clubId); // clubId로 club_member 조회(방장 제외)
 //		log.debug("clubMembers = {}", clubMembers);
+
 		
-		List<JoinClubMember> joinClubMembersInfo = clubService.clubMemberInfoByFindByMemberId(clubMembers);	// 해당 모임에 가입된 회원 정보(이름, 닉네임, 가입일)
+		List<JoinClubMember> joinClubMembersInfo = clubService.clubMemberInfoByFindByMemberId(clubMembers, clubId);	// 해당 모임에 가입된 회원 정보(이름, 닉네임, 가입일)
 //		log.debug("joinClubMembersInfo = {}", joinClubMembersInfo);
 		
 		JoinClubMember host = clubService.hostFindByClubId(clubId);
@@ -675,11 +685,17 @@ public class ClubController {
 	
 	
 	
-	@GetMapping("/clubMemberList.do")
+	/**
+	 * @author 준한
+	 * 클럽 내 가입되어있는 회원들 조회페이지로 이동
+	 */
+	@GetMapping("/&{domain}/clubMemberList.do")
 	public String clubMemberList(
 			@PathVariable("domain") String domain,
+			@AuthenticationPrincipal MemberDetails member,
 			Model model
 			) {
+		String memberId = member.getMemberId();
 		int clubId = clubService.clubIdFindByDomain(domain);
 		Club club = clubService.findByDomain(domain);
 		List<Member> members= clubService.findMemberByClubId(clubId);

@@ -29,7 +29,7 @@
 						<td>${clubApply.name}</td>
 						<td>${clubApply.answer}</td>
 						<td>
-							<button value="${clubApply.memberId}" onclick="permitApply(${clubId}, ${clubApply.});">승인</button>
+							<button value="${clubApply.memberId}" onclick="permitApply(${clubId});">승인</button>
 							<button value="${clubApply.memberId}" onclick="refuseApply();">거절</button>
 						</td>
 					</tr>

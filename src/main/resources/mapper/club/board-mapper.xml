@@ -51,7 +51,7 @@
 		    club_member c left join member m
 		        on c.member_id = m.member_id
 		where
-			c.member_id = #{memberId}
+			c.member_id = #{memberId} and club_id = #{clubId}
 	</select>
 	
 	
