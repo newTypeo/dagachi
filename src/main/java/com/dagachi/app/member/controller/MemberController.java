@@ -46,6 +46,7 @@ public class MemberController {
 	    		) {
 		 	Member member = memberService.findMemberBymemberId(memberId);
 		 
+
 		 	model.addAttribute("member",member);
 		 	model.addAttribute("loginMember",loginMember);
 		 	String loginMemberId = loginMember.getMemberId();
@@ -56,6 +57,7 @@ public class MemberController {
 		 	
 		 	log.debug("잘 들어왔니? = {}", clubAndImages);
 		 	model.addAttribute("clubAndImages",clubAndImages);
+
 	        return "member/memberDetail";
 	    }
 	

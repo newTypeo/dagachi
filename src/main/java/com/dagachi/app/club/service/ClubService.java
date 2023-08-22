@@ -5,23 +5,23 @@ import java.util.Map;
 
 import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
+import com.dagachi.app.club.dto.ClubEnrollDto;
+import com.dagachi.app.club.dto.ClubManageApplyDto;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
 import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
-import com.dagachi.app.club.dto.JoinClubMember;
-import com.dagachi.app.club.dto.KickMember;
 import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.GalleryAndImageDto;
+import com.dagachi.app.club.dto.JoinClubMember;
+import com.dagachi.app.club.dto.KickMember;
 import com.dagachi.app.club.dto.ManageMember;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
 import com.dagachi.app.club.entity.ClubBoardAttachment;
-import com.dagachi.app.club.entity.ClubBoardDetails;
-import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubDetails;
-import com.dagachi.app.club.entity.ClubGalleryAttachment;
 import com.dagachi.app.club.entity.ClubLayout;
+import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.club.entity.ClubRecentVisited;
 import com.dagachi.app.club.entity.ClubTag;
@@ -101,17 +101,26 @@ public interface ClubService {
 	
 	int insertClubRecentVisitd(String memberId, int clubId);
 
+
 	List<ClubRecentVisited> findAllrecentVisitClubs();
 
 	int checkDuplicateClubId(int clubId);
 
+
+	int updateThumbnail(ClubBoardAttachment clubBoardAttachment);
+
 	List<ClubAndImage> categoryList(String category);
 	
-	int permitApply(Map<String, Object> params);
+	int permitApply(ClubManageApplyDto clubManageApplyDto);
+	int refuseApply(ClubManageApplyDto clubManageApplyDto);
 	
 	List<ClubScheduleAndMemberDto> findScheduleById(int clubId);
 
+
 	List<ClubAndImage> recentVisitClubs(String loginMemberId);
+
+
+	int ClubEnroll(ClubEnrollDto enroll);
 
 
 
