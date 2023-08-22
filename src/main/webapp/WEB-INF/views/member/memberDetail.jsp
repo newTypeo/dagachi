@@ -55,9 +55,39 @@
     </div>
 </div>
 
+<section id="class2">
+	<h1>최근 본 모임</h1>
+	 <c:if test="${empty clubAndImages}">
+	 	<h1>최근 조회하신 모임이 없습니다.</h1>
+	 </c:if>
+	 
+	 <c:if test="${not empty clubAndImages}">
+		<c:forEach items="${clubAndImages}" var="clubAndImage" varStatus="vs">
+	   		<div class="posts2">
+		   		<div class="card" style="width: 18rem;">
+				  <img src="${pageContext.request.contextPath}/resources/upload/club/profile/${clubAndImage.renamedFilename}" class="card-img-top" alt="...">
+				  <div class="card-body">
+				    <h5 class="card-title">${clubAndImage.clubName}</h5>
+				  </div>
+				  <ul class="list-group list-group-flush">
+				    <li class="list-group-item">${clubAndImage.introduce}</li>
+				    <li class="list-group-item">${clubAndImage.category}</li>
+				  </ul>
+				  <div class="card-body">
+				    <a href="#" class="card-link">Card link</a>
+				    <a href="#" class="card-link">Another link</a>
+				  </div>
+				</div>
+	   		</div>
+	   	</c:forEach>
+	  </c:if>
+	</section>
+
+
 <br/><br/><br/>
 <h1>최근 본 모임</h1>
 <br/><br/><br/>
+
 <h1>가입 되어있는 모임</h1>
 <br/><br/><br/>
 <h1>작성한 글</h1>

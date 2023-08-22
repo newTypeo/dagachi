@@ -32,6 +32,7 @@ import com.dagachi.app.club.entity.ClubGalleryAttachment;
 import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
+import com.dagachi.app.club.entity.ClubRecentVisited;
 import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.club.repository.ClubRepository;
 import com.dagachi.app.member.entity.Member;
@@ -333,6 +334,17 @@ public class ClubServiceImpl implements ClubService {
 	}
 
 	@Override
+	public List<ClubRecentVisited> findAllrecentVisitClubs() {
+		return clubRepository.findAllrecentVisitClubs();
+	}
+	
+	@Override
+	public int checkDuplicateClubId(int clubId) {
+		return clubRepository.checkDuplicateClubId(clubId);
+	}
+	
+
+	@Override
 	public List<Member> findMemberByClubId(int clubId) {
 		return clubRepository.findMemberByClubId(clubId);
 	}
@@ -363,10 +375,17 @@ public class ClubServiceImpl implements ClubService {
 	}
 
 	@Override
+	public List<ClubAndImage> recentVisitClubs(String loginMemberId) {
+		return clubRepository.recentVisitClubs(loginMemberId);
+	}
+
+
+	@Override
 	public int updateThumbnail(ClubBoardAttachment clubBoardAttachment) {
 		return clubRepository.updateThumbnail(clubBoardAttachment);
 	}
 	
+
 	@Override
 	public int delClubBoard(int boardId) {
 		int result=0;
@@ -382,5 +401,6 @@ public class ClubServiceImpl implements ClubService {
 		
 		return result;
 	}
+
 
 }

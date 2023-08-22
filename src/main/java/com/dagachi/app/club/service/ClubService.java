@@ -23,6 +23,7 @@ import com.dagachi.app.club.entity.ClubDetails;
 import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
+import com.dagachi.app.club.entity.ClubRecentVisited;
 import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.member.entity.Member;
 
@@ -100,7 +101,14 @@ public interface ClubService {
 	
 	int insertClubRecentVisitd(String memberId, int clubId);
 
+
+	List<ClubRecentVisited> findAllrecentVisitClubs();
+
+	int checkDuplicateClubId(int clubId);
+
+
 	int updateThumbnail(ClubBoardAttachment clubBoardAttachment);
+
 	List<ClubAndImage> categoryList(String category);
 	
 	int permitApply(ClubManageApplyDto clubManageApplyDto);
@@ -108,9 +116,12 @@ public interface ClubService {
 	
 	List<ClubScheduleAndMemberDto> findScheduleById(int clubId);
 
+	List<ClubAndImage> recentVisitClubs(String loginMemberId);
+
 	int delClubBoard(int boardId);
 	
 	int ClubEnroll(ClubEnrollDto enroll);
+
 
 
 }
