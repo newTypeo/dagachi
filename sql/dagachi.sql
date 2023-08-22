@@ -44,6 +44,7 @@
 --DROP TABLE "CLUB_GALLERY" CASCADE CONSTRAINTS;
 --DROP TABLE "AUTHORITY" CASCADE CONSTRAINTS;
 --DROP TABLE "PERSISTENT_LOGINS" CASCADE CONSTRAINTS;
+--DROP TABLE "RECENT_VISIT_LIST" CASCADE CONSTRAINTS;
 --drop sequence seq_club_id;
 --drop sequence seq_club_report_id;
 --drop sequence seq_chat_log_id;
@@ -134,6 +135,7 @@ create table persistent_logins (
     token varchar(64) not null, -- username, password, expiry time을 hasing한 값
     last_used timestamp not null
 );
+
 
 create table club (
 	club_id	number	not null,
@@ -350,6 +352,13 @@ create table authority (
     auth varchar2(20)   not null
 );
 
+create table recent_visit_list (
+    member_id varchar2(30) not null,
+    club_id number not null,
+    recent_date date default sysdate
+);
+
+
 alter table member add constraint pk_member primary key (
 	member_id
 );
@@ -521,6 +530,7 @@ references club_schedule (
 	schedule_id
 );
 
+
 --alter table club_schedule_enroll_member add constraint fk_club_member_to_club_schedule_enroll_member_1 foreign key (
 --	member_id
 --)
@@ -646,9 +656,39 @@ references member (
 	member_id
 );
 
+alter table recent_visit_list add constraint fk_recent_check_list foreign key (
+    member_id
+)
+references  member(
+member_id
+);
+
 alter table club add constraint uq_club_domain unique (
     domain
 );
+
+-- 회원탈퇴 시 소모임회원에서 삭제하는 트리거
+create or replace trigger delete_club_member
+after update of status on member
+for each row
+begin
+    if :new.status = 'N' then
+        delete from club_member
+        where member_id = :new.member_id;
+    end if;
+end;
+/
+--  가입 신청 승인 시 신청내역 삭제하는 트리거
+create or replace trigger delete_club_apply
+after insert on club_member
+for each row
+begin
+    delete from club_apply
+    where club_id = :new.club_id 
+            and 
+             member_id = :new.member_id ;
+end;
+/
 
 
 -- 소모임샘플
@@ -1128,6 +1168,8 @@ INSERT INTO club_schedule (schedule_id, club_id, title, start_date, end_date, ex
 VALUES (seq_club_schedule_id.nextval, 1, '두근두근 농구데이트', TO_DATE('2023-09-05', 'YYYY-MM-DD'), TO_DATE('2023-09-05', 'YYYY-MM-DD'), 3000, 15, TO_DATE('2023-09-02', 'YYYY-MM-DD'), 'Y');
 INSERT INTO club_schedule (schedule_id, club_id, title, start_date, end_date, expence, capacity, alarm_date, status)
 VALUES (seq_club_schedule_id.nextval, 1, '신나는 볼링데이트', TO_DATE('2023-09-15', 'YYYY-MM-DD'), TO_DATE('2023-09-17', 'YYYY-MM-DD'), 0, 10, TO_DATE('2023-09-10', 'YYYY-MM-DD'), 'Y');
+INSERT INTO club_schedule (schedule_id, club_id, title, start_date, end_date, expence, capacity, alarm_date, status)
+VALUES (seq_club_schedule_id.nextval, 1, '나랑 놀사람', TO_DATE('2023-10-15', 'YYYY-MM-DD'), TO_DATE('2023-10-17', 'YYYY-MM-DD'), 0, 10, TO_DATE('2023-10-10', 'YYYY-MM-DD'), 'Y');
 
 -- 소모임 일정 참가회원 샘플
 INSERT INTO club_schedule_enroll_member (member_id, club_id, schedule_id)
@@ -1277,15 +1319,9 @@ values (seq_club_gallery_attachment_id.nextval, 9, 'gallerySample9.png', 'galler
 insert into club_gallery_attachment (id, gallery_id, original_filename, renamed_filename, created_at, thumbnail)
 values (seq_club_gallery_attachment_id.nextval, 10, 'gallerySample10.png', 'gallerySample10.png', sysdate, 'Y');
 
+
+update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'honggd';
 commit;
-
-
-select * from club_member where club_id = 2;
---update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'honggd';
-
-
-
-
 
 
 

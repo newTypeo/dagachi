@@ -13,6 +13,7 @@ import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
+import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
 import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.GalleryAndImageDto;
 import com.dagachi.app.club.dto.JoinClubMember;
@@ -21,6 +22,9 @@ import com.dagachi.app.club.dto.ManageMember;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
+import com.dagachi.app.club.entity.ClubBoardAttachment;
+import com.dagachi.app.club.entity.ClubBoardDetails;
+import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubDetails;
 import com.dagachi.app.club.entity.ClubGalleryAttachment;
 import com.dagachi.app.club.entity.ClubLayout;
@@ -34,7 +38,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class ClubServiceImpl implements ClubService {
 
 
@@ -161,7 +165,9 @@ public class ClubServiceImpl implements ClubService {
 	public List<JoinClubMember> clubMemberInfoByFindByMemberId(List<ClubMember> clubMembers) {
 		List<JoinClubMember> joinClubMembers = new ArrayList<>();
 		for(ClubMember clubMember : clubMembers) {
+			System.out.println("전");
 			joinClubMembers.add(clubRepository.clubMemberInfoByFindByMemberId(clubMember.getMemberId()));
+			System.out.println("후");
 		}
 		
 		return joinClubMembers;
@@ -187,6 +193,11 @@ public class ClubServiceImpl implements ClubService {
 		// layout 생성
 		result = clubRepository.insertLayout(club.getClubId());
 		return result;
+	}
+	
+	@Override
+	public List<ClubBoardAttachment> findAttachments(int no) {
+		return clubRepository.findAttachments(no);
 	}
 	
 	@Override
@@ -247,19 +258,54 @@ public class ClubServiceImpl implements ClubService {
 	}
 	
 	@Override
+	public int postBoard(ClubBoard clubBoard) {
+		int result=0;
+		
+		result =clubRepository.postBoard(clubBoard);
+		
+		log.debug("clubBoard={}",clubBoard);
+		List<ClubBoardAttachment> attachments=((ClubBoardDetails)clubBoard).getAttachments();
+		if(attachments != null && !attachments.isEmpty()) {
+			for(ClubBoardAttachment attach : attachments) {
+				attach.setBoardId(clubBoard.getBoardId());
+				result= clubRepository.insetAttachment(attach);
+				log.debug("attach={}",attach);
+			}
+		}
+		
+		return result;
+	}
+	
+	@Override
+	public ClubBoardAttachment findAttachment(int attachNo) {
+		return clubRepository.findAttachment(attachNo);
+	}
+	@Override
 	public List<ClubAndImage> clubListById(String memberId) {
 		return clubRepository.clubListById(memberId);
 	}
+
+	@Override
 	public List<BoardAndImageDto> findBoardAndImageById(int clubId) {
 		return clubRepository.findBoardAndImageById(clubId);
 	}
+	
+	@Override
 	public JoinClubMember hostFindByClubId(int clubId) {
 		return clubRepository.hostFindByClubId(clubId);
 	}
 	
 	@Override
 	public int memberRoleFindByMemberId(ClubMemberRole clubMemberRole) {
-		return clubRepository.memberRoleFindByMemberId(clubMemberRole);
+		int result = 0;
+		try {
+			result = clubRepository.memberRoleFindByMemberId(clubMemberRole);
+		} catch (Exception e) {
+			System.out.println("헉");
+			result = 10;
+			System.out.println(result);
+		}
+		return result;
 	}
 
 	@Override
@@ -268,9 +314,34 @@ public class ClubServiceImpl implements ClubService {
 	}
 	
 	@Override
+
+	public int insertClubRecentVisitd(String memberId, int clubId) {
+		return clubRepository.insertClubRecentVisitd(memberId, clubId);
+	}
+
 	public List<GalleryAndImageDto> findgalleryById(int clubId) {
 		return clubRepository.findgalleryById(clubId);
+
 	}
 	
+	@Override
+	public List<Member> findMemberByClubId(int clubId) {
+		return clubRepository.findMemberByClubId(clubId);
+	}
+	
+	@Override
+	public int delAttachment(int id) {
+		return clubRepository.delAttachment(id);
+	}
+
+	@Override
+	public int permitApply(Map<String, Object> params) {
+		return clubRepository.permitApply(params);
+	}
+	
+	@Override
+	public List<ClubScheduleAndMemberDto> findScheduleById(int clubId) {
+		return clubRepository.findScheduleById(clubId);
+	}
 }
 

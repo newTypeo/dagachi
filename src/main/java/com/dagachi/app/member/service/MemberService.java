@@ -28,6 +28,8 @@ public interface MemberService extends UserDetailsService {
 	List<Member> quitMemberSearch(String keyword, String column);
 
 	int getTotalCount();
+	
+	int memberDelete(String memberId);
 
 
 }

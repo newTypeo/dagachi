@@ -1,5 +1,6 @@
 package com.dagachi.app.member.controller;
 
+
 import java.io.Console;
 import java.io.File;
 import java.io.IOException;
@@ -9,18 +10,18 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
@@ -32,7 +33,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.dagachi.app.club.entity.ClubDetails;
 import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.common.DagachiUtils;
@@ -71,11 +71,12 @@ public class MemberSecurityController {
          @RequestParam(value = "upFile", required = false) MultipartFile upFile
          ) throws IllegalStateException, IOException {
        log.debug("냥 -> {}", member);
+
       
       if(bindingResult.hasErrors()) { //에러 나면 
          ObjectError error = bindingResult.getAllErrors().get(0);
          redirectAttr.addFlashAttribute("msg", error.getDefaultMessage());
-         log.debug("오류 -> {}", member);
+         // log.debug("오류 -> {}", member);
          return "redirect:/member/memberCreate.do"; 
       } 
       
@@ -96,7 +97,7 @@ public class MemberSecurityController {
 		}
       String rawPassword = member.getPassword();
       String encodedPassword = passwordEncoder.encode(rawPassword);
-      log.debug("회원가입 완료{} -> {}", rawPassword, encodedPassword);
+      // log.debug("회원가입 완료{} -> {}", rawPassword, encodedPassword);
       member.setPassword(encodedPassword);
       
       List<String> memberInterest = new ArrayList<>();
@@ -144,6 +145,19 @@ public class MemberSecurityController {
 				.status(HttpStatus.OK)
 				.body(Map.of("available", available, "memberId", memberId));
 	}
-	 
+	
+	@PostMapping("memberDelete.do")
+	public String memberDelete(@AuthenticationPrincipal MemberDetails member) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+		int result = memberService.memberDelete(member.getMemberId());
+		
+	    if (authentication != null) {
+	        SecurityContextHolder.clearContext(); // 인증 정보 삭제
+	    }
+		
+		return "redirect:/";
+	}
+	
 
 }

@@ -29,7 +29,7 @@
 						<td>${clubApply.name}</td>
 						<td>${clubApply.answer}</td>
 						<td>
-							<button value="${clubApply.memberId}" onclick="permitApply();">승인</button>
+							<button value="${clubApply.memberId}" onclick="permitApply(${clubId}, '${clubApply.memberId}');">승인</button>
 							<button value="${clubApply.memberId}" onclick="refuseApply();">거절</button>
 						</td>
 					</tr>
@@ -38,16 +38,23 @@
 		</table>
 	</fieldset>
 </div>
-
-<br/><br/><br/><br/>
+<form:form name="permitApplyFrm" action="${pageContext.request.contextPath}/club/&${domain}/permitApply.do" method="post">
+	<input type="hidden" name="clubId"/>
+	<input type="hidden" name="memberId"/>
+</form:form>
 <script>
-const permitApply = () => {
-	
+const permitApply = (clubId, memberId) => {
+	console.log("clubId, memberId = ", clubId, memberId);
+	document.querySelector("input[name=clubId]").value = clubId;
+	document.querySelector("input[name=memberId]").value = memberId;
+	document.permitApplyFrm.submit();
 };
 const refuseApply = () => {
 	
 };
 </script>
+<br/><br/><br/><br/>
+
 
 <div>
 	<fieldset>
