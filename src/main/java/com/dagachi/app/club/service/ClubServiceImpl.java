@@ -367,7 +367,20 @@ public class ClubServiceImpl implements ClubService {
 		return clubRepository.updateThumbnail(clubBoardAttachment);
 	}
 	
-
-
+	@Override
+	public int delClubBoard(int boardId) {
+		int result=0;
+		
+		List<ClubBoardAttachment> attachments = clubRepository.findAttachments(boardId);
+		if(!attachments.isEmpty()) {
+			for(ClubBoardAttachment attachment : attachments) {
+				int id=attachment.getId();
+				result=clubRepository.delAttachment(id);
+			}
+		}
+		result=clubRepository.delClubBoard(boardId);
+		
+		return result;
+	}
 
 }

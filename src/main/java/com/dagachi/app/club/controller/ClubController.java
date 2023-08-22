@@ -762,6 +762,17 @@ public class ClubController {
 	@GetMapping("/clubsRecentVisited.do")
 	public void clubsRecentVisited(){}
 	
+	@PostMapping("/{domain}/delBoard.do")
+	public  ResponseEntity<?> delClubBoard(
+			@RequestParam int boardId
+	){
+		
+		int result= clubService.delClubBoard(boardId);	
+		
+		String msg= "게시글이 삭제되었습니다.";
+		return ResponseEntity.status(HttpStatus.OK).body(msg);
+	}
+	
 }
 
 

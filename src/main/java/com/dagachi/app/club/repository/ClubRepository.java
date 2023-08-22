@@ -216,6 +216,9 @@ public interface ClubRepository {
 	
 	List<ClubScheduleAndMemberDto> findScheduleById(int clubId);
 	
+	@Delete("delete from club_board where board_Id=#{boardId}")
+	int delClubBoard(int boardId);
+	
 	@Insert("insert into Club_apply( #{clubId},#{memberId},#{answer})")
 	 int ClubEnroll(ClubEnrollDto enroll);
 	
