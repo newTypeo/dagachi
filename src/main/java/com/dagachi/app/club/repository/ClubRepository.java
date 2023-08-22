@@ -77,7 +77,7 @@ public interface ClubRepository {
    List<ClubMember> clubMemberByFindAllByClubId(int clubId);
 
    
-   JoinClubMember clubMemberInfoByFindByMemberId(String memberId);
+   JoinClubMember clubMemberInfoByFindByMemberId(Map<String, Object> params);
    
    
 
@@ -199,6 +199,13 @@ public interface ClubRepository {
 	
 	@Insert("insert into recent_visit_list values(#{memberId}, #{clubId}, default)")
 	int insertClubRecentVisitd(String memberId, int clubId);
+	
+	
+	List<ClubAndImage> categoryList(String category);
+
+
+	@Insert("insert into club_member values(#{memberId}, #{clubId}, default, null, default, default)")
+	int permitApply(Map<String, Object> params);
 	
 	List<ClubScheduleAndMemberDto> findScheduleById(int clubId);
 

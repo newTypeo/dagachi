@@ -654,6 +654,29 @@ alter table club add constraint uq_club_domain unique (
     domain
 );
 
+-- 회원탈퇴 시 소모임회원에서 삭제하는 트리거
+create or replace trigger delete_club_member
+after update of status on member
+for each row
+begin
+    if :new.status = 'N' then
+        delete from club_member
+        where member_id = :new.member_id;
+    end if;
+end;
+/
+--  가입 신청 승인 시 신청내역 삭제하는 트리거
+create or replace trigger delete_club_apply
+after insert on club_member
+for each row
+begin
+    delete from club_apply
+    where club_id = :new.club_id 
+            and 
+             member_id = :new.member_id ;
+end;
+/
+
 
 -- 소모임샘플
 INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
