@@ -358,7 +358,6 @@ create table recent_visit_list (
     recent_date date default sysdate
 );
 
-
 alter table member add constraint pk_member primary key (
 	member_id
 );
@@ -1322,10 +1321,11 @@ insert into club_gallery_attachment (id, gallery_id, original_filename, renamed_
 values (seq_club_gallery_attachment_id.nextval, 10, 'gallerySample10.png', 'gallerySample10.png', sysdate, 'Y');
 
 
+
+
+
+
+
 commit;
-
-
-
-
 
 

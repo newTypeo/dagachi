@@ -29,8 +29,8 @@
 						<td>${clubApply.name}</td>
 						<td>${clubApply.answer}</td>
 						<td>
-							<button value="${clubApply.memberId}" onclick="permitApply(${clubId}, '${clubApply.memberId}');">승인</button>
-							<button value="${clubApply.memberId}" onclick="refuseApply();">거절</button>
+							<button value="${clubApply.memberId}" onclick="manageApply(${clubId}, '${clubApply.memberId}', 'true');">승인</button>
+							<button value="${clubApply.memberId}" onclick="manageApply(${clubId}, '${clubApply.memberId}', 'false');">거절</button>
 						</td>
 					</tr>
 				</c:forEach>
@@ -38,19 +38,22 @@
 		</table>
 	</fieldset>
 </div>
-<form:form name="permitApplyFrm" action="${pageContext.request.contextPath}/club/&${domain}/permitApply.do" method="post">
+<form:form name="permitApplyFrm" action="${pageContext.request.contextPath}/club/&${domain}/manageApply.do" method="post">
 	<input type="hidden" name="clubId"/>
 	<input type="hidden" name="memberId"/>
+	<input type="hidden" name="permit"/>
 </form:form>
 <script>
-const permitApply = (clubId, memberId) => {
-	console.log("clubId, memberId = ", clubId, memberId);
-	document.querySelector("input[name=clubId]").value = clubId;
-	document.querySelector("input[name=memberId]").value = memberId;
-	document.permitApplyFrm.submit();
-};
-const refuseApply = () => {
+const manageApply = (clubId, memberId, permit) => {
 	
+	if(permit == 'false') {
+		if(confirm('정말로 거절하시겠습니까?')) {
+			document.querySelector("input[name=clubId]").value = clubId;
+			document.querySelector("input[name=permit]").value = permit;
+			document.querySelector("input[name=memberId]").value = memberId;		
+		} else return; 
+	}
+	document.permitApplyFrm.submit();
 };
 </script>
 <br/><br/><br/><br/>
