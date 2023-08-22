@@ -96,10 +96,11 @@
 }
 #category-modal-left-upper {
 	height: 540px;
+	padding: 10px 0;
 	display: flex;
   	overflow-y: auto;
+  	overflow-x: hidden;
     flex-direction: column;
-    padding: 23px;
 }
 #category-modal-left-lower {
 	height: 57px;
@@ -121,9 +122,14 @@
     display: none;
 }
 
-#category-modal-left-upper a:hover {
+#category-modal-left-upper div:hover {
 	text-decoration: underline;
 	cursor: pointer;
+}
+#category-modal-left-upper div {
+	height: 44px;
+    width: 180px;
+	padding: 10px 25px;
 }
 
 

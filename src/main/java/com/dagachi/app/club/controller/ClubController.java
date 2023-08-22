@@ -52,6 +52,7 @@ import com.dagachi.app.club.entity.ClubDetails;
 import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
+import com.dagachi.app.club.entity.ClubRecentVisited;
 import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.club.service.ClubService;
 import com.dagachi.app.common.DagachiUtils;
@@ -83,13 +84,12 @@ public class ClubController {
 
 	@GetMapping("/&{domain}/clubEnroll.do")
 	public String ClubEnroll(@PathVariable("domain") String domain, Model model) {
-		model.addAttribute("domain", domain);
-		int club = clubService.clubIdFindByDomain(domain);
-		model.addAttribute("club", club);
-			
-		log.debug("club={}", club);
-		return "/club/clubEnroll";
+		int clubId = clubService.clubIdFindByDomain(domain);
+		Club club = clubService.findClubById(clubId);
 		
+		model.addAttribute("club",club);
+		
+		return "/club/clubEnroll";
 	}
 
 	@GetMapping("/&{domain}/clubBoardList.do")
@@ -108,34 +108,28 @@ public class ClubController {
 	
 
 	@PostMapping("/&{domain}/clubEnroll.do")
-	public String ClubEnroll(@Valid ClubEnrollDto Enroll, @PathVariable("domain") String domain,
-			BindingResult bindingResult, @RequestParam(value = "upFile", required = false) List<MultipartFile> upFiles)
-			throws IllegalStateException, IOException {
-			
-		Club club = clubService.findByDomain(domain);
-		int clubId = club.getClubId();
-		
-		int result = clubService.ClubEnroll(Enroll);
-		return "/club/clubBoardCreate";
+	public String ClubEnroll(@Valid ClubEnrollDto enroll, @PathVariable("domain") String domain,
+			@AuthenticationPrincipal MemberDetails member) {
+		System.out.println(member);
+		enroll.setMemberId(member.getMemberId());
+		System.out.println(enroll);
+		int result = clubService.ClubEnroll(enroll);
+		return "club/clubDetail";
 	}
 	
 
 	@PostMapping("/{domain}/boardCreate.do")
 	public String boardCreate(@Valid ClubBoardCreateDto _board, @PathVariable("domain") String domain,
-			
 			BindingResult bindingResult, @RequestParam(value = "upFile", required = false) List<MultipartFile> upFiles)
 			throws IllegalStateException, IOException {
 		List<ClubBoardAttachment> attachments= new ArrayList<>();
 		if(!upFiles.isEmpty())
 			attachments=insertAttachment(upFiles,attachments);
-		
 		Club club = clubService.findByDomain(domain);
 		int clubId = club.getClubId();
 		ClubBoardDetails clubBoard = ClubBoardDetails.builder().clubId(clubId).writer("honggd").attachments(attachments)
 				.title(_board.getTitle()).content(_board.getContent()).type(_board.getType()).build();
-
 		int result = clubService.postBoard(clubBoard);
-
 		//작성자 수정해야함
 		return "/club/clubBoardList";
 	}
@@ -249,31 +243,50 @@ public class ClubController {
 			Model model) {
 
 		int clubId = clubService.clubIdFindByDomain(domain);
-		String memberId = member.getMemberId();
+
 		ClubLayout layout = clubService.findLayoutById(clubId);
 
 		List<BoardAndImageDto> boardAndImages = clubService.findBoardAndImageById(clubId);
 		List<GalleryAndImageDto> galleries = clubService.findgalleryById(clubId);
 		List<ClubScheduleAndMemberDto> schedules = clubService.findScheduleById(clubId);
 
+	
+			
+			String memberId = member.getMemberId();
+			// 최근 본 모임 전체 조회 (현우)
+			List<ClubRecentVisited> recentVisitClubs = clubService.findAllrecentVisitClubs();
+			
+			int checkDuplicate = clubService.checkDuplicateClubId(clubId);
+			
+			log.debug("recentVisitClubs = {}", recentVisitClubs);
+			
+			// 최근 본 모임 클릭 시 중복검사 후 db에 삽입
+			if(checkDuplicate == 0) {
+				int result = clubService.insertClubRecentVisitd(memberId, clubId);						
+			}
+			
+			ClubMemberRole clubMemberRole = ClubMemberRole.builder()
+					.clubId(clubId)
+					.loginMemberId(memberId)
+					.build();
+			
+			// 로그인한 회원 아이디로 해당 모임의 권한 가져오기
+			int memberRole = clubService.memberRoleFindByMemberId(clubMemberRole);
+			model.addAttribute("memberId",memberId);
+			model.addAttribute("memberRole",memberRole);
 		
-		int result = clubService.insertClubRecentVisitd(memberId, clubId);
+			
 		
-		ClubMemberRole clubMemberRole = ClubMemberRole.builder()
-				.clubId(clubId)
-				.loginMemberId(memberId)
-				.build();
-		// 로그인한 회원 아이디로 해당 모임의 권한 가져오기
-		int memberRole = clubService.memberRoleFindByMemberId(clubMemberRole);
-		model.addAttribute("memberId",memberId);
-		model.addAttribute("memberRole",memberRole);
 		model.addAttribute("domain", domain);
 		model.addAttribute("galleries", galleries);
 		model.addAttribute("boardAndImages", boardAndImages);
 		model.addAttribute("schedules", schedules);
 		model.addAttribute("layout", layout);
+		
+		
 		return "club/clubDetail";
 	}
+
 
 	/**
 	 * 메인에서 소모임 전체 조회(카드로 출력)
@@ -762,10 +775,20 @@ public class ClubController {
 	@GetMapping("/clubsRecentVisited.do")
 	public void clubsRecentVisited(){}
 	
+	@GetMapping("/&{domain}/clubLayoutUpdate.do")
+	public String clubLayoutUpdate(@PathVariable("domain") String domain, Model model) {
+		int clubId = clubService.clubIdFindByDomain(domain);
+
+		ClubLayout layout = clubService.findLayoutById(clubId);
+		
+		model.addAttribute("layout", layout);
+
+		return "club/clubLayoutUpdate";
+	}
+	
 	@PostMapping("/{domain}/delBoard.do")
-	public  ResponseEntity<?> delClubBoard(
-			@RequestParam int boardId
-	){
+	public  ResponseEntity<?> delClubBoard (
+			@RequestParam int boardId) {
 		
 		int result= clubService.delClubBoard(boardId);	
 		
