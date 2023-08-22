@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 
 
@@ -16,10 +17,9 @@ import lombok.NoArgsConstructor;
  * 나영
  * */
 @Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class Member {
 	
 	private String memberId; // 회원 아이디
@@ -38,5 +38,8 @@ public class Member {
 	private LocalDateTime passwordChangeDate; //비밀번호 변경일	
 	private LocalDateTime lastLoginDate; // 마지막 로그인날짜
 	private String status; // 활성화 여부 
+	
+
+	
 
 }

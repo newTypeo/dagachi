@@ -162,10 +162,11 @@ public class ClubServiceImpl implements ClubService {
 	
 	
 	@Override
-	public List<JoinClubMember> clubMemberInfoByFindByMemberId(List<ClubMember> clubMembers) {
+	public List<JoinClubMember> clubMemberInfoByFindByMemberId(List<ClubMember> clubMembers, int clubId) {
 		List<JoinClubMember> joinClubMembers = new ArrayList<>();
 		for(ClubMember clubMember : clubMembers) {
-			joinClubMembers.add(clubRepository.clubMemberInfoByFindByMemberId(clubMember.getMemberId()));
+			Map<String, Object> params = Map.of("clubId", clubId, "memberId", clubMember.getMemberId());
+			joinClubMembers.add(clubRepository.clubMemberInfoByFindByMemberId(params));
 		}
 		
 		return joinClubMembers;
@@ -330,6 +331,16 @@ public class ClubServiceImpl implements ClubService {
 	@Override
 	public int delAttachment(int id) {
 		return clubRepository.delAttachment(id);
+	}
+
+	@Override
+	public List<ClubAndImage> categoryList(String category) {
+		return clubRepository.categoryList(category);
+	}
+	
+	@Override
+	public int permitApply(Map<String, Object> params) {
+		return clubRepository.permitApply(params);
 	}
 	
 	@Override
