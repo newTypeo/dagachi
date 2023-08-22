@@ -45,18 +45,7 @@ public class Oauth2UserServiceImpl extends DefaultOAuth2UserService {
 			Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
 			Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
 			
-			String name = (String) profile.get("nickname");
-			String email = (String) kakaoAccount.get("email");
-			MemberCreateDto memberCreateDto = 
-					MemberCreateDto.builder()
-						.memberId(memberId)
-						.password("1234")
-						.name(name)
-						.email(email)
-						.build();
-			
-			int result = memberService.insertMember(memberCreateDto);
-			member = (MemberDetails) memberService.loadUserByUsername(memberId);
+		
 		}
 		
 		return member;

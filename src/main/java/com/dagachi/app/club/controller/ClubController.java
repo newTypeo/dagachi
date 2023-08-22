@@ -78,6 +78,13 @@ public class ClubController {
 	@GetMapping("/main.do")
 	public void Detail() {
 	}
+	
+
+	@GetMapping("/&{domain}/clubEnroll.do")
+	public String ClubEnroll(@PathVariable("domain") String domain, Model model) {
+		model.addAttribute("domain", domain);
+		return "/club/clubEnroll";
+	}
 
 	@GetMapping("/&{domain}/clubBoardList.do")
 	public String boardList(@PathVariable("domain") String domain, Model model) {
