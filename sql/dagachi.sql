@@ -1307,4 +1307,9 @@ values (seq_club_gallery_attachment_id.nextval, 10, 'gallerySample10.png', 'gall
 
 
 update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'honggd';
+
+select * from recent_visit_list;
+delete from recent_visit_list;
+
+
 commit;
