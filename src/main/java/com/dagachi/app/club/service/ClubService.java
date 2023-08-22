@@ -97,5 +97,7 @@ public interface ClubService {
 	
 	int insertClubRecentVisitd(String memberId, int clubId);
 
+	int updateThumbnail(ClubBoardAttachment clubBoardAttachment);
+
 
 }

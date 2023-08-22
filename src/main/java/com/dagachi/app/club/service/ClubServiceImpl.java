@@ -40,14 +40,12 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional(rollbackFor = Exception.class)
 public class ClubServiceImpl implements ClubService {
 
-
 	@Autowired
 	private ClubRepository clubRepository;
-	
-	
+
 	@Override
 	public List<Club> adminClubList(Map<String, Object> params) {
-		if((String) params.get("getCount") != null) {
+		if ((String) params.get("getCount") != null) {
 			return clubRepository.adminClubList(params);
 		}
 		int limit = (int) params.get("limit");
@@ -57,81 +55,76 @@ public class ClubServiceImpl implements ClubService {
 		return clubRepository.adminClubList(rowBounds, params);
 	}
 
-	
 	@Override
 	public List<ClubAndImage> clubList() {
 		return clubRepository.clubList();
 	}
-	
-	
+
 	@Override
 	public List<Member> adminMemberList() {
 		return clubRepository.adminMemberList();
 	}
-	
-	
+
 	@Override
 	public List<ClubSearchDto> clubSearch(Map<String, Object> params) {
-		if((String) params.get("getCount") != null) {
+		if ((String) params.get("getCount") != null) {
 			return clubRepository.clubSearch(params);
 		}
-		
+
 		int limit = (int) params.get("limit");
 		int page = (int) params.get("page");
 		int offset = (page - 1) * limit;
 		RowBounds rowBounds = new RowBounds(offset, limit);
-		
+
 		List<ClubSearchDto> clubs = clubRepository.clubSearch(rowBounds, params);
-		
+
 		// 모임 인원 가져오기
-		for (ClubSearchDto club : clubs) 
+		for (ClubSearchDto club : clubs)
 			club.setMemberCount(clubRepository.countClubMember(club.getClubId()));
-		
+
 		return clubs;
 	}
-	
+
 	@Override
 	public List<ClubSearchDto> searchClubWithFilter(Map<String, Object> params) {
-		if((String) params.get("getCount") != null) {
+		if ((String) params.get("getCount") != null) {
 			return clubRepository.searchClubWithFilter(params);
 		}
-		
+
 		int limit = (int) params.get("limit");
 		int page = (int) params.get("page");
 		int offset = (page - 1) * limit;
 		RowBounds rowBounds = new RowBounds(offset, limit);
-		
+
 		List<ClubSearchDto> clubs = clubRepository.searchClubWithFilter(rowBounds, params);
-		
+
 		// 모임 인원 가져오기
-		for (ClubSearchDto club : clubs) 
+		for (ClubSearchDto club : clubs)
 			club.setMemberCount(clubRepository.countClubMember(club.getClubId()));
-		
+
 		return clubs;
 	}
-	
-	
+
 	@Override
 	public int clubIdFindByDomain(String domain) {
 		return clubRepository.clubIdFindByDomain(domain);
 	}
-	
-	
+
 	@Override
 	public List<ClubBoard> boardList(ClubBoard clubBoard) {
 		return clubRepository.boardList(clubBoard);
 	}
-	
+
 	@Override
 	public Club findByDomain(String domain) {
 		return clubRepository.findByDomain(domain);
 	}
-	
+
 	@Override
 	public ClubBoard findByBoard(ClubBoard _clubBoard) {
 		return clubRepository.findByBoard(_clubBoard);
 	}
-	
+
 	@Override
 	public ClubBoard findByBoardId(int boardId) {
 		return clubRepository.findByBoardId(boardId);
@@ -139,37 +132,46 @@ public class ClubServiceImpl implements ClubService {
 
 	@Override
 	public int updateBoard(ClubBoard _board) {
-		return clubRepository.updateBoard(_board);
+		int result=0;
+			result=clubRepository.updateBoard(_board);
+			
+			List<ClubBoardAttachment> attachments = ((ClubBoardDetails) _board).getAttachments();
+			if (attachments != null && !attachments.isEmpty()) {
+				for (ClubBoardAttachment attach : attachments) {
+					attach.setBoardId(_board.getBoardId());
+					result = clubRepository.insetAttachment(attach);
+				}
+			}
+
+			
+		return result;
 	}
-	
+
 	@Override
 	public List<ManageMember> clubApplyByFindByClubId(int clubId) {
 		return clubRepository.clubApplyByFindByClubId(clubId);
 	}
-	
-	
+
 	@Override
 	public int clubDisabled(int clubId) {
 		return clubRepository.clubDisabled(clubId);
 	}
-	
-	
+
 	@Override
 	public List<ClubMember> clubMemberByFindAllByClubId(int clubId) {
 		return clubRepository.clubMemberByFindAllByClubId(clubId);
 	}
-	
-	
+
 	@Override
 	public List<JoinClubMember> clubMemberInfoByFindByMemberId(List<ClubMember> clubMembers) {
 		List<JoinClubMember> joinClubMembers = new ArrayList<>();
-		for(ClubMember clubMember : clubMembers) {
+		for (ClubMember clubMember : clubMembers) {
 			joinClubMembers.add(clubRepository.clubMemberInfoByFindByMemberId(clubMember.getMemberId()));
 		}
-		
+
 		return joinClubMembers;
 	}
-		
+
 	@Override
 	public int insertClub(Club club) {
 		int result = 0;
@@ -178,7 +180,7 @@ public class ClubServiceImpl implements ClubService {
 		log.debug("club = " + club);
 		// clubProfile 저장
 		ClubProfile clubProfile = ((ClubDetails) club).getClubProfile();
-		if(clubProfile != null) {
+		if (clubProfile != null) {
 			clubProfile.setClubId(club.getClubId());
 			result = clubRepository.insertClubProfile(clubProfile);
 		}
@@ -191,25 +193,27 @@ public class ClubServiceImpl implements ClubService {
 		result = clubRepository.insertLayout(club.getClubId());
 		return result;
 	}
-	
+
 	@Override
 	public List<ClubBoardAttachment> findAttachments(int no) {
 		return clubRepository.findAttachments(no);
 	}
-	
+
 	@Override
 	public Club findClubById(int clubId) {
 		return clubRepository.findClubById(clubId);
 	}
+
 	@Override
 	public ClubProfile findClubProfileById(int clubId) {
 		return clubRepository.findClubProfileById(clubId);
 	}
+
 	@Override
 	public List<ClubTag> findClubTagById(int clubId) {
 		return clubRepository.findClubTagById(clubId);
 	}
-	
+
 	@Override
 	public int updateClub(ClubDetails club) {
 		int result = 0;
@@ -218,7 +222,7 @@ public class ClubServiceImpl implements ClubService {
 		log.debug("club = " + club);
 		// clubProfile 저장
 		ClubProfile clubProfile = ((ClubDetails) club).getClubProfile();
-		if(clubProfile != null) {
+		if (clubProfile != null) {
 			clubProfile.setClubId(club.getClubId());
 			result = clubRepository.updateClubProfile(clubProfile);
 		}
@@ -228,14 +232,14 @@ public class ClubServiceImpl implements ClubService {
 			ClubTag clubTag = new ClubTag(club.getClubId(), tag);
 			result = clubRepository.insertClubTag(clubTag);
 		}
-		
+
 		return result;
 	}
+
 	@Override
 	public int clubMemberRoleUpdate(ClubMemberRoleUpdate member) {
 		return clubRepository.clubMemberRoleUpdate(member);
 	}
-
 
 	@Override
 	public List<ClubApply> clubApplyfindByClubId(int clubId) {
@@ -243,40 +247,37 @@ public class ClubServiceImpl implements ClubService {
 		return null;
 	}
 
-
 	@Override
 	public List<ClubBoard> boardList(int boardType) {
 		return null;
 	}
-	
+
 	@Override
 	public ClubLayout findLayoutById(int clubId) {
 		return clubRepository.findLayoutById(clubId);
 	}
-	
+
 	@Override
 	public int postBoard(ClubBoard clubBoard) {
-		int result=0;
-		
-		result =clubRepository.postBoard(clubBoard);
-		
-		log.debug("clubBoard={}",clubBoard);
-		List<ClubBoardAttachment> attachments=((ClubBoardDetails)clubBoard).getAttachments();
-		if(attachments != null && !attachments.isEmpty()) {
-			for(ClubBoardAttachment attach : attachments) {
+		int result = 0;
+
+		result = clubRepository.postBoard(clubBoard);
+
+		List<ClubBoardAttachment> attachments = ((ClubBoardDetails) clubBoard).getAttachments();
+		if (attachments != null && !attachments.isEmpty()) {
+			for (ClubBoardAttachment attach : attachments) {
 				attach.setBoardId(clubBoard.getBoardId());
-				result= clubRepository.insetAttachment(attach);
-				log.debug("attach={}",attach);
+				result = clubRepository.insetAttachment(attach);
 			}
 		}
-		
 		return result;
 	}
-	
+
 	@Override
 	public ClubBoardAttachment findAttachment(int attachNo) {
 		return clubRepository.findAttachment(attachNo);
 	}
+
 	@Override
 	public List<ClubAndImage> clubListById(String memberId) {
 		return clubRepository.clubListById(memberId);
@@ -286,12 +287,12 @@ public class ClubServiceImpl implements ClubService {
 	public List<BoardAndImageDto> findBoardAndImageById(int clubId) {
 		return clubRepository.findBoardAndImageById(clubId);
 	}
-	
+
 	@Override
 	public JoinClubMember hostFindByClubId(int clubId) {
 		return clubRepository.hostFindByClubId(clubId);
 	}
-	
+
 	@Override
 	public int memberRoleFindByMemberId(ClubMemberRole clubMemberRole) {
 		return clubRepository.memberRoleFindByMemberId(clubMemberRole);
@@ -301,7 +302,7 @@ public class ClubServiceImpl implements ClubService {
 	public int kickMember(KickMember kickMember) {
 		return clubRepository.kickMember(kickMember);
 	}
-	
+
 	@Override
 
 	public int insertClubRecentVisitd(String memberId, int clubId) {
@@ -312,16 +313,20 @@ public class ClubServiceImpl implements ClubService {
 		return clubRepository.findgalleryById(clubId);
 
 	}
-	
+
 	@Override
 	public List<Member> findMemberByClubId(int clubId) {
 		return clubRepository.findMemberByClubId(clubId);
 	}
-	
+
 	@Override
 	public int delAttachment(int id) {
 		return clubRepository.delAttachment(id);
 	}
-	
-}
 
+	@Override
+	public int updateThumbnail(ClubBoardAttachment clubBoardAttachment) {
+		return clubRepository.updateThumbnail(clubBoardAttachment);
+	}
+
+}
