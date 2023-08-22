@@ -1,26 +1,5 @@
-@CHARSET "UTF-8";
+@charset "UTF-8";
 
-body {
-
-}
-
-a {
-	cursor: pointer;
-}
-
-section {
-	width: 1320px;
-	margin: 0 auto;
-}
-
-
-/********** club-header **********/
-header {
-	height:100px;
-}
-
-<<<<<<< HEAD
-=======
 /************ club-title *************/
 #club-title img {
 	width: 1320px;
@@ -40,9 +19,15 @@ header {
 	flex-wrap: wrap;
 }
 
+#club-myInfo-container {
+	background-color: pink;
+	width: 260px;
+	margin: 0 20px;
+}
+
 #club-main-container {
-	width: 1200px;
-	margin: 0 60px;
+	width: 1000px;
+	margin: 0 20px 0 0;
 	padding-top: 20px;
 	border: 5px solid #ccc;
 	border-radius: 5px;
@@ -105,6 +90,28 @@ header {
 	float: right;
 }
 
+.container-main-schedule > div {
+	margin: 8px 20px 0 20px;
+	border-bottom: 1px solid #ccc;
+}
+.container-main-schedule > div > a:first-of-type {
+	display: inline-block;
+    width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.container-main-schedule > div > span:first-child {
+	font-size: 16px;
+	top: -6px;
+    position: relative;
+}
+.container-main-schedule > div > span:nth-of-type(2),
+.container-main-schedule > div > span:nth-of-type(3) {
+	float: right;
+	margin-left: 10px;
+}
+
 #club-notice-container {
 	width: 1320px;
 }
@@ -144,21 +151,4 @@ header {
 	width: 660px;
 	height: 400px;
 	overflow: hidden;
-}
-
-#club-button {
-	float : right;
-}
-
-
-
->>>>>>> branch 'master' of https://github.com/newTypeo/dagachi
-
-
-
-
-
-/********** footer **********/
-footer {
-	height: 100px;
 }
