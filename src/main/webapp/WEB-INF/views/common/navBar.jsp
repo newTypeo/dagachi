@@ -101,6 +101,9 @@ categoryA.forEach((element) => {
 		categoryModalRight.style.display = "block";
 		
 		const value = e.target.innerText;
+		console.log(value);
+		
+		categoryModalRight.innerHTML = '';
 		
 		$.ajax({
 			url: "${pageContext.request.contextPath}/club/categoryList.do",
@@ -108,15 +111,59 @@ categoryA.forEach((element) => {
 				category : value 
 			},
 			success(response) {
-				console.log('success');
+				console.log(response);
+				console.log("마우스엔터");
+				response.forEach((club) => {
+					categoryModalRight.innerHTML += `
+						<a class="card" style="width: 18rem;" href="${pageContext.request.contextPath}/club/&\${club.domain}">
+							<img src="${pageContext.request.contextPath}/resources/upload/club/profile/\${club.renamedFilename}" class="card-img-top" alt="..." />
+							  <div class="card-body">
+							    <h5 class="card-title">\${club.clubName}</h5>
+							    <p class="card-text">\${club.introduce}</p>
+							  </div>
+							  <ul class="list-group list-group-flush">
+							    <li class="list-group-item">\${club.category}</li>
+							    <li class="list-group-item">인원수 : \${club.memberCount}</li>
+							  </ul>
+						</a>
+					`;
+				});
 			}
 		});
 		
 		
 		
-
+	
+		
 	element.addEventListener("mouseleave", function() {
 		categoryModalRight.style.display = "block";
+		categoryModalRight.innerHTML = '';
+		$.ajax({
+			url: "${pageContext.request.contextPath}/club/categoryList.do",
+			data: {
+				category : value 
+			},
+			success(response) {
+				console.log(response);
+				console.log("마우스리브");
+				
+				response.forEach((club) => {
+					categoryModalRight.innerHTML += `
+						<a class="card" style="width: 18rem;" href="${pageContext.request.contextPath}/club/&\${club.domain}">
+							<img src="${pageContext.request.contextPath}/resources/upload/club/profile/\${club.renamedFilename}" class="card-img-top" alt="..." />
+							  <div class="card-body">
+							    <h5 class="card-title">\${club.clubName}</h5>
+							    <p class="card-text">\${club.introduce}</p>
+							  </div>
+							  <ul class="list-group list-group-flush">
+							    <li class="list-group-item">\${club.category}</li>
+							    <li class="list-group-item">인원수 : \${club.memberCount}</li>
+							  </ul>
+						</a>
+					`;
+				});
+			}
+		});
 	});
 });
 
