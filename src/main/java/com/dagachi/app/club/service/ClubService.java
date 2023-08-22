@@ -59,12 +59,14 @@ public interface ClubService {
 
 	List<ClubMember> clubMemberByFindAllByClubId(int clubId);
 
-	List<JoinClubMember> clubMemberInfoByFindByMemberId(List<ClubMember> clubMembers);
+	List<JoinClubMember> clubMemberInfoByFindByMemberId(List<ClubMember> clubMembers, int clubId);
 	
 	int insertClub(Club club);
 
 	Club findClubById(int clubId);
+	
 	ClubProfile findClubProfileById(int clubId);
+	
 	List<ClubTag> findClubTagById(int clubId);
 
 	int updateClub(ClubDetails club);
@@ -103,6 +105,8 @@ public interface ClubService {
 
 	int checkDuplicateClubId(int clubId);
 
+	List<ClubAndImage> categoryList(String category);
+	
 	int permitApply(Map<String, Object> params);
 	
 	List<ClubScheduleAndMemberDto> findScheduleById(int clubId);
