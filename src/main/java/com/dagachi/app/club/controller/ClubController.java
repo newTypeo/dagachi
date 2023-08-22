@@ -33,6 +33,7 @@ import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.ClubBoardCreateDto;
 import com.dagachi.app.club.dto.ClubCreateDto;
+import com.dagachi.app.club.dto.ClubManageApplyDto;
 import com.dagachi.app.club.dto.ClubEnrollDto;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
@@ -51,6 +52,7 @@ import com.dagachi.app.club.entity.ClubDetails;
 import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
+import com.dagachi.app.club.entity.ClubRecentVisited;
 import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.club.service.ClubService;
 import com.dagachi.app.common.DagachiUtils;
@@ -63,9 +65,9 @@ import com.google.gson.JsonObject;
 
 import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 @RequestMapping("/club")
-@Slf4j
 @SessionAttributes({"inputText"})
 public class ClubController {
 
@@ -134,7 +136,6 @@ public class ClubController {
 
 	/**
 	 * 메인화면에서 모임 검색
-	 * 
 	 * @author 종환
 	 */
 	@GetMapping("/clubSearch.do")
@@ -210,22 +211,22 @@ public class ClubController {
 	}
 
 	@GetMapping("/chatList.do")
-	public void chatList() {
-
-	}
+	public void chatList() {}
 
 	@GetMapping("/chatRoom.do")
-	public void chatRoom() {
+	public void chatRoom() {}
 
-	}
-
-	@PostMapping("/&{domain}/permitApply.do")
+	/**
+	 * 가입신청 승인 & 거절 - 승인시에는 dto.isPermit이 true로 온다.
+	 * @author 종환
+	 */
+	@PostMapping("/&{domain}/manageApply.do")
 	public String permitApply(
-			@RequestParam int clubId,
-			@RequestParam String memberId,
-			@PathVariable("domain") String domain) {
-		Map<String, Object> params = Map.of("clubId", clubId, "memberId", memberId);
-		int result = clubService.permitApply(params);
+			@PathVariable("domain") String domain,
+			ClubManageApplyDto clubManageApplyDto) {
+		
+		if(clubManageApplyDto.isPermit()) clubService.permitApply(clubManageApplyDto); // 가입 승인
+									else clubService.refuseApply(clubManageApplyDto); // 가입 거절
 		
 		return "redirect:/club/&" + domain + "/manageMember.do";
 	}
@@ -233,7 +234,7 @@ public class ClubController {
 	
 	/**
 	 * 인덱스 페이지에서 클럽 상세보기 할 때 매핑입니다. 도메인도 domain 변수 안에 넣어놨습니다. (창환) - layout 가져오도록
-	 * 수정(동찬)
+	 * @author 동찬
 	 */
 	@GetMapping("/&{domain}")
 	public String clubDetail(
@@ -242,31 +243,50 @@ public class ClubController {
 			Model model) {
 
 		int clubId = clubService.clubIdFindByDomain(domain);
-		String memberId = member.getMemberId();
+
 		ClubLayout layout = clubService.findLayoutById(clubId);
 
 		List<BoardAndImageDto> boardAndImages = clubService.findBoardAndImageById(clubId);
 		List<GalleryAndImageDto> galleries = clubService.findgalleryById(clubId);
 		List<ClubScheduleAndMemberDto> schedules = clubService.findScheduleById(clubId);
 
+	
+			
+			String memberId = member.getMemberId();
+			// 최근 본 모임 전체 조회 (현우)
+			List<ClubRecentVisited> recentVisitClubs = clubService.findAllrecentVisitClubs();
+			
+			int checkDuplicate = clubService.checkDuplicateClubId(clubId);
+			
+			log.debug("recentVisitClubs = {}", recentVisitClubs);
+			
+			// 최근 본 모임 클릭 시 중복검사 후 db에 삽입
+			if(checkDuplicate == 0) {
+				int result = clubService.insertClubRecentVisitd(memberId, clubId);						
+			}
+			
+			ClubMemberRole clubMemberRole = ClubMemberRole.builder()
+					.clubId(clubId)
+					.loginMemberId(memberId)
+					.build();
+			
+			// 로그인한 회원 아이디로 해당 모임의 권한 가져오기
+			int memberRole = clubService.memberRoleFindByMemberId(clubMemberRole);
+			model.addAttribute("memberId",memberId);
+			model.addAttribute("memberRole",memberRole);
 		
-		int result = clubService.insertClubRecentVisitd(memberId, clubId);
+			
 		
-		ClubMemberRole clubMemberRole = ClubMemberRole.builder()
-				.clubId(clubId)
-				.loginMemberId(memberId)
-				.build();
-		// 로그인한 회원 아이디로 해당 모임의 권한 가져오기
-		int memberRole = clubService.memberRoleFindByMemberId(clubMemberRole);
-		model.addAttribute("memberId",memberId);
-		model.addAttribute("memberRole",memberRole);
 		model.addAttribute("domain", domain);
 		model.addAttribute("galleries", galleries);
 		model.addAttribute("boardAndImages", boardAndImages);
 		model.addAttribute("schedules", schedules);
 		model.addAttribute("layout", layout);
+		
+		
 		return "club/clubDetail";
 	}
+
 
 	/**
 	 * 메인에서 소모임 전체 조회(카드로 출력)
@@ -351,7 +371,7 @@ public class ClubController {
 
 		List<ManageMember> clubApplies = clubService.clubApplyByFindByClubId(clubId); // clubId로 club_apply, member 테이블 조인
 //		log.debug("clubId = {}", clubId);
-		log.debug("clubApplies = {}", clubApplies);
+//		log.debug("clubApplies = {}", clubApplies);
 		
 		List<ClubMember> clubMembers = clubService.clubMemberByFindAllByClubId(clubId); // clubId로 club_member 조회(방장 제외)
 //		log.debug("clubMembers = {}", clubMembers);
@@ -754,6 +774,17 @@ public class ClubController {
 	
 	@GetMapping("/clubsRecentVisited.do")
 	public void clubsRecentVisited(){}
+	
+	@PostMapping("/{domain}/delBoard.do")
+	public  ResponseEntity<?> delClubBoard(
+			@RequestParam int boardId
+	){
+		
+		int result= clubService.delClubBoard(boardId);	
+		
+		String msg= "게시글이 삭제되었습니다.";
+		return ResponseEntity.status(HttpStatus.OK).body(msg);
+	}
 	
 }
 
