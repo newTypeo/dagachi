@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dagachi.app.club.repository.ClubRepository">
+
+	<select id="findScheduleById" resultMap="scheduleResultMap">
+		select * from
+			(select
+				cs.*,
+				csem.member_count
+			from 
+				club_schedule cs left join (
+					select schedule_id, 
+					club_id,
+					count(*) member_count
+					from club_schedule_enroll_member
+				group by
+					schedule_id, 
+					club_id) csem
+				on cs.schedule_id = csem.schedule_id
+				and
+				cs.club_id = csem.club_id
+			where 
+				cs.club_id = #{club_id}
+			order by 
+				cs.schedule_id desc)
+			where rownum &lt;= 9
+	</select>
+
+	<resultMap type="ClubScheduleAndMemberDto" id="scheduleResultMap">
+
+	</resultMap>
+
+</mapper>

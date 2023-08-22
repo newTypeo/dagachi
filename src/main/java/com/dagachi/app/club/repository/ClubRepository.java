@@ -16,6 +16,7 @@ import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
+import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
 import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.KickMember;
 import com.dagachi.app.club.dto.ClubSearchDto;
@@ -198,6 +199,8 @@ public interface ClubRepository {
 	
 	@Insert("insert into recent_visit_list values(#{memberId}, #{clubId}, default)")
 	int insertClubRecentVisitd(String memberId, int clubId);
+	
+	List<ClubScheduleAndMemberDto> findScheduleById(int clubId);
 
 }
    
