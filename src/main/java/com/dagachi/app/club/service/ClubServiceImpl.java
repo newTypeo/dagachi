@@ -13,6 +13,7 @@ import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
+import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
 import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.GalleryAndImageDto;
 import com.dagachi.app.club.dto.JoinClubMember;
@@ -296,7 +297,15 @@ public class ClubServiceImpl implements ClubService {
 	
 	@Override
 	public int memberRoleFindByMemberId(ClubMemberRole clubMemberRole) {
-		return clubRepository.memberRoleFindByMemberId(clubMemberRole);
+		int result = 0;
+		try {
+			result = clubRepository.memberRoleFindByMemberId(clubMemberRole);
+		} catch (Exception e) {
+			System.out.println("헉");
+			result = 10;
+			System.out.println(result);
+		}
+		return result;
 	}
 
 	@Override
@@ -330,5 +339,9 @@ public class ClubServiceImpl implements ClubService {
 		return clubRepository.permitApply(params);
 	}
 	
+	@Override
+	public List<ClubScheduleAndMemberDto> findScheduleById(int clubId) {
+		return clubRepository.findScheduleById(clubId);
+	}
 }
 
