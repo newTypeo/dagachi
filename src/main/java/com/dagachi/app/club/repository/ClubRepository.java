@@ -198,6 +198,9 @@ public interface ClubRepository {
 	
 	@Insert("insert into recent_visit_list values(#{memberId}, #{clubId}, default)")
 	int insertClubRecentVisitd(String memberId, int clubId);
+	
+	
+	List<ClubAndImage> categoryList(String category);
 
 }
    

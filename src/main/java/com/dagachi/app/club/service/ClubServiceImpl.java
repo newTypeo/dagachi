@@ -322,6 +322,11 @@ public class ClubServiceImpl implements ClubService {
 	public int delAttachment(int id) {
 		return clubRepository.delAttachment(id);
 	}
+
+	@Override
+	public List<ClubAndImage> categoryList(String category) {
+		return clubRepository.categoryList(category);
+	}
 	
 }
 

@@ -262,12 +262,38 @@ public class ClubController {
 	}
 
 
+	/**
+	 * 사용자가 해당 카테고리를 hover한 값을 db에서 조회 후 반환
+	 * @author 창환
+	 */
 	@GetMapping("/categoryList.do")
 	public ResponseEntity<?> categoryList(
 			@RequestParam String category) {
-		log.debug(category);
+//		log.debug(category);
 		
-		return ResponseEntity.status(HttpStatus.OK).body(category);
+		// 사용자가 hover한 카테고리 이름을 바탕으로 db에서 조회
+		List<ClubAndImage> _clubAndImages = clubService.categoryList(category);
+		
+		// 5개만 뽑아서 넘겨줄 리스트 생성
+		List<ClubAndImage> clubAndImages = new ArrayList<>();
+		
+		// 조회한 결과가 존재하고, 조회된 결과가 5개 이상인 경우
+		if(_clubAndImages != null && !_clubAndImages.isEmpty() && !(_clubAndImages.size() <= 5)) {
+			// 5개만 리스트에 담음
+			for(int i=0; i<4; i++) {
+				clubAndImages.add(_clubAndImages.get(i));
+			}
+		}
+		// 조회된 결과가 5개 미만인 경우
+		else {
+			for(ClubAndImage one : _clubAndImages) {
+				clubAndImages.add(one);
+			}
+		}
+		
+		System.out.println(clubAndImages);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(clubAndImages);
 	}
 	
 	/**

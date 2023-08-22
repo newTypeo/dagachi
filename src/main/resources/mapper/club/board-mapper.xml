@@ -17,7 +17,7 @@
 	</select>
  -->
  
- 	<!-- <select id="categoryList">
+ 	<select id="categoryList">
  		select 
 		    c.*, p.*, cm.member_count 
 		from 
@@ -26,9 +26,11 @@
 		    left join (select club_id, count(member_id) as member_count from club_member group by club_id) cm
 		        on c.club_id = cm.club_id
 		<where>
-			c.category = ${category}
+			c.category = #{category}
 		</where>
- 	</select> -->
+		order by
+		    cm.member_count
+ 	</select>
  
 	<select id="clubApplyByFindByClubId">
 		select
