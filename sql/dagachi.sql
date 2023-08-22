@@ -45,6 +45,7 @@
 --DROP TABLE "AUTHORITY" CASCADE CONSTRAINTS;
 --DROP TABLE "PERSISTENT_LOGINS" CASCADE CONSTRAINTS;
 --DROP TABLE "RECENT_VISIT_LIST" CASCADE CONSTRAINTS;
+--DROP TABLE "ADMIN_INQUIRY" CASCADE CONSTRAINTS;
 --drop sequence seq_club_id;
 --drop sequence seq_club_report_id;
 --drop sequence seq_chat_log_id;
@@ -1328,4 +1329,26 @@ values (seq_club_gallery_attachment_id.nextval, 10, 'gallerySample10.png', 'gall
 
 commit;
 
+insert into club_member values('user9',2,sysdate,null,default,default);
+insert into club_member values('user9',4,sysdate,null,default,default);
+insert into club_member values('user9',7,sysdate,null,default,default);
+select * from club_member;
+select * from club_member where member_id = 'user9';
+
+select * from club;
+select * from club_profile;
+
+
+select * from (select * from club_member a join club b on a.club_id = b.club_id where a.member_id ='user9') c join club_profile d on c.club_id = d.club_id;
+
+SELECT 
+ *
+FROM (
+    SELECT *
+    FROM club_member a
+    JOIN club b ON a.club_id = b.club_id
+    where member_id = 'user9'
+    order by 2
+) c
+JOIN club_profile d ON c.club_id = d.club_id;
 
