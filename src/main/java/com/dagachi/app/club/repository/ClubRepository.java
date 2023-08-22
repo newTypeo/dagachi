@@ -213,7 +213,7 @@ public interface ClubRepository {
 	List<ClubScheduleAndMemberDto> findScheduleById(int clubId);
 	
 	@Insert("insert into Club_apply( #{clubId},#{memberId},#{answer})")
-	   int ClubEnroll(ClubEnrollDto enroll);
+	 int ClubEnroll(ClubEnrollDto enroll);
 	
 
 }

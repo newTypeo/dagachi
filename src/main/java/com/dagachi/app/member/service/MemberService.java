@@ -31,6 +31,7 @@ public interface MemberService extends UserDetailsService {
 	
 	int memberDelete(String memberId);
 
+	Member findMemberBymemberId(String memberId);
 	/*임시로그인*/
 	int insertMember(@Valid MemberCreateDto member);
 

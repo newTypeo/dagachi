@@ -41,6 +41,11 @@ public interface MemberRepository {
 
 	@Update("update member set status = 'N' where member_id = #{memberId}")
 	int memberDelete(String memberId);
+
+	@Select("select * from member where member_Id = #{memberId}")
+	Member findMemberBymemberId(String memberId);
+
+
 	
 	/*
 	 * // 멤버 회원가입 추가 ( 지우지마삼 )

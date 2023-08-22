@@ -66,6 +66,11 @@ public class ClubServiceImpl implements ClubService {
 	public List<Member> adminMemberList() {
 		return clubRepository.adminMemberList();
 	}
+	
+	@Override
+	public int ClubEnroll(ClubEnrollDto enroll) {
+	    return clubRepository.ClubEnroll(enroll);
+	}
 
 	@Override
 	public List<ClubSearchDto> clubSearch(Map<String, Object> params) {
@@ -356,9 +361,7 @@ public class ClubServiceImpl implements ClubService {
 		return clubRepository.updateThumbnail(clubBoardAttachment);
 	}
 	
-	@Override
-	   public int ClubEnroll(ClubEnrollDto enroll) {
-	      return clubRepository.ClubEnroll(enroll);
-	   }
+
+
 
 }

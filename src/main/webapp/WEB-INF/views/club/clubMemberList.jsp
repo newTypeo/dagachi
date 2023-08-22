@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/club.css"/>
 
 <h1>${club.clubName} 의 회원 List</h1>
+
 <section id="main-page-sec" class="p-2 bg-info">
 
 	<c:if test ="${empty members}">
@@ -21,10 +22,10 @@
 		<div class ="posts" style="display : flex">
 			<c:if test ="${not empty members}">
 				<c:forEach items="${members}" var="member" varStatus="vs">
-					<a class="card" style="width: 18rem; margin:19px;" href = "나중에">
+					<a class="card" style="width: 18rem; margin:19px;" href = "${pageContext.request.contextPath}/member/${member.memberId}">
 					  <img src="..." class="card-img-top" alt="...">
 					  <div class="card-body">
-					    <h5 class="card-title">${member.nickname}</h5>
+					    <h5 class="card-title">${member.nickname}(직위 나중에 추가함)</h5>
 					  </div>
 					  <ul class="list-group list-group-flush">
 					    <li class="list-group-item">${member.name}</li>
