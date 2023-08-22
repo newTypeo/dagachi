@@ -124,8 +124,7 @@ create table member (
 	enroll_date	date default sysdate,
 	withdrawal_date	date, --  COMMENT 'null 이면 회원'
 	password_change_date	date default sysdate,
-	last_login_date date,
-	status char(1) default 'Y'
+	last_login_date date
 );
 
 -- security rememeberme 를 위해 만들어진 테이블
@@ -1323,5 +1322,6 @@ values (seq_club_gallery_attachment_id.nextval, 10, 'gallerySample10.png', 'gall
 update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'honggd';
 commit;
 
+select * from member;
 
 

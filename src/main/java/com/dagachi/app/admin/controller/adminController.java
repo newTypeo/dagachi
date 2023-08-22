@@ -28,7 +28,7 @@ import com.dagachi.app.member.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
-@RequestMapping("/club")
+@RequestMapping("/admin")
 @Slf4j
 public class adminController {
 
