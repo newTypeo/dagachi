@@ -124,8 +124,7 @@ create table member (
 	enroll_date	date default sysdate,
 	withdrawal_date	date, --  COMMENT 'null 이면 회원'
 	password_change_date	date default sysdate,
-	last_login_date date,
-	status char(1) default 'Y'
+	last_login_date date
 );
 
 -- security rememeberme 를 위해 만들어진 테이블
@@ -333,6 +332,19 @@ create table admin_notice (
 	created_at	date default sysdate,
 	status	char(1) default 'Y'
 );
+
+create table admin_Inquiry (
+	Inquiry_id 	number		NOT NULL,
+	writer varchar2(30)		NOT NULL,
+	title	varchar2(200)		NOT NULL,
+	content	varchar2(4000)		NOT NULL,
+	created_at	date	DEFAULT sysdate	NULL,
+	type	number	DEFAULT 1 NOT NULL  ,
+	status	char(1)	DEFAULT 0 NULL ,
+	admin_id	varchar2(30)	NULL,
+	response	varchar2(2000)	NULL
+);
+
 
 create table authority (
     member_id varchar2(30),
@@ -1310,5 +1322,6 @@ values (seq_club_gallery_attachment_id.nextval, 10, 'gallerySample10.png', 'gall
 update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'honggd';
 commit;
 
+select * from member;
 
 

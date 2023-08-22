@@ -9,12 +9,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.dagachi.app.member.dto.MemberCreateDto;
 import com.dagachi.app.member.entity.Member;
+import com.dagachi.app.member.entity.MemberDetails;
 
 
 
 public interface MemberService extends UserDetailsService {
 	
-	int insertMember(MemberCreateDto member);
+	
 
 	Member findMemberById(String memberId);
 	
@@ -24,7 +25,14 @@ public interface MemberService extends UserDetailsService {
 
 	List<Member> adminReportMemberList(Map<String, Object> params);
 
+	List<Member> quitMemberSearch(String keyword, String column);
+
+	int getTotalCount();
+	
 	int memberDelete(String memberId);
+
+	/*임시로그인*/
+	int insertMember(@Valid MemberCreateDto member);
 
 
 }
