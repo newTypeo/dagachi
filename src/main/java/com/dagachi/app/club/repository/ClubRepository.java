@@ -14,6 +14,7 @@ import org.apache.ibatis.session.RowBounds;
 
 import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
+import com.dagachi.app.club.dto.ClubEnrollDto;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
 import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
@@ -200,6 +201,8 @@ public interface ClubRepository {
 	@Insert("insert into recent_visit_list values(#{memberId}, #{clubId}, default)")
 	int insertClubRecentVisitd(String memberId, int clubId);
 	
+	@Update("update club_board_attachment set thumbnail=#{thumbnail} where id=#{id}")
+	int updateThumbnail(ClubBoardAttachment clubBoardAttachment);
 	
 	List<ClubAndImage> categoryList(String category);
 
@@ -208,6 +211,10 @@ public interface ClubRepository {
 	int permitApply(Map<String, Object> params);
 	
 	List<ClubScheduleAndMemberDto> findScheduleById(int clubId);
+	
+	@Insert("insert into Club_apply( #{clubId},#{memberId},#{answer})")
+	   int ClubEnroll(ClubEnrollDto enroll);
+	
 
 }
    
