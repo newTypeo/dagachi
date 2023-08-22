@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
+import com.dagachi.app.club.dto.ClubManageApplyDto;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
 import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
@@ -102,9 +103,11 @@ public interface ClubService {
 
 	List<ClubAndImage> categoryList(String category);
 	
-	int permitApply(Map<String, Object> params);
+	int permitApply(ClubManageApplyDto clubManageApplyDto);
+	int refuseApply(ClubManageApplyDto clubManageApplyDto);
 	
 	List<ClubScheduleAndMemberDto> findScheduleById(int clubId);
+
 
 
 }
