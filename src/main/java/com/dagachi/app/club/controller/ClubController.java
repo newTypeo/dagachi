@@ -36,6 +36,7 @@ import com.dagachi.app.club.dto.ClubBoardCreateDto;
 import com.dagachi.app.club.dto.ClubCreateDto;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
+import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
 import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.ClubUpdateDto;
 import com.dagachi.app.club.dto.GalleryAndImageDto;
@@ -215,14 +216,15 @@ public class ClubController {
 
 		List<BoardAndImageDto> boardAndImages = clubService.findBoardAndImageById(clubId);
 		List<GalleryAndImageDto> galleries = clubService.findgalleryById(clubId);
+		List<ClubScheduleAndMemberDto> schedules = clubService.findScheduleById(clubId);
 
+		
 		int result = clubService.insertClubRecentVisitd(memberId, clubId);
 		
-		System.out.println(clubId);
-
 		model.addAttribute("domain", domain);
 		model.addAttribute("galleries", galleries);
 		model.addAttribute("boardAndImages", boardAndImages);
+		model.addAttribute("schedules", schedules);
 		model.addAttribute("layout", layout);
 		return "club/clubDetail";
 	}
