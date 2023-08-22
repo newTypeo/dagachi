@@ -15,8 +15,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.dagachi.app.Pagination;
+import com.dagachi.app.club.controller.ClubController;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.service.ClubService;
@@ -25,9 +27,9 @@ import com.dagachi.app.member.service.MemberService;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Controller
 @RequestMapping("/admin")
+@Slf4j
 public class adminController {
 
 	@Autowired
@@ -35,6 +37,11 @@ public class adminController {
 	
 	@Autowired
 	private MemberService memberService;
+	
+
+	@GetMapping("/adminInquriyList.do")
+	public void InquriyList() {
+	}
 	
 	/**
 	 * 관리자 모임 목록 조회
@@ -177,5 +184,11 @@ public class adminController {
 		pageBar = pageBar.replaceAll("#&", "\\?");
 		model.addAttribute("pagebar", pageBar);
 		
+		
+
+	
 	}
+	
+
+	
 }
