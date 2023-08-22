@@ -84,13 +84,12 @@ public class ClubController {
 
 	@GetMapping("/&{domain}/clubEnroll.do")
 	public String ClubEnroll(@PathVariable("domain") String domain, Model model) {
-		model.addAttribute("domain", domain);
-		int club = clubService.clubIdFindByDomain(domain);
-		model.addAttribute("club", club);
-			
-		log.debug("club={}", club);
-		return "/club/clubEnroll";
+		int clubId = clubService.clubIdFindByDomain(domain);
+		Club club = clubService.findClubById(clubId);
 		
+		model.addAttribute("club",club);
+		
+		return "/club/clubEnroll";
 	}
 
 	@GetMapping("/&{domain}/clubBoardList.do")
@@ -109,34 +108,28 @@ public class ClubController {
 	
 
 	@PostMapping("/&{domain}/clubEnroll.do")
-	public String ClubEnroll(@Valid ClubEnrollDto Enroll, @PathVariable("domain") String domain,
-			BindingResult bindingResult, @RequestParam(value = "upFile", required = false) List<MultipartFile> upFiles)
-			throws IllegalStateException, IOException {
-			
-		Club club = clubService.findByDomain(domain);
-		int clubId = club.getClubId();
-		
-		int result = clubService.ClubEnroll(Enroll);
-		return "/club/clubBoardCreate";
+	public String ClubEnroll(@Valid ClubEnrollDto enroll, @PathVariable("domain") String domain,
+			@AuthenticationPrincipal MemberDetails member) {
+		System.out.println(member);
+		enroll.setMemberId(member.getMemberId());
+		System.out.println(enroll);
+		int result = clubService.ClubEnroll(enroll);
+		return "club/clubDetail";
 	}
 	
 
 	@PostMapping("/{domain}/boardCreate.do")
 	public String boardCreate(@Valid ClubBoardCreateDto _board, @PathVariable("domain") String domain,
-			
 			BindingResult bindingResult, @RequestParam(value = "upFile", required = false) List<MultipartFile> upFiles)
 			throws IllegalStateException, IOException {
 		List<ClubBoardAttachment> attachments= new ArrayList<>();
 		if(!upFiles.isEmpty())
 			attachments=insertAttachment(upFiles,attachments);
-		
 		Club club = clubService.findByDomain(domain);
 		int clubId = club.getClubId();
 		ClubBoardDetails clubBoard = ClubBoardDetails.builder().clubId(clubId).writer("honggd").attachments(attachments)
 				.title(_board.getTitle()).content(_board.getContent()).type(_board.getType()).build();
-
 		int result = clubService.postBoard(clubBoard);
-
 		//작성자 수정해야함
 		return "/club/clubBoardList";
 	}

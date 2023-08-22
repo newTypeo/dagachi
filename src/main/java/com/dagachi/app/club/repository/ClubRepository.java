@@ -230,9 +230,9 @@ public interface ClubRepository {
 	List<ClubAndImage> recentVisitClubs(String loginMemberId);
 
 	@Delete("delete from club_board where board_Id=#{boardId}")
-	int delClubBoard(int boardId);
+	int delClubBoard(int boardId); 
 
-	@Insert("insert into Club_apply( #{clubId},#{memberId},#{answer})")
+	@Insert("insert into club_apply values(#{clubId},#{memberId},#{answer})")
 	 int ClubEnroll(ClubEnrollDto enroll);
 
 
