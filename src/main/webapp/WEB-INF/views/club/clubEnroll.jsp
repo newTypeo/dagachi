@@ -44,26 +44,29 @@ window.onload = () => {
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					
 				</div>
+				
 				<form:form
-					action="${pageContext.request.contextPath}/clud/memberLogin.do"
+					action="${pageContext.request.contextPath}/club/&{domain}/clubEnroll.do"
 					method="post">
+					<input type="hidden" class="clubId" name="clubId" 
+					placeholder="" value="${club.clubId}" required> 
+				
+					
 					 <div class="modal-body">
-					 
-						${clud.club_name}모임 가입 질문
+						❗❗${club.clubName}모임의 가입 질문❗❗
 							<br/> 
-								${clud.enroll_question}
+							
+							<br/> 
+								❓${club.enrollQuestion}
 							<br/> 
 							<input 
-								type="text" class="form-control" name=""
+								type="text" class="form-control" name="answer"
 								placeholder="" value="" required> 
 							<br/> 
 							<div>모임 가입 신청 란입니다. 추후 수정이 불가능하니 신중하게 
 								답변해주세요 </div>
-							
 						</div>
-									
 					
 					<div class="modal-footer d-flex flex-column" style="align-items: unset;">
 						<div class="d-flex justify-content-between">
@@ -73,6 +76,7 @@ window.onload = () => {
 							</div>
 						</div>
 					</div>
+					
 				</form:form>
 			</div>
 		</div>
