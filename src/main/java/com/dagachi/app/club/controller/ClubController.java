@@ -33,6 +33,7 @@ import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.ClubBoardCreateDto;
 import com.dagachi.app.club.dto.ClubCreateDto;
+import com.dagachi.app.club.dto.ClubEnrollDto;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
 import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
@@ -82,7 +83,12 @@ public class ClubController {
 	@GetMapping("/&{domain}/clubEnroll.do")
 	public String ClubEnroll(@PathVariable("domain") String domain, Model model) {
 		model.addAttribute("domain", domain);
+		int club = clubService.clubIdFindByDomain(domain);
+		model.addAttribute("club", club);
+			
+		log.debug("club={}", club);
 		return "/club/clubEnroll";
+		
 	}
 
 	@GetMapping("/&{domain}/clubBoardList.do")
@@ -97,6 +103,21 @@ public class ClubController {
 		model.addAttribute("domain", domain);
 		return "/club/clubBoardCreate";
 	}
+	
+	
+
+	@PostMapping("/&{domain}/clubEnroll.do")
+	public String ClubEnroll(@Valid ClubEnrollDto Enroll, @PathVariable("domain") String domain,
+			BindingResult bindingResult, @RequestParam(value = "upFile", required = false) List<MultipartFile> upFiles)
+			throws IllegalStateException, IOException {
+			
+		Club club = clubService.findByDomain(domain);
+		int clubId = club.getClubId();
+		
+		int result = clubService.ClubEnroll(Enroll);
+		return "/club/clubBoardCreate";
+	}
+	
 
 	@PostMapping("/{domain}/boardCreate.do")
 	public String boardCreate(@Valid ClubBoardCreateDto _board, @PathVariable("domain") String domain,
@@ -164,6 +185,7 @@ public class ClubController {
 			HttpServletRequest request,
 			HttpSession session,
 			Model model) {
+		
 		String getCount = "getCount";
 		String inputText = (String) session.getAttribute("inputText");
 		Map<String, Object> params = new HashMap<>();
@@ -599,7 +621,6 @@ public class ClubController {
 		log.debug("club = {}", club);
 		log.debug("clubProfile={}", clubProfile);
 		log.debug("clubTag = {}", clubTagList);
-
 		model.addAttribute("club", club);
 		model.addAttribute("clubProfile", clubProfile);
 		model.addAttribute("clubTagList", clubTagList);
@@ -626,7 +647,7 @@ public class ClubController {
 			clubProfile = ClubProfile.builder().originalFilename(originalFilename).renamedFilename(renamedFilename)
 					.build();
 		}
-
+ 
 		List<String> tagList = new ArrayList<>();
 		for (String tag : _club.getTags().split(",")) {
 			tagList.add(tag);
