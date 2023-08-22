@@ -719,6 +719,17 @@ public class ClubController {
 	@GetMapping("/clubsRecentVisited.do")
 	public void clubsRecentVisited(){}
 	
+	@GetMapping("/&{domain}/clubLayoutUpdate.do")
+	public String clubLayoutUpdate(@PathVariable("domain") String domain, Model model) {
+		int clubId = clubService.clubIdFindByDomain(domain);
+
+		ClubLayout layout = clubService.findLayoutById(clubId);
+		
+		model.addAttribute("layout", layout);
+
+		return "club/clubLayoutUpdate";
+	}
+	
 }
 
 
