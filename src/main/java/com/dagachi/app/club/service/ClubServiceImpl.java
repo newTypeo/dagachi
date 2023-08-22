@@ -164,7 +164,9 @@ public class ClubServiceImpl implements ClubService {
 	public List<JoinClubMember> clubMemberInfoByFindByMemberId(List<ClubMember> clubMembers) {
 		List<JoinClubMember> joinClubMembers = new ArrayList<>();
 		for(ClubMember clubMember : clubMembers) {
+			System.out.println("전");
 			joinClubMembers.add(clubRepository.clubMemberInfoByFindByMemberId(clubMember.getMemberId()));
+			System.out.println("후");
 		}
 		
 		return joinClubMembers;
@@ -321,6 +323,11 @@ public class ClubServiceImpl implements ClubService {
 	@Override
 	public int delAttachment(int id) {
 		return clubRepository.delAttachment(id);
+	}
+
+	@Override
+	public int permitApply(Map<String, Object> params) {
+		return clubRepository.permitApply(params);
 	}
 	
 }

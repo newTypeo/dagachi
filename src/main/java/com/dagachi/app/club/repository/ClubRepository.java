@@ -198,6 +198,9 @@ public interface ClubRepository {
 	
 	@Insert("insert into recent_visit_list values(#{memberId}, #{clubId}, default)")
 	int insertClubRecentVisitd(String memberId, int clubId);
+	
+	@Insert("insert into club_member values(#{memberId}, #{clubId}, default, null, default, default)")
+	int permitApply(Map<String, Object> params);
 
 }
    
