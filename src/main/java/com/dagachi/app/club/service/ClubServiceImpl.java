@@ -318,5 +318,10 @@ public class ClubServiceImpl implements ClubService {
 		return clubRepository.findMemberByClubId(clubId);
 	}
 	
+	@Override
+	public int delAttachment(int id) {
+		return clubRepository.delAttachment(id);
+	}
+	
 }
 

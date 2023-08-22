@@ -88,7 +88,10 @@ public class MemberServiceImpl implements MemberService{
 		return memberRepository.findMemberById(memberId);
 	}
 	
-
+	@Override
+	public int memberDelete(String memberId) {
+		return memberRepository.memberDelete(memberId);
+	}
 
 
 

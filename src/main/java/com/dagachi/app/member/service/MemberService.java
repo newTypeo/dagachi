@@ -24,5 +24,7 @@ public interface MemberService extends UserDetailsService {
 
 	List<Member> adminReportMemberList(Map<String, Object> params);
 
+	int memberDelete(String memberId);
+
 
 }
