@@ -60,7 +60,8 @@
 		<a href="${pageContext.request.contextPath}/club/&${domain}/manageMember.do">회원관리</a>
 	</nav>
 	
-	<jsp:include page="/WEB-INF/views/club/clubLayout/clubLayoutType${layout.type}.jsp"></jsp:include>
+	<%-- <jsp:include page="/WEB-INF/views/club/clubLayout/clubLayoutType${layout.type}.jsp"></jsp:include> --%>
+	<jsp:include page="/WEB-INF/views/club/clubLayout/clubLayoutType0.jsp"></jsp:include>
 	
 </section>
 
