@@ -22,6 +22,7 @@ import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
 import com.dagachi.app.club.dto.ClubReportDto;
 import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
 import com.dagachi.app.club.dto.ClubSearchDto;
+import com.dagachi.app.club.dto.ClubStyleUpdateDto;
 import com.dagachi.app.club.dto.GalleryAndImageDto;
 import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.KickMember;
@@ -457,6 +458,11 @@ public class ClubServiceImpl implements ClubService {
 			
 		}
 		return members;
+	}
+	
+	@Override
+	public int clubStyleUpdate(ClubStyleUpdateDto style) {
+		return clubRepository.clubStyleUpdate(style);
 	}
 	
 	
