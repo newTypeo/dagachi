@@ -40,6 +40,7 @@ import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.club.entity.ClubRecentVisited;
 import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.member.entity.Member;
+import com.dagachi.app.member.entity.MemberProfile;
 
 
 @Mapper
@@ -199,9 +200,6 @@ public interface ClubRepository {
 	
 	@Delete("delete from club_board_attachment where id=#{id}")
 	int delAttachment(int id);
-
-	@Select("select * from member m join (select * from club_member where club_id = #{clubId}) b on m.member_id = b.member_id")
-	List<Member> findMemberByClubId(int clubId);
 	
 	@Insert("insert into recent_visit_list values(#{memberId}, #{clubId}, default)")
 	int insertClubRecentVisitd(String memberId, int clubId);
@@ -243,6 +241,18 @@ public interface ClubRepository {
 	
 	@Update("update club set report_count = report_count + 1 where club_id = #{clubId}")
 	int addReportCount(@Valid ClubReportDto clubReportDto);
+	
+	@Select("select * from club_member a left join club b on a.club_id= b.club_id left join club_profile c on a.club_id = c.club_id where a.member_id = #{memberId}")
+	List<ClubAndImage> searchJoinClub(String memberId);
+	
+	@Select("select * from club_member where club_id = #{clubId}")
+	List<Member> findMemberByClubId(int clubId);
+	
+	@Select("select * from member_profile where member_id = #{id}")
+	List<MemberProfile> findProfileById(String id);
+	
+	@Select("select * from member where member_id = #{id}")
+	Member findMembersById(String id);
 
 
 }
