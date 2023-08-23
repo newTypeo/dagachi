@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/club.css"/>
              
 
+
 <section>
 <!-- Modal -->
     <div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="reportModalLabel" aria-hidden="true">
@@ -170,5 +171,10 @@ console.log("${layout.font}")
 document.body.style.fontFamily = "${layout.font}";
 </script>
 
+<c:if test="${not empty msg}">
+    <script>
+        alert('${msg}');
+    </script>
+</c:if>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

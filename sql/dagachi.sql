@@ -336,6 +336,7 @@ create table admin_notice (
 	status	char(1) default 'Y'
 );
 
+
 create table admin_Inquiry (
 	Inquiry_id 	number		NOT NULL,
 	writer varchar2(30)		NOT NULL,
@@ -345,7 +346,9 @@ create table admin_Inquiry (
 	type	number	DEFAULT 1 NOT NULL  ,
 	status	char(1)	DEFAULT 0 NULL ,
 	admin_id	varchar2(30)	NULL,
-	response	varchar2(2000)	NULL
+	response	varchar2(2000)	NULL,
+    open char(1)	DEFAULT 0 NULL ,
+    response_at date	DEFAULT sysdate	NULL
 );
 
 
@@ -1324,13 +1327,9 @@ insert into club_gallery_attachment (id, gallery_id, original_filename, renamed_
 values (seq_club_gallery_attachment_id.nextval, 10, 'gallerySample10.png', 'gallerySample10.png', sysdate, 'Y');
 select * from member_profile;
 
-<<<<<<< HEAD
-
-
-
 update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'honggd';
 
-=======
+
 -- 회원 프로필 사진 샘플 첨부
 insert into member_profile values('user1','asd','가렌.png',sysdate);
 insert into member_profile values('user2','asd','갈리오.png',sysdate);
@@ -1362,49 +1361,19 @@ insert into member_profile values('user27','asd','판테.png',sysdate);
 insert into member_profile values('user28','asd','티모.png',sysdate);
 insert into member_profile values('user29','asd','트위치.png',sysdate);
 insert into member_profile values('user30','asd','트린.png',sysdate);
->>>>>>> branch 'master' of https://github.com/newTypeo/dagachi.git
+
 
 commit;
-<<<<<<< HEAD
 
-insert into club_member values('user9',2,sysdate,null,default,default);
-insert into club_member values('user9',4,sysdate,null,default,default);
-insert into club_member values('user9',7,sysdate,null,default,default);
-select * from club_member;
-select * from club_member where member_id = 'user9';
+select * from club_apply;
+select * from admin_inquiry;
 
-select * from club;
-select * from club_profile;
+UPDATE admin_Inquiry
+SET admin_id = {}, response = {}, status = '1', response_at = sysdate
+WHERE Inquiry_id = {};
 
-
---select * from (select * from club_member a join club b on a.club_id = b.club_id where a.member_id ='user9') c join club_profile d on c.club_id = d.club_id;
---
---SELECT 
--- *
---FROM (
---    SELECT *
---    FROM club_member a
---    JOIN club b ON a.club_id = b.club_id
---    where member_id = 'user9'
---    order by 2
---) c
---JOIN club_profile d ON c.club_id = d.club_id;
-
-select * from club_board where club_Id like 1  and content like '%' || '안' || '%';
-
-<<<<<<< HEAD
-select * from admin_Inquiry;
-
-select * from club_board where club_Id like 1  and content like '%' || '안' || '%';
+UPDATE admin_Inquiry
+SET admin_id = {}, response = {}, status = '1', response_at = sysdate
+WHERE Inquiry_id = {};
 
 
-
-
-
-
-
-=======
-
-=======
->>>>>>> branch 'master' of https://github.com/newTypeo/dagachi.git
->>>>>>> branch 'master' of https://github.com/newTypeo/dagachi

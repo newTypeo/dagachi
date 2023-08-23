@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
 import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.ClubManageApplyDto;
@@ -469,6 +470,8 @@ public class ClubServiceImpl implements ClubService {
 	public int clubStyleUpdate(ClubStyleUpdateDto style) {
 		return clubRepository.clubStyleUpdate(style);
 	}
+
+
 	
 	
 }
