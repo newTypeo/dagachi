@@ -42,15 +42,13 @@
 			<textarea class="form-control" name="content" id="exampleFormControlTextarea1"
 				rows="3" placeholder="내용을 입력하세요"></textarea>
 		</div>
-
-
+		
 		<button type="submit" class="btn btn-primary btn-lg">문의 하기</button>
 		
-		
-		
+		<!-- 관리자 일 경우에만 볼수있음 -->
 		<div class="form-group">
 			<label for="exampleFormControlTextarea1"></label>
-			<textarea class="form-control" name="content" id="exampleFormControlTextarea1"
+			<textarea class="form-control" name="response" id="exampleFormControlTextarea1"
 				rows="3" placeholder="내용을 입력하세요"></textarea>
 		</div>
 		

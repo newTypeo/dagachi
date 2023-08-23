@@ -12,6 +12,7 @@ import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
 import com.dagachi.app.member.dto.MemberCreateDto;
 import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.entity.MemberDetails;
@@ -72,5 +73,8 @@ public interface MemberRepository {
 	/*임시 회원가입 (지우지 마삼) */
 	@Insert("insert into member values (#{memberId}, #{password},#{name}, #{nickname}, #{phoneNo}, #{email}, #{birthday, jdbcType=DATE}, #{gender}, #{mbti},  #{address}, 0, SYSDATE, NULL, SYSDATE, NULL, 'Y')")
 	int insertMember(MemberCreateDto member);
+
+	@Insert("insert into admin_Inquiry values (seq_Inquiry_id.nextval,#{memberId},#{title} ,#{content}, SYSDATE ,#{type}, 0 ,NULL,NULL")
+	int InquiryCreate(AdminInquiryCreateDto inquiry);
 	
 }

@@ -110,9 +110,7 @@ public class ClubController {
 	@PostMapping("/&{domain}/clubEnroll.do")
 	public String ClubEnroll(@Valid ClubEnrollDto enroll, @PathVariable("domain") String domain,
 			@AuthenticationPrincipal MemberDetails member) {
-		System.out.println(member);
 		enroll.setMemberId(member.getMemberId());
-		System.out.println(enroll);
 		int result = clubService.ClubEnroll(enroll);
 		return "club/clubDetail";
 	}

@@ -26,6 +26,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,6 +34,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
+import com.dagachi.app.admin.entity.AdminInquiry;
+import com.dagachi.app.club.dto.ClubBoardCreateDto;
+import com.dagachi.app.club.entity.Club;
+import com.dagachi.app.club.entity.ClubBoardAttachment;
+import com.dagachi.app.club.entity.ClubBoardDetails;
 import com.dagachi.app.club.entity.ClubDetails;
 import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.common.DagachiUtils;
@@ -67,10 +75,22 @@ public class MemberSecurityController {
 	public void InquiryCreate() {
 	}
 
-	@GetMapping("memberAdminInquiryList.do")
+	@GetMapping("/memberAdminInquiryList.do")
 	public void InquiryList() {
 	}
 	
+	@PostMapping("/memberAdminInquiry.do")
+    public String InquiryCreate(
+          @Valid AdminInquiryCreateDto inquiry, 
+          @AuthenticationPrincipal MemberDetails member,
+          BindingResult bindingResult)
+          {
+        inquiry.setWriter(member.getMemberId());
+       int result = memberService.InquiryCreate(inquiry);
+       return "/member/memberAdminInquiryList.do";
+    }
+	 
+	 
 	  /*임시회원가입*/
 	  @PostMapping("/memberCreate.do")
 	   public String create(
