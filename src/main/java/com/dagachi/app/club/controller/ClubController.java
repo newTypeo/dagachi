@@ -265,7 +265,7 @@ public class ClubController {
 	 * 인덱스 페이지에서 클럽 상세보기 할 때 매핑입니다. 도메인도 domain 변수 안에 넣어놨습니다. (창환) - layout 가져오도록
 	 * @author 동찬
 	 */
-	@GetMapping("/&{domain}")
+	@GetMapping("/{domain}")
 	public String clubDetail(
 			@PathVariable("domain") String domain,
 			@AuthenticationPrincipal MemberDetails member,
