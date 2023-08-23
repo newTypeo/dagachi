@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,7 @@ import com.dagachi.app.club.dto.ClubManageApplyDto;
 import com.dagachi.app.club.dto.ClubEnrollDto;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
+import com.dagachi.app.club.dto.ClubReportDto;
 import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
 import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.GalleryAndImageDto;
@@ -403,4 +406,13 @@ public class ClubServiceImpl implements ClubService {
 	}
 
 
+	@Override
+	public int insertClubReport(@Valid ClubReportDto clubReportDto) {
+		int result = 0;
+		result = clubRepository.insertClubReport(clubReportDto);
+		result += clubRepository.addReportCount(clubReportDto);
+		
+		return result;
+	}
+	
 }

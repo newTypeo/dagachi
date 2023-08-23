@@ -1324,7 +1324,7 @@ values (seq_club_gallery_attachment_id.nextval, 10, 'gallerySample10.png', 'gall
 
 
 
-
+update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'honggd';
 
 
 commit;
@@ -1339,17 +1339,19 @@ select * from club;
 select * from club_profile;
 
 
-select * from (select * from club_member a join club b on a.club_id = b.club_id where a.member_id ='user9') c join club_profile d on c.club_id = d.club_id;
-
-SELECT 
- *
-FROM (
-    SELECT *
-    FROM club_member a
-    JOIN club b ON a.club_id = b.club_id
-    where member_id = 'user9'
-    order by 2
-) c
-JOIN club_profile d ON c.club_id = d.club_id;
+--select * from (select * from club_member a join club b on a.club_id = b.club_id where a.member_id ='user9') c join club_profile d on c.club_id = d.club_id;
+--
+--SELECT 
+-- *
+--FROM (
+--    SELECT *
+--    FROM club_member a
+--    JOIN club b ON a.club_id = b.club_id
+--    where member_id = 'user9'
+--    order by 2
+--) c
+--JOIN club_profile d ON c.club_id = d.club_id;
 
 select * from club_board where club_Id like 1  and content like '%' || '안' || '%';
+
+

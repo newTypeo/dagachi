@@ -37,6 +37,7 @@ import com.dagachi.app.club.dto.ClubManageApplyDto;
 import com.dagachi.app.club.dto.ClubEnrollDto;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
+import com.dagachi.app.club.dto.ClubReportDto;
 import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
 import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.ClubUpdateDto;
@@ -323,7 +324,23 @@ public class ClubController {
 		return ResponseEntity.status(HttpStatus.OK).body(clubAndImages);
 	}
 
-
+	
+	@PostMapping("/{domain}/clubReport.do")
+	public ResponseEntity<?> clubReport(
+			@PathVariable("domain") String domain,
+			@Valid ClubReportDto clubReportDto
+			) {
+		
+		int clubId = clubService.clubIdFindByDomain(domain);
+		clubReportDto.setClubId(clubId);
+		
+		int result = clubService.insertClubReport(clubReportDto);
+		System.out.println("result = " + result);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(clubReportDto);
+	}
+	
+	
 	/**
 	 * 사용자가 해당 카테고리를 hover한 값을 db에서 조회 후 반환
 	 * @author 창환
@@ -353,7 +370,6 @@ public class ClubController {
 			}
 		}
 		
-		System.out.println(clubAndImages);
 		
 		return ResponseEntity.status(HttpStatus.OK).body(clubAndImages);
 	}
