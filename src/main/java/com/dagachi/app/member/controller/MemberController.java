@@ -11,7 +11,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.service.ClubService;
@@ -64,5 +66,14 @@ public class MemberController {
 		 	model.addAttribute("joinClub",joinClub);
 	        return "member/memberDetail";
 	    }
+	 
+	 @PostMapping("/searchIdModal")
+	 public void sendVerificationCode(
+			 @RequestParam("username") String username, 
+             @RequestParam("email") String email) {
+		 
+		 System.out.println(username);
+		 System.out.println(email);
+	 }
 	
 }

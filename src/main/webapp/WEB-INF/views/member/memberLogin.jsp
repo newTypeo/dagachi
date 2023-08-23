@@ -45,6 +45,57 @@
 						</div>
 				</div>
 			</div>
-		</form:form>			
-						
+		</form:form>	
+		
+		<button type="button" class="btn btn-primary" style=" text-align: center; display: block; margin: 0 auto;" id="btnOpen">아이디 찾기</button>
+		<br/>
+		<!-- Modal -->
+			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		    <div class="modal-dialog">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <h1 class="modal-title fs-5" id="exampleModalLabel" style="text-align: center; display: block; margin: 0 auto;">아이디 찾기</h1>
+		            </div>
+		            <div class="modal-body">
+		                <form:form action="${pageContext.request.contextPath}/member/searchIdModal" method="post">
+						    <div class="form-group">
+						        <input type="text" class="form-control" name="username" placeholder="이름" value="">
+						    </div>
+						    <div class="form-group">
+						        <div class="input-group">
+						            <input type="email" class="form-control" name="email" placeholder="이메일" value="">
+						            <button type="button" class="btn btn-primary">인증코드 보내기</button>
+						        </div>
+						    </div>
+		                    <div class="form-group">
+		                        <input type="text" class="form-control" placeholder="인증코드" value="">
+		                    </div>
+		                    <div class="d-flex justify-content-end">
+		                        <button type="submit" class="btn btn-primary">인증</button>
+		                    </div>
+		                </form:form>
+		            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnClose">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+		
+		<button type="button" class="btn btn-success" style="text-align: center; display: block; margin: 0 auto;">비밀번호 찾기</button>
+		
+<script>
+	var btnOpen = document.getElementById("btnOpen");
+	var btnClose = document.getElementById("btnClose"); // 여기 수정
+	
+	var modal = new bootstrap.Modal(document.getElementById("exampleModal"));
+	
+	btnOpen.addEventListener("click", function() {
+	    modal.show();
+	});
+	
+	btnClose.addEventListener("click", function() { // 여기 수정
+	    modal.hide();
+	});
+</script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
