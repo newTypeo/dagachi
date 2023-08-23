@@ -14,6 +14,7 @@ import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.session.RowBounds;
 
+import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
 import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.ClubManageApplyDto;
@@ -237,6 +238,9 @@ public interface ClubRepository {
 	@Insert("insert into club_apply values(#{clubId},#{memberId},#{answer})")
 	int ClubEnroll(ClubEnrollDto enroll);
 	
+	@Select("select count(*) from club_apply where club_id = #{clubId} and member_id= #{memberId}")
+	int clubEnrollDuplicated(ClubApply clubApply);
+	
 	@Insert("insert into club_report (id, club_id, reason, reporter, created_at) values(seq_club_report_id.nextval, #{clubId}, #{reason}, #{reporter}, default)")
 	int insertClubReport(@Valid ClubReportDto clubReportDto);
 	
@@ -257,6 +261,7 @@ public interface ClubRepository {
 	
 	@Update("update club_layout set type=#{type}, font=#{font}, backgroundColor=#{backgroundColor}, fontColor=#{fontColor}, pointColor=#{pointColor} where club_id=#{clubId}")
 	int clubStyleUpdate(ClubStyleUpdateDto style);
+
 
 
 }

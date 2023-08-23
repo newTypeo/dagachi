@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.dagachi.app.Pagination;
 import com.dagachi.app.club.common.Status;
@@ -50,6 +51,7 @@ import com.dagachi.app.club.dto.KickMember;
 import com.dagachi.app.club.dto.ManageMember;
 import com.dagachi.app.club.dto.SearchClubBoard;
 import com.dagachi.app.club.entity.Club;
+import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
 import com.dagachi.app.club.entity.ClubBoardAttachment;
 import com.dagachi.app.club.entity.ClubBoardDetails;
@@ -94,40 +96,49 @@ public class ClubController {
 	
 
 	@GetMapping("/{domain}/clubEnroll.do")
-	public String ClubEnroll(@PathVariable("domain") String domain, Model model) {
+	public String ClubEnroll(@PathVariable("domain") String domain,RedirectAttributes redirectAttr, Model model, @AuthenticationPrincipal MemberDetails member) {
 		int clubId = clubService.clubIdFindByDomain(domain);
+		System.out.println(clubId);
 		Club club = clubService.findClubById(clubId);
-		
 		model.addAttribute("club",club);
 		
+		ClubApply clubApply = new ClubApply(clubId, member.getMemberId(), null);
+		
+		int result = clubService.clubEnrollDuplicated(clubApply);
+		
+		
+		  if (result == 1) { 
+			  redirectAttr.addFlashAttribute("msg", "이미 가입 신청한 모임 입니다."); 
+			  return "redirect:/club/" + domain; 
+		  }
+		  
 		return "/club/clubEnroll";
 	}
-
+	
+	@PostMapping("/{domain}/clubEnroll.do")
+	public String ClubEnroll(@Valid ClubEnrollDto enroll,  Model model,@PathVariable("domain") String domain,
+			@AuthenticationPrincipal MemberDetails member, RedirectAttributes redirectAttr) {
+		System.out.println(domain);
+		enroll.setMemberId(member.getMemberId());
+		int result = clubService.ClubEnroll(enroll);
+		 redirectAttr.addFlashAttribute("msg", "💡가입 신청 완료.💡"); 
+		return "redirect:/club/" + domain;
+	}
+	
 	@GetMapping("/{domain}/clubBoardList.do")
 	public String boardList(@PathVariable("domain") String domain, Model model) {
 		model.addAttribute("domain", domain);
 		return "/club/clubBoardList";
 	}
 
-	@GetMapping("/&{domain}/clubBoardCreate.do")
+	@GetMapping("/{domain}/clubBoardCreate.do")
 	public String boardCreate(@PathVariable("domain") String domain, Model model) {
 
 		model.addAttribute("domain", domain);
 		return "/club/clubBoardCreate";
 	}
 	
-	
 
-	@PostMapping("/{domain}/clubEnroll.do")
-	public String ClubEnroll(@Valid ClubEnrollDto enroll, @PathVariable("domain") String domain,
-			@AuthenticationPrincipal MemberDetails member) {
-		System.out.println(member);
-		enroll.setMemberId(member.getMemberId());
-		System.out.println(enroll);
-		int result = clubService.ClubEnroll(enroll);
-		return "club/clubDetail";
-	}
-	
 
 	@PostMapping("/{domain}/boardCreate.do")
 	public String boardCreate(@Valid ClubBoardCreateDto _board, @PathVariable("domain") String domain,
@@ -265,7 +276,7 @@ public class ClubController {
 	 * 인덱스 페이지에서 클럽 상세보기 할 때 매핑입니다. 도메인도 domain 변수 안에 넣어놨습니다. (창환) - layout 가져오도록
 	 * @author 동찬
 	 */
-	@GetMapping("/&{domain}")
+	@GetMapping("/{domain}")
 	public String clubDetail(
 			@PathVariable("domain") String domain,
 			@AuthenticationPrincipal MemberDetails member,
@@ -731,7 +742,6 @@ public class ClubController {
 		int clubId = club.getClubId();
 		int boardId = no;
 		ClubBoard _clubBoard = ClubBoard.builder().clubId(clubId).boardId(boardId).build();
-
 		ClubBoard clubBoard = clubService.findByBoard(_clubBoard);
 
 		return clubBoard;

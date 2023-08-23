@@ -5,38 +5,25 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param value="관리자에게 문의하기" name="title" />
+	<jsp:param value="문의 답변하기" name="title" />
 </jsp:include>
 
 <section id="club-Inquiry-sec" class="">
 	<form:form  name="InquiryFrm"
-		action="${pageContext.request.contextPath}/member/memberAdminInquiry.do"
+		action="${pageContext.request.contextPath}/admin/adminInquiryUpdate.do"
 		enctype="multipart/form-data" method="post">
+		<div>${adminInquiry.number}</div>
+		<div>${adminInquiry.writer}</div>
+		<div>${adminInquiry.created_at}</div>
+		<div>${adminInquiry.status}</div>
+		<div>${adminInquiry.open}</div>
+		
 		<div class="form-group">
-			<label for="exampleFormControlInput1"></label> <input type="text"
-				class="form-control" id="exampleFormControlInput1" name="title"
-				placeholder="제목을 입력하세요">
+			<div>${adminInquiry.title}</div>
 		</div>
 		<div class="input-group mb-3">
 			<div class="input-group-prepend">
-				<label class="input-group-text" for="inputGroupSelect01">카테고리</label>
-			</div>
-			<select class="custom-select" id="inputGroupSelect01"
-				name="type">
-				<option value="1" selected>회원 정보 문의</option>
-				<option value="2">소모임 관련 문의</option>
-				<option value="3">결제 문의</option>
-				<option value="4">신고 문의</option>
-			</select>
-			
-			
-			<div class="form-check">
-			  <input class="form-check-input" type="radio" name="open" id="openAll" value="0" checked>
-			  <label class="form-check-label" for="openAll">전체 공개</label>
-			  </br>
-			  <!-- created_at -->
-			  <input class="form-check-input" type="radio" name="open" id="openPrivate" value="1">
-			  <label class="form-check-label" for="openPrivate">비공개</label>
+				<div>${adminInquiry.type}</div>
 			</div>
 		</div>
 		
@@ -46,8 +33,21 @@
 			<textarea class="form-control" name="content" id="exampleFormControlTextarea1"
 				rows="3" placeholder="내용을 입력하세요"></textarea>
 		</div>
-
-		<button type="submit" class="btn btn-primary btn-lg">문의 하기</button>
+		
+	<!-- 	UPDATE admin_Inquiry
+		SET admin_id = {}, response = {}, status = '1', response_at = sysdate
+		WHERE Inquiry_id = {}; -->
+ 		<div class="form-group">
+			<label for="exampleFormControlTextarea1"></label>
+			<textarea class="form-control" name="response" id="exampleFormControlTextarea1"
+				rows="3" placeholder="내용을 입력하세요"></textarea>
+		</div>
+		
+		<%-- <c:if test = "${status eq '0'}"> --%>
+		<button type="submit" class="btn btn-primary btn-lg">답변/수정 하기</button>
+		<%-- </c:if> --%>
+		
+		
 		
 	 </form:form>
 </section>
