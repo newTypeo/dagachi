@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +35,7 @@ import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.ClubBoardCreateDto;
 import com.dagachi.app.club.dto.ClubCreateDto;
 import com.dagachi.app.club.dto.ClubManageApplyDto;
+import com.dagachi.app.club.dto.ClubMemberAndImage;
 import com.dagachi.app.club.dto.ClubEnrollDto;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
@@ -58,6 +60,8 @@ import com.dagachi.app.club.service.ClubService;
 import com.dagachi.app.common.DagachiUtils;
 import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.entity.MemberDetails;
+import com.dagachi.app.member.entity.MemberProfile;
+import com.dagachi.app.member.service.MemberService;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -76,6 +80,9 @@ public class ClubController {
 
 	@Autowired
 	private ClubService clubService;
+	
+	@Autowired
+	private MemberService memberService;
 
 	@GetMapping("/main.do")
 	public void Detail() {
@@ -760,17 +767,18 @@ public class ClubController {
 			@AuthenticationPrincipal MemberDetails member,
 			Model model
 			) {
-		String memberId = member.getMemberId();
 		int clubId = clubService.clubIdFindByDomain(domain);
-		Club club = clubService.findByDomain(domain);
-		List<Member> members= clubService.findMemberByClubId(clubId);
+		Club club = clubService.findClubById(clubId);
+		List<ClubMemberAndImage> clubMembers = clubService.findClubMembers(clubId);
 		
-		model.addAttribute("members",members);
+		
+		model.addAttribute("clubMembers",clubMembers);
 		model.addAttribute("club",club);
-		
+		 
 		return "/club/clubMemberList";
 	}
 	
+
 	
 
 	@GetMapping("/clubsRecentVisited.do")

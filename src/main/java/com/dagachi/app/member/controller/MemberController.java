@@ -17,6 +17,7 @@ import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.service.ClubService;
 import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.entity.MemberDetails;
+import com.dagachi.app.member.entity.MemberProfile;
 import com.dagachi.app.member.service.MemberService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -45,8 +46,9 @@ public class MemberController {
 	    		@AuthenticationPrincipal MemberDetails loginMember
 	    		) {
 		 	Member member = memberService.findMemberBymemberId(memberId);
-		 
+		 	MemberProfile memberProfile = memberService.findMemberProfile(memberId); 
 
+		 	model.addAttribute("memberProfile",memberProfile);
 		 	model.addAttribute("member",member);
 		 	model.addAttribute("loginMember",loginMember);
 		 	String loginMemberId = loginMember.getMemberId();
@@ -58,8 +60,8 @@ public class MemberController {
 //		 	log.debug("잘 들어왔니? = {}", clubAndImages);
 		 	model.addAttribute("clubAndImages",clubAndImages);
 		 	
-//		 	List<ClubAndImage> joinClub = clubService.
-
+		 	List<ClubAndImage> joinClub = clubService.searchJoinClub(member.getMemberId());
+		 	model.addAttribute("joinClub",joinClub);
 	        return "member/memberDetail";
 	    }
 	
