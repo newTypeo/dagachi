@@ -141,5 +141,12 @@ public class MemberServiceImpl implements MemberService{
 	public ActivityArea findActivityAreaById(String memberId) {
 		return memberRepository.findActivityAreaById(memberId);
 	}
-
+	public MemberProfile findMemberProfile(String memberId) {
+		return memberRepository.findMemberProfile(memberId);
+	}
+	
+	@Override
+	public List<MemberProfile> findMemberProfileByClubId(int clubId) {
+		return memberRepository.findMemberProfileByClubId(clubId);
+	}
 }

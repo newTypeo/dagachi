@@ -70,7 +70,7 @@
 				},
 				success(data){
 					alert(data);
-					window.location.href = "${pageContext.request.contextPath}/club/&${domain}/clubBoardList.do";
+					window.location.href = "${pageContext.request.contextPath}/club/${domain}/clubBoardList.do";
 				}
 			});
 		}
