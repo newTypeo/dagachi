@@ -3,14 +3,20 @@ package com.dagachi.app.club.service;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
+import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
 import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.ClubEnrollDto;
 import com.dagachi.app.club.dto.ClubManageApplyDto;
+import com.dagachi.app.club.dto.ClubMemberAndImage;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
+import com.dagachi.app.club.dto.ClubReportDto;
 import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
 import com.dagachi.app.club.dto.ClubSearchDto;
+import com.dagachi.app.club.dto.ClubStyleUpdateDto;
 import com.dagachi.app.club.dto.GalleryAndImageDto;
 import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.KickMember;
@@ -97,7 +103,6 @@ public interface ClubService {
 
 	int delAttachment(int id);
 	
-	List<Member> findMemberByClubId(int clubId);
 	
 	int insertClubRecentVisitd(String memberId, int clubId);
 
@@ -121,6 +126,17 @@ public interface ClubService {
 	int delClubBoard(int boardId);
 	
 	int ClubEnroll(ClubEnrollDto enroll);
+
+	int clubEnrollDuplicated(ClubApply clubApply);
+
+	int insertClubReport(@Valid ClubReportDto clubReportDto);
+	
+	List<ClubAndImage> searchJoinClub(String memberId);
+
+	List<ClubMemberAndImage> findClubMembers(int clubId);
+
+	int clubStyleUpdate(@Valid ClubStyleUpdateDto style);
+
 
 
 

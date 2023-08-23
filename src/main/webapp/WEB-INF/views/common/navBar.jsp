@@ -15,7 +15,7 @@
 			<input type="text" name="inputText" id="search-club-box" placeholder="BTS 봉준호 다가치 Let's go" required/>
 			<button id="search-club-btn"><i class="fa-solid fa-magnifying-glass fa-xl"></i></button>
 		</form>
-		<!-- <div id="search-detail">상세검색<i class="fa-solid fa-chevron-down" style="color: #eee;"></i></div> -->
+		<div id="search-detail"><a href="${pageContext.request.contextPath}/club/clubSearchSurrounded.do">주변보기<i class="fa-solid " style="color: #eee;"></i></a></div>
 	</div>
 	
 	
@@ -112,7 +112,7 @@ categoryDiv.forEach((element) => {
 				console.log(response);
 				response.forEach((club) => {
 					categoryModalRight.innerHTML += `
-						<a class="card" style="width: 18rem;" href="${pageContext.request.contextPath}/club/&\${club.domain}">
+						<a class="card" style="width: 18rem;" href="${pageContext.request.contextPath}/club/\${club.domain}">
 							<img src="${pageContext.request.contextPath}/resources/upload/club/profile/\${club.renamedFilename}" class="card-img-top" alt="..." />
 							  <div class="card-body">
 							    <h5 class="card-title">\${club.clubName}</h5>
