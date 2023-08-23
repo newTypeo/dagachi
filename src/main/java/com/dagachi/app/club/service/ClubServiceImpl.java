@@ -470,6 +470,10 @@ public class ClubServiceImpl implements ClubService {
 	}
 
 
+	@Override
+	public List<ClubBoard> searchBoard(Map<String, Object> searchBoardMap) {
+		return clubRepository.searchBoard(searchBoardMap);
+	}
 	
 	
 }

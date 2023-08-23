@@ -261,6 +261,8 @@ public interface ClubRepository {
 	
 	@Update("update club_layout set type=#{type}, font=#{font}, background_color=#{backgroundColor}, font_color=#{fontColor}, point_color=#{pointColor} where club_id=#{clubId}")
 	int clubStyleUpdate(ClubStyleUpdateDto style);
+	
+	List<ClubBoard> searchBoard(Map<String, Object> searchBoardMap);
 
 
 
