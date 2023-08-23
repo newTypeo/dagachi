@@ -322,9 +322,7 @@ public class ClubServiceImpl implements ClubService {
 		try {
 			result = clubRepository.memberRoleFindByMemberId(clubMemberRole);
 		} catch (Exception e) {
-			System.out.println("헉");
 			result = 10;
-			System.out.println(result);
 		}
 		return result;
 	}

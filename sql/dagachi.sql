@@ -1325,10 +1325,6 @@ insert into club_gallery_attachment (id, gallery_id, original_filename, renamed_
 values (seq_club_gallery_attachment_id.nextval, 9, 'gallerySample9.png', 'gallerySample9.png', sysdate, 'Y');
 insert into club_gallery_attachment (id, gallery_id, original_filename, renamed_filename, created_at, thumbnail)
 values (seq_club_gallery_attachment_id.nextval, 10, 'gallerySample10.png', 'gallerySample10.png', sysdate, 'Y');
-select * from member_profile;
-
-update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'honggd';
-
 
 -- 회원 프로필 사진 샘플 첨부
 insert into member_profile values('user1','asd','가렌.png',sysdate);
@@ -1362,18 +1358,17 @@ insert into member_profile values('user28','asd','티모.png',sysdate);
 insert into member_profile values('user29','asd','트위치.png',sysdate);
 insert into member_profile values('user30','asd','트린.png',sysdate);
 
+update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'honggd';
 
 commit;
 
-select * from club_apply;
-select * from admin_inquiry;
-
-UPDATE admin_Inquiry
-SET admin_id = {}, response = {}, status = '1', response_at = sysdate
-WHERE Inquiry_id = {};
-
-UPDATE admin_Inquiry
-SET admin_id = {}, response = {}, status = '1', response_at = sysdate
-WHERE Inquiry_id = {};
-
-
+--select * from club_apply;
+--select * from admin_inquiry;
+--
+--UPDATE admin_Inquiry
+--SET admin_id = {}, response = {}, status = '1', response_at = sysdate
+--WHERE Inquiry_id = {};
+--
+--UPDATE admin_Inquiry
+--SET admin_id = {}, response = {}, status = '1', response_at = sysdate
+--WHERE Inquiry_id = {};
