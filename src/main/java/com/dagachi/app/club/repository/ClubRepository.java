@@ -3,6 +3,8 @@ package com.dagachi.app.club.repository;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -18,6 +20,7 @@ import com.dagachi.app.club.dto.ClubManageApplyDto;
 import com.dagachi.app.club.dto.ClubEnrollDto;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
+import com.dagachi.app.club.dto.ClubReportDto;
 import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
 import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.KickMember;
@@ -232,7 +235,13 @@ public interface ClubRepository {
 	int delClubBoard(int boardId); 
 
 	@Insert("insert into club_apply values(#{clubId},#{memberId},#{answer})")
-	 int ClubEnroll(ClubEnrollDto enroll);
+	int ClubEnroll(ClubEnrollDto enroll);
+	
+	@Insert("insert into club_report (id, club_id, reason, reporter, created_at) values(seq_club_report_id.nextval, #{clubId}, #{reason}, #{reporter}, default)")
+	int insertClubReport(@Valid ClubReportDto clubReportDto);
+	
+	@Update("update club set report_count = report_count + 1 where club_id = #{clubId}")
+	int addReportCount(@Valid ClubReportDto clubReportDto);
 	
 	@Select("select * from club_member a left join club b on a.club_id= b.club_id left join club_profile c on a.club_id = c.club_id where a.member_id = #{memberId}")
 	List<ClubAndImage> searchJoinClub(String memberId);

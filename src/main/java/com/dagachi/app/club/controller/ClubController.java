@@ -39,6 +39,7 @@ import com.dagachi.app.club.dto.ClubMemberAndImage;
 import com.dagachi.app.club.dto.ClubEnrollDto;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
+import com.dagachi.app.club.dto.ClubReportDto;
 import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
 import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.ClubStyleUpdateDto;
@@ -60,6 +61,7 @@ import com.dagachi.app.club.entity.ClubRecentVisited;
 import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.club.service.ClubService;
 import com.dagachi.app.common.DagachiUtils;
+import com.dagachi.app.member.entity.ActivityArea;
 import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.entity.MemberDetails;
 import com.dagachi.app.member.entity.MemberProfile;
@@ -81,11 +83,11 @@ public class ClubController {
 	static final int LIMIT = 10;
 
 	@Autowired
-	private ClubService clubService;
+	private MemberService memberService;
 	
 	@Autowired
-	private MemberService memberService;
-
+	private ClubService clubService;
+	
 	@GetMapping("/main.do")
 	public void Detail() {
 	}
@@ -240,12 +242,30 @@ public class ClubController {
 		return "redirect:/club/" + domain + "/manageMember.do";
 	}
 	
+	@GetMapping("clubSearchSurrounded.do")
+	public void clubSearchSurrounded() {}
+	
+	/**
+	 * 비동기로 주변모임 검색
+	 * @author 종환
+	 */
+	@GetMapping("clubSearchByDistance.do")
+	public ResponseEntity<?> clubSearchByDistance(
+			@AuthenticationPrincipal MemberDetails member,
+			@RequestParam int distance) {
+		String memberId = member.getMemberId();
+		System.out.println(memberId);
+		ActivityArea activityArea = memberService.findActivityAreaById(memberId);
+		System.out.println(activityArea);
+		return ResponseEntity.status(HttpStatus.OK).body(activityArea);
+	}
+	
 	
 	/**
 	 * 인덱스 페이지에서 클럽 상세보기 할 때 매핑입니다. 도메인도 domain 변수 안에 넣어놨습니다. (창환) - layout 가져오도록
 	 * @author 동찬
 	 */
-	@GetMapping("/{domain}")
+	@GetMapping("/&{domain}")
 	public String clubDetail(
 			@PathVariable("domain") String domain,
 			@AuthenticationPrincipal MemberDetails member,
@@ -331,7 +351,23 @@ public class ClubController {
 		return ResponseEntity.status(HttpStatus.OK).body(clubAndImages);
 	}
 
-
+	
+	@PostMapping("/{domain}/clubReport.do")
+	public ResponseEntity<?> clubReport(
+			@PathVariable("domain") String domain,
+			@Valid ClubReportDto clubReportDto
+			) {
+		
+		int clubId = clubService.clubIdFindByDomain(domain);
+		clubReportDto.setClubId(clubId);
+		
+		int result = clubService.insertClubReport(clubReportDto);
+		System.out.println("result = " + result);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(clubReportDto);
+	}
+	
+	
 	/**
 	 * 사용자가 해당 카테고리를 hover한 값을 db에서 조회 후 반환
 	 * @author 창환
@@ -361,7 +397,6 @@ public class ClubController {
 			}
 		}
 		
-		System.out.println(clubAndImages);
 		
 		return ResponseEntity.status(HttpStatus.OK).body(clubAndImages);
 	}

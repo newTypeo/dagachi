@@ -80,34 +80,36 @@
 		<h1>추천 목록</h1>
 	   		<div class="posts2">
 		   		<script>
-			   		$.ajax({
-			   			url : "${pageContext.request.contextPath}/club/loginClubList.do",
-			   			success(clubs){
-			   				const container = document.querySelector(".posts2");
-			   				
-			   				clubs.forEach((clubAndImage)=>{
-			   					const { clubName, category, status, reportCount, introduce, domain, renamedFilename, memberCount } = clubAndImage;
-			   					if (status !== false) {
-			   						
-			   						container.innerHTML += `
-			   							<a class="card" style="width: 18rem;" href="${pageContext.request.contextPath}/club/\${domain}">
-			   							<img src="${pageContext.request.contextPath}/resources/upload/club/profile/\${renamedFilename}" class="card-img-top" alt="...">
-			   							  <div class="card-body">
-			   							    <h5 class="card-title">\${clubName}</h5>
-			   							    <p class="card-text">\${introduce}</p>
-			   							  </div>
-			   							  <ul class="list-group list-group-flush">
-			   							    <li class="list-group-item">\${category}</li>
-			   							    <li class="list-group-item">인원수 : \${memberCount}</li>
-			   							  </ul>
-			   							</a>
-			   						`;
-			   					}
-			   				});
-			   			}
-			   		});
-			   		
-		   		</script>
+    $.ajax({
+        url: "${pageContext.request.contextPath}/club/loginClubList.do",
+        success: function(clubs) {
+            const container = document.querySelector(".posts2");
+
+            if (clubs.length === 0) {
+                container.innerHTML = "<p>추천목록이 없습니다.</p>";
+            } else {
+                clubs.forEach((clubAndImage) => {
+                    const { clubName, category, status, reportCount, introduce, domain, renamedFilename, memberCount } = clubAndImage;
+                    if (status !== false) {
+                        container.innerHTML += `
+                            <a class="card" style="width: 18rem;" href="${pageContext.request.contextPath}/club/\${domain}">
+                                <img src="${pageContext.request.contextPath}/resources/upload/club/profile/\${renamedFilename}" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">\${clubName}</h5>
+                                    <p class="card-text">\${introduce}</p>
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">\${category}</li>
+                                    <li class="list-group-item">인원수 : \${memberCount}</li>
+                                </ul>
+                            </a>
+                        `;
+                    }
+                });
+            }
+        }
+    });
+</script>
 	   		</div>
 	   		<h1>모든 모임</h1>
 	   		<div class="posts3">
@@ -122,7 +124,7 @@
    						if (status !== false) {
    							
    							container.innerHTML += `
-   								<a class="card" style="width: 18rem;" href="${pageContext.request.contextPath}/club/\${domain}">
+   								<a class="card" style="width: 18rem;" href="${pageContext.request.contextPath}/club/&\${domain}">
    								  <img src="${pageContext.request.contextPath}/resources/upload/club/profile/\${renamedFilename}" class="card-img-top" alt="...">
    								  <div class="card-body">
    								    <h5 class="card-title">\${clubName}</h5>

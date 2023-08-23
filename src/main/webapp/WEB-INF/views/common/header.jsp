@@ -48,13 +48,34 @@
 				<img id="main-logo" src="${pageContext.request.contextPath}/resources/images/004.png" class="p-2">
 			</a>
 		</div>
+		
+		<!-- Modal -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h1 class="modal-title fs-5" id="exampleModalLabel" style="text-align: center; display: block; margin: 0 auto;">아이디 / 비밀번호 찾기</h1>
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		      </div>
+		      <div class="modal-body">
+		      	<button type="button" class="btn btn-primary" style="text-align: center; display: block; margin: 0 auto;">아이디 찾기</button>
+		      	<br/>
+		        <button type="button" class="btn btn-success" style="text-align: center; display: block; margin: 0 auto;">비밀번호 찾기</button>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		
 		<sec:authorize access="isAnonymous()">
 			<div id="header-nav-container">
 				<a href="${pageContext.request.contextPath}/member/memberLogin.do">로그인</a>
 				<span>|</span>
 				<a href="${pageContext.request.contextPath}/member/memberCreate.do">회원가입</a>
 				<span>|</span>
-				<a href="${pageContext.request.contextPath}/member/memberFind.do">아이디/비밀번호찾기</a>
+				<a href="#" class="open-modal-link">아이디/비밀번호찾기</a>
 			</div>
 		</sec:authorize>
 			 
@@ -69,6 +90,10 @@
 		</sec:authorize>
 				<a href="${pageContext.request.contextPath}/member/memberAdminInquiryList.do">문의하기</a>
 				
+				<div class="modal" tabindex="-1">
+				
+		
+		
 
 	</header>
 	
@@ -80,4 +105,37 @@ const withdrawalMember = () => {
 		document.memberDeleteFrm.submit();
 	}
 };
+</script>
+<script>
+  // 문서가 로드되면 실행될 스크립트
+  document.addEventListener('DOMContentLoaded', function() {
+    // 버튼 요소를 가져옵니다.
+    var modalButton = document.querySelector('.btn-primary');
+    // 모달 요소를 가져옵니다.
+    var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+    // 버튼을 클릭했을 때 모달을 열도록 이벤트 리스너를 추가합니다.
+    modalButton.addEventListener('click', function() {
+      modal.show(); // 모달을 표시합니다.
+    });
+  });
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+	  var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+	  // a 태그를 가져옵니다.
+	  var modalTriggerLink = document.querySelector('.open-modal-link');
+	  // a 태그를 클릭했을 때 모달을 열도록 이벤트 리스너를 추가합니다.
+	  modalTriggerLink.addEventListener('click', function(event) {
+	    event.preventDefault(); // 링크의 기본 동작을 막습니다.
+	    modal.show(); // 모달을 표시합니다.
+	  });
+	  // 모달 내부의 Close 버튼을 가져옵니다.
+	  var closeButton = document.querySelector('.btn-secondary[data-bs-dismiss="modal"]');
+	  // Close 버튼을 클릭했을 때 모달을 닫도록 이벤트 리스너를 추가합니다.
+	  closeButton.addEventListener('click', function() {
+	    modal.hide(); // 모달을 숨깁니다.
+	  });
+	});
+
+
 </script>

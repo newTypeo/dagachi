@@ -12,6 +12,7 @@ import com.dagachi.app.club.dto.ClubManageApplyDto;
 import com.dagachi.app.club.dto.ClubMemberAndImage;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
+import com.dagachi.app.club.dto.ClubReportDto;
 import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
 import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.ClubStyleUpdateDto;
@@ -125,6 +126,8 @@ public interface ClubService {
 	
 	int ClubEnroll(ClubEnrollDto enroll);
 
+	int insertClubReport(@Valid ClubReportDto clubReportDto);
+	
 	List<ClubAndImage> searchJoinClub(String memberId);
 
 	List<ClubMemberAndImage> findClubMembers(int clubId);
