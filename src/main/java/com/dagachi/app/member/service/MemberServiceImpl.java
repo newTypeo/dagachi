@@ -18,6 +18,7 @@ import com.dagachi.app.club.entity.ClubDetails;
 import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.member.dto.MemberCreateDto;
+import com.dagachi.app.member.entity.ActivityArea;
 import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.entity.MemberDetails;
 import com.dagachi.app.member.entity.MemberProfile;
@@ -136,5 +137,9 @@ public class MemberServiceImpl implements MemberService{
 		return memberRepository.findMemberBymemberId(memberId);
 	}
 
+	@Override
+	public ActivityArea findActivityAreaById(String memberId) {
+		return memberRepository.findActivityAreaById(memberId);
+	}
 
 }

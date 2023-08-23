@@ -13,6 +13,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.dagachi.app.member.dto.MemberCreateDto;
+import com.dagachi.app.member.entity.ActivityArea;
 import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.entity.MemberDetails;
 import com.dagachi.app.member.entity.MemberProfile;
@@ -72,5 +73,8 @@ public interface MemberRepository {
 	/*임시 회원가입 (지우지 마삼) */
 	@Insert("insert into member values (#{memberId}, #{password},#{name}, #{nickname}, #{phoneNo}, #{email}, #{birthday, jdbcType=DATE}, #{gender}, #{mbti},  #{address}, 0, SYSDATE, NULL, SYSDATE, NULL, 'Y')")
 	int insertMember(MemberCreateDto member);
+
+	@Select("select * from activity_area where member_id = #{memberId}")
+	ActivityArea findActivityAreaById(String memberId);
 	
 }

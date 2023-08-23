@@ -57,8 +57,10 @@ import com.dagachi.app.club.entity.ClubRecentVisited;
 import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.club.service.ClubService;
 import com.dagachi.app.common.DagachiUtils;
+import com.dagachi.app.member.entity.ActivityArea;
 import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.entity.MemberDetails;
+import com.dagachi.app.member.service.MemberService;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -75,6 +77,9 @@ public class ClubController {
 	
 	static final int LIMIT = 10;
 
+	@Autowired
+	private MemberService memberService;
+	
 	@Autowired
 	private ClubService clubService;
 
@@ -230,6 +235,24 @@ public class ClubController {
 									else clubService.refuseApply(clubManageApplyDto); // 가입 거절
 		
 		return "redirect:/club/&" + domain + "/manageMember.do";
+	}
+	
+	@GetMapping("clubSearchSurrounded.do")
+	public void clubSearchSurrounded() {}
+	
+	/**
+	 * 비동기로 주변모임 검색
+	 * @author 종환
+	 */
+	@GetMapping("clubSearchByDistance.do")
+	public ResponseEntity<?> clubSearchByDistance(
+			@AuthenticationPrincipal MemberDetails member,
+			@RequestParam int distance) {
+		String memberId = member.getMemberId();
+		System.out.println(memberId);
+		ActivityArea activityArea = memberService.findActivityAreaById(memberId);
+		System.out.println(activityArea);
+		return ResponseEntity.status(HttpStatus.OK).body(activityArea);
 	}
 	
 	
