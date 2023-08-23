@@ -23,5 +23,7 @@ public class AdminInquiry {
 	private int status; 
 	private String adminId;
 	private String response;
+	private int open;
+	private LocalDateTime responseAt;
 	
 }

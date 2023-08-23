@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
 import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.ClubManageApplyDto;
@@ -321,9 +322,7 @@ public class ClubServiceImpl implements ClubService {
 		try {
 			result = clubRepository.memberRoleFindByMemberId(clubMemberRole);
 		} catch (Exception e) {
-			System.out.println("헉");
 			result = 10;
-			System.out.println(result);
 		}
 		return result;
 	}
@@ -410,6 +409,11 @@ public class ClubServiceImpl implements ClubService {
 		return result;
 	}
 
+	@Override
+	public int clubEnrollDuplicated(ClubApply clubApply) {
+		return clubRepository.clubEnrollDuplicated(clubApply);
+	}
+
 
 	@Override
 	public int insertClubReport(@Valid ClubReportDto clubReportDto) {
@@ -464,6 +468,8 @@ public class ClubServiceImpl implements ClubService {
 	public int clubStyleUpdate(ClubStyleUpdateDto style) {
 		return clubRepository.clubStyleUpdate(style);
 	}
+
+
 	
 	
 }

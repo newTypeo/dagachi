@@ -124,7 +124,7 @@
    						if (status !== false) {
    							
    							container.innerHTML += `
-   								<a class="card" style="width: 18rem;" href="${pageContext.request.contextPath}/club/&\${domain}">
+   								<a class="card" style="width: 18rem;" href="${pageContext.request.contextPath}/club/\${domain}">
    								  <img src="${pageContext.request.contextPath}/resources/upload/club/profile/\${renamedFilename}" class="card-img-top" alt="...">
    								  <div class="card-body">
    								    <h5 class="card-title">\${clubName}</h5>
