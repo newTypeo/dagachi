@@ -90,7 +90,7 @@ public class ClubController {
 	}
 	
 
-	@GetMapping("/&{domain}/clubEnroll.do")
+	@GetMapping("/{domain}/clubEnroll.do")
 	public String ClubEnroll(@PathVariable("domain") String domain, Model model) {
 		int clubId = clubService.clubIdFindByDomain(domain);
 		Club club = clubService.findClubById(clubId);
@@ -100,7 +100,7 @@ public class ClubController {
 		return "/club/clubEnroll";
 	}
 
-	@GetMapping("/&{domain}/clubBoardList.do")
+	@GetMapping("/{domain}/clubBoardList.do")
 	public String boardList(@PathVariable("domain") String domain, Model model) {
 		model.addAttribute("domain", domain);
 		return "/club/clubBoardList";
@@ -115,7 +115,7 @@ public class ClubController {
 	
 	
 
-	@PostMapping("/&{domain}/clubEnroll.do")
+	@PostMapping("/{domain}/clubEnroll.do")
 	public String ClubEnroll(@Valid ClubEnrollDto enroll, @PathVariable("domain") String domain,
 			@AuthenticationPrincipal MemberDetails member) {
 		System.out.println(member);
@@ -228,7 +228,7 @@ public class ClubController {
 	 * 가입신청 승인 & 거절 - 승인시에는 dto.isPermit이 true로 온다.
 	 * @author 종환
 	 */
-	@PostMapping("/&{domain}/manageApply.do")
+	@PostMapping("/{domain}/manageApply.do")
 	public String permitApply(
 			@PathVariable("domain") String domain,
 			ClubManageApplyDto clubManageApplyDto) {
@@ -236,7 +236,7 @@ public class ClubController {
 		if(clubManageApplyDto.isPermit()) clubService.permitApply(clubManageApplyDto); // 가입 승인
 									else clubService.refuseApply(clubManageApplyDto); // 가입 거절
 		
-		return "redirect:/club/&" + domain + "/manageMember.do";
+		return "redirect:/club/" + domain + "/manageMember.do";
 	}
 	
 	
@@ -244,7 +244,7 @@ public class ClubController {
 	 * 인덱스 페이지에서 클럽 상세보기 할 때 매핑입니다. 도메인도 domain 변수 안에 넣어놨습니다. (창환) - layout 가져오도록
 	 * @author 동찬
 	 */
-	@GetMapping("/&{domain}")
+	@GetMapping("/{domain}")
 	public String clubDetail(
 			@PathVariable("domain") String domain,
 			@AuthenticationPrincipal MemberDetails member,
@@ -370,7 +370,7 @@ public class ClubController {
 	 * 
 	 * @author 창환
 	 */
-	@GetMapping("/&{domain}/manageMember.do")
+	@GetMapping("/{domain}/manageMember.do")
 	public String manageMemeber(
 			@PathVariable("domain") String domain,
 			@AuthenticationPrincipal MemberDetails member,
@@ -417,7 +417,7 @@ public class ClubController {
 	 * 해당 모임의 회원 강제 탈퇴
 	 * @author 창환
 	 */
-	@PostMapping("/&{domain}/kickMember.do")
+	@PostMapping("/{domain}/kickMember.do")
 	public String kickMember(
 			@PathVariable("domain") String domain,
 			@RequestParam String memberId,
@@ -432,7 +432,7 @@ public class ClubController {
 		
 		int result = clubService.kickMember(kickMember); // club_member 테이블에서 해당 회원 삭제
 		
-		return "redirect:/club/&" + domain + "/manageMember.do";
+		return "redirect:/club/" + domain + "/manageMember.do";
 	}
 
 	@GetMapping("/{domain}/findBoardType.do")
@@ -542,7 +542,7 @@ public class ClubController {
 	 * 
 	 * @author 창환
 	 */
-	@PostMapping("/&{domain}/clubMemberRole.do")
+	@PostMapping("/{domain}/clubMemberRole.do")
 	public String clubMemberRoleUpdate(@PathVariable("domain") String domain, @RequestParam String memberId,
 			@RequestParam int clubMemberRole) {
 
@@ -556,7 +556,7 @@ public class ClubController {
 		int result = clubService.clubMemberRoleUpdate(member);
 		log.debug("result = {}", result);
 
-		return "redirect:/club/&" + domain + "/manageMember.do";
+		return "redirect:/club/" + domain + "/manageMember.do";
 	}
 
 	@GetMapping("/clubCreate.do")
@@ -569,7 +569,7 @@ public class ClubController {
 	 * 
 	 * @author 준한
 	 */
-	@GetMapping("/&{domain}/clubDisabled.do")
+	@GetMapping("/{domain}/clubDisabled.do")
 	public String clubDisabled(@PathVariable("domain") String domain) {
 		int clubId = clubService.clubIdFindByDomain(domain); // 해당 클럽의 아이디(pk) 가져오기
 		int result = clubService.clubDisabled(clubId);
@@ -632,7 +632,7 @@ public class ClubController {
 		return "redirect:/club/clubCreate.do";
 	}
 
-	@GetMapping("/&{domain}/clubUpdate.do")
+	@GetMapping("/{domain}/clubUpdate.do")
 	public String clubUpdate(@PathVariable("domain") String domain, Model model) {
 		int clubId = clubService.clubIdFindByDomain(domain);
 		Club club = clubService.findClubById(clubId);
@@ -649,7 +649,7 @@ public class ClubController {
 		return "club/clubUpdate";
 	}
 
-	@PostMapping("/&{domain}/clubUpdate.do")
+	@PostMapping("/{domain}/clubUpdate.do")
 	public String clubUpdate(@PathVariable("domain") String domain, @Valid ClubUpdateDto _club,
 			BindingResult bindingResult, @AuthenticationPrincipal MemberDetails member,
 			@RequestParam(value = "upFile") MultipartFile upFile) throws IllegalStateException, IOException {
@@ -762,7 +762,7 @@ public class ClubController {
 	 * @author 준한
 	 * 클럽 내 가입되어있는 회원들 조회페이지로 이동
 	 */
-	@GetMapping("/&{domain}/clubMemberList.do")
+	@GetMapping("/{domain}/clubMemberList.do")
 	public String clubMemberList(
 			@PathVariable("domain") String domain,
 			@AuthenticationPrincipal MemberDetails member,
@@ -795,6 +795,12 @@ public class ClubController {
 
 		return "club/clubLayoutUpdate";
 	}
+	@PostMapping("/&{domain}/clubLayoutUpdate.do")
+	public String clubLayoutUpdate(@PathVariable("domain") String domain) {
+		
+		return "redirect:/club/" + domain; 
+	}
+	
 	
 	@PostMapping("/{domain}/delBoard.do")
 	public  ResponseEntity<?> delClubBoard (

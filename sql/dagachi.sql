@@ -298,7 +298,7 @@ create table club_apply (
 create table club_layout (
 	club_id	number	not null,
 	type	number default 0,
-	font	varchar2(200),
+	font	varchar2(200) default 'IBM Plex Sans KR',
 	background_color	varchar2(50) default '#ffffff',
 	font_color	varchar2(50) default '#000000',
 	point_color	varchar2(50) default '#000000',
@@ -1281,11 +1281,7 @@ VALUES (seq_board_comment_id.nextval, 2, 'user1', NULL, '오늘 모임 정말 �
 
 -- 클럽 레이아웃 샘플
 insert into club_layout (club_id, type, font, background_color, font_color, point_color, title, main_image, main_content)
-values (1, default, null, '#dddddd', '#778899', '#496682', 'sportClubTitleSample.png', 'sportClubMainSample.png', '스포츠 열정 클럽에 오신것을 환영합니다!');
-
-select * from club;
-select * from member_interest;
-select * from member where name = '이은주';
+values (1, default, default, '#dddddd', '#778899', '#496682', 'sportClubTitleSample.png', 'sportClubMainSample.png', '스포츠 열정 클럽에 오신것을 환영합니다!');
 
 -- 클럽갤러리 샘플
 insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 10, 'Y');
@@ -1354,8 +1350,4 @@ insert into member_profile values('user28','asd','티모.png',sysdate);
 insert into member_profile values('user29','asd','트위치.png',sysdate);
 insert into member_profile values('user30','asd','트린.png',sysdate);
 
-
-
-
 commit;
-

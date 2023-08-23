@@ -39,7 +39,7 @@ div#search-content {
 
 	<div>
 		<button type="button" class="btn btn-primary"
-			onclick="location.href = '${pageContext.request.contextPath}/club/&${domain}/clubBoardCreate.do'">작성</button>
+			onclick="location.href = '${pageContext.request.contextPath}/club/${domain}/clubBoardCreate.do'">작성</button>
 	</div>
 
 	<div id="search-container">
