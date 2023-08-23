@@ -46,6 +46,7 @@ import com.dagachi.app.club.dto.GalleryAndImageDto;
 import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.KickMember;
 import com.dagachi.app.club.dto.ManageMember;
+import com.dagachi.app.club.dto.SearchClubBoard;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubBoard;
 import com.dagachi.app.club.entity.ClubBoardAttachment;
@@ -784,10 +785,20 @@ public class ClubController {
 	@GetMapping("/clubsRecentVisited.do")
 	public void clubsRecentVisited(){}
 	
+	@GetMapping("/&{domain}/clubLayoutUpdate.do")
+	public String clubLayoutUpdate(@PathVariable("domain") String domain, Model model) {
+		int clubId = clubService.clubIdFindByDomain(domain);
+
+		ClubLayout layout = clubService.findLayoutById(clubId);
+		
+		model.addAttribute("layout", layout);
+
+		return "club/clubLayoutUpdate";
+	}
+	
 	@PostMapping("/{domain}/delBoard.do")
-	public  ResponseEntity<?> delClubBoard(
-			@RequestParam int boardId
-	){
+	public  ResponseEntity<?> delClubBoard (
+			@RequestParam int boardId) {
 		
 		int result= clubService.delClubBoard(boardId);	
 		
@@ -796,6 +807,18 @@ public class ClubController {
 	}
 	
 
+	@GetMapping("/{domain}/searchClubBoard.do")
+	public ResponseEntity<?> searchClubBoard(
+			@PathVariable("domain") String domain,
+			@RequestParam String searchKeywordVal,
+			@RequestParam String searchTypeVal,
+			@RequestParam int boardTypeVal
+	){
+//		Map<Object, String> serchBoardMap=
+		
+		return ResponseEntity.status(HttpStatus.OK).body(null);
+	}
+	
 }
 
 

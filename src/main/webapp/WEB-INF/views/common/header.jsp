@@ -71,6 +71,7 @@
 				
 
 	</header>
+	
 	<jsp:include page="/WEB-INF/views/common/navBar.jsp"></jsp:include>
 
 <script>
