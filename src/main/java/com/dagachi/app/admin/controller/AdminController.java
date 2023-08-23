@@ -66,7 +66,7 @@ public class AdminController {
 	public String adminInquiryUpdate() {
 		AdminInquiryUpdateDto inquiryUpdate = null;
 				
-		int result = adminService.findInquiry(inquiryUpdate);
+		int result = adminService.updateInquiry(inquiryUpdate);
 		
 		return null;
 	}

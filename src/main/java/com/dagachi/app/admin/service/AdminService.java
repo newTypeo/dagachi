@@ -9,6 +9,6 @@ public interface AdminService {
 
 	AdminInquiryCreateDto findInquiry(int inquiryId);
 
-	int findInquiry(AdminInquiryUpdateDto inquiryUpdate);
+	int updateInquiry(AdminInquiryUpdateDto inquiryUpdate);
 
 }

@@ -27,8 +27,8 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public int findInquiry(AdminInquiryUpdateDto inquiryUpdate) {
-		return adminRepository.findInquiry(inquiryUpdate);
+	public int updateInquiry(AdminInquiryUpdateDto inquiryUpdate) {
+		return adminRepository.updateInquiry(inquiryUpdate);
 	}
 	
 
