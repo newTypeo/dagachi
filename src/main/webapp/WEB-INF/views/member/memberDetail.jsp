@@ -29,14 +29,69 @@
 <!-- 사용자작성 css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css" />
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div>
+                <img src="${pageContext.request.contextPath}/resources/upload/member/profile/\${member.renamedFilename}" class="rounded mx-auto d-block" alt="...">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div>
+                <h3>닉네임 : ${member.nickname}</h3>
+                <h3>이름 : ${member.name}</h3>
+                <h3>성별 : ${member.gender}</h3>
+                <h3>MBTI : ${member.mbti}</h3>
+<c:if test="${member.memberId eq loginMember.memberId}"> <!-- 로그인한 객체가 보고있는 같을 때 -->
+	<h1>나를 좋아요 한사람 table</h1>
+</c:if>
 
-<img src="${pageContext.request.contextPath}/resources/upload/member/profile/\${member.renamedFilename}" class="rounded mx-auto d-block" alt="...">
+<c:if test="${member.memberId ne loginMember.memberId}"> <!-- 로그인한 객체가 보고있는 다를 때 -->
+	<button type="button" class="btn btn-outline-danger">좋아요</button>
+</c:if>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<section id="class2">
+	<h1>최근 본 모임</h1>
+	 <c:if test="${empty clubAndImages}">
+	 	<h1>최근 조회하신 모임이 없습니다.</h1>
+	 </c:if>
+	 
+	 <c:if test="${not empty clubAndImages}">
+		<c:forEach items="${clubAndImages}" var="clubAndImage" varStatus="vs">
+	   		<div class="posts2">
+		   		<div class="card" style="width: 18rem;">
+				  <img src="${pageContext.request.contextPath}/resources/upload/club/profile/${clubAndImage.renamedFilename}" class="card-img-top" alt="...">
+				  <div class="card-body">
+				    <h5 class="card-title">${clubAndImage.clubName}</h5>
+				  </div>
+				  <ul class="list-group list-group-flush">
+				    <li class="list-group-item">${clubAndImage.introduce}</li>
+				    <li class="list-group-item">${clubAndImage.category}</li>
+				  </ul>
+				  <div class="card-body">
+				    <a href="#" class="card-link">Card link</a>
+				    <a href="#" class="card-link">Another link</a>
+				  </div>
+				</div>
+	   		</div>
+	   	</c:forEach>
+	  </c:if>
+	</section>
 
 
+<br/><br/><br/>
 <h1>최근 본 모임</h1>
+<br/><br/><br/>
 
 <h1>가입 되어있는 모임</h1>
-
-
-	
+<br/><br/><br/>
+<h1>작성한 글</h1>
+<br/><br/><br/>
+<h1>작성한 댓글</h1>
+<br/><br/><br/>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

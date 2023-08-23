@@ -45,6 +45,7 @@
 --DROP TABLE "AUTHORITY" CASCADE CONSTRAINTS;
 --DROP TABLE "PERSISTENT_LOGINS" CASCADE CONSTRAINTS;
 --DROP TABLE "RECENT_VISIT_LIST" CASCADE CONSTRAINTS;
+--DROP TABLE "ADMIN_INQUIRY" CASCADE CONSTRAINTS;
 --drop sequence seq_club_id;
 --drop sequence seq_club_report_id;
 --drop sequence seq_chat_log_id;
@@ -124,7 +125,8 @@ create table member (
 	enroll_date	date default sysdate,
 	withdrawal_date	date, --  COMMENT 'null 이면 회원'
 	password_change_date	date default sysdate,
-	last_login_date date
+	last_login_date date,
+    status char(1) default 'Y'
 );
 
 -- security rememeberme 를 위해 만들어진 테이블
@@ -356,7 +358,6 @@ create table recent_visit_list (
     club_id number not null,
     recent_date date default sysdate
 );
-
 
 alter table member add constraint pk_member primary key (
 	member_id
@@ -1321,14 +1322,34 @@ insert into club_gallery_attachment (id, gallery_id, original_filename, renamed_
 values (seq_club_gallery_attachment_id.nextval, 10, 'gallerySample10.png', 'gallerySample10.png', sysdate, 'Y');
 
 
-update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'honggd';
+
+
+
+
+
 commit;
 
-select * from (select * from club_board cb left join club_board_attachment ca on cb.board_id = ca.board_id where (ca.thumbnail = 'Y' or ca.thumbnail is null) and club_id = 1 order by cb.board_id desc) where rownum <= 100;
+insert into club_member values('user9',2,sysdate,null,default,default);
+insert into club_member values('user9',4,sysdate,null,default,default);
+insert into club_member values('user9',7,sysdate,null,default,default);
+select * from club_member;
+select * from club_member where member_id = 'user9';
 
-select * from club_board_attachment where board_id=41;
-
-select * from member;
-
+select * from club;
+select * from club_profile;
 
 
+select * from (select * from club_member a join club b on a.club_id = b.club_id where a.member_id ='user9') c join club_profile d on c.club_id = d.club_id;
+
+SELECT 
+ *
+FROM (
+    SELECT *
+    FROM club_member a
+    JOIN club b ON a.club_id = b.club_id
+    where member_id = 'user9'
+    order by 2
+) c
+JOIN club_profile d ON c.club_id = d.club_id;
+
+select * from club_board where club_Id like 1  and content like '%' || '안' || '%';

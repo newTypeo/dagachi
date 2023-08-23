@@ -41,8 +41,9 @@
 	<nav id="club-button">
 		<!-- 방장일 경우에 -->
 		<c:if test ="${memberRole eq 3}">
-			<button type="button" class="btn btn-success" id="club-update-btn">모임 수정</button>
+			<button type="button" class="btn btn-success" id="club-update-btn">모임 정보 수정</button>
 			<button type="button" class="btn btn-danger" id="clubDisabled">모임 삭제</button>
+			<button type="button" class="btn btn-warning" id="club-layout-update">모임 레이아웃 설정</button>
 		</c:if>
 		
 		<button type="button" class="btn btn-danger" id="clubReport">🚨<button>
@@ -62,7 +63,7 @@
 		<a href="${pageContext.request.contextPath}/club/&${domain}/manageMember.do">회원관리</a>
 	</nav>
 	
-	<jsp:include page="/WEB-INF/views/club/clubLayout/clubLayoutType0.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/views/club/clubLayout/clubLayoutType${layout.type}.jsp"></jsp:include>
 	
 </section>
 
@@ -87,6 +88,10 @@ document.querySelector("#clubReport").onclick = () => {
   
 document.querySelector("#club-update-btn").onclick = () => {
 	location.href = '${pageContext.request.contextPath}/club/&'+domain+'/clubUpdate.do';
+}
+
+document.querySelector("#club-layout-update").onclick = () => {
+	location.href = '${pageContext.request.contextPath}/club/&'+domain+'/clubLayoutUpdate.do';
 }
 
 console.log('${layout}');

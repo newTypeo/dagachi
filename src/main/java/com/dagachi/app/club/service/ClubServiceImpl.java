@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
+import com.dagachi.app.club.dto.ClubManageApplyDto;
 import com.dagachi.app.club.dto.ClubEnrollDto;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
@@ -31,6 +32,7 @@ import com.dagachi.app.club.entity.ClubGalleryAttachment;
 import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
+import com.dagachi.app.club.entity.ClubRecentVisited;
 import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.club.repository.ClubRepository;
 import com.dagachi.app.member.entity.Member;
@@ -332,6 +334,17 @@ public class ClubServiceImpl implements ClubService {
 	}
 
 	@Override
+	public List<ClubRecentVisited> findAllrecentVisitClubs() {
+		return clubRepository.findAllrecentVisitClubs();
+	}
+	
+	@Override
+	public int checkDuplicateClubId(int clubId) {
+		return clubRepository.checkDuplicateClubId(clubId);
+	}
+	
+
+	@Override
 	public List<Member> findMemberByClubId(int clubId) {
 		return clubRepository.findMemberByClubId(clubId);
 	}
@@ -347,9 +360,14 @@ public class ClubServiceImpl implements ClubService {
 	}
 	
 	@Override
-	public int permitApply(Map<String, Object> params) {
-		return clubRepository.permitApply(params);
+	public int permitApply(ClubManageApplyDto clubManageApplyDto) {
+		return clubRepository.permitApply(clubManageApplyDto);
 	}
+	@Override
+	public int refuseApply(ClubManageApplyDto clubManageApplyDto) {
+		return clubRepository.refuseApply(clubManageApplyDto);
+	}
+	
 	
 	@Override
 	public List<ClubScheduleAndMemberDto> findScheduleById(int clubId) {
@@ -357,11 +375,32 @@ public class ClubServiceImpl implements ClubService {
 	}
 
 	@Override
+	public List<ClubAndImage> recentVisitClubs(String loginMemberId) {
+		return clubRepository.recentVisitClubs(loginMemberId);
+	}
+
+
+	@Override
 	public int updateThumbnail(ClubBoardAttachment clubBoardAttachment) {
 		return clubRepository.updateThumbnail(clubBoardAttachment);
 	}
 	
 
+	@Override
+	public int delClubBoard(int boardId) {
+		int result=0;
+		
+		List<ClubBoardAttachment> attachments = clubRepository.findAttachments(boardId);
+		if(!attachments.isEmpty()) {
+			for(ClubBoardAttachment attachment : attachments) {
+				int id=attachment.getId();
+				result=clubRepository.delAttachment(id);
+			}
+		}
+		result=clubRepository.delClubBoard(boardId);
+		
+		return result;
+	}
 
 
 }
