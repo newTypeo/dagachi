@@ -108,6 +108,7 @@ create sequence seq_alarm_id;
 --drop sequence seq_admin_notice_id;
 --
 --drop sequence seq_alarm_id;
+--DROP SEQUENCE seq_Inquiry_id;
 
 ------------------------------------------------- 테이블 -------------------------------------------------
 create table member (
@@ -335,6 +336,7 @@ create table admin_notice (
 	status	char(1) default 'Y'
 );
 
+
 create table admin_Inquiry (
 	Inquiry_id 	number		NOT NULL,
 	writer varchar2(30)		NOT NULL,
@@ -344,7 +346,9 @@ create table admin_Inquiry (
 	type	number	DEFAULT 1 NOT NULL  ,
 	status	char(1)	DEFAULT 0 NULL ,
 	admin_id	varchar2(30)	NULL,
-	response	varchar2(2000)	NULL
+	response	varchar2(2000)	NULL,
+    open char(1)	DEFAULT 0 NULL ,
+    response_at date	DEFAULT sysdate	NULL
 );
 
 
@@ -667,6 +671,11 @@ alter table club add constraint uq_club_domain unique (
     domain
 );
 
+CREATE SEQUENCE seq_Inquiry_id
+START WITH 1
+INCREMENT BY 1
+NOCACHE
+NOCYCLE;
 
 --  가입 신청 승인 시 신청내역 삭제하는 트리거
 create or replace trigger delete_club_apply
@@ -1316,10 +1325,6 @@ insert into club_gallery_attachment (id, gallery_id, original_filename, renamed_
 values (seq_club_gallery_attachment_id.nextval, 9, 'gallerySample9.png', 'gallerySample9.png', sysdate, 'Y');
 insert into club_gallery_attachment (id, gallery_id, original_filename, renamed_filename, created_at, thumbnail)
 values (seq_club_gallery_attachment_id.nextval, 10, 'gallerySample10.png', 'gallerySample10.png', sysdate, 'Y');
-select * from member_profile;
-
-
-
 
 -- 회원 프로필 사진 샘플 첨부
 insert into member_profile values('user1','asd','가렌.png',sysdate);
@@ -1357,3 +1362,13 @@ update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63Szlhn
 
 commit;
 
+--select * from club_apply;
+--select * from admin_inquiry;
+--
+--UPDATE admin_Inquiry
+--SET admin_id = {}, response = {}, status = '1', response_at = sysdate
+--WHERE Inquiry_id = {};
+--
+--UPDATE admin_Inquiry
+--SET admin_id = {}, response = {}, status = '1', response_at = sysdate
+--WHERE Inquiry_id = {};

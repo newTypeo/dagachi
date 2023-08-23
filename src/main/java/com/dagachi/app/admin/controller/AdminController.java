@@ -30,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/admin")
 @Slf4j
-public class adminController {
+public class AdminController {
 
 	@Autowired
 	private ClubService clubService;
