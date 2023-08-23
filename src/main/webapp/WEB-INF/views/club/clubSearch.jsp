@@ -56,28 +56,49 @@
 	
 <script>
 document.querySelector("#filter-activityArea").onchange = (e) => {
-	console.log(e.target.value);
-	const detail = document.querySelector("filter-activityAreaDetail");
-	if(e.target.value == "") {
-		
+	const detail = document.querySelector("#filter-activityAreaDetail");
+	const zone = e.target.value; 
+	if(zone == "") {
+		detail.style.display = 'none';
+		detail.value = '';
+		return;
 	}
 	
-	$.ajax({
+	$.ajax({ // 1. 서울시의 모든 구를 요청
 		url : "https://grpc-proxy-server-mkvo6j4wsq-du.a.run.app/v1/regcodes?regcode_pattern=11*00000",
 		data : {is_ignore_zero : true},
 		success({regcodes}) {
-			console.log(regcodes);
-			
-			$.each(regcodes, (index) => {
+			$.each(regcodes, (index) => { // 2. 서울시 모든 구 중에서 사용자가 선택한 구의 정보를 찾기위한 반복문
 				const fullAddr = regcodes[index]["name"];
 				const region = fullAddr.split(" ");
 				
-				selectArea.innerHTML += `<option value="\${region[1]}">\${region[1]}</option>`;
-				
-			});
-		}
-	});
-	
+				if(region[1] == zone) { 
+					
+					const first5 = regcodes[index]["code"].toString().substr(0,5); // 3. 사용자가 선택한 구의 모든 동을 조회하기위한 코드 
+					
+					$.ajax({ // 4. 위에서 구한 코드로 모든 동정보 요청
+						url : "https://grpc-proxy-server-mkvo6j4wsq-du.a.run.app/v1/regcodes?regcode_pattern=" + first5 + "*",
+						data : {is_ignore_zero : true},
+						success({regcodes}) {
+							const selectAreaDetail = document.querySelector("#filter-activityAreaDetail");
+							selectAreaDetail.innerHTML = '<option value="">전체</option>';
+							
+							$.each(regcodes, (index) => { // 5. 파싱작업을 통해 모든동을 option태그로 만들어서 추가하는 반복문
+								const fullAddr = regcodes[index]["name"];
+								const region = fullAddr.split(" ");
+								
+								selectAreaDetail.innerHTML += `<option value="\${region[2]}">\${region[2]}</option>`;
+							}); // $.each
+						}, // success
+						complete() {
+							detail.style.display = 'inline-block';
+							return;		
+						} // complete
+					}) // ajax
+				} // if
+			}); // $.each
+		} // success
+	}); // ajax
 };
 
 // 검색창에 검색내용 남기기
