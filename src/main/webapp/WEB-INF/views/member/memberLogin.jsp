@@ -64,7 +64,7 @@
 						    <div class="form-group">
 						        <div class="input-group">
 						            <input type="email" class="form-control" name="email" placeholder="이메일" value="">
-						            <button type="button" class="btn btn-primary">인증코드 보내기</button>
+						            <button type="button" class="btn btn-primary" id="sendCodeButton">인증코드 보내기</button>
 						        </div>
 						    </div>
 		                    <div class="form-group">
@@ -87,7 +87,8 @@
 <script>
 	var btnOpen = document.getElementById("btnOpen");
 	var btnClose = document.getElementById("btnClose"); // 여기 수정
-	
+	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
 	var modal = new bootstrap.Modal(document.getElementById("exampleModal"));
 	
 	btnOpen.addEventListener("click", function() {
@@ -97,5 +98,35 @@
 	btnClose.addEventListener("click", function() { // 여기 수정
 	    modal.hide();
 	});
+	
+	document.addEventListener("DOMContentLoaded", function() {
+        var sendCodeButton = document.getElementById("sendCodeButton");
+        var searchIdForm = document.querySelector("#exampleModal form");
+        
+        sendCodeButton.addEventListener("click", function() {
+            var username = searchIdForm.querySelector('input[name="username"]').value;
+            var email = searchIdForm.querySelector('input[name="email"]').value;
+			console.log(username);
+			console.log(email);
+			console.log(header);
+			console.log(name);
+            // AJAX 요청으로 데이터 전송
+            $.ajax({
+                url: "${pageContext.request.contextPath}/club/searchIdModal.do",
+                method: "post",
+                data: {
+                	username: username,
+                    email: email
+                },
+                beforeSend(xhr) {
+                	console.log('xhr : ', xhr)
+        			xhr.setRequestHeader(header, token);
+        		},
+                success: function(response) {
+                    alert('인증코드를 이메일로 발송합니다. 등록된 정보가 없을 시 코드가 발송되지 않으니 주의바랍니다!');
+                }
+            });
+        });
+    });
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

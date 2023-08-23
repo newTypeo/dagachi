@@ -149,4 +149,14 @@ public class MemberServiceImpl implements MemberService{
 	public List<MemberProfile> findMemberProfileByClubId(int clubId) {
 		return memberRepository.findMemberProfileByClubId(clubId);
 	}
+	
+	@Override
+	public Member findMemberByEmail(String email) {
+		return memberRepository.findMemberByEmail(email);
+	}
+	
+	@Override
+	public Member findMemberByName(String username) {
+		return memberRepository.findMemberByName(username);
+	}
 }

@@ -44,5 +44,9 @@ public interface MemberService extends UserDetailsService {
 
 	List<MemberProfile> findMemberProfileByClubId(int clubId);
 
+	Member findMemberByName(String username);
+
+	Member findMemberByEmail(String email);
+
 
 }
