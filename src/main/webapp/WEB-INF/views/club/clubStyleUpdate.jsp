@@ -8,7 +8,7 @@
 
 
 <section id="layout-update" class="">
-	<form:form action="${pageContext.request.contextPath}/club/clubLayoutUpdate.do" method="POST">
+	<form:form action="${pageContext.request.contextPath}/club/${domain}/clubStyleUpdate.do" method="POST">
 		<h3>소모임 스타일 수정</h3>
 		<br>
 		<h5>레이아웃</h5>
@@ -81,7 +81,7 @@
 					<input type="color" value="${layout.backgroundColor}" disabled/>
 				</label>
 				<label>변경 색상 : 
-					<input type="color" name="background_color" value="${layout.backgroundColor}"/>
+					<input type="color" name="backgroundColor" value="${layout.backgroundColor}"/>
 				</label>
 			</div>
 			
@@ -91,7 +91,7 @@
 					<input type="color" value="${layout.fontColor}" disabled/>
 				</label>
 				<label>변경 색상 : 
-					<input type="color" name="font_color" value="${layout.fontColor}"/>
+					<input type="color" name="fontColor" value="${layout.fontColor}"/>
 				</label>
 			</div>
 			
@@ -101,7 +101,7 @@
 					<input type="color" value="${layout.pointColor}" disabled/>
 				</label>
 				<label>변경 색상 : 
-					<input type="color" name="point_color" value="${layout.pointColor}"/>
+					<input type="color" name="pointColor" value="${layout.pointColor}"/>
 				</label>
 			</div>
 			<div class="btn btn-primary" onclick="toDefault();">기본값으로 변경</div>
