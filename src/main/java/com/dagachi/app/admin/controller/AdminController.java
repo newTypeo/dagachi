@@ -13,14 +13,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.dagachi.app.Pagination;
+import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
+import com.dagachi.app.admin.dto.AdminInquiryUpdateDto;
+import com.dagachi.app.admin.service.AdminService;
 import com.dagachi.app.club.controller.ClubController;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
+import com.dagachi.app.club.entity.ClubProfile;
+import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.club.service.ClubService;
 import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.service.MemberService;
@@ -30,7 +36,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/admin")
 @Slf4j
-public class adminController {
+public class AdminController {
 
 	@Autowired
 	private ClubService clubService;
@@ -38,9 +44,31 @@ public class adminController {
 	@Autowired
 	private MemberService memberService;
 	
+	@Autowired
+	private AdminService adminService;
+	
 
 	@GetMapping("/adminInquriyList.do")
 	public void InquriyList() {
+	}
+	
+	
+	@GetMapping("/adminInquiryUpdate.do")
+	public String adminInquiryUpdate(@RequestParam int InquiryId, Model model) {
+		AdminInquiryCreateDto Inquiry = adminService.findInquiry(InquiryId);
+		model.addAttribute("Inquiry", Inquiry);
+
+		return "admin/adminInquiryUpdate";
+	}
+	
+
+	@PostMapping("/adminInquiryUpdate.do")
+	public String adminInquiryUpdate() {
+		AdminInquiryUpdateDto inquiryUpdate = null;
+				
+		int result = adminService.updateInquiry(inquiryUpdate);
+		
+		return null;
 	}
 	
 	/**
