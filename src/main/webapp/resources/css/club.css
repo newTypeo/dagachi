@@ -1,7 +1,7 @@
 @CHARSET "UTF-8";
 
 body {
-
+	font-family: 'IBM Plex Sans KR', sans-serif;
 }
 
 a {
@@ -40,29 +40,60 @@ footer {
 	font-weight: bold;
 }
 
-#layout-select-container {
+.lsc {
 	background-color: #ddd;
 	width: 1280px;
-	height: 700px;
 	margin: 0 20px;
 	padding: 20px;
 	border-radius: 5px;
 	display: flex;
 }
-#layout-select-container-left {
+.lscl {
 	background-color: white;
 	width: 760px;
-	height: 660px;
 	border-radius: 5px;
 }
-#layout-select-container-right {
+.lscr {
 	background-color: white;
 	width: 460px;
-	height: 660px;
 	border-radius: 5px;
 	margin-left: 20px;
 }
+#layout-select-container {
+	height: 700px;
+}
+#layout-select-container-left,
+#layout-select-container-right {
+	height: 660px;
+}
 
+#layout-select-container-left > div {
+	background-color: pink;
+	width: 360px;
+	height: 540px;
+	margin: 60px;
+}
+#color-select-continer {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-end;
+}
+#color-select-continer > div:last-of-type {
+	margin-right: 20px;
+	height: 40px;
+}
+#color-select-continer > div > label {
+	margin: 0 20px;
+}
+
+.submit-box {
+	display: flex;
+	justify-content: flex-end;
+	margin: 20px;
+}
+.submit-box > * {
+	margin-left: 15px;
+}
 
 
 

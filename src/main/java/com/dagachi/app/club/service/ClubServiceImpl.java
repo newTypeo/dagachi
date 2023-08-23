@@ -1,8 +1,11 @@
 package com.dagachi.app.club.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javax.validation.Valid;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +15,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.ClubManageApplyDto;
+import com.dagachi.app.club.dto.ClubMemberAndImage;
 import com.dagachi.app.club.dto.ClubEnrollDto;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
+import com.dagachi.app.club.dto.ClubReportDto;
 import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
 import com.dagachi.app.club.dto.ClubSearchDto;
+import com.dagachi.app.club.dto.ClubStyleUpdateDto;
 import com.dagachi.app.club.dto.GalleryAndImageDto;
 import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.KickMember;
@@ -36,6 +42,8 @@ import com.dagachi.app.club.entity.ClubRecentVisited;
 import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.club.repository.ClubRepository;
 import com.dagachi.app.member.entity.Member;
+import com.dagachi.app.member.entity.MemberProfile;
+import com.dagachi.app.member.repository.MemberRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -46,6 +54,9 @@ public class ClubServiceImpl implements ClubService {
 
 	@Autowired
 	private ClubRepository clubRepository;
+	
+	@Autowired
+	private MemberRepository memberRepository;
 
 	@Override
 	public List<Club> adminClubList(Map<String, Object> params) {
@@ -344,10 +355,7 @@ public class ClubServiceImpl implements ClubService {
 	}
 	
 
-	@Override
-	public List<Member> findMemberByClubId(int clubId) {
-		return clubRepository.findMemberByClubId(clubId);
-	}
+	
 
 	@Override
 	public int delAttachment(int id) {
@@ -408,4 +416,59 @@ public class ClubServiceImpl implements ClubService {
 	}
 
 
+	@Override
+	public int insertClubReport(@Valid ClubReportDto clubReportDto) {
+		int result = 0;
+		result = clubRepository.insertClubReport(clubReportDto);
+		result += clubRepository.addReportCount(clubReportDto);
+		
+		return result;
+	}
+	
+	@Override
+	public List<ClubAndImage> searchJoinClub(String memberId) {
+		
+		return clubRepository.searchJoinClub(memberId);
+	}
+	
+	@Override
+	public List<ClubMemberAndImage> findClubMembers(int clubId) {
+		List<Member> memberName = clubRepository.findMemberByClubId(clubId);
+		List<Member> member = new ArrayList<>();
+		for(Member mn : memberName) {
+			String id = mn.getMemberId();
+			member.add(clubRepository.findMembersById(id));
+		}
+		
+		
+		List<ClubMemberAndImage> members = new ArrayList<>();
+		for(Member mb : member) {
+			String id = mb.getMemberId();
+			List<MemberProfile> profile = clubRepository.findProfileById(id);
+			for(MemberProfile pf : profile) {
+				String file = pf.getRenamedFilename();
+				
+				ClubMemberAndImage clubMember = ClubMemberAndImage.builder()
+						.memberId(mb.getMemberId())
+						.name(mb.getName())
+						.nickname(mb.getNickname())
+						.gender(mb.getGender())
+						.mbti(mb.getMbti())
+						.email(mb.getEmail())
+						.renamedFilename(file)
+						.build();
+						
+				members.add(clubMember);
+			}
+			
+		}
+		return members;
+	}
+	
+	@Override
+	public int clubStyleUpdate(ClubStyleUpdateDto style) {
+		return clubRepository.clubStyleUpdate(style);
+	}
+	
+	
 }

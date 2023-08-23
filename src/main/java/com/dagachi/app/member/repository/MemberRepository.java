@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
 import com.dagachi.app.member.dto.MemberCreateDto;
+import com.dagachi.app.member.entity.ActivityArea;
 import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.entity.MemberDetails;
 import com.dagachi.app.member.entity.MemberProfile;
@@ -76,5 +77,15 @@ public interface MemberRepository {
 
 	@Insert("insert into admin_Inquiry values (seq_Inquiry_id.nextval,#{memberId},#{title} ,#{content}, SYSDATE ,#{type},0,NULL,NULL,#{open},NULL)")
 	int InquiryCreate(AdminInquiryCreateDto inquiry);
+	
+	@Select("select * from activity_area where member_id = #{memberId}")
+	ActivityArea findActivityAreaById(String memberId);
+
+
+	@Select("select * from member_profile where member_id = #{memberId}")
+	MemberProfile findMemberProfile(String memberId);
+
+	@Select("select * from club_member a join member_profile b on a.member_id=b.member_id where club_id = #{clubId}")
+	List<MemberProfile> findMemberProfileByClubId(int clubId);
 	
 }

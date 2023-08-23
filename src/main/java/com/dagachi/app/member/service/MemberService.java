@@ -9,8 +9,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
 import com.dagachi.app.member.dto.MemberCreateDto;
+import com.dagachi.app.member.entity.ActivityArea;
 import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.entity.MemberDetails;
+import com.dagachi.app.member.entity.MemberProfile;
 
 
 
@@ -37,6 +39,13 @@ public interface MemberService extends UserDetailsService {
 	int insertMember(MemberCreateDto member);
 
 	int InquiryCreate(AdminInquiryCreateDto inquiry);
+
+	ActivityArea findActivityAreaById(String memberId);
+	
+	
+	MemberProfile findMemberProfile(String memberId);
+
+	List<MemberProfile> findMemberProfileByClubId(int clubId);
 
 
 }
