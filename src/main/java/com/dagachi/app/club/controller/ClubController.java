@@ -46,6 +46,7 @@ import com.dagachi.app.club.dto.KickMember;
 import com.dagachi.app.club.dto.ManageMember;
 import com.dagachi.app.club.dto.SearchClubBoard;
 import com.dagachi.app.club.entity.Club;
+import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
 import com.dagachi.app.club.entity.ClubBoardAttachment;
 import com.dagachi.app.club.entity.ClubBoardDetails;
@@ -84,11 +85,22 @@ public class ClubController {
 	
 
 	@GetMapping("/&{domain}/clubEnroll.do")
-	public String ClubEnroll(@PathVariable("domain") String domain, Model model) {
+	public String ClubEnroll(@PathVariable("domain") String domain, Model model, @AuthenticationPrincipal MemberDetails member) {
 		int clubId = clubService.clubIdFindByDomain(domain);
+		System.out.println(clubId);
 		Club club = clubService.findClubById(clubId);
-		
 		model.addAttribute("club",club);
+		
+		ClubApply clubApply = new ClubApply(clubId, member.getMemberId(), null);
+		
+		int result = clubService.clubEnrollDuplicated(clubApply);
+		
+		
+		  if (result == 1) { 
+			  model.addAttribute("msg", "이미 가입 신청한 모임 입니다."); 
+			  return "redirect:/club/" + domain; 
+		  }
+		 
 		
 		return "/club/clubEnroll";
 	}
@@ -106,14 +118,14 @@ public class ClubController {
 		return "/club/clubBoardCreate";
 	}
 	
-	
 
 	@PostMapping("/&{domain}/clubEnroll.do")
 	public String ClubEnroll(@Valid ClubEnrollDto enroll, @PathVariable("domain") String domain,
 			@AuthenticationPrincipal MemberDetails member) {
+		System.out.println(domain);
 		enroll.setMemberId(member.getMemberId());
 		int result = clubService.ClubEnroll(enroll);
-		return "club/clubDetail";
+		return "redirect:/club/&" + domain;
 	}
 	
 

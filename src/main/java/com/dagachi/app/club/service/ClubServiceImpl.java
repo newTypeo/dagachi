@@ -402,5 +402,10 @@ public class ClubServiceImpl implements ClubService {
 		return result;
 	}
 
+	@Override
+	public int clubEnrollDuplicated(ClubApply clubApply) {
+		return clubRepository.clubEnrollDuplicated(clubApply);
+	}
+
 
 }

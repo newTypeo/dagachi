@@ -108,6 +108,7 @@ create sequence seq_alarm_id;
 --drop sequence seq_admin_notice_id;
 --
 --drop sequence seq_alarm_id;
+--DROP SEQUENCE seq_Inquiry_id;
 
 ------------------------------------------------- 테이블 -------------------------------------------------
 create table member (
@@ -667,6 +668,11 @@ alter table club add constraint uq_club_domain unique (
     domain
 );
 
+CREATE SEQUENCE seq_Inquiry_id
+START WITH 1
+INCREMENT BY 1
+NOCACHE
+NOCYCLE;
 
 --  가입 신청 승인 시 신청내역 삭제하는 트리거
 create or replace trigger delete_club_apply
@@ -1352,4 +1358,13 @@ FROM (
 ) c
 JOIN club_profile d ON c.club_id = d.club_id;
 
+select * from admin_Inquiry;
+
 select * from club_board where club_Id like 1  and content like '%' || '안' || '%';
+
+
+
+
+
+
+

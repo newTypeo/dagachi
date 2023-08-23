@@ -18,15 +18,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AdminInquiryCreateDto {
-	private String InquiryId;
-	private String writer;
+	private String memberId;
 	private String title;
 	private String content; 
-	private LocalDateTime createdAt;
 	private int type;
-	private int status; 
-	private String adminId;
-	private String response;
+	private int open;
 	
-
 }

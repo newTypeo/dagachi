@@ -234,6 +234,9 @@ public interface ClubRepository {
 
 	@Insert("insert into club_apply values(#{clubId},#{memberId},#{answer})")
 	 int ClubEnroll(ClubEnrollDto enroll);
+	
+	@Select("select count(*) from club_apply where club_id = #{clubId} and member_id= #{memberId}")
+	int clubEnrollDuplicated(ClubApply clubApply);
 
 
 }

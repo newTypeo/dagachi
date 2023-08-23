@@ -74,7 +74,7 @@ public interface MemberRepository {
 	@Insert("insert into member values (#{memberId}, #{password},#{name}, #{nickname}, #{phoneNo}, #{email}, #{birthday, jdbcType=DATE}, #{gender}, #{mbti},  #{address}, 0, SYSDATE, NULL, SYSDATE, NULL, 'Y')")
 	int insertMember(MemberCreateDto member);
 
-	@Insert("insert into admin_Inquiry values (seq_Inquiry_id.nextval,#{memberId},#{title} ,#{content}, SYSDATE ,#{type}, 0 ,NULL,NULL")
+	@Insert("insert into admin_Inquiry values (seq_Inquiry_id.nextval,#{memberId},#{title} ,#{content}, SYSDATE ,#{type},0,NULL,NULL,#{open},NULL)")
 	int InquiryCreate(AdminInquiryCreateDto inquiry);
 	
 }

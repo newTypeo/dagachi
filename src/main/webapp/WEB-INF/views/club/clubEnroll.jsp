@@ -47,7 +47,7 @@ window.onload = () => {
 				</div>
 				
 				<form:form
-					action="${pageContext.request.contextPath}/club/&{domain}/clubEnroll.do"
+					action="${pageContext.request.contextPath}/club/&${domain}/clubEnroll.do"
 					method="post">
 					<input type="hidden" class="clubId" name="clubId" 
 					placeholder="" value="${club.clubId}" required> 

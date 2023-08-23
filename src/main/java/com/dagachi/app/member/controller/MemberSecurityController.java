@@ -22,6 +22,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
@@ -71,24 +72,25 @@ public class MemberSecurityController {
    public void memberCreate() {}
    
 	
-	@GetMapping("/memberAdminInquiry.do")
-	public void InquiryCreate() {
-	}
+   @GetMapping("/memberAdminInquiry.do")
+   public void InquiryCreate() {
+   }
 
-	@GetMapping("/memberAdminInquiryList.do")
-	public void InquiryList() {
-	}
-	
-	@PostMapping("/memberAdminInquiry.do")
-    public String InquiryCreate(
-          @Valid AdminInquiryCreateDto inquiry, 
-          @AuthenticationPrincipal MemberDetails member,
-          BindingResult bindingResult)
-          {
-        inquiry.setWriter(member.getMemberId());
+   @GetMapping("/memberAdminInquiryList.do")
+   public void InquiryList() {
+   }
+
+   @PostMapping("/memberAdminInquiry.do")
+   public String InquiryCreate(
+           @Valid AdminInquiryCreateDto inquiry, 
+           @AuthenticationPrincipal MemberDetails member)
+   {
+	   System.out.println(inquiry);
+	   inquiry.setMemberId(member.getMemberId());
        int result = memberService.InquiryCreate(inquiry);
-       return "/member/memberAdminInquiryList.do";
-    }
+       System.out.println("어ㅐㅔ 안찍히노 "+inquiry);
+       return "redirect:/member/memberAdminInquiryList.do";
+   }
 	 
 	 
 	  /*임시회원가입*/

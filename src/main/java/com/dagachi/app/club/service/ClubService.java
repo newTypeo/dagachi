@@ -122,6 +122,8 @@ public interface ClubService {
 	
 	int ClubEnroll(ClubEnrollDto enroll);
 
+	int clubEnrollDuplicated(ClubApply clubApply);
+
 
 
 }
