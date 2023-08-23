@@ -112,7 +112,7 @@ categoryDiv.forEach((element) => {
 				console.log(response);
 				response.forEach((club) => {
 					categoryModalRight.innerHTML += `
-						<a class="card" style="width: 18rem;" href="${pageContext.request.contextPath}/club/&\${club.domain}">
+						<a class="card" style="width: 18rem;" href="${pageContext.request.contextPath}/club/\${club.domain}">
 							<img src="${pageContext.request.contextPath}/resources/upload/club/profile/\${club.renamedFilename}" class="card-img-top" alt="..." />
 							  <div class="card-body">
 							    <h5 class="card-title">\${club.clubName}</h5>

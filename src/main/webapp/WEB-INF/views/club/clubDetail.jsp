@@ -20,7 +20,7 @@
 	<button 
 		class="btn btn-outline-success my-2 my-sm-0" 
 		type="button" 
-		onclick="location.href = '${pageContext.request.contextPath}/club/&${domain}/clubEnroll.do'">
+		onclick="location.href = '${pageContext.request.contextPath}/club/${domain}/clubEnroll.do'">
 		가입신청하기
 	</button>
 	
@@ -50,14 +50,14 @@
 			<button type="button" class="btn btn-danger" id="clubDisabled">모임 비활성화</button>
 		</c:if>
 		
-		<a href ="${pageContext.request.contextPath}/club/&${domain}/clubMemberList.do">모임내 회원조회</a>
+		<a href ="${pageContext.request.contextPath}/club/${domain}/clubMemberList.do">모임내 회원조회</a>
 	</nav>
 	
 	<nav>
 		<h3>메뉴 바</h3>
-		<a href="${pageContext.request.contextPath}/club/&${domain}/clubBoardList.do">게시판</a>
-		<a href="${pageContext.request.contextPath}/club/&${domain}/chatRoom.do">채팅</a>
-		<a href="${pageContext.request.contextPath}/club/&${domain}/manageMember.do">회원관리</a>
+		<a href="${pageContext.request.contextPath}/club/${domain}/clubBoardList.do">게시판</a>
+		<a href="${pageContext.request.contextPath}/club/${domain}/chatRoom.do">채팅</a>
+		<a href="${pageContext.request.contextPath}/club/${domain}/manageMember.do">회원관리</a>
 	</nav>
 	
 	<%-- <jsp:include page="/WEB-INF/views/club/clubLayout/clubLayoutType${layout.type}.jsp"></jsp:include> --%>
@@ -72,17 +72,17 @@
         const userConfirmation = confirm("정말 비활성화 하시겠습니까?");
         if (userConfirmation) {
             // 도메인 값을 사용하여 컨트롤러로 이동하는 코드를 추가
-            window.location.href = "${pageContext.request.contextPath}/club/&" + domain + "/clubDisabled.do";
+            window.location.href = "${pageContext.request.contextPath}/club/" + domain + "/clubDisabled.do";
             alert('모임이 성공적으로 비활성화 되었습니다.');
         }
     };
     
 document.querySelector("#club-update-btn").onclick = () => {
-	location.href = '${pageContext.request.contextPath}/club/&'+domain+'/clubUpdate.do';
+	location.href = '${pageContext.request.contextPath}/club/'+domain+'/clubUpdate.do';
 }
 
 document.querySelector("#club-layout-update").onclick = () => {
-	location.href = '${pageContext.request.contextPath}/club/&'+domain+'/clubLayoutUpdate.do';
+	location.href = '${pageContext.request.contextPath}/club/'+domain+'/clubLayoutUpdate.do';
 }
 
 console.log('${layout}');
@@ -95,7 +95,8 @@ document.querySelectorAll('.fontColors').forEach((elem) => {
 document.querySelectorAll('.pointColors').forEach((elem) => {
 	elem.style.color = '${layout.pointColor}';
 });
-
+console.log("${layout.font}")
+document.body.style.fontFamily = "${layout.font}";
 </script>
 
 
