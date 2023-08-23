@@ -43,7 +43,7 @@
 		<c:if test ="${memberRole eq 3}">
 			<button type="button" class="btn btn-success" id="club-update-btn">모임 정보 수정</button>
 			<button type="button" class="btn btn-danger" id="clubDisabled">모임 삭제</button>
-			<button type="button" class="btn btn-warning" id="club-layout-update">모임 레이아웃 설정</button>
+			<button type="button" class="btn btn-warning" id="club-style-update">모임 스타일 설정</button>
 		</c:if>
 		<!-- 관리자일 경우에 -->
 		<c:if test = "${memberId eq 'admin'}">
@@ -81,8 +81,8 @@ document.querySelector("#club-update-btn").onclick = () => {
 	location.href = '${pageContext.request.contextPath}/club/'+domain+'/clubUpdate.do';
 }
 
-document.querySelector("#club-layout-update").onclick = () => {
-	location.href = '${pageContext.request.contextPath}/club/'+domain+'/clubLayoutUpdate.do';
+document.querySelector("#club-style-update").onclick = () => {
+	location.href = '${pageContext.request.contextPath}/club/'+domain+'/clubStyleUpdate.do';
 }
 
 console.log('${layout}');

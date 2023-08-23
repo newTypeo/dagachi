@@ -3,6 +3,8 @@ package com.dagachi.app.club.service;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.ClubEnrollDto;
@@ -12,6 +14,7 @@ import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
 import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
 import com.dagachi.app.club.dto.ClubSearchDto;
+import com.dagachi.app.club.dto.ClubStyleUpdateDto;
 import com.dagachi.app.club.dto.GalleryAndImageDto;
 import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.KickMember;
@@ -125,6 +128,8 @@ public interface ClubService {
 	List<ClubAndImage> searchJoinClub(String memberId);
 
 	List<ClubMemberAndImage> findClubMembers(int clubId);
+
+	int clubStyleUpdate(@Valid ClubStyleUpdateDto style);
 
 
 

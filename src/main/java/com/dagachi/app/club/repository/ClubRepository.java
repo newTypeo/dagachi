@@ -22,6 +22,7 @@ import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
 import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.KickMember;
 import com.dagachi.app.club.dto.ClubSearchDto;
+import com.dagachi.app.club.dto.ClubStyleUpdateDto;
 import com.dagachi.app.club.dto.GalleryAndImageDto;
 import com.dagachi.app.club.dto.ManageMember;
 import com.dagachi.app.club.entity.Club;
@@ -244,6 +245,9 @@ public interface ClubRepository {
 	
 	@Select("select * from member where member_id = #{id}")
 	Member findMembersById(String id);
+	
+	@Update("update club_layout set type=#{type}, font=#{font}, backgroundColor=#{backgroundColor}, fontColor=#{fontColor}, pointColor=#{pointColor} where club_id=#{clubId}")
+	int clubStyleUpdate(ClubStyleUpdateDto style);
 
 
 }

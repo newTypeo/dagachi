@@ -41,6 +41,7 @@ import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
 import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
 import com.dagachi.app.club.dto.ClubSearchDto;
+import com.dagachi.app.club.dto.ClubStyleUpdateDto;
 import com.dagachi.app.club.dto.ClubUpdateDto;
 import com.dagachi.app.club.dto.GalleryAndImageDto;
 import com.dagachi.app.club.dto.JoinClubMember;
@@ -592,6 +593,8 @@ public class ClubController {
 			JsonObject item = document.getAsJsonObject();
 			String addressName = item.get("address_name").getAsString();
 			addressList.add(addressName);
+			System.out.println(item.get("x"));
+			System.out.println(item.get("y"));
 		}
 		return ResponseEntity.status(HttpStatus.OK).body(addressList);
 	}
@@ -785,18 +788,23 @@ public class ClubController {
 	@GetMapping("/clubsRecentVisited.do")
 	public void clubsRecentVisited(){}
 	
-	@GetMapping("/&{domain}/clubLayoutUpdate.do")
+	@GetMapping("/{domain}/clubStyleUpdate.do")
 	public String clubLayoutUpdate(@PathVariable("domain") String domain, Model model) {
 		int clubId = clubService.clubIdFindByDomain(domain);
 
 		ClubLayout layout = clubService.findLayoutById(clubId);
 		
 		model.addAttribute("layout", layout);
-
-		return "club/clubLayoutUpdate";
+		model.addAttribute("domain", domain);
+		return "club/clubStyleUpdate";
 	}
-	@PostMapping("/&{domain}/clubLayoutUpdate.do")
-	public String clubLayoutUpdate(@PathVariable("domain") String domain) {
+	
+	@PostMapping("/{domain}/clubStyleUpdate.do")
+	public String clubLayoutUpdate(@PathVariable("domain") String domain, ClubStyleUpdateDto style) {
+		
+		int clubId = clubService.clubIdFindByDomain(domain);
+		style.setClubId(clubId);
+		int result = clubService.clubStyleUpdate(style);
 		
 		return "redirect:/club/" + domain; 
 	}
