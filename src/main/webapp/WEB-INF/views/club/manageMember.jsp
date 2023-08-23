@@ -38,7 +38,7 @@
 		</table>
 	</fieldset>
 </div>
-<form:form name="permitApplyFrm" action="${pageContext.request.contextPath}/club/&${domain}/manageApply.do" method="post">
+<form:form name="permitApplyFrm" action="${pageContext.request.contextPath}/club/${domain}/manageApply.do" method="post">
 	<input type="hidden" name="clubId"/>
 	<input type="hidden" name="memberId"/>
 	<input type="hidden" name="permit"/>
@@ -186,7 +186,7 @@ const manageApply = (clubId, memberId, permit) => {
 <%-- 회원추방시 사용 되는 폼 --%>
 <form:form
 	name="kickMember"
-	action="${pageContext.request.contextPath}/club/&${domain}/kickMember.do"
+	action="${pageContext.request.contextPath}/club/${domain}/kickMember.do"
 	method="post">
 
 	<input type="hidden" id="memberId" name="memberId" />
@@ -195,7 +195,7 @@ const manageApply = (clubId, memberId, permit) => {
 <%-- 회원권한 변경시 사용 되는 폼 --%>
 <form:form
 	name="clubMemberRoleUpdateFrm" 
-	action="${pageContext.request.contextPath}/club/&${domain}/clubMemberRole.do" 
+	action="${pageContext.request.contextPath}/club/${domain}/clubMemberRole.do" 
 	method="post">
 
 	<input type="hidden" id="memberId" name="memberId"/>

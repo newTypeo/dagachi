@@ -12,7 +12,9 @@ import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
 import com.dagachi.app.member.dto.MemberCreateDto;
+import com.dagachi.app.member.entity.ActivityArea;
 import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.entity.MemberDetails;
 import com.dagachi.app.member.entity.MemberProfile;
@@ -73,10 +75,23 @@ public interface MemberRepository {
 	@Insert("insert into member values (#{memberId}, #{password},#{name}, #{nickname}, #{phoneNo}, #{email}, #{birthday, jdbcType=DATE}, #{gender}, #{mbti},  #{address}, 0, SYSDATE, NULL, SYSDATE, NULL, 'Y')")
 	int insertMember(MemberCreateDto member);
 
+	@Insert("insert into admin_Inquiry values (seq_Inquiry_id.nextval,#{memberId},#{title} ,#{content}, SYSDATE ,#{type},0,NULL,NULL,#{open},NULL)")
+	int InquiryCreate(AdminInquiryCreateDto inquiry);
+	
+	@Select("select * from activity_area where member_id = #{memberId}")
+	ActivityArea findActivityAreaById(String memberId);
+
+
 	@Select("select * from member_profile where member_id = #{memberId}")
 	MemberProfile findMemberProfile(String memberId);
 
 	@Select("select * from club_member a join member_profile b on a.member_id=b.member_id where club_id = #{clubId}")
 	List<MemberProfile> findMemberProfileByClubId(int clubId);
+
+	@Select("select * from member where email = #{email}")
+	Member findMemberByEmail(String email);
+
+	@Select("select * from member where name = #{username}")
+	Member findMemberByName(String username);
 	
 }

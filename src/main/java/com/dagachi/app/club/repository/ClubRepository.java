@@ -3,6 +3,8 @@ package com.dagachi.app.club.repository;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -12,16 +14,19 @@ import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.session.RowBounds;
 
+import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
 import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.ClubManageApplyDto;
 import com.dagachi.app.club.dto.ClubEnrollDto;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
+import com.dagachi.app.club.dto.ClubReportDto;
 import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
 import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.KickMember;
 import com.dagachi.app.club.dto.ClubSearchDto;
+import com.dagachi.app.club.dto.ClubStyleUpdateDto;
 import com.dagachi.app.club.dto.GalleryAndImageDto;
 import com.dagachi.app.club.dto.ManageMember;
 import com.dagachi.app.club.entity.Club;
@@ -231,7 +236,16 @@ public interface ClubRepository {
 	int delClubBoard(int boardId); 
 
 	@Insert("insert into club_apply values(#{clubId},#{memberId},#{answer})")
-	 int ClubEnroll(ClubEnrollDto enroll);
+	int ClubEnroll(ClubEnrollDto enroll);
+	
+	@Select("select count(*) from club_apply where club_id = #{clubId} and member_id= #{memberId}")
+	int clubEnrollDuplicated(ClubApply clubApply);
+	
+	@Insert("insert into club_report (id, club_id, reason, reporter, created_at) values(seq_club_report_id.nextval, #{clubId}, #{reason}, #{reporter}, default)")
+	int insertClubReport(@Valid ClubReportDto clubReportDto);
+	
+	@Update("update club set report_count = report_count + 1 where club_id = #{clubId}")
+	int addReportCount(@Valid ClubReportDto clubReportDto);
 	
 	@Select("select * from club_member a left join club b on a.club_id= b.club_id left join club_profile c on a.club_id = c.club_id where a.member_id = #{memberId}")
 	List<ClubAndImage> searchJoinClub(String memberId);
@@ -244,6 +258,10 @@ public interface ClubRepository {
 	
 	@Select("select * from member where member_id = #{id}")
 	Member findMembersById(String id);
+	
+	@Update("update club_layout set type=#{type}, font=#{font}, background_color=#{backgroundColor}, font_color=#{fontColor}, point_color=#{pointColor} where club_id=#{clubId}")
+	int clubStyleUpdate(ClubStyleUpdateDto style);
+
 
 
 }

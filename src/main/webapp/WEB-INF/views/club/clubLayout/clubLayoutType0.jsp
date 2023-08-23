@@ -80,7 +80,7 @@
 				더보기<i class="fa-solid fa-angle-right"></i>
 			</a>
 		</div>
-		<div class="container-main">
+		<div class="container-main-gallery">
 			<c:forEach items="${galleries}" var="gallery" >
 				<div>
 					<a href="/">

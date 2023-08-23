@@ -28,6 +28,8 @@
 
 <!-- 사용자작성 css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css" />
+<meta id="_csrf" name="_csrf" content="${_csrf.token}"/>
+<meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}"/>
  
 </head>
 <body>
@@ -53,8 +55,6 @@
 				<a href="${pageContext.request.contextPath}/member/memberLogin.do">로그인</a>
 				<span>|</span>
 				<a href="${pageContext.request.contextPath}/member/memberCreate.do">회원가입</a>
-				<span>|</span>
-				<a href="${pageContext.request.contextPath}/member/memberFind.do">아이디/비밀번호찾기</a>
 			</div>
 		</sec:authorize>
 			 
