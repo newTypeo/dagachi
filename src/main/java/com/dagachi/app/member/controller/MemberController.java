@@ -1,5 +1,8 @@
 package com.dagachi.app.member.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -9,11 +12,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
+import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.service.ClubService;
 import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.entity.MemberDetails;
+import com.dagachi.app.member.entity.MemberProfile;
 import com.dagachi.app.member.service.MemberService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -42,10 +46,22 @@ public class MemberController {
 	    		@AuthenticationPrincipal MemberDetails loginMember
 	    		) {
 		 	Member member = memberService.findMemberBymemberId(memberId);
-		 
-		 	model.addAttribute("member",member); // 내가 보고있는 상대방
-		 	model.addAttribute("loginMember",loginMember); // 현재 로그인 되어있는 객체
-	
+		 	MemberProfile memberProfile = memberService.findMemberProfile(memberId); 
+
+		 	model.addAttribute("memberProfile",memberProfile);
+		 	model.addAttribute("member",member);
+		 	model.addAttribute("loginMember",loginMember);
+		 	String loginMemberId = loginMember.getMemberId();
+		 	
+		 	List<ClubAndImage> clubAndImages = new ArrayList<>();
+		 	clubAndImages = clubService.recentVisitClubs(loginMemberId);
+		 	
+		 	
+//		 	log.debug("잘 들어왔니? = {}", clubAndImages);
+		 	model.addAttribute("clubAndImages",clubAndImages);
+		 	
+		 	List<ClubAndImage> joinClub = clubService.searchJoinClub(member.getMemberId());
+		 	model.addAttribute("joinClub",joinClub);
 	        return "member/memberDetail";
 	    }
 	

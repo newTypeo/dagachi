@@ -14,6 +14,7 @@ import org.apache.ibatis.session.RowBounds;
 
 import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
+import com.dagachi.app.club.dto.ClubManageApplyDto;
 import com.dagachi.app.club.dto.ClubEnrollDto;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
@@ -33,8 +34,10 @@ import com.dagachi.app.club.entity.ClubGalleryAttachment;
 import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
+import com.dagachi.app.club.entity.ClubRecentVisited;
 import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.member.entity.Member;
+import com.dagachi.app.member.entity.MemberProfile;
 
 
 @Mapper
@@ -194,12 +197,18 @@ public interface ClubRepository {
 	
 	@Delete("delete from club_board_attachment where id=#{id}")
 	int delAttachment(int id);
-
-	@Select("select * from member m join (select * from club_member where club_id = #{clubId}) b on m.member_id = b.member_id")
-	List<Member> findMemberByClubId(int clubId);
 	
 	@Insert("insert into recent_visit_list values(#{memberId}, #{clubId}, default)")
 	int insertClubRecentVisitd(String memberId, int clubId);
+
+	
+	@Select("select * from recent_visit_list")
+	List<ClubRecentVisited> findAllrecentVisitClubs();
+	
+	@Select("select count(*) from recent_visit_list where club_id = #{clubId}")
+	int checkDuplicateClubId(int clubId);
+
+
 	
 	@Update("update club_board_attachment set thumbnail=#{thumbnail} where id=#{id}")
 	int updateThumbnail(ClubBoardAttachment clubBoardAttachment);
@@ -208,13 +217,34 @@ public interface ClubRepository {
 
 
 	@Insert("insert into club_member values(#{memberId}, #{clubId}, default, null, default, default)")
-	int permitApply(Map<String, Object> params);
+	int permitApply(ClubManageApplyDto clubManageApplyDto);
+	@Delete("delete from club_apply where member_id = #{memberId} and club_id = #{clubId}")
+	int refuseApply(ClubManageApplyDto clubManageApplyDto);
+	
 	
 	List<ClubScheduleAndMemberDto> findScheduleById(int clubId);
 	
-	@Insert("insert into Club_apply( #{clubId},#{memberId},#{answer})")
+	@Select("select * from recent_visit_list r join club c on r.club_id = c.club_id join club_profile w on c.club_id = w.club_id where member_id = #{loginMemberId}")
+	List<ClubAndImage> recentVisitClubs(String loginMemberId);
+
+	@Delete("delete from club_board where board_Id=#{boardId}")
+	int delClubBoard(int boardId); 
+
+	@Insert("insert into club_apply values(#{clubId},#{memberId},#{answer})")
 	 int ClubEnroll(ClubEnrollDto enroll);
 	
+	@Select("select * from club_member a left join club b on a.club_id= b.club_id left join club_profile c on a.club_id = c.club_id where a.member_id = #{memberId}")
+	List<ClubAndImage> searchJoinClub(String memberId);
+	
+	@Select("select * from club_member where club_id = #{clubId}")
+	List<Member> findMemberByClubId(int clubId);
+	
+	@Select("select * from member_profile where member_id = #{id}")
+	List<MemberProfile> findProfileById(String id);
+	
+	@Select("select * from member where member_id = #{id}")
+	Member findMembersById(String id);
+
 
 }
    

@@ -33,32 +33,77 @@
     <div class="row">
         <div class="col-md-6">
             <div>
-                <img src="${pageContext.request.contextPath}/resources/upload/member/profile/\${member.renamedFilename}" class="rounded mx-auto d-block" alt="...">
+                <img src="${pageContext.request.contextPath}/resources/upload/member/profile/${memberProfile.renamedFilename}" class="rounded mx-auto d-block" alt="...">
             </div>
         </div>
         <div class="col-md-6">
             <div>
                 <h3>닉네임 : ${member.nickname}</h3>
                 <h3>이름 : ${member.name}</h3>
-                <h3>성별 : ${member.gender}</h3>
+                <h3>성별 : ${member.gender eq 'M' ? '남' : '여'}</h3>
+                <h3>이메일 : ${member.email}</h3>
                 <h3>MBTI : ${member.mbti}</h3>
-<c:if test="${member.memberId eq loginMember.memberId}"> <!-- 로그인한 객체가 보고있는 같을 때 -->
-	<h1>나를 좋아요 한사람 table</h1>
-</c:if>
-
-<c:if test="${member.memberId ne loginMember.memberId}"> <!-- 로그인한 객체가 보고있는 다를 때 -->
-	<button type="button" class="btn btn-outline-danger">좋아요</button>
-</c:if>
                 
-            </div>
-        </div>
-    </div>
-</div>
+					<c:if test="${member.memberId eq loginMember.memberId}"> <!-- 로그인한 객체가 보고있는 객체가 같을 때 -->
+						<h1>나를 좋아요 한사람 table</h1>
+					</c:if>
+					
+					<c:if test="${member.memberId ne loginMember.memberId}"> <!-- 로그인한 객체가 보고있는 다를 때 -->
+						<button type="button" class="btn btn-outline-danger">좋아요</button>
+					</c:if>
+	            </div>
+	        </div>
+	    </div>
+	</div>
 
-<br/><br/><br/>
-<h1>최근 본 모임</h1>
-<br/><br/><br/>
-<h1>가입 되어있는 모임</h1>
+<section id="class2">
+	<c:if test="${member.memberId eq loginMember.memberId}"> <!-- 로그인한 객체가 보고있는 객체가 같을 때 -->
+		<h1>최근 본 모임</h1>
+		 <c:if test="${empty clubAndImages}">
+		 	<h1>최근 조회하신 모임이 없습니다.</h1>
+		 </c:if>
+		 
+		 <c:if test="${not empty clubAndImages}">
+		   		<div class="posts2">
+					<c:forEach items="${clubAndImages}" var="clubAndImage" varStatus="vs">
+					   		<a class="card" style="width: 18rem;" href = "${pageContext.request.contextPath}/club/&${clubAndImage.domain}">
+							  <img src="${pageContext.request.contextPath}/resources/upload/club/profile/${clubAndImage.renamedFilename}" class="card-img-top" alt="...">
+							  <div class="card-body">
+							    <h5 class="card-title">${clubAndImage.clubName}</h5>
+							  </div>
+							  <ul class="list-group list-group-flush">
+							    <li class="list-group-item">${clubAndImage.introduce}</li>
+							    <li class="list-group-item">${clubAndImage.category}</li>
+							  </ul>
+							</a>
+				   	</c:forEach>
+		   		</div>
+		  </c:if>
+	  </c:if>
+
+
+		<h1>가입 되어있는 모임</h1>
+		<c:if test="${empty joinClub}">
+		 	<h1>최근 조회하신 모임이 없습니다.</h1>
+		 </c:if>
+		 
+		 <c:if test="${not empty joinClub}">
+		   		<div class="posts2">
+					<c:forEach items="${joinClub}" var="joinClub" varStatus="vs">
+					   		<a class="card" style="width: 18rem;" href = "${pageContext.request.contextPath}/club/&${joinClub.domain}">
+							  <img src="${pageContext.request.contextPath}/resources/upload/club/profile/${joinClub.renamedFilename}" class="card-img-top" alt="...">
+							  <div class="card-body">
+							    <h5 class="card-title">${joinClub.clubName}</h5>
+							  </div>
+							  <ul class="list-group list-group-flush">
+							    <li class="list-group-item">${joinClub.introduce}</li>
+							    <li class="list-group-item">${joinClub.category}</li>
+							  </ul>
+							</a>
+				   	</c:forEach>
+		   		</div>
+		  </c:if>
+		</section>  
 <br/><br/><br/>
 <h1>작성한 글</h1>
 <br/><br/><br/>

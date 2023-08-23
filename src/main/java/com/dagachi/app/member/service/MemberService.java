@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import com.dagachi.app.member.dto.MemberCreateDto;
 import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.entity.MemberDetails;
+import com.dagachi.app.member.entity.MemberProfile;
 
 
 
@@ -34,6 +35,10 @@ public interface MemberService extends UserDetailsService {
 	Member findMemberBymemberId(String memberId);
 	/*임시로그인*/
 	int insertMember(@Valid MemberCreateDto member);
+
+	MemberProfile findMemberProfile(String memberId);
+
+	List<MemberProfile> findMemberProfileByClubId(int clubId);
 
 
 }

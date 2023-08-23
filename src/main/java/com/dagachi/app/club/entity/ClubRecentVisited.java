@@ -1,4 +1,6 @@
-package com.dagachi.app.club.dto;
+package com.dagachi.app.club.entity;
+
+import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,11 +8,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClubEnrollDto {
-	private int clubId;
+@Builder
+public class ClubRecentVisited {
+	
 	private String memberId;
-	private String answer;
+	private int clubId;
+	private LocalDateTime recentDate;
+
 }

@@ -9,7 +9,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <fmt:requestEncoding value="utf-8"/>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/layoutType0.css"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/layoutType1.css"/>
 
 	
 <article id="club-page-article">

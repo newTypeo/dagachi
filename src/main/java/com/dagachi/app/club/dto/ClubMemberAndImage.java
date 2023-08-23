@@ -6,11 +6,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClubEnrollDto {
-	private int clubId;
+@Builder
+public class ClubMemberAndImage {
+	
 	private String memberId;
-	private String answer;
+	private String name;
+	private String nickname;
+	private String gender;
+	private String mbti;
+	private String email;
+	private String renamedFilename;
+	
 }
