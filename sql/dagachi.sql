@@ -1352,4 +1352,4 @@ FROM (
 ) c
 JOIN club_profile d ON c.club_id = d.club_id;
 
-select * from club_board where club_Id like 1  and content like '%' || '안' || '%';
+select * from club_board where club_Id like 1  and content like '%' || '' || '%';
