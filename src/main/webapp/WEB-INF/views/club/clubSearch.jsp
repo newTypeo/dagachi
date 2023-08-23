@@ -24,9 +24,7 @@
 		    
 		    <label for="category">모임 분류:</label>
 		    <select id="filter-category" name="category"><!-- js로 options 처리 --></select>
-		    
-		    <label for="tag">모임 태그:</label>
-		    <input type="text" id="tag" name="">
+
 		    <button>필터 적용</button>
 		</form>
 	</div>
@@ -69,20 +67,40 @@ document.querySelector("input[name=inputText]").value = '${inputText}';
 
 const category = document.querySelector("#filter-category");
 category.innerHTML ='<option value="">전체</option>';
+
+// 카테고리 option
 document.querySelectorAll("#category-modal-left-upper a").forEach((a) => {
 	category.innerHTML += `
 		<option value="\${a.innerHTML}" name="\${a.innerHTML}">\${a.innerHTML}</option>
 	`;
 });
 
-if(${not empty area}) {
-	// console.log(document.querySelector("[value='" + '${area}' + "']"));
-	document.querySelector("[value='" + '${area}' + "']").selected = 'true';
-}
-if(${not empty category}) {
-	// console.log(document.querySelector("[value='" + '${category}' + "']"));
-	document.querySelector("[value='" + '${category}' + "']").selected = 'true';
-}
+// 활동지역 option
+$.ajax({
+	url : "https://grpc-proxy-server-mkvo6j4wsq-du.a.run.app/v1/regcodes?regcode_pattern=11*00000",
+	data : {is_ignore_zero : true},
+	success({regcodes}) {
+		const selectArea = document.querySelector("#filter-activityArea");
+		selectArea.innerHTML = '<option value="">전체</option>';
+		
+		$.each(regcodes, (index) => {
+			const fullAddr = regcodes[index]["name"];
+			const region = fullAddr.split(" ");
+			
+			selectArea.innerHTML += `<option value="\${region[1]}">\${region[1]}</option>`;
+			
+		});
+	},
+	complete() {
+		if(${not empty area}) {
+			document.querySelector("[value='" + '${area}' + "']").selected = 'true';
+		}
+		if(${not empty category}) {
+			document.querySelector("[value='" + '${category}' + "']").selected = 'true';
+		}
+	}
+});
+
 
 </script>
 
