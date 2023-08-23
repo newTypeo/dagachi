@@ -12,15 +12,8 @@
 	<div id="filter-wrap">
 		<form action="${pageContext.request.contextPath}/club/searchClubWithFilter.do">
 			<label for="activityArea">활동 지역:</label>
-		    <select id="filter-activityArea" name="area">
-		        <option value="">전체</option>
-		        <option value="강남구">강남구</option>
-		        <option value="마포구">마포구</option>
-		        <option value="종로구">종로구</option>
-		        <option value="송파구">송파구</option>
-		        <option value="중랑구">중랑구</option>
-		        <option value="강북구">강북구</option>
-		    </select>
+		    <select id="filter-activityArea" name="region"><!-- js로 options 처리 --></select>
+		    <select id="filter-activityAreaDetail" name="zone" style="display: none;"><!-- js로 options 처리 --></select>
 		    
 		    <label for="category">모임 분류:</label>
 		    <select id="filter-category" name="category"><!-- js로 options 처리 --></select>
@@ -62,6 +55,31 @@
 	
 	
 <script>
+document.querySelector("#filter-activityArea").onchange = (e) => {
+	console.log(e.target.value);
+	const detail = document.querySelector("filter-activityAreaDetail");
+	if(e.target.value == "") {
+		
+	}
+	
+	$.ajax({
+		url : "https://grpc-proxy-server-mkvo6j4wsq-du.a.run.app/v1/regcodes?regcode_pattern=11*00000",
+		data : {is_ignore_zero : true},
+		success({regcodes}) {
+			console.log(regcodes);
+			
+			$.each(regcodes, (index) => {
+				const fullAddr = regcodes[index]["name"];
+				const region = fullAddr.split(" ");
+				
+				selectArea.innerHTML += `<option value="\${region[1]}">\${region[1]}</option>`;
+				
+			});
+		}
+	});
+	
+};
+
 // 검색창에 검색내용 남기기
 document.querySelector("input[name=inputText]").value = '${inputText}';
 
