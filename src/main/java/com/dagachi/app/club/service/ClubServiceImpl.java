@@ -1,5 +1,6 @@
 package com.dagachi.app.club.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.ClubManageApplyDto;
+import com.dagachi.app.club.dto.ClubMemberAndImage;
 import com.dagachi.app.club.dto.ClubEnrollDto;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
@@ -36,6 +38,8 @@ import com.dagachi.app.club.entity.ClubRecentVisited;
 import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.club.repository.ClubRepository;
 import com.dagachi.app.member.entity.Member;
+import com.dagachi.app.member.entity.MemberProfile;
+import com.dagachi.app.member.repository.MemberRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -46,6 +50,9 @@ public class ClubServiceImpl implements ClubService {
 
 	@Autowired
 	private ClubRepository clubRepository;
+	
+	@Autowired
+	private MemberRepository memberRepository;
 
 	@Override
 	public List<Club> adminClubList(Map<String, Object> params) {
@@ -344,10 +351,7 @@ public class ClubServiceImpl implements ClubService {
 	}
 	
 
-	@Override
-	public List<Member> findMemberByClubId(int clubId) {
-		return clubRepository.findMemberByClubId(clubId);
-	}
+	
 
 	@Override
 	public int delAttachment(int id) {
@@ -401,6 +405,46 @@ public class ClubServiceImpl implements ClubService {
 		
 		return result;
 	}
-
-
+	
+	@Override
+	public List<ClubAndImage> searchJoinClub(String memberId) {
+		
+		return clubRepository.searchJoinClub(memberId);
+	}
+	
+	@Override
+	public List<ClubMemberAndImage> findClubMembers(int clubId) {
+		List<Member> memberName = clubRepository.findMemberByClubId(clubId);
+		List<Member> member = new ArrayList<>();
+		for(Member mn : memberName) {
+			String id = mn.getMemberId();
+			member.add(clubRepository.findMembersById(id));
+		}
+		
+		
+		List<ClubMemberAndImage> members = new ArrayList<>();
+		for(Member mb : member) {
+			String id = mb.getMemberId();
+			List<MemberProfile> profile = clubRepository.findProfileById(id);
+			for(MemberProfile pf : profile) {
+				String file = pf.getRenamedFilename();
+				
+				ClubMemberAndImage clubMember = ClubMemberAndImage.builder()
+						.memberId(mb.getMemberId())
+						.name(mb.getName())
+						.nickname(mb.getNickname())
+						.gender(mb.getGender())
+						.mbti(mb.getMbti())
+						.email(mb.getEmail())
+						.renamedFilename(file)
+						.build();
+						
+				members.add(clubMember);
+			}
+			
+		}
+		return members;
+	}
+	
+	
 }

@@ -72,5 +72,11 @@ public interface MemberRepository {
 	/*임시 회원가입 (지우지 마삼) */
 	@Insert("insert into member values (#{memberId}, #{password},#{name}, #{nickname}, #{phoneNo}, #{email}, #{birthday, jdbcType=DATE}, #{gender}, #{mbti},  #{address}, 0, SYSDATE, NULL, SYSDATE, NULL, 'Y')")
 	int insertMember(MemberCreateDto member);
+
+	@Select("select * from member_profile where member_id = #{memberId}")
+	MemberProfile findMemberProfile(String memberId);
+
+	@Select("select * from club_member a join member_profile b on a.member_id=b.member_id where club_id = #{clubId}")
+	List<MemberProfile> findMemberProfileByClubId(int clubId);
 	
 }

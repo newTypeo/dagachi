@@ -1282,11 +1282,6 @@ VALUES (seq_board_comment_id.nextval, 2, 'user1', NULL, '오늘 모임 정말 �
 -- 클럽 레이아웃 샘플
 insert into club_layout (club_id, type, font, background_color, font_color, point_color, title, main_image, main_content)
 values (1, default, default, '#dddddd', '#778899', '#496682', 'sportClubTitleSample.png', 'sportClubMainSample.png', '스포츠 열정 클럽에 오신것을 환영합니다!');
-update club_layout set font = 'Do Hyeon'
-
-select * from club;
-select * from member_interest;
-select * from member where name = '이은주';
 
 -- 클럽갤러리 샘플
 insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 10, 'Y');
@@ -1321,31 +1316,38 @@ insert into club_gallery_attachment (id, gallery_id, original_filename, renamed_
 values (seq_club_gallery_attachment_id.nextval, 9, 'gallerySample9.png', 'gallerySample9.png', sysdate, 'Y');
 insert into club_gallery_attachment (id, gallery_id, original_filename, renamed_filename, created_at, thumbnail)
 values (seq_club_gallery_attachment_id.nextval, 10, 'gallerySample10.png', 'gallerySample10.png', sysdate, 'Y');
+select * from member_profile;
 
+-- 회원 프로필 사진 샘플 첨부
+insert into member_profile values('user1','asd','가렌.png',sysdate);
+insert into member_profile values('user2','asd','갈리오.png',sysdate);
+insert into member_profile values('user3','asd','그브.png',sysdate);
+insert into member_profile values('user4','asd','나르.png',sysdate);
+insert into member_profile values('user5','asd','니코.png',sysdate);
+insert into member_profile values('user6','asd','다리우스.png',sysdate);
+insert into member_profile values('user7','asd','리신.png',sysdate);
+insert into member_profile values('user8','asd','루시안.png',sysdate);
+insert into member_profile values('user9','asd','야스오.png',sysdate);
+insert into member_profile values('user10','asd','베인.png',sysdate);
+insert into member_profile values('user11','asd','블츠.png',sysdate);
+insert into member_profile values('user12','asd','신드라.png',sysdate);
+insert into member_profile values('user13','asd','아트.png',sysdate);
+insert into member_profile values('user14','asd','아칼리.png',sysdate);
+insert into member_profile values('user15','asd','미포.png',sysdate);
+insert into member_profile values('user16','asd','요네.png',sysdate);
+insert into member_profile values('user17','asd','제드.png',sysdate);
+insert into member_profile values('user18','asd','조이.png',sysdate);
+insert into member_profile values('user19','asd','카타.png',sysdate);
+insert into member_profile values('user20','asd','퀸.png',sysdate);
+insert into member_profile values('user21','asd','트페.png',sysdate);
+insert into member_profile values('user22','asd','유미.png',sysdate);
+insert into member_profile values('user23','asd','헤카림.png',sysdate);
+insert into member_profile values('user24','asd','딩거.png',sysdate);
+insert into member_profile values('user25','asd','피즈.png',sysdate);
+insert into member_profile values('user26','asd','피오라.png',sysdate);
+insert into member_profile values('user27','asd','판테.png',sysdate);
+insert into member_profile values('user28','asd','티모.png',sysdate);
+insert into member_profile values('user29','asd','트위치.png',sysdate);
+insert into member_profile values('user30','asd','트린.png',sysdate);
 
 commit;
-
---insert into club_member values('user9',2,sysdate,null,default,default);
---insert into club_member values('user9',4,sysdate,null,default,default);
---insert into club_member values('user9',7,sysdate,null,default,default);
---select * from club_member;
---select * from club_member where member_id = 'user9';
---
---select * from club;
---select * from club_profile;
---
---
---select * from (select * from club_member a join club b on a.club_id = b.club_id where a.member_id ='user9') c join club_profile d on c.club_id = d.club_id;
---
---SELECT 
--- *
---FROM (
---    SELECT *
---    FROM club_member a
---    JOIN club b ON a.club_id = b.club_id
---    where member_id = 'user9'
---    order by 2
---) c
---JOIN club_profile d ON c.club_id = d.club_id;
---
---select * from club_board where club_Id like 1  and content like '%' || '안' || '%';

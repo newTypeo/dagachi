@@ -136,5 +136,14 @@ public class MemberServiceImpl implements MemberService{
 		return memberRepository.findMemberBymemberId(memberId);
 	}
 
+	@Override
+	public MemberProfile findMemberProfile(String memberId) {
+		return memberRepository.findMemberProfile(memberId);
+	}
+	
+	@Override
+	public List<MemberProfile> findMemberProfileByClubId(int clubId) {
+		return memberRepository.findMemberProfileByClubId(clubId);
+	}
 
 }
