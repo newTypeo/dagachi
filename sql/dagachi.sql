@@ -298,7 +298,7 @@ create table club_apply (
 create table club_layout (
 	club_id	number	not null,
 	type	number default 0,
-	font	varchar2(200),
+	font	varchar2(200) default 'IBM Plex Sans KR',
 	background_color	varchar2(50) default '#ffffff',
 	font_color	varchar2(50) default '#000000',
 	point_color	varchar2(50) default '#000000',
@@ -1281,7 +1281,8 @@ VALUES (seq_board_comment_id.nextval, 2, 'user1', NULL, '오늘 모임 정말 �
 
 -- 클럽 레이아웃 샘플
 insert into club_layout (club_id, type, font, background_color, font_color, point_color, title, main_image, main_content)
-values (1, default, null, '#dddddd', '#778899', '#496682', 'sportClubTitleSample.png', 'sportClubMainSample.png', '스포츠 열정 클럽에 오신것을 환영합니다!');
+values (1, default, default, '#dddddd', '#778899', '#496682', 'sportClubTitleSample.png', 'sportClubMainSample.png', '스포츠 열정 클럽에 오신것을 환영합니다!');
+update club_layout set font = 'Do Hyeon'
 
 select * from club;
 select * from member_interest;
@@ -1322,34 +1323,29 @@ insert into club_gallery_attachment (id, gallery_id, original_filename, renamed_
 values (seq_club_gallery_attachment_id.nextval, 10, 'gallerySample10.png', 'gallerySample10.png', sysdate, 'Y');
 
 
-
-
-
-
-
 commit;
 
-insert into club_member values('user9',2,sysdate,null,default,default);
-insert into club_member values('user9',4,sysdate,null,default,default);
-insert into club_member values('user9',7,sysdate,null,default,default);
-select * from club_member;
-select * from club_member where member_id = 'user9';
-
-select * from club;
-select * from club_profile;
-
-
-select * from (select * from club_member a join club b on a.club_id = b.club_id where a.member_id ='user9') c join club_profile d on c.club_id = d.club_id;
-
-SELECT 
- *
-FROM (
-    SELECT *
-    FROM club_member a
-    JOIN club b ON a.club_id = b.club_id
-    where member_id = 'user9'
-    order by 2
-) c
-JOIN club_profile d ON c.club_id = d.club_id;
-
-select * from club_board where club_Id like 1  and content like '%' || '안' || '%';
+--insert into club_member values('user9',2,sysdate,null,default,default);
+--insert into club_member values('user9',4,sysdate,null,default,default);
+--insert into club_member values('user9',7,sysdate,null,default,default);
+--select * from club_member;
+--select * from club_member where member_id = 'user9';
+--
+--select * from club;
+--select * from club_profile;
+--
+--
+--select * from (select * from club_member a join club b on a.club_id = b.club_id where a.member_id ='user9') c join club_profile d on c.club_id = d.club_id;
+--
+--SELECT 
+-- *
+--FROM (
+--    SELECT *
+--    FROM club_member a
+--    JOIN club b ON a.club_id = b.club_id
+--    where member_id = 'user9'
+--    order by 2
+--) c
+--JOIN club_profile d ON c.club_id = d.club_id;
+--
+--select * from club_board where club_Id like 1  and content like '%' || '안' || '%';
