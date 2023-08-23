@@ -137,6 +137,8 @@ public interface ClubService {
 
 	int clubStyleUpdate(@Valid ClubStyleUpdateDto style);
 
+	List<ClubBoard> searchBoard(Map<String, Object> searchBoardMap);
+
 
 
 
