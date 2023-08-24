@@ -8,7 +8,8 @@
 
 <section id="admin-report-inquiry-list-sec" class="p-2 report-inquiry-list">
 	<h1>QnA</h1>
-
+	<a href="${pageContext.request.contextPath}/member/memberAdminInquiry.do">문의하기</a>
+			
 	<div id="report-inquiry-list-wrapper">
 		<div id="search-container">
 			<div id="searchBar-wrap">
