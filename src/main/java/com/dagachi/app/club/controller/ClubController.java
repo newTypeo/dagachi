@@ -855,10 +855,9 @@ public class ClubController {
 	
 	@PostMapping("/{domain}/clubStyleUpdate.do")
 	public String clubLayoutUpdate(@PathVariable("domain") String domain, ClubStyleUpdateDto style) {
-		
 		int clubId = clubService.clubIdFindByDomain(domain);
-
-		
+		style.setClubId(clubId);
+		int result = clubService.clubStyleUpdate(style);
 		return "redirect:/club/" + domain; 
 	}
 	
