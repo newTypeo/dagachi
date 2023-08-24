@@ -17,7 +17,7 @@
 --SELECT 'DROP TABLE "' ||  TABLE_NAME || '" CASCADE CONSTRAINTS;' FROM user_tables;
 
 ---------------------------------------------- 테이블 삭제 ----------------------------------------------
-
+--
 --DROP TABLE "MEMBER" CASCADE CONSTRAINTS;
 --DROP TABLE "CLUB" CASCADE CONSTRAINTS;
 --DROP TABLE "CLUB_MEMBER" CASCADE CONSTRAINTS;
@@ -683,6 +683,15 @@ begin
 end;
 /
 
+-- 회원가입 시 회원 프로필 default로 열추가하는 트리거
+CREATE OR REPLACE TRIGGER insert_member_profile_trigger
+AFTER INSERT ON member
+FOR EACH ROW
+BEGIN
+    INSERT INTO member_profile (member_id, original_filename, renamed_filename, created_at)
+    VALUES (:new.member_id, 'asd', 'default.png', SYSDATE);
+END;
+/
 
 -- 소모임샘플
 INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
@@ -1309,75 +1318,50 @@ insert into club_gallery_attachment (id, gallery_id, original_filename, renamed_
 values (seq_club_gallery_attachment_id.nextval, 10, 'gallerySample10.png', 'gallerySample10.png', sysdate, 'Y');
 
 -- 회원 프로필 사진 샘플 첨부
-insert into member_profile values('user1','asd','가렌.png',sysdate);
-insert into member_profile values('user2','asd','갈리오.png',sysdate);
-insert into member_profile values('user3','asd','그브.png',sysdate);
-insert into member_profile values('user4','asd','나르.png',sysdate);
-insert into member_profile values('user5','asd','니코.png',sysdate);
-insert into member_profile values('user6','asd','다리우스.png',sysdate);
-insert into member_profile values('user7','asd','리신.png',sysdate);
-insert into member_profile values('user8','asd','루시안.png',sysdate);
-insert into member_profile values('user9','asd','야스오.png',sysdate);
-insert into member_profile values('user10','asd','베인.png',sysdate);
-insert into member_profile values('user11','asd','블츠.png',sysdate);
-insert into member_profile values('user12','asd','신드라.png',sysdate);
-insert into member_profile values('user13','asd','아트.png',sysdate);
-insert into member_profile values('user14','asd','아칼리.png',sysdate);
-insert into member_profile values('user15','asd','미포.png',sysdate);
-insert into member_profile values('user16','asd','요네.png',sysdate);
-insert into member_profile values('user17','asd','제드.png',sysdate);
-insert into member_profile values('user18','asd','조이.png',sysdate);
-insert into member_profile values('user19','asd','카타.png',sysdate);
-insert into member_profile values('user20','asd','퀸.png',sysdate);
-insert into member_profile values('user21','asd','트페.png',sysdate);
-insert into member_profile values('user22','asd','유미.png',sysdate);
-insert into member_profile values('user23','asd','헤카림.png',sysdate);
-insert into member_profile values('user24','asd','딩거.png',sysdate);
-insert into member_profile values('user25','asd','피즈.png',sysdate);
-insert into member_profile values('user26','asd','피오라.png',sysdate);
-insert into member_profile values('user27','asd','판테.png',sysdate);
-insert into member_profile values('user28','asd','티모.png',sysdate);
-insert into member_profile values('user29','asd','트위치.png',sysdate);
-insert into member_profile values('user30','asd','트린.png',sysdate);
+update member_profile set renamed_filename = '가렌.png' where member_id = 'user1';
+update member_profile set renamed_filename = '갈리오.png' where member_id = 'user2';
+update member_profile set renamed_filename = '그브.png' where member_id = 'user3';
+update member_profile set renamed_filename = '나르.png' where member_id = 'user4';
+update member_profile set renamed_filename = '니코.png' where member_id = 'user5';
+update member_profile set renamed_filename = '다리우스.png' where member_id = 'user6';
+update member_profile set renamed_filename = '리신.png' where member_id = 'user7';
+update member_profile set renamed_filename = '루시안.png' where member_id = 'user8';
+update member_profile set renamed_filename = '야스오.png' where member_id = 'user9';
+update member_profile set renamed_filename = '베인.png' where member_id = 'user10';
+update member_profile set renamed_filename = '블츠.png' where member_id = 'user11';
+update member_profile set renamed_filename = '신드라.png' where member_id = 'user12';
+update member_profile set renamed_filename = '아트.png' where member_id = 'user13';
+update member_profile set renamed_filename = '아칼리.png' where member_id = 'user14';
+update member_profile set renamed_filename = '미포.png' where member_id = 'user15';
+update member_profile set renamed_filename = '요네.png' where member_id = 'user16';
+update member_profile set renamed_filename = '제드.png' where member_id = 'user17';
+update member_profile set renamed_filename = '조이.png' where member_id = 'user18';
+update member_profile set renamed_filename = '카타.png' where member_id = 'user19';
+update member_profile set renamed_filename = '퀸.png' where member_id = 'user20';
+update member_profile set renamed_filename = '트페.png' where member_id = 'user21';
+update member_profile set renamed_filename = '유미.png' where member_id = 'user22';
+update member_profile set renamed_filename = '헤카림.png' where member_id = 'user23';
+update member_profile set renamed_filename = '딩거.png' where member_id = 'user24';
+update member_profile set renamed_filename = '피즈.png' where member_id = 'user25';
+update member_profile set renamed_filename = '피오라.png' where member_id = 'user26';
+update member_profile set renamed_filename = '판테.png' where member_id = 'user27';
+update member_profile set renamed_filename = '티모.png' where member_id = 'user28';
+update member_profile set renamed_filename = '트위치.png' where member_id = 'user29';
+update member_profile set renamed_filename = '트린.png' where member_id = 'user30';
 
 update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'honggd';
 
 commit;
 
 
-insert into club_member values('user9',2,sysdate,null,default,default);
-insert into club_member values('user9',4,sysdate,null,default,default);
-insert into club_member values('user9',7,sysdate,null,default,default);
-select * from club_member;
-select * from club_member where member_id = 'user9';
-
-select * from club;
-select * from club_profile;
 
 
-select * from (select * from club_member a join club b on a.club_id = b.club_id where a.member_id ='user9') c join club_profile d on c.club_id = d.club_id;
 
-SELECT 
- *
-FROM (
-    SELECT *
-    FROM club_member a
-    JOIN club b ON a.club_id = b.club_id
-    where member_id = 'user9'
-    order by 2
-) c
-JOIN club_profile d ON c.club_id = d.club_id;
 
-select * from club_board where club_Id like 1  and content like '%' || '' || '%';
 
---select * from club_apply;
---select * from admin_inquiry;
---
---UPDATE admin_Inquiry
---SET admin_id = {}, response = {}, status = '1', response_at = sysdate
---WHERE Inquiry_id = {};
---
---UPDATE admin_Inquiry
---SET admin_id = {}, response = {}, status = '1', response_at = sysdate
---WHERE Inquiry_id = {};
+
+
+
+
+
 
