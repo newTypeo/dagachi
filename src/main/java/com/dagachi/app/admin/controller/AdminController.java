@@ -16,11 +16,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.dagachi.app.Pagination;
 import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
 import com.dagachi.app.admin.dto.AdminInquiryUpdateDto;
+import com.dagachi.app.admin.entity.MainPage;
 import com.dagachi.app.admin.service.AdminService;
 import com.dagachi.app.club.controller.ClubController;
 import com.dagachi.app.club.entity.Club;
@@ -218,6 +220,12 @@ public class AdminController {
 	
 	}
 	
-
+	@GetMapping("mainBannerList.do")
+	@ResponseBody
+	public ResponseEntity<?> mainBannerList() {
+		List<MainPage> mainBanners = new ArrayList<MainPage>();
+		mainBanners = adminService.getMainBanner();
+		return ResponseEntity.status(HttpStatus.OK).body(mainBanners);
+	}
 	
 }

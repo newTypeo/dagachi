@@ -14,138 +14,181 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/views/common/chatBtn.jsp"></jsp:include>
 
+<section></section>
 
+<section id="main-page-sec" class="">
+<div id="banner-and-info-container">
+	<nav id="main-banner" class="">
+		<div id="carouselExampleControls" class="carousel slide"
+			data-ride="carousel">
+			<div class="carousel-inner">
+				
+			</div>
+			<button class="carousel-control-prev" type="button"
+				data-target="#carouselExampleControls" data-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<span class="sr-only">Previous</span>
+			</button>
+			<button class="carousel-control-next" type="button"
+				data-target="#carouselExampleControls" data-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<span class="sr-only">Next</span>
+			</button>
+		</div>
+	</nav>
+	<nav id="my-club-info">
+		
+	</nav>
+</div>
 
-<nav id="main-banner" class="bg-warning">
-	<h1>배너</h1>
-</nav>
 <nav>
 	<a href="${pageContext.request.contextPath}/admin/adminMemberList.do?keyword=&column=">회원조회(관리자)</a>
 	<a href="${pageContext.request.contextPath}/admin/adminQuitMemberList.do?keyword=&column=">탈퇴회원조회(관리자)</a>
 	<a href="${pageContext.request.contextPath}/admin/adminReportMemberList.do?keyword=&column=">신고회원조회(관리자)</a>
 	<a href="${pageContext.request.contextPath}/admin/adminClubList.do?keyword=&column=">모임목록(관리자)</a>
-	<a href="${pageContext.request.contextPath}/admin/adminInquiryUpdate.do">문의 목록(관리자)</a>
+	<a href="${pageContext.request.contextPath}/admin/adminInquriyList.do?keyword=&column=">문의 목록(관리자)</a>
 
 </nav>
 
-<section id="main-page-sec" class="p-2 bg-info">
+	<sec:authorize access="isAnonymous()">
+		<section id="class">
+	  		<div class="posts"></div>
+		</section>
+		
+<script>
+// card의 div태그 a태그로 교체함 - 동찬
+// 로그인 안했을때 카드출력
+$.ajax({
+    url: "${pageContext.request.contextPath}/club/clubList.do",
+    success: function(clubs) {
+        const container = document.querySelector(".posts");
+
+        clubs.forEach((clubAndImage) => {
+            const { clubName, category, status, reportCount, introduce, domain, renamedFilename, memberCount } = clubAndImage;
+            if (status !== false) {
+
+                const card = document.createElement("a");
+                card.classList.add("card");
+                card.style.width = "18rem";
+                card.addEventListener("click", function(event) {
+                    event.preventDefault(); // Prevent the default link behavior
+                    alert("로그인 후 이용 가능합니다."); // Display the alert message
+                });
+
+                card.innerHTML = `
+                    <img src="${pageContext.request.contextPath}/resources/upload/club/profile/\${renamedFilename}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">\${clubName}</h5>
+                        <p class="card-text">\${introduce}</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">\${category}</li>
+                        <li class="list-group-item">인원수 : \${memberCount}</li>
+                    </ul>
+                `;
+
+                container.appendChild(card);
+            }
+        });
+    }
+});
+</script>		
+		
+	</sec:authorize>
 	
-	
-   <sec:authorize access="isAnonymous()">
-   <section id="class">
-  		<div class="posts">
-  			<script>
-   		// card의 div태그 a태그로 교체함 - 동찬
-   		// 로그인 안했을때 카드출력
-   			$.ajax({
-			    url: "${pageContext.request.contextPath}/club/clubList.do",
-			    success: function(clubs) {
-			        const container = document.querySelector(".posts");
-			
-			        clubs.forEach((clubAndImage) => {
-			            const { clubName, category, status, reportCount, introduce, domain, renamedFilename, memberCount } = clubAndImage;
-			            if (status !== false) {
-			
-			                const card = document.createElement("a");
-			                card.classList.add("card");
-			                card.style.width = "18rem";
-			                card.addEventListener("click", function(event) {
-			                    event.preventDefault(); // Prevent the default link behavior
-			                    alert("로그인 후 이용 가능합니다."); // Display the alert message
-			                });
-			
-			                card.innerHTML = `
-			                    <img src="${pageContext.request.contextPath}/resources/upload/club/profile/\${renamedFilename}" class="card-img-top" alt="...">
-			                    <div class="card-body">
-			                        <h5 class="card-title">\${clubName}</h5>
-			                        <p class="card-text">\${introduce}</p>
-			                    </div>
-			                    <ul class="list-group list-group-flush">
-			                        <li class="list-group-item">\${category}</li>
-			                        <li class="list-group-item">인원수 : \${memberCount}</li>
-			                    </ul>
-			                `;
-			
-			                container.appendChild(card);
-			            }
-			        });
-			    }
-			});
-  			</script>
-  		</div>
-</section>
-</sec:authorize>
 	<sec:authorize access="isAuthenticated()">
 		<section id="class2">
-		<h1>추천 목록</h1>
-	   		<div class="posts2">
-		   		<script>
-    $.ajax({
-        url: "${pageContext.request.contextPath}/club/loginClubList.do",
-        success: function(clubs) {
-            const container = document.querySelector(".posts2");
-
-            if (clubs.length === 0) {
-                container.innerHTML = "<p>추천목록이 없습니다.</p>";
-            } else {
-                clubs.forEach((clubAndImage) => {
-                    const { clubName, category, status, reportCount, introduce, domain, renamedFilename, memberCount } = clubAndImage;
-                    if (status !== false) {
-                        container.innerHTML += `
-                            <a class="card" style="width: 18rem;" href="${pageContext.request.contextPath}/club/\${domain}">
-                                <img src="${pageContext.request.contextPath}/resources/upload/club/profile/\${renamedFilename}" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <h5 class="card-title">\${clubName}</h5>
-                                    <p class="card-text">\${introduce}</p>
-                                </div>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">\${category}</li>
-                                    <li class="list-group-item">인원수 : \${memberCount}</li>
-                                </ul>
-                            </a>
-                        `;
-                    }
-                });
-            }
-        }
-    });
-</script>
-	   		</div>
+			<h1>추천 목록</h1>
+	   		<div class="posts2"></div>
 	   		<h1>모든 모임</h1>
-	   		<div class="posts3">
-	   		<script>
-	   		$.ajax({
-   				url : "${pageContext.request.contextPath}/club/clubList.do",
-   				success(clubs){
-   					const container = document.querySelector(".posts3");
-   					
-   					clubs.forEach((clubAndImage)=>{
-   						const { clubName, category, status, reportCount, introduce, domain, renamedFilename, memberCount} = clubAndImage;
-   						if (status !== false) {
-   							
-   							container.innerHTML += `
-   								<a class="card" style="width: 18rem;" href="${pageContext.request.contextPath}/club/\${domain}">
-   								  <img src="${pageContext.request.contextPath}/resources/upload/club/profile/\${renamedFilename}" class="card-img-top" alt="...">
-   								  <div class="card-body">
-   								    <h5 class="card-title">\${clubName}</h5>
-   								    <p class="card-text">\${introduce}</p>
-   								  </div>
-   								  <ul class="list-group list-group-flush">
-   								    <li class="list-group-item">\${category}</li>
-   								    <li class="list-group-item">인원수 : \${memberCount}</li>
-   								  </ul>
-   								</a>
-   							`;
-   						}
-   					});
-   				}
-   			});
-	   		</script>
-	   		</div>
+	   		<div class="posts3"></div>
 		</section>
-</section>
+
+<script>
+
+$.ajax({
+    url: "${pageContext.request.contextPath}/club/loginClubList.do",
+    success: function(clubs) {
+        const container = document.querySelector(".posts2");
+
+        if (clubs.length === 0) {
+            container.innerHTML = "<p>추천목록이 없습니다.</p>";
+        } else {
+            clubs.forEach((clubAndImage) => {
+                const { clubName, category, status, reportCount, introduce, domain, renamedFilename, memberCount } = clubAndImage;
+                if (status !== false) {
+                    container.innerHTML += `
+                        <a class="card" style="width: 18rem;" href="${pageContext.request.contextPath}/club/\${domain}">
+                            <img src="${pageContext.request.contextPath}/resources/upload/club/profile/\${renamedFilename}" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">\${clubName}</h5>
+                                <p class="card-text">\${introduce}</p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">\${category}</li>
+                                <li class="list-group-item">인원수 : \${memberCount}</li>
+                            </ul>
+                        </a>
+                    `;
+                }
+            });
+        }
+    }
+});
+
+$.ajax({
+	url : "${pageContext.request.contextPath}/club/clubList.do",
+	success(clubs){
+		const container = document.querySelector(".posts3");
+		
+		clubs.forEach((clubAndImage)=>{
+			const { clubName, category, status, reportCount, introduce, domain, renamedFilename, memberCount} = clubAndImage;
+			if (status !== false) {
+				
+				container.innerHTML += `
+					<a class="card" style="width: 18rem;" href="${pageContext.request.contextPath}/club/\${domain}">
+					  <img src="${pageContext.request.contextPath}/resources/upload/club/profile/\${renamedFilename}" class="card-img-top" alt="...">
+					  <div class="card-body">
+					    <h5 class="card-title">\${clubName}</h5>
+					    <p class="card-text">\${introduce}</p>
+					  </div>
+					  <ul class="list-group list-group-flush">
+					    <li class="list-group-item">\${category}</li>
+					    <li class="list-group-item">인원수 : \${memberCount}</li>
+					  </ul>
+					</a>
+				`;
+			}
+		});
+	}
+});
+</script>
+		
 	</sec:authorize>
+</section>
 
+<script>
+const carouselInner = document.querySelector(".carousel-inner");
 
+$.ajax({
+	url : "${pageContext.request.contextPath}/admin/mainBannerList.do",
+	success(banners) {
+		carouselInner.innerHTML = '';
+		banners.forEach((banner) => {
+			const { renamedFilename } = banner;
+			carouselInner.innerHTML += `
+				<div class="carousel-item">
+					<img src="${pageContext.request.contextPath}/resources/upload/main/\${renamedFilename}" class="d-block w-100">
+				</div>
+			`;
+			const carouselItem = document.querySelector(".carousel-item");
+			carouselItem.classList.add("active");
+		});
+		
+	}
+	
+});
+
+</script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

@@ -1364,6 +1364,13 @@ update member_profile set renamed_filename = '티모.png' where member_id = 'use
 update member_profile set renamed_filename = '트위치.png' where member_id = 'user29';
 update member_profile set renamed_filename = '트린.png' where member_id = 'user30';
 
+--메인페이지 배너 샘플
+insert into main_page values (seq_main_page_id.nextval, 'mainSample1.png', 'mainSample1.png', sysdate);
+insert into main_page values (seq_main_page_id.nextval, 'mainSample2.png', 'mainSample2.png', sysdate);
+insert into main_page values (seq_main_page_id.nextval, 'mainSample3.png', 'mainSample3.png', sysdate);
+insert into main_page values (seq_main_page_id.nextval, 'mainSample4.png', 'mainSample4.png', sysdate);
+insert into main_page values (seq_main_page_id.nextval, 'mainSample5.png', 'mainSample5.png', sysdate);
+
 update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'honggd';
 
 commit;
@@ -1397,3 +1404,4 @@ insert into club_member values('honggddd',4,default,default,3,default);
 insert into club_member values('honggddd',5,default,default,3,default);
 insert into club_member values('honggddd',6,default,default,3,default);
 insert into club_member values('honggddd',7,default,default,3,default);
+
