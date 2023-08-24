@@ -17,20 +17,20 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="reportModalLabel"></h5>
+            <h5 class="modal-title" id="reportModalLabel">모임 신고</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
 	          <span>신고 도메인 : </span>
-	          <input type="text" name="domain" id="domain" value="${domain}" readonly/>
+	          <input type="text" class="form-control" name="domain" id="domain" value="${domain}" readonly/>
 	          <br/><br/>
 	          <span>신고자 : </span>
-	          <input type="text" name="reporter" id="reporter" value="${memberId}" readonly/>
-	          <br/><br/><br/>
+	          <input type="text" class="form-control" name="reporter" id="reporter" value="${memberId}" readonly/>
+	          <br/><br/>
 	          <span>신고 사유</span><br/>
-	          <textarea name="reason" id="reason" placeholder="신고 내용을 입력해주세요." required style="resize:none;"></textarea>
+	          <textarea name="reason" class="form-control" id="reason" placeholder="신고 내용을 입력해주세요." required style="resize:none;"></textarea>
           </div>
           <div class="modal-footer flex-column">
             <div class="d-flex justify-content-between w-100">
