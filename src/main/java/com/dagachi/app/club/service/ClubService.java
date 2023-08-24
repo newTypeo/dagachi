@@ -138,6 +138,10 @@ public interface ClubService {
 	List<ClubBoard> searchBoard(Map<String, Object> searchBoardMap);
 
 	int boardSize(ClubBoard clubBoard);
+	
+	int checkDuplicateClubLike(int targetId);
+
+	int clubLike(Map<String, Object> params);
 
 
 

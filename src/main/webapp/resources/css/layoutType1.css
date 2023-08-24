@@ -34,7 +34,8 @@
 	border-bottom: 1px solid #ccc;
 }
 .container-main-gallery > div {
-	margin: 8px 20px 0 20px;
+	margin-top: 8px;
+	margin-bottom: 10px;
 }
 .container-main-long > div > a:first-of-type {
 	display: inline-block;
@@ -167,20 +168,35 @@
 
 #club-notice-container {
 	width: 1320px;
+	height: 241px;
+	overflow: hidden;
 }
 
 #club-gallery-container {
-	width: 1320px;
+	width: 960px;
+    margin: 0px 15px;
 }
 
 .container-main-gallery {
+	width: 920px;
+	margin: 0 20px;
 	display: flex;	
 	flex-wrap: wrap;
+	justify-content: space-between;
+}
+.img-thumbnail0,
+.img-thumbnail1,
+.img-thumbnail2 {
+	width: 290px;
+}
+.img-thumbnail3,
+.img-thumbnail4,
+.img-thumbnail5,
+.img-thumbnail6,
+.img-thumbnail7 {
+	width: 166px;
 }
 
-.img-thumbnail {
-	width: 180px;
-}
 
 #club-board-container {
 	width: 660px;
@@ -206,6 +222,15 @@
 	overflow: hidden;
 }
 
+
+
+.carousel-item {
+	height: 540px;
+}
+#carouselExampleControls > button {
+	width: 5%;
+	opacity: 1;
+}
 
 
 

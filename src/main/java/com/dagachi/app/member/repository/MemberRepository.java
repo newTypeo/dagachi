@@ -13,6 +13,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
+import com.dagachi.app.admin.entity.AdminInquiry;
 import com.dagachi.app.member.dto.MemberCreateDto;
 import com.dagachi.app.member.entity.ActivityArea;
 import com.dagachi.app.member.entity.Member;
@@ -93,5 +94,21 @@ public interface MemberRepository {
 
 	@Select("select * from member where name = #{username}")
 	Member findMemberByName(String username);
+
+	@Update("update member set name = #{name}, nickname=#{nickname}, phone_no = #{phoneNo}, address=#{address}, mbti =#{mbti}, birthday = #{birthday, jdbcType=DATE}, gender = #{gender} where member_id = #{memberId}")
+	int updateMember(Member member);
+
+
+	@Update("update member_profile set original_filename = #{originalFilename}, renamed_filename = #{renamedFilename} where member_id = #{memberId}")
+	int updateMemberProfile(MemberProfile memberProfile);
+	
+	@Select("select * from admin_Inquiry")
+	List<AdminInquiry> memberAdminInquiryList();
+	
+	@Insert("insert into member_like values(seq_member_like_id.nextval, #{loginMemberId}, #{memberId}, default)")
+	int memberLike(Map<String, Object> params);
+
+	@Select("select count(*) from member_like where like_sender = #{memberId}")
+	int checkDuplicateMemberId(String memberId);
 	
 }

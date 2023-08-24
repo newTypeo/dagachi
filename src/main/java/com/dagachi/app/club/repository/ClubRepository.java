@@ -182,7 +182,7 @@ public interface ClubRepository {
 	@Select("select club_member_role from club_member where club_id = #{clubId} and member_id = #{loginMemberId}")
 	int memberRoleFindByMemberId(ClubMemberRole clubMemberRole);
 	
-	@Select("select * from (select * from club_gallery cg left join club_gallery_attachment ca on cg.gallery_id = ca.gallery_id where (ca.thumbnail = 'Y' or ca.thumbnail is null) and club_id = #{clubId} order by cg.gallery_id desc) where rownum <= 6")
+	@Select("select * from (select * from club_gallery cg left join club_gallery_attachment ca on cg.gallery_id = ca.gallery_id where (ca.thumbnail = 'Y' or ca.thumbnail is null) and club_id = #{clubId} order by cg.gallery_id desc) where rownum <= 8")
 	List<GalleryAndImageDto> findgalleryById(int clubId);
 	
 	@Insert("insert into club_layout values (#{clubId}, default, default, default, default, default, default, default, default)")
@@ -203,7 +203,6 @@ public interface ClubRepository {
 	
 	@Select("select count(*) from recent_visit_list where club_id = #{clubId}")
 	int checkDuplicateClubId(int clubId);
-
 
 	
 	@Update("update club_board_attachment set thumbnail=#{thumbnail} where id=#{id}")
@@ -254,10 +253,14 @@ public interface ClubRepository {
 	int clubStyleUpdate(ClubStyleUpdateDto style);
 	
 	List<ClubBoard> searchBoard(Map<String, Object> searchBoardMap);
+	
+	@Select("select count(*) from cbc_like where target_id = #{targetId}")
+	int checkDuplicateClubLike(int targetId);
+	
+	@Insert("insert into cbc_like values(#{memberId}, 1, #{targetId}, default)")
+	int clubLike(Map<String, Object> params);
 
 	int boardSize(ClubBoard clubBoard);
-
-
 
 }
    
