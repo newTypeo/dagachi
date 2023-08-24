@@ -20,6 +20,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -136,13 +138,30 @@ public class DagachiUtils {
 		        String uri = "https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?" + xAndY;
 		        ResponseEntity<?> responseEntity = 
                 restTemplate.exchange(URI.create(uri), HttpMethod.GET, httpEntity, Map.class);
-				
+
+		        Map<String, Object> responseBody = (Map<String, Object>) responseEntity.getBody(); // API 응답 본문
+		        ObjectMapper objectMapper = new ObjectMapper();
+		        try {
+		            // JSON 응답을 Jackson의 JsonNode로 파싱
+		            JsonNode responseJson = objectMapper.valueToTree(responseBody);
+
+		            // documents 배열의 첫 번째 객체를 가져옴
+		            JsonNode firstDocument = responseJson.path("documents").get(0);
+
+		            // region_3depth_name 값을 가져옴
+		            String region1DepthName = firstDocument.path("region_1depth_name").asText();
+		            log.debug(region1DepthName);
+		            String region3DepthName = firstDocument.path("region_3depth_name").asText();
+
+		            // 위에서 구한 법정동 명을 set에 삽입(중복허용x)
+		            set.add(region3DepthName);
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		        }
 		        
-		        log.debug("responseEntity = {}", responseEntity);
-				// 위에서 구한 법정동 명을 set에 삽입(중복허용x)
-				// set.add(null);
 			}
 		}
+		System.out.println(set);
 	}
 	
 }

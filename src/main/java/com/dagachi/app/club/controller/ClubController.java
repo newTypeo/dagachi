@@ -300,9 +300,6 @@ public class ClubController {
 		
 		// 주변의 모든 법정동리스트로 모임 조회 후 리턴
 		
-		
-		System.out.println(x);
-		System.out.println(y);
 		return ResponseEntity.status(HttpStatus.OK).body("안녕~");
 	}
 	
