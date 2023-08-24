@@ -268,7 +268,7 @@ public class ClubController {
 	public void clubSearchSurrounded() {}
 	
 	/**
-	 * 비동기로 주변모임 검색
+	 * 활동지역 중심 주변모임 검색
 	 * @author 종환
 	 */
 	@GetMapping("clubSearchByDistance.do")
