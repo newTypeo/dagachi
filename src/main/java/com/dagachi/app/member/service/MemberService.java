@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
+import com.dagachi.app.admin.entity.AdminInquiry;
 import com.dagachi.app.member.dto.MemberCreateDto;
 import com.dagachi.app.member.entity.ActivityArea;
 import com.dagachi.app.member.entity.Member;
@@ -51,9 +52,16 @@ public interface MemberService extends UserDetailsService {
 
 	Member findMemberByEmail(String email);
 
+
 	int memberLike(Map<String, Object> params);
 
 	int checkDuplicateMemberId(String memberId);
+
+	int UpdateMember(Member member);
+
+	int updateMemberProfile(MemberProfile memberProfile);
+	
+	List<AdminInquiry> memberAdminInquiryList();
 
 
 }

@@ -45,7 +45,8 @@
                 <h3>MBTI : ${member.mbti}</h3>
                 
 					<c:if test="${member.memberId eq loginMember.memberId}"> <!-- 로그인한 객체가 보고있는 객체가 같을 때 -->
-						<h1>나를 좋아요 한사람 table</h1>
+						<button onclick = "updateMember()">회원 정보 수정</button>
+						<h1>나에게 좋아요를 한 사람 table</h1>
 					</c:if>
 					
 					<c:if test="${member.memberId ne loginMember.memberId}"> <!-- 로그인한 객체가 보고있는 다를 때 -->
@@ -72,7 +73,7 @@
 		 <c:if test="${not empty clubAndImages}">
 		   		<div class="posts2">
 					<c:forEach items="${clubAndImages}" var="clubAndImage" varStatus="vs">
-					   		<a class="card" style="width: 18rem;" href = "${pageContext.request.contextPath}/club/&${clubAndImage.domain}">
+					   		<a class="card" style="width: 18rem;" href = "${pageContext.request.contextPath}/club/${clubAndImage.domain}">
 							  <img src="${pageContext.request.contextPath}/resources/upload/club/profile/${clubAndImage.renamedFilename}" class="card-img-top" alt="...">
 							  <div class="card-body">
 							    <h5 class="card-title">${clubAndImage.clubName}</h5>
@@ -96,7 +97,7 @@
 		 <c:if test="${not empty joinClub}">
 		   		<div class="posts2">
 					<c:forEach items="${joinClub}" var="joinClub" varStatus="vs">
-					   		<a class="card" style="width: 18rem;" href = "${pageContext.request.contextPath}/club/&${joinClub.domain}">
+					   		<a class="card" style="width: 18rem;" href = "${pageContext.request.contextPath}/club/${joinClub.domain}">
 							  <img src="${pageContext.request.contextPath}/resources/upload/club/profile/${joinClub.renamedFilename}" class="card-img-top" alt="...">
 							  <div class="card-body">
 							    <h5 class="card-title">${joinClub.clubName}</h5>
@@ -115,6 +116,7 @@
 <br/><br/><br/>
 <h1>작성한 댓글</h1>
 <br/><br/><br/>
+<<<<<<< HEAD
 <script>
 const memberLike = () => {
 	//console.log("잘 되는감?");
@@ -123,6 +125,9 @@ const memberLike = () => {
 	memberLikeFrm.submit();
 }
 
+const updateMember = () => {
+	window.location.href = "${pageContext.request.contextPath}/member/memberUpdate.do" 
+};
 
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
