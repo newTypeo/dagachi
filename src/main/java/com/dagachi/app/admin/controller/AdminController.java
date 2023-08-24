@@ -65,16 +65,23 @@ public class AdminController {
 	
 	@GetMapping("/adminInquiryUpdate.do")
 	public String adminInquiryUpdate(@RequestParam int inquiryId, Model model){
-	    AdminInquiryCreateDto inquiry = adminService.findInquiry(inquiryId);
+	    AdminInquiry inquiry = adminService.findInquiry(inquiryId);
 	    model.addAttribute("inquiry",inquiry );
 	    return "/admin/adminInquiryUpdate";
 	}
 
+	
 	@PostMapping("/adminInquiryUpdate.do")
-	public String adminInquiryUpdate() {
-		AdminInquiryUpdateDto inquiryUpdate = null;
-		int result = adminService.updateInquiry(inquiryUpdate);
-		return "redirect:/admin/adminInquiryList.do";
+	public String adminInquiryUpdate(@RequestParam String inquiryId, @RequestParam String response) {
+	    // 이 부분에서 InquiryId와 response를 사용하여 inquiryUpdate 객체를 생성하고 업데이트 로직을 수행합니다.
+	    AdminInquiryUpdateDto inquiryUpdate = new AdminInquiryUpdateDto(); 
+	    inquiryUpdate.setInquiryId(inquiryId);
+	    inquiryUpdate.setResponse(response);
+	    //inquiryUpdate.setResponse(response);
+
+	    int result = adminService.updateInquiry(inquiryUpdate);
+	    
+	    return "redirect:/admin/adminInquiryList.do";
 	}
 	
 	/**
@@ -217,10 +224,6 @@ public class AdminController {
 		pageBar = pageBar.replaceAll("\\?", "&");
 		pageBar = pageBar.replaceAll("#&", "\\?");
 		model.addAttribute("pagebar", pageBar);
-		
-		
-
-	
 	}
 	
 	@GetMapping("mainBannerList.do")

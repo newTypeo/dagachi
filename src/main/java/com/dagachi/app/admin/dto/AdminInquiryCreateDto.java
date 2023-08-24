@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AdminInquiryCreateDto {
+	private String inquiryId;
 	private String memberId;
 	private String title;
 	private String content; 
