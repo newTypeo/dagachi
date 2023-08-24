@@ -80,7 +80,7 @@ public class AdminController {
 			@RequestParam(defaultValue = "1") int page,
 			@RequestParam String keyword, 
 			@RequestParam String column, 
-			HttpServletRequest request,
+			HttpServletRequest request, 
 			Model model) {
 		int limit = 10;
 		String getCount = "getCount";
