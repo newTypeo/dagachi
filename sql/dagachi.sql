@@ -49,20 +49,25 @@
 --drop sequence seq_club_id;
 --drop sequence seq_club_report_id;
 --drop sequence seq_chat_log_id;
+--
 --drop sequence seq_member_id;
 --drop sequence seq_member_report_id;
 --drop sequence seq_member_like_id;
+--
 --drop sequence seq_club_gallery_id;
 --drop sequence seq_club_board_id;
 --drop sequence seq_club_gallery_attachment_id;
 --drop sequence seq_club_board_attachment_id;
 --drop sequence seq_board_comment_id;
+--
 --drop sequence seq_club_schedule_id;
 --drop sequence seq_club_schedule_place_id;
+--
 --drop sequence seq_main_page_id;
 --drop sequence seq_admin_notice_id;
+--
 --drop sequence seq_alarm_id;
-
+--drop sequence seq_Inquiry_id;
 ------------------------------------------------- 시퀀스 -------------------------------------------------
 create sequence seq_club_id;
 create sequence seq_club_report_id;
@@ -86,29 +91,6 @@ create sequence seq_admin_notice_id;
 
 create sequence seq_alarm_id;
 
----------------------------------------------- 시퀀스 삭제 ----------------------------------------------
---drop sequence seq_club_id;
---drop sequence seq_club_report_id;
---drop sequence seq_chat_log_id;
---
---drop sequence seq_member_id;
---drop sequence seq_member_report_id;
---drop sequence seq_member_like_id;
---
---drop sequence seq_club_gallery_id;
---drop sequence seq_club_board_id;
---drop sequence seq_club_gallery_attachment_id;
---drop sequence seq_club_board_attachment_id;
---drop sequence seq_board_comment_id;
---
---drop sequence seq_club_schedule_id;
---drop sequence seq_club_schedule_place_id;
---
---drop sequence seq_main_page_id;
---drop sequence seq_admin_notice_id;
---
---drop sequence seq_alarm_id;
---DROP SEQUENCE seq_Inquiry_id;
 
 ------------------------------------------------- 테이블 -------------------------------------------------
 create table member (
@@ -363,6 +345,14 @@ create table recent_visit_list (
     recent_date date default sysdate
 );
 
+create table cbc_like(
+    member_id varchar2(30) not null,
+    type number not null,
+    target_id number not null,
+    created_at date default sysdate
+);
+
+
 alter table member add constraint pk_member primary key (
 	member_id
 );
@@ -532,6 +522,13 @@ alter table club_schedule_place add constraint fk_club_schedule_to_club_schedule
 )
 references club_schedule (
 	schedule_id
+);
+
+alter table cbc_like add constraint fk_member_to_cbc_like_1 foreign key(
+    member_id
+)
+references member(
+    member_id
 );
 
 
@@ -1367,19 +1364,44 @@ update member_profile set renamed_filename = '티모.png' where member_id = 'use
 update member_profile set renamed_filename = '트위치.png' where member_id = 'user29';
 update member_profile set renamed_filename = '트린.png' where member_id = 'user30';
 
+--메인페이지 배너 샘플
+insert into main_page values (seq_main_page_id.nextval, 'mainSample1.png', 'mainSample1.png', sysdate);
+insert into main_page values (seq_main_page_id.nextval, 'mainSample2.png', 'mainSample2.png', sysdate);
+insert into main_page values (seq_main_page_id.nextval, 'mainSample3.png', 'mainSample3.png', sysdate);
+insert into main_page values (seq_main_page_id.nextval, 'mainSample4.png', 'mainSample4.png', sysdate);
+insert into main_page values (seq_main_page_id.nextval, 'mainSample5.png', 'mainSample5.png', sysdate);
+
 update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'honggd';
 
 commit;
 
 
+select  * from recent_visit_list;
 
+--select * from club_apply;
+--select * from admin_inquiry;
+--
+--UPDATE admin_Inquiry
+--SET admin_id = {}, response = {}, status = '1', response_at = sysdate
+--WHERE Inquiry_id = {};
+--
+--UPDATE admin_Inquiry
+--SET admin_id = {}, response = {}, status = '1', response_at = sysdate
+--WHERE Inquiry_id = {};
 
+--create sequence seq_member_like_id;
 
+select * from member_like order by like_id;
 
+delete from member_like;
+select * from club;
 
-
-
-
-
-
+commit;
+insert into club_member values('honggddd',1,default,default,3,default);
+insert into club_member values('honggddd',2,default,default,3,default);
+insert into club_member values('honggddd',3,default,default,3,default);
+insert into club_member values('honggddd',4,default,default,3,default);
+insert into club_member values('honggddd',5,default,default,3,default);
+insert into club_member values('honggddd',6,default,default,3,default);
+insert into club_member values('honggddd',7,default,default,3,default);
 

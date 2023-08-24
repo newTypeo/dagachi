@@ -46,10 +46,11 @@
 	
 	
 		<div id="main-logo-container">
-			<a href="${pageContext.request.contextPath}">
+			</a><a href="${pageContext.request.contextPath}">
 				<img id="main-logo" src="${pageContext.request.contextPath}/resources/images/004.png" class="p-2">
-			</a>
+			
 		</div>
+		
 		<sec:authorize access="isAnonymous()">
 			<div id="header-nav-container">
 				<a href="${pageContext.request.contextPath}/member/memberLogin.do">로그인</a>
@@ -60,15 +61,18 @@
 			 
 			 
 		<sec:authorize access="isAuthenticated()">
+			<div id="header-nav-container">
 			    <span>
 			    <a title="<sec:authentication property="authorities"/>"><sec:authentication property="principal.username"/></a>님, 안녕하삼</span>
 			    &nbsp;
 			    <button type="button"onclick="document.memberLogoutFrm.submit();">로그아웃</button>
 			    <button type="button"onclick="withdrawalMember();">회원탈퇴</button>
 			    <form:form name="memberDeleteFrm" action="${pageContext.request.contextPath}/member/memberDelete.do" method="post"></form:form>
+			    <a href="${pageContext.request.contextPath}/member/<sec:authentication property="principal.memberId"/>">
+				    <button type="button">내 정보(마이페이지)</button>
+				</a>
+			</div>
 		</sec:authorize>
-				<a href="${pageContext.request.contextPath}/member/memberAdminInquiryList.do">문의하기</a>
-				
 
 	</header>
 	

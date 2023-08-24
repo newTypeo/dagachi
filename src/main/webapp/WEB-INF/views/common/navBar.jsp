@@ -1,9 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/nav.css" />
 
+<!-- 클릭하면 카테고리 관련 창을 닫는 div -->
+<div id="dark" style="position:absolute; width: 100%; height: 100vh; display:none; z-index:1"></div>
+
 <nav id="main-nav-bar">
-	<div id="category-container">
+	<div id="category-container" style="z-index: 2">
 		<i class="fa-solid fa-bars fa-xl" style="color: #666;"></i>
 		<span>카테고리</span>
 	</div>
@@ -23,9 +30,9 @@
 		+ 소모임 생성
 	</button>
 	
-	<div id="category-modal-container">
-		<div id="category-modal-left">
-			<div id="category-modal-left-upper">
+	<div id="category-modal-container" style="z-index: 2">
+		<div id="category-modal-left" style="z-index: 2">
+			<div id="category-modal-left-upper" style="z-index: 2">
 				<div><a>차/오토바이</a></div>
 				<div><a>게임/오락</a></div>
 				<div><a>여행</a></div>
@@ -49,13 +56,24 @@
 				<a>모든 주제 보기 ></a>
 			</div>
 		</div>
-		<div id="category-modal-right">
+		<div id="category-modal-right" style="display:none; flex-wrap: wrap; align-content: flex-start;">
 			
 		</div>
 	</div>
 </nav>
 
-
+<!-- 아 왜 넘어가는데!!!!!!!!!! -->
+<sec:authorize access="isAnonymous()">
+	<script>
+		document.querySelectorAll('#ccc').forEach((one) => {
+			one.addEventListener('click', function(e) {
+				e.preventDefault();
+				alert('땡!');
+				return false;
+			});
+		});
+	</script>
+</sec:authorize>
 
 
 
@@ -68,38 +86,50 @@ document.querySelector("#club-create-btn").onclick = () => {
 };
 
 	  
-
+let selected;
 const categoryContainer = document.querySelector("#category-container");
 const categoryModalContainer = document.querySelector("#category-modal-container");
 const categoryModalLeft = document.querySelector("#category-modal-left");
 const categoryModalRight = document.querySelector("#category-modal-right");
 const categoryDiv = document.querySelectorAll("#category-modal-left-upper div");
 
+const dark = document.querySelector("#dark");
+
+
 categoryContainer.addEventListener('mouseover', () => {
 	categoryModalLeft.style.display = "block";
+	dark.style.display = "block";
 });
 categoryModalContainer.addEventListener('mouseover', () => {
 	categoryModalLeft.style.display = "block";
+	dark.style.display = "block";
 });
 
 categoryContainer.addEventListener('mouseout', () => {
 	categoryModalLeft.style.display = "none";
-	categoryModalRight.style.display = "none";
+	//categoryModalRight.style.display = "none";
 });
+/*
 categoryModalContainer.addEventListener('mouseout', () => {
 	categoryModalLeft.style.display = "none";
 	categoryModalRight.style.display = "none";
-});
-/* categoryModalRight.addEventListener('mouseout', () => {
+});*/
+/*categoryModalRight.addEventListener('mouseout', () => {
 	categoryModalRight.style.display = "none";
-}); */
+});*/
+dark.addEventListener('click', () => {
+	categoryModalLeft.style.display = 'none';
+	categoryModalRight.style.display = 'none';
+	dark.style.display = 'none';
+});
 
 categoryDiv.forEach((element) => {
-	element.addEventListener("mouseover", function(e) {
-		categoryModalRight.style.display = "block";
+	element.addEventListener("click", function(e) {
+		categoryModalRight.style.display = "flex";
 		
 		const value = e.target.innerText;
 		console.log(value);
+		selected = value;
 		
 		categoryModalRight.innerHTML = '';
 		
@@ -112,19 +142,15 @@ categoryDiv.forEach((element) => {
 				console.log(response);
 				response.forEach((club) => {
 					categoryModalRight.innerHTML += `
-						<a class="card" style="width: 18rem;" href="${pageContext.request.contextPath}/club/\${club.domain}">
+						<a class="card" id="ccc" style="width: 9rem; text-align:center;" href="${pageContext.request.contextPath}/club/\${club.domain}">
 							<img src="${pageContext.request.contextPath}/resources/upload/club/profile/\${club.renamedFilename}" class="card-img-top" alt="..." />
-							  <div class="card-body">
-							    <h5 class="card-title">\${club.clubName}</h5>
-							    <p class="card-text">\${club.introduce}</p>
-							  </div>
-							  <ul class="list-group list-group-flush">
-							    <li class="list-group-item">\${club.category}</li>
-							    <li class="list-group-item">인원수 : \${club.memberCount}</li>
-							  </ul>
+							    <span class="card-title">\${club.clubName}</span>
 						</a>
 					`;
 				});
+				categoryModalRight.innerHTML += `
+				<a href="${pageContext.request.contextPath}/club/clubSearch.do?inputText=\${selected}">더보기</a>
+				`;
 			}
 		});
 		
@@ -132,6 +158,10 @@ categoryDiv.forEach((element) => {
 
 });
 
-
+/*
+window.onload = () => {
+	location.href = "${pageContext.request.contextPath}/club/checkLogin.do"
+};
+*/
 
 </script>

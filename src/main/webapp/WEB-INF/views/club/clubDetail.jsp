@@ -17,20 +17,20 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="reportModalLabel"></h5>
+            <h5 class="modal-title" id="reportModalLabel">모임 신고</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
 	          <span>신고 도메인 : </span>
-	          <input type="text" name="domain" id="domain" value="${domain}" readonly/>
+	          <input type="text" class="form-control" name="domain" id="domain" value="${domain}" readonly/>
 	          <br/><br/>
 	          <span>신고자 : </span>
-	          <input type="text" name="reporter" id="reporter" value="${memberId}" readonly/>
-	          <br/><br/><br/>
+	          <input type="text" class="form-control" name="reporter" id="reporter" value="${memberId}" readonly/>
+	          <br/><br/>
 	          <span>신고 사유</span><br/>
-	          <textarea name="reason" id="reason" placeholder="신고 내용을 입력해주세요." required style="resize:none;"></textarea>
+	          <textarea name="reason" class="form-control" id="reason" placeholder="신고 내용을 입력해주세요." required style="resize:none;"></textarea>
           </div>
           <div class="modal-footer flex-column">
             <div class="d-flex justify-content-between w-100">
@@ -68,6 +68,7 @@
 			<button type="button" class="btn btn-success" id="club-update-btn">모임 정보 수정</button>
 			<button type="button" class="btn btn-danger" id="clubDisabled">모임 삭제</button>
 			<button type="button" class="btn btn-warning" id="club-style-update">모임 스타일 설정</button>
+			<button type="button" class="btn btn-info" id="club-title-update">모임 타이틀 설정</button>
 		</c:if>
 		
 		<button type="button" class="btn btn-danger" id="clubReport">🚨</button>
@@ -78,8 +79,15 @@
 		</c:if>
 		
 		<a href ="${pageContext.request.contextPath}/club/${domain}/clubMemberList.do">모임내 회원조회</a>
+			<button type="button" class="btn btn-danger" id="clubLike" onclick="clubLike()">❤️</button>
 	</nav>
-	
+	<form:form
+		name="clubLikeFrm"
+		action="${pageContext.request.contextPath}/club/clubLike.do"
+		method="POST">
+			<input type="hidden" id="memberId" name="memberId" value="${memberId}">
+			<input type="hidden" id="domain" name="domain" value="${domain}">
+	</form:form>
 	<nav>
 		<h3>메뉴 바</h3>
 		<a href="${pageContext.request.contextPath}/club/${domain}/clubBoardList.do">게시판</a>
@@ -88,9 +96,8 @@
 	</nav>
 	
 
-<%-- 	<jsp:include page="/WEB-INF/views/club/clubLayout/clubLayoutType${layout.type}.jsp"></jsp:include> --%>
+	<jsp:include page="/WEB-INF/views/club/clubLayout/clubLayoutType${layout.type}.jsp"></jsp:include>
 
-	<jsp:include page="/WEB-INF/views/club/clubLayout/clubLayoutType0.jsp"></jsp:include>
 	
 </section>
 	<div>
@@ -158,6 +165,10 @@ document.querySelector("#club-style-update").onclick = () => {
 	location.href = '${pageContext.request.contextPath}/club/'+domain+'/clubStyleUpdate.do';
 }
 
+document.querySelector("#club-title-update").onclick = () => {
+	location.href = '${pageContext.request.contextPath}/club/'+domain+'/clubTitleUpdate.do';
+}
+
 console.log('${layout}');
 document.body.style.background = '${layout.backgroundColor}';
 
@@ -177,5 +188,15 @@ document.body.style.fontFamily = "${layout.font}";
         alert('${msg}');
     </script>
 </c:if>
+<script>
+// 모임 좋아요 (현우)
+	const clubLike = () => {
+		console.log("함수 연결이 잘 되었늬?")
+		const clubLikeFrm = document.clubLikeFrm;
+		console.log(clubLikeFrm);
+		clubLikeFrm.submit();
+	}
+
+</script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

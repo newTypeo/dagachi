@@ -38,7 +38,7 @@ header {
 	display: flex;
 	justify-content: flex-end;
 	align-items: center;
-	max-width: 1320px;
+	width: 1320px;
 	padding: 0 10px;
 }
 
@@ -70,19 +70,36 @@ header #header-nav-container span {
 	margin-left: 10px;
 }
 
-/************ main-banner *************/
-#main-banner {
-	height: 200px;
-}
-
-/*********** main-category ************/
-#main-category {
-	height: 70px;
-}
-
 /********** main-page-sec **********/
 #main-page-sec {
-	height: 700px;
+	background-color: lightblue;
+	width: 1320px;
+	margin: 0 auto;
+}
+
+#banner-and-info-container {
+	display: flex;
+	padding: 10px;
+}
+
+/************ main-banner *************/
+#main-banner {
+	background-color: lightgreen;
+	width: 960px;
+	border-radius: 10px;
+}
+
+#main-banner img {
+	width: 960px;
+	height: 400px;
+	border-radius: 10px;
+}
+
+/********** my-club-info ***********/
+#my-club-info {
+	background-color: lightpink;
+	width: 320px;
+	margin-left: 20px;
 }
 
 /********** footer **********/

@@ -12,18 +12,18 @@
 	<form:form  name="InquiryFrm"
 		action="${pageContext.request.contextPath}/admin/adminInquiryUpdate.do"
 		enctype="multipart/form-data" method="post">
-		<div>${adminInquiry.number}</div>
-		<div>${adminInquiry.writer}</div>
-		<div>${adminInquiry.created_at}</div>
-		<div>${adminInquiry.status}</div>
-		<div>${adminInquiry.open}</div>
+		<div>${inquiry.number}</div>
+		<div>${inquiry.writer}</div>
+		<div>${inquiry.created_at}</div>
+		<div>${inquiry.status}</div>
+		<div>${inquiry.open}</div>
 		
 		<div class="form-group">
-			<div>${adminInquiry.title}</div>
+			<div>${inquiry.title}</div>
 		</div>
 		<div class="input-group mb-3">
 			<div class="input-group-prepend">
-				<div>${adminInquiry.type}</div>
+				<div>${inquiry.type}</div>
 			</div>
 		</div>
 		
