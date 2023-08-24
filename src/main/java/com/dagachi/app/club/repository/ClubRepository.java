@@ -70,10 +70,6 @@ public interface ClubRepository {
    
    @Select("select club_id from club where domain = #{domain}")
    int clubIdFindByDomain(String domain);
-
-   
-   List<ClubBoard> boardList(int boardType);
-
    
    @Select("select count(*) from club_member where club_id = #{clubId}")
    int countClubMember(int clubId);
@@ -89,13 +85,8 @@ public interface ClubRepository {
    
    JoinClubMember clubMemberInfoByFindByMemberId(Map<String, Object> params);
    
-   
-
-   
-
-
 	
-	List<ClubBoard> boardList(ClubBoard clubBoard);
+	List<ClubBoard> boardList(ClubBoard clubBoard,RowBounds rowBounds);
 
 	@Select("select * from club where domain= #{domain}")
 	Club findByDomain(String domain);
@@ -272,7 +263,7 @@ public interface ClubRepository {
 	
 	List<Club> findClubByDistance(Set<String> zoneSet);
 
-	
+	int boardSize(ClubBoard clubBoard);
 
 }
    
