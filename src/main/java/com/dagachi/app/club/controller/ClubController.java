@@ -374,6 +374,10 @@ public class ClubController {
 	}
 
 	
+	/**
+	 * 모임 신고
+	 * @author 창환
+	 */
 	@PostMapping("/{domain}/clubReport.do")
 	public ResponseEntity<?> clubReport(
 			@PathVariable("domain") String domain,
