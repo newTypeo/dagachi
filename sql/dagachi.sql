@@ -1362,6 +1362,32 @@ update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63Szlhn
 
 commit;
 
+
+insert into club_member values('user9',2,sysdate,null,default,default);
+insert into club_member values('user9',4,sysdate,null,default,default);
+insert into club_member values('user9',7,sysdate,null,default,default);
+select * from club_member;
+select * from club_member where member_id = 'user9';
+
+select * from club;
+select * from club_profile;
+
+
+select * from (select * from club_member a join club b on a.club_id = b.club_id where a.member_id ='user9') c join club_profile d on c.club_id = d.club_id;
+
+SELECT 
+ *
+FROM (
+    SELECT *
+    FROM club_member a
+    JOIN club b ON a.club_id = b.club_id
+    where member_id = 'user9'
+    order by 2
+) c
+JOIN club_profile d ON c.club_id = d.club_id;
+
+select * from club_board where club_Id like 1  and content like '%' || '' || '%';
+
 --select * from club_apply;
 --select * from admin_inquiry;
 --
@@ -1372,3 +1398,4 @@ commit;
 --UPDATE admin_Inquiry
 --SET admin_id = {}, response = {}, status = '1', response_at = sysdate
 --WHERE Inquiry_id = {};
+

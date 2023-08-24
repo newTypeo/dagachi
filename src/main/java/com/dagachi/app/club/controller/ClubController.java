@@ -884,8 +884,23 @@ public class ClubController {
 			@RequestParam String searchTypeVal,
 			@RequestParam int boardTypeVal
 	){
-//		Map<Object, String> serchBoardMap=
 		
+		Club club = clubService.findByDomain(domain);
+		
+		int clubId=club.getClubId();
+		
+		Map<String, Object> searchBoardMap= Map.ofEntries(
+				Map.entry("clubId", clubId),
+				Map.entry("searchKeyword", searchKeywordVal),
+				Map.entry("searchType", searchTypeVal),
+				Map.entry("boardType", boardTypeVal)
+		);
+		
+		log.debug("serchBoardMap={}",searchBoardMap);
+		
+//	List<ClubBoard> boards= clubService.searchBoard(searchBoardMap);
+//	log.debug("boards={}",boards);
+	
 		return ResponseEntity.status(HttpStatus.OK).body(null);
 	}
 	
