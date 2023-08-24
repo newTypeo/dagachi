@@ -15,6 +15,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 
 import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
+import com.dagachi.app.admin.entity.AdminInquiry;
 import com.dagachi.app.club.entity.ClubDetails;
 import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.club.entity.ClubTag;
@@ -165,5 +166,26 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public Member findMemberByName(String username) {
 		return memberRepository.findMemberByName(username);
+	}
+	
+	@Override
+	public int UpdateMember(Member member) {
+		int result = 0;
+		
+		result = memberRepository.updateMember(member);
+		
+		return result;
+	}
+	
+	@Override
+	public int updateMemberProfile(MemberProfile memberProfile) {
+		int result = 0;
+		
+		result = memberRepository.updateMemberProfile(memberProfile);
+		return result;
+	}
+	@Override
+	public List<AdminInquiry> memberAdminInquiryList() {
+		return memberRepository.memberAdminInquiryList();
 	}
 }

@@ -46,9 +46,9 @@
 	
 	
 		<div id="main-logo-container">
-			<a href="${pageContext.request.contextPath}">
+			</a><a href="${pageContext.request.contextPath}">
 				<img id="main-logo" src="${pageContext.request.contextPath}/resources/images/004.png" class="p-2">
-			</a>
+			
 		</div>
 		
 		<sec:authorize access="isAnonymous()">

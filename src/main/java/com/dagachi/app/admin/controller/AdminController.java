@@ -13,17 +13,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.dagachi.app.Pagination;
+import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
+import com.dagachi.app.admin.dto.AdminInquiryUpdateDto;
 import com.dagachi.app.admin.entity.MainPage;
 import com.dagachi.app.admin.service.AdminService;
 import com.dagachi.app.club.controller.ClubController;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
+import com.dagachi.app.club.entity.ClubProfile;
+import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.club.service.ClubService;
 import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.service.MemberService;
@@ -37,17 +42,38 @@ public class AdminController {
 
 	@Autowired
 	private ClubService clubService;
-
+	
 	@Autowired
 	private MemberService memberService;
-
+	
 	@Autowired
 	private AdminService adminService;
+	
 
 	@GetMapping("/adminInquriyList.do")
 	public void InquriyList() {
 	}
+	
+	@GetMapping("/adminInquiryUpdate.do")
+	public String adminInquiryUpdate(@RequestParam int InquiryId, Model model) 
+	{
+		InquiryId = 4;
+		AdminInquiryCreateDto Inquiry = adminService.findInquiry(InquiryId);
+		model.addAttribute("Inquiry", Inquiry);
 
+		return "admin/adminInquiryUpdate";
+	}
+	
+
+	@PostMapping("/adminInquiryUpdate.do")
+	public String adminInquiryUpdate() {
+		AdminInquiryUpdateDto inquiryUpdate = null;
+				
+		int result = adminService.updateInquiry(inquiryUpdate);
+		
+		return null;
+	}
+	
 	/**
 	 * 관리자 모임 목록 조회
 	 * @author 종환
@@ -57,21 +83,21 @@ public class AdminController {
 			@RequestParam(defaultValue = "1") int page,
 			@RequestParam String keyword, 
 			@RequestParam String column, 
-			HttpServletRequest request,
+			HttpServletRequest request, 
 			Model model) {
 		int limit = 10;
 		String getCount = "getCount";
-
+		
 		Map<String, Object> params = new HashMap<>();
         params.put("page", page);
         params.put("limit", limit);
         params.put("keyword", keyword);
         params.put("column", column);
-
+        
 		List<Club> clubs = clubService.adminClubList(params);
 		// log.debug("clubs= {}", clubs);
 		model.addAttribute("clubs", clubs);
-
+		
 		// 전체게시물 수
 		params.put("getCount", getCount);
 		int totalCount = clubService.adminClubList(params).size();
@@ -81,7 +107,7 @@ public class AdminController {
 		pageBar = pageBar.replaceAll("\\?", "&");
 		pageBar = pageBar.replaceAll("#&", "\\?");
 		model.addAttribute("pagebar", pageBar);
-
+		
 	}
 
 	/**
@@ -96,19 +122,19 @@ public class AdminController {
 			HttpServletRequest request,
 			Model model) {
 		int limit = 10;
-
+		
 		log.debug("키워드야 안녕?", keyword);
-
+		
 		String getCount = "getCount";
 		Map<String, Object> params = new HashMap<>();
         params.put("page", page);
         params.put("limit", limit);
         params.put("keyword", keyword);
         params.put("column", column);
-
+        
 		List<Member> members = memberService.adminMemberList(params);
 		model.addAttribute("members", members);
-
+		
 		// 전체게시물 수
 		params.put("getCount", getCount);
 		int totalCount = memberService.adminMemberList(params).size();
@@ -119,7 +145,7 @@ public class AdminController {
 		pageBar = pageBar.replaceAll("#&", "\\?");
 		model.addAttribute("pagebar", pageBar);
 	}
-
+	
 	/**
 	 * 관리자 탈퇴 회원 목록에서 탈퇴 회원 조회
 	 * @author 현우
@@ -133,16 +159,16 @@ public class AdminController {
 			Model model) {
 		int limit = 10;
 		String getCount = "getCount";
-
+		
 		Map<String, Object> params = new HashMap<>();
 		params.put("page", page);
 		params.put("limit", limit);
 		params.put("keyword", keyword);
 		params.put("column", column);
-
+		
 		List<Member> members = memberService.adminQuitMemberList(params);
 		model.addAttribute("members", members);
-
+		
 		// 전체 게시물 수
 		params.put("getCount", getCount);
 		int totalCount = memberService.adminQuitMemberList(params).size();
@@ -164,21 +190,21 @@ public class AdminController {
 			@RequestParam String column,
 			HttpServletRequest request,
 			Model model) {
-
+		
 		int limit = 10;
 		String getCount = "getCount"; 
 		log.debug("키워드 : ", keyword);
 		log.debug("컬럼 : ", column);
-
+		
 		Map<String, Object> params = new HashMap<>();
 		params.put("page", page);
 		params.put("limit", limit);
 		params.put("keyword", keyword);
 		params.put("column", column);
-
+		
 		List<Member> members = memberService.adminReportMemberList(params);
 		model.addAttribute("members", members);
-
+		
 		// 전체 게시물 수
 		params.put("getCount", getCount);
 		int totalCount = memberService.adminReportMemberList(params).size();
@@ -188,9 +214,12 @@ public class AdminController {
 		pageBar = pageBar.replaceAll("\\?", "&");
 		pageBar = pageBar.replaceAll("#&", "\\?");
 		model.addAttribute("pagebar", pageBar);
+		
+		
 
+	
 	}
-
+	
 	@GetMapping("mainBannerList.do")
 	@ResponseBody
 	public ResponseEntity<?> mainBannerList() {
@@ -198,5 +227,5 @@ public class AdminController {
 		mainBanners = adminService.getMainBanner();
 		return ResponseEntity.status(HttpStatus.OK).body(mainBanners);
 	}
-
+	
 }
