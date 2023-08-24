@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -485,5 +486,10 @@ public class ClubServiceImpl implements ClubService {
 		return clubRepository.clubLike(params);
 	}
 	
+	
+	@Override
+	public List<Club> findClubByDistance(Set<String> zoneSet) {
+		return clubRepository.findClubByDistance(zoneSet);
+	}
 	
 }

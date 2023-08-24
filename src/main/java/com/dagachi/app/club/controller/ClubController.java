@@ -299,8 +299,8 @@ public class ClubController {
 		
 		
 		// 주변의 모든 법정동리스트로 모임 조회 후 리턴
-		// List<Club> clubs = clubService.findClubByDistance(zoneSet);
-		
+		List<Club> clubs = clubService.findClubByDistance(zoneSet);
+		log.debug("clubs = {}", clubs);
 		
 		
 		// 중복된 모임을 어떻게 필터링할 수 있을까?
