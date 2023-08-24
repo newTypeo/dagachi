@@ -43,7 +43,7 @@ div#search-content {
 	</div>
 
 	<div id="search-container">
-		
+
 		<div>
 			<label for="searchType">검색타입 :</label> <select id="searchType">
 				<option value="title">제목</option>
@@ -94,10 +94,68 @@ div#search-content {
 		<tbody></tbody>
 	</table>
 
+	<nav aria-label="Page navigation example">
+		<ul class="pagination justify-content-center">
+			<li id="prevPage" class="page-item disabled"><a
+				class="page-link">이전</a></li>
+					
+
+			<li id="nextPage" class="page-item"><a class="page-link">다음</a>
+			</li>
+		</ul>
+	</nav>
 </section>
 
 
 <script>
+
+//page script
+
+	let currentPage=1;
+	let lastPage;
+ 
+	document.querySelector("#prevPage").addEventListener("click",()=>{
+		const boardTypeVal= document.querySelector("#boardType").value;
+		
+		pageButtonChange(currentPage);
+		
+		if(currentPage>1){
+			currentPage--;
+			renderBoardList(boardTypeVal);
+		}
+		
+	});
+	
+
+	document.querySelector("#nextPage").addEventListener("click",()=>{
+		const boardTypeVal= document.querySelector("#boardType").value;
+		
+		if(currentPage<lastPage){
+			currentPage++;
+			renderBoardList(boardTypeVal);
+		}
+	});
+    
+	const pageButtonChange=(currentPage)=>{
+		const prevPage = document.getElementById("prevPage");
+		const nextPage = document.getElementById("nextPage");
+		
+		if(currentPage===1)
+			prevPage.classList.add("disabled");
+		else
+			prevPage.classList.remove("disabled");
+		
+		
+		if(lastPage===currentPage)
+			nextPage.classList.add("disabled");
+		else
+			nextPage.classList.remove("disabled");
+		
+		
+	};
+	
+//
+
 
 	const searchClubBoard=(e)=>{
 		e.preventDefault();
@@ -178,21 +236,24 @@ div#search-content {
 		const boardType =e.target.value;
 		const tbody =document.querySelector("#boardTable tbody");
 		renderBoardList(boardType);
+		currentPage =1;
 	});
 	
 	
 	const renderBoardList =(boardType)=>{
+
+		const page=currentPage;
+		
 		$.ajax({
 			url : '${pageContext.request.contextPath}/club/${domain}/findBoardType.do',
 			method:"GET",
-			data :{boardType},
-			success(boards){
-				console.log(boards);
-				
+			data :{boardType,page},
+			success(data){
+				console.log(data);
 				const tbody =document.querySelector("#boardTable tbody");
 				let html='';
-				if(boards.length>0){
-					html = boards.reduce((html,board)=>{	
+				if(data.boards.length>0){
+					html = data.boards.reduce((html,board)=>{	
 						
 					const {boardId,clubId,content,createdAt,likeCount,status,title,type,writer} = board;
 					let typeText;
@@ -226,9 +287,47 @@ div#search-content {
 				}
 				
 				tbody.innerHTML= html;
+				
+				renderPage(data.boardSize);
 			}
 		});
 	}
+	
+	const pageChange=(page)=>{
+		currentPage=page;
+		
+		const boardTypeVal= document.querySelector("#boardType").value;
+		renderBoardList(boardTypeVal);
+		pageButtonChange(currentPage);
+	};
+	
+	
+	
+	const renderPage=(boardSize)=>{
+		
+		 const totalPosts =boardSize;
+		 const postsPerPage = 10;
+		 lastPage = Math.ceil(totalPosts / postsPerPage);
+		 const pagecut=5;
+		 
+		
+        const showPage = Math.floor(currentPage-1/pagecut)*pagecut;
+		
+        document.querySelector("#nextPage").insertAdjacentHTML('beforebegin',"");
+		
+		 
+		 
+		 
+		 
+		for(let i=1; i<=pagecut; i++){
+			if(showPage+i <= lastPage){
+				document.querySelector("#nextPage").insertAdjacentHTML('beforebegin',
+							`<li class="page-item"><a class="page-link" value="\${showPage+i}" onclick="pageChange(\${showPage+i})">\${showPage+i}</a></li>`
+				);
+			}
+		}
+		
+	};
 </script>
 
 
