@@ -475,5 +475,15 @@ public class ClubServiceImpl implements ClubService {
 		return clubRepository.searchBoard(searchBoardMap);
 	}
 	
+	@Override
+	public int checkDuplicateClubLike(int targetId) {
+		return clubRepository.checkDuplicateClubLike(targetId);
+	}
+	
+	@Override
+	public int clubLike(Map<String, Object> params) {
+		return clubRepository.clubLike(params);
+	}
+	
 	
 }

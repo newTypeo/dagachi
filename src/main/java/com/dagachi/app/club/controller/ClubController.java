@@ -374,6 +374,10 @@ public class ClubController {
 	}
 
 	
+	/**
+	 * 모임 신고
+	 * @author 창환
+	 */
 	@PostMapping("/{domain}/clubReport.do")
 	public ResponseEntity<?> clubReport(
 			@PathVariable("domain") String domain,
@@ -855,10 +859,9 @@ public class ClubController {
 	
 	@PostMapping("/{domain}/clubStyleUpdate.do")
 	public String clubLayoutUpdate(@PathVariable("domain") String domain, ClubStyleUpdateDto style) {
-		
 		int clubId = clubService.clubIdFindByDomain(domain);
-
-		
+		style.setClubId(clubId);
+		int result = clubService.clubStyleUpdate(style);
 		return "redirect:/club/" + domain; 
 	}
 	
@@ -949,6 +952,32 @@ public class ClubController {
 		 }
 		 
 		 return ResponseEntity.status(HttpStatus.OK).body(username);
+	 }
+	 
+	 @PostMapping("/clubLike.do")
+	 public String clubLike(
+			 @RequestParam String memberId,
+			 @RequestParam String domain,
+			 RedirectAttributes attr
+			 ) {
+		 log.debug("멤버 아이디 : {}", memberId);
+		 log.debug("도메인 : {}", domain);
+		 
+		 Club club = clubService.findByDomain(domain);
+		 int targetId = club.getClubId();
+		 Map<String, Object> params = Map.of(
+				 "memberId", memberId,
+				 "targetId", targetId
+				 );
+		 log.debug("타겟 아이디 : {},", targetId);
+		 
+		 int checkDuplicate = clubService.checkDuplicateClubLike(targetId);
+		 log.debug("체크 튜플리케이트 : {},", checkDuplicate);
+		 
+		 if(checkDuplicate == 0) {
+			int result = clubService.clubLike(params); 
+		 }
+		 return "redirect:/club/" + domain;
 	 }
 	
 }
