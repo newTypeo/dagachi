@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AdminInquiryUpdateDto {
 	private String inquiryId;
-	private int status; 
+	private int status;  
 	private String adminId;
 	private String response;
 	private int open;
