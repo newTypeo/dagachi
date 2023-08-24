@@ -1,5 +1,7 @@
 package com.dagachi.app.club.controller;
 
+import static com.dagachi.app.common.DagachiUtils.*;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -265,7 +267,11 @@ public class ClubController {
 	}
 	
 	@GetMapping("clubSearchSurrounded.do")
-	public void clubSearchSurrounded() {}
+	public void clubSearchSurrounded(@AuthenticationPrincipal MemberDetails member, Model model) {
+		ActivityArea activityArea = memberService.findActivityAreaById(member.getMemberId());
+		String mainAreaId = activityArea.getMainAreaId();
+		model.addAttribute("mainAreaId", mainAreaId);
+	}
 	
 	/**
 	 * 활동지역 중심 주변모임 검색
@@ -273,13 +279,31 @@ public class ClubController {
 	 */
 	@GetMapping("clubSearchByDistance.do")
 	public ResponseEntity<?> clubSearchByDistance(
-			@AuthenticationPrincipal MemberDetails member,
-			@RequestParam int distance) {
-		String memberId = member.getMemberId();
-		System.out.println(memberId);
-		ActivityArea activityArea = memberService.findActivityAreaById(memberId);
-		System.out.println(activityArea);
-		return ResponseEntity.status(HttpStatus.OK).body(activityArea);
+			@RequestParam int distance, 
+			@RequestParam String mainAreaName, // "서울특별시 **구 **동"
+			@AuthenticationPrincipal MemberDetails member) throws UnsupportedEncodingException {
+		// 거리 별로 360에 나눌 각도 Map 셋팅
+		Map<Integer, Double> anglePattern = // km(key)별로 360도를 나눌 각도(value) 
+				Map.of(1, 45.0, 2, 30.0, 3, 22.5, 4, 18.0, 5, 15.0, 6, 11.25, 7, 9.0, 8, 7.5, 9, 6.0, 10, 5.0);
+		
+		JsonArray documents = kakaoMapApi(mainAreaName, "address"); // api요청 결과를 json배열로 반환하는 method
+		JsonElement document = documents.getAsJsonArray().get(0);
+	    JsonObject item = document.getAsJsonObject();
+		double x = item.get("x").getAsDouble();
+		double y = item.get("y").getAsDouble();
+		
+		
+		// 싸인 코사인으로 계산하는 메소드
+		getAreaNamesByDistance(x, y, distance, anglePattern);
+		
+		// 계산한 좌표로 바로바로 조회할거? 조회한다면 법정동명 set에 추가
+		
+		// 주변의 모든 법정동리스트로 모임 조회 후 리턴
+		
+		
+		System.out.println(x);
+		System.out.println(y);
+		return ResponseEntity.status(HttpStatus.OK).body("안녕~");
 	}
 	
 	
@@ -641,7 +665,7 @@ public class ClubController {
 			return null;
 		String SearchType = "address";
 
-		JsonArray documents = DagachiUtils.kakaoMapApi(keyword, SearchType);
+		JsonArray documents = kakaoMapApi(keyword, SearchType);
 
 		Gson gson = new Gson();
 
