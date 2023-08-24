@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -84,6 +85,7 @@ import lombok.extern.slf4j.Slf4j;
 @SessionAttributes({"inputText"})
 public class ClubController {
 
+	private final JavaMailSender javaMailSender;
 	
 	static final int LIMIT = 10;
 
@@ -97,8 +99,6 @@ public class ClubController {
 	public ClubController(JavaMailSender javaMailSender) {
 		this.javaMailSender = javaMailSender;
 	}
-	
-	private final JavaMailSender javaMailSender;
 
 	
 	@GetMapping("/main.do")
@@ -889,10 +889,16 @@ public class ClubController {
 		return ResponseEntity.status(HttpStatus.OK).body(null);
 	}
 	
-	 @PostMapping("/searchIdModal.do")
+	/**
+	 * 이메일인증으로 아이디 찾기
+	 * @author 준한
+	 */
+	@PostMapping("/searchIdModal.do")
 	 public ResponseEntity<?> sendVerificationCode(
 			 @RequestParam("username") String username, 
-             @RequestParam("email") String email) {
+             @RequestParam("email") String email,
+             JavaMailSender javaMailSender
+			 ) {
 		 
 		 Member member = memberService.findMemberByName(username);
 		 Member member2 = memberService.findMemberByEmail(email);
@@ -902,12 +908,15 @@ public class ClubController {
 		 
 		 if(member != null && member2 != null && member.equals(member2)) {
 			 // 입력받은 이름과 이메일이 db에 있는 정보와 일치할 시,
-			 double randomValue = Math.random(); // 0 이상 1 미만의 랜덤한 double 값
-		     String randomValueAsString = Double.toString(randomValue);
+//			 0 이상 1 미만의 랜덤한 double 값
+//			 double randomValue = Math.random(); 
+//		     String randomValueAsString = Double.toString(randomValue);
+			 String title = "다가치 아이디 찾기 인증코드 발송메일";
+			 String hi = "hi";
 			 SimpleMailMessage message = new SimpleMailMessage();
 			 message.setTo(email);
-			 message.setSubject("다가치 아이디 찾기 인증코드 발송메일");
-			 message.setText(randomValueAsString);
+			 message.setSubject(title);
+			 message.setText(hi);
 			 
 			 javaMailSender.send(message);
 			 
