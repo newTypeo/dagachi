@@ -94,4 +94,10 @@ public interface MemberRepository {
 	@Select("select * from member where name = #{username}")
 	Member findMemberByName(String username);
 	
+	@Insert("insert into member_like values(seq_member_like_id.nextval, #{loginMemberId}, #{memberId}, default)")
+	int memberLike(Map<String, Object> params);
+
+	@Select("select count(*) from member_like where like_sender = #{memberId}")
+	int checkDuplicateMemberId(String memberId);
+	
 }

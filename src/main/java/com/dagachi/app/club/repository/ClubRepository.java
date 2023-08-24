@@ -213,7 +213,6 @@ public interface ClubRepository {
 	@Select("select count(*) from recent_visit_list where club_id = #{clubId}")
 	int checkDuplicateClubId(int clubId);
 
-
 	
 	@Update("update club_board_attachment set thumbnail=#{thumbnail} where id=#{id}")
 	int updateThumbnail(ClubBoardAttachment clubBoardAttachment);
@@ -263,8 +262,14 @@ public interface ClubRepository {
 	int clubStyleUpdate(ClubStyleUpdateDto style);
 	
 	List<ClubBoard> searchBoard(Map<String, Object> searchBoardMap);
+	
+	@Select("select count(*) from cbc_like where target_id = #{targetId}")
+	int checkDuplicateClubLike(int targetId);
+	
+	@Insert("insert into cbc_like values(#{memberId}, 1, #{targetId}, default)")
+	int clubLike(Map<String, Object> params);
 
-
+	
 
 }
    

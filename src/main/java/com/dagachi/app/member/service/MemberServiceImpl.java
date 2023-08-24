@@ -166,4 +166,14 @@ public class MemberServiceImpl implements MemberService{
 	public Member findMemberByName(String username) {
 		return memberRepository.findMemberByName(username);
 	}
+	
+	@Override
+	public int memberLike(Map<String, Object> params) {
+		return memberRepository.memberLike(params);
+	}
+	
+@Override
+	public int checkDuplicateMemberId(String memberId) {
+		return memberRepository.checkDuplicateMemberId(memberId);
+	}
 }

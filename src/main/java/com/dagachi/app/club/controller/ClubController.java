@@ -933,6 +933,32 @@ public class ClubController {
 		 
 		 return ResponseEntity.status(HttpStatus.OK).body(username);
 	 }
+	 
+	 @PostMapping("/clubLike.do")
+	 public String clubLike(
+			 @RequestParam String memberId,
+			 @RequestParam String domain,
+			 RedirectAttributes attr
+			 ) {
+		 log.debug("멤버 아이디 : {}", memberId);
+		 log.debug("도메인 : {}", domain);
+		 
+		 Club club = clubService.findByDomain(domain);
+		 int targetId = club.getClubId();
+		 Map<String, Object> params = Map.of(
+				 "memberId", memberId,
+				 "targetId", targetId
+				 );
+		 log.debug("타겟 아이디 : {},", targetId);
+		 
+		 int checkDuplicate = clubService.checkDuplicateClubLike(targetId);
+		 log.debug("체크 튜플리케이트 : {},", checkDuplicate);
+		 
+		 if(checkDuplicate == 0) {
+			int result = clubService.clubLike(params); 
+		 }
+		 return "redirect:/club/" + domain;
+	 }
 	
 }
 
