@@ -847,9 +847,7 @@ public class ClubController {
 	@GetMapping("/{domain}/clubStyleUpdate.do")
 	public String clubLayoutUpdate(@PathVariable("domain") String domain, Model model) {
 		int clubId = clubService.clubIdFindByDomain(domain);
-
 		ClubLayout layout = clubService.findLayoutById(clubId);
-		
 		model.addAttribute("layout", layout);
 		model.addAttribute("domain", domain);
 		return "club/clubStyleUpdate";
@@ -859,11 +857,21 @@ public class ClubController {
 	public String clubLayoutUpdate(@PathVariable("domain") String domain, ClubStyleUpdateDto style) {
 		
 		int clubId = clubService.clubIdFindByDomain(domain);
-		style.setClubId(clubId);
-		int result = clubService.clubStyleUpdate(style);
+
 		
 		return "redirect:/club/" + domain; 
 	}
+	
+	@GetMapping("/{domain}/clubTitleUpdate.do")
+	public String clubTitleUpdate(@PathVariable("domain") String domain, Model model) {
+		int clubId = clubService.clubIdFindByDomain(domain);
+		ClubLayout layout = clubService.findLayoutById(clubId);
+		System.out.println(layout);
+		model.addAttribute("layout", layout);
+		model.addAttribute("domain", domain);
+		return "club/clubTitleUpdate";
+	}
+	
 	
 	
 	@PostMapping("/{domain}/delBoard.do")
