@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
 import com.dagachi.app.member.dto.MemberCreateDto;
 import com.dagachi.app.member.entity.ActivityArea;
 import com.dagachi.app.member.entity.Member;
@@ -35,7 +36,9 @@ public interface MemberService extends UserDetailsService {
 
 	Member findMemberBymemberId(String memberId);
 	/*임시로그인*/
-	int insertMember(@Valid MemberCreateDto member);
+	int insertMember(MemberCreateDto member);
+
+	int InquiryCreate(AdminInquiryCreateDto inquiry);
 
 	ActivityArea findActivityAreaById(String memberId);
 	
@@ -43,6 +46,10 @@ public interface MemberService extends UserDetailsService {
 	MemberProfile findMemberProfile(String memberId);
 
 	List<MemberProfile> findMemberProfileByClubId(int clubId);
+
+	Member findMemberByName(String username);
+
+	Member findMemberByEmail(String email);
 
 
 }

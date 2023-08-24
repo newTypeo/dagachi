@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/club.css"/>
              
 
+
 <section>
 <!-- Modal -->
     <div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="reportModalLabel" aria-hidden="true">
@@ -86,7 +87,9 @@
 		<a href="${pageContext.request.contextPath}/club/${domain}/manageMember.do">회원관리</a>
 	</nav>
 	
-	<%-- <jsp:include page="/WEB-INF/views/club/clubLayout/clubLayoutType${layout.type}.jsp"></jsp:include> --%>
+
+<%-- 	<jsp:include page="/WEB-INF/views/club/clubLayout/clubLayoutType${layout.type}.jsp"></jsp:include> --%>
+
 	<jsp:include page="/WEB-INF/views/club/clubLayout/clubLayoutType0.jsp"></jsp:include>
 	
 </section>
@@ -136,7 +139,8 @@ const clubReportSubmit = () => {
 
 
 // 준한(모임 비활성화)
-	const domain = "<%= request.getAttribute("domain") %>"; // 서버 사이드에서 domain 값을 가져와서 설정
+	const domain = "<%= request.getAttribute("domain") %>"; 
+	// 서버 사이드에서 domain 값을 가져와서 설정
     document.querySelector("#clubDisabled").onclick = (e) => {
         const userConfirmation = confirm("정말 비활성화 하시겠습니까?");
         if (userConfirmation) {
@@ -168,5 +172,10 @@ console.log("${layout.font}")
 document.body.style.fontFamily = "${layout.font}";
 </script>
 
+<c:if test="${not empty msg}">
+    <script>
+        alert('${msg}');
+    </script>
+</c:if>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

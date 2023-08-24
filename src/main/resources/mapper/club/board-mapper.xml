@@ -66,6 +66,8 @@
 		    c.club_id = #{clubId} and
 		    c.club_member_role = 3
 	</select>
+	
+	
 </mapper>
 
 

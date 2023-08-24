@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
 import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.ClubEnrollDto;
@@ -126,6 +127,8 @@ public interface ClubService {
 	
 	int ClubEnroll(ClubEnrollDto enroll);
 
+	int clubEnrollDuplicated(ClubApply clubApply);
+
 	int insertClubReport(@Valid ClubReportDto clubReportDto);
 	
 	List<ClubAndImage> searchJoinClub(String memberId);
@@ -133,6 +136,9 @@ public interface ClubService {
 	List<ClubMemberAndImage> findClubMembers(int clubId);
 
 	int clubStyleUpdate(@Valid ClubStyleUpdateDto style);
+
+	List<ClubBoard> searchBoard(Map<String, Object> searchBoardMap);
+
 
 
 

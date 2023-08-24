@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 
+import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
 import com.dagachi.app.club.entity.ClubDetails;
 import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.club.entity.ClubTag;
@@ -77,6 +78,11 @@ public class MemberServiceImpl implements MemberService{
 			RowBounds rowBounds = new RowBounds(offset, limit);
 			return memberRepository.adminReportMemberList(rowBounds, params);
 	}
+	
+	@Override
+	public int InquiryCreate(AdminInquiryCreateDto inquiry) {
+		return memberRepository.InquiryCreate(inquiry);
+	}
 
 	/**
 	 * Spring Security에 의해 db사용자를 조회할때 사용
@@ -137,6 +143,7 @@ public class MemberServiceImpl implements MemberService{
 		return memberRepository.findMemberBymemberId(memberId);
 	}
 
+
 	@Override
 	public ActivityArea findActivityAreaById(String memberId) {
 		return memberRepository.findActivityAreaById(memberId);
@@ -148,5 +155,15 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public List<MemberProfile> findMemberProfileByClubId(int clubId) {
 		return memberRepository.findMemberProfileByClubId(clubId);
+	}
+	
+	@Override
+	public Member findMemberByEmail(String email) {
+		return memberRepository.findMemberByEmail(email);
+	}
+	
+	@Override
+	public Member findMemberByName(String username) {
+		return memberRepository.findMemberByName(username);
 	}
 }
