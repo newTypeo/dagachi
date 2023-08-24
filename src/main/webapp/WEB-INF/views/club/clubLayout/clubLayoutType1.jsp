@@ -37,12 +37,52 @@
 		</div>
 	</div>
 	
+	
+	
+	
 	<div id="club-main-container">
-		<div id="club-main-image-container">
-			<img src="${pageContext.request.contextPath}/resources/upload/club/main/${layout.mainImage}">
-		</div>
-		<div id="club-main-content-container">
-			<p class="fontColors">${layout.mainContent}</p>
+		<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+			<div class="carousel-inner">
+				<div class="carousel-item active">
+					<div id="club-gallery-container" class="preview-container">
+						<div class="container-header"
+							style="border-color: ${layout.pointColor}">
+							<span class="fontColors">갤러리</span> <a class="pointColors"
+								href="/"> 더보기<i class="fa-solid fa-angle-right"></i>
+							</a>
+						</div>
+						<div class="container-main-gallery">
+							<c:forEach items="${galleries}" var="gallery" varStatus="vs">
+								<div>
+									<a href="/"> <img
+										src="${pageContext.request.contextPath}/resources/upload/club/gallery/${gallery.renamedFilename}"
+										class="img-thumbnail${vs.index}">
+									</a>
+								</div>
+							</c:forEach>
+						</div>
+					</div>
+				</div>
+				<div class="carousel-item">
+					<div id="club-main-image-container">
+						<img
+							src="${pageContext.request.contextPath}/resources/upload/club/main/${layout.mainImage}">
+					</div>
+					<div id="club-main-content-container">
+						<p class="fontColors">${layout.mainContent}</p>
+					</div>
+				</div>
+			</div>
+			<button class="carousel-control-prev" type="button"
+				data-target="#carouselExampleControls" data-slide="prev">
+				<span aria-hidden="true"><i class="fa-solid fa-angle-left fa-2xl pointColors"></i></span>
+				<span class="sr-only">Previous</span>
+			</button>
+			<button class="carousel-control-next" type="button"
+				data-target="#carouselExampleControls" data-slide="next">
+				<span aria-hidden="true"><i class="fa-solid fa-angle-right fa-2xl pointColors"></i></span>
+				<span class="sr-only">Next</span>
+			</button>
 		</div>
 	</div>
 	
@@ -58,7 +98,7 @@
 				<c:if test="${board.type eq 4}">
 					<div>
 						<span class="badge badge-danger">공지</span>
-						<a class="fontColors">${board.title}</a>
+						<a class="fontColors" href="${pageContext.request.contextPath}/club/sportsclub/boardDetail.do?no=${board.boardId}">${board.title}</a>
 						<span>
 							<fmt:parseDate value="${board.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="createdAt"/>
 	    					<fmt:formatDate value="${createdAt}" pattern="yy.MM.dd HH:mm"/>
@@ -73,23 +113,7 @@
 		</div>
 	</div>
 	
-	<div id="club-gallery-container" class="preview-container">
-		<div class="container-header" style="border-color: ${layout.pointColor}">
-			<span class="fontColors">갤러리</span>
-			<a class="pointColors" href="/">
-				더보기<i class="fa-solid fa-angle-right"></i>
-			</a>
-		</div>
-		<div class="container-main">
-			<c:forEach items="${galleries}" var="gallery" >
-				<div>
-					<a href="/">
-						<img src="${pageContext.request.contextPath}/resources/upload/club/gallery/${gallery.renamedFilename}" class="img-thumbnail">
-					</a>
-				</div>
-			</c:forEach>
-		</div>
-	</div>
+	
 	
 	<div id="club-board-container" class="preview-container">
 		<div class="container-header" style="border-color: ${layout.pointColor}">
@@ -103,7 +127,7 @@
 				<c:if test="${board.type eq 1}">
 					<div>
 						<span class="pointColors">·</span>
-						<a class="fontColors">${board.title}</a>
+						<a class="fontColors" href="${pageContext.request.contextPath}/club/sportsclub/boardDetail.do?no=${board.boardId}">${board.title}</a>
 						<span>
 							<fmt:parseDate value="${board.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="createdAt"/>
 	    					<fmt:formatDate value="${createdAt}" pattern="MM.dd HH:mm"/>
@@ -130,7 +154,7 @@
 				<c:if test="${board.type eq 3}">
 					<div>
 						<span class="pointColors">·</span>
-						<a class="fontColors">${board.title}</a>
+						<a class="fontColors" href="${pageContext.request.contextPath}/club/sportsclub/boardDetail.do?no=${board.boardId}">${board.title}</a>
 						<span>
 							<fmt:parseDate value="${board.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="createdAt"/>
 	    					<fmt:formatDate value="${createdAt}" pattern="MM.dd HH:mm"/>
@@ -157,7 +181,7 @@
 				<c:if test="${board.type eq 2}">
 					<div>
 						<span class="pointColors">·</span>
-						<a class="fontColors">${board.title}</a>
+						<a class="fontColors" href="${pageContext.request.contextPath}/club/sportsclub/boardDetail.do?no=${board.boardId}">${board.title}</a>
 						<span>
 							<fmt:parseDate value="${board.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="createdAt"/>
 	    					<fmt:formatDate value="${createdAt}" pattern="MM.dd HH:mm"/>
@@ -197,3 +221,9 @@
 		</div>
 	</div>
 </article>
+
+<script>
+$('.carousel').carousel({
+	interval: false
+})
+</script>

@@ -68,6 +68,7 @@
 			<button type="button" class="btn btn-success" id="club-update-btn">모임 정보 수정</button>
 			<button type="button" class="btn btn-danger" id="clubDisabled">모임 삭제</button>
 			<button type="button" class="btn btn-warning" id="club-style-update">모임 스타일 설정</button>
+			<button type="button" class="btn btn-info" id="club-title-update">모임 타이틀 설정</button>
 		</c:if>
 		
 		<button type="button" class="btn btn-danger" id="clubReport">🚨</button>
@@ -88,9 +89,8 @@
 	</nav>
 	
 
-<%-- 	<jsp:include page="/WEB-INF/views/club/clubLayout/clubLayoutType${layout.type}.jsp"></jsp:include> --%>
+	<jsp:include page="/WEB-INF/views/club/clubLayout/clubLayoutType${layout.type}.jsp"></jsp:include>
 
-	<jsp:include page="/WEB-INF/views/club/clubLayout/clubLayoutType0.jsp"></jsp:include>
 	
 </section>
 	<div>
@@ -155,6 +155,10 @@ document.querySelector("#club-update-btn").onclick = () => {
 
 document.querySelector("#club-style-update").onclick = () => {
 	location.href = '${pageContext.request.contextPath}/club/'+domain+'/clubStyleUpdate.do';
+}
+
+document.querySelector("#club-title-update").onclick = () => {
+	location.href = '${pageContext.request.contextPath}/club/'+domain+'/clubTitleUpdate.do';
 }
 
 console.log('${layout}');
