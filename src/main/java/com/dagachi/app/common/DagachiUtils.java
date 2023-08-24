@@ -109,8 +109,9 @@ public class DagachiUtils {
 	}
 	
 	
-	public static void getAreaNamesByDistance(double x, double y, int distance, Map<Integer, Double> anglePattern) throws UnsupportedEncodingException {
-		Set<String> set = new HashSet<>();
+	public static Set<String> getAreaNamesByDistance(double x, double y, int distance, Map<Integer, Double> anglePattern) 
+			throws UnsupportedEncodingException {
+		Set<String> zoneSet = new HashSet<>();
 		// 내부for문 반복 횟수
 		// anglePattern과 distance를 통해 반복문 생성
 		
@@ -124,9 +125,7 @@ public class DagachiUtils {
 				double _x = x + (i * 0.009) * (Math.cos(angle * j) == 0 ? 1 : Math.cos(angle * j));
 				double _y = y + (i * 0.009) * (Math.sin(angle * j) == 0 ? 1 : Math.sin(angle * j));
 				
-				
 				// 위에서 구한 좌표로 api에 요청하여 법정동명 구하기
-				String searchType = "coord2regioncode";
 				String xAndY = "x=" + _x + "&y=" + _y;
 				
 				RestTemplate restTemplate = new RestTemplate(); // 타서버로의 요청객체
@@ -149,19 +148,20 @@ public class DagachiUtils {
 		            JsonNode firstDocument = responseJson.path("documents").get(0);
 
 		            // region_3depth_name 값을 가져옴
-		            String region1DepthName = firstDocument.path("region_1depth_name").asText();
-		            log.debug(region1DepthName);
-		            String region3DepthName = firstDocument.path("region_3depth_name").asText();
-
+		            String state = firstDocument.path("region_1depth_name").asText(); // 시|군|구
+		            if(!"서울특별시".equals(state)) {
+		            	continue;
+		            }
+		            String zone = firstDocument.path("region_3depth_name").asText(); // 동
 		            // 위에서 구한 법정동 명을 set에 삽입(중복허용x)
-		            set.add(region3DepthName);
+		            zoneSet.add(zone);
 		        } catch (Exception e) {
 		            e.printStackTrace();
 		        }
 		        
 			}
 		}
-		System.out.println(set);
+		return zoneSet;
 	}
 	
 }

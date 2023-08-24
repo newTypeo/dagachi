@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -23,6 +24,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StopWatch;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -292,13 +294,17 @@ public class ClubController {
 		double x = item.get("x").getAsDouble();
 		double y = item.get("y").getAsDouble();
 		
-		
 		// 싸인 코사인으로 계산하는 메소드
-		getAreaNamesByDistance(x, y, distance, anglePattern);
+		Set<String> zoneSet = getAreaNamesByDistance(x, y, distance, anglePattern); // 검색할 km기반으로 주변 동이름이 들어있는 set 반환
 		
-		// 계산한 좌표로 바로바로 조회할거? 조회한다면 법정동명 set에 추가
 		
 		// 주변의 모든 법정동리스트로 모임 조회 후 리턴
+		// List<Club> clubs = clubService.findClubByDistance(zoneSet);
+		
+		
+		
+		// 중복된 모임을 어떻게 필터링할 수 있을까?
+		
 		
 		return ResponseEntity.status(HttpStatus.OK).body("안녕~");
 	}
