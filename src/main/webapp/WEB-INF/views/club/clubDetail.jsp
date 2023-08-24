@@ -139,7 +139,8 @@ const clubReportSubmit = () => {
 
 
 // 준한(모임 비활성화)
-	const domain = "<%= request.getAttribute("domain") %>"; // 서버 사이드에서 domain 값을 가져와서 설정
+	const domain = "<%= request.getAttribute("domain") %>"; 
+	// 서버 사이드에서 domain 값을 가져와서 설정
     document.querySelector("#clubDisabled").onclick = (e) => {
         const userConfirmation = confirm("정말 비활성화 하시겠습니까?");
         if (userConfirmation) {
