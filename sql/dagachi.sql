@@ -49,20 +49,25 @@
 --drop sequence seq_club_id;
 --drop sequence seq_club_report_id;
 --drop sequence seq_chat_log_id;
+--
 --drop sequence seq_member_id;
 --drop sequence seq_member_report_id;
 --drop sequence seq_member_like_id;
+--
 --drop sequence seq_club_gallery_id;
 --drop sequence seq_club_board_id;
 --drop sequence seq_club_gallery_attachment_id;
 --drop sequence seq_club_board_attachment_id;
 --drop sequence seq_board_comment_id;
+--
 --drop sequence seq_club_schedule_id;
 --drop sequence seq_club_schedule_place_id;
+--
 --drop sequence seq_main_page_id;
 --drop sequence seq_admin_notice_id;
+--
 --drop sequence seq_alarm_id;
-
+--drop sequence seq_Inquiry_id;
 ------------------------------------------------- 시퀀스 -------------------------------------------------
 create sequence seq_club_id;
 create sequence seq_club_report_id;
@@ -86,29 +91,6 @@ create sequence seq_admin_notice_id;
 
 create sequence seq_alarm_id;
 
----------------------------------------------- 시퀀스 삭제 ----------------------------------------------
---drop sequence seq_club_id;
---drop sequence seq_club_report_id;
---drop sequence seq_chat_log_id;
---
---drop sequence seq_member_id;
---drop sequence seq_member_report_id;
---drop sequence seq_member_like_id;
---
---drop sequence seq_club_gallery_id;
---drop sequence seq_club_board_id;
---drop sequence seq_club_gallery_attachment_id;
---drop sequence seq_club_board_attachment_id;
---drop sequence seq_board_comment_id;
---
---drop sequence seq_club_schedule_id;
---drop sequence seq_club_schedule_place_id;
---
---drop sequence seq_main_page_id;
---drop sequence seq_admin_notice_id;
---
---drop sequence seq_alarm_id;
---DROP SEQUENCE seq_Inquiry_id;
 
 ------------------------------------------------- 테이블 -------------------------------------------------
 create table member (
