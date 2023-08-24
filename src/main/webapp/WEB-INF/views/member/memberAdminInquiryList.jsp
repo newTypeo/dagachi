@@ -3,166 +3,101 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param value="관리자에게 문의하기" name="title" />
-</jsp:include>
-<style>
+<fmt:requestEncoding value="utf-8" />
+<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
-div#search-title {
-	display: inline-block;
-}
+<section id="admin-report-inquiry-list-sec" class="p-2 report-inquiry-list">
+	<h1>QnA</h1>
 
-div#search-writer {
-	display: none;
-}
+	<div id="report-inquiry-list-wrapper">
+		<div id="search-container">
+			<div id="searchBar-wrap">
+				<table id="reportInquiryListTable">
+					<thead>
+						<tr>
+						</tr>
+					</thead>
+					<tbody>
+						<c:if test="${empty inquiry}">
+							<tr>
+								<td colspan="7">조회된 문의가 없습니다.</td>
+							</tr>
+						</c:if>
+						<c:if test="${not empty inquiry}">
+							<c:forEach items="${inquiry}" var="inquiry" varStatus="vs">
+							        <tr>
+							            <c:if test="${inquiry.open == 1}"><td>🔒</td></c:if>
+							            <c:if test="${inquiry.open == 0}"><td>🔓</td></c:if>
+							            <td>${inquiry.inquiryId}</td>
+										<c:choose>
+										    <c:when test="${inquiry.type == 1}">
+										        <td>회원 정보 문의</td>
+										    </c:when>
+										    <c:when test="${inquiry.type == 2}">
+										        <td>소모임 관련 문의</td>
+										    </c:when>
+										    <c:when test="${inquiry.type == 3}">
+										        <td>결제 문의</td>
+										    </c:when>
+										    <c:when test="${inquiry.type == 4}">
+										        <td>신고 문의</td>
+										    </c:when>
+										    <c:otherwise>
+										        <td>알 수 없는 문의</td>
+										    </c:otherwise>
+										</c:choose>		
+						
+							            <td class="toggle-title" data-toggle-target="#response-${vs.index}">
+							                <span style="cursor: pointer;">${inquiry.title}</span>
+							            </td>
+							            <td>${inquiry.writer}</td>
+							            <td>
+							                <fmt:parseDate value="${inquiry.createdAt}" var="createdAt" pattern="yyyy-MM-dd"></fmt:parseDate>
+							                <fmt:formatDate value="${createdAt}" pattern="yy/MM/dd"/>
+							            </td>
+							            
+							            <td>
+							            
+							                <div id="response-${vs.index}" style="display: none;">
+							              		<c:if test="${inquiry.open == 0}">
+										           <c:if test="${empty inquiry.response}">
+											             ${inquiry.content}
+											             아직 답변이 달리지 않았습니다.
+										            </c:if>
+									                <c:if test="${not empty inquiry.response}">
+									         	         ${inquiry.content}
+									                	 ${inquiry.response}
+									                    <fmt:parseDate value="${inquiry.responseAt}" var="responseAt" pattern="yyyy-MM-dd"></fmt:parseDate>
+									                    <fmt:formatDate value="${responseAt}" pattern="yy/MM/dd"/>
+									                </c:if>
+								                </c:if>
+									            <c:if test="${inquiry.open == 1}">
+									            		권한이 없습니다.
+									            </c:if>								                
+								              </div>							            
+							            
 
-div#search-content {
-	display: none;
-}
-</style>
-<script>
-	window.onload = ()=>{
-		renderBoardList(0);
-	};
-</script>
 
-
-<section id="Inquiry-list-sec" class="">
-	<div>
-		<button type="button" class="btn btn-primary"
-			onclick="location.href = '${pageContext.request.contextPath}/member/memberAdminInquiry.do'">문의 하기</button>
-	</div>
-	<select class="custom-select custom-select-lg mb-3" id="boardType">
-		<option value="0" selected>전체보기</option>
-		<option value="1" >회원 정보 문의</option>
-		<option value="2">소모임 관련 문의</option>
-		<option value="3">결제 문의</option>
-		<option value="4">신고 문의</option>
-	</select>
-	<div class="form-check">
-		<input class="form-check-input" type="radio" name="open" id="openAll" value="0" checked>
-		<label class="form-check-label" for="openAll">전체 공개</label>
-	    </br>
-		<input class="form-check-input" type="radio" name="open" id="openPrivate" value="1">
-		<label class="form-check-label" for="openPrivate">비공개</label>
-		</br>
-	</div>
-	<div id="search-container">
-		<div>
-			<label for="searchType">검색타입 :</label> <select id="searchType">
-				<option value="title">제목</option>
-				<option value="writer">작성자</option>
-				<option value="content">내용</option>
-			</select>
+							            </td>
+							        </tr>
+							        
+							</c:forEach>
+						</c:if>
+					</tbody>
+				</table>
+			</div>
 		</div>
-			<div id="search-title" class="search-type">
-			<form onsubmit="searchClubBoard(event)">
-				<input type="hidden" name="searchType" value="title" /> <input
-					type="text" name="searchKeyword" size="25"
-					placeholder="게시글의 제목을 입력하세요." value="" />
-				<button type="submit">검색</button>
-			</form>
-		</div>
-		<div id="search-writer" class="search-type">
-			<form onsubmit="searchClubBoard(event)">
-				<input type="hidden" name="searchType" value="writer" /> <input
-					type="text" name="searchKeyword" size="25"
-					placeholder="검색할 아이디를 입력하세요." value="" />
-				<button type="submit">검색</button>
-			</form>
-		</div>
-		<div id="search-content" class="search-type">
-			<form onsubmit="searchClubBoard(event)">
-				<input type="hidden" name="searchType" value="content" /> <input
-					type="text" name="searchKeyword" size="25"
-					placeholder="게시글의 내용을 입력하세요." value="" />
-				<button type="submit">검색</button>
-			</form>
-		</div>
 	</div>
-	<div class="form-check">
-	    <input class="form-check-input" type="checkbox" name="open" id="openAll" value="0" checked>
-	    <label class="form-check-label" for="openAll">내가 문의한 글만 보기</label>
-	</div>
-
-	<table class="table" id="boardTable">
-		<thead class="thead-light">
-			<tr>
-				<th scope="col">제목</th>
-				<th scope="col">카테고리</th>
-				<th scope="col">날짜</th>
-				<th scope="col">내용</th>
-			</tr>
-		</thead>
-		<tbody></tbody>
-	</table>
-
 </section>
 
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-
-	const searchClubBoard=(e)=>{
-		e.preventDefault();
-		const frm =e.target;
-		const searchKeywordVal= frm.searchKeyword.value;
-		const searchTypeVal= frm.searchType.value;
-		const boardTypeVal= document.querySelector("#boardType").value;
-		
-		console.log(boardTypeVal);
-		 $.ajax({
-			url : '${pageContext.request.contextPath}/club/${domain}/searchClubBoard.do',
-			method:"GET",
-			data :{searchKeywordVal,searchTypeVal,boardTypeVal},
-			success(boards){
-				console.log(boards);
-				
-				const tbody =document.querySelector("#boardTable tbody");
-				let html='';
-				if(boards.length>0){
-					html = boards.reduce((html,board)=>{	
-						
-					const {boardId,clubId,content,createdAt,likeCount,status,title,type,writer} = board;
-					let typeText;
-					switch(type){
-						case 1: typeText ="회원 정보 문의"; break;
-						case 2: typeText ="소모임 관련 문의"; break;
-						case 3: typeText ="결제 문의"; break;
-						case 4: typeText ="신고 문의"; break;
-					
-					}
-					
-						return html + `
-							<tr>
-							<td>\${typeText}</td>
-							<td>
-							🔒<a href="${pageContext.request.contextPath}/club/${domain}/boardDetail.do?no=\${boardId}">\${title}</a>
-							</td>
-							<td>\${writer}</td>
-							<td>\${likeCount}</td>
-							<td>\${createdAt}</td>
-						</tr>
-						`;
-						
-					},"");
-					
-				}else{
-					html=`
-						<tr>
-							<td colspan="4">조회된 게시글이 없습니다😁</td>
-						</tr>
-					`;
-				}
-				
-				tbody.innerHTML= html;
-			}
-		});
-	};
-	
-	
-
+    $(document).ready(function() {
+        $(".toggle-title").click(function() {
+            var targetId = $(this).data("toggle-target");
+            $(targetId).toggle();
+        });
+    });
 </script>
-
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

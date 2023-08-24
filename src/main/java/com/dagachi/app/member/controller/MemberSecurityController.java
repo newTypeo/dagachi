@@ -77,7 +77,14 @@ public class MemberSecurityController {
    }
 
    @GetMapping("/memberAdminInquiryList.do")
-   public void InquiryList() {
+   public String inquiryList(Model model) {
+	   List<AdminInquiry> inquiry=  new ArrayList<>();
+	   
+       inquiry = memberService.memberAdminInquiryList();
+       model.addAttribute("inquiry", inquiry);
+       System.out.println(inquiry);
+       return "member/memberAdminInquiryList";
+ 
    }
 
    @PostMapping("/memberAdminInquiry.do")
@@ -85,10 +92,8 @@ public class MemberSecurityController {
            @Valid AdminInquiryCreateDto inquiry, 
            @AuthenticationPrincipal MemberDetails member)
    {
-	   System.out.println(inquiry);
 	   inquiry.setMemberId(member.getMemberId());
        int result = memberService.InquiryCreate(inquiry);
-       System.out.println("어ㅐㅔ 안찍히노 "+inquiry);
        return "redirect:/member/memberAdminInquiryList.do";
    }
 	 
