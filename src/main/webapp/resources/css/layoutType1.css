@@ -29,8 +29,12 @@
 	font-weight: 600;
 }
 .container-main > div {
+	height: 32px;
 	margin: 8px 20px 0 20px;
 	border-bottom: 1px solid #ccc;
+}
+.container-main-gallery > div {
+	margin: 8px 20px 0 20px;
 }
 .container-main-long > div > a:first-of-type {
 	display: inline-block;
@@ -41,7 +45,7 @@
 }
 .container-main-short > div > a:first-of-type {
 	display: inline-block;
-    width: 390px;
+    width: 375px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -67,7 +71,7 @@
 }
 .container-main-schedule > div > a:first-of-type {
 	display: inline-block;
-    width: 300px;
+    width: 285px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -128,13 +132,14 @@
 }
 
 #club-search-container1 > form > input {
-	width: 214px;
+	width: 210px;
 	border: 1px solid;
 	border-radius: 2px 0 0 2px;
 }
 
 #club-search-container1 > form > button {
-	margin-left: -5px;
+	width: 50px;
+	margin-left: -11px;
 	border: 1px solid;
 	border-radius: 0 2px 2px 0;
 }
@@ -168,7 +173,7 @@
 	width: 1320px;
 }
 
-#club-gallery-container > .container-main {
+.container-main-gallery {
 	display: flex;	
 	flex-wrap: wrap;
 }
@@ -179,25 +184,25 @@
 
 #club-board-container {
 	width: 660px;
-	height: 400px;
+	height: 397px;
 	overflow: hidden;
 }
 
 #club-greetings-container {
 	width: 660px;
-	height: 400px;
+	height: 397px;
 	overflow: hidden;
 }
 
 #club-reivew-container {
 	width: 660px;
-	height: 400px;
+	height: 397px;
 	overflow: hidden;
 }
 
 #club-schedule-container {
 	width: 660px;
-	height: 400px;
+	height: 397px;
 	overflow: hidden;
 }
 

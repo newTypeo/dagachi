@@ -21,19 +21,19 @@
 			<div id="layout-select-container-right" class="lscr type-select-box">
 				<label> 
 					<input type="radio" name="type" value="0">
-					Option 1
+					기본형
 				</label> 
 				<label> 
 					<input type="radio" name="type" value="1">
-					Option 2
+					갤러리 강조형
 				</label> 
 				<label> 
 					<input type="radio" name="type" value="2">
-					Option 3
+					게시판 강조형
 				</label>
 				<label> 
 					<input type="radio" name="type" value="3">
-					Option 4
+					일정 강조형
 				</label>
 			</div>
 		</div>

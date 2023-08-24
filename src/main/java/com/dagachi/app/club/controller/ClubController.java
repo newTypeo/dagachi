@@ -13,6 +13,9 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Service;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -89,6 +92,14 @@ public class ClubController {
 	
 	@Autowired
 	private ClubService clubService;
+	
+	@Autowired
+	public ClubController(JavaMailSender javaMailSender) {
+		this.javaMailSender = javaMailSender;
+	}
+	
+	private final JavaMailSender javaMailSender;
+
 	
 	@GetMapping("/main.do")
 	public void Detail() {
@@ -873,10 +884,55 @@ public class ClubController {
 			@RequestParam String searchTypeVal,
 			@RequestParam int boardTypeVal
 	){
-//		Map<Object, String> serchBoardMap=
 		
+		Club club = clubService.findByDomain(domain);
+		
+		int clubId=club.getClubId();
+		
+		Map<String, Object> searchBoardMap= Map.ofEntries(
+				Map.entry("clubId", clubId),
+				Map.entry("searchKeyword", searchKeywordVal),
+				Map.entry("searchType", searchTypeVal),
+				Map.entry("boardType", boardTypeVal)
+		);
+		
+		log.debug("serchBoardMap={}",searchBoardMap);
+		
+//	List<ClubBoard> boards= clubService.searchBoard(searchBoardMap);
+//	log.debug("boards={}",boards);
+	
 		return ResponseEntity.status(HttpStatus.OK).body(null);
 	}
+	
+	 @PostMapping("/searchIdModal.do")
+	 public ResponseEntity<?> sendVerificationCode(
+			 @RequestParam("username") String username, 
+             @RequestParam("email") String email) {
+		 
+		 Member member = memberService.findMemberByName(username);
+		 Member member2 = memberService.findMemberByEmail(email);
+		 
+		 log.debug("member ={}",member);
+		 log.debug("member2 = {}",member2);
+		 
+		 if(member != null && member2 != null && member.equals(member2)) {
+			 // 입력받은 이름과 이메일이 db에 있는 정보와 일치할 시,
+			 double randomValue = Math.random(); // 0 이상 1 미만의 랜덤한 double 값
+		     String randomValueAsString = Double.toString(randomValue);
+			 SimpleMailMessage message = new SimpleMailMessage();
+			 message.setTo(email);
+			 message.setSubject("다가치 아이디 찾기 인증코드 발송메일");
+			 message.setText(randomValueAsString);
+			 
+			 javaMailSender.send(message);
+			 
+		 }else {
+			// 입력받은 이름과 이메일이 db에 있는정보와 다를 시,
+			 
+		 }
+		 
+		 return ResponseEntity.status(HttpStatus.OK).body(username);
+	 }
 	
 }
 
