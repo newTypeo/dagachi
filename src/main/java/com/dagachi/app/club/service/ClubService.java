@@ -47,7 +47,7 @@ public interface ClubService {
 
 	List<ClubApply> clubApplyfindByClubId(int clubId);
 
-	List<ClubBoard> boardList(ClubBoard clubBoard);
+	List<ClubBoard> boardList(ClubBoard clubBoard, Map<String, Object> params);
 
 	Club findByDomain(String domain);
 
@@ -57,8 +57,6 @@ public interface ClubService {
 
 	int updateBoard(ClubBoard _board);
 
-	List<ClubBoard> boardList(int boardType);
-	
 	List<ManageMember> clubApplyByFindByClubId(int clubId);
 	
 	int clubDisabled(int clubId);
@@ -138,6 +136,8 @@ public interface ClubService {
 	int clubStyleUpdate(@Valid ClubStyleUpdateDto style);
 
 	List<ClubBoard> searchBoard(Map<String, Object> searchBoardMap);
+
+	int boardSize(ClubBoard clubBoard);
 
 
 
