@@ -851,9 +851,7 @@ public class ClubController {
 	@GetMapping("/{domain}/clubStyleUpdate.do")
 	public String clubLayoutUpdate(@PathVariable("domain") String domain, Model model) {
 		int clubId = clubService.clubIdFindByDomain(domain);
-
 		ClubLayout layout = clubService.findLayoutById(clubId);
-		
 		model.addAttribute("layout", layout);
 		model.addAttribute("domain", domain);
 		return "club/clubStyleUpdate";
@@ -861,13 +859,22 @@ public class ClubController {
 	
 	@PostMapping("/{domain}/clubStyleUpdate.do")
 	public String clubLayoutUpdate(@PathVariable("domain") String domain, ClubStyleUpdateDto style) {
-		
 		int clubId = clubService.clubIdFindByDomain(domain);
 		style.setClubId(clubId);
 		int result = clubService.clubStyleUpdate(style);
-		
 		return "redirect:/club/" + domain; 
 	}
+	
+	@GetMapping("/{domain}/clubTitleUpdate.do")
+	public String clubTitleUpdate(@PathVariable("domain") String domain, Model model) {
+		int clubId = clubService.clubIdFindByDomain(domain);
+		ClubLayout layout = clubService.findLayoutById(clubId);
+		System.out.println(layout);
+		model.addAttribute("layout", layout);
+		model.addAttribute("domain", domain);
+		return "club/clubTitleUpdate";
+	}
+	
 	
 	
 	@PostMapping("/{domain}/delBoard.do")
@@ -945,6 +952,32 @@ public class ClubController {
 		 }
 		 
 		 return ResponseEntity.status(HttpStatus.OK).body(username);
+	 }
+	 
+	 @PostMapping("/clubLike.do")
+	 public String clubLike(
+			 @RequestParam String memberId,
+			 @RequestParam String domain,
+			 RedirectAttributes attr
+			 ) {
+		 log.debug("멤버 아이디 : {}", memberId);
+		 log.debug("도메인 : {}", domain);
+		 
+		 Club club = clubService.findByDomain(domain);
+		 int targetId = club.getClubId();
+		 Map<String, Object> params = Map.of(
+				 "memberId", memberId,
+				 "targetId", targetId
+				 );
+		 log.debug("타겟 아이디 : {},", targetId);
+		 
+		 int checkDuplicate = clubService.checkDuplicateClubLike(targetId);
+		 log.debug("체크 튜플리케이트 : {},", checkDuplicate);
+		 
+		 if(checkDuplicate == 0) {
+			int result = clubService.clubLike(params); 
+		 }
+		 return "redirect:/club/" + domain;
 	 }
 	
 }
