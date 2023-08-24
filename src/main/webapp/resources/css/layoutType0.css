@@ -167,45 +167,47 @@
 
 #club-notice-container {
 	width: 1320px;
+	height: 241px;
+	overflow: hidden;
 }
 
 #club-gallery-container {
-	width: 1320px;
+	width: 660px;
+	height: 360px;
+	overflow: hidden;
 }
 
 .container-main-gallery {
 	display: flex;	
 	flex-wrap: wrap;
+	justify-content: space-around;
 }
 
 .img-thumbnail {
-	width: 180px;
+	width: 174px;
 }
 
 #club-board-container {
 	width: 660px;
-	height: 397px;
+	height: 601px;
 	overflow: hidden;
 }
 
 #club-greetings-container {
 	width: 660px;
-	height: 397px;
+	height: 241px;
 	overflow: hidden;
 }
 
 #club-reivew-container {
 	width: 660px;
-	height: 397px;
+	height: 401px;
 	overflow: hidden;
 }
 
 #club-schedule-container {
 	width: 660px;
-	height: 397px;
+	height: 401px;
 	overflow: hidden;
 }
-
-
-
 
