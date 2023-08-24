@@ -13,6 +13,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
+import com.dagachi.app.admin.entity.AdminInquiry;
 import com.dagachi.app.member.dto.MemberCreateDto;
 import com.dagachi.app.member.entity.ActivityArea;
 import com.dagachi.app.member.entity.Member;
@@ -93,5 +94,8 @@ public interface MemberRepository {
 
 	@Select("select * from member where name = #{username}")
 	Member findMemberByName(String username);
+
+	@Select("select * from admin_Inquiry")
+	List<AdminInquiry> memberAdminInquiryList();
 	
 }

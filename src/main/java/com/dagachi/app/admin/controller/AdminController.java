@@ -52,9 +52,10 @@ public class AdminController {
 	public void InquriyList() {
 	}
 	
-	
 	@GetMapping("/adminInquiryUpdate.do")
-	public String adminInquiryUpdate(@RequestParam int InquiryId, Model model) {
+	public String adminInquiryUpdate(@RequestParam int InquiryId, Model model) 
+	{
+		InquiryId = 4;
 		AdminInquiryCreateDto Inquiry = adminService.findInquiry(InquiryId);
 		model.addAttribute("Inquiry", Inquiry);
 
