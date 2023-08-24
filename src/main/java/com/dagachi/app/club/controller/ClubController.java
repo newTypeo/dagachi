@@ -408,7 +408,7 @@ public class ClubController {
 		// 조회한 결과가 존재하고, 조회된 결과가 5개 이상인 경우
 		if(_clubAndImages != null && !_clubAndImages.isEmpty() && !(_clubAndImages.size() <= 5)) {
 			// 5개만 리스트에 담음
-			for(int i=0; i<4; i++) {
+			for(int i=0; i<5; i++) {
 				clubAndImages.add(_clubAndImages.get(i));
 			}
 		}
