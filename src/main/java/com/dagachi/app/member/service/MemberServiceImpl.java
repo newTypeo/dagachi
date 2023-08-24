@@ -166,4 +166,21 @@ public class MemberServiceImpl implements MemberService{
 	public Member findMemberByName(String username) {
 		return memberRepository.findMemberByName(username);
 	}
+	
+	@Override
+	public int UpdateMember(Member member) {
+		int result = 0;
+		
+		result = memberRepository.updateMember(member);
+		
+		return result;
+	}
+	
+	@Override
+	public int updateMemberProfile(MemberProfile memberProfile) {
+		int result = 0;
+		
+		result = memberRepository.updateMemberProfile(memberProfile);
+		return result;
+	}
 }

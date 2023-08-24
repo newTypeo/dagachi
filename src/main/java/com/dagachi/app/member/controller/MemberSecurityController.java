@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -47,6 +48,7 @@ import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.common.DagachiUtils;
 import com.dagachi.app.member.dto.MemberCreateDto;
 import com.dagachi.app.member.dto.MemberLoginDto;
+import com.dagachi.app.member.dto.MemberUpdateDto;
 import com.dagachi.app.member.entity.ActivityArea;
 import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.entity.MemberDetails;
@@ -144,6 +146,59 @@ public class MemberSecurityController {
 		
 		return "redirect:/";
 	}
+	 @GetMapping("/memberUpdate.do")
+	 public String memberUpdate(
+			 @AuthenticationPrincipal MemberDetails loginMember,
+			 Model model
+			 ) {
+		 String id = loginMember.getMemberId();
+		 MemberProfile profile = memberService.findMemberProfile(id);
+
+		 model.addAttribute("profile",profile);
+		 model.addAttribute("loginMember",loginMember);
+		 return "/member/memberUpdate";
+	 }
+	
+	@PostMapping("/memberUpdate.do")
+	 public String memberUpdate(
+			 @AuthenticationPrincipal MemberDetails loginMember,
+			 @RequestParam(value = "upFile") MultipartFile upFile,
+			 @Valid MemberUpdateDto _member,
+			 BindingResult bindingResult
+			 ) throws IllegalStateException, IOException {
+		log.debug("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT = {}",_member);
+		log.debug("_member ={} ",_member);
+		 String uploadDir = "/member/profile/";
+		 MemberProfile memberProfile = null;
+		 if(!upFile.isEmpty()) {
+			 String originalFilename = upFile.getOriginalFilename();
+			 String renamedFilename = DagachiUtils.getRenameFilename(originalFilename);
+			 File destFile = new File(uploadDir + renamedFilename);
+			 
+			 upFile.transferTo(destFile);
+			 
+			 memberProfile = MemberProfile.builder()
+					 .memberId(loginMember.getMemberId())
+					 .originalFilename(originalFilename)
+					 .renamedFilename(renamedFilename).build();
+			 
+			 int result = memberService.updateMemberProfile(memberProfile);
+		 }
+		 
+		 Member member = Member.builder()
+				 .memberId(loginMember.getMemberId())
+				 .name(_member.getName())
+				 .nickname(_member.getNickname())
+				 .phoneNo(_member.getPhoneNo()).address(_member.getAddress())
+				 .gender(_member.getGender()).mbti(_member.getMbti()).birthday(_member.getBirthday()).build();
+		 
+		 log.debug("member라곴ㅆㅆㅆㅆㅆㅆㅆㅆㅆㅆㅆㅆㅆㅆㅆㅆ= {}",member);
+		 
+		 int result2 = memberService.UpdateMember(member);
+		 
+		 
+		 return "redirect:/member/"+member.getMemberId();
+	 }
 
 	/* 수정중인 회원가입 지우지 마삼
 	 * @PostMapping("/memberCreate.do") public String create(

@@ -51,5 +51,9 @@ public interface MemberService extends UserDetailsService {
 
 	Member findMemberByEmail(String email);
 
+	int UpdateMember(Member member);
+
+	int updateMemberProfile(MemberProfile memberProfile);
+
 
 }
