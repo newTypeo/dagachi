@@ -345,6 +345,14 @@ create table recent_visit_list (
     recent_date date default sysdate
 );
 
+create table cbc_like(
+    member_id varchar2(30) not null,
+    type number not null,
+    target_id number not null,
+    created_at date default sysdate
+);
+
+
 alter table member add constraint pk_member primary key (
 	member_id
 );
@@ -514,6 +522,13 @@ alter table club_schedule_place add constraint fk_club_schedule_to_club_schedule
 )
 references club_schedule (
 	schedule_id
+);
+
+alter table cbc_like add constraint fk_member_to_cbc_like_1 foreign key(
+    member_id
+)
+references member(
+    member_id
 );
 
 
@@ -1361,5 +1376,32 @@ update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63Szlhn
 commit;
 
 
+select  * from recent_visit_list;
 
+--select * from club_apply;
+--select * from admin_inquiry;
+--
+--UPDATE admin_Inquiry
+--SET admin_id = {}, response = {}, status = '1', response_at = sysdate
+--WHERE Inquiry_id = {};
+--
+--UPDATE admin_Inquiry
+--SET admin_id = {}, response = {}, status = '1', response_at = sysdate
+--WHERE Inquiry_id = {};
+
+--create sequence seq_member_like_id;
+
+select * from member_like order by like_id;
+
+delete from member_like;
+select * from club;
+
+commit;
+insert into club_member values('honggddd',1,default,default,3,default);
+insert into club_member values('honggddd',2,default,default,3,default);
+insert into club_member values('honggddd',3,default,default,3,default);
+insert into club_member values('honggddd',4,default,default,3,default);
+insert into club_member values('honggddd',5,default,default,3,default);
+insert into club_member values('honggddd',6,default,default,3,default);
+insert into club_member values('honggddd',7,default,default,3,default);
 

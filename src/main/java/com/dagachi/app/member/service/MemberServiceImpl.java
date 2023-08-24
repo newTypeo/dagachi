@@ -169,21 +169,28 @@ public class MemberServiceImpl implements MemberService{
 	}
 	
 	@Override
+	public int memberLike(Map<String, Object> params) {
+		return memberRepository.memberLike(params);
+	}
+	
+	@Override
+	public int checkDuplicateMemberId(String memberId) {
+		return memberRepository.checkDuplicateMemberId(memberId);
+	}
+	
 	public int UpdateMember(Member member) {
-		int result = 0;
-		
+		int result = 0;	
 		result = memberRepository.updateMember(member);
-		
 		return result;
 	}
 	
 	@Override
 	public int updateMemberProfile(MemberProfile memberProfile) {
 		int result = 0;
-		
 		result = memberRepository.updateMemberProfile(memberProfile);
 		return result;
 	}
+	
 	@Override
 	public List<AdminInquiry> memberAdminInquiryList() {
 		return memberRepository.memberAdminInquiryList();

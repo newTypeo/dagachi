@@ -52,6 +52,11 @@ public interface MemberService extends UserDetailsService {
 
 	Member findMemberByEmail(String email);
 
+
+	int memberLike(Map<String, Object> params);
+
+	int checkDuplicateMemberId(String memberId);
+
 	int UpdateMember(Member member);
 
 	int updateMemberProfile(MemberProfile memberProfile);

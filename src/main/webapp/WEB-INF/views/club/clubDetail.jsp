@@ -79,8 +79,15 @@
 		</c:if>
 		
 		<a href ="${pageContext.request.contextPath}/club/${domain}/clubMemberList.do">모임내 회원조회</a>
+			<button type="button" class="btn btn-danger" id="clubLike" onclick="clubLike()">❤️</button>
 	</nav>
-	
+	<form:form
+		name="clubLikeFrm"
+		action="${pageContext.request.contextPath}/club/clubLike.do"
+		method="POST">
+			<input type="hidden" id="memberId" name="memberId" value="${memberId}">
+			<input type="hidden" id="domain" name="domain" value="${domain}">
+	</form:form>
 	<nav>
 		<h3>메뉴 바</h3>
 		<a href="${pageContext.request.contextPath}/club/${domain}/clubBoardList.do">게시판</a>
@@ -181,5 +188,15 @@ document.body.style.fontFamily = "${layout.font}";
         alert('${msg}');
     </script>
 </c:if>
+<script>
+// 모임 좋아요 (현우)
+	const clubLike = () => {
+		console.log("함수 연결이 잘 되었늬?")
+		const clubLikeFrm = document.clubLikeFrm;
+		console.log(clubLikeFrm);
+		clubLikeFrm.submit();
+	}
+
+</script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

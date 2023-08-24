@@ -105,4 +105,10 @@ public interface MemberRepository {
 	@Select("select * from admin_Inquiry")
 	List<AdminInquiry> memberAdminInquiryList();
 	
+	@Insert("insert into member_like values(seq_member_like_id.nextval, #{loginMemberId}, #{memberId}, default)")
+	int memberLike(Map<String, Object> params);
+
+	@Select("select count(*) from member_like where like_sender = #{memberId}")
+	int checkDuplicateMemberId(String memberId);
+	
 }

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -19,7 +20,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.multipart.MultipartFile;
+
 
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.service.ClubService;
@@ -73,11 +76,30 @@ public class MemberController {
 		 	List<ClubAndImage> joinClub = clubService.searchJoinClub(member.getMemberId());
 		 	model.addAttribute("joinClub",joinClub);
 	        return "member/memberDetail";
+	        
 	    }
 	 
-	
-	 
-	 
-	
-	
+	 @PostMapping("/memberLike.do")
+	 public String memberLike(
+			 @AuthenticationPrincipal MemberDetails loginMember,
+			 @RequestParam String memberId,
+			 Model model,
+			 RedirectAttributes attr
+			 ) {
+		 String loginMemberId = loginMember.getMemberId();
+		 
+		 int checkDuplicate = memberService.checkDuplicateMemberId(memberId);
+		 
+		 Map<String, Object> params = Map.of(
+				"memberId", memberId,
+				"loginMemberId", loginMemberId
+				 );
+		 
+		 if(checkDuplicate == 0) {
+			 int result = memberService.memberLike(params);			 
+		 }
+		 
+		 return "redirect:/member/" + memberId;
+	 }
+
 }
