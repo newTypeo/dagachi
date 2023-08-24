@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,11 +23,14 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.dagachi.app.Pagination;
 import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
 import com.dagachi.app.admin.dto.AdminInquiryUpdateDto;
+import com.dagachi.app.admin.entity.AdminInquiry;
 import com.dagachi.app.admin.entity.MainPage;
 import com.dagachi.app.admin.service.AdminService;
 import com.dagachi.app.club.controller.ClubController;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
+import com.dagachi.app.club.entity.ClubBoard;
+import com.dagachi.app.club.entity.ClubBoardAttachment;
 import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.club.service.ClubService;
@@ -50,28 +54,34 @@ public class AdminController {
 	private AdminService adminService;
 	
 
-	@GetMapping("/adminInquriyList.do")
-	public void InquriyList() {
+	@GetMapping("/adminInquiryList.do")
+	public String inquriyList(Model model){
+		List<AdminInquiry> inquiry=  new ArrayList<>();
+		inquiry = memberService.memberAdminInquiryList();
+		model.addAttribute("inquiry", inquiry);
+		System.out.println(inquiry);
+		return "admin/adminInquiryList";
 	}
 	
 	@GetMapping("/adminInquiryUpdate.do")
-	public String adminInquiryUpdate(@RequestParam int InquiryId, Model model) 
-	{
-		InquiryId = 4;
-		AdminInquiryCreateDto Inquiry = adminService.findInquiry(InquiryId);
-		model.addAttribute("Inquiry", Inquiry);
-
-		return "admin/adminInquiryUpdate";
+	public String adminInquiryUpdate(@RequestParam int inquiryId, Model model){
+	    AdminInquiry inquiry = adminService.findInquiry(inquiryId);
+	    model.addAttribute("inquiry",inquiry );
+	    return "/admin/adminInquiryUpdate";
 	}
-	
 
+	
 	@PostMapping("/adminInquiryUpdate.do")
-	public String adminInquiryUpdate() {
-		AdminInquiryUpdateDto inquiryUpdate = null;
-				
-		int result = adminService.updateInquiry(inquiryUpdate);
-		
-		return null;
+	public String adminInquiryUpdate(@RequestParam String inquiryId, @RequestParam String response) {
+	    // 이 부분에서 InquiryId와 response를 사용하여 inquiryUpdate 객체를 생성하고 업데이트 로직을 수행합니다.
+	    AdminInquiryUpdateDto inquiryUpdate = new AdminInquiryUpdateDto(); 
+	    inquiryUpdate.setInquiryId(inquiryId);
+	    inquiryUpdate.setResponse(response);
+	    //inquiryUpdate.setResponse(response);
+
+	    int result = adminService.updateInquiry(inquiryUpdate);
+	    
+	    return "redirect:/admin/adminInquiryList.do";
 	}
 	
 	/**
@@ -214,10 +224,6 @@ public class AdminController {
 		pageBar = pageBar.replaceAll("\\?", "&");
 		pageBar = pageBar.replaceAll("#&", "\\?");
 		model.addAttribute("pagebar", pageBar);
-		
-		
-
-	
 	}
 	
 	@GetMapping("mainBannerList.do")
