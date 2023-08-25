@@ -19,6 +19,7 @@ import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.ClubManageApplyDto;
 import com.dagachi.app.club.dto.ClubMemberAndImage;
 import com.dagachi.app.club.dto.ClubEnrollDto;
+import com.dagachi.app.club.dto.ClubGalleryAndImage;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
 import com.dagachi.app.club.dto.ClubReportDto;
@@ -490,16 +491,35 @@ public class ClubServiceImpl implements ClubService {
 		return clubRepository.clubLike(params);
 	}
 	
+	@Override
+	public List<ClubBoard> searchBoards(Map<String, Object> searchBoardMap, Map<String, Object> params) {
+		int limit = (int) params.get("limit");
+		int page = (int) params.get("page");
+		int offset = (page - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		return clubRepository.searchBoards(searchBoardMap,rowBounds);
+	}
+	
 
 	@Override
-	public List<Club> findClubByDistance(Set<String> zoneSet) {
-		return clubRepository.findClubByDistance(zoneSet);
+	public List<ClubSearchDto> findClubByDistance(Map<String, Object> params) {
+		return clubRepository.findClubByDistance(params);
 	}
 	
 	@Override
 	public List<ClubAndImage> findAllClubLike(String loginMemberId) {
 		return clubRepository.findAllClubLike(loginMemberId);
 	}
-
 	
+	@Override
+	public List<ClubGalleryAndImage> clubGalleryAndImageFindByClubId(int clubId) {
+		return clubRepository.clubGalleryAndImageFindByClubId(clubId);
+	}
+	
+	
+
+	@Override
+	public List<Club> findClubsByMemberId(String memberId) {
+		return clubRepository.findClubsByMemberId(memberId);
+	}
 }

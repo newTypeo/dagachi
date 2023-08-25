@@ -93,6 +93,7 @@
 		<a href="${pageContext.request.contextPath}/club/${domain}/clubBoardList.do">게시판</a>
 		<a href="${pageContext.request.contextPath}/club/${domain}/chatRoom.do">채팅</a>
 		<a href="${pageContext.request.contextPath}/club/${domain}/manageMember.do">회원관리</a>
+		<a href="${pageContext.request.contextPath}/club/${domain}/clubGallery.do">갤러리</a>
 	</nav>
 	
 
