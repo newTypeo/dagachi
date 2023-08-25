@@ -483,6 +483,11 @@ public class ClubServiceImpl implements ClubService {
 	public List<Club> findClubByDistance(Set<String> zoneSet) {
 		return clubRepository.findClubByDistance(zoneSet);
 	}
+	
+	@Override
+	public List<ClubAndImage> findAllClubLike(String loginMemberId) {
+		return clubRepository.findAllClubLike(loginMemberId);
+	}
 
 	
 }
