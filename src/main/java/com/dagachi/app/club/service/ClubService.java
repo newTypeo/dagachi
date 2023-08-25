@@ -153,5 +153,7 @@ public interface ClubService {
 
 	List<Club> findClubByDistance(Set<String> zoneSet);
 
+	List<ClubAndImage> findAllClubLike(String loginMemberId);
+
 
 }

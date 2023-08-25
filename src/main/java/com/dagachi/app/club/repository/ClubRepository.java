@@ -274,6 +274,9 @@ public interface ClubRepository {
 	List<Club> findClubByDistance(Set<String> zoneSet);
 
 	int boardSize(ClubBoard clubBoard);
+	
+	@Select("select * from club join club_profile on club.club_id = club_profile.club_id left join cbc_like on club.club_id = cbc_like.target_id where member_id = #{loginMemberId}")
+	List<ClubAndImage> findAllClubLike(String loginMemberId);
 
 }
    

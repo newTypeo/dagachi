@@ -79,10 +79,14 @@ public class MemberController {
 		 	List<ClubAndImage> joinClub = clubService.searchJoinClub(member.getMemberId());
 		 	model.addAttribute("joinClub",joinClub);
 		 	
-		 // 회원 좋아요 전체 조회 후 화면에 노출시키기
+		 	 // 회원 좋아요 전체 조회 후 화면에 노출시키기(현우)
 			 List<MemberLike> likeMe = memberService.findAllLikeMe(loginMemberId);
-			 log.debug("주나나 너만 믿는다 안되면 반으로 접어 버릴테야 {} :", likeMe);
 			 model.addAttribute("likeMe",likeMe);
+			 
+			 // 찜 목록 화면에 노출시키기(현우)
+			 List<ClubAndImage> clubLikeAndImages = clubService.findAllClubLike(loginMemberId);
+//			 log.debug("이거 잘 들어왔어? {}", clubLikeAndImages);
+			 model.addAttribute("clubLikeAndImages", clubLikeAndImages);
 			 
 	        return "member/memberDetail";
 	        
