@@ -114,6 +114,28 @@
 				   	</c:forEach>
 		   		</div>
 		  </c:if>
+		  
+		 <h1>찜 되어있는 모임</h1>
+		 <c:if test="${empty clubLikeAndImages}">
+		 	<h1>찜하신 모임이 없습니다.</h1>
+		 </c:if>
+		 
+		 <c:if test="${not empty clubLikeAndImages}">
+		   		<div class="posts2">
+					<c:forEach items="${clubLikeAndImages}" var="clubLikeAndImage" varStatus="vs">
+					   		<a class="card" style="width: 18rem;" href = "${pageContext.request.contextPath}/club/${clubLikeAndImage.domain}">
+							  <img src="${pageContext.request.contextPath}/resources/upload/club/profile/${clubLikeAndImage.renamedFilename}" class="card-img-top" alt="...">
+							  <div class="card-body">
+							    <h5 class="card-title">${clubLikeAndImage.clubName}</h5>
+							  </div>
+							  <ul class="list-group list-group-flush">
+							    <li class="list-group-item">${clubLikeAndImage.introduce}</li>
+							    <li class="list-group-item">${clubLikeAndImage.category}</li>
+							  </ul>
+							</a>
+				   	</c:forEach>
+		   		</div>
+		  </c:if>
 		</section>  
 <br/><br/><br/>
 <h1>작성한 글</h1>
