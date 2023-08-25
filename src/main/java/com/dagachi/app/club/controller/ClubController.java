@@ -1017,7 +1017,8 @@ public class ClubController {
 	 */
 	@GetMapping("/{domain}/searchClubBoard.do")
 	public ResponseEntity<?> searchClubBoard(@PathVariable("domain") String domain,
-			@RequestParam String searchKeywordVal, @RequestParam String searchTypeVal, @RequestParam int boardTypeVal) {
+			@RequestParam String searchKeywordVal, @RequestParam String searchTypeVal, @RequestParam int boardTypeVal,
+			@RequestParam(defaultValue = "1") int page) {
 
 		Club club = clubService.findByDomain(domain);
 
@@ -1026,11 +1027,21 @@ public class ClubController {
 		Map<String, Object> searchBoardMap = Map.ofEntries(Map.entry("clubId", clubId),
 				Map.entry("searchKeyword", searchKeywordVal), Map.entry("searchType", searchTypeVal),
 				Map.entry("type", boardTypeVal));
+		
+	
+		Map<String, Object> params = Map.of("page", page, "limit", LIMIT);
+		
+		List<ClubBoard> boards = clubService.searchBoards(searchBoardMap,params);
+		
+		List<ClubBoard> board = clubService.searchBoard(searchBoardMap);
 
+		int boardSize =board.size();
+			Map<String,Object> data=Map.ofEntries(
+					Map.entry("boards", boards),
+					Map.entry("boardSize", boardSize)
+			);
+		return ResponseEntity.status(HttpStatus.OK).body(data);
 
-		List<ClubBoard> boards = clubService.searchBoard(searchBoardMap);
-
-		return ResponseEntity.status(HttpStatus.OK).body(boards);
 	}
 	
 	/**

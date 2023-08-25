@@ -43,6 +43,27 @@
 		board_id desc
 
 	</select>
+	
+	<select id="searchBoards" resultType="clubBoard">
+		select
+			*
+		from
+			club_board
+		<where>
+			<if test="clubId != null">
+					and club_id like #{clubId}
+			</if>
+			<if test="searchType != null">
+					and ${searchType} like '%' || #{searchKeyword} || '%'
+			</if>
+			<if test="type != 0">
+					and type= #{type}
+			</if>
+			</where>
+		order by
+			board_id desc
+
+	</select>
 
 	<select id="boardSize" resultType="int">
 		select
