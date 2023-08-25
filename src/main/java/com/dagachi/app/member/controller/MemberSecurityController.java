@@ -170,11 +170,9 @@ public class MemberSecurityController {
 			 @Valid MemberUpdateDto _member,
 			 BindingResult bindingResult
 			 ) throws IllegalStateException, IOException {
-		log.debug("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT = {}",_member);
-		log.debug("_member ={} ",_member);
-		 String uploadDir = "/member/profile/";
-		 MemberProfile memberProfile = null;
 		 if(!upFile.isEmpty()) {
+			 String uploadDir = "/member/profile/";
+			 MemberProfile memberProfile = null;
 			 String originalFilename = upFile.getOriginalFilename();
 			 String renamedFilename = DagachiUtils.getRenameFilename(originalFilename);
 			 File destFile = new File(uploadDir + renamedFilename);
@@ -196,7 +194,6 @@ public class MemberSecurityController {
 				 .phoneNo(_member.getPhoneNo()).address(_member.getAddress())
 				 .gender(_member.getGender()).mbti(_member.getMbti()).birthday(_member.getBirthday()).build();
 		 
-		 log.debug("member라곴ㅆㅆㅆㅆㅆㅆㅆㅆㅆㅆㅆㅆㅆㅆㅆㅆ= {}",member);
 		 
 		 int result2 = memberService.UpdateMember(member);
 		 
