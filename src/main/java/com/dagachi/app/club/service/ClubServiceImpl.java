@@ -42,6 +42,7 @@ import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.club.entity.ClubRecentVisited;
 import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.club.repository.ClubRepository;
+import com.dagachi.app.member.entity.CbcLike;
 import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.entity.MemberProfile;
 import com.dagachi.app.member.repository.MemberRepository;
@@ -484,6 +485,7 @@ public class ClubServiceImpl implements ClubService {
 	public int clubLike(Map<String, Object> params) {
 		return clubRepository.clubLike(params);
 	}
+	
 	
 	
 }
