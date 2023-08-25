@@ -5,9 +5,10 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <fmt:requestEncoding value="utf-8"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin.css"/>
 
 
-<section id="admin-club-list-sec" class="p-2 club-list">
+<section id="admin-club-list-sec" class="p-2 club-list sectionList">
 	
 	<h1>모임목록 페이지</h1>
 	<div id="club-list-wrapper">
@@ -41,7 +42,8 @@
 				</form>
 				
 			
-				<table id="clubListTable">
+				<table id="clubListTable"
+				class="listTable">
 					<thead>
 						<tr>
 							<th>번호</th>
