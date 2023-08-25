@@ -48,7 +48,7 @@ public class KakaoPayServiceImpl implements KakaoPayService {
 		// 요청 header, 사용자입력값
         HttpHeaders httpHeaders = new HttpHeaders();
 //        httpHeaders.set("Authorization", HttpHeaders.AUTHORIZATION);
-        httpHeaders.set("Authorization", "KaKaoAK " + admin_key);
+        httpHeaders.set("Authorization", "KakaoAK " + admin_key);
         httpHeaders.set("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
         
 //        httpHeaders.add(HttpHeaders.AUTHORIZATION, "KakaoAK " + admin_key);
