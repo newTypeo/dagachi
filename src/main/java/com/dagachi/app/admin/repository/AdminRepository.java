@@ -24,9 +24,11 @@ public interface AdminRepository {
 
 	@Select("select * from main_page order by id desc fetch first 5 rows only")
 	List<MainPage> getMainBanner();
-	
-	
-	Map<String, Object> adminInquiryList(Map<String, Object> params);
-	Map<String, Object> adminInquiryList(RowBounds rowBounds, Map<String, Object> params);
+
+	List<AdminInquiry> inquiryList(AdminInquiry adminInquiry, RowBounds rowBounds);
+	int inquirySize(AdminInquiry adminInquiry);
+
+	List<AdminInquiry> searchInquirys(Map<String, Object> searchInquirydMap, RowBounds rowBounds);
+	List<AdminInquiry> searchInquiry(Map<String, Object> searchInquirydMap);
 
 }

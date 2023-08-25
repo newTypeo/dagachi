@@ -4,26 +4,89 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dagachi.app.admin.repository.AdminRepository">
 
-	<select id="searchBoard" resultType="clubBoard">
+	<select id="InquiryList" resultType="adminInquiry">
+		select
+		*
+		from
+		admin_Inquiry
+		<where>
+			<if test="type != 0">
+				and type=#{type}
+			</if>
+			<if test="open != null">
+				and open=#{type}
+			</if>
+		</where>
+		order by
+		Inquiry_id desc
+	</select>
+
+
+	<select id="InquirySize" resultType="int">
+		select
+		count(*)
+		from
+			(
+			select
+			*
+			from
+			admin_Inquiry
+			<where>
+				<if test="type != 0">
+					and type=#{type}
+				</if>
+				<if test="open != 0">
+					and open=#{type}
+				</if>
+			</where>
+			order by
+			Inquiry_id desc
+		)
+	</select>
+	
+	<select id="searchInquirys" resultType="adminInquiry">
 		select
 			*
 		from
 			admin_Inquiry
 		<where>
-			<if test="searchBoardMap.searchType != null">
-				and ${searchBoardMap.searchType} like '%' || #{searchBoardMap.searchKeyword} || '%' 
+			<if test="searchType != null">
+					and ${searchType} like '%' || #{searchKeyword} || '%'
 			</if>
-			<if test="searchBoardMap.type != 0">
-				and type= #{searchBoardMap.type} || status = {}
+			<if test="type != 0">
+					and type= #{type}
 			</if>
-		</where>
-		order by
-		Inquiry_id
-		desc
+			<if test="open != 0">
+				and open=#{type}
+			</if>
+			
+			</where>
+			order by
+			Inquiry_id desc
 
 	</select>
+	
+	<select id="searchInquiry" resultType="adminInquiry">
+		select
+			*
+		from
+			admin_Inquiry
+		<where>
+			<if test="searchType != null">
+					and ${searchType} like '%' || #{searchKeyword} || '%'
+			</if>
+			<if test="type != 0">
+					and type= #{type}
+			</if>
+			<if test="open != null">
+				and open=#{open}
+			</if>
+			
+			</where>
+			order by
+			Inquiry_id desc
 
-
-
+	</select>	
+	
 </mapper>
 

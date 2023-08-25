@@ -38,6 +38,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.dagachi.app.Pagination;
+import com.dagachi.app.admin.entity.AdminInquiry;
 import com.dagachi.app.club.common.Status;
 import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
@@ -553,8 +554,7 @@ public class ClubController {
 		
 		return ResponseEntity.status(HttpStatus.OK).body(boardInfo);
 	}
-
-	
+	 
 	/**
 	 * @author ?
 	 */

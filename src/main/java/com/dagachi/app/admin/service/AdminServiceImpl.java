@@ -42,15 +42,36 @@ public class AdminServiceImpl implements AdminService{
 		return adminRepository.getMainBanner();
 	}
 
+
+
 	@Override
-	public Map<String, Object> adminInquiryList(Map<String, Object> params) {
-		if ((String) params.get("getCount") != null) {
-			return adminRepository.adminInquiryList(params);
-		}
+	public List<AdminInquiry> adminInquiryList(AdminInquiry adminInquiry, Map<String, Object> params) {
 		int limit = (int) params.get("limit");
 		int page = (int) params.get("page");
 		int offset = (page - 1) * limit;
 		RowBounds rowBounds = new RowBounds(offset, limit);
-		return adminRepository.adminInquiryList(rowBounds, params);
+		
+		return adminRepository.inquiryList(adminInquiry,rowBounds);
 	}
+
+	@Override
+	public int inquirySize(AdminInquiry adminInquiry) {
+		return adminRepository.inquirySize(adminInquiry);
+	}
+
+	@Override
+	public List<AdminInquiry> searchInquirys(Map<String, Object> searchInquirydMap, Map<String, Object> params) {
+		int limit = (int) params.get("limit");
+		int page = (int) params.get("page");
+		int offset = (page - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		return adminRepository.searchInquirys(searchInquirydMap,rowBounds);
+	}
+
+	@Override
+	public List<AdminInquiry> searchInquiry(Map<String, Object> searchInquirydMap) {
+		return adminRepository.searchInquiry(searchInquirydMap);
+	}
+
+
 }

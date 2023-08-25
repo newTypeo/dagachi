@@ -55,7 +55,7 @@ public class AdminController {
 	@Autowired
 	private AdminService adminService;
 	
-
+	static final int LIMIT = 10;
 
 	
 	@GetMapping("/adminInquiryUpdate.do")
@@ -79,40 +79,61 @@ public class AdminController {
 	    return "redirect:/admin/adminInquiryList.do";
 	}
 	
+	
 	@GetMapping("/adminInquiryList.do")
-	public String inquriyList(Model model,
-			@RequestParam(defaultValue = "1") int page,
-			@RequestParam String searchKeywordVal,
-			@RequestParam String searchTypeVal,
-			@RequestParam int inquiryTypeVal,
-			@RequestParam int openTypeVal,
-			HttpServletRequest request
-			){
-		int limit = 10;
-		String getCount = "getCount";
-		
-		Map<String, Object> params = new HashMap<>();
-        params.put("page", page);
-        params.put("limit", limit);
-        params.put("keyword", searchKeywordVal);
-        params.put("column", searchTypeVal);
-        
-		List<AdminInquiry> inquiry=  memberService.memberAdminInquiryList();
-		model.addAttribute("inquiry", inquiry);
-		
-		// 전체게시물 수
-		params.put("getCount", getCount);
-		
-		int totalCount = adminService.adminInquiryList(params).size();
-		
-		String url = request.getRequestURI();
-		
-		String pageBar = Pagination.getPagebar(page, limit, totalCount, url);
-		model.addAttribute("pagebar", pageBar);
-		
-		System.out.println(inquiry);
-		return "admin/adminInquiryList";
+	public void inquriyList(Model model){
 	}
+	
+	
+	@GetMapping("/findInquiryType.do")		// 필수값이 아니다. 
+	public ResponseEntity<?> InquiryList(@RequestParam(required = false, defaultValue = "0") int inquiryType,
+			@RequestParam(defaultValue = "1") int page) {
+		int _type = (inquiryType != 0) ? inquiryType : 0;
+
+		AdminInquiry adminInquiry = AdminInquiry.builder().type(_type).build();
+		
+		Map<String, Object> params = Map.of("page", page, "limit", LIMIT);
+
+		List<AdminInquiry> inquirys = adminService.AdminInquiryList(adminInquiry, params);
+		
+		int inquirySize = adminService.inquirySize(adminInquiry);
+		log.debug("inquirySize={}",inquirySize);
+		
+		Map<String, Object> inquiryInfo = Map.ofEntries(
+				Map.entry("inquirySize", inquirySize),
+				Map.entry("inquirys", inquirys)
+		);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(inquiryInfo);
+	}
+
+
+	@GetMapping("/searchInquiryType.do")
+	public ResponseEntity<?> searchInquiryType(@PathVariable("domain") 
+			@RequestParam String searchKeywordVal, @RequestParam String searchTypeVal, 
+			@RequestParam int inquiryTypeVal,
+			@RequestParam(defaultValue = "1") int page) {
+
+		Map<String, Object> searchInquirydMap = Map.ofEntries(
+				Map.entry("searchKeyword", searchKeywordVal), Map.entry("inquiryType", inquiryTypeVal),
+				Map.entry("type", inquiryTypeVal));
+		
+	
+		Map<String, Object> params = Map.of("page", page, "limit", LIMIT);
+		
+		List<AdminInquiry> inquirys = adminService.searchInquirys(searchInquirydMap,params);
+		
+		List<AdminInquiry> inquiry  = adminService.searchInquiry(searchInquirydMap);
+
+		int inquirySize =inquiry.size();
+			Map<String,Object> data=Map.ofEntries(
+					Map.entry("inquirys", inquirys),
+					Map.entry("inquirySize", inquirySize)
+			);
+		return ResponseEntity.status(HttpStatus.OK).body(data);
+
+	}
+	
 	
 	/**
 	 * 관리자 모임 목록 조회

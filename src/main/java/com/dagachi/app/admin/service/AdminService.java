@@ -18,6 +18,13 @@ public interface AdminService {
 
 	List<MainPage> getMainBanner();
 
-	Map<String, Object> adminInquiryList(Map<String, Object> params);
+
+
+	List<AdminInquiry> adminInquiryList(AdminInquiry adminInquiry, Map<String, Object> params);
+	int inquirySize(AdminInquiry adminInquiry);
+
+	List<AdminInquiry> searchInquirys(Map<String, Object> searchInquirydMap, Map<String, Object> params);
+	List<AdminInquiry> searchInquiry(Map<String, Object> searchInquirydMap);
+
 
 }
