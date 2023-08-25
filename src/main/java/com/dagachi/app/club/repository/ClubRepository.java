@@ -262,7 +262,7 @@ public interface ClubRepository {
 	@Insert("insert into cbc_like values(#{memberId}, 1, #{targetId}, default)")
 	int clubLike(Map<String, Object> params);
 	
-	List<Club> findClubByDistance(Set<String> zoneSet);
+	List<ClubSearchDto> findClubByDistance(Map<String, Object> params);
 
 	int boardSize(ClubBoard clubBoard);
 

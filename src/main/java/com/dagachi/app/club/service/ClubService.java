@@ -145,7 +145,7 @@ public interface ClubService {
 
 	int clubLike(Map<String, Object> params);
 
-	List<Club> findClubByDistance(Set<String> zoneSet);
+	List<ClubSearchDto> findClubByDistance(Map<String, Object> params);
 
 
 }

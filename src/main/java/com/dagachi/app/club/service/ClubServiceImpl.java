@@ -480,8 +480,8 @@ public class ClubServiceImpl implements ClubService {
 	
 
 	@Override
-	public List<Club> findClubByDistance(Set<String> zoneSet) {
-		return clubRepository.findClubByDistance(zoneSet);
+	public List<ClubSearchDto> findClubByDistance(Map<String, Object> params) {
+		return clubRepository.findClubByDistance(params);
 	}
 
 	
