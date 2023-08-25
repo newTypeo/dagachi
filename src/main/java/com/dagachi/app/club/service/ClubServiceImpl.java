@@ -501,8 +501,8 @@ public class ClubServiceImpl implements ClubService {
 	
 
 	@Override
-	public List<Club> findClubByDistance(Set<String> zoneSet) {
-		return clubRepository.findClubByDistance(zoneSet);
+	public List<ClubSearchDto> findClubByDistance(Map<String, Object> params) {
+		return clubRepository.findClubByDistance(params);
 	}
 	
 	@Override
@@ -510,5 +510,8 @@ public class ClubServiceImpl implements ClubService {
 		return clubRepository.findAllClubLike(loginMemberId);
 	}
 
-	
+	@Override
+	public List<Club> findClubsByMemberId(String memberId) {
+		return clubRepository.findClubsByMemberId(memberId);
+	}
 }

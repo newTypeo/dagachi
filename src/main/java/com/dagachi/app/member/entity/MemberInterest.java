@@ -10,6 +10,7 @@ import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubProfile;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -17,13 +18,12 @@ import lombok.experimental.SuperBuilder;
 
 
 @Data
-@ToString(callSuper = true)
-@SuperBuilder
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberInterest extends Member{
+public class MemberInterest {
 	
 	private String memberId;
-	private String Interest;
+	private String interest;
 
 }

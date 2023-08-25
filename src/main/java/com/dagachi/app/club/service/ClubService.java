@@ -151,11 +151,13 @@ public interface ClubService {
 
 	int clubLike(Map<String, Object> params);
 
+	List<ClubSearchDto> findClubByDistance(Map<String, Object> params);
+	
 	List<ClubBoard> searchBoards(Map<String, Object> searchBoardMap, Map<String, Object> params);
 
-	List<Club> findClubByDistance(Set<String> zoneSet);
-
 	List<ClubAndImage> findAllClubLike(String loginMemberId);
+
+	List<Club> findClubsByMemberId(String memberId);
 
 
 }

@@ -22,7 +22,11 @@
 			<input type="text" name="inputText" id="search-club-box" placeholder="BTS 봉준호 다가치 Let's go" required/>
 			<button id="search-club-btn"><i class="fa-solid fa-magnifying-glass fa-xl"></i></button>
 		</form>
-		<div id="search-detail"><a href="${pageContext.request.contextPath}/club/clubSearchSurrounded.do">주변보기<i class="fa-solid " style="color: #eee;"></i></a></div>
+		<div id="search-detail">
+			<a href="${pageContext.request.contextPath}/club/clubSearchSurrounded.do">
+				<i class="fa-regular fa-map fa-lg" style="color: #ffffff;"></i>
+			</a>
+		</div>
 	</div>
 	
 	

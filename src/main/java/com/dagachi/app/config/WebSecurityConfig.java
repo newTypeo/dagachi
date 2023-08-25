@@ -63,9 +63,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.formLogin()
 			.loginPage("/member/memberLogin.do") // 내가 만든 로그인 페이지 
 			.loginProcessingUrl("/member/memberLogin.do") // 동일한 url 을 post로 날림
+			.successForwardUrl("/member/memberLoginSuccess.do")
 			.usernameParameter("memberId") // 기본 파라미터 바꿈
 			.passwordParameter("password") // 똑같으면 그냥 안적어도 된다
-			.defaultSuccessUrl("/")
+//			.defaultSuccessUrl("/")
 			.permitAll(); // 모두 허용해달라
 		
 		// logout
