@@ -71,8 +71,6 @@ public class MemberController {
 		 	
 		 	List<ClubAndImage> clubAndImages = new ArrayList<>();
 		 	clubAndImages = clubService.recentVisitClubs(loginMemberId);
-		 	
-		 	
 //		 	log.debug("잘 들어왔니? = {}", clubAndImages);
 		 	model.addAttribute("clubAndImages",clubAndImages);
 		 	

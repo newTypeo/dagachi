@@ -8,12 +8,13 @@
 	<jsp:param value="문의 답변하기" name="title" />
 </jsp:include>
 <div> 답변하기 </div>
-
 <section id="club-Inquiry-sec" class="">
 	<form:form  name="InquiryFrm"
 		action="${pageContext.request.contextPath}/admin/adminInquiryUpdate.do?no=${inquiry.inquiryId}"
 		enctype="multipart/form-data" method="post">
+		<input type ="hidden" value = "${inquiry.inquiryId}" name ="inquiryId" />
 	<div>
+		<h1>${inquiry.inquiryId}</h1>
 		<c:choose>
 			<c:when test="${inquiry.type == 1}">
 				<td>회원 정보 문의</td>
@@ -43,12 +44,6 @@
  		<c:if test="${inquiry.open == 1}"><td>비공개 문의</td></c:if>
 		<c:if test="${inquiry.open == 0}"><td>공개 문의</td></c:if>		
 	</div>     
-
-	<!-- 	UPDATE admin_Inquiry
-		SET admin_id = {}, response = {}, status = '1', response_at = sysdate
-		WHERE Inquiry_id = {}; -->
-		
-		
  		<div class="form-group">
  		[답변하기 ]
 			<label for="exampleFormControlTextarea1"></label>
@@ -58,7 +53,6 @@
 		<button type="submit" class="btn btn-primary btn-lg">답변/수정 하기</button>
 	 </form:form>
 </section>
-
 <script>
 document.InquiryFrm.addEventListener("submit",(e)=>{
 	const frm=e.target;
@@ -67,7 +61,6 @@ document.InquiryFrm.addEventListener("submit",(e)=>{
 	const type= frm.type.value;
 	if(title === "" || content === "" || type === ""){
 		e.preventDefault();
-		//임시 얼럿트 추후에 빨간글이든 뭐든 되면 하지 모
 		alert("입력값이 부족합니다.");
 	}
 });
