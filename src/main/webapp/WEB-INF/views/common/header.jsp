@@ -65,12 +65,11 @@
 			    <span>
 			    <a title="<sec:authentication property="authorities"/>"><sec:authentication property="principal.username"/></a>님, 안녕하삼</span>
 			    &nbsp;
-			    <button type="button"onclick="document.memberLogoutFrm.submit();">로그아웃</button>
-			    <button type="button"onclick="withdrawalMember();">회원탈퇴</button>
-			    <form:form name="memberDeleteFrm" action="${pageContext.request.contextPath}/member/memberDelete.do" method="post"></form:form>
+			    
 			    <a href="${pageContext.request.contextPath}/member/<sec:authentication property="principal.memberId"/>">
-				    <button type="button">내 정보(마이페이지)</button>
+				    <button type="button">내 정보</button>
 				</a>
+			    <button type="button"onclick="document.memberLogoutFrm.submit();">로그아웃</button>
 			</div>
 		</sec:authorize>
 
@@ -78,10 +77,3 @@
 	
 	<jsp:include page="/WEB-INF/views/common/navBar.jsp"></jsp:include>
 
-<script>
-const withdrawalMember = () => {
-	if(confirm('정말로 탈퇴하시겠습니까?')){
-		document.memberDeleteFrm.submit();
-	}
-};
-</script>

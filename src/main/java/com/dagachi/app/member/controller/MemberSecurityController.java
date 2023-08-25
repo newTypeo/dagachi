@@ -1,53 +1,42 @@
 package com.dagachi.app.member.controller;
 
 
-import java.io.Console;
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
 import com.dagachi.app.admin.entity.AdminInquiry;
-import com.dagachi.app.club.dto.ClubBoardCreateDto;
-import com.dagachi.app.club.entity.Club;
-import com.dagachi.app.club.entity.ClubBoardAttachment;
-import com.dagachi.app.club.entity.ClubBoardDetails;
-import com.dagachi.app.club.entity.ClubDetails;
-import com.dagachi.app.club.entity.ClubProfile;
+import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.common.DagachiUtils;
 import com.dagachi.app.member.dto.MemberCreateDto;
-import com.dagachi.app.member.dto.MemberLoginDto;
 import com.dagachi.app.member.dto.MemberUpdateDto;
 import com.dagachi.app.member.entity.ActivityArea;
 import com.dagachi.app.member.entity.Member;
@@ -121,7 +110,31 @@ public class MemberSecurityController {
 	   }
 
 	@GetMapping("/memberLogin.do")
-	public void memberLogin() {}
+	public void memberLogin() {
+		System.out.println("뭐여");
+	}
+	
+	@PostMapping("/memberLoginSuccess.do")
+	public String memberLoginSuccess(@AuthenticationPrincipal MemberDetails memberDetails, HttpSession session) {
+		String memberId = memberDetails.getMemberId();
+		ActivityArea activityArea = memberService.findActivityAreaById(memberId);
+		MemberProfile profile = memberService.findMemberProfile(memberId);
+		List<MemberInterest> interests = memberService.findMemberInterestsByMemberId(memberId);
+		List<ClubMember> clubMembers = memberService.findClubMemberByMemberId(memberId);
+		
+		memberDetails.setActivityArea(activityArea);
+		memberDetails.setMemberProfile(profile);
+		memberDetails.setMemberInterest(interests);
+		memberDetails.setClubMember(clubMembers);
+		
+		System.out.println(memberDetails);
+		
+		// 리다이렉트 처리
+		SavedRequest savedRequest = (SavedRequest) session.getAttribute("SPRING_SECURITY_SAVED_REQUEST");
+		String location = savedRequest == null ? "/" : savedRequest.getRedirectUrl();
+		log.debug("location = {}", location);
+		return "redirect:" + location;
+	}
 	
 	//회원 아이디 중복 여부를 확인하기 위해 사용하는 코드 
 	@GetMapping("/checkIdDuplicate.do")
@@ -141,9 +154,10 @@ public class MemberSecurityController {
 	@PostMapping("memberDelete.do")
 	public String memberDelete(@AuthenticationPrincipal MemberDetails member) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-		int result = memberService.memberDelete(member.getMemberId());
 		
+		int result = memberService.memberDelete(member.getMemberId());
+		System.out.println("회원탈퇴 result = " + result);
+		System.out.println("member.getMemberId() = " + member.getMemberId());
 	    if (authentication != null) {
 	        SecurityContextHolder.clearContext(); // 인증 정보 삭제
 	    }

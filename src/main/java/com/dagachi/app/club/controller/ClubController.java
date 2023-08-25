@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -52,6 +53,7 @@ import com.dagachi.app.club.dto.ClubReportDto;
 import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
 import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.ClubStyleUpdateDto;
+import com.dagachi.app.club.dto.ClubTitleUpdateDto;
 import com.dagachi.app.club.dto.ClubUpdateDto;
 import com.dagachi.app.club.dto.GalleryAndImageDto;
 import com.dagachi.app.club.dto.JoinClubMember;
@@ -103,7 +105,15 @@ public class ClubController {
 	public ClubController(JavaMailSender javaMailSender) {
 		this.javaMailSender = javaMailSender;
 	}
-
+	
+	@GetMapping("/getClubName.do")
+	@ResponseBody 
+	public ResponseEntity<?> getClubname(@AuthenticationPrincipal MemberDetails member) { 
+		List<Club> clubs =clubService.findClubsByMemberId(member.getMemberId());
+	 
+		return ResponseEntity.status(HttpStatus.OK).body(clubs); 
+	}
+	
 
 	@GetMapping("/main.do")
 	public void Detail() {}
@@ -115,7 +125,6 @@ public class ClubController {
 	public String ClubEnroll(@PathVariable("domain") String domain, RedirectAttributes redirectAttr, Model model,
 			@AuthenticationPrincipal MemberDetails member) {
 		int clubId = clubService.clubIdFindByDomain(domain);
-		System.out.println(clubId);
 		Club club = clubService.findClubById(clubId);
 		model.addAttribute("club", club);
 
@@ -172,14 +181,18 @@ public class ClubController {
 	 */
 	@PostMapping("/{domain}/boardCreate.do")
 	public String boardCreate(@Valid ClubBoardCreateDto _board, @PathVariable("domain") String domain,
-			BindingResult bindingResult, @RequestParam(value = "upFile", required = false) List<MultipartFile> upFiles)
+			BindingResult bindingResult, @RequestParam(value = "upFile", required = false) List<MultipartFile> upFiles
+			,@AuthenticationPrincipal MemberDetails member
+			)
 			throws IllegalStateException, IOException {
 		List<ClubBoardAttachment> attachments = new ArrayList<>();
 		if (!upFiles.isEmpty())
 			attachments = insertAttachment(upFiles, attachments);
 		Club club = clubService.findByDomain(domain);
 		int clubId = club.getClubId();
-		ClubBoardDetails clubBoard = ClubBoardDetails.builder().clubId(clubId).writer("honggd").attachments(attachments)
+		String memberId = member.getMemberId();
+		
+		ClubBoardDetails clubBoard = ClubBoardDetails.builder().clubId(clubId).writer(memberId).attachments(attachments)
 				.title(_board.getTitle()).content(_board.getContent()).type(_board.getType()).build();
 		int result = clubService.postBoard(clubBoard);
 		// 작성자 수정해야함
@@ -294,8 +307,10 @@ public class ClubController {
 	@GetMapping("clubSearchByDistance.do")
 	public ResponseEntity<?> clubSearchByDistance(
 			@RequestParam int distance, 
+			@RequestParam String category, // 사용자가 선택한 분류
 			@RequestParam String mainAreaName, // "서울특별시 **구 **동"
 			@AuthenticationPrincipal MemberDetails member) throws UnsupportedEncodingException {
+		
 		// 거리 별로 360에 나눌 각도 Map 셋팅
 		Map<Integer, Double> anglePattern = // km(key)별로 360도를 나눌 각도(value) 
 				Map.of(1, 45.0, 2, 30.0, 3, 22.5, 4, 18.0, 5, 15.0, 6, 11.25, 7, 9.0, 8, 7.5, 9, 6.0, 10, 5.0);
@@ -309,16 +324,15 @@ public class ClubController {
 		// 싸인 코사인으로 계산하는 메소드
 		Set<String> zoneSet = getAreaNamesByDistance(x, y, distance, anglePattern); // 검색할 km기반으로 주변 동이름이 들어있는 set 반환
 		
-		
 		// 주변의 모든 법정동리스트로 모임 조회 후 리턴
-		List<Club> clubs = clubService.findClubByDistance(zoneSet);
-		// log.debug("clubs = {}", clubs);
+		Map<String, Object> params = new HashMap<>();
+		params.put("zoneSet", zoneSet);
+		if(!"".equals(category)) params.put("category", category); // 사용자가 카테고리를 선택했을 때만 params에 추가
 		
+		List<ClubSearchDto> clubs = clubService.findClubByDistance(params);
+		// log.debug("ClubSearchDto = {}", clubs);
 		
-		// 중복된 모임을 어떻게 필터링할 수 있을까?
-		
-		
-		return ResponseEntity.status(HttpStatus.OK).body("안녕~");
+		return ResponseEntity.status(HttpStatus.OK).body(clubs);
 	}
 
 	/**
@@ -948,6 +962,56 @@ public class ClubController {
 		return "club/clubTitleUpdate";
 	}
 	
+	/**
+	 * @author 준한
+	 */
+	@PostMapping("/{domain}/clubTitleUpdate.do")
+	public String clubTitleUpdate(
+			@PathVariable("domain") String domain,
+			@RequestParam(value = "upFile") MultipartFile fileTitle,
+			@RequestParam(value = "upFile2") MultipartFile fileMain,
+			@RequestParam String mainContent,
+			ClubTitleUpdateDto clubTitleUpdateDto
+			) throws IllegalStateException, IOException {
+		int clubId = clubService.clubIdFindByDomain(domain);
+		String uploadDirTitle = "/club/title/";
+		String uploadDirMain = "/club/main/";
+		ClubLayout clubLayout = null;
+		if(!fileTitle.isEmpty()) {
+			 String originalFilename = fileTitle.getOriginalFilename();
+			 String renamedFilename = DagachiUtils.getRenameFilename(originalFilename);
+			 File destFile = new File(uploadDirTitle + renamedFilename);
+			 
+			 fileTitle.transferTo(destFile);
+			 
+			 clubLayout = clubLayout.builder()
+					 .clubId(clubId)
+					 .title(renamedFilename)
+					 .build();
+			 
+			 int result = clubService.updateClubTitleImage(clubLayout);
+		 }
+		if(!fileMain.isEmpty()) {
+			 String originalFilename = fileTitle.getOriginalFilename();
+			 String renamedFilename = DagachiUtils.getRenameFilename(originalFilename);
+			 File destFile = new File(uploadDirMain + renamedFilename);
+			 
+			 fileMain.transferTo(destFile);
+			 
+			 clubLayout = clubLayout.builder()
+					 .clubId(clubId)
+					 .mainImage(renamedFilename)
+					 .build();
+			 
+			 int result = clubService.updateClubMainImage(clubLayout);
+		 }
+		clubLayout = clubLayout.builder()
+				.clubId(clubId)
+				.mainContent(mainContent).build();
+		int result = clubService.updateClubMainContent(clubLayout);
+		return "redirect:/club/"+domain;
+	}
+	
 	
 	/**
 	 * @author ?
@@ -966,7 +1030,8 @@ public class ClubController {
 	 */
 	@GetMapping("/{domain}/searchClubBoard.do")
 	public ResponseEntity<?> searchClubBoard(@PathVariable("domain") String domain,
-			@RequestParam String searchKeywordVal, @RequestParam String searchTypeVal, @RequestParam int boardTypeVal) {
+			@RequestParam String searchKeywordVal, @RequestParam String searchTypeVal, @RequestParam int boardTypeVal,
+			@RequestParam(defaultValue = "1") int page) {
 
 		Club club = clubService.findByDomain(domain);
 
@@ -975,11 +1040,21 @@ public class ClubController {
 		Map<String, Object> searchBoardMap = Map.ofEntries(Map.entry("clubId", clubId),
 				Map.entry("searchKeyword", searchKeywordVal), Map.entry("searchType", searchTypeVal),
 				Map.entry("type", boardTypeVal));
+		
+	
+		Map<String, Object> params = Map.of("page", page, "limit", LIMIT);
+		
+		List<ClubBoard> boards = clubService.searchBoards(searchBoardMap,params);
+		
+		List<ClubBoard> board = clubService.searchBoard(searchBoardMap);
 
+		int boardSize =board.size();
+			Map<String,Object> data=Map.ofEntries(
+					Map.entry("boards", boards),
+					Map.entry("boardSize", boardSize)
+			);
+		return ResponseEntity.status(HttpStatus.OK).body(data);
 
-		List<ClubBoard> boards = clubService.searchBoard(searchBoardMap);
-
-		return ResponseEntity.status(HttpStatus.OK).body(boards);
 	}
 	
 	/**
