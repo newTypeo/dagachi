@@ -14,7 +14,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AdminInquiry {
-	private String InquiryId;
+	private String inquiryId;
 	private String writer;
 	private String title;
 	private String content; 

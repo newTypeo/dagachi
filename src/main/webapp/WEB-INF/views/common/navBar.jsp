@@ -1,8 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/nav.css" />
 
-<div id="dark" style="position:absolute; width: 100%; height: 100vh; display:none; z-index:1">asdasd</div>
+<!-- 클릭하면 카테고리 관련 창을 닫는 div -->
+<div id="dark" style="position:absolute; width: 100%; height: 100vh; display:none; z-index:1"></div>
 
 <nav id="main-nav-bar">
 	<div id="category-container" style="z-index: 2">
@@ -51,13 +56,24 @@
 				<a>모든 주제 보기 ></a>
 			</div>
 		</div>
-		<div id="category-modal-right" style="display:flex; flex-wrap: wrap; align-content: flex-start;">
+		<div id="category-modal-right" style="display:none; flex-wrap: wrap; align-content: flex-start;">
 			
 		</div>
 	</div>
 </nav>
 
-
+<!-- 아 왜 넘어가는데!!!!!!!!!! -->
+<sec:authorize access="isAnonymous()">
+	<script>
+		document.querySelectorAll('#ccc').forEach((one) => {
+			one.addEventListener('click', function(e) {
+				e.preventDefault();
+				alert('땡!');
+				return false;
+			});
+		});
+	</script>
+</sec:authorize>
 
 
 
@@ -79,9 +95,6 @@ const categoryDiv = document.querySelectorAll("#category-modal-left-upper div");
 
 const dark = document.querySelector("#dark");
 
-window.onload = () => {
-	categoryModalRight.style.display = "none";
-};
 
 categoryContainer.addEventListener('mouseover', () => {
 	categoryModalLeft.style.display = "block";
@@ -129,7 +142,7 @@ categoryDiv.forEach((element) => {
 				console.log(response);
 				response.forEach((club) => {
 					categoryModalRight.innerHTML += `
-						<a class="card" style="width: 9rem; text-align:center;" href="${pageContext.request.contextPath}/club/\${club.domain}">
+						<a class="card" id="ccc" style="width: 9rem; text-align:center;" href="${pageContext.request.contextPath}/club/\${club.domain}">
 							<img src="${pageContext.request.contextPath}/resources/upload/club/profile/\${club.renamedFilename}" class="card-img-top" alt="..." />
 							    <span class="card-title">\${club.clubName}</span>
 						</a>
@@ -145,6 +158,10 @@ categoryDiv.forEach((element) => {
 
 });
 
-
+/*
+window.onload = () => {
+	location.href = "${pageContext.request.contextPath}/club/checkLogin.do"
+};
+*/
 
 </script>

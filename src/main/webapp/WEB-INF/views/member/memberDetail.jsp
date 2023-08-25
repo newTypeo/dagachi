@@ -46,16 +46,26 @@
                 
 					<c:if test="${member.memberId eq loginMember.memberId}"> <!-- 로그인한 객체가 보고있는 객체가 같을 때 -->
 						<button onclick = "updateMember()">회원 정보 수정</button>
-						<h1>나에게 좋아요를 한 사람 table</h1>
+						<h1>나에게 좋아요를 한 사람 table</h1>				
+						<c:forEach items="${likeMe}" var="like" varStatus="vs">
+							<a href="${pageContext.request.contextPath}/member/${like.likeSender}">${like.likeSender}</a>
+						</c:forEach>
 					</c:if>
 					
+					
 					<c:if test="${member.memberId ne loginMember.memberId}"> <!-- 로그인한 객체가 보고있는 다를 때 -->
-						<button type="button" class="btn btn-outline-danger">좋아요</button>
+						<button type="button" class="btn btn-outline-danger" onclick="memberLike()">좋아요</button>
 					</c:if>
 	            </div>
 	        </div>
 	    </div>
 	</div>
+	<form:form 
+	name = "memberLikeFrm"
+	method = "POST"
+	action ="${pageContext.request.contextPath}/member/memberLike.do">
+		<input type="hidden" id="memberId" name="memberId" value="${member.memberId}"/>
+	</form:form>
 
 <section id="class2">
 	<c:if test="${member.memberId eq loginMember.memberId}"> <!-- 로그인한 객체가 보고있는 객체가 같을 때 -->
@@ -112,10 +122,16 @@
 <br/><br/><br/>
 
 <script>
-	
-	const updateMember = () => {
-		
-		window.location.href = "${pageContext.request.contextPath}/member/memberUpdate.do" 
-	};
+const memberLike = () => {
+	//console.log("잘 되는감?");
+	const memberLikeFrm = document.memberLikeFrm;
+	console.log(memberLikeFrm);
+	memberLikeFrm.submit();
+}
+
+const updateMember = () => {
+	window.location.href = "${pageContext.request.contextPath}/member/memberUpdate.do" 
+};
+
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

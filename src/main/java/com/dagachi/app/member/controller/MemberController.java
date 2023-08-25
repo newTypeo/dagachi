@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -19,14 +20,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.multipart.MultipartFile;
+
 
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.service.ClubService;
 import com.dagachi.app.common.DagachiUtils;
 import com.dagachi.app.member.dto.MemberUpdateDto;
+import com.dagachi.app.member.entity.CbcLike;
 import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.entity.MemberDetails;
+import com.dagachi.app.member.entity.MemberLike;
 import com.dagachi.app.member.entity.MemberProfile;
 import com.dagachi.app.member.service.MemberService;
 
@@ -35,7 +41,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Validated
 //@RequestMapping("/member")
-//@SessionAttributes({"loginMember"})
+@SessionAttributes({"likeMe"})
 @Slf4j
 @RequestMapping("/member")
 public class MemberController {
@@ -72,12 +78,37 @@ public class MemberController {
 		 	
 		 	List<ClubAndImage> joinClub = clubService.searchJoinClub(member.getMemberId());
 		 	model.addAttribute("joinClub",joinClub);
+		 	
+		 // 회원 좋아요 전체 조회 후 화면에 노출시키기
+			 List<MemberLike> likeMe = memberService.findAllLikeMe(loginMemberId);
+			 log.debug("주나나 너만 믿는다 안되면 반으로 접어 버릴테야 {} :", likeMe);
+			 model.addAttribute("likeMe",likeMe);
+			 
 	        return "member/memberDetail";
+	        
 	    }
 	 
-	
-	 
-	 
-	
-	
+	 @PostMapping("/memberLike.do")
+	 public String memberLike(
+			 @AuthenticationPrincipal MemberDetails loginMember,
+			 @RequestParam String memberId,
+			 Model model,
+			 RedirectAttributes attr
+			 ) {
+		 String loginMemberId = loginMember.getMemberId();
+		 
+		 int checkDuplicate = memberService.checkDuplicateMemberId(memberId);
+		 
+		 Map<String, Object> params = Map.of(
+				"memberId", memberId,
+				"loginMemberId", loginMemberId
+				 );
+		 
+		 if(checkDuplicate == 0) {
+			 int result = memberService.memberLike(params);			 
+		 }
+
+		 return "redirect:/member/" + memberId;
+	 }
+
 }

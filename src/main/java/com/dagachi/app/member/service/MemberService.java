@@ -12,8 +12,10 @@ import com.dagachi.app.admin.entity.AdminInquiry;
 import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.member.dto.MemberCreateDto;
 import com.dagachi.app.member.entity.ActivityArea;
+import com.dagachi.app.member.entity.CbcLike;
 import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.entity.MemberDetails;
+import com.dagachi.app.member.entity.MemberLike;
 import com.dagachi.app.member.entity.MemberProfile;
 
 
@@ -53,11 +55,20 @@ public interface MemberService extends UserDetailsService {
 
 	Member findMemberByEmail(String email);
 
+
+	int memberLike(Map<String, Object> params);
+
 	int UpdateMember(Member member);
 
 	int updateMemberProfile(MemberProfile memberProfile);
 	
 	List<AdminInquiry> memberAdminInquiryList();
+
+	List<MemberLike> findAllLikeMe(String loginMemberId);
+
+	int checkDuplicateMemberId(String memberId);
+
+
 
 
 

@@ -1,12 +1,11 @@
 @CHARSET "UTF-8";
 
 #main-nav-bar {
-	max-width: 1320px;
+	width: 1320px;
 	padding: 10px;
 	margin: 0 auto;
 	display: flex;
 	align-items: center;
-	border-bottom: 1px solid #aaa;
 }
 #category-container{
 	height: 40px;

@@ -21,8 +21,10 @@ import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.member.dto.MemberCreateDto;
 import com.dagachi.app.member.entity.ActivityArea;
+import com.dagachi.app.member.entity.CbcLike;
 import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.entity.MemberDetails;
+import com.dagachi.app.member.entity.MemberLike;
 import com.dagachi.app.member.entity.MemberProfile;
 import com.dagachi.app.member.repository.MemberRepository;
 
@@ -169,23 +171,36 @@ public class MemberServiceImpl implements MemberService{
 	}
 	
 	@Override
+	public int memberLike(Map<String, Object> params) {
+		return memberRepository.memberLike(params);
+	}
+	
+	
 	public int UpdateMember(Member member) {
-		int result = 0;
-		
+		int result = 0;	
 		result = memberRepository.updateMember(member);
-		
 		return result;
 	}
 	
 	@Override
 	public int updateMemberProfile(MemberProfile memberProfile) {
 		int result = 0;
-		
 		result = memberRepository.updateMemberProfile(memberProfile);
 		return result;
 	}
+	
 	@Override
 	public List<AdminInquiry> memberAdminInquiryList() {
 		return memberRepository.memberAdminInquiryList();
+	}
+	
+	@Override
+	public List<MemberLike> findAllLikeMe(String loginMemberId) {
+		return memberRepository.findAllLikeMe(loginMemberId);
+	}
+	
+	@Override
+	public int checkDuplicateMemberId(String memberId) {
+		return memberRepository.checkDuplicateMemberId(memberId);
 	}
 }

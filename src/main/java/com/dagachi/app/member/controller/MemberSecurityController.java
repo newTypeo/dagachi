@@ -99,7 +99,6 @@ public class MemberSecurityController {
        return "redirect:/member/memberAdminInquiryList.do";
    }
 	 
-	 
 	  /*임시회원가입*/
 	  @PostMapping("/memberCreate.do")
 	   public String create(
