@@ -476,5 +476,14 @@ public class ClubServiceImpl implements ClubService {
 		return clubRepository.clubLike(params);
 	}
 	
+	@Override
+	public List<ClubBoard> searchBoards(Map<String, Object> searchBoardMap, Map<String, Object> params) {
+		int limit = (int) params.get("limit");
+		int page = (int) params.get("page");
+		int offset = (page - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		return clubRepository.searchBoards(searchBoardMap,rowBounds);
+	}
+	
 	
 }

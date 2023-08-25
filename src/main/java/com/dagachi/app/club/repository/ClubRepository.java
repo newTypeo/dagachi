@@ -261,6 +261,9 @@ public interface ClubRepository {
 	int clubLike(Map<String, Object> params);
 
 	int boardSize(ClubBoard clubBoard);
+	
+	List<ClubBoard> searchBoards(Map<String, Object> searchBoardMap, RowBounds rowBounds);
 
+	
 }
    
