@@ -263,6 +263,15 @@ public interface ClubRepository {
 	int clubStyleUpdate(ClubStyleUpdateDto style);
 	
 	List<ClubBoard> searchBoard(Map<String, Object> searchBoardMap);
+	
+	@Update("update club_layout set title = #{title} where club_id = #{clubId}")
+	int updateClubTitleImage(ClubLayout clubLayout);
+	
+	@Update("update club_layout set main_image = #{mainImage} where club_id = #{clubId}")
+	int updateClubMainImage(ClubLayout clubLayout);
+	
+	@Update("update club_layout set main_content = #{mainContent} where club_id = #{clubId}")
+	int updateClubMainContent(ClubLayout clubLayout);
 
 
 

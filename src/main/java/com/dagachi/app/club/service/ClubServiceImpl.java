@@ -475,5 +475,18 @@ public class ClubServiceImpl implements ClubService {
 		return clubRepository.searchBoard(searchBoardMap);
 	}
 	
+	@Override
+	public int updateClubTitleImage(ClubLayout clubLayout) {
+		return clubRepository.updateClubTitleImage(clubLayout);
+	}
+	
+	@Override
+	public int updateClubMainImage(ClubLayout clubLayout) {
+		return clubRepository.updateClubMainImage(clubLayout);
+	}
+	@Override
+	public int updateClubMainContent(ClubLayout clubLayout) {
+		return  clubRepository.updateClubMainContent(clubLayout);
+	}
 	
 }

@@ -171,8 +171,6 @@ public class MemberSecurityController {
 			 @Valid MemberUpdateDto _member,
 			 BindingResult bindingResult
 			 ) throws IllegalStateException, IOException {
-		log.debug("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT = {}",_member);
-		log.debug("_member ={} ",_member);
 		 String uploadDir = "/member/profile/";
 		 MemberProfile memberProfile = null;
 		 if(!upFile.isEmpty()) {

@@ -139,6 +139,12 @@ public interface ClubService {
 
 	List<ClubBoard> searchBoard(Map<String, Object> searchBoardMap);
 
+	int updateClubTitleImage(ClubLayout clubLayout);
+
+	int updateClubMainImage(ClubLayout clubLayout);
+
+	int updateClubMainContent(ClubLayout clubLayout);
+
 
 
 
