@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -42,6 +43,7 @@ import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.club.entity.ClubRecentVisited;
 import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.club.repository.ClubRepository;
+import com.dagachi.app.member.entity.CbcLike;
 import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.entity.MemberProfile;
 import com.dagachi.app.member.repository.MemberRepository;
@@ -472,9 +474,41 @@ public class ClubServiceImpl implements ClubService {
 	}
 	
 	@Override
+	public int updateClubTitleImage(ClubLayout clubLayout) {
+		return clubRepository.updateClubTitleImage(clubLayout);
+	}
+	
+	@Override
+	public int updateClubMainImage(ClubLayout clubLayout) {
+		return clubRepository.updateClubMainImage(clubLayout);
+	}
+	@Override
+	public int updateClubMainContent(ClubLayout clubLayout) {
+		return  clubRepository.updateClubMainContent(clubLayout);
+	}
 	public int clubLike(Map<String, Object> params) {
 		return clubRepository.clubLike(params);
 	}
 	
+	@Override
+	public List<ClubBoard> searchBoards(Map<String, Object> searchBoardMap, Map<String, Object> params) {
+		int limit = (int) params.get("limit");
+		int page = (int) params.get("page");
+		int offset = (page - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		return clubRepository.searchBoards(searchBoardMap,rowBounds);
+	}
+	
+
+	@Override
+	public List<ClubSearchDto> findClubByDistance(Map<String, Object> params) {
+		return clubRepository.findClubByDistance(params);
+	}
+	
+	@Override
+	public List<ClubAndImage> findAllClubLike(String loginMemberId) {
+		return clubRepository.findAllClubLike(loginMemberId);
+	}
+
 	
 }

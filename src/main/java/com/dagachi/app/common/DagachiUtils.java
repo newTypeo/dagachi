@@ -66,8 +66,8 @@ public class DagachiUtils {
 	
 
 	/**
-	 * 카카도 지도
-	 * @author ssusss
+	 * 카카오 지도
+	 * @author 동찬
 	 */
 	public static JsonObject fetchJsonData(String url, String apiKey) throws Exception {
         URL requestUrl = new URL(url);
@@ -91,9 +91,7 @@ public class DagachiUtils {
 	
 	/**
 	 * yyyyMMdd_HHmmssSSS_123.png
-	 * 
-	 * @param originalFilename
-	 * @return
+	 * @author ?
 	 */
 	public static String getRenameFilename(String originalFilename) {
 		// 확장자 
@@ -109,6 +107,10 @@ public class DagachiUtils {
 	}
 	
 	
+	/**
+	 * 사용자가 입력한 km로 주변 반경 법정동명 찾는 메소드(알고리즘)
+	 * @author 종환
+	 */
 	public static Set<String> getAreaNamesByDistance(double x, double y, int distance, Map<Integer, Double> anglePattern) 
 			throws UnsupportedEncodingException {
 		Set<String> zoneSet = new HashSet<>();

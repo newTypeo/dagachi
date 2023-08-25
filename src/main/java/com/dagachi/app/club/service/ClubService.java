@@ -2,6 +2,7 @@ package com.dagachi.app.club.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -31,6 +32,7 @@ import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.club.entity.ClubRecentVisited;
 import com.dagachi.app.club.entity.ClubTag;
+import com.dagachi.app.member.entity.CbcLike;
 import com.dagachi.app.member.entity.Member;
 
 public interface ClubService {
@@ -137,13 +139,23 @@ public interface ClubService {
 
 	List<ClubBoard> searchBoard(Map<String, Object> searchBoardMap);
 
+	int updateClubTitleImage(ClubLayout clubLayout);
+
+	int updateClubMainImage(ClubLayout clubLayout);
+
+	int updateClubMainContent(ClubLayout clubLayout);
+
 	int boardSize(ClubBoard clubBoard);
 	
 	int checkDuplicateClubLike(int targetId);
 
 	int clubLike(Map<String, Object> params);
 
+	List<ClubSearchDto> findClubByDistance(Map<String, Object> params);
+	
+	List<ClubBoard> searchBoards(Map<String, Object> searchBoardMap, Map<String, Object> params);
 
+	List<ClubAndImage> findAllClubLike(String loginMemberId);
 
 
 }
