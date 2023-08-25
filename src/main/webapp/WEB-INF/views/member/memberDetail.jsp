@@ -43,7 +43,7 @@
                 <h3>성별 : ${member.gender eq 'M' ? '남' : '여'}</h3>
                 <h3>이메일 : ${member.email}</h3>
                 <h3>MBTI : ${member.mbti}</h3>
-                
+                <button onclick="payment();">결제하기</button>
 					<c:if test="${member.memberId eq loginMember.memberId}"> <!-- 로그인한 객체가 보고있는 객체가 같을 때 -->
 						<button onclick = "updateMember()">회원 정보 수정</button>
 						<button type="button"onclick="withdrawalMember();">회원탈퇴</button>
@@ -152,6 +152,23 @@ const withdrawalMember = () => {
 		document.memberDeleteFrm.submit();
 	}
 };
+
+
+const payment = () => {
+	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
+	$.ajax({
+		url: "${pageContext.request.contextPath}/payment/ready",
+		method : "post",
+		beforeSend(xhr) {
+			xhr.setRequestHeader(header, token);
+		},
+		success: function(response) {
+			console.log(response);
+		}
+	});
+};
+
 
 const memberLike = () => {
 	//console.log("잘 되는감?");

@@ -37,7 +37,10 @@
 		</div>
 	</nav>
 	<nav id="my-club-info">
-		
+		<sec:authorize access="isAuthenticated()">
+			<sec:authentication property="principal.username"/>
+			<sec:authentication property="principal"/>
+		</sec:authorize>
 	</nav>
 </div>
 
