@@ -84,8 +84,11 @@ header #header-nav-container span {
 
 /************ main-banner *************/
 #main-banner {
-	background-color: lightgreen;
 	width: 960px;
+	border-radius: 10px;
+}
+
+.carousel-inner {
 	border-radius: 10px;
 }
 
@@ -100,6 +103,7 @@ header #header-nav-container span {
 	background-color: lightpink;
 	width: 320px;
 	margin-left: 20px;
+	border-radius: 10px;
 }
 
 /********** footer **********/
