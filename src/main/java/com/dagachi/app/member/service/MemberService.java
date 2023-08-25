@@ -68,7 +68,7 @@ public interface MemberService extends UserDetailsService {
 
 	List<MemberInterest> findMemberInterestsByMemberId(String memberId);
 
-	ClubMember findClubMemberByMemberId(String memberId);
+	List<ClubMember> findClubMemberByMemberId(String memberId);
 	
 	List<MemberLike> findAllLikeMe(String loginMemberId);
 

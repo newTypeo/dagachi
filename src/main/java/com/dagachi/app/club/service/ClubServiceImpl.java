@@ -510,5 +510,8 @@ public class ClubServiceImpl implements ClubService {
 		return clubRepository.findAllClubLike(loginMemberId);
 	}
 
-	
+	@Override
+	public List<Club> findClubsByMemberId(String memberId) {
+		return clubRepository.findClubsByMemberId(memberId);
+	}
 }

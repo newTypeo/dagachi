@@ -122,5 +122,5 @@ public interface MemberRepository {
 	List<MemberInterest> findMemberInterestsByMemberId(String memberId);
 
 	@Select("select * from club_member where member_id = #{memberId}")
-	ClubMember findClubMemberByMemberId(String memberId);
+	List<ClubMember> findClubMemberByMemberId(String memberId);
 }
