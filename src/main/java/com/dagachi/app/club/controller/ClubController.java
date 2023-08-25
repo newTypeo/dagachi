@@ -950,10 +950,7 @@ public class ClubController {
 	}
 	
 	/**
-	 * 클럽 레이아웃에서 사진변경 하는거 진행중
 	 * @author 준한
-	 * @throws IOException 
-	 * @throws IllegalStateException 
 	 */
 	@PostMapping("/{domain}/clubTitleUpdate.do")
 	public String clubTitleUpdate(

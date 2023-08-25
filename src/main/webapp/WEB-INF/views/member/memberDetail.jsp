@@ -53,7 +53,7 @@
 					</c:if>
 					
 					
-					<c:if test="${member.memberId ne loginMember.memberId}"> <!-- 로그인한 객체가 보고있는 다를 때 -->
+					<c:if test="${member.memberId ne loginMember.memberId}"> <!-- 로그인한 객체가 보고있는 객체가 다를 때 -->
 						<button type="button" class="btn btn-outline-danger" onclick="memberLike()">좋아요</button>
 					</c:if>
 	            </div>
