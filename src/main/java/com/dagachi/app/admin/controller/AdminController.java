@@ -94,7 +94,7 @@ public class AdminController {
 		
 		Map<String, Object> params = Map.of("page", page, "limit", LIMIT);
 
-		List<AdminInquiry> inquirys = adminService.AdminInquiryList(adminInquiry, params);
+		List<AdminInquiry> inquirys = adminService.adminInquiryList(adminInquiry, params);
 		
 		int inquirySize = adminService.inquirySize(adminInquiry);
 		log.debug("inquirySize={}",inquirySize);
