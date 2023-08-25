@@ -10,6 +10,7 @@ import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
 import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.ClubEnrollDto;
+import com.dagachi.app.club.dto.ClubGalleryAndImage;
 import com.dagachi.app.club.dto.ClubManageApplyDto;
 import com.dagachi.app.club.dto.ClubMemberAndImage;
 import com.dagachi.app.club.dto.ClubMemberRole;
@@ -156,6 +157,10 @@ public interface ClubService {
 	List<ClubBoard> searchBoards(Map<String, Object> searchBoardMap, Map<String, Object> params);
 
 	List<ClubAndImage> findAllClubLike(String loginMemberId);
+
+	List<ClubGalleryAndImage> clubGalleryAndImageFindByClubId(int clubId);
+
+	List<Club> findClubsByMemberId(String memberId);
 
 
 }

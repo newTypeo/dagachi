@@ -5,8 +5,9 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <fmt:requestEncoding value="utf-8" />
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin.css"/>
 
-<section id="admin-quit-member-list-sec" class="p-2 quit-member-list">
+<section id="admin-quit-member-list-sec" class="p-2 quit-member-list sectionList">
 	<h1>탈퇴 회원목록 페이지</h1>
 
 	<div id="quit-member-list-wrapper">
@@ -38,7 +39,7 @@
 						type="hidden" name="column" id="columnHidden">
 				</form>
 
-				<table id="quitMemberListTable">
+				<table id="quitMemberListTable" class="listTable">
 					<thead>
 						<tr>
 							<th>ID</th>

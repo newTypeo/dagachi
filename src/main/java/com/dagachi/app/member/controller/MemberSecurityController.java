@@ -120,12 +120,14 @@ public class MemberSecurityController {
 		ActivityArea activityArea = memberService.findActivityAreaById(memberId);
 		MemberProfile profile = memberService.findMemberProfile(memberId);
 		List<MemberInterest> interests = memberService.findMemberInterestsByMemberId(memberId);
-		ClubMember clubMember = memberService.findClubMemberByMemberId(memberId);
+		List<ClubMember> clubMembers = memberService.findClubMemberByMemberId(memberId);
 		
 		memberDetails.setActivityArea(activityArea);
 		memberDetails.setMemberProfile(profile);
 		memberDetails.setMemberInterest(interests);
-		memberDetails.setClubMember(clubMember);
+		memberDetails.setClubMember(clubMembers);
+		
+		System.out.println(memberDetails);
 		
 		//
 		
@@ -184,9 +186,11 @@ public class MemberSecurityController {
 			 @Valid MemberUpdateDto _member,
 			 BindingResult bindingResult
 			 ) throws IllegalStateException, IOException {
+		log.debug("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT = {}",_member);
+		log.debug("_member ={} ",_member);
+		 String uploadDir = "/member/profile/";
+		 MemberProfile memberProfile = null;
 		 if(!upFile.isEmpty()) {
-			 String uploadDir = "/member/profile/";
-			 MemberProfile memberProfile = null;
 			 String originalFilename = upFile.getOriginalFilename();
 			 String renamedFilename = DagachiUtils.getRenameFilename(originalFilename);
 			 File destFile = new File(uploadDir + renamedFilename);
@@ -208,6 +212,7 @@ public class MemberSecurityController {
 				 .phoneNo(_member.getPhoneNo()).address(_member.getAddress())
 				 .gender(_member.getGender()).mbti(_member.getMbti()).birthday(_member.getBirthday()).build();
 		 
+		 log.debug("member라곴ㅆㅆㅆㅆㅆㅆㅆㅆㅆㅆㅆㅆㅆㅆㅆㅆ= {}",member);
 		 
 		 int result2 = memberService.UpdateMember(member);
 		 

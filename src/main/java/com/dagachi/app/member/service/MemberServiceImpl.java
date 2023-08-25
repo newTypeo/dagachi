@@ -204,7 +204,7 @@ public class MemberServiceImpl implements MemberService{
 	}
 	
 	@Override
-	public ClubMember findClubMemberByMemberId(String memberId) {
+	public List<ClubMember> findClubMemberByMemberId(String memberId) {
 		return memberRepository.findClubMemberByMemberId(memberId);
 	}
 		

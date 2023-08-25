@@ -33,11 +33,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.dagachi.app.Pagination;
+import com.dagachi.app.admin.entity.AdminInquiry;
 import com.dagachi.app.club.common.Status;
 import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
@@ -46,6 +48,7 @@ import com.dagachi.app.club.dto.ClubCreateDto;
 import com.dagachi.app.club.dto.ClubManageApplyDto;
 import com.dagachi.app.club.dto.ClubMemberAndImage;
 import com.dagachi.app.club.dto.ClubEnrollDto;
+import com.dagachi.app.club.dto.ClubGalleryAndImage;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
 import com.dagachi.app.club.dto.ClubReportDto;
@@ -104,7 +107,15 @@ public class ClubController {
 	public ClubController(JavaMailSender javaMailSender) {
 		this.javaMailSender = javaMailSender;
 	}
-
+	
+	@GetMapping("/getClubName.do")
+	@ResponseBody 
+	public ResponseEntity<?> getClubname(@AuthenticationPrincipal MemberDetails member) { 
+		List<Club> clubs =clubService.findClubsByMemberId(member.getMemberId());
+	 
+		return ResponseEntity.status(HttpStatus.OK).body(clubs); 
+	}
+	
 
 	@GetMapping("/main.do")
 	public void Detail() {}
@@ -116,7 +127,6 @@ public class ClubController {
 	public String ClubEnroll(@PathVariable("domain") String domain, RedirectAttributes redirectAttr, Model model,
 			@AuthenticationPrincipal MemberDetails member) {
 		int clubId = clubService.clubIdFindByDomain(domain);
-		System.out.println(clubId);
 		Club club = clubService.findClubById(clubId);
 		model.addAttribute("club", club);
 
@@ -173,14 +183,18 @@ public class ClubController {
 	 */
 	@PostMapping("/{domain}/boardCreate.do")
 	public String boardCreate(@Valid ClubBoardCreateDto _board, @PathVariable("domain") String domain,
-			BindingResult bindingResult, @RequestParam(value = "upFile", required = false) List<MultipartFile> upFiles)
+			BindingResult bindingResult, @RequestParam(value = "upFile", required = false) List<MultipartFile> upFiles
+			,@AuthenticationPrincipal MemberDetails member
+			)
 			throws IllegalStateException, IOException {
 		List<ClubBoardAttachment> attachments = new ArrayList<>();
 		if (!upFiles.isEmpty())
 			attachments = insertAttachment(upFiles, attachments);
 		Club club = clubService.findByDomain(domain);
 		int clubId = club.getClubId();
-		ClubBoardDetails clubBoard = ClubBoardDetails.builder().clubId(clubId).writer("honggd").attachments(attachments)
+		String memberId = member.getMemberId();
+		
+		ClubBoardDetails clubBoard = ClubBoardDetails.builder().clubId(clubId).writer(memberId).attachments(attachments)
 				.title(_board.getTitle()).content(_board.getContent()).type(_board.getType()).build();
 		int result = clubService.postBoard(clubBoard);
 		// 작성자 수정해야함
@@ -369,6 +383,7 @@ public class ClubController {
 	}
 
 	/**
+	 * 로그인이 안되어 있을시
 	 * 메인에서 소모임 전체 조회(카드로 출력)
 	 * 
 	 * @author 준한
@@ -548,8 +563,7 @@ public class ClubController {
 		
 		return ResponseEntity.status(HttpStatus.OK).body(boardInfo);
 	}
-
-	
+	 
 	/**
 	 * @author ?
 	 */
@@ -753,7 +767,7 @@ public class ClubController {
 
 	
 	/**
-	 * @author ?
+	 * @author 준한
 	 */
 	@GetMapping("/{domain}/clubUpdate.do")
 	public String clubUpdate(@PathVariable("domain") String domain, Model model) {
@@ -774,7 +788,7 @@ public class ClubController {
 
 	
 	/**
-	 * @author ?
+	 * @author 준한
 	 */
 	@PostMapping("/{domain}/clubUpdate.do")
 	public String clubUpdate(@PathVariable("domain") String domain, @Valid ClubUpdateDto _club,
@@ -1104,6 +1118,23 @@ public class ClubController {
 			int result = clubService.clubLike(params); 
 		 }
 		 return "redirect:/club/" + domain;
+	}
+	
+	@GetMapping("{domain}/clubGallery.do")
+	public String clubGallery(
+			@PathVariable ("domain") String domain,
+			@AuthenticationPrincipal MemberDetails loginMember,
+			Model model
+			){
+		int clubId = clubService.clubIdFindByDomain(domain);
+		List<ClubGalleryAndImage> clubGalleryAndImages = clubService.clubGalleryAndImageFindByClubId(clubId);
+		log.debug("clubGalleryAndImages = {}",clubGalleryAndImages);
+		
+		model.addAttribute("clubGalleryAndImages",clubGalleryAndImages);
+		
+		return "/club/clubGallery";
+		
+		
 	}
 	
 }

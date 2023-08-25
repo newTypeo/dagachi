@@ -34,7 +34,7 @@ public class MemberDetails extends Member implements UserDetails, OAuth2User{
 	private MemberProfile memberProfile;
 	private ActivityArea activityArea;
 	private List<MemberInterest> memberInterest;
-	private ClubMember clubMember;
+	private List<ClubMember> clubMember;
 	
 	
 	
