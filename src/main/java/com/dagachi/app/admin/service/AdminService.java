@@ -1,6 +1,7 @@
 package com.dagachi.app.admin.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 
@@ -16,5 +17,7 @@ public interface AdminService {
 	int updateInquiry(AdminInquiryUpdateDto inquiryUpdate);
 
 	List<MainPage> getMainBanner();
+
+	Map<String, Object> adminInquiryList(Map<String, Object> params);
 
 }

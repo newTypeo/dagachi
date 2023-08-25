@@ -1,7 +1,9 @@
 package com.dagachi.app.admin.service;
 
 import java.util.List;
+import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,5 +40,17 @@ public class AdminServiceImpl implements AdminService{
 	@Override
 	public List<MainPage> getMainBanner() {
 		return adminRepository.getMainBanner();
+	}
+
+	@Override
+	public Map<String, Object> adminInquiryList(Map<String, Object> params) {
+		if ((String) params.get("getCount") != null) {
+			return adminRepository.adminInquiryList(params);
+		}
+		int limit = (int) params.get("limit");
+		int page = (int) params.get("page");
+		int offset = (page - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		return adminRepository.adminInquiryList(rowBounds, params);
 	}
 }

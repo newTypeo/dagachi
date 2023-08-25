@@ -41,7 +41,6 @@
 		</where>
 		order by
 		board_id desc
-
 	</select>
 
 

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dagachi.app.admin.repository.AdminRepository">
+
+	<select id="searchBoard" resultType="clubBoard">
+		select
+			*
+		from
+			admin_Inquiry
+		<where>
+			<if test="searchBoardMap.searchType != null">
+				and ${searchBoardMap.searchType} like '%' || #{searchBoardMap.searchKeyword} || '%' 
+			</if>
+			<if test="searchBoardMap.type != 0">
+				and type= #{searchBoardMap.type} || status = {}
+			</if>
+		</where>
+		order by
+		Inquiry_id
+		desc
+
+	</select>
+
+
+
+</mapper>
+

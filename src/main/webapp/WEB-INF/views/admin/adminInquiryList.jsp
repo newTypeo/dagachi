@@ -10,40 +10,47 @@
 	<div id="inquiry-list-wrapper">
 		<div id="search-container">
 			<div id="searchBar-wrap">
-				<select class="custom-select custom-select-lg mb-3" id="dType">
-					<option value="0" selected>전체보기</option>
+			
+				<select class="custom-select custom-select-lg mb-3" id="dType" name = "type">
+					<option value="0" selected>전체보기</option>   
 					<option value="1">회원 정보 문의</option>
 					<option value="2">소모임 관련 문의</option>
 					<option value="3">결제 문의</option>
 					<option value="4">신고 문의</option>
 				</select>
+				
 				<label for="searchType">검색타입 :</label> 
 				<select id="searchType">
-					<option id="searchOption" value="reportInquiryIdSearch">ID</option>
-					<option id="searchOption" value="reportInquiryTitleSearch">제목</option>
-					<option id="searchOption" value="reportInquiryContentSearch">내용</option>
+					<option id="searchOption" value="InquiryIdSearch">ID</option>
+					<option id="searchOption" value="InquiryTitleSearch">제목</option>
+					<option id="searchOption" value="InquiryContentSearch">내용</option>
 				</select>
+				
 				<div id="search-name" class="search-type" style="display: inline-block">
-					<input type="text" id="reportInquiryIdSearch" placeholder="ID를을 입력하세요" name="name">
-					<button onclick="reportSearchInquiry(this);" name="member_id">검색</button>
+					<input type="text" id="InquiryIdSearch" placeholder="ID를을 입력하세요" name="memberId">
+					<button onclick="SearchInquiry(this);" name="member_id">검색</button>
 				</div>
+				
 				<div id="search-id" class="search-type" style="display: none">
-					<input type="text" id="reportInquiryTitleSearch" placeholder="제목을 입력하세요" name="member_id">
-					<button onclick="reportSearchInquiry(this);" name="title">검색</button>
+					<input type="text" id="InquiryTitleSearch" placeholder="제목을 입력하세요" name="title">
+					<button onclick="SearchInquiry(this);" name="title">검색</button>
 				</div>
+				
 				<div id="search-address" class="search-type" style="display: none">
-					<input type="text" id="reportInquiryContentSearch" placeholder="내용을 입력하세요" name="address">
-					<button onclick="reportSearchInquiry(this);" name="content">검색</button>
+					<input type="text" id="InquiryContentSearch" placeholder="내용을 입력하세요" name="content">
+					<button onclick="SearchInquiry(this);" name="content">검색</button>
 				</div>
 					<label for="answerType">답변 여부 :</label>
-					<input type="radio" id="answerType" name="answerType" value="answer"> 답변
-					<input type="radio" id="answerType" name="answerType" value="noAnswer"> 비답변
+					<input type="radio" id="type" name="type" value="1"> 답변
+					<input type="radio" id="type" name="type" value="0"> 비답변
+					
 				<form name="searchInquiryFrm"
 					action="${pageContext.request.contextPath}/admin/memberAdminInquiryList.do">
 					<input type="hidden" name="keyword" id="keywordHidden"> <input
 						type="hidden" name="column" id="columnHidden">
+						
 				</form>
-				<table id="reportInquiryListTable">
+				<table id="InquiryListTable">
 					<thead>
 						<tr>
 							<th>카테고리</th>
@@ -91,7 +98,6 @@
 							                <fmt:formatDate value="${createdAt}" pattern="yy/MM/dd"/>
 							            </td>
 							            <td>
-							            
 							                <div id="response-${vs.index}" style="display: none;">
 										           <c:if test="${empty inquiry.response}">
 												          아직 답변이 없습니다.
@@ -124,17 +130,16 @@
 		</div>
 	</div>
 	
-<%-- 	<div id="pagebar-wrapper" class="text-center">
+ 	<div id="pagebar-wrapper" class="text-center">
 		<c:if test="${empty pagebar}">
 			<span></span>
 		</c:if>
 		<c:if test="${not empty pagebar}">
 			<span>${pagebar}</span>
 		</c:if>
-	</div> --%>
+	</div> 
 	
 </section>
-
 <script>
 //검색유형 선택 시 display 설정
 document.querySelector("#searchType").onchange = (e) => {

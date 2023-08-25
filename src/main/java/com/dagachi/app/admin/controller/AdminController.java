@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,6 +36,7 @@ import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.club.service.ClubService;
 import com.dagachi.app.member.entity.Member;
+import com.dagachi.app.member.entity.MemberDetails;
 import com.dagachi.app.member.service.MemberService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -54,14 +56,7 @@ public class AdminController {
 	private AdminService adminService;
 	
 
-	@GetMapping("/adminInquiryList.do")
-	public String inquriyList(Model model){
-		List<AdminInquiry> inquiry=  new ArrayList<>();
-		inquiry = memberService.memberAdminInquiryList();
-		model.addAttribute("inquiry", inquiry);
-		System.out.println(inquiry);
-		return "admin/adminInquiryList";
-	}
+
 	
 	@GetMapping("/adminInquiryUpdate.do")
 	public String adminInquiryUpdate(@RequestParam int inquiryId, Model model){
@@ -72,9 +67,9 @@ public class AdminController {
 
 	
 	@PostMapping("/adminInquiryUpdate.do")
-	public String adminInquiryUpdate(@RequestParam String inquiryId, @RequestParam String response) {
-	    // 이 부분에서 InquiryId와 response를 사용하여 inquiryUpdate 객체를 생성하고 업데이트 로직을 수행합니다.
+	public String adminInquiryUpdate(@RequestParam String inquiryId, @RequestParam String response, @AuthenticationPrincipal MemberDetails member) {
 	    AdminInquiryUpdateDto inquiryUpdate = new AdminInquiryUpdateDto(); 
+	    inquiryUpdate.setAdminId(member.getMemberId());
 	    inquiryUpdate.setInquiryId(inquiryId);
 	    inquiryUpdate.setResponse(response);
 	    //inquiryUpdate.setResponse(response);
@@ -82,6 +77,41 @@ public class AdminController {
 	    int result = adminService.updateInquiry(inquiryUpdate);
 	    
 	    return "redirect:/admin/adminInquiryList.do";
+	}
+	
+	@GetMapping("/adminInquiryList.do")
+	public String inquriyList(Model model,
+			@RequestParam(defaultValue = "1") int page,
+			@RequestParam String searchKeywordVal,
+			@RequestParam String searchTypeVal,
+			@RequestParam int inquiryTypeVal,
+			@RequestParam int openTypeVal,
+			HttpServletRequest request
+			){
+		int limit = 10;
+		String getCount = "getCount";
+		
+		Map<String, Object> params = new HashMap<>();
+        params.put("page", page);
+        params.put("limit", limit);
+        params.put("keyword", searchKeywordVal);
+        params.put("column", searchTypeVal);
+        
+		List<AdminInquiry> inquiry=  memberService.memberAdminInquiryList();
+		model.addAttribute("inquiry", inquiry);
+		
+		// 전체게시물 수
+		params.put("getCount", getCount);
+		
+		int totalCount = adminService.adminInquiryList(params).size();
+		
+		String url = request.getRequestURI();
+		
+		String pageBar = Pagination.getPagebar(page, limit, totalCount, url);
+		model.addAttribute("pagebar", pageBar);
+		
+		System.out.println(inquiry);
+		return "admin/adminInquiryList";
 	}
 	
 	/**
