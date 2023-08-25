@@ -318,7 +318,7 @@ public class ClubController {
 		if(!"".equals(category)) params.put("category", category); // 사용자가 카테고리를 선택했을 때만 params에 추가
 		
 		List<ClubSearchDto> clubs = clubService.findClubByDistance(params);
-		// log.debug("ClubSearchDto = {}", clubs);
+		log.debug("ClubSearchDto = {}", clubs);
 		
 		return ResponseEntity.status(HttpStatus.OK).body(clubs);
 	}

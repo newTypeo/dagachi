@@ -127,6 +127,8 @@ public class MemberSecurityController {
 		memberDetails.setMemberInterest(interests);
 		memberDetails.setClubMember(clubMember);
 		
+		//
+		
 		// 리다이렉트 처리
 		SavedRequest savedRequest = (SavedRequest) session.getAttribute("SPRING_SECURITY_SAVED_REQUEST");
 		String location = savedRequest == null ? "/" : savedRequest.getRedirectUrl();
