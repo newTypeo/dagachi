@@ -16,8 +16,10 @@ import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
 import com.dagachi.app.admin.entity.AdminInquiry;
 import com.dagachi.app.member.dto.MemberCreateDto;
 import com.dagachi.app.member.entity.ActivityArea;
+import com.dagachi.app.member.entity.CbcLike;
 import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.entity.MemberDetails;
+import com.dagachi.app.member.entity.MemberLike;
 import com.dagachi.app.member.entity.MemberProfile;
 
 
@@ -105,10 +107,13 @@ public interface MemberRepository {
 	@Select("select * from admin_Inquiry")
 	List<AdminInquiry> memberAdminInquiryList();
 	
-	@Insert("insert into member_like values(seq_member_like_id.nextval, #{loginMemberId}, #{memberId}, default)")
+	@Insert("insert into member_like values(seq_member_like_id.nextval, #{memberId}, #{loginMemberId}, default)")
 	int memberLike(Map<String, Object> params);
 
-	@Select("select count(*) from member_like where like_sender = #{memberId}")
+	@Select("select * from member_like where member_id = #{loginMemberId} order by like_id")
+	List<MemberLike> findAllLikeMe(String loginMemberId);
+
+	@Select("select count(*) from member_like where member_id = #{memberId}")
 	int checkDuplicateMemberId(String memberId);
 	
 }
