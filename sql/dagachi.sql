@@ -723,7 +723,7 @@ AFTER INSERT ON member
 FOR EACH ROW
 BEGIN
     INSERT INTO member_profile (member_id, original_filename, renamed_filename, created_at)
-    VALUES (:new.member_id, defualt, 'default.png', SYSDATE);
+    VALUES (:new.member_id, default, 'default.png', SYSDATE);
 END;
 /
 
