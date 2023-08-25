@@ -181,14 +181,18 @@ public class ClubController {
 	 */
 	@PostMapping("/{domain}/boardCreate.do")
 	public String boardCreate(@Valid ClubBoardCreateDto _board, @PathVariable("domain") String domain,
-			BindingResult bindingResult, @RequestParam(value = "upFile", required = false) List<MultipartFile> upFiles)
+			BindingResult bindingResult, @RequestParam(value = "upFile", required = false) List<MultipartFile> upFiles
+			,@AuthenticationPrincipal MemberDetails member
+			)
 			throws IllegalStateException, IOException {
 		List<ClubBoardAttachment> attachments = new ArrayList<>();
 		if (!upFiles.isEmpty())
 			attachments = insertAttachment(upFiles, attachments);
 		Club club = clubService.findByDomain(domain);
 		int clubId = club.getClubId();
-		ClubBoardDetails clubBoard = ClubBoardDetails.builder().clubId(clubId).writer("honggd").attachments(attachments)
+		String memberId = member.getMemberId();
+		
+		ClubBoardDetails clubBoard = ClubBoardDetails.builder().clubId(clubId).writer(memberId).attachments(attachments)
 				.title(_board.getTitle()).content(_board.getContent()).type(_board.getType()).build();
 		int result = clubService.postBoard(clubBoard);
 		// 작성자 수정해야함
