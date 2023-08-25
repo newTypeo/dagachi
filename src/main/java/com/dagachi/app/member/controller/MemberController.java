@@ -90,6 +90,10 @@ public class MemberController {
 	        
 	    }
 	 
+	 /**
+	  * 회원 좋아요
+	  * @author 현우 
+	  */
 	 @PostMapping("/memberLike.do")
 	 public String memberLike(
 			 @AuthenticationPrincipal MemberDetails loginMember,
@@ -99,13 +103,14 @@ public class MemberController {
 			 ) {
 		 String loginMemberId = loginMember.getMemberId();
 		 
+		 // 중복DB가 있을 경우, 있는 데이터 반환 없으면 0 반환
 		 int checkDuplicate = memberService.checkDuplicateMemberId(memberId);
 		 
 		 Map<String, Object> params = Map.of(
 				"memberId", memberId,
 				"loginMemberId", loginMemberId
 				 );
-		 
+		 // 중복이 없는 경우 코드 실행
 		 if(checkDuplicate == 0) {
 			 int result = memberService.memberLike(params);			 
 		 }

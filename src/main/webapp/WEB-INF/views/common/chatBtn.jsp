@@ -43,7 +43,7 @@
 		<span>채팅박스</span>
 		<button id="chat-close-btn">X</button>
 	</div>
-	<iframe name="iframe1" id="iframe1" src="${pageContext.request.contextPath}/chatBox/chatBox.jsp"
+	<iframe name="iframe1" id="iframe1" src="${pageContext.request.contextPath}/chat/chatBox.jsp"
        frameborder="0" border="0" cellspacing="0"
        style="border-style: none; width: 300px; height: 550px; position: relative;">
     </iframe>	

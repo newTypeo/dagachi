@@ -241,3 +241,29 @@
 	height: 70px;
     padding: 12px;
 }
+#club-detail-gallery{
+	display: flex;
+    margin: 170px;
+    width: 1700px;
+    flex-wrap: wrap;
+}
+
+
+
+#gallery-photo {
+    height: 295px;
+    width: 295px;
+}
+
+#gallery-photo-div{
+	height: 295px;
+    width: 295px;
+    margin: 10px;
+}
+#like-count{
+	
+	margin-top : 10px;
+	position: absolute;
+ 	z-index: 2; /* 두 번째 요소는 더 위에 위치 */
+}
+

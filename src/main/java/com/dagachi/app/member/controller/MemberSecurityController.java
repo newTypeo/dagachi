@@ -120,12 +120,14 @@ public class MemberSecurityController {
 		ActivityArea activityArea = memberService.findActivityAreaById(memberId);
 		MemberProfile profile = memberService.findMemberProfile(memberId);
 		List<MemberInterest> interests = memberService.findMemberInterestsByMemberId(memberId);
-		ClubMember clubMember = memberService.findClubMemberByMemberId(memberId);
+		List<ClubMember> clubMembers = memberService.findClubMemberByMemberId(memberId);
 		
 		memberDetails.setActivityArea(activityArea);
 		memberDetails.setMemberProfile(profile);
 		memberDetails.setMemberInterest(interests);
-		memberDetails.setClubMember(clubMember);
+		memberDetails.setClubMember(clubMembers);
+		
+		System.out.println(memberDetails);
 		
 		// 리다이렉트 처리
 		SavedRequest savedRequest = (SavedRequest) session.getAttribute("SPRING_SECURITY_SAVED_REQUEST");
@@ -152,9 +154,10 @@ public class MemberSecurityController {
 	@PostMapping("memberDelete.do")
 	public String memberDelete(@AuthenticationPrincipal MemberDetails member) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-		int result = memberService.memberDelete(member.getMemberId());
 		
+		int result = memberService.memberDelete(member.getMemberId());
+		System.out.println("회원탈퇴 result = " + result);
+		System.out.println("member.getMemberId() = " + member.getMemberId());
 	    if (authentication != null) {
 	        SecurityContextHolder.clearContext(); // 인증 정보 삭제
 	    }
@@ -181,9 +184,11 @@ public class MemberSecurityController {
 			 @Valid MemberUpdateDto _member,
 			 BindingResult bindingResult
 			 ) throws IllegalStateException, IOException {
+		log.debug("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT = {}",_member);
+		log.debug("_member ={} ",_member);
+		 String uploadDir = "/member/profile/";
+		 MemberProfile memberProfile = null;
 		 if(!upFile.isEmpty()) {
-			 String uploadDir = "/member/profile/";
-			 MemberProfile memberProfile = null;
 			 String originalFilename = upFile.getOriginalFilename();
 			 String renamedFilename = DagachiUtils.getRenameFilename(originalFilename);
 			 File destFile = new File(uploadDir + renamedFilename);
@@ -205,6 +210,7 @@ public class MemberSecurityController {
 				 .phoneNo(_member.getPhoneNo()).address(_member.getAddress())
 				 .gender(_member.getGender()).mbti(_member.getMbti()).birthday(_member.getBirthday()).build();
 		 
+		 log.debug("member라곴ㅆㅆㅆㅆㅆㅆㅆㅆㅆㅆㅆㅆㅆㅆㅆㅆ= {}",member);
 		 
 		 int result2 = memberService.UpdateMember(member);
 		 

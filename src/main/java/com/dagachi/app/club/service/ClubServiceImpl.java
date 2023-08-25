@@ -19,6 +19,7 @@ import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.ClubManageApplyDto;
 import com.dagachi.app.club.dto.ClubMemberAndImage;
 import com.dagachi.app.club.dto.ClubEnrollDto;
+import com.dagachi.app.club.dto.ClubGalleryAndImage;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
 import com.dagachi.app.club.dto.ClubReportDto;
@@ -509,6 +510,16 @@ public class ClubServiceImpl implements ClubService {
 	public List<ClubAndImage> findAllClubLike(String loginMemberId) {
 		return clubRepository.findAllClubLike(loginMemberId);
 	}
-
 	
+	@Override
+	public List<ClubGalleryAndImage> clubGalleryAndImageFindByClubId(int clubId) {
+		return clubRepository.clubGalleryAndImageFindByClubId(clubId);
+	}
+	
+	
+
+	@Override
+	public List<Club> findClubsByMemberId(String memberId) {
+		return clubRepository.findClubsByMemberId(memberId);
+	}
 }
