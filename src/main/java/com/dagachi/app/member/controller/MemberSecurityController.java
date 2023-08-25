@@ -152,9 +152,10 @@ public class MemberSecurityController {
 	@PostMapping("memberDelete.do")
 	public String memberDelete(@AuthenticationPrincipal MemberDetails member) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-		int result = memberService.memberDelete(member.getMemberId());
 		
+		int result = memberService.memberDelete(member.getMemberId());
+		System.out.println("회원탈퇴 result = " + result);
+		System.out.println("member.getMemberId() = " + member.getMemberId());
 	    if (authentication != null) {
 	        SecurityContextHolder.clearContext(); // 인증 정보 삭제
 	    }

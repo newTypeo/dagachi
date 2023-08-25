@@ -289,11 +289,6 @@ public class ClubController {
 	}
 	
 	/**
-<<<<<<< HEAD
-	 * 비동기로 주변모임 검색
-	 * 
-=======
->>>>>>> branch 'master' of https://github.com/newTypeo/dagachi
 	 * 활동지역 중심 주변모임 검색
 	 * @author 종환
 	 */

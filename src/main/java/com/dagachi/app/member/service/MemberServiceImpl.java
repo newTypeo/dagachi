@@ -98,7 +98,9 @@ public class MemberServiceImpl implements MemberService{
 	public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
 		
 		UserDetails memberDetails = memberRepository.loadUserByUsername(memberId);
-		if(memberDetails == null)
+		Member member = memberRepository.findMemberById(memberId);
+		
+		if(memberDetails == null || "N".equals(member.getStatus()))
 			throw new UsernameNotFoundException(memberId);
 		return memberDetails;
 	}
