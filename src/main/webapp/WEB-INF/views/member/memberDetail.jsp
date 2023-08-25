@@ -46,6 +46,9 @@
                 
 					<c:if test="${member.memberId eq loginMember.memberId}"> <!-- 로그인한 객체가 보고있는 객체가 같을 때 -->
 						<button onclick = "updateMember()">회원 정보 수정</button>
+						<button type="button"onclick="withdrawalMember();">회원탈퇴</button>
+			   			 	<form:form name="memberDeleteFrm" action="${pageContext.request.contextPath}/member/memberDelete.do" method="post"></form:form>
+						
 						<h1>나에게 좋아요를 한 사람 table</h1>				
 						<c:forEach items="${likeMe}" var="like" varStatus="vs">
 							<a href="${pageContext.request.contextPath}/member/${like.likeSender}">${like.likeSender}</a>
@@ -144,6 +147,12 @@
 <br/><br/><br/>
 
 <script>
+const withdrawalMember = () => {
+	if(confirm('정말로 탈퇴하시겠습니까?')){
+		document.memberDeleteFrm.submit();
+	}
+};
+
 const memberLike = () => {
 	//console.log("잘 되는감?");
 	const memberLikeFrm = document.memberLikeFrm;

@@ -49,7 +49,7 @@ public interface MemberRepository {
 
 	@Select("select * from member where member_Id = #{memberId}")
 	Member findMemberBymemberId(String memberId);
-
+	
 
 	
 	/*
