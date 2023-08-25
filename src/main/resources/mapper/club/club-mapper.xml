@@ -25,18 +25,18 @@
 
 	<select id="searchBoard" resultType="clubBoard">
 		select
-			*
+		*
 		from
-			club_board
+		club_board
 		<where>
-			<if test="searchBoardMap.clubId != null">
-				and club_id like #{searchBoardMap.clubId} 
+			<if test="clubId != null">
+				and club_id like #{clubId}
 			</if>
-			<if test="searchBoardMap.searchType != null">
-				and ${searchBoardMap.searchType} like '%' || #{searchBoardMap.searchKeyword} || '%' 
+			<if test="searchType != null">
+				and ${searchType} like '%' || #{searchKeyword} || '%'
 			</if>
-			<if test="searchBoardMap.type != 0">
-				and type= #{searchBoardMap.type}
+			<if test="type != 0">
+				and type= #{type}
 			</if>
 		</where>
 		order by
@@ -44,6 +44,27 @@
 
 	</select>
 
+	<select id="boardSize" resultType="int">
+		select
+		count(*)
+		from
+			(
+			select
+			*
+			from
+			club_board
+			<where>
+				<if test="clubId !=null">
+					club_id= #{clubId}
+				</if>
+				<if test="type != 0">
+					and type=#{type}
+				</if>
+			</where>
+			order by
+			board_id desc
+		)
+	</select>
 
 
 
@@ -111,6 +132,16 @@
 		order by
 		created_at desc
 	</select>
+
+	<select id="selectUsersByNames" parameterType="java.util.Set" resultMap="userResultMap">
+	    select * from club
+	    WHERE activity_area in
+	    <foreach item="zone" collection="zoneSet" open="(" separator="," close=")">
+	        #{zone}
+	    </foreach>
+	</select>
+
+
 
 
 </mapper>

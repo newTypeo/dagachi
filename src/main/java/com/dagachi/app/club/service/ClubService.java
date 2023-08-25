@@ -2,6 +2,7 @@ package com.dagachi.app.club.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -48,7 +49,7 @@ public interface ClubService {
 
 	List<ClubApply> clubApplyfindByClubId(int clubId);
 
-	List<ClubBoard> boardList(ClubBoard clubBoard);
+	List<ClubBoard> boardList(ClubBoard clubBoard, Map<String, Object> params);
 
 	Club findByDomain(String domain);
 
@@ -58,8 +59,6 @@ public interface ClubService {
 
 	int updateBoard(ClubBoard _board);
 
-	List<ClubBoard> boardList(int boardType);
-	
 	List<ManageMember> clubApplyByFindByClubId(int clubId);
 	
 	int clubDisabled(int clubId);
@@ -140,9 +139,13 @@ public interface ClubService {
 
 	List<ClubBoard> searchBoard(Map<String, Object> searchBoardMap);
 
+	int boardSize(ClubBoard clubBoard);
+	
 	int checkDuplicateClubLike(int targetId);
 
 	int clubLike(Map<String, Object> params);
+
+	List<Club> findClubByDistance(Set<String> zoneSet);
 
 
 }

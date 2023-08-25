@@ -46,7 +46,7 @@
 	<a href="${pageContext.request.contextPath}/admin/adminQuitMemberList.do?keyword=&column=">탈퇴회원조회(관리자)</a>
 	<a href="${pageContext.request.contextPath}/admin/adminReportMemberList.do?keyword=&column=">신고회원조회(관리자)</a>
 	<a href="${pageContext.request.contextPath}/admin/adminClubList.do?keyword=&column=">모임목록(관리자)</a>
-	<a href="${pageContext.request.contextPath}/admin/adminInquriyList.do?keyword=&column=">문의 목록(관리자)</a>
+	<a href="${pageContext.request.contextPath}/admin/adminInquiryList.do?">문의 목록/답변(관리자)</a>
 
 </nav>
 

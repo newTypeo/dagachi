@@ -9,7 +9,7 @@
 	
 <section id="club-search-sec" class="p-2 club-search">
 	<div>
-		<input type="range" id="kmRange" value="0" min="0" max="50" oninput="setValue(this);">
+		<input type="range" id="kmRange" value="0" min="0" max="10" step="2" oninput="setValue(this);">
 		<span id="range_val"></span>
 	</div>
 </section>
@@ -22,14 +22,25 @@ const setValue = (rangeTag) => {
 
 document.querySelector("#kmRange").onmouseup = (e) => {
 	const distance = e.target.value;
+	const mainAreaId = ${mainAreaId};
 	
-	$.ajax({
-		url : "${pageContext.request.contextPath}/club/clubSearchByDistance.do",
-		data : {distance},
-		success(clubs) {
-			console.log("주변 비동기검색 success= ", clubs);
+	$.ajax({ // 4. 위에서 구한 코드로 모든 동정보 요청
+		url : "https://grpc-proxy-server-mkvo6j4wsq-du.a.run.app/v1/regcodes?regcode_pattern=" + mainAreaId,
+		data : {is_ignore_zero : true},
+		success({regcodes}) {
+			const mainAreaName = regcodes[0].name;
+			$.ajax({
+				url : "${pageContext.request.contextPath}/club/clubSearchByDistance.do",
+				data : {distance, mainAreaName},
+				success(clubs) {
+					console.log("주변 비동기검색 success= ", clubs);
+				}
+			});
 		}
-	})
+	});
+	
+	
+	
 	
 	
 }
