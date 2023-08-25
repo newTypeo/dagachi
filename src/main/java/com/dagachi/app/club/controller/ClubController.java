@@ -46,6 +46,7 @@ import com.dagachi.app.club.dto.ClubCreateDto;
 import com.dagachi.app.club.dto.ClubManageApplyDto;
 import com.dagachi.app.club.dto.ClubMemberAndImage;
 import com.dagachi.app.club.dto.ClubEnrollDto;
+import com.dagachi.app.club.dto.ClubGalleryAndImage;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
 import com.dagachi.app.club.dto.ClubReportDto;
@@ -368,6 +369,7 @@ public class ClubController {
 	}
 
 	/**
+	 * 로그인이 안되어 있을시
 	 * 메인에서 소모임 전체 조회(카드로 출력)
 	 * 
 	 * @author 준한
@@ -752,7 +754,7 @@ public class ClubController {
 
 	
 	/**
-	 * @author ?
+	 * @author 준한
 	 */
 	@GetMapping("/{domain}/clubUpdate.do")
 	public String clubUpdate(@PathVariable("domain") String domain, Model model) {
@@ -773,7 +775,7 @@ public class ClubController {
 
 	
 	/**
-	 * @author ?
+	 * @author 준한
 	 */
 	@PostMapping("/{domain}/clubUpdate.do")
 	public String clubUpdate(@PathVariable("domain") String domain, @Valid ClubUpdateDto _club,
@@ -1092,6 +1094,23 @@ public class ClubController {
 			int result = clubService.clubLike(params); 
 		 }
 		 return "redirect:/club/" + domain;
+	}
+	
+	@GetMapping("{domain}/clubGallery.do")
+	public String clubGallery(
+			@PathVariable ("domain") String domain,
+			@AuthenticationPrincipal MemberDetails loginMember,
+			Model model
+			){
+		int clubId = clubService.clubIdFindByDomain(domain);
+		List<ClubGalleryAndImage> clubGalleryAndImages = clubService.clubGalleryAndImageFindByClubId(clubId);
+		log.debug("clubGalleryAndImages = {}",clubGalleryAndImages);
+		
+		model.addAttribute("clubGalleryAndImages",clubGalleryAndImages);
+		
+		return "/club/clubGallery";
+		
+		
 	}
 	
 }
