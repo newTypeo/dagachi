@@ -295,8 +295,10 @@ public class ClubController {
 	@GetMapping("clubSearchByDistance.do")
 	public ResponseEntity<?> clubSearchByDistance(
 			@RequestParam int distance, 
+			@RequestParam String category, // 사용자가 선택한 분류
 			@RequestParam String mainAreaName, // "서울특별시 **구 **동"
 			@AuthenticationPrincipal MemberDetails member) throws UnsupportedEncodingException {
+		
 		// 거리 별로 360에 나눌 각도 Map 셋팅
 		Map<Integer, Double> anglePattern = // km(key)별로 360도를 나눌 각도(value) 
 				Map.of(1, 45.0, 2, 30.0, 3, 22.5, 4, 18.0, 5, 15.0, 6, 11.25, 7, 9.0, 8, 7.5, 9, 6.0, 10, 5.0);
@@ -310,16 +312,15 @@ public class ClubController {
 		// 싸인 코사인으로 계산하는 메소드
 		Set<String> zoneSet = getAreaNamesByDistance(x, y, distance, anglePattern); // 검색할 km기반으로 주변 동이름이 들어있는 set 반환
 		
-		
 		// 주변의 모든 법정동리스트로 모임 조회 후 리턴
-		List<Club> clubs = clubService.findClubByDistance(zoneSet);
-		// log.debug("clubs = {}", clubs);
+		Map<String, Object> params = new HashMap<>();
+		params.put("zoneSet", zoneSet);
+		if(!"".equals(category)) params.put("category", category); // 사용자가 카테고리를 선택했을 때만 params에 추가
 		
+		List<ClubSearchDto> clubs = clubService.findClubByDistance(params);
+		// log.debug("ClubSearchDto = {}", clubs);
 		
-		// 중복된 모임을 어떻게 필터링할 수 있을까?
-		
-		
-		return ResponseEntity.status(HttpStatus.OK).body("안녕~");
+		return ResponseEntity.status(HttpStatus.OK).body(clubs);
 	}
 
 	/**
