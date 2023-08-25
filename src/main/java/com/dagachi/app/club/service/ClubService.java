@@ -32,6 +32,7 @@ import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.club.entity.ClubRecentVisited;
 import com.dagachi.app.club.entity.ClubTag;
+import com.dagachi.app.member.entity.CbcLike;
 import com.dagachi.app.member.entity.Member;
 
 public interface ClubService {
@@ -145,8 +146,6 @@ public interface ClubService {
 	int clubLike(Map<String, Object> params);
 
 	List<Club> findClubByDistance(Set<String> zoneSet);
-
-
 
 
 }
