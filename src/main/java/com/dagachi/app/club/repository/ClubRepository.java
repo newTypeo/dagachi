@@ -272,15 +272,22 @@ public interface ClubRepository {
 	@Insert("insert into cbc_like values(#{memberId}, 1, #{targetId}, default)")
 	int clubLike(Map<String, Object> params);
 	
-	List<Club> findClubByDistance(Set<String> zoneSet);
+	List<ClubSearchDto> findClubByDistance(Map<String, Object> params);
 
 	int boardSize(ClubBoard clubBoard);
+	
+	List<ClubBoard> searchBoards(Map<String, Object> searchBoardMap, RowBounds rowBounds);
 	
 	@Select("select * from club join club_profile on club.club_id = club_profile.club_id left join cbc_like on club.club_id = cbc_like.target_id where member_id = #{loginMemberId}")
 	List<ClubAndImage> findAllClubLike(String loginMemberId);
 	
 	@Select("select * from club_gallery a join club_gallery_attachment b on a.gallery_id = b.gallery_id where club_id = #{clubId}")
 	List<ClubGalleryAndImage> clubGalleryAndImageFindByClubId(int clubId);
+	
+	@Select("select * from club c join club_member cm on (c.club_id = cm.club_id) where cm.member_id = #{memberId}")
+	
+	List<Club> findClubsByMemberId(String memberId);
 
+	
 }
    

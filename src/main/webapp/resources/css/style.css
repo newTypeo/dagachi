@@ -84,8 +84,11 @@ header #header-nav-container span {
 
 /************ main-banner *************/
 #main-banner {
-	background-color: lightgreen;
 	width: 960px;
+	border-radius: 10px;
+}
+
+.carousel-inner {
 	border-radius: 10px;
 }
 
@@ -100,6 +103,24 @@ header #header-nav-container span {
 	background-color: lightpink;
 	width: 320px;
 	margin-left: 20px;
+	box-sizing: border-box;
+	border: 1px solid #aaa;
+	border-radius: 10px;
+}
+.myInfo {
+	height: 220px;
+	padding: 10px;
+	display: flex;
+	border-bottom: 1px solid #aaa;
+}
+.myProfile {
+	width: 100px;
+	height: 100px;
+}
+.myProfile > img {
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
 }
 
 /********** footer **********/

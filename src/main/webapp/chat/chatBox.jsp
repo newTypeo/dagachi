@@ -5,6 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,12 +21,53 @@
 
 <!-- 사용자작성 css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/chat.css" />
+<script>
 
+const memberId = '<sec:authentication property="principal.username"/>';
+	window.onload = ()=>{
+		openChatList(memberId)
+	};
+</script>
 </head>
 <body>
 	<div id="chatBox">
-		야아아ㅏㅇ
+		
+		<table>
+			<thead>
+				<tr>
+					<th>모임이름</th>
+					<th>채팅</th>
+					<th>보낸이</th>
+					<th>${principal.username}</th>
+				<tr>
+			</thead>
+			
+			<tbody>
+			
+			</tbody>
+		</table>
+		
+		
 	</div>
+	
+	<script>
+	
+	const openChatList=(memberId)=>{
+		
+		 $.ajax({
+				url : '${pageContext.request.contextPath}/chat/chat/findChatList.do',
+				method:"GET",
+				data :{memberId},
+				success(data){
+					console.log(data);
+					
+					
+				}
+			});
+	};
+	
+	</script>
+	
 </body>
 </html>
 

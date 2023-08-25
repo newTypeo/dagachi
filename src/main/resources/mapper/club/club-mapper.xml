@@ -43,6 +43,27 @@
 		board_id desc
 
 	</select>
+	
+	<select id="searchBoards" resultType="clubBoard">
+		select
+			*
+		from
+			club_board
+		<where>
+			<if test="clubId != null">
+					and club_id like #{clubId}
+			</if>
+			<if test="searchType != null">
+					and ${searchType} like '%' || #{searchKeyword} || '%'
+			</if>
+			<if test="type != 0">
+					and type= #{type}
+			</if>
+			</where>
+		order by
+			board_id desc
+
+	</select>
 
 	<select id="boardSize" resultType="int">
 		select
@@ -93,30 +114,30 @@
 
 	<select id="searchClubWithFilter">
 		select
-		c.*,
-		cp.club_id profile_club_id,
-		original_filename,
-		renamed_filename,
-		cp.created_at profile_created_at
+			c.*,
+			cp.club_id profile_club_id,
+			original_filename,
+			renamed_filename,
+			cp.created_at profile_created_at
 		from
-		club c left join
-		club_profile cp
-		on c.club_id = cp.club_id
+			club c left join
+			club_profile cp
+			on c.club_id = cp.club_id
 		where
-		(club_name like '%' ||
-		#{inputText} || '%'
-		or
-		category like '%' || #{inputText} || '%'
-		or
-		activity_area like '%' || #{inputText} || '%')
-		<if test="area != null and area != ''">
-			and activity_area = #{area}
-		</if>
-		<if test="category != null and category != ''">
-			and category = #{category}
-		</if>
+			(club_name like '%' ||
+			#{inputText} || '%'
+			or
+			category like '%' || #{inputText} || '%'
+			or
+			activity_area like '%' || #{inputText} || '%')
+			<if test="area != null and area != ''">
+				and activity_area = #{area}
+			</if>
+			<if test="category != null and category != ''">
+				and category = #{category}
+			</if>
 		order by
-		c.created_at desc
+			c.created_at desc
 	</select>
 
 
@@ -133,9 +154,25 @@
 		created_at desc
 	</select>
 
+	<select id="findClubByDistance" parameterType="java.util.Set" >
+	    select
+			c.*,
+			cp.club_id profile_club_id,
+			original_filename,
+			renamed_filename,
+			cp.created_at profile_created_at
+		from
+			club c left join
+			club_profile cp
+			on c.club_id = cp.club_id
+	    where 
+	    <foreach item="zone" collection="zoneSet" separator="or" open="(" close=")">
+	       activity_area like '%' || #{zone}
+	    </foreach>
+	    <if test="category != '' and category != null">
+	    	and category = #{category}
+	    </if>
+	    
+	</select>
 	
-
-
-
-
 </mapper>
