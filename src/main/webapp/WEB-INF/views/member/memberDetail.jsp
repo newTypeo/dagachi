@@ -46,10 +46,14 @@
                 
 					<c:if test="${member.memberId eq loginMember.memberId}"> <!-- 로그인한 객체가 보고있는 객체가 같을 때 -->
 						<button onclick = "updateMember()">회원 정보 수정</button>
-						<h1>나에게 좋아요를 한 사람 table</h1>
+						<h1>나에게 좋아요를 한 사람 table</h1>				
+						<c:forEach items="${likeMe}" var="like" varStatus="vs">
+							<a href="${pageContext.request.contextPath}/member/${like.likeSender}">${like.likeSender}</a>
+						</c:forEach>
 					</c:if>
 					
-					<c:if test="${member.memberId ne loginMember.memberId}"> <!-- 로그인한 객체가 보고있는 다를 때 -->
+					
+					<c:if test="${member.memberId ne loginMember.memberId}"> <!-- 로그인한 객체가 보고있는 객체가 다를 때 -->
 						<button type="button" class="btn btn-outline-danger" onclick="memberLike()">좋아요</button>
 					</c:if>
 	            </div>
@@ -110,13 +114,35 @@
 				   	</c:forEach>
 		   		</div>
 		  </c:if>
+		  
+		 <h1>찜 되어있는 모임</h1>
+		 <c:if test="${empty clubLikeAndImages}">
+		 	<h1>찜하신 모임이 없습니다.</h1>
+		 </c:if>
+		 
+		 <c:if test="${not empty clubLikeAndImages}">
+		   		<div class="posts2">
+					<c:forEach items="${clubLikeAndImages}" var="clubLikeAndImage" varStatus="vs">
+					   		<a class="card" style="width: 18rem;" href = "${pageContext.request.contextPath}/club/${clubLikeAndImage.domain}">
+							  <img src="${pageContext.request.contextPath}/resources/upload/club/profile/${clubLikeAndImage.renamedFilename}" class="card-img-top" alt="...">
+							  <div class="card-body">
+							    <h5 class="card-title">${clubLikeAndImage.clubName}</h5>
+							  </div>
+							  <ul class="list-group list-group-flush">
+							    <li class="list-group-item">${clubLikeAndImage.introduce}</li>
+							    <li class="list-group-item">${clubLikeAndImage.category}</li>
+							  </ul>
+							</a>
+				   	</c:forEach>
+		   		</div>
+		  </c:if>
 		</section>  
 <br/><br/><br/>
 <h1>작성한 글</h1>
 <br/><br/><br/>
 <h1>작성한 댓글</h1>
 <br/><br/><br/>
-<<<<<<< HEAD
+
 <script>
 const memberLike = () => {
 	//console.log("잘 되는감?");

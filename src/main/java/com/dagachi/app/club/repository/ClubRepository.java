@@ -2,6 +2,7 @@ package com.dagachi.app.club.repository;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -41,6 +42,7 @@ import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.club.entity.ClubRecentVisited;
 import com.dagachi.app.club.entity.ClubTag;
+import com.dagachi.app.member.entity.CbcLike;
 import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.entity.MemberProfile;
 
@@ -254,15 +256,29 @@ public interface ClubRepository {
 	
 	List<ClubBoard> searchBoard(Map<String, Object> searchBoardMap);
 	
+	@Update("update club_layout set title = #{title} where club_id = #{clubId}")
+	int updateClubTitleImage(ClubLayout clubLayout);
+	
+	@Update("update club_layout set main_image = #{mainImage} where club_id = #{clubId}")
+	int updateClubMainImage(ClubLayout clubLayout);
+	
+	@Update("update club_layout set main_content = #{mainContent} where club_id = #{clubId}")
+	int updateClubMainContent(ClubLayout clubLayout);
+	
 	@Select("select count(*) from cbc_like where target_id = #{targetId}")
 	int checkDuplicateClubLike(int targetId);
 	
 	@Insert("insert into cbc_like values(#{memberId}, 1, #{targetId}, default)")
 	int clubLike(Map<String, Object> params);
+	
+	List<Club> findClubByDistance(Set<String> zoneSet);
 
 	int boardSize(ClubBoard clubBoard);
 	
 	List<ClubBoard> searchBoards(Map<String, Object> searchBoardMap, RowBounds rowBounds);
+	
+	@Select("select * from club join club_profile on club.club_id = club_profile.club_id left join cbc_like on club.club_id = cbc_like.target_id where member_id = #{loginMemberId}")
+	List<ClubAndImage> findAllClubLike(String loginMemberId);
 
 	
 }

@@ -52,6 +52,7 @@ import com.dagachi.app.club.dto.ClubReportDto;
 import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
 import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.ClubStyleUpdateDto;
+import com.dagachi.app.club.dto.ClubTitleUpdateDto;
 import com.dagachi.app.club.dto.ClubUpdateDto;
 import com.dagachi.app.club.dto.GalleryAndImageDto;
 import com.dagachi.app.club.dto.JoinClubMember;
@@ -106,9 +107,11 @@ public class ClubController {
 
 
 	@GetMapping("/main.do")
-	public void Detail() {
-	}
+	public void Detail() {}
 
+	/**
+	 * @author ?
+	 */
 	@GetMapping("/{domain}/clubEnroll.do")
 	public String ClubEnroll(@PathVariable("domain") String domain, RedirectAttributes redirectAttr, Model model,
 			@AuthenticationPrincipal MemberDetails member) {
@@ -129,6 +132,10 @@ public class ClubController {
 		return "/club/clubEnroll";
 	}
 
+	
+	/**
+	 * @author ?
+	 */
 	@PostMapping("/{domain}/clubEnroll.do")
 	public String ClubEnroll(@Valid ClubEnrollDto enroll, Model model, @PathVariable("domain") String domain,
 			@AuthenticationPrincipal MemberDetails member, RedirectAttributes redirectAttr) {
@@ -139,12 +146,20 @@ public class ClubController {
 		return "redirect:/club/" + domain;
 	}
 
+	
+	/**
+	 * @author ?
+	 */
 	@GetMapping("/{domain}/clubBoardList.do")
 	public String boardList(@PathVariable("domain") String domain, Model model) {
 		model.addAttribute("domain", domain);
 		return "/club/clubBoardList";
 	}
 
+	
+	/**
+	 * @author ?
+	 */
 	@GetMapping("/{domain}/clubBoardCreate.do")
 	public String boardCreate(@PathVariable("domain") String domain, Model model) {
 
@@ -152,6 +167,10 @@ public class ClubController {
 		return "/club/clubBoardCreate";
 	}
 
+	
+	/**
+	 * @author ?
+	 */
 	@PostMapping("/{domain}/boardCreate.do")
 	public String boardCreate(@Valid ClubBoardCreateDto _board, @PathVariable("domain") String domain,
 			BindingResult bindingResult, @RequestParam(value = "upFile", required = false) List<MultipartFile> upFiles)
@@ -170,7 +189,6 @@ public class ClubController {
 
 	/**
 	 * 메인화면에서 모임 검색
-	 * 
 	 * @author 종환
 	 */
 	@GetMapping("/clubSearch.do")
@@ -201,7 +219,6 @@ public class ClubController {
 
 	/**
 	 * 메인에서 모임 검색 후 필터 추가 검색
-	 * 
 	 * @author 종환
 	 */
 	@GetMapping("/searchClubWithFilter.do")
@@ -221,7 +238,7 @@ public class ClubController {
 
 		params.put("getCount", getCount);
 		int totalCount = clubService.searchClubWithFilter(params).size();
-		log.debug("totalCount, clubs = {}{}", totalCount, clubs);
+		// log.debug("totalCount, clubs = {}{}", totalCount, clubs);
 		String url = request.getRequestURI();
 		url += "#&inputText=" + inputText + "&area=" + area + "&category=" + category;
 		String pageBar = Pagination.getPagebar(page, LIMIT, totalCount, url);
@@ -239,16 +256,13 @@ public class ClubController {
 	}
 
 	@GetMapping("/chatList.do")
-	public void chatList() {
-	}
+	public void chatList() {}
 
 	@GetMapping("/chatRoom.do")
-	public void chatRoom() {
-	}
+	public void chatRoom() {}
 
 	/**
 	 * 가입신청 승인 & 거절 - 승인시에는 dto.isPermit이 true로 온다.
-	 * 
 	 * @author 종환
 	 */
 	@PostMapping("/{domain}/manageApply.do")
@@ -262,8 +276,12 @@ public class ClubController {
 		return "redirect:/club/" + domain + "/manageMember.do";
 	}
 
+	
+	/**
+	 * 로그인한 회원의 활동지역 addAttribute하고 페이지 이동
+	 * @author 종환
+	 */
 	@GetMapping("clubSearchSurrounded.do")
-
 	public void clubSearchSurrounded(@AuthenticationPrincipal MemberDetails member, Model model) {
 		ActivityArea activityArea = memberService.findActivityAreaById(member.getMemberId());
 		String mainAreaId = activityArea.getMainAreaId();
@@ -271,12 +289,7 @@ public class ClubController {
 	}
 	
 	/**
-<<<<<<< HEAD
-	 * 비동기로 주변모임 검색
-	 * 
-=======
 	 * 활동지역 중심 주변모임 검색
->>>>>>> branch 'master' of https://github.com/newTypeo/dagachi
 	 * @author 종환
 	 */
 	@GetMapping("clubSearchByDistance.do")
@@ -299,8 +312,8 @@ public class ClubController {
 		
 		
 		// 주변의 모든 법정동리스트로 모임 조회 후 리턴
-		// List<Club> clubs = clubService.findClubByDistance(zoneSet);
-		
+		List<Club> clubs = clubService.findClubByDistance(zoneSet);
+		// log.debug("clubs = {}", clubs);
 		
 		
 		// 중복된 모임을 어떻게 필터링할 수 있을까?
@@ -311,7 +324,6 @@ public class ClubController {
 
 	/**
 	 * 인덱스 페이지에서 클럽 상세보기 할 때 매핑입니다. 도메인도 domain 변수 안에 넣어놨습니다. (창환) - layout 가져오도록
-	 * 
 	 * @author 동찬
 	 */
 	@GetMapping("/{domain}")
@@ -506,6 +518,10 @@ public class ClubController {
 		return "redirect:/club/" + domain + "/manageMember.do";
 	}
 
+	
+	/**
+	 * @author ?
+	 */
 	@GetMapping("/{domain}/findBoardType.do")
 	public ResponseEntity<?> boardList(@RequestParam(required = false, defaultValue = "0") int boardType,
 			@PathVariable("domain") String domain, @RequestParam(defaultValue = "1") int page) {
@@ -532,6 +548,10 @@ public class ClubController {
 		return ResponseEntity.status(HttpStatus.OK).body(boardInfo);
 	}
 
+	
+	/**
+	 * @author ?
+	 */
 	@GetMapping("/{domain}/boardDetail.do")
 	public String cluboardDetail(@PathVariable("domain") String domain, @RequestParam int no, Model model) {
 		ClubBoard clubBoard = clubBoardGet(domain, no);
@@ -545,12 +565,20 @@ public class ClubController {
 		return "/club/clubBoardDetail";
 	}
 
+	
+	/**
+	 * @author ?
+	 */
 	private List<ClubBoardAttachment> findAttachments(int no) {
 		List<ClubBoardAttachment> attachments = new ArrayList<>();
 		attachments = clubService.findAttachments(no);
 		return attachments;
 	}
 
+	
+	/**
+	 * @author ?
+	 */
 	@PostMapping("/{domain}/likeCheck.do")
 	public ResponseEntity<?> likeCheck(@RequestParam int boardId, @RequestParam boolean like,
 			@PathVariable("domain") String domain) {
@@ -573,6 +601,9 @@ public class ClubController {
 		return ResponseEntity.status(HttpStatus.OK).body(board);
 	}
 
+	/**
+	 * @author ?
+	 */
 	@GetMapping("/{domain}/boardUpdate.do")
 	public String boardUpdate(@PathVariable("domain") String domain, @RequestParam int no, Model model) {
 		ClubBoard clubBoard = clubBoardGet(domain, no);
@@ -586,6 +617,10 @@ public class ClubController {
 		return "/club/clubBoardUpdate";
 	}
 
+	
+	/**
+	 * @author ?
+	 */
 	@PostMapping("/{domain}/boardUpdate.do")
 	public String boardUpdate(@PathVariable("domain") String domain, @RequestParam int no, @RequestParam String title,
 			@RequestParam int type, @RequestParam String content,
@@ -621,23 +656,21 @@ public class ClubController {
 	public String clubMemberRoleUpdate(@PathVariable("domain") String domain, @RequestParam String memberId,
 			@RequestParam int clubMemberRole) {
 
-		log.debug("memberId = {}", memberId);
-		log.debug("clubMemberRole = {}", clubMemberRole);
+//		log.debug("memberId = {}", memberId);
+//		log.debug("clubMemberRole = {}", clubMemberRole);
 
 		ClubMemberRoleUpdate member = ClubMemberRoleUpdate.builder().memberId(memberId).clubMemberRole(clubMemberRole)
 				.build();
 
-		log.debug("member = {}", member);
+//		log.debug("member = {}", member);
 		int result = clubService.clubMemberRoleUpdate(member);
-		log.debug("result = {}", result);
+//		log.debug("result = {}", result);
 
 		return "redirect:/club/" + domain + "/manageMember.do";
 	}
 
 	@GetMapping("/clubCreate.do")
-	public void clubCreate() throws Exception {
-
-	}
+	public void clubCreate() throws Exception {}
 
 	/**
 	 * 클럽 비활성화 버튼( 클럽테이블의 status값을 Y -> N으로 변경)
@@ -651,6 +684,10 @@ public class ClubController {
 		return "redirect:/";
 	}
 
+	/**
+	 * 
+	 * @author ?
+	 */
 	@GetMapping("/findAddress.do")
 	public ResponseEntity<?> findAddress(String keyword) throws UnsupportedEncodingException {
 
@@ -673,6 +710,10 @@ public class ClubController {
 		return ResponseEntity.status(HttpStatus.OK).body(addressList);
 	}
 
+	
+	/**
+	 * @author ?
+	 */
 	@PostMapping("/clubCreate.do")
 	public String clubCreate(@Valid ClubCreateDto _club, BindingResult bindingResult,
 			@AuthenticationPrincipal MemberDetails member, @RequestParam(value = "upFile") MultipartFile upFile)
@@ -709,6 +750,10 @@ public class ClubController {
 		return "redirect:/club/clubCreate.do";
 	}
 
+	
+	/**
+	 * @author ?
+	 */
 	@GetMapping("/{domain}/clubUpdate.do")
 	public String clubUpdate(@PathVariable("domain") String domain, Model model) {
 		int clubId = clubService.clubIdFindByDomain(domain);
@@ -726,6 +771,10 @@ public class ClubController {
 		return "club/clubUpdate";
 	}
 
+	
+	/**
+	 * @author ?
+	 */
 	@PostMapping("/{domain}/clubUpdate.do")
 	public String clubUpdate(@PathVariable("domain") String domain, @Valid ClubUpdateDto _club,
 			BindingResult bindingResult, @AuthenticationPrincipal MemberDetails member,
@@ -758,12 +807,16 @@ public class ClubController {
 				.build();
 		club.setClubId(clubId);
 
-		System.out.println(club);
+//		System.out.println(club);
 		int result = clubService.updateClub(club);
 
 		return "redirect:/";
 	}
 
+	
+	/**
+	 * @author ?
+	 */
 	public ClubBoard clubBoardGet(String domain, int no) {
 
 		Club club = clubService.findByDomain(domain);
@@ -775,6 +828,10 @@ public class ClubController {
 		return clubBoard;
 	}
 
+	
+	/**
+	 * @author ?
+	 */
 	public List<ClubBoardAttachment> insertAttachment(List<MultipartFile> upFiles,
 			List<ClubBoardAttachment> attachments) throws IllegalStateException, IOException {
 
@@ -787,7 +844,7 @@ public class ClubController {
 
 				ClubBoardAttachment attach = ClubBoardAttachment.builder().originalFilename(originalFilename)
 						.renamedFilename(renamedFilename).build();
-				log.debug("attach = {}", attach);
+//				log.debug("attach = {}", attach);
 				if (!attachments.isEmpty() && i == 0)
 					attach.setThumbnail(Status.Y);
 				else
@@ -796,10 +853,13 @@ public class ClubController {
 				attachments.add(attach);
 			}
 		}
-
 		return attachments;
 	}
 
+	
+	/**
+	 * @author ?
+	 */
 	@GetMapping("/findAttachments.do")
 	public ResponseEntity<?> findAttachments(@RequestParam("domain") String domain, @RequestParam int no) {
 		ClubBoard clubBoard = clubBoardGet(domain, no);
@@ -809,6 +869,10 @@ public class ClubController {
 		return ResponseEntity.status(HttpStatus.OK).body(attachments);
 	}
 
+	
+	/**
+	 * @author ?
+	 */
 	@PostMapping("/delAttach.do")
 	public ResponseEntity<?> delAttachment(@RequestParam int id) {
 		int result = 0;
@@ -828,7 +892,8 @@ public class ClubController {
 	}
 
 	/**
-	 * @author 준한 클럽 내 가입되어있는 회원들 조회페이지로 이동
+	 * 클럽 내 가입되어있는 회원들 조회페이지로 이동
+	 * @author 준한 
 	 */
 	@GetMapping("/{domain}/clubMemberList.do")
 	public String clubMemberList(@PathVariable("domain") String domain, @AuthenticationPrincipal MemberDetails member,
@@ -844,9 +909,11 @@ public class ClubController {
 	}
 
 	@GetMapping("/clubsRecentVisited.do")
-	public void clubsRecentVisited() {
-	}
+	public void clubsRecentVisited() {}
 
+	/**
+	 * @author ?
+	 */
 	@GetMapping("/{domain}/clubStyleUpdate.do")
 	public String clubLayoutUpdate(@PathVariable("domain") String domain, Model model) {
 		int clubId = clubService.clubIdFindByDomain(domain);
@@ -857,6 +924,9 @@ public class ClubController {
 		return "club/clubStyleUpdate";
 	}
 
+	/**
+	 * @author ?
+	 */
 	@PostMapping("/{domain}/clubStyleUpdate.do")
 	public String clubLayoutUpdate(@PathVariable("domain") String domain, ClubStyleUpdateDto style) {
 
@@ -867,17 +937,72 @@ public class ClubController {
 		return "redirect:/club/" + domain; 
 	}
 	
+	/**
+	 * @author ?
+	 */
 	@GetMapping("/{domain}/clubTitleUpdate.do")
 	public String clubTitleUpdate(@PathVariable("domain") String domain, Model model) {
 		int clubId = clubService.clubIdFindByDomain(domain);
 		ClubLayout layout = clubService.findLayoutById(clubId);
-		System.out.println(layout);
 		model.addAttribute("layout", layout);
 		model.addAttribute("domain", domain);
 		return "club/clubTitleUpdate";
 	}
 	
+	/**
+	 * @author 준한
+	 */
+	@PostMapping("/{domain}/clubTitleUpdate.do")
+	public String clubTitleUpdate(
+			@PathVariable("domain") String domain,
+			@RequestParam(value = "upFile") MultipartFile fileTitle,
+			@RequestParam(value = "upFile2") MultipartFile fileMain,
+			@RequestParam String mainContent,
+			ClubTitleUpdateDto clubTitleUpdateDto
+			) throws IllegalStateException, IOException {
+		int clubId = clubService.clubIdFindByDomain(domain);
+		String uploadDirTitle = "/club/title/";
+		String uploadDirMain = "/club/main/";
+		ClubLayout clubLayout = null;
+		if(!fileTitle.isEmpty()) {
+			 String originalFilename = fileTitle.getOriginalFilename();
+			 String renamedFilename = DagachiUtils.getRenameFilename(originalFilename);
+			 File destFile = new File(uploadDirTitle + renamedFilename);
+			 
+			 fileTitle.transferTo(destFile);
+			 
+			 clubLayout = clubLayout.builder()
+					 .clubId(clubId)
+					 .title(renamedFilename)
+					 .build();
+			 
+			 int result = clubService.updateClubTitleImage(clubLayout);
+		 }
+		if(!fileMain.isEmpty()) {
+			 String originalFilename = fileTitle.getOriginalFilename();
+			 String renamedFilename = DagachiUtils.getRenameFilename(originalFilename);
+			 File destFile = new File(uploadDirMain + renamedFilename);
+			 
+			 fileMain.transferTo(destFile);
+			 
+			 clubLayout = clubLayout.builder()
+					 .clubId(clubId)
+					 .mainImage(renamedFilename)
+					 .build();
+			 
+			 int result = clubService.updateClubMainImage(clubLayout);
+		 }
+		clubLayout = clubLayout.builder()
+				.clubId(clubId)
+				.mainContent(mainContent).build();
+		int result = clubService.updateClubMainContent(clubLayout);
+		return "redirect:/club/"+domain;
+	}
 	
+	
+	/**
+	 * @author ?
+	 */
 	@PostMapping("/{domain}/delBoard.do")
 	public ResponseEntity<?> delClubBoard(@RequestParam int boardId) {
 
@@ -887,6 +1012,9 @@ public class ClubController {
 		return ResponseEntity.status(HttpStatus.OK).body(msg);
 	}
 
+	/**
+	 * @author ?
+	 */
 	@GetMapping("/{domain}/searchClubBoard.do")
 	public ResponseEntity<?> searchClubBoard(@PathVariable("domain") String domain,
 			@RequestParam String searchKeywordVal, @RequestParam String searchTypeVal, @RequestParam int boardTypeVal,
@@ -913,6 +1041,7 @@ public class ClubController {
 					Map.entry("boardSize", boardSize)
 			);
 		return ResponseEntity.status(HttpStatus.OK).body(data);
+
 	}
 	
 	/**
@@ -928,9 +1057,6 @@ public class ClubController {
 		 
 		 Member member = memberService.findMemberByName(username);
 		 Member member2 = memberService.findMemberByEmail(email);
-		 
-		 log.debug("member ={}",member);
-		 log.debug("member2 = {}",member2);
 		 
 		 if(member != null && member2 != null && member.equals(member2)) {
 			 // 입력받은 이름과 이메일이 db에 있는 정보와 일치할 시,
@@ -953,14 +1079,16 @@ public class ClubController {
 		 return ResponseEntity.status(HttpStatus.OK).body(username);
 	 }
 	 
-	 @PostMapping("/clubLike.do")
-	 public String clubLike(
+
+	/**
+	 * @author ?
+	 */
+	@PostMapping("/clubLike.do")
+	public String clubLike(
 			 @RequestParam String memberId,
 			 @RequestParam String domain,
 			 RedirectAttributes attr
 			 ) {
-		 log.debug("멤버 아이디 : {}", memberId);
-		 log.debug("도메인 : {}", domain);
 		 
 		 Club club = clubService.findByDomain(domain);
 		 int targetId = club.getClubId();
@@ -968,15 +1096,13 @@ public class ClubController {
 				 "memberId", memberId,
 				 "targetId", targetId
 				 );
-		 log.debug("타겟 아이디 : {},", targetId);
 		 
 		 int checkDuplicate = clubService.checkDuplicateClubLike(targetId);
-		 log.debug("체크 튜플리케이트 : {},", checkDuplicate);
 		 
 		 if(checkDuplicate == 0) {
 			int result = clubService.clubLike(params); 
 		 }
 		 return "redirect:/club/" + domain;
-	 }
+	}
 	
 }
