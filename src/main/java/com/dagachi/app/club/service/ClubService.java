@@ -139,13 +139,23 @@ public interface ClubService {
 
 	List<ClubBoard> searchBoard(Map<String, Object> searchBoardMap);
 
+	int updateClubTitleImage(ClubLayout clubLayout);
+
+	int updateClubMainImage(ClubLayout clubLayout);
+
+	int updateClubMainContent(ClubLayout clubLayout);
+
 	int boardSize(ClubBoard clubBoard);
 	
 	int checkDuplicateClubLike(int targetId);
 
 	int clubLike(Map<String, Object> params);
 
-	List<Club> findClubByDistance(Set<String> zoneSet);
+	List<ClubSearchDto> findClubByDistance(Map<String, Object> params);
+	
+	List<ClubBoard> searchBoards(Map<String, Object> searchBoardMap, Map<String, Object> params);
+
+	List<ClubAndImage> findAllClubLike(String loginMemberId);
 
 
 }

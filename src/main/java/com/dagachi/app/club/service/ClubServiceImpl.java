@@ -474,14 +474,40 @@ public class ClubServiceImpl implements ClubService {
 	}
 	
 	@Override
+	public int updateClubTitleImage(ClubLayout clubLayout) {
+		return clubRepository.updateClubTitleImage(clubLayout);
+	}
+	
+	@Override
+	public int updateClubMainImage(ClubLayout clubLayout) {
+		return clubRepository.updateClubMainImage(clubLayout);
+	}
+	@Override
+	public int updateClubMainContent(ClubLayout clubLayout) {
+		return  clubRepository.updateClubMainContent(clubLayout);
+	}
 	public int clubLike(Map<String, Object> params) {
 		return clubRepository.clubLike(params);
 	}
 	
+	@Override
+	public List<ClubBoard> searchBoards(Map<String, Object> searchBoardMap, Map<String, Object> params) {
+		int limit = (int) params.get("limit");
+		int page = (int) params.get("page");
+		int offset = (page - 1) * limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		return clubRepository.searchBoards(searchBoardMap,rowBounds);
+	}
+	
 
 	@Override
-	public List<Club> findClubByDistance(Set<String> zoneSet) {
-		return clubRepository.findClubByDistance(zoneSet);
+	public List<ClubSearchDto> findClubByDistance(Map<String, Object> params) {
+		return clubRepository.findClubByDistance(params);
+	}
+	
+	@Override
+	public List<ClubAndImage> findAllClubLike(String loginMemberId) {
+		return clubRepository.findAllClubLike(loginMemberId);
 	}
 
 	

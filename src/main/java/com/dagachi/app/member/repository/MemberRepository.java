@@ -14,11 +14,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
 import com.dagachi.app.admin.entity.AdminInquiry;
+import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.member.dto.MemberCreateDto;
 import com.dagachi.app.member.entity.ActivityArea;
 import com.dagachi.app.member.entity.CbcLike;
 import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.entity.MemberDetails;
+import com.dagachi.app.member.entity.MemberInterest;
 import com.dagachi.app.member.entity.MemberLike;
 import com.dagachi.app.member.entity.MemberProfile;
 
@@ -115,5 +117,10 @@ public interface MemberRepository {
 
 	@Select("select count(*) from member_like where member_id = #{memberId}")
 	int checkDuplicateMemberId(String memberId);
-	
+
+	@Select("select * from member_interest where member_id = #{memberId}")
+	List<MemberInterest> findMemberInterestsByMemberId(String memberId);
+
+	@Select("select * from club_member where member_id = #{memberId}")
+	ClubMember findClubMemberByMemberId(String memberId);
 }

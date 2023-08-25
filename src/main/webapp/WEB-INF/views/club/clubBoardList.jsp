@@ -96,12 +96,9 @@ div#search-content {
 
 	<nav aria-label="Page navigation example">
 		<ul class="pagination justify-content-center">
-			<li id="prevPage" class="page-item disabled"><a
-				class="page-link">이전</a></li>
+			<li id="prevPage" class="page-item disabled"><a class="page-link">이전</a></li>
 					
-
-			<li id="nextPage" class="page-item"><a class="page-link">다음</a>
-			</li>
+			<li id="nextPage" class="page-item"><a class="page-link">다음</a></li>
 		</ul>
 	</nav>
 </section>
@@ -114,6 +111,7 @@ div#search-content {
 	let currentPage=1;
 	let lastPage;
  
+	//이전버튼
 	document.querySelector("#prevPage").addEventListener("click",()=>{
 		const boardTypeVal= document.querySelector("#boardType").value;
 		
@@ -126,16 +124,18 @@ div#search-content {
 		
 	});
 	
-
+	//다음버튼
 	document.querySelector("#nextPage").addEventListener("click",()=>{
 		const boardTypeVal= document.querySelector("#boardType").value;
 		
 		if(currentPage<lastPage){
 			currentPage++;
 			renderBoardList(boardTypeVal);
+			console.log(currentPage);
 		}
 	});
     
+	//이전 다음 활성, 비활성화
 	const pageButtonChange=(currentPage)=>{
 		const prevPage = document.getElementById("prevPage");
 		const nextPage = document.getElementById("nextPage");
@@ -154,7 +154,6 @@ div#search-content {
 		
 	};
 	
-//
 
 
 	const searchClubBoard=(e)=>{
@@ -169,13 +168,13 @@ div#search-content {
 			url : '${pageContext.request.contextPath}/club/${domain}/searchClubBoard.do',
 			method:"GET",
 			data :{searchKeywordVal,searchTypeVal,boardTypeVal},
-			success(boards){
-				console.log(boards);
+			success(data){
+				console.log(data);
 				
 				const tbody =document.querySelector("#boardTable tbody");
 				let html='';
-				if(boards.length>0){
-					html = boards.reduce((html,board)=>{	
+				if(data.boards.length>0){
+					html = data.boards.reduce((html,board)=>{	
 						
 					const {boardId,clubId,content,createdAt,likeCount,status,title,type,writer} = board;
 					let typeText;
@@ -209,6 +208,7 @@ div#search-content {
 				}
 				
 				tbody.innerHTML= html;
+				renderPage(data.boardSize);
 			}
 		});
 		
@@ -293,6 +293,11 @@ div#search-content {
 		});
 	}
 	
+
+	
+	
+	//페이지 이동
+
 	const pageChange=(page)=>{
 		currentPage=page;
 		
@@ -302,30 +307,46 @@ div#search-content {
 	};
 	
 	
+//페이지 바 렌더 
 	
 	const renderPage=(boardSize)=>{
 		
 		 const totalPosts =boardSize;
 		 const postsPerPage = 10;
 		 lastPage = Math.ceil(totalPosts / postsPerPage);
-		 const pagecut=5;
+		 const pagebarSize=5;
 		 
-		
-        const showPage = Math.floor(currentPage-1/pagecut)*pagecut;
+        const showPage = Math.floor((currentPage-1)/pagebarSize)*pagebarSize;
 		
         document.querySelector("#nextPage").insertAdjacentHTML('beforebegin',"");
-		
-		 
-		 
-		 
-		 
-		for(let i=1; i<=pagecut; i++){
+		// 페이지바 삭제
+        document.querySelectorAll(".pageLiTag").forEach((li) => {
+        	while (li.firstChild) {
+        		li.removeChild(li.firstChild);
+            }
+        	li.parentNode.removeChild(li);
+        });
+        
+		for(let i=1; i<=pagebarSize; i++){
 			if(showPage+i <= lastPage){
-				document.querySelector("#nextPage").insertAdjacentHTML('beforebegin',
-							`<li class="page-item"><a class="page-link" value="\${showPage+i}" onclick="pageChange(\${showPage+i})">\${showPage+i}</a></li>`
-				);
+				if(showPage+i===currentPage){
+					document.querySelector("#nextPage").insertAdjacentHTML('beforebegin',
+								`<li class="page-item pageLiTag" ><a class="page-link" style="background-color : #ddd;">\${showPage+i}</a></li>`
+					);
+				}else{
+					document.querySelector("#nextPage").insertAdjacentHTML('beforebegin',
+								`<li class="page-item pageLiTag"><a class="page-link" onclick="pageChange(\${showPage+i})">\${showPage+i}</a></li>`
+					);
+				}
 			}
 		}
+		
+		if(lastPage===0){
+			document.querySelector("#nextPage").insertAdjacentHTML('beforebegin',
+					`<li class="page-item pageLiTag"><a class="page-link" >1</a></li>`
+			)
+		}
+		
 		
 	};
 </script>
