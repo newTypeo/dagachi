@@ -10,6 +10,14 @@
 	height: 100px;
 	background-color: pink;
 }
+#previewContainer{
+	width: 1320px;
+	height: 300px;
+}
+#previewContainer2{
+	width: 508px;
+	height: 337px;
+}
 
 
 /********** club-page-article **********/
@@ -152,6 +160,14 @@
 	border: 5px solid #ccc;
 	border-radius: 5px;
 }
+#club-main-container2 {
+	width: 1320px;
+	height: 600px;
+	margin: 0 20px 0 0;
+	padding-top: 20px;
+	border: 5px solid #ccc;
+	border-radius: 5px;
+}
 
 #club-main-image-container {
 	display: flex;
@@ -211,3 +227,17 @@
 	overflow: hidden;
 }
 
+#mainContent{
+    overflow: auto;
+    resize: vertical;
+    display: flex;
+    margin: -3px 399px;
+    height: 85px;
+    width: 515px;
+}
+#club-title-update-btn{
+	display: flex;
+	justify-content: end;
+	height: 70px;
+    padding: 12px;
+}

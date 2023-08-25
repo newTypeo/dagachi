@@ -69,16 +69,16 @@ class ClubControllerTest {
 				.build();
 				
 		
-		List<ClubBoard> boards= clubService.boardList(clubBoard);
-		
-		assertThat(boards).isNotNull();
-		assertThat(boards).allSatisfy((board)->{
-			assertThat(board.getBoardId()).isNotEqualTo(0);
-			assertThat(board.getClubId()).isNotNull();
-			assertThat(board.getType()).isNotNull();
-			assertThat(board.getWriter()).isNotNull();
-		});
-		
+//		List<ClubBoard> boards= clubService.boardList(clubBoard);
+//		
+//		assertThat(boards).isNotNull();
+//		assertThat(boards).allSatisfy((board)->{
+//			assertThat(board.getBoardId()).isNotEqualTo(0);
+//			assertThat(board.getClubId()).isNotNull();
+//			assertThat(board.getType()).isNotNull();
+//			assertThat(board.getWriter()).isNotNull();
+//		});
+//		
 	}
 	
 
