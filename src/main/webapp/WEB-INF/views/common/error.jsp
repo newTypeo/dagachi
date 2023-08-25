@@ -5,7 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<c:set var="exception" value="<%= exception %>"/>
+<%-- <c:set var="exception" value="<%= exception %>"/> --%>
 <!DOCTYPE html>
 <html>
 <head>
