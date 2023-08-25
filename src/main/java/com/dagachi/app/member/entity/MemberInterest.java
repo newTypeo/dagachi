@@ -24,6 +24,6 @@ import lombok.experimental.SuperBuilder;
 public class MemberInterest {
 	
 	private String memberId;
-	private String Interest;
+	private String interest;
 
 }

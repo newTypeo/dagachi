@@ -157,5 +157,7 @@ public interface ClubService {
 
 	List<ClubAndImage> findAllClubLike(String loginMemberId);
 
+	List<Club> findClubsByMemberId(String memberId);
+
 
 }

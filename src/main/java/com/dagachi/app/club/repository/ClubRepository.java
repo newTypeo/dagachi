@@ -279,6 +279,9 @@ public interface ClubRepository {
 	
 	@Select("select * from club join club_profile on club.club_id = club_profile.club_id left join cbc_like on club.club_id = cbc_like.target_id where member_id = #{loginMemberId}")
 	List<ClubAndImage> findAllClubLike(String loginMemberId);
+	
+	@Select("select * from club c join club_member cm on (c.club_id = cm.club_id) where cm.member_id = #{memberId}")
+	List<Club> findClubsByMemberId(String memberId);
 
 	
 }

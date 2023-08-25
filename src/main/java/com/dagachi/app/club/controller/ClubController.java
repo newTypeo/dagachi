@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -104,7 +105,15 @@ public class ClubController {
 	public ClubController(JavaMailSender javaMailSender) {
 		this.javaMailSender = javaMailSender;
 	}
-
+	
+	@GetMapping("/getClubName.do")
+	@ResponseBody 
+	public ResponseEntity<?> getClubname(@AuthenticationPrincipal MemberDetails member) { 
+		List<Club> clubs =clubService.findClubsByMemberId(member.getMemberId());
+	 
+		return ResponseEntity.status(HttpStatus.OK).body(clubs); 
+	}
+	
 
 	@GetMapping("/main.do")
 	public void Detail() {}
@@ -116,7 +125,6 @@ public class ClubController {
 	public String ClubEnroll(@PathVariable("domain") String domain, RedirectAttributes redirectAttr, Model model,
 			@AuthenticationPrincipal MemberDetails member) {
 		int clubId = clubService.clubIdFindByDomain(domain);
-		System.out.println(clubId);
 		Club club = clubService.findClubById(clubId);
 		model.addAttribute("club", club);
 

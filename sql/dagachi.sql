@@ -723,10 +723,19 @@ AFTER INSERT ON member
 FOR EACH ROW
 BEGIN
     INSERT INTO member_profile (member_id, original_filename, renamed_filename, created_at)
-    VALUES (:new.member_id, defualt, 'default.png', SYSDATE);
+    VALUES (:new.member_id, default, 'default.png', SYSDATE);
 END;
 /
 
+-- 클럽 생성시 layout생성 트리거
+CREATE OR REPLACE TRIGGER insert_layout_on_club_insert
+AFTER INSERT ON club
+FOR EACH ROW
+BEGIN
+    INSERT INTO club_layout (club_id, title, main_image, main_content)
+    VALUES (:NEW.club_id, NULL, NULL, NULL);
+END;
+/
 
 -- 소모임샘플
 INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
@@ -980,6 +989,8 @@ VALUES ('user30', 'password30', '이민재','2민재', '888-777-6666', 'user30@e
 -- 소모임에 가입한 멤버테이블 샘플
 INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
 VALUES ('honggd', 1, SYSDATE, 3, 1);
+INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
+VALUES ('honggd', 2, SYSDATE, 0, 1);
 INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
 VALUES ('user1', 2, SYSDATE, 3, 1);
 INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
@@ -1315,6 +1326,7 @@ INSERT INTO board_comment (comment_id, board_id, writer, comment_ref, content, c
 VALUES (seq_board_comment_id.nextval, 2, 'user1', NULL, '오늘 모임 정말 즐거웠어요!', 1);
 
 -- 클럽 레이아웃 샘플
+delete from club_layout where club_id = 1;
 insert into club_layout (club_id, type, font, background_color, font_color, point_color, title, main_image, main_content)
 values (1, default, default, '#dddddd', '#778899', '#496682', 'sportClubTitleSample.png', 'sportClubMainSample.png', '스포츠 열정 클럽에 오신것을 환영합니다!');
 
@@ -1385,8 +1397,14 @@ update member_profile set renamed_filename = '티모.png' where member_id = 'use
 update member_profile set renamed_filename = '트위치.png' where member_id = 'user29';
 update member_profile set renamed_filename = '트린.png' where member_id = 'user30';
 
-update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'honggd';
+insert into main_page values(seq_main_page_id.nextval, 'mainSample1.png', 'mainSample1.png', sysdate);
+insert into main_page values(seq_main_page_id.nextval, 'mainSample2.png', 'mainSample2.png', sysdate);
+insert into main_page values(seq_main_page_id.nextval, 'mainSample3.png', 'mainSample3.png', sysdate);
+insert into main_page values(seq_main_page_id.nextval, 'mainSample4.png', 'mainSample4.png', sysdate);
+insert into main_page values(seq_main_page_id.nextval, 'mainSample5.png', 'mainSample5.png', sysdate);
 
+update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'honggd';
+update activity_area set main_area_id = 1168010100   where member_id = 'honggd';
 
 insert into club_member values('user9',2,sysdate,null,default,default);
 insert into club_member values('user9',4,sysdate,null,default,default);
@@ -1403,5 +1421,8 @@ insert into club_member values('honggddd',5,default,default,3,default);
 insert into club_member values('honggddd',6,default,default,3,default);
 insert into club_member values('honggddd',7,default,default,3,default);
 
-select * from member_profile;
+select * from activity_area;
+
+select * from club where club_id = (select club_id from club_member where member_id = 'honggd');
+
 

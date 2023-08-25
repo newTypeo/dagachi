@@ -38,7 +38,50 @@
 	</nav>
 	<nav id="my-club-info">
 		<sec:authorize access="isAuthenticated()">
-			<sec:authentication property="principal.username"/>
+			<div class="myInfo">
+				<div class="myProfile">
+					<img alt="" src="${pageContext.request.contextPath}/resources/upload/member/profile/<sec:authentication property="principal.memberProfile.renamedFilename"/>">
+				</div>
+				<div>
+					<span><sec:authentication property="principal.nickname"/></span><br>
+					<span class="mainArea"></span>
+					<script>
+					$.ajax({
+						url : "https://grpc-proxy-server-mkvo6j4wsq-du.a.run.app/v1/regcodes?regcode_pattern=" + <sec:authentication property="principal.activityArea.mainAreaId"/>,
+						success({regcodes}) {
+							document.querySelector(".mainArea").innerHTML = regcodes[0].name; 
+						}
+					});
+					</script>
+					<sec:authentication property="principal.memberInterest" var="interestList"/>
+
+					<ul>
+					    <c:forEach items="${interestList}" var="interest">
+					        <li>${interest.interest}</li>
+					    </c:forEach>
+					</ul>
+				</div>
+			</div>
+			<div class="myClubList">
+				<h5>나의 소모임</h5>
+				<ul>
+				</ul>
+				<script>
+					
+					$.ajax({
+						url : "${pageContext.request.contextPath}/club/getClubName.do",
+						success(clubs) {
+							const clubListUl = document.querySelector(".myClubList ul");
+							clubs.forEach((club) => {
+								clubListUl.innerHTML += `
+									<li>\${club.clubName}</li>
+								`;					
+							});
+						}
+					});
+				</script>
+				
+			</div>
 			<sec:authentication property="principal"/>
 		</sec:authorize>
 	</nav>
@@ -192,6 +235,11 @@ $.ajax({
 	
 });
 
+</script>
+
+<script>
+
+console.log()
 </script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
