@@ -2,6 +2,7 @@ package com.dagachi.app.club.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -142,6 +143,8 @@ public interface ClubService {
 	int checkDuplicateClubLike(int targetId);
 
 	int clubLike(Map<String, Object> params);
+
+	List<Club> findClubByDistance(Set<String> zoneSet);
 
 
 

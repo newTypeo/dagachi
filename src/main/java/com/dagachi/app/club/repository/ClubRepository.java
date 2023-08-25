@@ -2,6 +2,7 @@ package com.dagachi.app.club.repository;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -259,6 +260,8 @@ public interface ClubRepository {
 	
 	@Insert("insert into cbc_like values(#{memberId}, 1, #{targetId}, default)")
 	int clubLike(Map<String, Object> params);
+	
+	List<Club> findClubByDistance(Set<String> zoneSet);
 
 	int boardSize(ClubBoard clubBoard);
 
