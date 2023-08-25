@@ -17,6 +17,7 @@ import org.springframework.validation.FieldError;
 import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
 import com.dagachi.app.admin.entity.AdminInquiry;
 import com.dagachi.app.club.entity.ClubDetails;
+import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.member.dto.MemberCreateDto;
@@ -24,6 +25,7 @@ import com.dagachi.app.member.entity.ActivityArea;
 import com.dagachi.app.member.entity.CbcLike;
 import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.entity.MemberDetails;
+import com.dagachi.app.member.entity.MemberInterest;
 import com.dagachi.app.member.entity.MemberLike;
 import com.dagachi.app.member.entity.MemberProfile;
 import com.dagachi.app.member.repository.MemberRepository;
@@ -195,6 +197,15 @@ public class MemberServiceImpl implements MemberService{
 	}
 	
 	@Override
+	public List<MemberInterest> findMemberInterestsByMemberId(String memberId) {
+		return memberRepository.findMemberInterestsByMemberId(memberId);
+	}
+	
+	@Override
+	public ClubMember findClubMemberByMemberId(String memberId) {
+		return memberRepository.findClubMemberByMemberId(memberId);
+	}
+		
 	public List<MemberLike> findAllLikeMe(String loginMemberId) {
 		return memberRepository.findAllLikeMe(loginMemberId);
 	}

@@ -9,6 +9,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
+import com.dagachi.app.club.entity.ClubMember;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,8 +33,8 @@ public class MemberDetails extends Member implements UserDetails, OAuth2User{
 	private Map<String, Object> attributes;
 	private MemberProfile memberProfile;
 	private ActivityArea activityArea;
-	private List<String> memberInterest;
-
+	private List<MemberInterest> memberInterest;
+	private ClubMember clubMember;
 	
 	
 	

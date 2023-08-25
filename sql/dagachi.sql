@@ -723,7 +723,7 @@ AFTER INSERT ON member
 FOR EACH ROW
 BEGIN
     INSERT INTO member_profile (member_id, original_filename, renamed_filename, created_at)
-    VALUES (:new.member_id, 'asd', 'default.png', SYSDATE);
+    VALUES (:new.member_id, defualt, 'default.png', SYSDATE);
 END;
 /
 
@@ -1353,6 +1353,7 @@ insert into club_gallery_attachment (id, gallery_id, original_filename, renamed_
 values (seq_club_gallery_attachment_id.nextval, 10, 'gallerySample10.png', 'gallerySample10.png', sysdate, 'Y');
 
 -- 회원 프로필 사진 샘플 첨부
+update member_profile set renamed_filename = 'honggd.png' where member_id = 'honggd';
 update member_profile set renamed_filename = '가렌.png' where member_id = 'user1';
 update member_profile set renamed_filename = '갈리오.png' where member_id = 'user2';
 update member_profile set renamed_filename = '그브.png' where member_id = 'user3';
@@ -1393,3 +1394,14 @@ insert into club_member values('user9',7,sysdate,null,default,default);
 
 
 commit;
+
+insert into club_member values('honggddd',1,default,default,3,default);
+insert into club_member values('honggddd',2,default,default,3,default);
+insert into club_member values('honggddd',3,default,default,3,default);
+insert into club_member values('honggddd',4,default,default,3,default);
+insert into club_member values('honggddd',5,default,default,3,default);
+insert into club_member values('honggddd',6,default,default,3,default);
+insert into club_member values('honggddd',7,default,default,3,default);
+
+select * from member_profile;
+
