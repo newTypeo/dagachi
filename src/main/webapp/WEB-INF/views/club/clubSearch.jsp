@@ -38,7 +38,10 @@
 					<span>모임 지역 : ${club.activityArea}</span>
 					<span>모임 분류 : ${club.category}</span>
 					<span>모임 인원 : ${club.memberCount}/100</span>
-					<span>모임 생성일 : ${club.createdAt}</span>
+					<span>모임 생성일 : 
+						<fmt:parseDate value="${club.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="createdAt"/>
+    					<fmt:formatDate value="${createdAt}" pattern="yyyy-MM-dd"/>
+					</span>
 				</div>
 			</c:forEach>
 		</c:if>

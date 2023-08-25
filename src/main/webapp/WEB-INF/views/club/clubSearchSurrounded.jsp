@@ -16,11 +16,19 @@
 		<input type="range" id="kmRange" value="0" min="0" max="6" step="1" oninput="setValue(this);">
 		<span id="range_val"></span>
 	</div>
-	<div id="clubs-wrapper"></div>
+	<div class="mt-4"><div class="row" id="clubs-wrapper"></div></div>
 </section>
 	
 	
 <script>
+window.onload = () => {
+	const rangeTag = document.querySelector("#kmRange"); 
+	document.querySelector("#range_val").innerHTML = '1km';
+	rangeTag.value = 1;	
+	loadCLubs(rangeTag);
+};
+
+
 const category = document.querySelector("#filter-category");
 category.innerHTML ='<option value="">전체</option>';
 
@@ -37,7 +45,11 @@ const setValue = (rangeTag) => {
 };
 
 document.querySelector("#kmRange").onmouseup = (e) => {
-	const distance = e.target.value;
+	loadCLubs(e.target);
+}
+
+const loadCLubs = (target) => {
+	const distance = target.value;
 	if(distance == 0) return;
 	const mainAreaId = ${mainAreaId};
 	
@@ -58,14 +70,18 @@ document.querySelector("#kmRange").onmouseup = (e) => {
 					clubsWrapper.innerHTML = '';
 					clubs.forEach((club) => {
 						html += `
-							<div>
-								<img src="${pageContext.request.contextPath}/resources/upload/club/profile/\${club.renamedFilename}" width="150px">
-								<span>모임명 : \${club.clubName}</span>
-								<span>모임 지역 : \${club.activityArea}</span>
-								<span>모임 분류 : \${club.category}</span>
-								<span>모임 인원 : \${club.memberCount}/100</span>
-								<span>모임 생성일 : \${club.createdAt}</span>
-							</div>
+							<div class="col-md-4 mb-4">
+					            <div class="card">
+					                <img src="/dagachi/resources/upload/club/profile/\${club.renamedFilename}" class="card-img-top img-fluid" alt="Club Image">
+					                <div class="card-body">
+					                    <h5 class="card-title">모임명: \${club.clubName}</h5>
+					                    <p class="card-text">모임 지역: \${club.activityArea}</p>
+					                    <p class="card-text">모임 분류: \${club.category}</p>
+					                    <p class="card-text">모임 인원: \${club.memberCount}/100</p>
+					                    <p class="card-text">모임 생성일: \${club.createdAt.substring(0,10)}</p>
+					                </div>
+					            </div>
+				        	</div>
 						`;
 					});
 					clubsWrapper.innerHTML = html;
@@ -73,11 +89,7 @@ document.querySelector("#kmRange").onmouseup = (e) => {
 			});
 		}
 	});
-	
-}
-
-
-
+};
 
 </script>
 
