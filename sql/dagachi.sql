@@ -31,7 +31,7 @@ create sequence seq_dev_id;
 select * from dev;
 
 
---SELECT 'DROP TABLE "' ||  TABLE_NAME || '" CASCADE CONSTRAINTS;' FROM user_tables;
+SELECT 'DROP TABLE "' ||  TABLE_NAME || '" CASCADE CONSTRAINTS;' FROM user_tables;
 
 ---------------------------------------------- 테이블 삭제 ----------------------------------------------
 
@@ -64,6 +64,8 @@ select * from dev;
 --DROP TABLE "RECENT_VISIT_LIST" CASCADE CONSTRAINTS;
 --DROP TABLE "ADMIN_INQUIRY" CASCADE CONSTRAINTS;
 --DROP TABLE "CBC_LIKE" CASCADE CONSTRAINTS;
+--DROP TABLE "DEV" CASCADE CONSTRAINTS;
+--DROP TABLE "TODO" CASCADE CONSTRAINTS;
 --drop sequence seq_club_id;
 --drop sequence seq_club_report_id;
 --drop sequence seq_chat_log_id;

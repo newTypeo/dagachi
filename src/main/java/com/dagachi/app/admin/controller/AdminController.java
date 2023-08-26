@@ -85,17 +85,17 @@ public class AdminController {
 	}
 	
 	
-	@GetMapping("/findInquiryType.do")		// 필수값이 아니다. 
-	public ResponseEntity<?> InquiryList(@RequestParam(required = false, defaultValue = "0") int inquiryType,
+	@GetMapping("/findAdminInquiry.do")		// 필수값이 아니다. 
+	public ResponseEntity<?> InquiryList(@RequestParam(required = false, defaultValue = "0") int inquiryType,int inquiryStatus,
 			@RequestParam(defaultValue = "1") int page) {
 		int _type = (inquiryType != 0) ? inquiryType : 0;
-
-		AdminInquiry adminInquiry = AdminInquiry.builder().type(_type).build();
+		int _status = (inquiryStatus != 0) ? inquiryStatus : 0;
 		
+		AdminInquiry adminInquiry = AdminInquiry.builder().type(_type).type(_status).build();
+		log.debug("adminInquiry={}",adminInquiry);
 		Map<String, Object> params = Map.of("page", page, "limit", LIMIT);
-
 		List<AdminInquiry> inquirys = adminService.adminInquiryList(adminInquiry, params);
-		
+		log.debug("inquirys={}",inquirys);
 		int inquirySize = adminService.inquirySize(adminInquiry);
 		log.debug("inquirySize={}",inquirySize);
 		
@@ -111,12 +111,13 @@ public class AdminController {
 	@GetMapping("/searchInquiryType.do")
 	public ResponseEntity<?> searchInquiryType(@PathVariable("domain") 
 			@RequestParam String searchKeywordVal, @RequestParam String searchTypeVal, 
-			@RequestParam int inquiryTypeVal,
+			@RequestParam int inquiryTypeVal,@RequestParam int inquiryStatusVal,
 			@RequestParam(defaultValue = "1") int page) {
 
 		Map<String, Object> searchInquirydMap = Map.ofEntries(
 				Map.entry("searchKeyword", searchKeywordVal), Map.entry("inquiryType", inquiryTypeVal),
-				Map.entry("type", inquiryTypeVal));
+				Map.entry("type", inquiryTypeVal),Map.entry("status", inquiryStatusVal)
+				);
 		
 	
 		Map<String, Object> params = Map.of("page", page, "limit", LIMIT);

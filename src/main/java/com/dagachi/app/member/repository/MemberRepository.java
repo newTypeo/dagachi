@@ -80,7 +80,7 @@ public interface MemberRepository {
 	@Insert("insert into member values (#{memberId}, #{password},#{name}, #{nickname}, #{phoneNo}, #{email}, #{birthday, jdbcType=DATE}, #{gender}, #{mbti},  #{address}, 0, SYSDATE, NULL, SYSDATE, NULL, 'Y')")
 	int insertMember(MemberCreateDto member);
 
-	@Insert("insert into admin_Inquiry values (seq_Inquiry_id.nextval,#{memberId},#{title} ,#{content}, SYSDATE ,#{type},0,NULL,NULL,#{open},NULL)")
+	@Insert("insert into admin_Inquiry values (seq_Inquiry_id.nextval,#{memberId},#{title} ,#{content}, SYSDATE ,#{type},1,NULL,NULL,#{open},NULL)")
 	int InquiryCreate(AdminInquiryCreateDto inquiry);
 	
 	@Select("select * from activity_area where member_id = #{memberId}")
@@ -106,7 +106,7 @@ public interface MemberRepository {
 	@Update("update member_profile set original_filename = #{originalFilename}, renamed_filename = #{renamedFilename} where member_id = #{memberId}")
 	int updateMemberProfile(MemberProfile memberProfile);
 	
-	@Select("select * from admin_Inquiry")
+	@Select("select * from admin_Inquiry order by Inquiry_id desc")
 	List<AdminInquiry> memberAdminInquiryList();
 	
 	@Insert("insert into member_like values(seq_member_like_id.nextval, #{memberId}, #{loginMemberId}, default)")
