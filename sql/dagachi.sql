@@ -1423,4 +1423,8 @@ insert into club_member values('honggddd',7,default,default,3,default);
 
 select * from activity_area;
 
+
 select * from club where club_id = (select club_id from club_member where member_id = 'honggd');
+
+
+

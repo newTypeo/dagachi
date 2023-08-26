@@ -38,7 +38,7 @@ header {
 	display: flex;
 	justify-content: flex-end;
 	align-items: center;
-	max-width: 1320px;
+	width: 1320px;
 	padding: 0 10px;
 }
 
@@ -70,19 +70,57 @@ header #header-nav-container span {
 	margin-left: 10px;
 }
 
-/************ main-banner *************/
-#main-banner {
-	height: 200px;
-}
-
-/*********** main-category ************/
-#main-category {
-	height: 70px;
-}
-
 /********** main-page-sec **********/
 #main-page-sec {
-	height: 700px;
+	background-color: lightblue;
+	width: 1320px;
+	margin: 0 auto;
+}
+
+#banner-and-info-container {
+	display: flex;
+	padding: 10px;
+}
+
+/************ main-banner *************/
+#main-banner {
+	width: 960px;
+	border-radius: 10px;
+}
+
+.carousel-inner {
+	border-radius: 10px;
+}
+
+#main-banner img {
+	width: 960px;
+	height: 400px;
+	border-radius: 10px;
+}
+
+/********** my-club-info ***********/
+#my-club-info {
+	background-color: lightpink;
+	width: 320px;
+	margin-left: 20px;
+	box-sizing: border-box;
+	border: 1px solid #aaa;
+	border-radius: 10px;
+}
+.myInfo {
+	height: 220px;
+	padding: 10px;
+	display: flex;
+	border-bottom: 1px solid #aaa;
+}
+.myProfile {
+	width: 100px;
+	height: 100px;
+}
+.myProfile > img {
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
 }
 
 /********** footer **********/
@@ -90,9 +128,9 @@ footer {
 	height: 100px;
 }
 
-section .posts .card {
-	margin: 10px; /* 카드들 사이의 간격을 설정합니다 */
-    flex-basis: calc(20% - 20px); /* 카드의 초기 크기를 설정합니다 */
+section .posts .card{
+	margin: 30px; /* 카드들 사이의 간격을 설정합니다 */
+    flex-basis: calc(15% - 30px); /* 카드의 초기 크기를 설정합니다 */
 	box-sizing: border-box;
 	position: relative;
 	text-decoration: none;
@@ -102,6 +140,35 @@ section .posts .card {
 	border: 1px solid #051619;
 	border-width: 0 1px 1px 2px;
 	cursor: pointer;
+	height : 460px;
+}
+section .posts2 .card{
+	margin: 30px; /* 카드들 사이의 간격을 설정합니다 */
+    flex-basis: calc(15% - 30px); /* 카드의 초기 크기를 설정합니다 */
+	box-sizing: border-box;
+	position: relative;
+	text-decoration: none;
+	display: inherit;
+	width: 20%;
+	color: #051619;
+	border: 1px solid #051619;
+	border-width: 0 1px 1px 2px;
+	cursor: pointer;
+	height : 460px;
+}
+section .posts3 .card{
+	margin: 30px; /* 카드들 사이의 간격을 설정합니다 */
+    flex-basis: calc(15% - 30px); /* 카드의 초기 크기를 설정합니다 */
+	box-sizing: border-box;
+	position: relative;
+	text-decoration: none;
+	display: inherit;
+	width: 20%;
+	color: #051619;
+	border: 1px solid #051619;
+	border-width: 0 1px 1px 2px;
+	cursor: pointer;
+	height : 460px;
 }
 
 .card-img-top {
@@ -114,10 +181,12 @@ section .posts .card {
     -ms-flex: 1 1 auto;
     flex: 1 1 auto;
     min-height: 1px;
-    padding: 1.25rem;
+    padding: 1rem;
     height: 30%;
 }
-
+#main-page-sec {
+    height: fit-content;
+}
 
 
 section .posts {
@@ -130,3 +199,24 @@ section .posts {
 	border-width: 0 0 0 0px;
 	z-index: 10px;
 }
+section .posts2 {
+	/* background-color: coral; */
+	display: flex;
+	flex-wrap: wrap;
+	position: relative;
+	border-color: #051619;
+	border-style: solid;
+	border-width: 0 0 0 0px;
+	z-index: 10px;
+}
+section .posts3 {
+	/* background-color: coral; */
+	display: flex;
+	flex-wrap: wrap;
+	position: relative;
+	border-color: #051619;
+	border-style: solid;
+	border-width: 0 0 0 0px;
+	z-index: 10px;
+}
+
