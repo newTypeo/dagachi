@@ -19,7 +19,7 @@ public interface AdminRepository {
 	@Select("select * from admin_Inquiry where inquiry_id = #{InquiryId}")
 	AdminInquiry findInquiry(int inquiryId);
 
-	@Update("UPDATE admin_Inquiry SET admin_id = #{adminId},response = #{response}, status = '1',response_at = sysdate WHERE Inquiry_id = #{inquiryId}")
+	@Update("UPDATE admin_Inquiry SET admin_id = #{adminId},response = #{response}, status = '2',response_at = sysdate WHERE Inquiry_id = #{inquiryId}")
 	int updateInquiry(AdminInquiryUpdateDto inquiryUpdate);
 
 	@Select("select * from main_page order by id desc fetch first 5 rows only")
