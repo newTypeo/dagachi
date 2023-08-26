@@ -1570,6 +1570,7 @@ insert into club_member values('honggddd',7,default,default,3,default);
 
 select * from activity_area;
 
+
 insert into spring.board (id,title,member_id,content,created_at) values (seq_board_id.nextval,'청춘이면 즐겨야죠~','honggd','무엇을 넣는 얼마나 가치를 바이며, 말이다. 얼음 같은 주며, 안고, 그리하였는가? 꾸며 청춘의 이것이야말로 별과 그들은 그러므로 피가 품고 찬미를 칼이다. 불어 구하지 우리의 보이는 봄바람을 이상의 그들은 그리하였는가? 있는 인간이 봄날의 생생하며, 무엇이 사라지지 소담스러운 그리하였는가? 힘차게 능히 불어 무엇을 같이 천고에 그들은 부패뿐이다.\n\n동산에는 열매를 끝까지 시들어 지혜는 철환하였는가? 이상의 속에서 아니한 교향악이다. 위하여 끓는 풀이 얼마나 많이 것이다. 풍부하게 꾸며 이상은 무엇을 황금시대의 생생하며, 황금시대다. 것이 위하여 청춘의 창공에 석가는 때문이다. 자신과 하는 위하여, 얼음 크고 철환하였는가?\n\n피가 지혜는 생생하며, 우리의 때문이다. 것은 힘차게 오아이스도 무엇을 그들은 때에, 트고, 옷을 것이다. 물방아 인생을 모래뿐일 두기 청춘은 그러므로 청춘의 그들은 새가 것이다. 시들어 같으며, 끓는 구하기 위하여, 얼음 있을 철환하였는가? 충분히 얼음과 소금이라 것이다. 주는 그것을 설산에서 우리 청춘의 하였으며, 속에 때까지 보라.',to_date('18/02/10','rr/mm/dd'));
 insert into spring.board (id,title,member_id,content,created_at) values (seq_board_id.nextval,'헌법 친해지기', 'honggd', '이 헌법에 의한 최초의 대통령의 임기는 이 헌법시행일로부터 개시한다. 국회는 국정을 감사하거나 특정한 국정사안에 대하여 조사할 수 있으며, 이에 필요한 서류의 제출 또는 증인의 출석과 증언이나 의견의 진술을 요구할 수 있다.\n\n대법원장과 대법관이 아닌 법관은 대법관회의의 동의를 얻어 대법원장이 임명한다. 대법원에 대법관을 둔다. 다만, 법률이 정하는 바에 의하여 대법관이 아닌 법관을 둘 수 있다.',to_date('18/02/12','rr/mm/dd'));
 insert into spring.board (id,title,member_id,content,created_at) values (seq_board_id.nextval,'관리자가 공지합니다. 졸지마세요~','honggd','관리자란 조직의 안정성과 계속성을 유지하고 환경에 적응하면서 쇄신적 발전을 이룩할 수 있는 여건을 조성하게 하는 역할을 가지고 있다. 그러므로 관리자는 조직 내부의 여건과 조직 환경을 고려한 각종 관리기법을 적용하여 조직을 경영하는데 최선을 다하여야 한다.',to_date('18/02/13','rr/mm/dd'));
@@ -1621,6 +1622,7 @@ where
 select * from attachment order by id desc;
 
 commit;
+
 
 select * from club where club_id = (select club_id from club_member where member_id = 'honggd');
 
