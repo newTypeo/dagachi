@@ -3,15 +3,31 @@ package com.dagachi.app.member.service;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
 
+import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
+import com.dagachi.app.admin.entity.AdminInquiry;
+import com.dagachi.app.club.entity.ClubDetails;
+import com.dagachi.app.club.entity.ClubMember;
+import com.dagachi.app.club.entity.ClubProfile;
+import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.member.dto.MemberCreateDto;
+import com.dagachi.app.member.entity.ActivityArea;
+import com.dagachi.app.member.entity.CbcLike;
 import com.dagachi.app.member.entity.Member;
+import com.dagachi.app.member.entity.MemberDetails;
+import com.dagachi.app.member.entity.MemberInterest;
+import com.dagachi.app.member.entity.MemberLike;
+import com.dagachi.app.member.entity.MemberProfile;
 import com.dagachi.app.member.repository.MemberRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -25,44 +41,54 @@ public class MemberServiceImpl implements MemberService{
 	@Autowired
 	private MemberRepository memberRepository;
 
-	@Override
+	@Override/*임시 회원가입*/
 	public int insertMember(MemberCreateDto member) {
 		return memberRepository.insertMember(member);
 	}
 	
 	@Override
 	public List<Member> adminMemberList(Map<String, Object> params) {
+		if((String) params.get("getCount") != null) {
+			return memberRepository.adminMemberList(params);
+		}
 		int limit = (int) params.get("limit");
 		int page = (int) params.get("page");
 		int offset = (page - 1) * limit;
 		RowBounds rowBounds = new RowBounds(offset, limit);
-		return memberRepository.adminMemberList(rowBounds);
+		return memberRepository.adminMemberList(rowBounds, params);
 	}
 	
 	@Override
-	public List<Member> memberSearch(String keyword, String column, Map<String, Object> params) {
+	public List<Member> adminQuitMemberList(Map<String, Object> params) {
+		if((String) params.get("getCount") != null) {
+		return memberRepository.adminQuitMemberList(params);
+		}
+		
 		int limit = (int) params.get("limit");
 		int page = (int) params.get("page");
 		int offset = (page - 1) * limit;
 		RowBounds rowBounds = new RowBounds(offset, limit);
-		return memberRepository.memberSearch(keyword, column, rowBounds);
+		return memberRepository.adminQuitMemberList(rowBounds, params);
 	}
 	
 	@Override
-	public List<Member> adminQuitMemberList() {
-		return memberRepository.adminQuitMemberList();
+	public List<Member> adminReportMemberList(Map<String, Object> params) {
+		if((String) params.get("getCount") != null) {
+			return memberRepository.adminReportMemberList(params);
+			}
+			
+			int limit = (int) params.get("limit");
+			int page = (int) params.get("page");
+			int offset = (page - 1) * limit;
+			RowBounds rowBounds = new RowBounds(offset, limit);
+			return memberRepository.adminReportMemberList(rowBounds, params);
 	}
 	
 	@Override
-	public List<Member> quitMemberSearch(String keyword, String column) {
-		return memberRepository.quitMemberSearch(keyword, column);
+	public int InquiryCreate(AdminInquiryCreateDto inquiry) {
+		return memberRepository.InquiryCreate(inquiry);
 	}
-	
-	@Override
-	public int getTotalCount() {
-		return memberRepository.getTotalCount();
-	}	
-	
+
 	/**
 	 * Spring Security에 의해 db사용자를 조회할때 사용
 	 * - username(pk)컬럼값으로 사용자/권한 정보 조회
@@ -72,14 +98,122 @@ public class MemberServiceImpl implements MemberService{
 	public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
 		
 		UserDetails memberDetails = memberRepository.loadUserByUsername(memberId);
-		if(memberDetails == null)
+		Member member = memberRepository.findMemberById(memberId);
+		
+		if(memberDetails == null || "N".equals(member.getStatus()))
 			throw new UsernameNotFoundException(memberId);
 		return memberDetails;
 	}
-
 	@Override
 	public Member findMemberById(String memberId) {
 		return memberRepository.findMemberById(memberId);
 	}
 
+	/* 회원가입 (지우지마삼)
+	 * @Override public int insertMember(MemberDetails member1) {
+	 * 
+	 * int result = 0;
+	 * 
+	 * result = memberRepository.insertMember(member1); log.debug("member = " +
+	 * member1);
+	 * 
+	 * MemberProfile memberProfile = ((MemberDetails) member1).getMemberProfile();
+	 * if(memberProfile != null) { memberProfile.setMemberId(member1.getMemberId());
+	 * result = memberRepository.insertMemberProfile(memberProfile); }
+	 * 
+	 * memberRepository.insertActivityArea(member1);
+	 * memberRepository.insertMemberInterest(member1);
+	 * 
+	 * 
+	 * return result; }
+	 */
+	@Override
+	public List<Member> quitMemberSearch(String keyword, String column) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getTotalCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	
+	@Override
+	public int memberDelete(String memberId) {
+		return memberRepository.memberDelete(memberId);
+	}
+
+	@Override
+	public Member findMemberBymemberId(String memberId) {
+		return memberRepository.findMemberBymemberId(memberId);
+	}
+
+
+	@Override
+	public ActivityArea findActivityAreaById(String memberId) {
+		return memberRepository.findActivityAreaById(memberId);
+	}
+	public MemberProfile findMemberProfile(String memberId) {
+		return memberRepository.findMemberProfile(memberId);
+	}
+	
+	@Override
+	public List<MemberProfile> findMemberProfileByClubId(int clubId) {
+		return memberRepository.findMemberProfileByClubId(clubId);
+	}
+	
+	@Override
+	public Member findMemberByEmail(String email) {
+		return memberRepository.findMemberByEmail(email);
+	}
+	
+	@Override
+	public Member findMemberByName(String username) {
+		return memberRepository.findMemberByName(username);
+	}
+	
+	@Override
+	public int memberLike(Map<String, Object> params) {
+		return memberRepository.memberLike(params);
+	}
+	
+	
+	public int UpdateMember(Member member) {
+		int result = 0;	
+		result = memberRepository.updateMember(member);
+		return result;
+	}
+	
+	@Override
+	public int updateMemberProfile(MemberProfile memberProfile) {
+		int result = 0;
+		result = memberRepository.updateMemberProfile(memberProfile);
+		return result;
+	}
+	
+	@Override
+	public List<AdminInquiry> memberAdminInquiryList() {
+		return memberRepository.memberAdminInquiryList();
+	}
+	
+	@Override
+	public List<MemberInterest> findMemberInterestsByMemberId(String memberId) {
+		return memberRepository.findMemberInterestsByMemberId(memberId);
+	}
+	
+	@Override
+	public List<ClubMember> findClubMemberByMemberId(String memberId) {
+		return memberRepository.findClubMemberByMemberId(memberId);
+	}
+		
+	public List<MemberLike> findAllLikeMe(String loginMemberId) {
+		return memberRepository.findAllLikeMe(loginMemberId);
+	}
+	
+	@Override
+	public int checkDuplicateMemberId(String memberId) {
+		return memberRepository.checkDuplicateMemberId(memberId);
+	}
 }

@@ -1,7 +1,11 @@
 @CHARSET "UTF-8";
 
 body {
+	font-family: 'IBM Plex Sans KR', sans-serif;
+}
 
+a {
+	cursor: pointer;
 }
 
 section {
@@ -15,73 +19,6 @@ header {
 	height:100px;
 }
 
-/************ club-title *************/
-#club-title img {
-	width: 1320px;
-}
-
-#default-title {
-	width: 1320px;
-	height: 100px;
-	background-color: pink;
-}
-
-
-/********** club-page-article **********/
-#club-page-article {
-	width: 1320px;
-	display: flex;
-	flex-wrap: wrap;
-}
-
-#club-main-container {
-	background-color: lightgreen;
-	width: 1320px;
-	padding: 20px;
-}
-
-#club-main-image-container {
-	display: flex;
-	justify-content: center;
-} 
-#club-main-content-container {
-	display: flex;
-	justify-content: center;
-	font-weight: bold;
-	font-size: 24px;
-}
-
-#club-notice-container {
-	background-color: lightpink;
-	width: 1320px;
-	font-weight: bold;
-	font-size: 20px;
-}
-
-#club-gallery-container {
-	background-color: lightblue;
-	width: 1320px;
-	height: 120px;
-}
-
-#club-board-container {
-	background-color: lightyellow;
-	width: 660px;
-	height: 320px;
-}
-
-#club-schedule-container {
-	background-color: lightcyan;
-	width: 660px;
-	height: 320px;
-}
-
-
-
-
-
-
-
 
 
 
@@ -89,3 +26,80 @@ header {
 footer {
 	height: 100px;
 }
+
+
+
+
+
+/************* 클럽 레이아웃 업데이트 **************/
+#layout-update {
+	background-color: lightyellow;
+}
+#layout-update h5, #layout-update h3 {
+	margin: 10px 20px;
+	font-weight: bold;
+}
+
+.lsc {
+	background-color: #ddd;
+	width: 1280px;
+	margin: 0 20px;
+	padding: 20px;
+	border-radius: 5px;
+	display: flex;
+}
+.lscl {
+	background-color: white;
+	width: 760px;
+	border-radius: 5px;
+}
+.lscr {
+	background-color: white;
+	width: 460px;
+	border-radius: 5px;
+	margin-left: 20px;
+}
+#layout-select-container {
+	height: 700px;
+}
+#layout-select-container-left,
+#layout-select-container-right {
+	height: 660px;
+}
+
+#layout-select-container-left > div {
+	background-color: pink;
+	width: 360px;
+	height: 540px;
+	margin: 60px;
+}
+#color-select-continer {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-end;
+}
+#color-select-continer > div:last-of-type {
+	margin-right: 20px;
+	height: 40px;
+}
+#color-select-continer > div > label {
+	margin: 0 20px;
+}
+
+.submit-box {
+	display: flex;
+	justify-content: flex-end;
+	margin: 20px;
+}
+.submit-box > * {
+	margin-left: 15px;
+}
+
+
+
+
+
+
+
+
+

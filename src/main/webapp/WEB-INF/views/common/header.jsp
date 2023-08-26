@@ -28,6 +28,8 @@
 
 <!-- 사용자작성 css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css" />
+<meta id="_csrf" name="_csrf" content="${_csrf.token}"/>
+<meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}"/>
  
 </head>
 <body>
@@ -44,26 +46,64 @@
 	
 	
 		<div id="main-logo-container">
-			<a href="${pageContext.request.contextPath}">
+			</a><a href="${pageContext.request.contextPath}">
 				<img id="main-logo" src="${pageContext.request.contextPath}/resources/images/004.png" class="p-2">
-			</a>
+			
 		</div>
+		
 		<sec:authorize access="isAnonymous()">
 			<div id="header-nav-container">
 				<a href="${pageContext.request.contextPath}/member/memberLogin.do">로그인</a>
 				<span>|</span>
 				<a href="${pageContext.request.contextPath}/member/memberCreate.do">회원가입</a>
-				<span>|</span>
 			</div>
 		</sec:authorize>
 			 
 			 
 		<sec:authorize access="isAuthenticated()">
+			<div id="header-nav-container">
 			    <span>
 			    <a title="<sec:authentication property="authorities"/>"><sec:authentication property="principal.username"/></a>님, 안녕하삼</span>
 			    &nbsp;
+			    
+			    <a href="${pageContext.request.contextPath}/member/<sec:authentication property="principal.memberId"/>">
+				    <button type="button">내 정보</button>
+				</a>
 			    <button type="button"onclick="document.memberLogoutFrm.submit();">로그아웃</button>
+			</div>
+			
+			<!-- 로그인한 회원에 한해 최초 1회 실행되는 코드(반경 동정보 session에 저장) -->
+			<c:if test="${empty zoneSet1 or zoneSet1 eq null}">
+				<script>
+				console.log("최초 로그인 시에만 찍혀야하는 로그(종환)");
+				$.ajax({ // 로그인한 회원의 주활동지역 코드 세션에 저장
+					url : "${pageContext.request.contextPath}/club/getMainAreaId.do",
+					success({mainAreaId}) {
+						
+						$.ajax({
+							url : "https://grpc-proxy-server-mkvo6j4wsq-du.a.run.app/v1/regcodes?regcode_pattern=" + mainAreaId,
+							data : {is_ignore_zero : true},
+							success({regcodes}) {
+								// 서울특별시 **구 **동 (회원의 주활동지역)
+								const mainAreaName = regcodes[0].name; 
+								$.ajax({
+									url : "${pageContext.request.contextPath}/club/setZoneInSession.do",
+									data : {mainAreaName},
+									success() {
+										console.log("session에 동네 저장 완료!(종환)");
+									}
+								}); // ajax3
+							} // success2
+						}); // ajax2
+					}// success2
+				}); // ajax1
+				
+				</script>
+			</c:if>
+			
 		</sec:authorize>
 
 	</header>
+	
 	<jsp:include page="/WEB-INF/views/common/navBar.jsp"></jsp:include>
+

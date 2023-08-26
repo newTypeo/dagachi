@@ -52,17 +52,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-			.antMatchers("/", "/index.jsp").permitAll() //요청은 모든 사용자에게 허용
-			.antMatchers("/member/memberCreate.do").anonymous() //로그인하지 않은 사용자만 가능
+			.antMatchers("/", "/**").permitAll() //요청은 모든 사용자에게 허용
+			// .antMatchers("/member/memberCreate.do").anonymous() //로그인하지 않은 사용자만 가능
 			.anyRequest().authenticated(); //(로그인한) 사용자에게만 허용된다는 것을 의미
+		http.headers()
+				.contentSecurityPolicy("frame-ancestors 'self' http://localhost:8080/*");
+		
 		
 		// /login
 		http.formLogin()
 			.loginPage("/member/memberLogin.do") // 내가 만든 로그인 페이지 
 			.loginProcessingUrl("/member/memberLogin.do") // 동일한 url 을 post로 날림
+			.successForwardUrl("/member/memberLoginSuccess.do")
 			.usernameParameter("memberId") // 기본 파라미터 바꿈
 			.passwordParameter("password") // 똑같으면 그냥 안적어도 된다
-			.defaultSuccessUrl("/")
+//			.defaultSuccessUrl("/")
 			.permitAll(); // 모두 허용해달라
 		
 		// logout

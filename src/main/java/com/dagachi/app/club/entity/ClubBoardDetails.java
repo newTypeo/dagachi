@@ -20,6 +20,6 @@ import lombok.experimental.SuperBuilder;
 public class ClubBoardDetails extends ClubBoard{
 
 		private Member member;
-		private List<Club> attachments;
+		private List<ClubBoardAttachment> attachments;
 		
 }
