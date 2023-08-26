@@ -5,7 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param value="소모임 생성" name="title" />
+	<jsp:param value="소모임 수정" name="title" />
 </jsp:include>
 
 <style>
@@ -55,7 +55,7 @@
 	<div id="club-create-form-wrapper">
 		<h1>소모임 정보수정</h1>
 		<form:form name="clubUpdateFrm"
-		action="${pageContext.request.contextPath}/club/&${domain}/clubUpdate.do"
+		action="${pageContext.request.contextPath}/club/${domain}/clubUpdate.do"
 		enctype="multipart/form-data" method="post">
 		
 			<label for="club_name">소모임 이름</label>

@@ -1,7 +1,7 @@
 @CHARSET "UTF-8";
 
 #main-nav-bar {
-	max-width: 1320px;
+	width: 1320px;
 	padding: 10px;
 	margin: 0 auto;
 	display: flex;
@@ -10,14 +10,18 @@
 #category-container{
 	height: 40px;
     cursor: pointer;
-    border: 1px solid black;
     display: flex;
     align-items: center;
 }
 
 #category-container span {
+	margin: 0 10px;
 	font-size: 15px;
 	color: #777;
+}
+
+#nav-blank {
+	width: 101px;
 }
 
 #search-club-box {
@@ -34,12 +38,10 @@
 	font-family: 'IBM Plex Sans KR', sans-serif;
 	background-color: #2990D0;
 	color: #f3f3f3;
-	margin-left: auto;
 }
 
 #search-container {
-	margin-left: 200px;
-	margin-bottom: 10px;
+	margin: 0 auto;
 	display: flex;
 }
 
@@ -93,10 +95,11 @@
 }
 #category-modal-left-upper {
 	height: 540px;
+	padding: 10px 0;
 	display: flex;
   	overflow-y: auto;
+  	overflow-x: hidden;
     flex-direction: column;
-    padding: 23px;
 }
 #category-modal-left-lower {
 	height: 57px;
@@ -118,9 +121,14 @@
     display: none;
 }
 
-#category-modal-left-upper a:hover {
+#category-modal-left-upper div:hover {
 	text-decoration: underline;
 	cursor: pointer;
+}
+#category-modal-left-upper div {
+	height: 44px;
+    width: 180px;
+	padding: 10px 25px;
 }
 
 

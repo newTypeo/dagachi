@@ -5,27 +5,49 @@
 <mapper namespace="com.dagachi.app.member.repository.MemberRepository">
 	
 	<select id="loadUserByUsername" resultMap="memberAuthMap">
-	  select
-	  	*
-	  from
-	  	member
-	  where
-	  	member_id = #{memberId}
-	</select>
-	
+		select
+		    *
+		from 
+		    member M
+		  left join Authority A
+		    on M.member_id = A.member_id
+		where 
+		    M.member_id = #{username}
+  </select>
+  
 	<resultMap type="memberDetails" id="memberAuthMap">
-	  <!-- <id column="member_id" property="memberId"/>
+	  <id column="member_id" property="memberId"/>
 	  <result column="password" property="password"/>
 	  <result column="name" property="name"/>
+	  <result column="nickname" property="nickname"/>
+	  <result column="phone_no" property="phoneNo"/>
+	   <result column="email" property="email"/>
 	  <result column="birthday" property="birthday"/>
 	  <result column="email" property="email"/>
-	  <result column="created_at" property="createdAt"/> -->
+	  <result column="gender" property="gender"/>
+	  <result column="mbti" property="mbti"/>
+	  <result column="address" property="address"/>
+	  <result column="report_count" property="reportCount"/>
+	  <result column="enroll_date" property="enrollDate"/>
+	  <result column="withdrawal_date" property="withdrawalDate"/>
+	  <result column="password_change_date" property="passwordChangeDate"/>
+	  <result column="last_login_date" property="lastLoginDate"/>
+	  <result column="status" property="status"/>
+	  
+	  <collection property="authorities"
+                  ofType="simpleGrantedAuthority">
+          <constructor>
+              <!-- javaType 필수 -->
+              <arg column="auth" javaType="string"/>
+          </constructor>
+      </collection>
+	  
 	  <!-- collection 1:N 관계의 테이블 조회시 사용 -->
-	  <collection 
+<!-- 	  <collection 
 	  	property="authorities"
 	  	column="member_id"
 	  	ofType="simpleGrantedAuthority"
-	  	select="findAuthorities"></collection>
+	  	select="findAuthorities"></collection> -->
 	</resultMap>
 	
 	<select id="findAuthorities" resultMap="simpleGrantedAuthorityMap">
@@ -42,5 +64,46 @@
 			<arg column="auth" javaType="String"/>
 		</constructor>
 	</resultMap>
+	
+	<select id="adminMemberList">
+	 select
+	 	* 
+	 from 
+	 	member
+	 <if test="keyword != null and keyword != ''">
+		 where 
+		 ${column} like '%' || #{keyword} || '%'
+	 </if> 
+	 order by
+	 	enroll_date desc
+	</select>
+	
+	<select id="adminQuitMemberList">
+	 select
+	 	* 
+	 from 
+	 	member
+	 where 
+		withdrawal_date is not null
+	 <if test="keyword != null and keyword != ''">
+		and ${column} like '%' || #{keyword} || '%'
+	 </if> 
+	 order by
+	 	withdrawal_date desc
+	</select>
+	
+	<select id="adminReportMemberList">
+	 select
+	 	* 
+	 from 
+	 	member
+	 where 
+		report_count != 0
+	 <if test="keyword != null and keyword != ''">
+		 and ${column} like '%' || #{keyword} || '%'
+	 </if> 
+	 order by
+	 	enroll_date desc
+	</select>
 	
 </mapper>

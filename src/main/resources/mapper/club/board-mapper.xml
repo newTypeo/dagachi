@@ -16,8 +16,25 @@
 		id desc
 	</select>
  -->
+ 
+ 	<select id="categoryList">
+ 		select 
+		    c.*, p.*, cm.member_count 
+		from 
+		    club c join club_profile p 
+		        on c.club_id = p.club_id 
+		    left join (select club_id, count(member_id) as member_count from club_member group by club_id) cm
+		        on c.club_id = cm.club_id
+		<where>
+			c.category = #{category}
+		</where>
+		order by
+		    cm.member_count
+ 	</select>
+ 
 	<select id="clubApplyByFindByClubId">
 		select
+			m.member_id,
 		    m.name,
 		    m.nickname,
 		    c.answer
@@ -35,8 +52,22 @@
 		    club_member c left join member m
 		        on c.member_id = m.member_id
 		where
-			c.member_id = #{memberId}
+			c.member_id = #{memberId} and club_id = #{clubId}
 	</select>
+	
+	
+	<select id="hostFindByClubId">
+		select
+		    *
+		from
+		    club_member c left join member m
+		        on c.member_id = m.member_id
+		where
+		    c.club_id = #{clubId} and
+		    c.club_member_role = 3
+	</select>
+	
+	
 </mapper>
 
 
