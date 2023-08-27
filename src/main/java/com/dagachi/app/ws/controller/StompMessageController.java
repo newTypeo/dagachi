@@ -6,6 +6,9 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
+import com.dagachi.app.chat.entity.ChatLog;
+import com.dagachi.app.chat.service.ChatService;
+import com.dagachi.app.notificationService.NotificationService;
 import com.dagachi.app.ws.dto.Payload;
 
 import lombok.extern.slf4j.Slf4j;
@@ -19,8 +22,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class StompMessageController {
 	
-//	@Autowired
-//	private NotificationService notificationService;
+	@Autowired
+	private NotificationService notificationService;
+	
+	@Autowired
+	private ChatService chatService;
 	
 	/**
 	 * prefix를 제외한 url만 작성
@@ -35,11 +41,19 @@ public class StompMessageController {
 		return message;
 	}
 	
-	@MessageMapping("/notice/{memberId}")
-	@SendTo("/app/notice/{memberId}")
-	public Payload noticeEach(@DestinationVariable String memberId, Payload message) {
-		log.debug("memberId = {}", memberId);
+	@MessageMapping("/clubTalk/{clubId}")
+	@SendTo("/app/clubTalk/{clubId}")
+	public Payload noticeEach(@DestinationVariable  int clubId, Payload message) {
 		log.debug("message = {}", message);
+		
+		ChatLog chatlog=ChatLog.builder()
+				.clubId(clubId)
+				.content(message.getContent())
+				.writer(message.getFrom())
+				.build();
+		
+		int result=chatService.sendClubChat(chatlog);
+		
 		return message;
 	}
 	
