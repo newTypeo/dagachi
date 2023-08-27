@@ -48,7 +48,6 @@ public class MemberCreateDto {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthday;// 생일 
 	
-	@NotBlank(message = "성별 필수 입력 값입니다.") 
 	private String gender;// 성별 
 	
 	private int mainAreaId; // 주 활동 지역

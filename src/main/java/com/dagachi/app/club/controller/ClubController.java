@@ -775,7 +775,6 @@ public class ClubController {
 			throws IllegalStateException, IOException {
 
 		// 1. 파일저장
-
 		String uploadDir = "/club/profile/";
 		ClubProfile clubProfile = null;
 		if (!upFile.isEmpty()) {
