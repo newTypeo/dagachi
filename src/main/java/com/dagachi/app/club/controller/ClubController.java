@@ -759,8 +759,6 @@ public class ClubController {
 			JsonObject item = document.getAsJsonObject();
 			String addressName = item.get("address_name").getAsString();
 			addressList.add(addressName);
-			System.out.println(item.get("x"));
-			System.out.println(item.get("y"));
 		}
 		return ResponseEntity.status(HttpStatus.OK).body(addressList);
 	}
@@ -802,7 +800,7 @@ public class ClubController {
 
 		int result = clubService.insertClub(club);
 
-		return "redirect:/club/clubCreate.do";
+		return "redirect:/club/" + _club.getDomain();
 	}
 
 	
