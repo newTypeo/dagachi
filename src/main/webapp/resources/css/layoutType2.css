@@ -10,6 +10,14 @@
 	height: 100px;
 	background-color: pink;
 }
+#previewContainer{
+	width: 1320px;
+	height: 300px;
+}
+#previewContainer2{
+	width: 508px;
+	height: 337px;
+}
 
 
 /********** club-page-article **********/
@@ -34,8 +42,7 @@
 	border-bottom: 1px solid #ccc;
 }
 .container-main-gallery > div {
-	margin-top: 8px;
-	margin-bottom: 10px;
+	margin: 8px 20px 0 20px;
 }
 .container-main-long > div > a:first-of-type {
 	display: inline-block;
@@ -153,6 +160,14 @@
 	border: 5px solid #ccc;
 	border-radius: 5px;
 }
+#club-main-container2 {
+	width: 1320px;
+	height: 600px;
+	margin: 0 20px 0 0;
+	padding-top: 20px;
+	border: 5px solid #ccc;
+	border-radius: 5px;
+}
 
 #club-main-image-container {
 	display: flex;
@@ -173,30 +188,20 @@
 }
 
 #club-gallery-container {
-	width: 960px;
-    margin: 0px 15px;
+	width: 660px;
+	height: 360px;
+	overflow: hidden;
 }
 
 .container-main-gallery {
-	width: 920px;
-	margin: 0 20px;
 	display: flex;	
 	flex-wrap: wrap;
-	justify-content: space-between;
-}
-.img-thumbnail0,
-.img-thumbnail1,
-.img-thumbnail2 {
-	width: 290px;
-}
-.img-thumbnail3,
-.img-thumbnail4,
-.img-thumbnail5,
-.img-thumbnail6,
-.img-thumbnail7 {
-	width: 166px;
+	justify-content: space-around;
 }
 
+.img-thumbnail {
+	width: 174px;
+}
 
 #club-board-container {
 	width: 660px;
@@ -206,20 +211,59 @@
 
 #club-greetings-container {
 	width: 660px;
-	height: 281px;
+	height: 241px;
 	overflow: hidden;
 }
 
 #club-reivew-container {
 	width: 660px;
-	height: 321px;
+	height: 401px;
 	overflow: hidden;
 }
 
 #club-schedule-container {
-	width: 660px;
-	height: 359px;
-	overflow: hidden;
+	width: 960px;
+    margin: 0px 15px;
+}
+
+#mainContent{
+    overflow: auto;
+    resize: vertical;
+    display: flex;
+    margin: -3px 399px;
+    height: 85px;
+    width: 515px;
+}
+#club-title-update-btn{
+	display: flex;
+	justify-content: end;
+	height: 70px;
+    padding: 12px;
+}
+#club-detail-gallery{
+	display: flex;
+    margin: 170px;
+    width: 1700px;
+    flex-wrap: wrap;
+}
+
+
+
+#gallery-photo {
+    height: 295px;
+    width: 295px;
+}
+
+#gallery-photo-div{
+	height: 295px;
+    width: 295px;
+    margin: 10px;
+}
+#like-count{
+	
+	margin-top : 10px;
+	position: absolute;
+ 	z-index: 2; /* 두 번째 요소는 더 위에 위치 */
 }
 
 
@@ -231,6 +275,3 @@
 	width: 5%;
 	opacity: 1;
 }
-
-
-
