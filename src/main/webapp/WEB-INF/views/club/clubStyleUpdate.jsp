@@ -29,11 +29,11 @@
 				</label> 
 				<label> 
 					<input type="radio" name="type" value="2">
-					게시판 강조형
+					일정 강조형
 				</label>
 				<label> 
 					<input type="radio" name="type" value="3">
-					일정 강조형
+					게시판 강조형
 				</label>
 			</div>
 		</div>

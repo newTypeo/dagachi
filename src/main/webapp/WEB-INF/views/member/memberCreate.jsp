@@ -1,4 +1,3 @@
-
 <%--진짜 회원가입이 될 창 지우지 마세요 --%>
  <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
