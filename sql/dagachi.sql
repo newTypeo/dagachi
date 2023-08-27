@@ -1,40 +1,22 @@
---==============================
--- 관리자계정 - spring계정 생성
---==============================
-alter session set "_oracle_script" = true;
-
-create user spring
-identified by spring
-default tablespace users;
-
-alter user spring quota unlimited on users;
-
-grant connect, resource to spring;
-
 --================================
--- SPRING 계정
+-- 관리자계정 - dagachi 계정 생성
 --================================
-create table dev (
-    id number,
-    name varchar2(50) not null,
-    career number not null,
-    email varchar2(200) not null,
-    gender char(1),
-    lang varchar2(100) not null,
-    created_at date default sysdate,
-    constraints pk_dev_id primary key(id),
-    constraints ck_dev_gender check(gender in ('M', 'F'))
-);
-
-create sequence seq_dev_id;
-
-select * from dev;
+--alter session set "_oracle_script" = true;
+--
+--create user dagachi
+--identified  by dagachi
+--default tablespace users;
+--
+--alter user dagachi quota unlimited on users;
+--
+--grant connect, resource to dagachi;
 
 
-SELECT 'DROP TABLE "' ||  TABLE_NAME || '" CASCADE CONSTRAINTS;' FROM user_tables;
+------------------------------------------- 전체 테이블 조회 -------------------------------------------
+
+--SELECT 'DROP TABLE "' ||  TABLE_NAME || '" CASCADE CONSTRAINTS;' FROM user_tables;
 
 ---------------------------------------------- 테이블 삭제 ----------------------------------------------
-
 --DROP TABLE "MEMBER" CASCADE CONSTRAINTS;
 --DROP TABLE "CLUB" CASCADE CONSTRAINTS;
 --DROP TABLE "CLUB_MEMBER" CASCADE CONSTRAINTS;
@@ -64,8 +46,6 @@ SELECT 'DROP TABLE "' ||  TABLE_NAME || '" CASCADE CONSTRAINTS;' FROM user_table
 --DROP TABLE "RECENT_VISIT_LIST" CASCADE CONSTRAINTS;
 --DROP TABLE "ADMIN_INQUIRY" CASCADE CONSTRAINTS;
 --DROP TABLE "CBC_LIKE" CASCADE CONSTRAINTS;
---DROP TABLE "DEV" CASCADE CONSTRAINTS;
---DROP TABLE "TODO" CASCADE CONSTRAINTS;
 --drop sequence seq_club_id;
 --drop sequence seq_club_report_id;
 --drop sequence seq_chat_log_id;
@@ -83,64 +63,26 @@ SELECT 'DROP TABLE "' ||  TABLE_NAME || '" CASCADE CONSTRAINTS;' FROM user_table
 --drop sequence seq_admin_notice_id;
 --drop sequence seq_alarm_id;
 --DROP SEQUENCE seq_Inquiry_id;
-
 ------------------------------------------------- 시퀀스 -------------------------------------------------
 create sequence seq_club_id;
 create sequence seq_club_report_id;
 create sequence seq_chat_log_id;
-
 create sequence seq_member_id;
 create sequence seq_member_report_id;
 create sequence seq_member_like_id;
-
 create sequence seq_club_gallery_id;
 create sequence seq_club_board_id;
 create sequence seq_club_gallery_attachment_id;
 create sequence seq_club_board_attachment_id;
 create sequence seq_board_comment_id;
-
 create sequence seq_club_schedule_id;
 create sequence seq_club_schedule_place_id;
-
 create sequence seq_main_page_id;
 create sequence seq_admin_notice_id;
-
 create sequence seq_alarm_id;
 
----------------------------------------------- 시퀀스 삭제 ----------------------------------------------
---drop sequence seq_club_id;
---drop sequence seq_club_report_id;
---drop sequence seq_chat_log_id;
---
---drop sequence seq_member_id;
---drop sequence seq_member_report_id;
---drop sequence seq_member_like_id;
---
---drop sequence seq_club_gallery_id;
---drop sequence seq_club_board_id;
---drop sequence seq_club_gallery_attachment_id;
---drop sequence seq_club_board_attachment_id;
---drop sequence seq_board_comment_id;
---
---drop sequence seq_club_schedule_id;
---drop sequence seq_club_schedule_place_id;
---
---drop sequence seq_main_page_id;
---drop sequence seq_admin_notice_id;
---
---drop sequence seq_alarm_id;
---DROP SEQUENCE seq_Inquiry_id;
-
 ------------------------------------------------- 테이블 -------------------------------------------------
-
 create table member (
-  member_id varchar2(50),
-  password varchar2(300) not null,
-  name varchar2(256) not null,
-  birthday date,
-  email varchar2(300),
-  created_at date default sysdate,
-  constraints pk_member_id primary key(member_id)
 	member_id	varchar2(30)	not null,
 	password	varchar2(150)	not null,
 	name	 varchar2(20)	not null,
@@ -159,14 +101,6 @@ create table member (
     status char(1) default 'Y'
 );
 
-insert into spring.member 
-values ('abcde','1234','아무개',to_date('88-01-25','rr-mm-dd'),'abcde@naver.com',default);
-insert into spring.member 
-values ('qwerty','1234','김말년',to_date('78-02-25','rr-mm-dd'),'qwerty@naver.com',default);
-insert into spring.member 
-values ('admin','1234','관리자',to_date('90-12-25','rr-mm-dd'),'admin@naver.com',default);
-
-
 -- security rememeberme 를 위해 만들어진 테이블
 create table persistent_logins (
     username varchar(64) not null,
@@ -174,8 +108,6 @@ create table persistent_logins (
     token varchar(64) not null, -- username, password, expiry time을 hasing한 값
     last_used timestamp not null
 );
-
-
 create table club (
 	club_id	number	not null,
 	club_name	varchar2(50)	not null,
@@ -189,7 +121,6 @@ create table club (
 	enroll_question	varchar2(1000) not null,
     domain varchar2(100) not null
 );
-
 create table club_member (
 	member_id	varchar2(30)	not null,
 	club_id	number	not null,
@@ -198,7 +129,6 @@ create table club_member (
 	club_member_role number	 default 0, -- 	COMMENT '0 : 일반회원 (default) 1: 임원 (최대 5명) null가능 2: 서브리더 (1명) null가능 3: 리더 (1명) notnull',
 	enroll_count	number default 0
 );
-
 create table club_board (
 	board_id number	 not null,
 	club_id number not null,
@@ -210,33 +140,28 @@ create table club_board (
 	status char(1) default 'Y',
 	like_count number default 0
 );  -- 	COMMENT '0 : 자유글 1 : 정보글 2 : 정모후기 3 : 가입인사 4 : 공지사항'
-
 create table activity_area (
 	member_id	varchar2(30)	not null,
 	main_area_id	number	not null,
 	sub1_area_id	number default 0,
 	sub2_area_id	number default 0
 );
-
 create table member_interest (
 	member_id	varchar2(30)	not null,
 	interest	varchar2(50)	not null
 );
-
 create table member_profile (
 	member_id	varchar2(30)	not null,
 	original_filename	varchar2(200),
 	renamed_filename	varchar2(200),
 	created_at	date default sysdate
 );
-
 create table club_gallery (
 	gallery_id	number	not null,
 	club_id	number	not null,
 	like_count number default 0,
 	status char(1) default 'Y'
 );
-
 create table club_gallery_attachment (
 	id	number	not null,
 	gallery_id	number	not null,
@@ -245,7 +170,6 @@ create table club_gallery_attachment (
 	created_at	date default sysdate,
 	thumbnail	char(1) default 'N'
 );
-
 create table club_board_attachment (
 	id	number	not null,
 	board_id	number	not null,
@@ -254,7 +178,6 @@ create table club_board_attachment (
 	created_at	date default sysdate,
 	thumbnail	char(1) default 'N'
 );
-
 create table club_schedule (
 	schedule_id	number	not null,
 	club_id	number	not null,
@@ -266,7 +189,6 @@ create table club_schedule (
 	alarm_date	date,
 	status char(1) default 'Y'
 );
-
 create table club_schedule_place (
 	id	number	not null,
 	schedule_id	number	not null,
@@ -275,14 +197,12 @@ create table club_schedule_place (
 	sequence	number default 0,
 	start_time	date	not null
 );
-
 create table club_schedule_enroll_member (
 	member_id	varchar2(30)	not null,
 	club_id	number	not null,
 	schedule_id	number	not null,
 	created_at	date default sysdate
 );
-
 create table board_comment (
 	comment_id	number	not null,
 	board_id	number	not null,
@@ -293,7 +213,6 @@ create table board_comment (
 	status char(1) default 'Y',
     comment_level number default 1  -- 1. 댓글, 2. 대댓글
 );
-
 create table member_report (
 	id	number	not null,
 	member_id	varchar2(30)	not null,
@@ -303,7 +222,6 @@ create table member_report (
 	board_id	 number default 0,
 	comment_id number default 0
 );
-
 create table club_report (
 	id	number	not null,
 	club_id	number	not null,
@@ -311,7 +229,6 @@ create table club_report (
 	reporter	varchar2(30)	not null,
 	created_at	date default sysdate
 );
-
 create table chat_log (
 	id	number	not null,
 	club_id	number	not null,
@@ -319,20 +236,17 @@ create table chat_log (
 	content	varchar2(2000)	not null,
 	created_at	date default sysdate
 );
-
 create table club_profile (
 	club_id	number	not null,
 	original_filename	varchar2(200)	not null,
 	renamed_filename varchar2(200) not null,
 	created_at date default sysdate
 );
-
 create table club_apply (
 	club_id	number	not null,
 	member_id	varchar2(30) not null,
 	answer	varchar2(1000) not null
 );
-
 create table club_layout (
 	club_id	number	not null,
 	type	number default 0,
@@ -344,26 +258,22 @@ create table club_layout (
 	main_image	varchar2(200),
 	main_content	varchar2(1000)
 );
-
 create table member_like (
 	like_id	number	not null,
 	member_id	varchar2(30)	not null,
 	like_sender	varchar(255)	not null,
 	created_at	date default sysdate
 );
-
 create table club_tag (
 	club_id	number	not null,
 	tag	varchar2(200)
 );
-
 create table main_page (
 	id	number	not null,
 	original_filename	varchar2(200),
 	renamed_filename	varchar2(200),
 	created_at	date default sysdate
 );
-
 create table admin_notice (
 	id	number	not null,
 	writer	varchar2(30)	not null,
@@ -372,8 +282,6 @@ create table admin_notice (
 	created_at	date default sysdate,
 	status	char(1) default 'Y'
 );
-
-
 create table admin_Inquiry (
 	Inquiry_id 	number		NOT NULL,
 	writer varchar2(30)		NOT NULL,
@@ -387,206 +295,165 @@ create table admin_Inquiry (
     open char(1)	DEFAULT 0 NULL ,
     response_at date	DEFAULT sysdate	NULL
 );
-
-
 create table authority (
     member_id varchar2(30),
     auth varchar2(20)   not null
 );
-
 create table recent_visit_list (
     member_id varchar2(30) not null,
     club_id number not null,
     recent_date date default sysdate
 );
-
 create table cbc_like(
     member_id varchar2(30) not null,
     type number not null,
     target_id number not null,
     created_at date default sysdate
 );
-
-
 alter table member add constraint pk_member primary key (
 	member_id
 );
-
 alter table club add constraint pk_club primary key (
 	club_id
 );
-
 alter table club_member add constraint pk_club_member primary key (
 	member_id,
 	club_id
 );
-
 alter table club_board add constraint pk_club_board primary key (
 	board_id
 );
-
 alter table activity_area add constraint pk_activity_area primary key (
 	member_id
 );
-
 alter table member_profile add constraint pk_member_profile primary key (
 	member_id
 );
-
 alter table club_gallery add constraint pk_club_gallery primary key (
 	gallery_id
 );
-
 alter table club_gallery_attachment add constraint pk_club_gallery_attachment primary key (
 	id
 );
-
 alter table club_board_attachment add constraint pk_club_board_attachment primary key (
 	id
 );
-
 alter table club_schedule add constraint pk_club_schedule primary key (
 	schedule_id
 );
-
 alter table club_schedule_place add constraint pk_club_schedule_place primary key (
 	id
 );
-
 alter table club_schedule_enroll_member add constraint pk_club_schedule_enroll_member primary key (
 	member_id,
 	club_id,
 	schedule_id
 );
-
 alter table board_comment add constraint pk_board_comment primary key (
 	comment_id
 );
-
 alter table member_report add constraint pk_member_report primary key (
 	id
 );
-
 alter table club_report add constraint pk_club_report primary key (
 	id
 );
-
 alter table chat_log add constraint pk_chat_log primary key (
 	id
 );
-
 alter table club_profile add constraint pk_club_profile primary key (
 	club_id
 );
-
 alter table club_layout add constraint pk_club_layout primary key (
 	club_id
 );
-
 alter table member_like add constraint pk_member_like primary key (
 	like_id
 );
-
 alter table main_page add constraint pk_main_page primary key (
 	id
 );
-
 alter table admin_notice add constraint pk_admin_notice primary key (
 	id
 );
-
 alter table club_member add constraint fk_member_to_club_member_1 foreign key (
 	member_id
 )
 references member (
 	member_id
 );
-
 alter table club_member add constraint fk_club_to_club_member_1 foreign key (
 	club_id
 )
 references club (
 	club_id
 );
-
 alter table club_board add constraint fk_club_to_club_board_1 foreign key (
 	club_id
 )
 references club (
 	club_id
 );
-
 alter table club_board add constraint fk_member_to_club_board_1 foreign key (
 	writer
 )
 references member (
 	member_id
 );
-
 alter table activity_area add constraint fk_member_to_activity_area_1 foreign key (
 	member_id
 )
 references member (
 	member_id
 );
-
 alter table member_interest add constraint fk_member_to_member_interest_1 foreign key (
 	member_id
 )
 references member (
 	member_id
 );
-
 alter table member_profile add constraint fk_member_to_member_profile_1 foreign key (
 	member_id
 )
 references member (
 	member_id
 );
-
 alter table club_gallery add constraint fk_club_to_club_gallery_1 foreign key (
 	club_id
 )
 references club (
 	club_id
 );
-
 alter table club_gallery_attachment add constraint fk_club_gallery_to_club_gallery_attachment_1 foreign key (
 	gallery_id
 )
 references club_gallery (
 	gallery_id
 );
-
 alter table club_board_attachment add constraint fk_club_board_to_club_board_attachment_1 foreign key (
 	board_id
 )
 references club_board (
 	board_id
 );
-
 alter table club_schedule add constraint fk_club_to_club_schedule_1 foreign key (
 	club_id
 )
 references club (
 	club_id
 );
-
 alter table club_schedule_place add constraint fk_club_schedule_to_club_schedule_place_1 foreign key (
 	schedule_id
 )
 references club_schedule (
 	schedule_id
 );
-
 alter table cbc_like add constraint fk_member_to_cbc_like_1 foreign key(
     member_id
 )
 references member(
     member_id
 );
-
-
 --alter table club_schedule_enroll_member add constraint fk_club_member_to_club_schedule_enroll_member_1 foreign key (
 --	member_id
 --)
@@ -600,135 +467,113 @@ references member(
 --references club_member (
 --	club_id
 --);
-
 alter table club_schedule_enroll_member add constraint fk_club_schedule_to_club_schedule_enroll_member_1 foreign key (
 	schedule_id
 )
 references club_schedule (
 	schedule_id
 );
-
 alter table board_comment add constraint fk_club_board_to_board_comment_1 foreign key (
 	board_id
 )
 references club_board (
 	board_id
 );
-
 alter table board_comment add constraint fk_member_to_board_comment_1 foreign key (
 	writer
 )
 references member (
 	member_id
 );
-
 alter table board_comment add constraint fk_board_comment_to_board_comment_1 foreign key (
 	comment_ref
 )
 references board_comment (
 	comment_id
 );
-
 alter table member_report add constraint fk_member_to_member_report_1 foreign key (
 	member_id
 )
 references member (
 	member_id
 );
-
 alter table club_report add constraint fk_club_to_club_report_1 foreign key (
 	club_id
 )
 references club (
 	club_id
 );
-
 alter table chat_log add constraint fk_club_to_chat_log_1 foreign key (
 	club_id
 )
 references club (
 	club_id
 );
-
 alter table club_profile add constraint fk_club_to_club_profile_1 foreign key (
 	club_id
 )
 references club (
 	club_id
 );
-
 alter table club_apply add constraint fk_club_to_club_apply_1 foreign key (
 	club_id
 )
 references club (
 	club_id
 );
-
 alter table club_layout add constraint fk_club_to_club_layout_1 foreign key (
 	club_id
 )
 references club (
 	club_id
 );
-
 alter table member_like add constraint fk_member_to_member_like_1 foreign key (
 	member_id
 )
 references member (
 	member_id
 );
-
 alter table club_tag add constraint fk_club_to_club_tag_1 foreign key (
 	club_id
 )
 references club (
 	club_id
 );
-
 alter table admin_notice add constraint fk_member_to_admin_notice_1 foreign key (
 	writer
 )
 references member (
 	member_id
 );
-
 alter table member add constraint uq_member_nickname unique (
     nickname
 );
-
-
 alter table member add constraint uq_member_email unique (
     email
 );
-
 alter table club add constraint uq_club_name unique (
     club_name
 );
-
 alter table authority add constraint fk_member_to_authorithy foreign key (
 	member_id
 )
 references member (
 	member_id
 );
-
 alter table recent_visit_list add constraint fk_recent_check_list foreign key (
     member_id
 )
 references  member(
 member_id
 );
-
 alter table club add constraint uq_club_domain unique (
     domain
 );
-
 CREATE SEQUENCE seq_Inquiry_id
 START WITH 1
 INCREMENT BY 1
 NOCACHE
 NOCYCLE;
-
 --  가입 신청 승인 시 신청내역 삭제하는 트리거
 create or replace trigger delete_club_apply
 after insert on club_member
@@ -740,7 +585,6 @@ begin
              member_id = :new.member_id ;
 end;
 /
-
 -- 회원탈퇴 시 소모임회원에서 삭제하는 트리거
 create or replace trigger delete_club_member
 after update of status on member
@@ -761,7 +605,6 @@ BEGIN
     VALUES (:new.member_id, default, 'default.png', SYSDATE);
 END;
 /
-
 -- 클럽 생성시 layout생성 트리거
 CREATE OR REPLACE TRIGGER insert_layout_on_club_insert
 AFTER INSERT ON club
@@ -771,7 +614,6 @@ BEGIN
     VALUES (:NEW.club_id, NULL, NULL, NULL);
 END;
 /
-
 -- 소모임샘플
 INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
 VALUES (seq_club_id.nextval, '스포츠 열정 클럽', '서울특별시 동작구 흑석동', '운동/스포츠', TO_DATE('2023-08-01', 'YYYY-MM-DD'), 0, '우리는 다양한 종목의 스포츠를 즐기고 관찰하는 스포츠 애호가들의 모임입니다.', '가장 좋아하는 스포츠는 무엇인가요?', 'sportsclub');
@@ -791,35 +633,26 @@ INSERT INTO club (club_id, club_name, activity_area, category, last_activity_dat
 VALUES (seq_club_id.nextval, '모험을 찾아서', '서울특별시 노원구 능동', '여행', TO_DATE('2023-07-20', 'YYYY-MM-DD'), 0, '짜릿한 모험을 떠나고 새로운 여행지를 탐험하며 여행 이야기를 공유하는 곳입니다.', '지금까지 다녀온 여행 중 가장 기억에 남는 곳은 어디인가요?', 'adventureseekers');
 INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
 VALUES (seq_club_id.nextval, '건강과 웰빙 컬렉티브', '서울특별시 동작구 사당동', '사교/인맥', TO_DATE('2023-08-03', 'YYYY-MM-DD'), 0, '운동 활동, 명상, 건강한 생활에 대한 토론을 통해 신체와 마음의 웰빙을 촉진하는 공간입니다.', '건강을 어떻게 관리하고 계시나요?', 'healthwellnesscollective');
+
 -- 추가 모임 샘플 데이터
 INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
 VALUES (seq_club_id.nextval, '야구팬 클럽', '서울특별시 용산구 용산동5가', '야구관람', TO_DATE('2023-08-10', 'YYYY-MM-DD'), 0, '야구를 사랑하는 팬들의 모임입니다.', '가장 좋아하는 야구팀은 무엇인가요?', 'baseballfan');
-
 INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
 VALUES (seq_club_id.nextval, '축구 열광 클럽', '서울특별시 성동구 마장동', '운동/스포츠', TO_DATE('2023-08-15', 'YYYY-MM-DD'), 0, '세계 각국의 축구 경기를 열광하며 시청하는 모임입니다.', '가장 좋아하는 축구 선수는 누구인가요?', 'shotforlove');
-
 INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
 VALUES (seq_club_id.nextval, '등산 동호회', '서울특별시 관악구 봉천동', '운동/스포츠', TO_DATE('2023-08-05', 'YYYY-MM-DD'), 0, '자연을 느끼며 등산을 즐기는 사람들의 모임입니다.', '가장 기억에 남는 등산 코스는 어디인가요?', 'santaclub');
-
 INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
 VALUES (seq_club_id.nextval, '요가 스승님의 밋밋한 밤', '서울특별시 중랑구 사근동', '운동/스포츠', TO_DATE('2023-08-08', 'YYYY-MM-DD'), 0, '요가를 사랑하는 사람들의 모임입니다. 함께 몸과 마음을 단련합니다.', '요가를 시작하게 된 계기는 무엇인가요?', 'yogafire');
-
 INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
 VALUES (seq_club_id.nextval, '미식가의 향연', '서울특별시 강남구 도곡동', '요리/제조', TO_DATE('2023-08-12', 'YYYY-MM-DD'), 0, '다양한 음식을 만들고 맛보는 미식가들의 클럽입니다.', '가장 기억에 남는 맛집은 어디인가요?', 'foodfood');
-
 INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
 VALUES (seq_club_id.nextval, '영화광들의 모임', '서울특별시 성동구 성수동1가', '공연/축제', TO_DATE('2023-08-18', 'YYYY-MM-DD'), 0, '다양한 장르의 영화를 감상하며 토론하는 모임입니다.', '가장 인상 깊게 본 영화는 무엇인가요?', 'ilikethatmoviemovie');
-
 INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
 VALUES (seq_club_id.nextval, 'IT 기술 공유 네트워크', '서울특별시 용산구 용산동4가', '자유주제', TO_DATE('2023-08-09', 'YYYY-MM-DD'), 0, '다양한 IT 분야의 기술과 지식을 공유하는 모임입니다.', '가장 최근에 공부한 프로그래밍 언어는 무엇인가요?', 'techshare');
-
 INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
 VALUES (seq_club_id.nextval, '사진촬영과 나눔', '서울특별시 동대문구 용답동', '사진/영상', TO_DATE('2023-08-06', 'YYYY-MM-DD'), 0, '사진을 사랑하는 사람들이 모여 서로의 작품을 공유하고 배우는 모임입니다.', '가장 좋아하는 사진 장비는 무엇인가요?', 'photodonation');
-
 INSERT INTO club (club_id, club_name, activity_area, category, last_activity_date, report_count, introduce, enroll_question, domain)
 VALUES (seq_club_id.nextval, '자연과 함께하는 스케치', '서울특별시 성동구 금호동3가', '공예/만들기', TO_DATE('2023-08-14', 'YYYY-MM-DD'), 0, '자연 풍경을 스케치로 그리며 즐기는 예술가들의 클럽입니다.', '가장 좋아하는 스케치 장소는 어디인가요?', 'sketchup');
-
-
 
 -- 소모임사진 샘플
 insert into club_profile values(1,'asd','1.png',sysdate);
@@ -841,7 +674,6 @@ insert into club_profile values(16,'asd','16.png',sysdate);
 insert into club_profile values(17,'asd','17.png',sysdate);
 insert into club_profile values(18,'asd','18.png',sysdate);
 
-
 -- 소모임 태그 샘플 데이터
 insert into club_tag (club_id, tag)
 values(1, '스포츠');
@@ -855,7 +687,6 @@ insert into club_tag (club_id, tag)
 values(1, '족구');
 insert into club_tag (club_id, tag)
 values(1, '배드민턴');
-
 insert into club_tag (club_id, tag)
 values(2, '음악');
 insert into club_tag (club_id, tag)
@@ -868,8 +699,6 @@ insert into club_tag (club_id, tag)
 values(2, '영화');
 insert into club_tag (club_id, tag)
 values(2, '오페라');
-
-
 insert into club_tag (club_id, tag)
 values(3, 'JAVA');
 insert into club_tag (club_id, tag)
@@ -884,7 +713,6 @@ insert into club_tag (club_id, tag)
 values(3, 'VR');
 insert into club_tag (club_id, tag)
 values(3, 'IoT');
-
 insert into club_tag (club_id, tag)
 values(4, '책');
 insert into club_tag (club_id, tag)
@@ -895,7 +723,6 @@ insert into club_tag (club_id, tag)
 values(4, '공포 소설');
 insert into club_tag (club_id, tag)
 values(4, '판타지 소설');
-
 insert into club_tag (club_id, tag)
 values(5, '클래식');
 insert into club_tag (club_id, tag)
@@ -906,7 +733,6 @@ insert into club_tag (club_id, tag)
 values(5, '팝송');
 insert into club_tag (club_id, tag)
 values(5, '발라드');
-
 insert into club_tag (club_id, tag)
 values(6, '친환경');
 insert into club_tag (club_id, tag)
@@ -919,7 +745,6 @@ insert into club_tag (club_id, tag)
 values(6, '지속가능성');
 insert into club_tag (club_id, tag)
 values(6, '자연보전');
-
 insert into club_tag (club_id, tag)
 values(7, '요리');
 insert into club_tag (club_id, tag)
@@ -928,7 +753,6 @@ insert into club_tag (club_id, tag)
 values(7, '양식');
 insert into club_tag (club_id, tag)
 values(7, '일식');
-
 insert into club_tag (club_id, tag)
 values(8, '여행');
 insert into club_tag (club_id, tag)
@@ -943,7 +767,6 @@ insert into club_tag (club_id, tag)
 values(8, '문화체험');
 insert into club_tag (club_id, tag)
 values(8, '자연소풍');
-
 insert into club_tag (club_id, tag)
 values(9, '건강');
 insert into club_tag (club_id, tag)
@@ -1182,7 +1005,7 @@ insert into Member_interest values('user30','인문학/독서');
 insert into Member_interest values('user30','요리/제조');
 
 -- 활동지역 샘플
-insert into activity_area values('honggd',1,2,3);
+insert into activity_area values('honggd',1168010100,2,3);
 insert into activity_area values('user1',6,5,3);
 insert into activity_area values('user2',11,12,13);
 insert into activity_area values('user3',3,0,0);
@@ -1293,7 +1116,6 @@ INSERT INTO club_board (board_id, club_id, writer, title, content, type, like_co
 VALUES (seq_club_board_id.nextval, 2, 'user19', '회원들과 함께하는 캠프', '다음 주 캠프에 참가하실 분들은 미리 연락 부탁드립니다. 준비물 안내 드립니다!', 1, 11);
 INSERT INTO club_board (board_id, club_id, writer, title, content, type, like_count)
 VALUES (seq_club_board_id.nextval, 2, 'user27', '안녕하세요!', '안녕하세요! 모든 회원분들께 즐거운 하루 되세요~', 3, 3);
-
 INSERT INTO club_board (board_id, club_id, writer, title, content, type, like_count)
 VALUES (seq_club_board_id.nextval, 1, 'user26', '게시글테스트게시글테스트게시글테스트게시글테스트게시글테스트게시글테스트게시글테스트게시글테스트게시글테스트1', '게시글테스트111', 1, 100);
 INSERT INTO club_board (board_id, club_id, writer, title, content, type, like_count)
@@ -1336,7 +1158,6 @@ INSERT INTO club_board (board_id, club_id, writer, title, content, type, like_co
 VALUES (seq_club_board_id.nextval, 1, 'user26', '게시글테스트19', '게시글테스트111', 1, 100);
 INSERT INTO club_board (board_id, club_id, writer, title, content, type, like_count)
 VALUES (seq_club_board_id.nextval, 1, 'user26', '게시글테스트20', '게시글테스트111', 1, 100);
-
 
 -- 댓글 샘플
 INSERT INTO board_comment (comment_id, board_id, writer, comment_ref, content, comment_level)
@@ -1432,6 +1253,7 @@ update member_profile set renamed_filename = '티모.png' where member_id = 'use
 update member_profile set renamed_filename = '트위치.png' where member_id = 'user29';
 update member_profile set renamed_filename = '트린.png' where member_id = 'user30';
 
+-- 메인화면 배너 샘플
 insert into main_page values(seq_main_page_id.nextval, 'mainSample1.png', 'mainSample1.png', sysdate);
 insert into main_page values(seq_main_page_id.nextval, 'mainSample2.png', 'mainSample2.png', sysdate);
 insert into main_page values(seq_main_page_id.nextval, 'mainSample3.png', 'mainSample3.png', sysdate);
@@ -1439,127 +1261,13 @@ insert into main_page values(seq_main_page_id.nextval, 'mainSample4.png', 'mainS
 insert into main_page values(seq_main_page_id.nextval, 'mainSample5.png', 'mainSample5.png', sysdate);
 
 update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'honggd';
-update activity_area set main_area_id = 1168010100   where member_id = 'honggd';
 
 insert into club_member values('user9',2,sysdate,null,default,default);
 insert into club_member values('user9',4,sysdate,null,default,default);
 insert into club_member values('user9',7,sysdate,null,default,default);
 
+
 commit;
-
-select * from member;
--- delete from member where member_id = 'honggd';
-update 
-    member 
-set 
-    password = '$2a$10$MWjHfxc97gYo1ZhLtHZnb.AqqVTRqU5Q6Dw0iQFEeoxQQEtke/TGi'
-where 
-    member_id = 'qwerty';
-
-create table authority (
-    member_id varchar2(20),
-    auth varchar2(50),
-    constraints pk_authority primary key(member_id, auth),
-    constraints fk_authority_member_id foreign key(member_id)
-                 references member(member_id)
-                 on delete cascade
-);
-insert into authority values ('abcde', 'ROLE_USER');
-insert into authority values ('qwerty', 'ROLE_USER');
-insert into authority values ('admin', 'ROLE_USER');
-insert into authority values ('admin', 'ROLE_ADMIN');
-insert into authority values ('honggd', 'ROLE_USER');
-
-select * from member;
-select * from authority;
-
-select * from member where member_id = 'kkkkk';
-select * from authority where member_id = 'kkkkk';
-
--- MemberDetails 조회
- select
-    *
-from 
-    member M
-  left join authority A
-    on M.member_id = A.member_id
-where 
-    M.member_id = 'admin';
-
--- Todo 할일관리
-create table todo (
-    id number,
-    member_id varchar2(20),
-    todo varchar2(4000),
-    created_at date default sysdate,
-    completed_at date,
-    constraints pk_todo_id primary key(id),
-    constraints fk_todo_member_id foreign key(member_id) references member(member_id) on delete cascade
-);
-create sequence seq_todo_id;
-
-insert into todo values (seq_todo_id.nextval, 'honggd', '형광등 교체하기', default, null);
-insert into todo values (seq_todo_id.nextval, 'honggd', '디자인패턴 공부하기', default, null);
-insert into todo values (seq_todo_id.nextval, 'honggd', '장보기', default, null);
-insert into todo values (seq_todo_id.nextval, 'honggd', '키보드 구매하기', default, sysdate);
-insert into todo values (seq_todo_id.nextval, 'sinsa', '빨래하기', default, null);
-insert into todo values (seq_todo_id.nextval, 'sinsa', '조깅', default, null);
-
-select * from todo where member_id = 'honggd';
-select * from todo;
---update todo set completed_at = ? wherere member_id = ?
-
--- 목록조회 (미완료할일 먼저)
-select * from todo where member_id = 'honggd' order by completed_at nulls first, id;
--- todo 등록
-insert into todo (id, member_id, todo) 
-values (seq_todo_id.nextval, 'sinsa', '조깅');
--- todo 수정(완료)
-update todo
-set completed_at = sysdate -- sysdate | null
-where id = 1 and member_id = 'honggd';
--- todo 삭제
-delete from todo
-where id = 1 and member_id = 'honggd';
-
--- security rememeberme 
-create table persistent_logins (
-    username varchar(64) not null,
-    series varchar(64) primary key, -- pk
-    token varchar(64) not null, -- username, password, expiry time을 hasing한 값
-    last_used timestamp not null
-);
-select * from persistent_logins;
-
--- 게시판 기능구현
-
-create table board (
-    id number,
-    title varchar2(2000),
-    member_id varchar2(50),
-    content varchar2(4000),
-    created_at date default sysdate,
-    constraint pk_board_id primary key(id),
-    constraint fk_board_member_id 
-        foreign key(member_id) 
-        references member(member_id) 
-        on delete set null
-);
-create sequence seq_board_id;
-
-create table attachment (
-    id number,
-    board_id number,
-    original_filename varchar2(500) not null,
-    renamed_filename varchar2(500) not null,
-    created_at date default sysdate,
-    constraints pk_attachment_id primary key(id),
-    constraints fk_attachment_board_id 
-        foreign key(board_id)
-        references board(id)
-        on delete cascade
-);
-create sequence seq_attachment_id;
 
 insert into club_member values('honggddd',1,default,default,3,default);
 insert into club_member values('honggddd',2,default,default,3,default);
@@ -1568,65 +1276,3 @@ insert into club_member values('honggddd',4,default,default,3,default);
 insert into club_member values('honggddd',5,default,default,3,default);
 insert into club_member values('honggddd',6,default,default,3,default);
 insert into club_member values('honggddd',7,default,default,3,default);
-
-
-select * from activity_area;
-
-
-insert into spring.board (id,title,member_id,content,created_at) values (seq_board_id.nextval,'청춘이면 즐겨야죠~','honggd','무엇을 넣는 얼마나 가치를 바이며, 말이다. 얼음 같은 주며, 안고, 그리하였는가? 꾸며 청춘의 이것이야말로 별과 그들은 그러므로 피가 품고 찬미를 칼이다. 불어 구하지 우리의 보이는 봄바람을 이상의 그들은 그리하였는가? 있는 인간이 봄날의 생생하며, 무엇이 사라지지 소담스러운 그리하였는가? 힘차게 능히 불어 무엇을 같이 천고에 그들은 부패뿐이다.\n\n동산에는 열매를 끝까지 시들어 지혜는 철환하였는가? 이상의 속에서 아니한 교향악이다. 위하여 끓는 풀이 얼마나 많이 것이다. 풍부하게 꾸며 이상은 무엇을 황금시대의 생생하며, 황금시대다. 것이 위하여 청춘의 창공에 석가는 때문이다. 자신과 하는 위하여, 얼음 크고 철환하였는가?\n\n피가 지혜는 생생하며, 우리의 때문이다. 것은 힘차게 오아이스도 무엇을 그들은 때에, 트고, 옷을 것이다. 물방아 인생을 모래뿐일 두기 청춘은 그러므로 청춘의 그들은 새가 것이다. 시들어 같으며, 끓는 구하기 위하여, 얼음 있을 철환하였는가? 충분히 얼음과 소금이라 것이다. 주는 그것을 설산에서 우리 청춘의 하였으며, 속에 때까지 보라.',to_date('18/02/10','rr/mm/dd'));
-insert into spring.board (id,title,member_id,content,created_at) values (seq_board_id.nextval,'헌법 친해지기', 'honggd', '이 헌법에 의한 최초의 대통령의 임기는 이 헌법시행일로부터 개시한다. 국회는 국정을 감사하거나 특정한 국정사안에 대하여 조사할 수 있으며, 이에 필요한 서류의 제출 또는 증인의 출석과 증언이나 의견의 진술을 요구할 수 있다.\n\n대법원장과 대법관이 아닌 법관은 대법관회의의 동의를 얻어 대법원장이 임명한다. 대법원에 대법관을 둔다. 다만, 법률이 정하는 바에 의하여 대법관이 아닌 법관을 둘 수 있다.',to_date('18/02/12','rr/mm/dd'));
-insert into spring.board (id,title,member_id,content,created_at) values (seq_board_id.nextval,'관리자가 공지합니다. 졸지마세요~','honggd','관리자란 조직의 안정성과 계속성을 유지하고 환경에 적응하면서 쇄신적 발전을 이룩할 수 있는 여건을 조성하게 하는 역할을 가지고 있다. 그러므로 관리자는 조직 내부의 여건과 조직 환경을 고려한 각종 관리기법을 적용하여 조직을 경영하는데 최선을 다하여야 한다.',to_date('18/02/13','rr/mm/dd'));
-insert into spring.board (id,title,member_id,content,created_at) values (seq_board_id.nextval,'이모네 테슬라','honggd','테슬라는 미국의 완성형 전기차 제조 업체이다. 텍사스 주의 주도인 오스틴에 본사가 위치하고 있다. 2010년대에 들어서는 완성차 외에 소프트웨어, 재생에너지, 로봇 산업 등에도 뛰어들며 전기차 뿐만 아니라 다양한 산업에 매우 많은 영향력을 가지고 있다.',to_date('18/02/14','rr/mm/dd'));
-insert into spring.board (id,title,member_id,content,created_at) values (seq_board_id.nextval,'인류와 수영','honggd','세계4대 문명이 강 유역에서 그 찬란한 문화를 꽃피웠듯 인류는 물과 밀접한 관계를 맺어왔지요. 수영은 물과 인간과의 관계속에서 자연스럽게 시작되었습니다. 기원전 2500년경 고대 이집트, 그 이후의 앗시리아, 스리스 로마 문명등에서 수영의 기록을 찾아볼 수 있구요, 페르시아에서는 군사 훈련과정의 하나로 수영이 포함되었습니다. 이후 근대적 의미의 수영경기는 1837년 영국에서 처음 시작되었습니다. 우리나라에서는 1912년에 제 1회 조선 수영대회가 개최되었고, 1946년 조선 수상경기 연맹이 창설되면서 부터 수영이 본격적으로 발전하기 시작한것입니다.',to_date('18/02/15','rr/mm/dd'));
-
-select * from board order by id desc;
-select * from attachment order by id desc;
-insert into attachment
-values (seq_attachment_id.nextval, 2, '오리지날.txt', '20202020.txt', default);
-
-select  
-    b.*,
-    (select count(*) from attachment where board_id = b.id) attach_count
-from 
-    board b
-order by
-    id desc;
-
--- 데이터추가
-insert all 
-    into board
-    values (seq_board_id.nextval, title, member_id, content, default)
-
-select * from board;
-
--- 시퀀스 번호 확인
--- 세션별로 nextval호출없이 currval 호출할 수 없다.
-select seq_board_id.nextval, seq_board_id.currval from dual;
-
--- 게시글/첨부파일 조인쿼리
-select
-    m.*,
-    b.*,
-    a.id attach_id,
-    a.board_id,
-    a.original_filename,
-    a.renamed_filename,
-    a.created_at attach_created_at
-from
-    board b
-      left join attachment a
-        on b.id = a.board_id
-      left join member m
-        on b.member_id = m.member_id
-where
-    b.id =  643;
-
-select * from attachment order by id desc;
-
-commit;
-
-
-select * from club where club_id = (select club_id from club_member where member_id = 'honggd');
-
-
-
