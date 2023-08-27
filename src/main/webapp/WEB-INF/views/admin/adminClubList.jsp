@@ -5,9 +5,10 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <fmt:requestEncoding value="utf-8"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin.css"/>
 
 
-<section id="admin-club-list-sec" class="p-2 club-list">
+<section id="admin-club-list-sec" class="p-2 club-list sectionList">
 	
 	<h1>모임목록 페이지</h1>
 	<div id="club-list-wrapper">
@@ -32,7 +33,6 @@
 					<input type="text" id="clubCategorySearch" placeholder="카테고리를 입력하세요">
 					<button onclick="searchClub(this);" name="category">검색</button>
 		        </div>
-			</div>
 			
 				<form 
 					name="searchClubFrm"
@@ -41,8 +41,9 @@
 					<input type="hidden" name="column" id="columnHidden">
 				</form>
 				
-			<div>
-				<table id="clubListTable">
+			
+				<table id="clubListTable"
+				class="listTable">
 					<thead>
 						<tr>
 							<th>번호</th>

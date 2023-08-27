@@ -13,4 +13,5 @@ public class ClubAndImage {
 	private String domain;
 	private String renamedFilename;
 	private int MemberCount;
+	private String clubTag;
 }

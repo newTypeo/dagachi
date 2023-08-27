@@ -1,0 +1,115 @@
+@charset "UTF-8";
+/* Body 스타일 */
+/* body {
+  font-family: Arial, sans-serif;
+  background-color: #f5f8fa;
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+} */
+
+/* 섹션 스타일 */
+.sectionList {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  text-align: center;
+  magin: 0 auto;
+}
+
+.sectionList h1 {
+  font-size: 27px;
+  margin-bottom: 20px;
+  color: #3498db;
+}
+
+/* 검색바 스타일 */
+#search-container {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+#searchBar-wrap{
+	margin: 0 auto;
+	width: 1000px;
+}
+
+label {
+  font-weight: bold;
+}
+
+#searchType {
+  padding: 5px;
+  margin-right: 10px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+}
+
+.search-type {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+input[type="text"] {
+  padding: 5px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  margin-right: 5px;
+}
+
+button {
+  padding: 5px 10px;
+  background-color: #3498db;
+  border: none;
+  border-radius: 3px;
+  color: #fff;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #2980b9;
+}
+
+/* 테이블 스타일 */
+.listTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.listTable th,
+.listTable td {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+.listTable th {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+/* 페이지 링크 스타일 */
+#pagebar-wrapper {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.page {
+  font-weight: bold;
+  color: #3498db;
+}
+
+.page a {
+  color: #333;
+  text-decoration: none;
+  margin: 0 5px;
+}
+
+.page a:hover {
+  text-decoration: underline;
+}

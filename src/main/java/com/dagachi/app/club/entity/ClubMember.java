@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class ClubMember {
 	private String memberId;
-	private int number;
+	private int clubId;
 	private LocalDateTime enrollAt;
 	private LocalDateTime lastActivityDate;
 	private int clubMemberRole;
