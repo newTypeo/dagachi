@@ -1,4 +1,4 @@
-package com.dagachi.app.common.TypeHandler;
+package com.dagachi.app.common.typehandler;
 
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;

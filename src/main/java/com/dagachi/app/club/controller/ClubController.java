@@ -90,12 +90,17 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 @RequestMapping("/club")
-@SessionAttributes({ "inputText" })
+@SessionAttributes({ "inputText", "zoneSetList", 
+	"zoneSet1", "zoneSet2", "zoneSet3", "zoneSet4", "zoneSet5", "zoneSet6" })
 public class ClubController {
 
 	private final JavaMailSender javaMailSender;
 	
 	static final int LIMIT = 10;
+	
+	static final Map<Integer, Double> ANGLEPATTERN // km(key)별로 360도를 나눌 각도(value) 
+	= Map.of(1, 45.0, 2, 30.0, 3, 22.5, 4, 18.0, 5, 15.0, 6, 11.25, 7, 9.0, 8, 7.5, 9, 6.0, 10, 5.0);
+	
 
 	@Autowired
 	private MemberService memberService;
@@ -295,27 +300,61 @@ public class ClubController {
 	 * 로그인한 회원의 활동지역 addAttribute하고 페이지 이동
 	 * @author 종환
 	 */
-	@GetMapping("clubSearchSurrounded.do")
+	@GetMapping("/clubSearchSurrounded.do")
 	public void clubSearchSurrounded(@AuthenticationPrincipal MemberDetails member, Model model) {
 		ActivityArea activityArea = memberService.findActivityAreaById(member.getMemberId());
 		String mainAreaId = activityArea.getMainAreaId();
 		model.addAttribute("mainAreaId", mainAreaId);
+		System.out.println("mainAreaId= " + mainAreaId);
 	}
 	
 	/**
 	 * 활동지역 중심 주변모임 검색
 	 * @author 종환
 	 */
-	@GetMapping("clubSearchByDistance.do")
+	@GetMapping("/clubSearchByDistance.do")
 	public ResponseEntity<?> clubSearchByDistance(
+			HttpSession session,
 			@RequestParam int distance, 
 			@RequestParam String category, // 사용자가 선택한 분류
 			@RequestParam String mainAreaName, // "서울특별시 **구 **동"
 			@AuthenticationPrincipal MemberDetails member) throws UnsupportedEncodingException {
 		
-		// 거리 별로 360에 나눌 각도 Map 셋팅
-		Map<Integer, Double> anglePattern = // km(key)별로 360도를 나눌 각도(value) 
-				Map.of(1, 45.0, 2, 30.0, 3, 22.5, 4, 18.0, 5, 15.0, 6, 11.25, 7, 9.0, 8, 7.5, 9, 6.0, 10, 5.0);
+//		// 주변의 모든 법정동리스트로 모임 조회 후 리턴
+		Set<String> zoneSet =  (Set<String>) session.getAttribute("zoneSet" + distance);
+		Map<String, Object> params = new HashMap<>();
+		params.put("zoneSet", zoneSet);
+		if(!"".equals(category)) params.put("category", category); // 사용자가 카테고리를 선택했을 때만 params에 추가
+		List<ClubSearchDto> clubs = clubService.findClubByDistance(params);
+		log.debug("ClubSearchDto = {}", clubs);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(clubs);
+	}
+
+	
+	/**
+	 * 최초로그인시 비동기로 회원의 주활동지역코드 구하는 코드 (주변모임 추천용)
+	 * @author 종환
+	 */
+	@ResponseBody
+	@GetMapping("getMainAreaId.do")
+	public Map<String, Object> getMainAreaId(@AuthenticationPrincipal MemberDetails member) {
+		Map<String, Object> response = new HashMap<>();
+		ActivityArea activityArea = memberService.findActivityAreaById(member.getMemberId());
+		String mainAreaId = activityArea.getMainAreaId();
+	    response.put("mainAreaId", mainAreaId);
+	    return response;
+	}
+	
+	/**
+	 * 최초 로그인 시 km 별로 반경에 있는 법정동명 session에 저장
+	 * @author 종환
+	 */
+	@ResponseBody
+	@GetMapping("/setZoneInSession.do")
+	public void setZoneInSession(
+			@RequestParam String mainAreaName, 
+			Model model) throws UnsupportedEncodingException {
 		
 		JsonArray documents = kakaoMapApi(mainAreaName, "address"); // api요청 결과를 json배열로 반환하는 method
 		JsonElement document = documents.getAsJsonArray().get(0);
@@ -323,20 +362,21 @@ public class ClubController {
 		double x = item.get("x").getAsDouble();
 		double y = item.get("y").getAsDouble();
 		
+		StopWatch sw = new StopWatch();
+		sw.start();
 		// 싸인 코사인으로 계산하는 메소드
-		Set<String> zoneSet = getAreaNamesByDistance(x, y, distance, anglePattern); // 검색할 km기반으로 주변 동이름이 들어있는 set 반환
+		// List<Set<String>> zoneSetList = new ArrayList<>();
+		for (int i = 1; i <= 6; i++) {
+			Set<String> zoneSet = getAreaNamesByDistance(x, y, i, ANGLEPATTERN); // 검색할 km기반으로 주변 동이름이 들어있는 set 반환
+			model.addAttribute("zoneSet" + i, zoneSet);
+			log.debug("zoneSet{}= {}",i, zoneSet);
+		}
+		sw.stop();
+		log.debug("법정동 api 요청시간 = {}초", Math.ceil(sw.getTotalTimeSeconds()));
 		
-		// 주변의 모든 법정동리스트로 모임 조회 후 리턴
-		Map<String, Object> params = new HashMap<>();
-		params.put("zoneSet", zoneSet);
-		if(!"".equals(category)) params.put("category", category); // 사용자가 카테고리를 선택했을 때만 params에 추가
-		
-		List<ClubSearchDto> clubs = clubService.findClubByDistance(params);
-		log.debug("ClubSearchDto = {}", clubs);
-		
-		return ResponseEntity.status(HttpStatus.OK).body(clubs);
 	}
-
+	
+	
 	/**
 	 * 인덱스 페이지에서 클럽 상세보기 할 때 매핑입니다. 도메인도 domain 변수 안에 넣어놨습니다. (창환) - layout 가져오도록
 	 * @author 동찬
@@ -719,8 +759,6 @@ public class ClubController {
 			JsonObject item = document.getAsJsonObject();
 			String addressName = item.get("address_name").getAsString();
 			addressList.add(addressName);
-			System.out.println(item.get("x"));
-			System.out.println(item.get("y"));
 		}
 		return ResponseEntity.status(HttpStatus.OK).body(addressList);
 	}
@@ -762,7 +800,7 @@ public class ClubController {
 
 		int result = clubService.insertClub(club);
 
-		return "redirect:/club/clubCreate.do";
+		return "redirect:/club/" + _club.getDomain();
 	}
 
 	

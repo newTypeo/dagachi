@@ -64,7 +64,7 @@ const loadCLubs = (target) => {
 				url : "${pageContext.request.contextPath}/club/clubSearchByDistance.do",
 				data : {distance, mainAreaName, category},
 				success(clubs) {
-					console.log("주변 비동기검색 success= ", clubs);
+					console.log("주변모임 비동기검색 success= ", clubs);
 					let html = '';
 					const clubsWrapper = document.querySelector("#clubs-wrapper");
 					clubsWrapper.innerHTML = '';
