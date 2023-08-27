@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -44,6 +46,19 @@ import com.dagachi.app.member.entity.MemberInterest;
 import com.dagachi.app.member.entity.MemberProfile;
 import com.dagachi.app.member.service.MemberService;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.net.URL;
+ 
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
+import javax.net.ssl.HttpsURLConnection;
+
+
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -59,7 +74,10 @@ public class MemberSecurityController {
 	private PasswordEncoder passwordEncoder;
 	
 	
-	
+
+	@GetMapping("/memberCreate.do")
+	public void memberCreate() {
+	}
 	@PostMapping("/memberCreate.do")
 	public String create(
 	  @Valid MemberCreateDto _member, BindingResult bindingResult,
@@ -99,8 +117,6 @@ public class MemberSecurityController {
 	  member.setPassword(encodedPassword);
 
 	  
-
-	  
 	  ActivityArea activityArea = new ActivityArea();
 
 	  // 2. db저장
@@ -123,9 +139,6 @@ public class MemberSecurityController {
 	}
 	
 
-	@GetMapping("/memberCreate.do")
-	public void memberCreate() {
-	}
 
 	@GetMapping("/memberAdminInquiry.do")
 	public void InquiryCreate() {
@@ -255,6 +268,8 @@ public class MemberSecurityController {
 
 		return "redirect:/member/" + member.getMemberId();
 	}
+
+
 
 	
 

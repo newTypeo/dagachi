@@ -221,4 +221,6 @@ public class MemberServiceImpl implements MemberService{
 	public int checkDuplicateMemberId(String memberId) {
 		return memberRepository.checkDuplicateMemberId(memberId);
 	}
+	
+	
 }
