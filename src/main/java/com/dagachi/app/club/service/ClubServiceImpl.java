@@ -224,8 +224,6 @@ public class ClubServiceImpl implements ClubService {
 			ClubTag clubTag = new ClubTag(club.getClubId(), tag);
 			result = clubRepository.insertClubTag(clubTag);
 		}
-		// layout 생성
-		result = clubRepository.insertLayout(club.getClubId());
 		return result;
 	}
 
