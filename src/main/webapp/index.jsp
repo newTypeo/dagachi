@@ -14,8 +14,6 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/views/common/chatBtn.jsp"></jsp:include>
 
-<section></section>
-
 <section id="main-page-sec" class="">
 <div id="banner-and-info-container">
 	<nav id="main-banner" class="">
@@ -80,9 +78,7 @@
 						}
 					});
 				</script>
-				
 			</div>
-			<sec:authentication property="principal"/>
 		</sec:authorize>
 	</nav>
 </div>

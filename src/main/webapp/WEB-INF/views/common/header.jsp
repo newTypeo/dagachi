@@ -67,7 +67,6 @@
 					src="${pageContext.request.contextPath}/resources/images/004.png"
 					class="p-2">
 			</div>
-
 			<sec:authorize access="isAnonymous()">
 				<div id="header-nav-container">
 					<a href="${pageContext.request.contextPath}/member/memberLogin.do">로그인</a>

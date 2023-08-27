@@ -49,7 +49,7 @@
 	</button>
 	
 	
-		<nav id="club-title" class="">
+	<nav id="club-title" class="">
 		<c:if test="${layout.title eq null}">
 			<div id="default-title">
 				<h2>${domain}</h2>

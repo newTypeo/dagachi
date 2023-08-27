@@ -10,7 +10,7 @@
 
 <style>
 .modal {
-	top: -840px;
+	top: -920px;
 }
 
 .modal-body {
@@ -33,6 +33,8 @@
 }
 #tagContainer {
 	display: flex;
+	background-color: lightskyblue;
+	border-radius: 5px;
 }
 
 .tagWrapper {
@@ -40,13 +42,15 @@
 	margin: 5px;
 	border: 2px solid white;
 	position: relative;
+	border-radius: 5px;
 	display: flex;
 }
 .tagBox {
 }
 .cancelTagBox {
-	width: 30px;
+	width: 20px;
 	cursor: pointer;
+	text-align: center;
 }
 </style>
 
@@ -114,8 +118,8 @@
     			 	<button class="btn btn-outline-secondary" type="button" id="tagInputBtn">추가</button>
   				 </div>
 			</div>
-			<div id="tagContainer" class="bg-primary"></div>
-			<input type="text" id="tags" name="tags" readonly>
+			<div id="tagContainer" class=""></div>
+			<input type="hidden" id="tags" name="tags" readonly>
 			
 
 			<div class="form-group">
@@ -153,12 +157,17 @@
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
+					
 					<div class="modal-body">
-						<label for="address-search-box">주 활동지 : </label> <input
-							id="address-search-box" name="address"
-							placeholder="ex) 강남구 역삼동 or 역삼동" />
-						<div class="address-box"></div>
+						<label for="address-search-box">주 활동지 : </label> 
+						<input id="address-search-box" name="address" readonly/><br>
+						<label for="gu-filter">서울특별시 </label>
+						<select id="gu-filter"></select>
+						<div class="address-box">
+							<p>먼저 지역구를 선택해주십시오.</p>
+						</div>
 					</div>
+					
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary"
 							data-dismiss="modal">닫기</button>
@@ -176,29 +185,70 @@
 
 
 <script>
+
+// -------------------------------------- 활동지역 받아오기----------------
 const addressSearchBox = document.querySelector("#address-search-box");
 const addressBox = document.querySelector(".address-box");	
 
-addressSearchBox.onkeyup = (e) => {
-	$.ajax({
-		url : '${pageContext.request.contextPath}/club/findAddress.do',
-		data : { keyword : e.target.value },
-		method : "GET",
-		success(addressList) {
-			if (addressList == '') {
-				addressBox.innerHTML = '<p>검색 결과가 존재하지 않습니다.</p>';
-				return;
-			}
+//활동지역 option
+$.ajax({
+	url : "https://grpc-proxy-server-mkvo6j4wsq-du.a.run.app/v1/regcodes?regcode_pattern=11*00000",
+	data : {is_ignore_zero : true},
+	success({regcodes}) {
+		const selectArea = document.querySelector("#gu-filter");
+		selectArea.innerHTML = '<option value="" disabled selected>-선택-</option>';
+		
+		$.each(regcodes, (index) => {
+			const fullAddr = regcodes[index]["name"];
+			const region = fullAddr.split(" ");
 			
-			addressBox.innerHTML = "";
-			addressList.forEach((address) => {
-				addressBox.innerHTML += `
-					<p class='address-checked'>\${address}</p>
-				`;
-			});
-		}
-	});
-}
+			selectArea.innerHTML += `<option value="\${region[1]}">\${region[1]}</option>`;
+			
+		});
+	},
+	complete() {
+		console.log("ASd");
+	}
+});
+
+document.querySelector("#gu-filter").onchange = (e) => {
+	const zone = e.target.value; 
+	if(zone == "") {
+		detail.style.display = 'none';
+		detail.value = '';
+		return;
+	}
+	
+	$.ajax({ // 1. 서울시의 모든 구를 요청
+		url : "https://grpc-proxy-server-mkvo6j4wsq-du.a.run.app/v1/regcodes?regcode_pattern=11*00000",
+		data : {is_ignore_zero : true},
+		success({regcodes}) {
+			$.each(regcodes, (index) => { // 2. 서울시 모든 구 중에서 사용자가 선택한 구의 정보를 찾기위한 반복문
+				const fullAddr = regcodes[index]["name"];
+				const region = fullAddr.split(" ");
+				
+				if(region[1] == zone) { 
+					
+					const first5 = regcodes[index]["code"].toString().substr(0,5); // 3. 사용자가 선택한 구의 모든 동을 조회하기위한 코드 
+					
+					$.ajax({ // 4. 위에서 구한 코드로 모든 동정보 요청
+						url : "https://grpc-proxy-server-mkvo6j4wsq-du.a.run.app/v1/regcodes?regcode_pattern=" + first5 + "*",
+						data : {is_ignore_zero : true},
+						success({regcodes}) {
+							addressBox.innerHTML = ""
+							
+							$.each(regcodes, (index) => { // 5. 파싱작업을 통해 모든동을 option태그로 만들어서 추가하는 반복문
+								const fullAddr = regcodes[index]["name"];
+								addressBox.innerHTML += `<p class='address-checked'>\${fullAddr}</p>`;
+							}); // $.each
+						} // success
+					}) // ajax
+				} // if
+			}); // $.each
+		} // success
+	}); // ajax
+};
+
 
 
 document.addEventListener('click', (e) => {
@@ -213,6 +263,11 @@ document.addEventListener('click', (e) => {
     	$('#activity-area-modal').modal('hide');
     }
 });
+
+//-------------------------------------- 활동지역 받아오기----------------
+
+
+
 
 
 
@@ -249,7 +304,7 @@ tagInputBtn.onclick = () => {
 			<div class="tagWrapper">
 				<div class="tagBox">#\${tagInput.value}</div>
 				<div class="cancelTagBox" onclick="cancelTag(this);">
-					<span style="color: #555;">X</span>
+					<span style="color: #555;"><i class="fa-solid fa-x"></i></span>
 				</div>
 			</div>`);
 	
@@ -271,6 +326,9 @@ const cancelTag = (elem) => {
 	console.log(tagList);
 	tags.value = tagList;
 }
+
+
+
 
 
 </script>
