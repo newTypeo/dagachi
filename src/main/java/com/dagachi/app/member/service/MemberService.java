@@ -41,8 +41,9 @@ public interface MemberService extends UserDetailsService {
 	int memberDelete(String memberId);
 
 	Member findMemberBymemberId(String memberId);
-	/*임시로그인*/
-	int insertMember(MemberCreateDto member);
+	
+//	/*임시로그인*/
+//	int insertMember(MemberCreateDto member);
 
 	int InquiryCreate(AdminInquiryCreateDto inquiry);
 
@@ -73,6 +74,8 @@ public interface MemberService extends UserDetailsService {
 	List<MemberLike> findAllLikeMe(String loginMemberId);
 
 	int checkDuplicateMemberId(String memberId);
+
+	int insertMember(MemberDetails member1);
 
 
 

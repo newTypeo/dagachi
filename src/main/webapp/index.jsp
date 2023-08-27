@@ -84,7 +84,7 @@
 </div>
 
 <nav>
-	<a href="${pageContext.request.contextPath}/admin/adminInquiryList.do?">문의 목록/답변(관리자)</a>
+	
 
 </nav>
 
