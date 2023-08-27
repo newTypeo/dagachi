@@ -72,6 +72,7 @@
 									                    <fmt:formatDate value="${responseAt}" pattern="yy/MM/dd"/>
 									                </c:if>
 								                </c:if>
+								               <!--  // 여기에 권한 추가해야함 -->
 									            <c:if test="${inquiry.open == 1}">
 									            		권한이 없습니다.
 									            </c:if>								                
