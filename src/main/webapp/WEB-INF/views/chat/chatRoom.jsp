@@ -59,128 +59,129 @@
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
+
 * {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
 }
 
 a {
-    text-decoration: none;
+	text-decoration: none;
 }
 
 .wrap {
-    padding: 40px 0;
-    background-color: #A8C0D6;
+	padding: 40px 0;
+	background-color: #A8C0D6;
 }
 
 .wrap .chat {
-    display: flex;
-    align-items: flex-start;
-    padding: 20px;
+	display: flex;
+	align-items: flex-start;
+	padding: 20px;
 }
 
 .wrap .chat .icon {
-    position: relative;
-    overflow: hidden;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-color: #eee;
+	position: relative;
+	overflow: hidden;
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	background-color: #eee;
 }
 
 .wrap .chat .icon i {
-    position: absolute;
-    top: 10px;
-    left: 50%;
-    font-size: 2.5rem;
-    color: #aaa;
-    transform: translateX(-50%);
+	position: absolute;
+	top: 10px;
+	left: 50%;
+	font-size: 2.5rem;
+	color: #aaa;
+	transform: translateX(-50%);
 }
 
 .wrap .chat .textbox {
-    position: relative;
-    display: inline-block;
-    max-width: calc(100% - 70px);
-    padding: 10px;
-    margin-top: 7px;
-    font-size: 13px;
-    border-radius: 10px;
+	position: relative;
+	display: inline-block;
+	max-width: calc(100% - 70px);
+	padding: 10px;
+	margin-top: 7px;
+	font-size: 13px;
+	border-radius: 10px;
 }
 
 .wrap .chat .textbox::before {
-    position: absolute;
-    display: block;
-    top: 0;
-    font-size: 1.5rem;
+	position: absolute;
+	display: block;
+	top: 0;
+	font-size: 1.5rem;
 }
 
 .wrap .ch1 .textbox {
-    margin-left: 20px;
-    background-color: #ddd;
+	margin-left: 20px;
+	background-color: #ddd;
 }
 
 .wrap .ch1 .textbox::before {
-    left: -15px;
-    content: "◀";
-    color: #ddd;
+	left: -15px;
+	content: "◀";
+	color: #ddd;
 }
 
 .wrap .ch2 {
-    flex-direction: row-reverse;
+	flex-direction: row-reverse;
 }
 
 .wrap .ch2 .textbox {
-    margin-right: 20px;
-    background-color: #F9EB54;
+	margin-right: 20px;
+	background-color: #F9EB54;
 }
 
 .wrap .ch2 .textbox::before {
-    right: -15px;
-    content: "▶";
-    color: #F9EB54;
+	right: -15px;
+	content: "▶";
+	color: #F9EB54;
 }
-
 </style>
 <body>
 
-	<%-- <a href="${pageContext.request.contextPath}/chat/chatBox.jsp">목록으로 돌아가기</a> --%>
 
 	<sec:authorize access="isAuthenticated()">
 
 		<sec:authentication property="principal.username" var="memberId" />
 
 		<script>
-		const memeberId = "${memberId}";
+		const memberId = "${memberId}";
 		const clubId = ${clubId};
 		
-		console.log(memeberId);
+		console.log(memberId);
 		
 	</script>
 
 		<section id="club-chatRoom-sec" class="">
 
+			<a href="${pageContext.request.contextPath}/chat/chatBox.jsp">목록으로
+				돌아가기</a>
 			<div class="wrap" id="chatWrap">
 
-				<c:if test="${not empty cahtlogs}">
 
-					<c:forEach items="cahtlogs" var="chatlog">
+				<c:if test="${not empty chatlogs}">
 
-						<c:if test="${writer eq memberId}">
+					<c:forEach items="${chatlogs}" var="chatlog">
+						<c:if test="${chatlog.writer eq memberId}">
 							<div class="chat ch2">
 								<div class="icon">
 									<i class="fa-solid fa-user"></i>
 								</div>
-								<div class="textbox">${content}</div>
+								<div class="textbox">${chatlog.content}</div>
 							</div>
 						</c:if>
 
-						<c:if test="${writer ne memberId}">
+						<c:if test="${chatlog.writer ne memberId}">
 							<div class="chat ch1">
 								<div class="icon">
 									<i class="fa-solid fa-user"></i>
 								</div>
-								<div class="textbox">${content}</div>
+								<div class="textbox">${chatlog.content}</div>
 							</div>
 						</c:if>
 
@@ -190,7 +191,7 @@ a {
 
 				</c:if>
 
-				<c:if test="${empty cahtlogs}">
+				<c:if test="${empty chatlogs}">
 
 					<div class="textbox">채팅을 시작하세요</div>
 				</c:if>
@@ -233,10 +234,11 @@ document.querySelector("#snedMsg").addEventListener("click",()=>{
 	const content=msgbox.value;
 	console.log(content);
 	msgbox.value="";
+	msgbox.focus();
 	
 	const payload = {
 			type : "MOIMTALK",
-			from : memeberId,
+			from : memberId,
 			to : clubId,
 			content : content,
 			createdAt : Date.now()

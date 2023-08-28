@@ -23,12 +23,23 @@ const renderMessage = (message) => {
 	
 	switch(type){
 	 	case "MOIMTALK":
-	 	document.querySelector("#chatWrap").innerHTML=`
-	 		<div class="chat">
+	 	const chatWrap =document.querySelector("#chatWrap");
+	 	const divbox=document.createElement('div');
+	 	if(from === memberId)
+	 		divbox.className = 'chat ch2';
+	 	else
+	 		divbox.className = 'chat ch1';
+	 		
+	 	divbox.innerHTML=`
             <div class="icon"><i class="fa-solid fa-user"></i></div>
             <div class="textbox">${content}</div>
       	 	</div>
-
-	 	` ; break;
+	 	` ;
+	 	chatWrap.appendChild(divbox);
+      	 document.querySelector("#chatWrap").scrollTop = document.querySelector("#chatWrap").scrollHeight;
+	 	 
+	 	 
+	 	 
+	 	 break;
 	}
 }; 
