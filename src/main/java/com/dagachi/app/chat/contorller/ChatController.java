@@ -20,6 +20,8 @@ import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.service.ClubService;
 import com.dagachi.app.member.entity.MemberDetails;
+import com.dagachi.app.member.entity.MemberProfile;
+import com.dagachi.app.member.service.MemberService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,6 +35,9 @@ public class ChatController {
 	
 	@Autowired
 	private ClubService clubService;
+	
+	@Autowired
+	private MemberService memberService;
 
 	@GetMapping("/chat/chatBox.do")
 	public String chatBox() {
@@ -69,7 +74,12 @@ public class ChatController {
 		List<ChatLog> chatlogs=chatService.clubChat(no);
 		log.debug("cahtlogs={}",chatlogs);
 		int clubId=no;
+		
+		List<MemberProfile> memberProfiles = memberService.findMemberProfileByClubId(clubId);
+		
+		
 		model.addAttribute("clubId",clubId);
+		model.addAttribute("memberProfiles",memberProfiles);
 		model.addAttribute("chatlogs",chatlogs);
 		
 	}
