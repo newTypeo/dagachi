@@ -10,7 +10,10 @@ stompClient.connect({}, (frame) => {
 	
 	stompClient.subscribe(`/app/clubTalk/${clubId}`, (message) => {
 		console.log(`/app/clubTalk/${clubId} : `, message);
-		renderMessage(message);
+		
+		if(message.headers["content-type"])
+			renderMessage(message);
+			
 	});
 	
 	
@@ -23,12 +26,23 @@ const renderMessage = (message) => {
 	
 	switch(type){
 	 	case "MOIMTALK":
-	 	document.querySelector("#chatWrap").innerHTML=`
-	 		<div class="chat">
-            <div class="icon"><i class="fa-solid fa-user"></i></div>
+	 	const chatWrap =document.querySelector("#chatWrap");
+	 	const divbox=document.createElement('div');
+
+	 	if(from === memberId)
+	 		divbox.className = 'chat ch2';
+	 	else
+	 		divbox.className = 'chat ch1';
+	 		
+	 	divbox.innerHTML=`
+            <div class="icon"><i class="fa-solid fa-user"></i>
+           	 ${memberImg}
+            </div>
             <div class="textbox">${content}</div>
       	 	</div>
-
-	 	` ; break;
+	 	` ;
+	 	chatWrap.appendChild(divbox);
+      	 document.querySelector("#chatWrap").scrollTop = document.querySelector("#chatWrap").scrollHeight;
+	 	 break;
 	}
 }; 

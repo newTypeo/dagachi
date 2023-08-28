@@ -27,8 +27,9 @@ body {
 }
 
 /********** 전체컨테이너 **********/
-div #container {
-	
+section {
+	width: 1320px;
+	margin: 0 auto;
 }
 
 /********** header **********/
@@ -363,7 +364,7 @@ figure.snip0045.hover > img {
 }
 
 .liked-members-title {
-	background-color: #2980b9;
+	background-color: #3498db;
 	color: white;
 	padding: 15px;
 	text-align: center;

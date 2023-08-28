@@ -7,6 +7,12 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8">
+<title>다가치</title>
+
+
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 
 <!-- bootstrap js: jquery load 이후에 작성할것.-->
@@ -34,8 +40,8 @@
 	rel="stylesheet">
 
 <!-- 사용자작성 css -->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/style.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css" />
+</head>
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
 <section id="class2">
@@ -159,7 +165,6 @@
 			</div>
 		</c:if>
 	</c:if>
-
 
 	<h1>가입 되어있는 모임</h1>
 	<c:if test="${empty joinClub}">

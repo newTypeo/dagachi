@@ -6,12 +6,11 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
-<html>
-<head>
 <meta charset="UTF-8">
 <title>다가치</title>
-
+<head>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
 <!-- bootstrap js: jquery load 이후에 작성할것.-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
@@ -23,36 +22,23 @@
 <!-- 폰트 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Hahmlet&family=IBM+Plex+Sans+KR&family=Jua&family=Noto+Sans+KR&family=Orbit&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR&display=swap" rel="stylesheet">
 
 <!-- 사용자작성 css -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/club.css"/>
-<meta id="_csrf" name="_csrf" content="${_csrf.token}"/>
-<meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/club.css" />
 </head>
-<body>
-<sec:authorize access="isAuthenticated()">
-	<form:form 
-		name="memberLogoutFrm" 
-		action="${pageContext.request.contextPath}/member/memberLogout.do" 
-		method="POST"></form:form>
-</sec:authorize>
+<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
-<div id="container">
-	<header>
-		<div id="mini-logo-container">
-			<a href="${pageContext.request.contextPath}">
-				<img src="${pageContext.request.contextPath}/resources/images/002.png"/>
-				<img src="${pageContext.request.contextPath}/resources/images/006.png"/>
-			</a>
-		</div>
-		<div id="header-nav-container">
-		    <span>
-		    <a title="<sec:authentication property="authorities"/>" href="${pageContext.request.contextPath}/member/<sec:authentication property="principal.memberId"/>">
-		    	<sec:authentication property="principal.nickname"/>
-		    </a>님, 안녕하삼</span>
-		    &nbsp;
-		    <button type="button" onclick="document.memberLogoutFrm.submit();">로그아웃</button>
-		</div>
-	</header>
+
+<section>
+	<h1>멤버 클럽 디테일</h1>
+	<p>탈퇴기능, 내 글 조회 기능, 내 댓글 조회 기능</p>
+
+
+</section>
+
+<script>
+
+
+</script>
+<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

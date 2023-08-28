@@ -6,13 +6,36 @@
 <fmt:requestEncoding value="utf-8" />
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
+<style>
+    /* 가운데 정렬을 위한 스타일 */
+    #reportInquiryListTable {
+       background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  text-align: center;
+  magin: 0 auto;
+    }
+
+    /* 각 열 사이 여백을 주기 위한 스타일 */
+    #reportInquiryListTable td {
+        padding: 8px; /* 원하는 여백 크기로 조정 가능 */
+    }
+	#admin-report-inquiry-list-sec {
+	    text-align: center; /* 수평 가운데 정렬 */
+	}
+	
+
+
+</style>
+
+
 <section id="admin-report-inquiry-list-sec" class="p-2 report-inquiry-list">
 	<h1>QnA</h1>
 	<a href="${pageContext.request.contextPath}/member/memberAdminInquiry.do">문의하기</a>
 			
 	<div id="report-inquiry-list-wrapper">
-		<div id="search-container">
-			<div id="searchBar-wrap">
 				<table id="reportInquiryListTable">
 					<thead>
 						<tr>
@@ -26,7 +49,7 @@
 						</c:if>
 						<c:if test="${not empty inquiry}">
 							<c:forEach items="${inquiry}" var="inquiry" varStatus="vs">
-							        <tr>
+							        <tr class ="oneList">
 							            <c:if test="${inquiry.open == 1}"><td>🔒</td></c:if>
 							            <c:if test="${inquiry.open == 0}"><td>🔓</td></c:if>
 							            <td>${inquiry.inquiryId}</td>
@@ -56,19 +79,19 @@
 							                <fmt:parseDate value="${inquiry.createdAt}" var="createdAt" pattern="yyyy-MM-dd"></fmt:parseDate>
 							                <fmt:formatDate value="${createdAt}" pattern="yy/MM/dd"/>
 							            </td>
-							            
-							            <td>
-							            
+							            </tr>
+							            <tr class ="twoList">
+							            <td colspan="5">
 							                <div id="response-${vs.index}" style="display: none;">
 							              		<c:if test="${inquiry.open == 0}">
 										           <c:if test="${empty inquiry.response}">
-											             ${inquiry.content}
+											             문의 내용 : ${inquiry.content}</br>
 											             아직 답변이 달리지 않았습니다.
 										            </c:if>
 									                <c:if test="${not empty inquiry.response}">
-									         	         ${inquiry.content}
-									                	 ${inquiry.response}
-									                    <fmt:parseDate value="${inquiry.responseAt}" var="responseAt" pattern="yyyy-MM-dd"></fmt:parseDate>
+									         	        문의 내용 :  ${inquiry.content} </br>
+									                	문의 답변 :  ${inquiry.response}</br>
+									                    문의 답변 일자 : <fmt:parseDate value="${inquiry.responseAt}" var="responseAt" pattern="yyyy-MM-dd"></fmt:parseDate>
 									                    <fmt:formatDate value="${responseAt}" pattern="yy/MM/dd"/>
 									                </c:if>
 								                </c:if>
@@ -77,9 +100,6 @@
 									            		권한이 없습니다.
 									            </c:if>								                
 								              </div>							            
-							            
-
-
 							            </td>
 							        </tr>
 							        
@@ -87,8 +107,6 @@
 						</c:if>
 					</tbody>
 				</table>
-			</div>
-		</div>
 	</div>
 </section>
 
