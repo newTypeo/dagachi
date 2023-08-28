@@ -219,3 +219,16 @@ section .posts3 {
 	border-width: 0 0 0 0px;
 	z-index: 10px;
 }
+
+#header-nav-container button {
+  padding: 5px 10px;
+  background-color: #3498db;
+  border: none;
+  border-radius: 3px;
+  color: #fff;
+  cursor: pointer;
+}
+/*버튼*/
+#header-nav-container button:hover {
+  background-color: #2980b9;
+}
