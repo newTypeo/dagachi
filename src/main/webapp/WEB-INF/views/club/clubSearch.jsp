@@ -3,57 +3,67 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<fmt:requestEncoding value="utf-8"/>
+<fmt:requestEncoding value="utf-8" />
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-	
-	
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/clubSearch.css" />
+
+
 <section id="club-search-sec" class="p-2 club-search">
 	<div>'${inputText}'검색결과 (${totalCount})</div>
 	<div id="filter-wrap">
-		<form action="${pageContext.request.contextPath}/club/searchClubWithFilter.do">
-			<label for="activityArea">활동 지역:</label>
-		    <select id="filter-activityArea" name="region"><!-- js로 options 처리 --></select>
-		    <select id="filter-activityAreaDetail" name="zone" style="display: none;"><!-- js로 options 처리 --></select>
-		    
-		    <label for="category">모임 분류:</label>
-		    <select id="filter-category" name="category"><!-- js로 options 처리 --></select>
+		<form
+			action="${pageContext.request.contextPath}/club/searchClubWithFilter.do">
+			<label for="activityArea">활동 지역:</label> <select
+				id="filter-activityArea" name="region">
+				<!-- js로 options 처리 -->
+			</select> <select id="filter-activityAreaDetail" name="zone"
+				style="display: none;">
+				<!-- js로 options 처리 -->
+			</select> <label for="category">모임 분류:</label> <select id="filter-category"
+				name="category">
+				<!-- js로 options 처리 -->
+			</select>
 
-		    <button>필터 적용</button>
+			<button>필터 적용</button>
 		</form>
 	</div>
-	<div>
-		<c:if test="${empty clubs}">
-			<div>검색결과가 없습니다.</div>
-		</c:if>
-		<c:if test="${not empty clubs}">
-			<c:forEach items="${clubs}" var="club" varStatus="vs">
-				<div>
-					<c:if test="${not empty club.renamedFilename}">
-					<img src="${pageContext.request.contextPath}/resources/upload/club/profile/${club.renamedFilename}" width="150px">
-					</c:if>
-					<c:if test="${empty club.renamedFilename}">
-					<img src="${pageContext.request.contextPath}/resources/images/001.png" width="150px">
-					</c:if>
-					<span>모임명 : ${club.clubName}</span>
-					<span>모임 지역 : ${club.activityArea}</span>
-					<span>모임 분류 : ${club.category}</span>
-					<span>모임 인원 : ${club.memberCount}/100</span>
-					<span>모임 생성일 : ${club.createdAt}</span>
-				</div>
-			</c:forEach>
-		</c:if>
-	</div>
-	<div id="pagebar-wrapper">	
+
+	<c:if test="${empty clubs}">
+		<div>검색결과가 없습니다.</div>
+	</c:if>
+	<c:if test="${not empty clubs}">
+		<c:forEach items="${clubs}" var="club" varStatus="vs">
+			<table>
+				<tr class="cards">
+					<td class="card-images"><img src="${pageContext.request.contextPath}/resources/upload/club/profile/${club.renamedFilename}" width="200px"></td>
+					<td class="card-content">
+						<p>모임명 : ${club.clubName}</p>
+						<p>모임 지역 : ${club.activityArea}</p>
+						<p>모임 분류 : ${club.category}</p>
+						<p>모임 인원 : ${club.memberCount}/100</p>
+						<p>
+							모임 생성일 :
+							<fmt:parseDate value="${club.createdAt}"
+								pattern="yyyy-MM-dd'T'HH:mm" var="createdAt" />
+							<fmt:formatDate value="${createdAt}" pattern="yyyy-MM-dd" />
+						</p>
+					</td>
+				</tr>
+			</table>
+		</c:forEach>
+	</c:if>
+
+	<div id="pagebar-wrapper">
 		<c:if test="${empty pagebar}">
-				<span></span>
+			<span></span>
 		</c:if>
 		<c:if test="${not empty pagebar}">
-				<span>${pagebar}</span>
+			<span>${pagebar}</span>
 		</c:if>
 	</div>
 </section>
-	
-	
+
 <script>
 document.querySelector("#filter-activityArea").onchange = (e) => {
 	const detail = document.querySelector("#filter-activityAreaDetail");

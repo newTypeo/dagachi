@@ -99,7 +99,7 @@
 #club-myInfo-container {
 	background-color: pink;
 	width: 260px;
-	height: 300px;
+	height: 260px;
 	margin: 0 20px;
 }
 
@@ -200,25 +200,25 @@
 
 #club-board-container {
 	width: 660px;
-	height: 397px;
+	height: 961px;
 	overflow: hidden;
 }
 
 #club-greetings-container {
 	width: 660px;
-	height: 397px;
+	height: 281px;
 	overflow: hidden;
 }
 
 #club-reivew-container {
 	width: 660px;
-	height: 397px;
+	height: 321px;
 	overflow: hidden;
 }
 
 #club-schedule-container {
 	width: 660px;
-	height: 397px;
+	height: 359px;
 	overflow: hidden;
 }
 

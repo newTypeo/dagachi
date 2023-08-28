@@ -28,6 +28,32 @@ import com.dagachi.app.member.entity.MemberProfile;
 @Mapper
 public interface MemberRepository {
 	
+	
+	// 멤버 회원가입 추가 ( 지우지마삼 )
+
+	@Insert("insert into member values (#{memberId}, #{password},#{name}, #{nickname}, #{phoneNo}, #{email}, #{birthday, jdbcType=DATE}, #{gender}, #{mbti},  #{address}, 0, SYSDATE, NULL, SYSDATE, NULL, 'Y')"
+	) 
+	int insertMember(MemberDetails member1);
+
+	// 지역
+
+	@Insert("INSERT INTO activity_area values(#{memberId}, #{main_area_id}, #{sub1_area_id}, #{sub2_area_id})"
+	) 
+	void insertActivityArea(MemberDetails member1);
+
+	// 관심사
+
+	@Insert("INSERT INTO member_interest values(#{memberId}, #{Interest})") 
+	void insertMemberInterest(MemberDetails member1);
+
+	// 프로필 사진
+
+	@Insert("INSERT INTO member_profile values(#{memberId},#{original_filename},#{renamed_filename},default)"
+	) 
+	int insertMemberProfile(MemberProfile memberProfile);
+
+	// 회원가입 ------------------
+	
 	MemberDetails loadUserByUsername(String memberId);
 	
 	@Select("select * from member where member_id =#{memberId}")
@@ -52,35 +78,11 @@ public interface MemberRepository {
 	@Select("select * from member where member_Id = #{memberId}")
 	Member findMemberBymemberId(String memberId);
 	
+//	/*임시 회원가입 (지우지 마삼) */
+//	@Insert("insert into member values (#{memberId}, #{password},#{name}, #{nickname}, #{phoneNo}, #{email}, #{birthday, jdbcType=DATE}, #{gender}, #{mbti},  #{address}, 0, SYSDATE, NULL, SYSDATE, NULL, 'Y')")
+//	int insertMember(MemberCreateDto member);
 
-	
-	/*
-	 * // 멤버 회원가입 추가 ( 지우지마삼 )
-	 * 
-	 * @Insert("insert into member values (#{memberId}, #{password},#{name}, #{nickname}, #{phoneNo}, #{email}, #{birthday, jdbcType=DATE}, #{gender}, #{mbti},  #{address}, 0, SYSDATE, NULL, SYSDATE, NULL, 'Y')"
-	 * ) int insertMember(MemberDetails member1);
-	 * 
-	 * // 지역
-	 * 
-	 * @Insert("INSERT INTO activity_area values(#{memberId}, #{main_area_id}, #{sub1_area_id}, #{sub2_area_id})"
-	 * ) void insertActivityArea(MemberDetails member1);
-	 * 
-	 * // 관심사
-	 * 
-	 * @Insert("INSERT INTO member_interest values(#{memberId}, #{Interest})") void
-	 * insertMemberInterest(MemberDetails member1);
-	 * 
-	 * // 프로필 사진
-	 * 
-	 * @Insert("INSERT INTO member_profile values(#{memberId},#{original_filename},#{renamed_filename},default)"
-	 * ) int insertMemberProfile(MemberProfile memberProfile);
-	 */
-
-	/*임시 회원가입 (지우지 마삼) */
-	@Insert("insert into member values (#{memberId}, #{password},#{name}, #{nickname}, #{phoneNo}, #{email}, #{birthday, jdbcType=DATE}, #{gender}, #{mbti},  #{address}, 0, SYSDATE, NULL, SYSDATE, NULL, 'Y')")
-	int insertMember(MemberCreateDto member);
-
-	@Insert("insert into admin_Inquiry values (seq_Inquiry_id.nextval,#{memberId},#{title} ,#{content}, SYSDATE ,#{type},0,NULL,NULL,#{open},NULL)")
+	@Insert("insert into admin_Inquiry values (seq_Inquiry_id.nextval,#{memberId},#{title} ,#{content}, SYSDATE ,#{type},1,NULL,NULL,#{open},NULL)")
 	int InquiryCreate(AdminInquiryCreateDto inquiry);
 	
 	@Select("select * from activity_area where member_id = #{memberId}")
@@ -102,11 +104,10 @@ public interface MemberRepository {
 	@Update("update member set name = #{name}, nickname=#{nickname}, phone_no = #{phoneNo}, address=#{address}, mbti =#{mbti}, birthday = #{birthday, jdbcType=DATE}, gender = #{gender} where member_id = #{memberId}")
 	int updateMember(Member member);
 
-
 	@Update("update member_profile set original_filename = #{originalFilename}, renamed_filename = #{renamedFilename} where member_id = #{memberId}")
 	int updateMemberProfile(MemberProfile memberProfile);
 	
-	@Select("select * from admin_Inquiry")
+	@Select("select * from admin_Inquiry order by Inquiry_id desc")
 	List<AdminInquiry> memberAdminInquiryList();
 	
 	@Insert("insert into member_like values(seq_member_like_id.nextval, #{memberId}, #{loginMemberId}, default)")

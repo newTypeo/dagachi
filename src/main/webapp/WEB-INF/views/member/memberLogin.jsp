@@ -43,14 +43,21 @@
 						<div>
 							<button type="submit" class="btn btn-outline-success">로그인</button>
 						</div>
+					<!-- 캡챠 -->
+			<div class="container">
+				<h1>index page</h1>
+				<button type="button" value="test1" id="btn">이미지생성하기</button>
+			<div id="result">			
+									
 				</div>
 			</div>
-		</form:form>	
-		
-		<button type="button" class="btn btn-primary" style=" text-align: center; display: block; margin: 0 auto;" id="btnOpen">아이디 찾기</button>
-		<br/>
-		<!-- Modal -->
-			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		</form:form>
+		<div class = "search-member-btn">
+			<button type="button" class="btn btn-primary" style=" text-align: center; display: block; margin: 0 auto;" id="btnIdOpen">아이디 찾기</button>
+			<button type="button" class="btn btn-success" style="text-align: center; display: block; margin: 0 auto;" id="btnPwOpen">비밀번호 찾기</button>
+		</div>
+		<!-- 아이디 찾기 모달 -->
+			<div class="modal fade" id="idModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		    <div class="modal-dialog">
 		        <div class="modal-content">
 		            <div class="modal-header">
@@ -75,18 +82,98 @@
 		                    </div>
 		                </form:form>
 		            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnClose">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-		
-		<button type="button" class="btn btn-success" style="text-align: center; display: block; margin: 0 auto;">비밀번호 찾기</button>
-		
+           		 	<div class="modal-footer">
+                		<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnIdClose">Close</button>
+				    </div>
+		        </div>
+		    </div>
+			</div>
+			
+			<!-- 비밀번호 찾기 모달 -->
+			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		    <div class="modal-dialog">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <h1 class="modal-title fs-5" id="exampleModalLabel" style="text-align: center; display: block; margin: 0 auto;">비밀번호 찾기</h1>
+		            </div>
+		            <div class="modal-body">
+		                <form:form action="${pageContext.request.contextPath}/member/searchIdModal" method="post">
+						    <div class="form-group">
+						        <input type="text" class="form-control" name="username" placeholder="이름" value="">
+						    </div>
+						    <div class="form-group">
+						        <div class="input-group">
+						            <input type="email" class="form-control" name="email" placeholder="이메일" value="">
+						            <button type="button" class="btn btn-primary" id="sendCodeButton">인증코드 보내기</button>
+						        </div>
+						    </div>
+		                   
+		                    
+		                </form:form>
+		            </div>
+           		 	<div class="modal-footer">
+                		<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnClose">Close</button>
+				    </div>
+		        </div>
+		    </div>
+			</div>
+
+
+<?php $siteKey = '6LfbKtwnAAAAAAIDXAW7vm0GbfBnOPCvP_EONSV9';  ?>		
+<!-- jquery 3.5.1 -->
+<script src="//code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script> 
+<!-- 리캽챠 API -->
+<script src='//www.google.com/recaptcha/api.js' async defer></script>
+ 
+	
 <script>
-	var btnOpen = document.getElementById("btnOpen");
-	var btnClose = document.getElementById("btnClose"); // 여기 수정
+	var btnOpen = document.getElementById("btnIdOpen");
+	var btnClose = document.getElementById("btnIdClose");
+	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
+	var modal = new bootstrap.Modal(document.getElementById("idModal"));
+	
+	btnOpen.addEventListener("click", function() {
+	    modal.show();
+	});
+	
+	btnClose.addEventListener("click", function() { // 여기 수정
+	    modal.hide();
+	});
+	
+	document.addEventListener("DOMContentLoaded", function() {
+        var sendCodeButton = document.getElementById("sendCodeButton");
+        var searchIdForm = document.querySelector("#idModal form");
+        
+        sendCodeButton.addEventListener("click", function() {
+            var username = searchIdForm.querySelector('input[name="username"]').value;
+            var email = searchIdForm.querySelector('input[name="email"]').value;
+			console.log(username);
+			console.log(email);
+			console.log(header);
+			console.log(name);
+            // AJAX 요청으로 데이터 전송
+            $.ajax({
+                url: "${pageContext.request.contextPath}/club/searchIdModal.do",
+                method: "post",
+                data: {
+                	username: username,
+                    email: email
+                },
+                beforeSend(xhr) {
+                	console.log('xhr : ', xhr)
+        			xhr.setRequestHeader(header, token);
+        		},
+                success: function(response) {
+                    alert('인증코드를 이메일로 발송합니다. 등록된 정보가 없을 시 코드가 발송되지 않으니 주의바랍니다!');
+                }
+            });
+        });
+    });
+</script>
+<script>
+	var btnOpen = document.getElementById("btnPwOpen");
+	var btnClose = document.getElementById("btnPwClose");
 	var token = $("meta[name='_csrf']").attr("content");
 	var header = $("meta[name='_csrf_header']").attr("content");
 	var modal = new bootstrap.Modal(document.getElementById("exampleModal"));

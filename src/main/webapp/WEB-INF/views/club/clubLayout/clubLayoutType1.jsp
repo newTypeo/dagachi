@@ -26,6 +26,9 @@
 				<a>🎉정모후기</a>
 			</div>
 			<div>
+				<a>📷갤러리</a>
+			</div>
+			<div>
 				<a>📅일정</a>
 			</div>
 		</div>
@@ -141,7 +144,7 @@
 			</c:forEach>
 		</div>
 	</div>
-	
+	<div>
 	<div id="club-greetings-container" class="preview-container">
 		<div class="container-header" style="border-color: ${layout.pointColor}">
 			<span class="fontColors">가입인사</span>
@@ -152,33 +155,6 @@
 		<div class="container-main container-main-short">
 			<c:forEach items="${boardAndImages}" var="board">
 				<c:if test="${board.type eq 3}">
-					<div>
-						<span class="pointColors">·</span>
-						<a class="fontColors" href="${pageContext.request.contextPath}/club/sportsclub/boardDetail.do?no=${board.boardId}">${board.title}</a>
-						<span>
-							<fmt:parseDate value="${board.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="createdAt"/>
-	    					<fmt:formatDate value="${createdAt}" pattern="MM.dd HH:mm"/>
-						</span>
-						<span>❤${board.likeCount < 100 ? board.likeCount : '99+'}</span>
-						<a href="/" class="fontColors">
-							${board.writer}
-						</a>
-					</div>
-				</c:if>
-			</c:forEach>
-		</div>
-	</div>
-	
-	<div id="club-reivew-container" class="preview-container">
-		<div class="container-header" style="border-color: ${layout.pointColor}">
-			<span class="fontColors">정모후기</span>
-			<a class="pointColors" href="/">
-				더보기<i class="fa-solid fa-angle-right"></i>
-			</a>
-		</div>
-		<div class="container-main container-main-short">
-			<c:forEach items="${boardAndImages}" var="board">
-				<c:if test="${board.type eq 2}">
 					<div>
 						<span class="pointColors">·</span>
 						<a class="fontColors" href="${pageContext.request.contextPath}/club/sportsclub/boardDetail.do?no=${board.boardId}">${board.title}</a>
@@ -219,6 +195,35 @@
 				</div>
 			</c:forEach>
 		</div>
+	</div>
+	
+	<div id="club-reivew-container" class="preview-container">
+		<div class="container-header" style="border-color: ${layout.pointColor}">
+			<span class="fontColors">정모후기</span>
+			<a class="pointColors" href="/">
+				더보기<i class="fa-solid fa-angle-right"></i>
+			</a>
+		</div>
+		<div class="container-main container-main-short">
+			<c:forEach items="${boardAndImages}" var="board">
+				<c:if test="${board.type eq 2}">
+					<div>
+						<span class="pointColors">·</span>
+						<a class="fontColors" href="${pageContext.request.contextPath}/club/sportsclub/boardDetail.do?no=${board.boardId}">${board.title}</a>
+						<span>
+							<fmt:parseDate value="${board.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="createdAt"/>
+	    					<fmt:formatDate value="${createdAt}" pattern="MM.dd HH:mm"/>
+						</span>
+						<span>❤${board.likeCount < 100 ? board.likeCount : '99+'}</span>
+						<a href="/" class="fontColors">
+							${board.writer}
+						</a>
+					</div>
+				</c:if>
+			</c:forEach>
+		</div>
+	</div>
+	
 	</div>
 </article>
 

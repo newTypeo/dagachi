@@ -72,7 +72,6 @@ header #header-nav-container span {
 
 /********** main-page-sec **********/
 #main-page-sec {
-	background-color: lightblue;
 	width: 1320px;
 	margin: 0 auto;
 }
@@ -86,6 +85,8 @@ header #header-nav-container span {
 #main-banner {
 	width: 960px;
 	border-radius: 10px;
+	box-sizing: border-box;
+	border: 1px solid #aaa;
 }
 
 .carousel-inner {
@@ -95,7 +96,6 @@ header #header-nav-container span {
 #main-banner img {
 	width: 960px;
 	height: 400px;
-	border-radius: 10px;
 }
 
 /********** my-club-info ***********/
@@ -220,6 +220,7 @@ section .posts3 {
 	z-index: 10px;
 }
 
+
 #header-nav-container button {
   padding: 5px 10px;
   background-color: #3498db;
@@ -232,3 +233,4 @@ section .posts3 {
 #header-nav-container button:hover {
   background-color: #2980b9;
 }
+

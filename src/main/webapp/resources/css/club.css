@@ -16,7 +16,41 @@ section {
 
 /********** club-header **********/
 header {
-	height:100px;
+	height: 49px;
+	margin: 0 auto;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	width: 1320px;
+	padding: 0 10px;
+}
+#mini-logo-container {
+	margin: 0 auto 0 0;
+}
+
+#mini-logo-container img:first-of-type {
+	height: 30px;
+}
+#mini-logo-container img:last-of-type {
+	height: 20px;
+}
+
+header #header-nav-container {
+	float: right;
+	position: absolute;
+}
+
+header #header-nav-container a {
+	font-family: 'IBM Plex Sans KR', sans-serif;
+	font-size: 15px;
+	color: #666;
+	margin-left: 10px;
+}
+
+header #header-nav-container span {
+	font-size: 15px;
+	color: #666;
+	margin-left: 10px;
 }
 
 

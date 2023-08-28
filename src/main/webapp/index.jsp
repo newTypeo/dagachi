@@ -14,8 +14,6 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/views/common/chatBtn.jsp"></jsp:include>
 
-<section></section>
-
 <section id="main-page-sec" class="">
 <div id="banner-and-info-container">
 	<nav id="main-banner" class="">
@@ -80,19 +78,13 @@
 						}
 					});
 				</script>
-				
 			</div>
-			<sec:authentication property="principal"/>
 		</sec:authorize>
 	</nav>
 </div>
 
 <nav>
-	<a href="${pageContext.request.contextPath}/admin/adminMemberList.do?keyword=&column=">회원조회(관리자)</a>
-	<a href="${pageContext.request.contextPath}/admin/adminQuitMemberList.do?keyword=&column=">탈퇴회원조회(관리자)</a>
-	<a href="${pageContext.request.contextPath}/admin/adminReportMemberList.do?keyword=&column=">신고회원조회(관리자)</a>
-	<a href="${pageContext.request.contextPath}/admin/adminClubList.do?keyword=&column=">모임목록(관리자)</a>
-	<a href="${pageContext.request.contextPath}/admin/adminInquiryList.do?">문의 목록/답변(관리자)</a>
+	
 
 </nav>
 
