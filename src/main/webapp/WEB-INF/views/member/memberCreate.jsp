@@ -9,27 +9,15 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param value="비비비" name="title" />
+	<jsp:param value="회원가입" name="title" />
 </jsp:include>
 
 <div id="enroll-container" class="mx-auto text-center">
-
-	<form:form name="memberCreateFrm" action="" method="POST">
+	 <form:form name="memberCreateFrm"
+		  action="${pageContext.request.contextPath}/member/memberCreate.do"
+		  method="POST"
+		  enctype="multipart/form-data">
 		<table class="mx-auto w-75">
-			<tr>
-				<th>프로필 사진</th><!-- 만약 지정 안하면 기본값으로 들어감 -->
-				<td>
-		          	<figure class="figure">
-					  <img src="${pageContext.request.contextPath}/resources/upload/member/profile/default.png" class="figure-img img-fluid rounded" alt="...">
-					</figure>				
-					<div class="custom-file">
-						<input type="file" name="upFile" class="custom-file-input" id="inputGroupFile01"
-						aria-describedby="inputGroupFileAddon01" multiple> <label
-					class="custom-file-label" for="inputGroupFile01" >${profile.renamedFilename}</label>
-				 	</div>
-				</td>
-				
-			</tr>
 			<tr>
 				<th>아이디</th>
 				<td>
@@ -39,7 +27,7 @@
 							   placeholder="4글자이상"
 							   name="memberId" 
 							   id="memberId"
-							   value="honggd"
+							   value="nayoung"
 							   pattern="\w{4,}"
 							   required>
 						<span class="guide ok">이 아이디는 사용가능합니다.</span>
@@ -63,31 +51,31 @@
 			<tr>
 				<th>이름</th><!--실기간 유효성 검사  -->
 				<td>	
-					<input type="text" class="form-control" name="name" id="name" value="홍길동" required>
+					<input type="text" class="form-control" name="name" id="name" value="김나영" required>
 				</td>
 			</tr>
 			<tr>
 				<th>닉네임</th><!--실기간 유효성 검사  -->
 				<td>	
-					<input type="text" class="form-control" name="nickname" id="nickname" value="길똥구리" required>
+					<input type="text" class="form-control" name="nickname" id="nickname" value="나영구리구리" required>
 				</td>
 			</tr>
 			<tr>
 				<th>전화번호</th><!--실기간 유효성 검사 + 양식에 맞게 작성하게   -->
 				<td>	
-					<input type="text" class="form-control"  name="phoneNo" id="phoneNo" value="010-1111-1111">
+					<input type="text" class="form-control"  name="phoneNo" id="phoneNo" value="010-8989-1111">
 				</td>
 			</tr>	
 			<tr>
 				<th>생년월일</th><!--양식에 맞게  검  -->
 				<td>	
-					<input type="date" class="form-control" name="birthday" id="birthday" value="1999-09-09"/>
+					<input type="date" class="form-control" name="birthday" id="birthday" value="2004-09-09"/>
 				</td>
 			</tr> 
 			<tr>
 				<th>이메일</th><!--이메일은 이메일 인증이필요하기에 걍 두기  -->
 				<td>	
-					<input type="text" class="form-control"  name="email" id="email" value="honggd@naver.com">
+					<input type="text" class="form-control"  name="email" id="email" value="nayoung@naver.com">
 				</td>
 			</tr>
 			<tr>
@@ -99,31 +87,31 @@
 			<tr>
 				<th>MBTI</th> <!-- 선택해서 하나의 값만 받을수 있게 만들기  -->
 				<td>	
-					<input type="text" class="form-control"  name="email" id="email" value="ENTP">
+					<input type="text" class="form-control"  name="mbti" id="mbti" value="ISTP">
 				</td>
 			</tr>			
 		
 			<tr>
 				<th>거주지</th> <!-- 필수값 지도 API 사용 + 상세 주소값 받아야함  -->
 				<td>	
-					<input type="text" class="form-control"  name="email" id="email" value="서울시 역삼동 구리230-1번지">
+					<input type="text" class="form-control"  name="address" id="address" value="서울시 역삼동 구리230-1번지">
 				</td>
 			</tr>			
 				<th>주활동지역</th><!-- 기본값으로 하나 들어가야함  + -->  
 				<td>	
-					<input type="text" class="form-control"  name="mainAreaId" id="mainAreaId" value="서울시 역삼동">
+					<input type="text" class="form-control"  name="mainAreaId" id="mainAreaId" value="1168010100">
 				</td>
 			</tr>			
 			<tr>
 				<th>서브활동지역1</th><!--   추가 버튼을 누르면 하나씩 추가됨 +  들어가야함 -->  
 				<td>	
-					<input type="text" class="form-control"  name="sub1AreaId" id="sub1AreaId" value="서울시 역삼동">
+					<input type="text" class="form-control"  name="sub1AreaId" id="sub1AreaId" value="1168010100">
 				</td>
 			</tr>
 			<tr>
 				<th>서브활동지역2</th>
 				<td>	
-					<input type="text" class="form-control" name="sub2AreaId" id="sub2AreaId" value="서울시 역삼동">
+					<input type="text" class="form-control" name="sub2AreaId" id="sub2AreaId" value="1168010100">
 				</td>
 			</tr>			
 			<tr>
@@ -134,24 +122,10 @@
 			</tr>
 									
 		</table>
-		<input type="submit" value="가입" >
+		<button type="submit" >가입</button>
 	</form:form>
 </div>
 <script>
-
-document.querySelector("#inputGroupFile01").addEventListener("change",(e) => {
-	
-	const label = e.target.nextElementSibling;
-	const files = e.target.files;
-	if(files[0]) {
-		label.innerHTML = files[0].name;
-	}
-	else {
-		label.innerHTML = "파일을 선택하세요";
-	}
-
-});
-
 
 // 멤버 아이디 실시간 유효성 검사
 document.querySelector("#memberId").onkeyup = (e) => {
@@ -195,8 +169,8 @@ document.querySelector("#memberId").onkeyup = (e) => {
 };
 
 
-// 실시간 유효성 검사로 바꾸끼
-/* document.memberCreateFrm.onsubmit = (e) => {
+// 실시간 유효성
+ document.memberCreateFrm.onsubmit = (e) => {
 	const idValid = document.querySelector("#idValid");
 	const password = document.querySelector("#password");
 	const passwordConfirmation = document.querySelector("#passwordConfirmation");
@@ -209,7 +183,7 @@ document.querySelector("#memberId").onkeyup = (e) => {
 		alert("비밀번호가 일치하지 않습니다.");
 		return false;
 	}
-}; */
+}; 
 
 
 </script>

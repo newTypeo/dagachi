@@ -6,6 +6,8 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="문의 관리" name="title" />
 </jsp:include>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin.css"/>
+
 <style>
 div#search-title {
 	display: inline-block;
@@ -21,15 +23,19 @@ div#search-content {
 </style>
 <script>
 	window.onload = ()=>{
-		renderInquiryList(0);
+		renderInquiryList(0,0);
 	};
 </script>
 
 
-<section id="admin-inquiry-sec" class="">
+<section id="admin-inquiry-sec"  class="p-2 quit-member-list sectionList">
 
+	<h1>문의 목록/관리 페이지</h1>
+	<div id="member-list-wrapper">
+		<div id="search-container">
+			<div id="searchBar-wrap">
 
-	<select class="custom-select custom-select-lg mb-3" id="inquiryType">
+	<select class="searchType" id="inquiryType">
 		<option value="0" selected>카테고리 전체보기</option>
 		<option value="1">회원 정보 문의</option>
 		<option value="2">소모임 관련 문의</option>
@@ -37,20 +43,18 @@ div#search-content {
 		<option value="4">신고 문의</option>
 	</select>
 	
-	<select class="custom-select custom-select-lg mb-3" id="inquiryStatus">
+	<select class="searchType" id="inquiryStatus">
 		<option value="1">답변</option>
 		<option value="2"> 비답변</option>
 		<option value="0" selected>답변여부 / 전체</option>
 	</select>
 
-
-	<div id="search-container">
-
 		<div>
-			<label for="searchType">검색타입 :</label> <select id="searchType">
-				<option value="title">제목</option>
-				<option value="writer">작성자</option>
-				<option value="content">내용</option>
+			<label for="searchType">검색타입 :</label>
+			 <select id="searchType">
+				<option id="searchOption" value="title">제목</option>
+				<option id="searchOption" value="writer">작성자</option>
+				<option id="searchOption" value="content">내용</option>
 			</select>
 		</div>
 
@@ -81,9 +85,7 @@ div#search-content {
 			</form>
 		</div>
 
-	</div>
-
-	<table class="table" id="inquiryTable">
+	<table  class="listTable" id="inquiryTable">
 		<thead class="thead-light">
 			<tr>
 				<th scope="col">번호</th>
@@ -99,13 +101,16 @@ div#search-content {
 		<tbody></tbody>
 	</table>
 
-	<nav aria-label="Page navigation example">
+	<nav aria-label="Page navigation example"  class="text-center">
 		<ul class="pagination justify-content-center">
 			<li id="prevPage" class="page-item disabled"><a class="page-link">이전</a></li>
-					
 			<li id="nextPage" class="page-item"><a class="page-link">다음</a></li>
 		</ul>
 	</nav>
+	
+		</div>
+	  </div>
+	</div>
 </section>
 
 
@@ -113,28 +118,28 @@ div#search-content {
 //page script
 	let currentPage=1;
 	let lastPage;
-	//이전버튼00
+	//이전버튼
 	document.querySelector("#prevPage").addEventListener("click",()=>{
 		const inquiryTypeVal= document.querySelector("#inquiryType").value;
 		const inquiryStatusVal= document.querySelector("#inquiryStatus").value;
 		pageButtonChange(currentPage);
 		if(currentPage>1){
 			currentPage--;
-			renderInquiryList(inquiryType,inquiryStatus);
+			renderInquiryList(inquiryTypeVal,inquiryStatusVal);
 		}
 	});
-	//다음버튼00
+	//다음버튼
 	document.querySelector("#nextPage").addEventListener("click",()=>{
 		const inquiryTypeVal= document.querySelector("#inquiryType").value;
 		const inquiryStatusVal= document.querySelector("#inquiryStatus").value;
 		if(currentPage<lastPage){
 			currentPage++;
-			renderInquiryList(inquiryType,inquiryStatus);
+			renderInquiryList(inquiryTypeVal,inquiryStatusVal);
 			console.log(currentPage);
 		}
 	});
     
-	//이전 다음 활성, 비활성화00
+	//이전 다음 활성, 비활성화
 	const pageButtonChange=(currentPage)=>{
 		const prevPage = document.getElementById("prevPage");
 		const nextPage = document.getElementById("nextPage");
@@ -156,15 +161,16 @@ div#search-content {
 		const searchTypeVal= frm.searchType.value;
 		const inquiryTypeVal= document.querySelector("#inquiryType").value;
 		const inquiryStatusVal= document.querySelector("#inquiryStatus").value;
+		console.log("바바바"+searchKeywordVal);
+		console.log("바바바"+searchTypeVal);
+		console.log("바바바"+inquiryTypeVal);
+		console.log("바바바"+inquiryStatusVal);
 		
-		console.log(inquiryTypeVal);
-		console.log(inquiryStatusVal);
 		 $.ajax({
 			url : '${pageContext.request.contextPath}/admin/searchInquiryType.do',
 			method:"GET",
 			data :{searchKeywordVal,searchTypeVal,inquiryTypeVal,inquiryStatusVal},
 			success(data){
-				console.log(data);
 				const tbody =document.querySelector("#inquiryTable tbody");
 				let html='';
 				if(data.inquirys.length>0){
@@ -187,18 +193,20 @@ div#search-content {
 					case 1: openText ="공개 질문"; break;
 					case 0: openText ="비공개 질문"; break;
 					}
+					
 					switch(status){
-					case 0: statusText =`
+					case 1: statusText =`
 					<form action="${pageContext.request.contextPath}/admin/adminInquiryUpdate.do" method="GET">
-					<input type="hidden" name="inquiryId" value="${inquiry.inquiryId}">
-					<button type="submit">답변하기</button>
+					<input type="hidden" name="inquiryId" value=\${inquiryId}>
+					<button type="submit">답변</button>
 					</form>`; break;
-					case 1: statusText ="답변 완료"; break;
+					case 2: statusText ="답변 완료"; break;
 					}
 					switch(status){
-					case 0: _statusText = "아직 답변하지 않은 문의입니다."; break;
-					case 1: _statusText =`답변자 : \${adminId} </br> 답변 : \${responseAt} </br> 답변일자: \${response}`; break;
+					case 1: _statusText = "아직 답변하지 않은 문의입니다."; break;
+					case 2: _statusText =`답변자 : \${adminId}</br> 답변 내용: \${response} </br> 답변일자 : \${responseAt} `; break;
 					}
+					
 					return html + `
 						<tr>
 							<td>\${inquiryId}</td>
@@ -215,7 +223,7 @@ div#search-content {
 				}else{
 					html=`
 						<tr>
-							<td colspan="8">게시글이 없습니다. 제일먼저 게시글을 작성해보세요😁</td>
+							<td colspan="8">문의가 없습니다.😁</td>
 						</tr>
 					`;
 				}
@@ -246,7 +254,7 @@ div#search-content {
 		const inquiryType =e.target.value;
 		const tbody =document.querySelector("#inquiryTable tbody");
 		const inquiryStatusVal= document.querySelector("#inquiryStatus").value;
-		renderInquiryList(inquiryType,inquiryStatus);
+		renderInquiryList(inquiryTypeVal,inquiryStatusVal);
 		currentPage =1;
 	});
 	
@@ -254,15 +262,14 @@ div#search-content {
 		const inquiryStatus =e.target.value;
 		const tbody =document.querySelector("#inquiryTable tbody");
 		const inquiryTypeVal= document.querySelector("#inquiryType").value;
-		renderInquiryList(inquiryType,inquiryStatus);
+		renderInquiryList(inquiryTypeVal,inquiryStatusVal);
 		currentPage =1;
 	});
 	
 	
 	
-	const renderInquiryList =(inquiryType)=>{
+	const renderInquiryList =(inquiryType,inquiryStatus)=>{
 		const page=currentPage;
-		const inquiryStatus= document.querySelector("#inquiryStatus").value;
 		$.ajax({
 			url : '${pageContext.request.contextPath}/admin/findAdminInquiry.do',
 			method:"GET",
@@ -273,10 +280,8 @@ div#search-content {
 				let html='';
 				if(data.inquirys.length>0){
 					html = data.inquirys.reduce((html,inquiry)=>{	
-						
 					// 수정 할것
 					const {inquiryId,writer,title,content,createdAt,type,status,adminId,response,open,responseAt} = inquiry;
-					
 					let typeText;
 					let openText;
 					let statusText;
@@ -292,16 +297,16 @@ div#search-content {
 					case 0: openText ="비공개 질문"; break;
 					}
 					switch(status){
-					case 0: statusText =`
+					case 1: statusText =`
 					<form action="${pageContext.request.contextPath}/admin/adminInquiryUpdate.do" method="GET">
-					<input type="hidden" name="inquiryId" value="${inquiry.inquiryId}">
-					<button type="submit">답변하기</button>
+					<input type="hidden" name="inquiryId" value=\${inquiryId}>
+					<button type="submit">답변</button>
 					</form>`; break;
-					case 1: statusText ="답변 완료"; break;
+					case 2: statusText ="답변 완료"; break;
 					}
 					switch(status){
-					case 0: _statusText = "아직 답변하지 않은 문의입니다."; break;
-					case 1: _statusText =`답변자 : \${adminId} </br> 답변 : \${responseAt} </br> 답변일자: \${response}`; break;
+					case 1: _statusText = "아직 답변하지 않은 문의입니다."; break;
+					case 2: _statusText =`답변자 : \${adminId}</br> 답변 내용: \${response} </br> 답변일자 : \${responseAt} `; break;
 					}
 					return html + `
 						<tr>
@@ -337,12 +342,11 @@ div#search-content {
 //페이지 이동
 	const pageChange=(page)=>{
 		currentPage=page;
-		const binquiryTypeVal= document.querySelector("#inquiryType").value;
+		const inquiryTypeVal= document.querySelector("#inquiryType").value;
 		const inquiryStatusVal= document.querySelector("#inquiryStatus").value;
-		renderInquiryList(inquiryStatusVal,inquiryTypeVal);
+		renderInquiryList(inquiryTypeVal,inquiryStatusVal);
 		pageButtonChange(currentPage);
 	};
-	
 	
 //페이지 바 렌더 
 	const renderPage=(inquirySize)=>{
@@ -375,7 +379,6 @@ div#search-content {
 				}
 			}
 		}
-		
 		if(lastPage===0){
 			document.querySelector("#nextPage").insertAdjacentHTML('beforebegin',
 					`<li class="page-item pageLiTag"><a class="page-link" >1</a></li>`

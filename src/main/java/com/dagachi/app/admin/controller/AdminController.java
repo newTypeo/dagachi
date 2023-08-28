@@ -1,5 +1,6 @@
 package com.dagachi.app.admin.controller;
 
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -56,7 +57,6 @@ public class AdminController {
 	private AdminService adminService;
 	
 	static final int LIMIT = 10;
-
 	
 	@GetMapping("/adminInquiryUpdate.do")
 	public String adminInquiryUpdate(@RequestParam int inquiryId, Model model){
@@ -64,8 +64,6 @@ public class AdminController {
 	    model.addAttribute("inquiry",inquiry );
 	    return "/admin/adminInquiryUpdate";
 	}
-
-	
 	@PostMapping("/adminInquiryUpdate.do")
 	public String adminInquiryUpdate(@RequestParam String inquiryId, @RequestParam String response, @AuthenticationPrincipal MemberDetails member) {
 	    AdminInquiryUpdateDto inquiryUpdate = new AdminInquiryUpdateDto(); 
@@ -84,12 +82,13 @@ public class AdminController {
 	public void inquriyList(Model model){
 	}
 	
-	
 	@GetMapping("/findAdminInquiry.do")		// 필수값이 아니다. 
 	public ResponseEntity<?> InquiryList(@RequestParam(required = false, defaultValue = "0") int inquiryType,int inquiryStatus,
 			@RequestParam(defaultValue = "1") int page) {
 		int _type = (inquiryType != 0) ? inquiryType : 0;
 		int _status = (inquiryStatus != 0) ? inquiryStatus : 0;
+		log.debug("_type={}",_type);
+		log.debug("_status={}",_status);
 		
 		AdminInquiry adminInquiry = AdminInquiry.builder().type(_type).type(_status).build();
 		log.debug("adminInquiry={}",adminInquiry);
@@ -107,7 +106,6 @@ public class AdminController {
 		return ResponseEntity.status(HttpStatus.OK).body(inquiryInfo);
 	}
 
-
 	@GetMapping("/searchInquiryType.do")
 	public ResponseEntity<?> searchInquiryType(@PathVariable("domain") 
 			@RequestParam String searchKeywordVal, @RequestParam String searchTypeVal, 
@@ -119,13 +117,16 @@ public class AdminController {
 				Map.entry("type", inquiryTypeVal),Map.entry("status", inquiryStatusVal)
 				);
 		
-	
+		log.debug("                                                                                                                                                                              +`	`inquiryTypeVal={}",inquiryTypeVal);
+		log.debug("searchInquirydMap={}",searchInquirydMap);
+		
 		Map<String, Object> params = Map.of("page", page, "limit", LIMIT);
 		
 		List<AdminInquiry> inquirys = adminService.searchInquirys(searchInquirydMap,params);
 		
 		List<AdminInquiry> inquiry  = adminService.searchInquiry(searchInquirydMap);
-
+		log.debug("inquirys={}",inquirys);
+		
 		int inquirySize =inquiry.size();
 			Map<String,Object> data=Map.ofEntries(
 					Map.entry("inquirys", inquirys),
