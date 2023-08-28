@@ -26,6 +26,7 @@ import com.dagachi.app.club.dto.ClubReportDto;
 import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
 import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.ClubStyleUpdateDto;
+import com.dagachi.app.club.dto.CreateGalleryDto;
 import com.dagachi.app.club.dto.GalleryAndImageDto;
 import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.KickMember;
@@ -544,4 +545,30 @@ public class ClubServiceImpl implements ClubService {
 	public List<Club> findClubsByMemberId(String memberId) {
 		return clubRepository.findClubsByMemberId(memberId);
 	}
+	
+	@Override
+	public List<GalleryAndImageDto> findGalleryAndImageByGalleryId(int id) {
+		return clubRepository.findGalleryAndImageByGalleryId(id);
+	}
+	
+	@Override
+	public int clubGalleryDelete(int id) {
+		int result = 0;
+		result = clubRepository.clubGalleryAttachDelete(id);
+		
+		return clubRepository.clubGalleryDelete(id);
+	}
+	
+	@Override
+	public int clubGalleryCreate(CreateGalleryDto createGalleryDto) {
+		int result =  clubRepository.clubGalleryCreate(createGalleryDto);
+		return clubRepository.clubGalleryAttachCreate(createGalleryDto);
+	}
+	
+	@Override
+	public int clubGalleryCreate2(CreateGalleryDto createGalleryDto) {
+		return clubRepository.clubGalleryCreate2(createGalleryDto);
+	}
+	
+	
 }

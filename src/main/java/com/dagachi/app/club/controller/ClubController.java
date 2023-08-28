@@ -57,6 +57,7 @@ import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.ClubStyleUpdateDto;
 import com.dagachi.app.club.dto.ClubTitleUpdateDto;
 import com.dagachi.app.club.dto.ClubUpdateDto;
+import com.dagachi.app.club.dto.CreateGalleryDto;
 import com.dagachi.app.club.dto.GalleryAndImageDto;
 import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.KickMember;
@@ -68,6 +69,8 @@ import com.dagachi.app.club.entity.ClubBoard;
 import com.dagachi.app.club.entity.ClubBoardAttachment;
 import com.dagachi.app.club.entity.ClubBoardDetails;
 import com.dagachi.app.club.entity.ClubDetails;
+import com.dagachi.app.club.entity.ClubGallery;
+import com.dagachi.app.club.entity.ClubGalleryAttachment;
 import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
@@ -166,8 +169,10 @@ public class ClubController {
 	 * @author ?
 	 */
 	@GetMapping("/{domain}/clubBoardList.do")
-	public String boardList(@PathVariable("domain") String domain, Model model) {
+	public String boardList(@PathVariable("domain") String domain, @RequestParam(required = false) int no, Model model) {
+		
 		model.addAttribute("domain", domain);
+		model.addAttribute("no", no);
 		return "/club/clubBoardList";
 	}
 
@@ -833,15 +838,19 @@ public class ClubController {
 	 * @author 준한
 	 */
 	@GetMapping("/{domain}/clubUpdate.do")
-	public String clubUpdate(@PathVariable("domain") String domain, Model model) {
+	public String clubUpdate(@PathVariable("domain") String domain, @AuthenticationPrincipal MemberDetails member, Model model) {
 		int clubId = clubService.clubIdFindByDomain(domain);
 		Club club = clubService.findClubById(clubId);
 		ClubProfile clubProfile = clubService.findClubProfileById(clubId);
 		List<ClubTag> clubTagList = clubService.findClubTagById(clubId);
 
-		log.debug("club = {}", club);
-		log.debug("clubProfile={}", clubProfile);
-		log.debug("clubTag = {}", clubTagList);
+		String memberId = member.getMemberId();
+		ClubMemberRole clubMemberRole = ClubMemberRole.builder().clubId(clubId).loginMemberId(memberId).build();
+
+		// 로그인한 회원 아이디로 해당 모임의 권한 가져오기
+		int memberRole = clubService.memberRoleFindByMemberId(clubMemberRole);
+		
+		model.addAttribute("memberRole", memberRole);
 		model.addAttribute("club", club);
 		model.addAttribute("clubProfile", clubProfile);
 		model.addAttribute("clubTagList", clubTagList);
@@ -996,9 +1005,15 @@ public class ClubController {
 	 * @author ?
 	 */
 	@GetMapping("/{domain}/clubStyleUpdate.do")
-	public String clubLayoutUpdate(@PathVariable("domain") String domain, Model model) {
+	public String clubLayoutUpdate(@PathVariable("domain") String domain, @AuthenticationPrincipal MemberDetails member, Model model) {
 		int clubId = clubService.clubIdFindByDomain(domain);
+		String memberId = member.getMemberId();
 		ClubLayout layout = clubService.findLayoutById(clubId);
+		ClubMemberRole clubMemberRole = ClubMemberRole.builder().clubId(clubId).loginMemberId(memberId).build();
+
+		// 로그인한 회원 아이디로 해당 모임의 권한 가져오기
+		int memberRole = clubService.memberRoleFindByMemberId(clubMemberRole);
+		model.addAttribute("memberRole", memberRole);
 
 		model.addAttribute("layout", layout);
 		model.addAttribute("domain", domain);
@@ -1022,9 +1037,15 @@ public class ClubController {
 	 * @author ?
 	 */
 	@GetMapping("/{domain}/clubTitleUpdate.do")
-	public String clubTitleUpdate(@PathVariable("domain") String domain, Model model) {
+	public String clubTitleUpdate(@PathVariable("domain") String domain, @AuthenticationPrincipal MemberDetails member, Model model) {
 		int clubId = clubService.clubIdFindByDomain(domain);
+		String memberId = member.getMemberId();
 		ClubLayout layout = clubService.findLayoutById(clubId);
+		ClubMemberRole clubMemberRole = ClubMemberRole.builder().clubId(clubId).loginMemberId(memberId).build();
+
+		// 로그인한 회원 아이디로 해당 모임의 권한 가져오기
+		int memberRole = clubService.memberRoleFindByMemberId(clubMemberRole);
+		model.addAttribute("memberRole", memberRole);
 		model.addAttribute("layout", layout);
 		model.addAttribute("domain", domain);
 		return "club/clubTitleUpdate";
@@ -1188,6 +1209,10 @@ public class ClubController {
 		 return "redirect:/club/" + domain;
 	}
 	
+	/**
+	 * 갤러리 들어가기
+	 * @author 준한 
+	 */
 	@GetMapping("{domain}/clubGallery.do")
 	public String clubGallery(
 			@PathVariable ("domain") String domain,
@@ -1201,8 +1226,133 @@ public class ClubController {
 		model.addAttribute("clubGalleryAndImages",clubGalleryAndImages);
 		
 		return "/club/clubGallery";
+	}
+	
+	/**
+	 * 갤러리 상세보기
+	 * @author 준한
+	 */
+	@GetMapping("/{domain}/{galleryId}")
+	public String clubGalleryDetail(
+			@PathVariable ("galleryId") int id,
+			@PathVariable ("domain") String domain,
+			@AuthenticationPrincipal MemberDetails loginMember,
+			Model model
+			) {
+		
+		List<GalleryAndImageDto> galleryAndImages = clubService.findGalleryAndImageByGalleryId(id);
+		
+		String writer = galleryAndImages.get(0).getMemberId();
+		model.addAttribute("domain",domain);
+		model.addAttribute("id",id);
+		model.addAttribute("writer",writer); // 갤러리 게시글 작성자
+		model.addAttribute("galleryAndImages",galleryAndImages); // 갤러리 첨부파일 배열
+		model.addAttribute("loginMember",loginMember); // 로그인 객체
+		
+		return "/club/clubGalleryDetail";
+	}
+	
+	/**
+	 * 갤러리 삭제
+	 * @author 준한
+	 */
+	@GetMapping("/{domain}/{id}/clubGalleryDelete.do")
+	public String clubGalleryDelete(
+			@AuthenticationPrincipal MemberDetails loginMember,
+			Model model,
+			@PathVariable("id") int id,
+			@PathVariable("domain") String domain
+			
+			) {
+		int result = clubService.clubGalleryDelete(id);
+		
+		return "redirect:/club/" + domain+"/clubGallery.do";
+	}
+	
+	@GetMapping("/{domain}/clubGalleryInsert.do")
+	public String clubGalleryInsert(
+			@AuthenticationPrincipal MemberDetails loginMember,
+			Model model,
+			@PathVariable("domain") String domain
+			) {
+		int clubId = clubService.clubIdFindByDomain(domain);
+		
+		model.addAttribute("domain",domain);
+		model.addAttribute("clubId", clubId);
+		model.addAttribute("loginMember",loginMember);
+		
+		return "club/clubGalleryInsert";
+	}
+	
+	@PostMapping("{domain}/clubGalleryInsert.do")
+	public String clubGalleryCreate(
+			@AuthenticationPrincipal MemberDetails loginMember,
+			@PathVariable("domain") String domain,
+			@RequestParam(value = "upFile") MultipartFile upFile,
+			@RequestParam(value = "upFile2") MultipartFile upFile2,
+			@RequestParam(value = "upFile3") MultipartFile upFile3
+			) throws IllegalStateException, IOException{
+		int clubId = clubService.clubIdFindByDomain(domain);
+		String uploadDir = "/club/gallery/";
+		CreateGalleryDto createGalleryDto = null;
+		if(!upFile.isEmpty()) {
+			 String originalFilename = upFile.getOriginalFilename();
+			 String renamedFilename = DagachiUtils.getRenameFilename(originalFilename);
+			 File destFile = new File(uploadDir + renamedFilename);
+			 
+			 upFile.transferTo(destFile);
+			 
+			 createGalleryDto = createGalleryDto.builder()
+					 .clubId(clubId)
+					 .memberId(loginMember.getMemberId())
+					 .renamedFilename(renamedFilename)
+					 .build();
+			 
+			 int result = clubService.clubGalleryCreate(createGalleryDto);
+		 }
+		if(!upFile2.isEmpty()) {
+			 String originalFilename = upFile2.getOriginalFilename();
+			 String renamedFilename = DagachiUtils.getRenameFilename(originalFilename);
+			 File destFile = new File(uploadDir + renamedFilename);
+			 
+			 upFile2.transferTo(destFile);
+			 
+			 createGalleryDto = createGalleryDto.builder()
+					 .clubId(clubId)
+					 .memberId(loginMember.getMemberId())
+					 .renamedFilename(renamedFilename)
+					 .build();
+			 
+			 int result = clubService.clubGalleryCreate2(createGalleryDto);
+		 }
+		if(!upFile3.isEmpty()) {
+			 String originalFilename = upFile3.getOriginalFilename();
+			 String renamedFilename = DagachiUtils.getRenameFilename(originalFilename);
+			 File destFile = new File(uploadDir + renamedFilename);
+			 
+			 upFile3.transferTo(destFile);
+			 
+			 createGalleryDto = createGalleryDto.builder()
+					 .clubId(clubId)
+					 .memberId(loginMember.getMemberId())
+					 .renamedFilename(renamedFilename)
+					 .build();
+			 
+			 int result = clubService.clubGalleryCreate2(createGalleryDto);
+		 }
 		
 		
+		
+		return "redirect:/club/" + domain;
+	}
+
+
+
+
+	@GetMapping("{domain}/clubManage.do") 
+	public String clubManage(@PathVariable("domain") String domain, @AuthenticationPrincipal MemberDetails member, Model model) {
+		
+		return "/club/clubManage";
 	}
 	
 }

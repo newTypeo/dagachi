@@ -19,6 +19,7 @@ import com.dagachi.app.club.dto.ClubReportDto;
 import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
 import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.ClubStyleUpdateDto;
+import com.dagachi.app.club.dto.CreateGalleryDto;
 import com.dagachi.app.club.dto.GalleryAndImageDto;
 import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.KickMember;
@@ -165,6 +166,14 @@ public interface ClubService {
 	int likeBoard(Map<String, Object> params);
 
 	int checkBoardLiked(Map<String, Object> params);
+	
+	List<GalleryAndImageDto> findGalleryAndImageByGalleryId(int id);
+
+	int clubGalleryDelete(int id);
+
+	int clubGalleryCreate(CreateGalleryDto createGalleryDto);
+
+	int clubGalleryCreate2(CreateGalleryDto createGalleryDto);
 
 
 }

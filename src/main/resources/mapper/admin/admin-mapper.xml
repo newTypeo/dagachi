@@ -72,7 +72,7 @@
 		from
 			admin_Inquiry
 		<where>
-			<if test="searchType != null">
+			<if test="searchType != null">   
 					and ${searchType} like '%' || #{searchKeyword} || '%'
 			</if>
 			<if test="type != 0">
