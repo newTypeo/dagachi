@@ -62,10 +62,10 @@
 
 
 			<div id="main-logo-container">
-				</a><a href="${pageContext.request.contextPath}"> <img
+				<a href="${pageContext.request.contextPath}"> <img
 					id="main-logo"
 					src="${pageContext.request.contextPath}/resources/images/004.png"
-					class="p-2">
+					class="p-2"></a>
 			</div>
 			<sec:authorize access="isAnonymous()">
 				<div id="header-nav-container">
@@ -77,14 +77,12 @@
 
 			<sec:authorize access="isAuthenticated()">
 				<div id="header-nav-container">
-					<span> <a
-						title="<sec:authentication property="authorities"/>"><sec:authentication
-								property="principal.username" /></a>님, 안녕하삼
-					</span> &nbsp; <a
-						href="${pageContext.request.contextPath}/member/<sec:authentication property="principal.memberId"/>">
-						<button type="button">내 정보</button>
-					</a>
-					<button type="button" onclick="document.memberLogoutFrm.submit();">로그아웃</button>
+				    <span>
+				    <a title="<sec:authentication property="authorities"/>" href="${pageContext.request.contextPath}/member/<sec:authentication property="principal.memberId"/>">
+				    	<sec:authentication property="principal.nickname"/>
+				    </a>님, 안녕하삼</span>
+				    &nbsp;
+				    <button type="button" onclick="document.memberLogoutFrm.submit();">로그아웃</button>
 				</div>
 
 				<div class="dropdown">
@@ -135,4 +133,4 @@
 
 		</header>
 
-		<jsp:include page="/WEB-INF/views/common/navBar.jsp"></jsp:include>
+		

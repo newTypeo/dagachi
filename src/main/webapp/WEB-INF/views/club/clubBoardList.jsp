@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<jsp:include page="/WEB-INF/views/common/header.jsp">
+<jsp:include page="/WEB-INF/views/common/clubHeader.jsp">
 	<jsp:param value="게시판" name="title" />
 </jsp:include>
 <style>
@@ -20,8 +20,11 @@ div#search-content {
 }
 </style>
 <script>
-	window.onload = ()=>{
-		renderBoardList(0);
+	window.onload = () =>{
+		const boardLoadType = ${no};
+	//	console.log(no)
+		renderBoardList(boardLoadType);
+		document.querySelector("#boardType").value= boardLoadType;
 	};
 </script>
 

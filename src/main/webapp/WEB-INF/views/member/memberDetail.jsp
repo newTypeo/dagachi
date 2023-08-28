@@ -6,7 +6,6 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
-<html>
 <head>
 <meta charset="UTF-8">
 <title>다가치</title>
@@ -28,6 +27,7 @@
 
 <!-- 사용자작성 css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css" />
+</head>
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 <div class="container">
     <div class="row">
@@ -141,10 +141,7 @@
 		  </c:if>
 		</section>  
 <br/><br/><br/>
-<h1>작성한 글</h1>
-<br/><br/><br/>
-<h1>작성한 댓글</h1>
-<br/><br/><br/>
+
 
 <script>
 const withdrawalMember = () => {
