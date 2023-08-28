@@ -26,45 +26,33 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString(callSuper = true)
 public class MemberCreateDto {
-	@NotBlank(message = "아이디는 필수 입력 값입니다.")
 	private String memberId;// 아이디 
 	
-	@NotBlank(message = "비밀번호 필수 입력 값입니다.")
 	private String password;// 비밀번호 
 	
-	@NotBlank(message = "이름 필수 입력 값입니다.")
 	private String name;// 이름
 	
-	@NotBlank(message = "닉네임 필수 입력 값입니다.") 
 	private String nickname;// 닉네임 
 	
-	@NotBlank(message = "핸드폰 필수 입력 값입니다.") 
 	private String phoneNo;	// 핸드폰 
 	
-	@NotBlank(message = "이메일 필수 입력 값입니다.")
 	private String email;	// 이메일 
 	
-    @NotNull(message = "생년월일은 필수 입력 값입니다.")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthday;// 생일 
 	
+	private String mbti;// mbti 
+	
+	private String address;// 주소 
+
 	private String gender;// 성별 
 	
-	private int mainAreaId; // 주 활동 지역
-	
 	private int sub1AreaId;// 서브 활동지역1
+	
+	private int mainAreaId; // 주 활동 지역
 	
 	private int sub2AreaId;// 서브 활동지역2
 	
 	private String interest;// 관심사
-
-	@NotBlank(message = "mbti 필수") 
-	private String mbti;// mbti 
-	
-	@NotBlank(message = "주소 필수") 
-	private String address;// 주소 
-	
-
-	
 
 }

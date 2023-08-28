@@ -78,14 +78,26 @@ public class MemberSecurityController {
 	@GetMapping("/memberCreate.do")
 	public void memberCreate() {
 	}
+	
 	@PostMapping("/memberCreate.do")
+	public String create(@Valid MemberCreateDto member, BindingResult bindingResult, RedirectAttributes redirectAttr) {
+
+	    log.debug("제발요 -> {}", member);
+	    String rawPassword = member.getPassword();
+	    String encodedPassword = passwordEncoder.encode(rawPassword);
+	    member.setPassword(encodedPassword);
+	    
+	    int result = memberService.insertMember(member);
+	    return "redirect:/";
+	}
+	
+/*	@PostMapping("/memberCreate.do")
 	public String create(
 	  @Valid MemberCreateDto _member, BindingResult bindingResult,
 	  RedirectAttributes redirectAttr,
 	  @AuthenticationPrincipal MemberDetails member,
 	  @RequestParam(value = "upFile", required = false) MultipartFile upFile
 	) throws IllegalStateException, IOException {
-	  
 	  
 	  if(bindingResult.hasErrors()) {
 	    // 에러 나면
@@ -136,8 +148,9 @@ public class MemberSecurityController {
 	  redirectAttr.addFlashAttribute("msg", "회원가입 완료");
 	  
 	  return "redirect:/";
-	}
+	}*/
 	
+
 
 
 	@GetMapping("/memberAdminInquiry.do")
@@ -160,23 +173,8 @@ public class MemberSecurityController {
 		return "redirect:/member/memberAdminInquiryList.do";
 	}
 
-//	/* 임시회원가입 */ --> 본진에 쓸 회원가입 제작중 혹시 몰라 남겨둡니다. 
-//	@PostMapping("/memberCreate.do")
-//	public String create(@Valid MemberCreateDto member, BindingResult bindingResult, RedirectAttributes redirectAttr) {
-//		if (bindingResult.hasErrors()) { // 에러 나면
-//			ObjectError error = bindingResult.getAllErrors().get(0);
-//			redirectAttr.addFlashAttribute("msg", error.getDefaultMessage());
-//			// log.debug("오류 -> {}", member);
-//			return "redirect:/member/memberCreate.do";
-//		}
-//		String rawPassword = member.getPassword();
-//		String encodedPassword = passwordEncoder.encode(rawPassword);
-//		// log.debug("회원가입 완료{} -> {}", rawPassword, encodedPassword);
-//		member.setPassword(encodedPassword);
-//		int result = memberService.insertMember(member);
-//		redirectAttr.addFlashAttribute("msg", "회원가입 완료");
-//		return "redirect:/";
-//	}
+
+	
 
 	@GetMapping("/memberLogin.do")
 	public void memberLogin() {
@@ -268,7 +266,6 @@ public class MemberSecurityController {
 
 		return "redirect:/member/" + member.getMemberId();
 	}
-
 
 
 	

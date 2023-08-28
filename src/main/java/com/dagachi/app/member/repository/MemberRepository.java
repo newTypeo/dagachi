@@ -30,27 +30,20 @@ public interface MemberRepository {
 	
 	
 	// 멤버 회원가입 추가 ( 지우지마삼 )
-
 	@Insert("insert into member values (#{memberId}, #{password},#{name}, #{nickname}, #{phoneNo}, #{email}, #{birthday, jdbcType=DATE}, #{gender}, #{mbti},  #{address}, 0, SYSDATE, NULL, SYSDATE, NULL, 'Y')"
 	) 
-	int insertMember(MemberDetails member1);
+	int insertMember(MemberCreateDto member);
 
 	// 지역
 
-	@Insert("INSERT INTO activity_area values(#{memberId}, #{main_area_id}, #{sub1_area_id}, #{sub2_area_id})"
+	@Insert("INSERT INTO activity_area values(#{memberId}, #{mainAreaId}, #{sub1AreaId}, #{sub2AreaId})"
 	) 
-	void insertActivityArea(MemberDetails member1);
+	void insertActivityArea(MemberCreateDto member);
 
 	// 관심사
 
-	@Insert("INSERT INTO member_interest values(#{memberId}, #{Interest})") 
-	void insertMemberInterest(MemberDetails member1);
-
-	// 프로필 사진
-
-	@Insert("INSERT INTO member_profile values(#{memberId},#{original_filename},#{renamed_filename},default)"
-	) 
-	int insertMemberProfile(MemberProfile memberProfile);
+	@Insert("INSERT INTO member_interest values(#{memberId}, #{interest})") 
+	void insertMemberInterest(MemberCreateDto member);
 
 	// 회원가입 ------------------
 	
