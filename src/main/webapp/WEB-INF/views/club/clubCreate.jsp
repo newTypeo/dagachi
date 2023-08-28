@@ -18,7 +18,7 @@
 }
 
 #club-create-form-wrapper {
-	margin: 50px auto;
+	margin: 50px auto 100px auto;
 	width: 800px;
 }
 
@@ -35,6 +35,7 @@
 	display: flex;
 	background-color: lightskyblue;
 	border-radius: 5px;
+	margin-bottom: 20px;
 }
 
 .tagWrapper {
@@ -138,7 +139,7 @@
 					name="enrollQuestion" rows="3"></textarea>
 			</div>
 
-			<button class="btn btn-primary" type="submit">소모임 생성</button>
+			<button class="btn btn-primary" type="submit" style="float: right">소모임 생성</button>
 		</form:form>
 
 

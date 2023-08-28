@@ -1287,7 +1287,6 @@ insert into club_member values('honggddd',5,default,default,3,default);
 insert into club_member values('honggddd',6,default,default,3,default);
 insert into club_member values('honggddd',7,default,default,3,default);
 
-select * from activity_area;
 
 select * from club where club_id = (select club_id from club_member where member_id = 'honggd');
 
@@ -1295,10 +1294,3 @@ commit;
 
 select * from club;
 
-select * from member;
-
-select * from club_gallery_attachment;
-
-select * from club_gallery;
-
-select * from club_gallery a join club_gallery_attachment b on a.gallery_id = b.gallery_id where a.gallery_id = #{}

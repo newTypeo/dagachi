@@ -14,22 +14,44 @@
 	
 <article id="club-page-article">
 	<div id="club-util-box">
-		<div id="club-myInfo-container"></div>
+		<div id="club-myInfo-container">
+			<div class="myProfile">
+				<img alt="" src="${pageContext.request.contextPath}/resources/upload/member/profile/<sec:authentication property="principal.memberProfile.renamedFilename"/>">
+			</div>
+			<div>
+				<span><sec:authentication property="principal.nickname"/></span><br>
+				<c:if test ="${memberRole eq 3}">
+					<span>🥇방장</span>
+					<span><a href="${pageContext.request.contextPath}/club/${domain}/clubUpdate.do">모임 관리</a></span>
+				</c:if>
+				<c:if test ="${memberRole eq 2}">
+					<span>🥇부방장</span>
+				</c:if>
+				<c:if test ="${memberRole eq 1}">
+					<span>🥇임원</span>
+				</c:if>
+				<c:if test ="${memberRole eq 0}">
+					<span>🎀일반회원</span>
+				</c:if>
+				<br>
+				<span><a href="${pageContext.request.contextPath}/member/memberClubDetail.do">나의 모임 정보</a></span>
+			</div>
+		</div>
 		<div id="club-total-container" class="fontColors" style="border-color: ${layout.pointColor}">
 			<div>
-				<a>📄전체글보기</a>
+				<a href="${pageContext.request.contextPath}/club/${domain}/clubBoardList.do?no=0">📄전체글보기</a>
 			</div>
 			<div>
-				<a>📢공지사항</a>
-				<a>🐳자유게시판</a>
-				<a>✋가입인사</a>
-				<a>🎉정모후기</a>
+				<a href="${pageContext.request.contextPath}/club/${domain}/clubBoardList.do?no=4">📢공지사항</a>
+				<a href="${pageContext.request.contextPath}/club/${domain}/clubBoardList.do?no=1">🐳자유게시판</a>
+				<a href="${pageContext.request.contextPath}/club/${domain}/clubBoardList.do?no=3">✋가입인사</a>
+				<a href="${pageContext.request.contextPath}/club/${domain}/clubBoardList.do?no=2">🎉정모후기</a>
 			</div>
 			<div>
-				<a>📷갤러리</a>
+				<a href="${pageContext.request.contextPath}/club/${domain}/clubGallery.do">📷갤러리</a>
 			</div>
 			<div>
-				<a>📅일정</a>
+				<a href="${pageContext.request.contextPath}/club/${domain}/clubSchedule.do">📅일정</a>
 			</div>
 		</div>
 		<div id="club-search-container1">
@@ -52,7 +74,7 @@
 	<div id="club-notice-container" class="preview-container">
 		<div class="container-header" style="border-color: ${layout.pointColor}">
 			<span class="fontColors">공지사항</span>
-			<a class="pointColors" href="/">
+			<a class="pointColors" href="${pageContext.request.contextPath}/club/${domain}/clubBoardList.do?no=4">
 				더보기<i class="fa-solid fa-angle-right"></i>
 			</a>
 		</div>
@@ -79,7 +101,7 @@
 	<div id="club-board-container" class="preview-container">
 		<div class="container-header" style="border-color: ${layout.pointColor}">
 			<span class="fontColors">자유게시판</span>
-			<a class="pointColors" href="/">
+			<a class="pointColors" href="${pageContext.request.contextPath}/club/${domain}/clubBoardList.do?no=1">
 				더보기<i class="fa-solid fa-angle-right"></i>
 			</a>
 		</div>
@@ -107,7 +129,7 @@
 		<div id="club-gallery-container" class="preview-container">
 			<div class="container-header" style="border-color: ${layout.pointColor}">
 				<span class="fontColors">갤러리</span>
-				<a class="pointColors" href="/">
+				<a class="pointColors" href="${pageContext.request.contextPath}/club/${domain}/clubGallery.do">
 					더보기<i class="fa-solid fa-angle-right"></i>
 				</a>
 			</div>
@@ -125,7 +147,7 @@
 		<div id="club-greetings-container" class="preview-container">
 			<div class="container-header" style="border-color: ${layout.pointColor}">
 				<span class="fontColors">가입인사</span>
-				<a class="pointColors" href="/">
+				<a class="pointColors" href="${pageContext.request.contextPath}/club/${domain}/clubBoardList.do?no=3">
 					더보기<i class="fa-solid fa-angle-right"></i>
 				</a>
 			</div>
@@ -153,7 +175,7 @@
 	<div id="club-reivew-container" class="preview-container">
 		<div class="container-header" style="border-color: ${layout.pointColor}">
 			<span class="fontColors">정모후기</span>
-			<a class="pointColors" href="/">
+			<a class="pointColors" href="${pageContext.request.contextPath}/club/${domain}/clubBoardList.do?no=2">
 				더보기<i class="fa-solid fa-angle-right"></i>
 			</a>
 		</div>
@@ -180,7 +202,7 @@
 	<div id="club-schedule-container" class="preview-container">
 		<div class="container-header" style="border-color: ${layout.pointColor}">
 			<span class="fontColors">일정</span>
-			<a class="pointColors" href="/">
+			<a class="pointColors" href="${pageContext.request.contextPath}/club/${domain}/clubSchedule.do">
 				더보기<i class="fa-solid fa-angle-right"></i>
 			</a>
 		</div>

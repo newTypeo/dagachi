@@ -75,7 +75,7 @@ public interface MemberService extends UserDetailsService {
 
 	int checkDuplicateMemberId(String memberId);
 
-	int insertMember(MemberDetails member1);
+	int insertMember(MemberCreateDto member);
 
 
 

@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<jsp:include page="/WEB-INF/views/common/header.jsp">
+<jsp:include page="/WEB-INF/views/common/clubHeader.jsp">
 	<jsp:param value="소모임 수정" name="title" />
 </jsp:include>
 
@@ -18,7 +18,7 @@
 }
 
 #club-create-form-wrapper {
-	margin: 50px auto;
+	margin: 0 auto 100px auto;
 	width: 800px;
 }
 
@@ -33,6 +33,9 @@
 }
 #tagContainer {
 	display: flex;
+	background-color: lightskyblue;
+	border-radius: 5px;
+	margin-bottom: 20px;
 }
 
 .tagWrapper {
@@ -40,20 +43,35 @@
 	margin: 5px;
 	border: 2px solid white;
 	position: relative;
+	border-radius: 5px;
 	display: flex;
 }
 .tagBox {
 }
 .cancelTagBox {
-	width: 30px;
+	width: 20px;
 	cursor: pointer;
+	text-align: center;
 }
 </style>
 
-<section id="club-create-sec" class="">
+<span id="before-tag" style="display: none"><c:forEach items="${clubTagList}" var="clubTag">${clubTag.tag}!!</c:forEach></span>
 
+
+<section id="club-create-sec" class="">
+	<div id="update-btn-container">
+		<c:if test ="${memberRole eq 3}">
+			<div class="btn-group" role="group" aria-label="Basic example">
+				<button type="button" class="btn btn-primary" id="club-update-btn">정보 수정</button>
+				<button type="button" class="btn btn-primary" id="club-style-update">스타일 설정</button>
+				<button type="button" class="btn btn-primary" id="club-title-update">타이틀 설정</button>
+				<button type="button" class="btn btn-primary" id="club-member-manage">회원 관리</button>
+			</div>
+			<button type="button" class="btn btn-danger" id="clubDisabled">모임 해산</button>
+		</c:if>
+	</div>
 	<div id="club-create-form-wrapper">
-		<h1>소모임 정보수정</h1>
+		<h3>소모임 정보수정</h3>
 		<form:form name="clubUpdateFrm"
 		action="${pageContext.request.contextPath}/club/${domain}/clubUpdate.do"
 		enctype="multipart/form-data" method="post">
@@ -115,7 +133,8 @@
 			</div>
 			<div id="tagContainer" class="bg-primary">
 			</div>
-			<input type="text" id="tags" name="tags" readonly>
+			<input type="hidden" id="tags" name="tags" readonly/>
+			
 			
 
 			<div class="form-group">
@@ -134,7 +153,7 @@
 					name="enrollQuestion" rows="3">${club.enrollQuestion}</textarea>
 			</div>
 
-			<button class="btn btn-primary" type="submit">소모임 수정</button>
+			<button class="btn btn-primary" type="submit" style="float: right">소모임 수정</button>
 		</form:form>
 
 
@@ -230,12 +249,24 @@ document.querySelector("#inputGroupFile01").addEventListener("change",(e) => {
 	
 });
 
-
 // tag 추가
-const tagList = [];
 const tagContainer = document.querySelector("#tagContainer");
 const tagInput = document.querySelector("#tagInput");
 const tags = document.querySelector("#tags");
+
+const beforeTag = document.querySelector("#before-tag");
+const beforeTagListWithBlank = beforeTag.innerHTML.split("!!");
+const tagList = beforeTagListWithBlank.slice(0, beforeTagListWithBlank.length-1);
+tags.value = tagList;
+tagList.forEach((tag) => {
+	tagContainer.insertAdjacentHTML('beforeend', `
+			<div class="tagWrapper">
+				<div class="tagBox">#\${tag}</div>
+				<div class="cancelTagBox" onclick="cancelTag(this);">
+					<span style="color: #555;"><i class="fa-solid fa-x"></i></span>
+				</div>
+			</div>`);
+});
 
 tagInputBtn.onclick = () => {
 	if (!tagInput.value) {
@@ -249,7 +280,7 @@ tagInputBtn.onclick = () => {
 			<div class="tagWrapper">
 				<div class="tagBox">#\${tagInput.value}</div>
 				<div class="cancelTagBox" onclick="cancelTag(this);">
-					<span style="color: #555;">X</span>
+					<span style="color: #555;"><i class="fa-solid fa-x"></i></span>
 				</div>
 			</div>`);
 	
@@ -271,6 +302,38 @@ const cancelTag = (elem) => {
 	console.log(tagList);
 	tags.value = tagList;
 }
+
+
+
+//준한(모임 비활성화)
+const domain = "<%= request.getAttribute("domain") %>"; 
+//서버 사이드에서 domain 값을 가져와서 설정
+document.querySelector("#clubDisabled").onclick = (e) => {
+  const userConfirmation = confirm("정말 비활성화 하시겠습니까?");
+  if (userConfirmation) {
+      // 도메인 값을 사용하여 컨트롤러로 이동하는 코드를 추가
+      window.location.href = "${pageContext.request.contextPath}/club/" + domain + "/clubDisabled.do";
+      alert('모임이 성공적으로 비활성화 되었습니다.');
+  }
+};
+
+document.querySelector("#club-update-btn").onclick = () => {
+	location.href = '${pageContext.request.contextPath}/club/'+domain+'/clubUpdate.do';
+}
+
+document.querySelector("#club-style-update").onclick = () => {
+	location.href = '${pageContext.request.contextPath}/club/'+domain+'/clubStyleUpdate.do';
+}
+
+document.querySelector("#club-title-update").onclick = () => {
+	location.href = '${pageContext.request.contextPath}/club/'+domain+'/clubTitleUpdate.do';
+}
+
+document.querySelector("#club-member-manage").onclick = () => {
+	location.href = '${pageContext.request.contextPath}/club/'+domain+'/manageMember.do';
+}
+
+
 
 
 </script>
