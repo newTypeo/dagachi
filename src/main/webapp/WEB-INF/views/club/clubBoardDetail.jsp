@@ -10,25 +10,30 @@
 
 <section id="club-boardDetail-sec" class="">
 
-	<div>
-		<div>${clubBoard.title}</div>
-	
-		<c:if test="${!attachments.isEmpty()}">
-			<div class="dropdown">
-				<button class="btn btn-secondary dropdown-toggle" type="button"
-					data-toggle="dropdown" aria-expanded="false">DownLoad button</button>
-				<div class="dropdown-menu">
-					<c:forEach items="${attachments}" var="attachment">
-						<a class="dropdown-item" href="#">${attachment.originalFilename}</a>
-					</c:forEach>
-				</div>
-			</div>
-		</c:if>
-		<div>${clubBoard.content}</div>
-		<div>${clubBoard.writer}</div>
-		<div>${clubBoard.createdAt}</div>
-		<div id="likeCount">${clubBoard.likeCount}</div>
-
+	<div class="container mt-5">
+	    <div class="row">
+	        <div class="col-md-8 offset-md-2">
+	            <div class="card">
+	                <img src="${pageContext.request.contextPath}/resources/club/board/" class="card-img-top" alt="첨부된 이미지">
+	                <div class="card-body">
+	                    <h5 class="card-title">게시글 제목</h5>
+	                    <p class="card-text">
+	                        게시글 내용이 여기에 들어갑니다. 게시글의 내용이나 추가적인 설명을 이곳에 표시할 수 있습니다.
+	                    </p>
+	                    <p class="card-text">작성자: John Doe</p>
+	                </div>
+	                <div class="card-footer">
+	                    작성일: 2023년 8월 28일
+	                    <div class="d-flex justify-content-between align-items-center">
+	                        <div class="like-button">
+	                            <button class="btn btn-sm btn-outline-primary">좋아요</button>
+	                            <span class="ml-1"><i class="fas fa-heart text-danger"></i> 10</span>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
 	</div>
 	<div>
 		<div id="hartContainer">

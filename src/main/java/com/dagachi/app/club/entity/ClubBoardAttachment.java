@@ -10,16 +10,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class ClubBoardAttachment {
 	
 	private int id;
 	private int boardId;
 	private String originalFilename;
 	private String renamedFilename;
-	private LocalDateTime createAt;
+	private LocalDateTime createdAt;
 	private Status thumbnail;
 	
 }

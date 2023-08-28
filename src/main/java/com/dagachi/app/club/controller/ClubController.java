@@ -173,7 +173,7 @@ public class ClubController {
 
 	
 	/**
-	 * @author ?
+	 * @author 상윤
 	 */
 	@GetMapping("/{domain}/clubBoardCreate.do")
 	public String boardCreate(@PathVariable("domain") String domain, Model model) {
@@ -184,25 +184,34 @@ public class ClubController {
 
 	
 	/**
-	 * @author ?
+	 * 모임내 게시글 작성
+	 * @author 상윤, 종환
 	 */
 	@PostMapping("/{domain}/boardCreate.do")
-	public String boardCreate(@Valid ClubBoardCreateDto _board, @PathVariable("domain") String domain,
-			BindingResult bindingResult, @RequestParam(value = "upFile", required = false) List<MultipartFile> upFiles
-			,@AuthenticationPrincipal MemberDetails member
-			)
-			throws IllegalStateException, IOException {
+	public String boardCreate(
+		BindingResult bindingResult, 
+		@Valid ClubBoardCreateDto _board, 
+		@PathVariable("domain") String domain,
+		@AuthenticationPrincipal MemberDetails member,
+		@RequestParam(value = "upFile", required = false) List<MultipartFile> upFiles) 
+				throws IllegalStateException, IOException {
+		
 		List<ClubBoardAttachment> attachments = new ArrayList<>();
+		
 		if (!upFiles.isEmpty())
 			attachments = insertAttachment(upFiles, attachments);
+		
 		Club club = clubService.findByDomain(domain);
 		int clubId = club.getClubId();
 		String memberId = member.getMemberId();
 		
-		ClubBoardDetails clubBoard = ClubBoardDetails.builder().clubId(clubId).writer(memberId).attachments(attachments)
-				.title(_board.getTitle()).content(_board.getContent()).type(_board.getType()).build();
+		ClubBoardDetails clubBoard = ClubBoardDetails.builder().clubId(clubId)
+															    .writer(memberId)
+															     .type(_board.getType())
+															      .attachments(attachments)
+															       .content(_board.getContent())
+															        .title(_board.getTitle()).build();
 		int result = clubService.postBoard(clubBoard);
-		// 작성자 수정해야함
 		return "/club/clubBoardList";
 	}
 
@@ -605,29 +614,20 @@ public class ClubController {
 	}
 	 
 	/**
-	 * @author ?
+	 * 게시글 조회
+	 * @author 상윤, 종환
 	 */
 	@GetMapping("/{domain}/boardDetail.do")
 	public String cluboardDetail(@PathVariable("domain") String domain, @RequestParam int no, Model model) {
 		ClubBoard clubBoard = clubBoardGet(domain, no);
 
-		List<ClubBoardAttachment> attachments = findAttachments(no);
-
+		List<ClubBoardAttachment> attachments = clubService.findAttachments(no);
+		
 		log.debug("attachments={}", attachments);
 		model.addAttribute("clubBoard", clubBoard);
 		model.addAttribute("attachments", attachments);
 
 		return "/club/clubBoardDetail";
-	}
-
-	
-	/**
-	 * @author ?
-	 */
-	private List<ClubBoardAttachment> findAttachments(int no) {
-		List<ClubBoardAttachment> attachments = new ArrayList<>();
-		attachments = clubService.findAttachments(no);
-		return attachments;
 	}
 
 	
@@ -663,7 +663,7 @@ public class ClubController {
 	public String boardUpdate(@PathVariable("domain") String domain, @RequestParam int no, Model model) {
 		ClubBoard clubBoard = clubBoardGet(domain, no);
 
-		List<ClubBoardAttachment> attachments = findAttachments(no);
+		List<ClubBoardAttachment> attachments = clubService.findAttachments(no);
 
 		model.addAttribute("attachments", attachments);
 		model.addAttribute("clubBoard", clubBoard);
@@ -882,7 +882,8 @@ public class ClubController {
 
 	
 	/**
-	 * @author ?
+	 * 게시글 작성 시 첨부파일이 있는 경우 저장
+	 * @author 상윤
 	 */
 	public List<ClubBoardAttachment> insertAttachment(List<MultipartFile> upFiles,
 			List<ClubBoardAttachment> attachments) throws IllegalStateException, IOException {
@@ -894,14 +895,20 @@ public class ClubController {
 				File destFile = new File(renamedFilename);
 				upFiles.get(i).transferTo(destFile);
 
-				ClubBoardAttachment attach = ClubBoardAttachment.builder().originalFilename(originalFilename)
-						.renamedFilename(renamedFilename).build();
+				ClubBoardAttachment attach = ClubBoardAttachment.builder()
+																.originalFilename(originalFilename)
+																.renamedFilename(renamedFilename).build();
 //				log.debug("attach = {}", attach);
 				if (!attachments.isEmpty() && i == 0)
 					attach.setThumbnail(Status.Y);
 				else
 					attach.setThumbnail(Status.N);
 
+				// 실제 파일 저장
+				
+				
+				
+				
 				attachments.add(attach);
 			}
 		}
@@ -916,7 +923,7 @@ public class ClubController {
 	public ResponseEntity<?> findAttachments(@RequestParam("domain") String domain, @RequestParam int no) {
 		ClubBoard clubBoard = clubBoardGet(domain, no);
 		int boardId = clubBoard.getBoardId();
-		List<ClubBoardAttachment> attachments = findAttachments(boardId);
+		List<ClubBoardAttachment> attachments = clubService.findAttachments(boardId);
 
 		return ResponseEntity.status(HttpStatus.OK).body(attachments);
 	}
@@ -933,7 +940,7 @@ public class ClubController {
 		int no = attach.getBoardId();
 		result = clubService.delAttachment(id);
 		if (attach.getThumbnail() == Status.Y) {
-			attachments = findAttachments(no);
+			attachments = clubService.findAttachments(no);
 			if (!attachments.isEmpty()) {
 				attachments.get(0).setThumbnail(Status.Y);
 				result = clubService.updateThumbnail(attachments.get(0));
