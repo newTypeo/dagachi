@@ -293,6 +293,15 @@ public interface ClubRepository {
 	
 	@Delete("delete club_gallery where gallery_id = #{id}")
 	int clubGalleryDelete(int id);
+	
+//	@Insert("insert into club_gallery (gallery_id, club_id, member_id) values (seq_club_gallery_id.nextval, #{clubId}, #{memberId})")
+//	int clubGalleryCreate(ClubGalleryAndImage clubGalleryAndImage);
+//	
+//	@Insert("insert into club_gallery_attachment (id, gallery_id, original_filename, renamed_filename, thumbnail) values (seq_club_gallery_attachment_id.nextval, #{galleryId}, 'default', #{renamedFilename},'Y')")
+//	int clubGalleryAttachCreate(ClubGalleryAndImage clubGalleryAndImage);
+//	
+//	@Insert("insert into club_gallery_attachment (id, gallery_id, original_filename, renamed_filename, thumbnail) values (seq_club_gallery_attachment_id.nextval, #{galleryId}, 'default', #{renamedFilename},'N')")
+//	int clubGalleryCreate2(ClubGalleryAndImage clubGalleryAndImage);
 
 	
 }

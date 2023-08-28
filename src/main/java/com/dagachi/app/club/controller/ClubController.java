@@ -1257,19 +1257,66 @@ public class ClubController {
 //			@AuthenticationPrincipal MemberDetails loginMember,
 //			Model model,
 //			BindingResult bindingResult,
-//			@RequestParam(value = "upFile", required = false) List<MultipartFile> upFiles,
-//			@PathVariable("domain") String domain
-//			) {
-//		ClubGallery clubGallery = new ClubGallery();
-//		List<ClubGalleryAttachment> attachments = new ArrayList<>();
-//		if (!upFiles.isEmpty())
-//			attachments = clubGalleryCreate(upFiles, attachments);
-//		Club club = clubService.findByDomain(domain);
-//		int clubId = club.getClubId();
+//			@PathVariable("domain") String domain,
+//			@RequestParam(value = "upFile") MultipartFile upFile,
+//			@RequestParam(value = "upFile2") MultipartFile upFile2,
+//			@RequestParam(value = "upFile3") MultipartFile upFile3
+//			) throws IllegalStateException, IOException{
+//		int clubId = clubService.clubIdFindByDomain(domain);
+//		String uploadDir = "/club/gallery/";
+//		GalleryAndImageDto clubGalleryAndImage = null;
+//		if(!upFile.isEmpty()) {
+//			 String originalFilename = upFile.getOriginalFilename();
+//			 String renamedFilename = DagachiUtils.getRenameFilename(originalFilename);
+//			 File destFile = new File(uploadDir + renamedFilename);
+//			 
+//			 upFile.transferTo(destFile);
+//			 
+//			 clubGalleryAndImage = clubGalleryAndImage.builder()
+//					 .clubId(clubId)
+//					 .memberId(loginMember.getMemberId())
+//					 .renamedFilename(renamedFilename)
+//					 .build();
+//			 
+//			 int result = clubService.clubGalleryCreate(clubGalleryAndImage);
+//		 }
+//		if(!upFile2.isEmpty()) {
+//			 String originalFilename = upFile2.getOriginalFilename();
+//			 String renamedFilename = DagachiUtils.getRenameFilename(originalFilename);
+//			 File destFile = new File(uploadDir + renamedFilename);
+//			 
+//			 upFile2.transferTo(destFile);
+//			 
+//			 clubGalleryAndImage = clubGalleryAndImage.builder()
+//					 .clubId(clubId)
+//					 .memberId(loginMember.getMemberId())
+//					 .renamedFilename(renamedFilename)
+//					 .build();
+//			 
+//			 int result = clubService.clubGalleryCreate2(clubGalleryAndImage);
+//		 }
+//		if(!upFile3.isEmpty()) {
+//			 String originalFilename = upFile3.getOriginalFilename();
+//			 String renamedFilename = DagachiUtils.getRenameFilename(originalFilename);
+//			 File destFile = new File(uploadDir + renamedFilename);
+//			 
+//			 upFile3.transferTo(destFile);
+//			 
+//			 clubGalleryAndImage = clubGalleryAndImage.builder()
+//					 .clubId(clubId)
+//					 .memberId(loginMember.getMemberId())
+//					 .renamedFilename(renamedFilename)
+//					 .build();
+//			 
+//			 int result = clubService.clubGalleryCreate2(clubGalleryAndImage);
+//		 }
+//		
 //		
 //		
 //		return "/club/"+domain+"/clubGallery";
 //	}
+
+
 
 
 	@GetMapping("{domain}/clubManage.do") 

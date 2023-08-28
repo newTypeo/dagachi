@@ -12,72 +12,76 @@
 		<form:form name = "clubGalleryInsertFrm"
 		action = "${pageContext.request.contextPath}/club/${domain}/clubGalleryInsert.do"
 		enctype = "multipart/form-data" method = "post">
-		<div class="input-group mb-3">
-			<div class="input-group-prepend">
-				<span class="input-group-text" id="inputFileAddon01">Upload</span>
-			</div>
-			<div class="custom-file">
-				<input type="file" name="upFile" class="custom-file-input"
-					id="inputFile01" aria-describedby="inputGroupFileAddon01" multiple>
-				<label class="custom-file-label" for="inputGroupFile01">파일선택</label>
-			</div>
-		</div>
-		<div id="attchBox">
-					<ul>
-						
-					</ul>
-				</div>
+		
+		<h2>썸네일에 쓸 사진</h2>
+		<div class="custom-file">
+		<input type="file" name="upFile" class="custom-file-input" id="fileInput"
+		aria-describedby="inputGroupFileAddon01" multiple> <label
+		class="custom-file-label" for="fileInput" >${layout.title}</label>
+	  	</div>
+	  	
+	  	<br/><br/>
+		<div class="custom-file">
+		<input type="file" name="upFile2" class="custom-file-input" id="fileInput2"
+		aria-describedby="inputGroupFileAddon01" multiple> <label
+		class="custom-file-label" for="fileInput2" >${layout.mainImage}</label>
+	  	</div>
+	  	
+	  	<br/><br/>
+		<div class="custom-file">
+		<input type="file" name="upFile3" class="custom-file-input" id="fileInput3"
+		aria-describedby="inputGroupFileAddon01" multiple> <label
+		class="custom-file-label" for="fileInput3" >${layout.mainImage}</label>
+	  	</div>
+		
 		
 		
 			<button class = "btn btn-primary" type = "submit">사진 올리기</button>
 		</form:form>
 	
 	</div>
+	
+	
 <script>
-document.querySelector("#inputFile01").addEventListener("change",() => {
-
+document.querySelector("#fileInput").addEventListener("change",(e) => {
 	
-	const files = Array.from(document.querySelector("#inputFile01").files);
-	
-	renderAttach(files);
+	const label = e.target.nextElementSibling;
+	const files = e.target.files;
+	if(files[0]) {
+		label.innerHTML = files[0].name;
+	}
+	else {
+		label.innerHTML = "파일을 선택하세요";
+	}
 
 });
-const renderAttach=(files)=>{
+
+document.querySelector("#fileInput2").addEventListener("change",(e) => {
 	
-	let html='';
+	const label = e.target.nextElementSibling;
+	const files = e.target.files;
+	if(files[0]) {
+		label.innerHTML = files[0].name;
+	}
+	else {
+		label.innerHTML = "파일을 선택하세요";
+	}
+
+});
+
+document.querySelector("#fileInput3").addEventListener("change",(e) => {
 	
-	const attBox=document.querySelector("#attchBox ul");
-	
-	attBox.innerHTML = files.reduce((html,file,index)=>{
-		 return html + `
-			<li>
-				 \${file.name}  
-				 <button type="button" class="selCancel" onclick="selCancel(this,\${index})">x</button>
-			 </li>
-		`;
-	},"");
-};
-const selCancel= (e,index)=>{
-	
-	const fileElement = e.parentElement;
-    fileElement.remove();
-    
-    const filesInput = document.querySelector("#inputFile01");
-    const selectedFiles = Array.from(filesInput.files);
-    selectedFiles.splice(index, 1);
-    
-    const updatedFileList = new DataTransfer();
-    
-    for (const file of selectedFiles) 
-        updatedFileList.items.add(file);
-    
-    filesInput.files = updatedFileList.files;
-    
-    const files = Array.from(filesInput.files);
-    
-    renderAttach(files);
-    
-};
+	const label = e.target.nextElementSibling;
+	const files = e.target.files;
+	if(files[0]) {
+		label.innerHTML = files[0].name;
+	}
+	else {
+		label.innerHTML = "파일을 선택하세요";
+	}
+
+});
+
 
 </script>
 

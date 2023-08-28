@@ -167,4 +167,7 @@ public interface ClubService {
 	int clubGalleryDelete(int id);
 
 
+	
+
+
 }

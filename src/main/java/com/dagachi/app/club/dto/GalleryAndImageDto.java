@@ -4,9 +4,11 @@ import java.time.LocalDateTime;
 
 import com.dagachi.app.club.common.Status;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class GalleryAndImageDto {
 	
 	private int galleryId;

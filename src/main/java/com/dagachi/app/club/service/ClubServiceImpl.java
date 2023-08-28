@@ -533,4 +533,6 @@ public class ClubServiceImpl implements ClubService {
 		
 		return clubRepository.clubGalleryDelete(id);
 	}
+	
+	
 }
