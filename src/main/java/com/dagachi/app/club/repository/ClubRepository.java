@@ -286,6 +286,16 @@ public interface ClubRepository {
 	
 	List<Club> findClubsByMemberId(String memberId);
 	
+	
+	@Insert("insert into CBC_like values(#{memberId}, 2, #{targetId}, default)")
+	int insertClubLike(Map<String, Object> params);
+	
+	@Delete("delete from CBC_like where member_id = #{memberId} and type = 2 and target_id = #{targetId}")
+	int deleteClubLike(Map<String, Object> params);
+	
+	@Select("select count(*) from CBC_like where member_id = #{memberId} and type = #{type} and target_id = #{targetId}")
+	int checkBoardLiked(Map<String, Object> params);
+	
 	@Select("select * from club_gallery a join club_gallery_attachment b on a.gallery_id = b.gallery_id where a.gallery_id = #{id}")
 	List<GalleryAndImageDto> findGalleryAndImageByGalleryId(int id);
 	
@@ -304,7 +314,6 @@ public interface ClubRepository {
 	
 	@Insert("insert into club_gallery_attachment (id,gallery_id,original_filename,renamed_filename, thumbnail) values (seq_club_gallery_attachment_id.nextval,seq_club_gallery_id.currval,'asd',#{renamedFilename},'N')")
 	int clubGalleryCreate2(CreateGalleryDto createGalleryDto);
-
 
 	
 }

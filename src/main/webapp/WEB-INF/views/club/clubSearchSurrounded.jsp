@@ -13,7 +13,7 @@
 	<div>
 		<label for="category">모임 분류:</label>
 		<select id="filter-category" name="category"><!-- js로 options 처리 --></select>
-		<input type="range" id="kmRange" value="0" min="0" max="6" step="1" oninput="setValue(this);">
+		<input type="range" id="kmRange" value="0" min="1" max="6" step="1" oninput="setValue(this);">
 		<span id="range_val"></span>
 	</div>
 	<div class="mt-4"><div class="row" id="clubs-wrapper"></div></div>
