@@ -57,6 +57,7 @@ import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.ClubStyleUpdateDto;
 import com.dagachi.app.club.dto.ClubTitleUpdateDto;
 import com.dagachi.app.club.dto.ClubUpdateDto;
+import com.dagachi.app.club.dto.CreateGalleryDto;
 import com.dagachi.app.club.dto.GalleryAndImageDto;
 import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.KickMember;
@@ -1252,69 +1253,67 @@ public class ClubController {
 		return "club/clubGalleryInsert";
 	}
 	
-//	@PostMapping("{domain}/clubGalleryInsert.do")
-//	public String clubGalleryCreate(
-//			@AuthenticationPrincipal MemberDetails loginMember,
-//			Model model,
-//			BindingResult bindingResult,
-//			@PathVariable("domain") String domain,
-//			@RequestParam(value = "upFile") MultipartFile upFile,
-//			@RequestParam(value = "upFile2") MultipartFile upFile2,
-//			@RequestParam(value = "upFile3") MultipartFile upFile3
-//			) throws IllegalStateException, IOException{
-//		int clubId = clubService.clubIdFindByDomain(domain);
-//		String uploadDir = "/club/gallery/";
-//		GalleryAndImageDto clubGalleryAndImage = null;
-//		if(!upFile.isEmpty()) {
-//			 String originalFilename = upFile.getOriginalFilename();
-//			 String renamedFilename = DagachiUtils.getRenameFilename(originalFilename);
-//			 File destFile = new File(uploadDir + renamedFilename);
-//			 
-//			 upFile.transferTo(destFile);
-//			 
-//			 clubGalleryAndImage = clubGalleryAndImage.builder()
-//					 .clubId(clubId)
-//					 .memberId(loginMember.getMemberId())
-//					 .renamedFilename(renamedFilename)
-//					 .build();
-//			 
-//			 int result = clubService.clubGalleryCreate(clubGalleryAndImage);
-//		 }
-//		if(!upFile2.isEmpty()) {
-//			 String originalFilename = upFile2.getOriginalFilename();
-//			 String renamedFilename = DagachiUtils.getRenameFilename(originalFilename);
-//			 File destFile = new File(uploadDir + renamedFilename);
-//			 
-//			 upFile2.transferTo(destFile);
-//			 
-//			 clubGalleryAndImage = clubGalleryAndImage.builder()
-//					 .clubId(clubId)
-//					 .memberId(loginMember.getMemberId())
-//					 .renamedFilename(renamedFilename)
-//					 .build();
-//			 
-//			 int result = clubService.clubGalleryCreate2(clubGalleryAndImage);
-//		 }
-//		if(!upFile3.isEmpty()) {
-//			 String originalFilename = upFile3.getOriginalFilename();
-//			 String renamedFilename = DagachiUtils.getRenameFilename(originalFilename);
-//			 File destFile = new File(uploadDir + renamedFilename);
-//			 
-//			 upFile3.transferTo(destFile);
-//			 
-//			 clubGalleryAndImage = clubGalleryAndImage.builder()
-//					 .clubId(clubId)
-//					 .memberId(loginMember.getMemberId())
-//					 .renamedFilename(renamedFilename)
-//					 .build();
-//			 
-//			 int result = clubService.clubGalleryCreate2(clubGalleryAndImage);
-//		 }
-//		
-//		
-//		
-//		return "/club/"+domain+"/clubGallery";
-//	}
+	@PostMapping("{domain}/clubGalleryInsert.do")
+	public String clubGalleryCreate(
+			@AuthenticationPrincipal MemberDetails loginMember,
+			@PathVariable("domain") String domain,
+			@RequestParam(value = "upFile") MultipartFile upFile,
+			@RequestParam(value = "upFile2") MultipartFile upFile2,
+			@RequestParam(value = "upFile3") MultipartFile upFile3
+			) throws IllegalStateException, IOException{
+		int clubId = clubService.clubIdFindByDomain(domain);
+		String uploadDir = "/club/gallery/";
+		CreateGalleryDto createGalleryDto = null;
+		if(!upFile.isEmpty()) {
+			 String originalFilename = upFile.getOriginalFilename();
+			 String renamedFilename = DagachiUtils.getRenameFilename(originalFilename);
+			 File destFile = new File(uploadDir + renamedFilename);
+			 
+			 upFile.transferTo(destFile);
+			 
+			 createGalleryDto = createGalleryDto.builder()
+					 .clubId(clubId)
+					 .memberId(loginMember.getMemberId())
+					 .renamedFilename(renamedFilename)
+					 .build();
+			 
+			 int result = clubService.clubGalleryCreate(createGalleryDto);
+		 }
+		if(!upFile2.isEmpty()) {
+			 String originalFilename = upFile2.getOriginalFilename();
+			 String renamedFilename = DagachiUtils.getRenameFilename(originalFilename);
+			 File destFile = new File(uploadDir + renamedFilename);
+			 
+			 upFile2.transferTo(destFile);
+			 
+			 createGalleryDto = createGalleryDto.builder()
+					 .clubId(clubId)
+					 .memberId(loginMember.getMemberId())
+					 .renamedFilename(renamedFilename)
+					 .build();
+			 
+			 int result = clubService.clubGalleryCreate2(createGalleryDto);
+		 }
+		if(!upFile3.isEmpty()) {
+			 String originalFilename = upFile3.getOriginalFilename();
+			 String renamedFilename = DagachiUtils.getRenameFilename(originalFilename);
+			 File destFile = new File(uploadDir + renamedFilename);
+			 
+			 upFile3.transferTo(destFile);
+			 
+			 createGalleryDto = createGalleryDto.builder()
+					 .clubId(clubId)
+					 .memberId(loginMember.getMemberId())
+					 .renamedFilename(renamedFilename)
+					 .build();
+			 
+			 int result = clubService.clubGalleryCreate2(createGalleryDto);
+		 }
+		
+		
+		
+		return "redirect:/club/" + domain;
+	}
 
 
 

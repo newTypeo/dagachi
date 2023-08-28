@@ -29,6 +29,7 @@ import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.KickMember;
 import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.ClubStyleUpdateDto;
+import com.dagachi.app.club.dto.CreateGalleryDto;
 import com.dagachi.app.club.dto.GalleryAndImageDto;
 import com.dagachi.app.club.dto.ManageMember;
 import com.dagachi.app.club.entity.Club;
@@ -294,14 +295,16 @@ public interface ClubRepository {
 	@Delete("delete club_gallery where gallery_id = #{id}")
 	int clubGalleryDelete(int id);
 	
-//	@Insert("insert into club_gallery (gallery_id, club_id, member_id) values (seq_club_gallery_id.nextval, #{clubId}, #{memberId})")
-//	int clubGalleryCreate(ClubGalleryAndImage clubGalleryAndImage);
-//	
-//	@Insert("insert into club_gallery_attachment (id, gallery_id, original_filename, renamed_filename, thumbnail) values (seq_club_gallery_attachment_id.nextval, #{galleryId}, 'default', #{renamedFilename},'Y')")
-//	int clubGalleryAttachCreate(ClubGalleryAndImage clubGalleryAndImage);
-//	
-//	@Insert("insert into club_gallery_attachment (id, gallery_id, original_filename, renamed_filename, thumbnail) values (seq_club_gallery_attachment_id.nextval, #{galleryId}, 'default', #{renamedFilename},'N')")
-//	int clubGalleryCreate2(ClubGalleryAndImage clubGalleryAndImage);
+	@Insert("insert into club_gallery (gallery_id,club_id,member_id,status) values(seq_club_gallery_id.nextval, #{clubId},#{memberId},'Y')")
+	int clubGalleryCreate(CreateGalleryDto createGalleryDto);
+	
+	
+	@Insert("insert into club_gallery_attachment (id,gallery_id,original_filename,renamed_filename, thumbnail) values (seq_club_gallery_attachment_id.nextval,seq_club_gallery_id.currval,'asd',#{renamedFilename},'Y')")
+	int clubGalleryAttachCreate(CreateGalleryDto createGalleryDto);
+	
+	@Insert("insert into club_gallery_attachment (id,gallery_id,original_filename,renamed_filename, thumbnail) values (seq_club_gallery_attachment_id.nextval,seq_club_gallery_id.currval,'asd',#{renamedFilename},'N')")
+	int clubGalleryCreate2(CreateGalleryDto createGalleryDto);
+
 
 	
 }

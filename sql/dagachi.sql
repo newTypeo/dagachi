@@ -1288,9 +1288,5 @@ insert into club_member values('honggddd',6,default,default,3,default);
 insert into club_member values('honggddd',7,default,default,3,default);
 
 
-select * from club where club_id = (select club_id from club_member where member_id = 'honggd');
 
 commit;
-
-select * from club;
-

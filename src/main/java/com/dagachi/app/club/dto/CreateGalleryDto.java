@@ -1,26 +1,17 @@
 package com.dagachi.app.club.dto;
 
-import java.time.LocalDateTime;
-
 import com.dagachi.app.club.common.Status;
 
 import lombok.Builder;
 import lombok.Data;
 
+@Builder
 @Data
-public class GalleryAndImageDto {
-	
+public class CreateGalleryDto {
+
 	private int galleryId;
-	
 	private int clubId;
 	private String memberId;
-	private int likeCount;
-	private Status status;
-	
-	private int id;
-
-	private String originalFilename;
 	private String renamedFilename;
-	private LocalDateTime createdAt;
-	private Status thumbnail;
+	private Status status;
 }
