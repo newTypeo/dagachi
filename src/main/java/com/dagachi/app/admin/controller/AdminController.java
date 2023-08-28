@@ -112,13 +112,14 @@ public class AdminController {
 			@RequestParam int inquiryTypeVal,@RequestParam int inquiryStatusVal,
 			@RequestParam(defaultValue = "1") int page) {
 
-		Map<String, Object> searchInquirydMap = Map.ofEntries(
-				Map.entry("searchKeyword", searchKeywordVal), Map.entry("inquiryType", inquiryTypeVal),
-				Map.entry("type", inquiryTypeVal),Map.entry("status", inquiryStatusVal)
-				);
-		
-		log.debug("                                                                                                                                                                              +`	`inquiryTypeVal={}",inquiryTypeVal);
-		log.debug("searchInquirydMap={}",searchInquirydMap);
+
+		Map<String,Object> searchInquirydMap =  new HashMap<String,Object>();
+				searchInquirydMap.put("searchKeyword", searchKeywordVal);
+				searchInquirydMap.put("searchType", searchTypeVal);
+				searchInquirydMap.put("type", inquiryTypeVal);
+				searchInquirydMap.put("status", inquiryStatusVal);
+		log.debug("t121212ype={}",inquiryTypeVal);
+		log.debug("21212status={}",searchInquirydMap);
 		
 		Map<String, Object> params = Map.of("page", page, "limit", LIMIT);
 		
@@ -128,10 +129,9 @@ public class AdminController {
 		log.debug("inquirys={}",inquirys);
 		
 		int inquirySize =inquiry.size();
-			Map<String,Object> data=Map.ofEntries(
-					Map.entry("inquirys", inquirys),
-					Map.entry("inquirySize", inquirySize)
-			);
+			Map<String,Object> data =  new HashMap<String,Object>();
+					data.put("inquirys", inquirys);
+					data.put("inquirySize", inquirySize);
 		return ResponseEntity.status(HttpStatus.OK).body(data);
 
 	}
