@@ -1,5 +1,6 @@
 package com.dagachi.app.admin.controller;
 
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,6 +37,7 @@ import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.club.service.ClubService;
 import com.dagachi.app.member.entity.Member;
+import com.dagachi.app.member.entity.MemberDetails;
 import com.dagachi.app.member.service.MemberService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -53,15 +56,7 @@ public class AdminController {
 	@Autowired
 	private AdminService adminService;
 	
-
-	@GetMapping("/adminInquiryList.do")
-	public String inquriyList(Model model){
-		List<AdminInquiry> inquiry=  new ArrayList<>();
-		inquiry = memberService.memberAdminInquiryList();
-		model.addAttribute("inquiry", inquiry);
-		System.out.println(inquiry);
-		return "admin/adminInquiryList";
-	}
+	static final int LIMIT = 10;
 	
 	@GetMapping("/adminInquiryUpdate.do")
 	public String adminInquiryUpdate(@RequestParam int inquiryId, Model model){
@@ -69,12 +64,10 @@ public class AdminController {
 	    model.addAttribute("inquiry",inquiry );
 	    return "/admin/adminInquiryUpdate";
 	}
-
-	
 	@PostMapping("/adminInquiryUpdate.do")
-	public String adminInquiryUpdate(@RequestParam String inquiryId, @RequestParam String response) {
-	    // 이 부분에서 InquiryId와 response를 사용하여 inquiryUpdate 객체를 생성하고 업데이트 로직을 수행합니다.
+	public String adminInquiryUpdate(@RequestParam String inquiryId, @RequestParam String response, @AuthenticationPrincipal MemberDetails member) {
 	    AdminInquiryUpdateDto inquiryUpdate = new AdminInquiryUpdateDto(); 
+	    inquiryUpdate.setAdminId(member.getMemberId());
 	    inquiryUpdate.setInquiryId(inquiryId);
 	    inquiryUpdate.setResponse(response);
 	    //inquiryUpdate.setResponse(response);
@@ -83,6 +76,66 @@ public class AdminController {
 	    
 	    return "redirect:/admin/adminInquiryList.do";
 	}
+	
+	
+	@GetMapping("/adminInquiryList.do")
+	public void inquriyList(Model model){
+	}
+	
+	@GetMapping("/findAdminInquiry.do")		// 필수값이 아니다. 
+	public ResponseEntity<?> InquiryList(@RequestParam(required = false, defaultValue = "0") int inquiryType,int inquiryStatus,
+			@RequestParam(defaultValue = "1") int page) {
+		int _type = (inquiryType != 0) ? inquiryType : 0;
+		int _status = (inquiryStatus != 0) ? inquiryStatus : 0;
+		log.debug("_type={}",_type);
+		log.debug("_status={}",_status);
+		
+		AdminInquiry adminInquiry = AdminInquiry.builder().type(_type).type(_status).build();
+		log.debug("adminInquiry={}",adminInquiry);
+		Map<String, Object> params = Map.of("page", page, "limit", LIMIT);
+		List<AdminInquiry> inquirys = adminService.adminInquiryList(adminInquiry, params);
+		log.debug("inquirys={}",inquirys);
+		int inquirySize = adminService.inquirySize(adminInquiry);
+		log.debug("inquirySize={}",inquirySize);
+		
+		Map<String, Object> inquiryInfo = Map.ofEntries(
+				Map.entry("inquirySize", inquirySize),
+				Map.entry("inquirys", inquirys)
+		);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(inquiryInfo);
+	}
+
+	@GetMapping("/searchInquiryType.do")
+	public ResponseEntity<?> searchInquiryType(@PathVariable("domain") 
+			@RequestParam String searchKeywordVal, @RequestParam String searchTypeVal, 
+			@RequestParam int inquiryTypeVal,@RequestParam int inquiryStatusVal,
+			@RequestParam(defaultValue = "1") int page) {
+
+
+		Map<String,Object> searchInquirydMap =  new HashMap<String,Object>();
+				searchInquirydMap.put("searchKeyword", searchKeywordVal);
+				searchInquirydMap.put("searchType", searchTypeVal);
+				searchInquirydMap.put("type", inquiryTypeVal);
+				searchInquirydMap.put("status", inquiryStatusVal);
+		log.debug("t121212ype={}",inquiryTypeVal);
+		log.debug("21212status={}",searchInquirydMap);
+		
+		Map<String, Object> params = Map.of("page", page, "limit", LIMIT);
+		
+		List<AdminInquiry> inquirys = adminService.searchInquirys(searchInquirydMap,params);
+		
+		List<AdminInquiry> inquiry  = adminService.searchInquiry(searchInquirydMap);
+		log.debug("inquirys={}",inquirys);
+		
+		int inquirySize =inquiry.size();
+			Map<String,Object> data =  new HashMap<String,Object>();
+					data.put("inquirys", inquirys);
+					data.put("inquirySize", inquirySize);
+		return ResponseEntity.status(HttpStatus.OK).body(data);
+
+	}
+	
 	
 	/**
 	 * 관리자 모임 목록 조회

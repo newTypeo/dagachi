@@ -97,60 +97,7 @@
 
 
 /* 커스텀 */
-#club-page-article {
-	width: 1320px;
-	display: flex;
-	flex-wrap: wrap;
-}
 
-#club-myInfo-container {
-	background-color: pink;
-	width: 260px;
-	height: 300px;
-	margin: 0 20px;
-}
-
-#club-total-container {
-	width: 260px;
-	margin: 0 20px;
-	border-top: 3px solid;
-}
-
-#club-total-container > div {
-	border-bottom: 1px solid #ccc;
-	padding: 5px 0;
-	display: flex;
-	flex-direction: column;
-}
-#club-total-container > div > a {
-	padding: 5px 0;
-}
-
-#club-total-container > div:first-of-type > a {
-	font-size: 18px;
-	font-weight: bold;
-}
-
-#club-search-container1 {
-	margin: 20px 20px 0 20px;
-}
-
-#club-search-container1 > form > input:focus {
-	outline: none;
-}
-
-#club-search-container1 > form > input {
-	width: 210px;
-	border: 1px solid;
-	border-radius: 2px 0 0 2px;
-}
-
-#club-search-container1 > form > button {
-	width: 50px;
-	margin-left: -11px;
-	border: 1px solid;
-	border-radius: 0 2px 2px 0;
-}
 
 #club-main-container {
 	width: 1000px;

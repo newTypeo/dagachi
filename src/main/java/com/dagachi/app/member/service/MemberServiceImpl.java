@@ -40,11 +40,27 @@ public class MemberServiceImpl implements MemberService{
 	
 	@Autowired
 	private MemberRepository memberRepository;
-
-	@Override/*임시 회원가입*/
+	
+	
+	@Override
 	public int insertMember(MemberCreateDto member) {
-		return memberRepository.insertMember(member);
+
+	  int result = 0;
+
+	  result = memberRepository.insertMember(member);
+	  log.debug("member = " + member);
+
+	  memberRepository.insertActivityArea(member);
+	  memberRepository.insertMemberInterest(member);
+
+	  return result;
 	}
+	
+
+//	@Override/*임시 회원가입*/
+//	public int insertMember(MemberCreateDto member) {
+//		return memberRepository.insertMember(member);
+//	}
 	
 	@Override
 	public List<Member> adminMemberList(Map<String, Object> params) {
@@ -109,24 +125,7 @@ public class MemberServiceImpl implements MemberService{
 		return memberRepository.findMemberById(memberId);
 	}
 
-	/* 회원가입 (지우지마삼)
-	 * @Override public int insertMember(MemberDetails member1) {
-	 * 
-	 * int result = 0;
-	 * 
-	 * result = memberRepository.insertMember(member1); log.debug("member = " +
-	 * member1);
-	 * 
-	 * MemberProfile memberProfile = ((MemberDetails) member1).getMemberProfile();
-	 * if(memberProfile != null) { memberProfile.setMemberId(member1.getMemberId());
-	 * result = memberRepository.insertMemberProfile(memberProfile); }
-	 * 
-	 * memberRepository.insertActivityArea(member1);
-	 * memberRepository.insertMemberInterest(member1);
-	 * 
-	 * 
-	 * return result; }
-	 */
+
 	@Override
 	public List<Member> quitMemberSearch(String keyword, String column) {
 		// TODO Auto-generated method stub
@@ -216,4 +215,6 @@ public class MemberServiceImpl implements MemberService{
 	public int checkDuplicateMemberId(String memberId) {
 		return memberRepository.checkDuplicateMemberId(memberId);
 	}
+	
+	
 }

@@ -8,6 +8,7 @@ import lombok.Data;
 public class ClubGallery {
 	private int galleryId;
 	private int clubId;
+	private String memberId;
 	private int likeCount;
 	private Status status;
 }

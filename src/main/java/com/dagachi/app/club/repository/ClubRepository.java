@@ -29,6 +29,7 @@ import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.KickMember;
 import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.ClubStyleUpdateDto;
+import com.dagachi.app.club.dto.CreateGalleryDto;
 import com.dagachi.app.club.dto.GalleryAndImageDto;
 import com.dagachi.app.club.dto.ManageMember;
 import com.dagachi.app.club.entity.Club;
@@ -187,9 +188,6 @@ public interface ClubRepository {
 	
 	@Select("select * from (select * from club_gallery cg left join club_gallery_attachment ca on cg.gallery_id = ca.gallery_id where (ca.thumbnail = 'Y' or ca.thumbnail is null) and club_id = #{clubId} order by cg.gallery_id desc) where rownum <= 8")
 	List<GalleryAndImageDto> findgalleryById(int clubId);
-	
-	@Insert("insert into club_layout values (#{clubId}, default, default, default, default, default, default, default, default)")
-	int insertLayout(int clubId);
 
 	@Delete("delete from club_member where club_id = #{clubId} and member_id = #{memberId}")
 	int kickMember(KickMember kickMember);
@@ -281,12 +279,32 @@ public interface ClubRepository {
 	@Select("select * from club join club_profile on club.club_id = club_profile.club_id left join cbc_like on club.club_id = cbc_like.target_id where member_id = #{loginMemberId}")
 	List<ClubAndImage> findAllClubLike(String loginMemberId);
 	
-	@Select("select * from club_gallery a join club_gallery_attachment b on a.gallery_id = b.gallery_id where club_id = #{clubId}")
+	@Select("select * from club_gallery a join club_gallery_attachment b on a.gallery_id = b.gallery_id where (club_id = #{clubId} and thumbnail = 'Y')")
 	List<ClubGalleryAndImage> clubGalleryAndImageFindByClubId(int clubId);
 	
 	@Select("select * from club c join club_member cm on (c.club_id = cm.club_id) where cm.member_id = #{memberId}")
 	
 	List<Club> findClubsByMemberId(String memberId);
+	
+	@Select("select * from club_gallery a join club_gallery_attachment b on a.gallery_id = b.gallery_id where a.gallery_id = #{id}")
+	List<GalleryAndImageDto> findGalleryAndImageByGalleryId(int id);
+	
+	@Delete("delete club_gallery_attachment where gallery_id = #{id}")
+	int clubGalleryAttachDelete(int id);
+	
+	@Delete("delete club_gallery where gallery_id = #{id}")
+	int clubGalleryDelete(int id);
+	
+	@Insert("insert into club_gallery (gallery_id,club_id,member_id,status) values(seq_club_gallery_id.nextval, #{clubId},#{memberId},'Y')")
+	int clubGalleryCreate(CreateGalleryDto createGalleryDto);
+	
+	
+	@Insert("insert into club_gallery_attachment (id,gallery_id,original_filename,renamed_filename, thumbnail) values (seq_club_gallery_attachment_id.nextval,seq_club_gallery_id.currval,'asd',#{renamedFilename},'Y')")
+	int clubGalleryAttachCreate(CreateGalleryDto createGalleryDto);
+	
+	@Insert("insert into club_gallery_attachment (id,gallery_id,original_filename,renamed_filename, thumbnail) values (seq_club_gallery_attachment_id.nextval,seq_club_gallery_id.currval,'asd',#{renamedFilename},'N')")
+	int clubGalleryCreate2(CreateGalleryDto createGalleryDto);
+
 
 	
 }
