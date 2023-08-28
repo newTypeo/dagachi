@@ -20,6 +20,7 @@ import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.ClubManageApplyDto;
 import com.dagachi.app.club.dto.ClubEnrollDto;
+import com.dagachi.app.club.dto.ClubGalleryAndImage;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
 import com.dagachi.app.club.dto.ClubReportDto;
@@ -186,9 +187,6 @@ public interface ClubRepository {
 	
 	@Select("select * from (select * from club_gallery cg left join club_gallery_attachment ca on cg.gallery_id = ca.gallery_id where (ca.thumbnail = 'Y' or ca.thumbnail is null) and club_id = #{clubId} order by cg.gallery_id desc) where rownum <= 8")
 	List<GalleryAndImageDto> findgalleryById(int clubId);
-	
-	@Insert("insert into club_layout values (#{clubId}, default, default, default, default, default, default, default, default)")
-	int insertLayout(int clubId);
 
 	@Delete("delete from club_member where club_id = #{clubId} and member_id = #{memberId}")
 	int kickMember(KickMember kickMember);
@@ -280,7 +278,11 @@ public interface ClubRepository {
 	@Select("select * from club join club_profile on club.club_id = club_profile.club_id left join cbc_like on club.club_id = cbc_like.target_id where member_id = #{loginMemberId}")
 	List<ClubAndImage> findAllClubLike(String loginMemberId);
 	
+	@Select("select * from club_gallery a join club_gallery_attachment b on a.gallery_id = b.gallery_id where club_id = #{clubId}")
+	List<ClubGalleryAndImage> clubGalleryAndImageFindByClubId(int clubId);
+	
 	@Select("select * from club c join club_member cm on (c.club_id = cm.club_id) where cm.member_id = #{memberId}")
+	
 	List<Club> findClubsByMemberId(String memberId);
 
 	

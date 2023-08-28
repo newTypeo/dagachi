@@ -41,7 +41,6 @@
 		</where>
 		order by
 		board_id desc
-
 	</select>
 	
 	<select id="searchBoards" resultType="clubBoard">
@@ -118,7 +117,8 @@
 			cp.club_id profile_club_id,
 			original_filename,
 			renamed_filename,
-			cp.created_at profile_created_at
+			cp.created_at profile_created_at,
+			(select count(*) from club_member cm where cm.club_id = c.club_id) member_count
 		from
 			club c left join
 			club_profile cp

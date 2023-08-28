@@ -1,0 +1,277 @@
+@charset "UTF-8";
+
+/************ club-title *************/
+#club-title img {
+	width: 1320px;
+}
+
+#default-title {
+	width: 1320px;
+	height: 100px;
+	background-color: pink;
+}
+#previewContainer{
+	width: 1320px;
+	height: 300px;
+}
+#previewContainer2{
+	width: 508px;
+	height: 337px;
+}
+
+
+/********** club-page-article **********/
+
+
+.container-header {
+	margin: 10px 20px 0 20px;
+	border-bottom: 1px solid;
+}
+.container-header > span:first-child {
+	font-size: 20px;
+	font-weight: bold;
+}
+.container-header > a:last-child {
+	font-size: 16px;
+	float: right;	
+	font-weight: 600;
+}
+.container-main > div {
+	height: 32px;
+	margin: 8px 20px 0 20px;
+	border-bottom: 1px solid #ccc;
+}
+.container-main-gallery > div {
+	margin: 8px 20px 0 20px;
+}
+.container-main-long > div > a:first-of-type {
+	display: inline-block;
+    width: 800px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.container-main-short > div > a:first-of-type {
+	display: inline-block;
+    width: 375px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.container-main > div > span:first-child {
+	font-size: 16px;
+	top: -6px;
+    position: relative;
+}
+.container-main > div > span:nth-of-type(3) {
+	width: 51px;
+	float: right;
+	margin: 0 5px;
+}
+.container-main > div > span:nth-of-type(2),
+.container-main > div > a:nth-of-type(2) {
+	float: right;
+}
+
+.container-main-schedule > div {
+	margin: 8px 20px 0 20px;
+	border-bottom: 1px solid #ccc;
+}
+.container-main-schedule > div > a:first-of-type {
+	display: inline-block;
+    width: 285px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.container-main-schedule > div > span:first-child {
+	font-size: 16px;
+	top: -6px;
+    position: relative;
+}
+.container-main-schedule > div > span:nth-of-type(2),
+.container-main-schedule > div > span:nth-of-type(3) {
+	float: right;
+	margin-left: 10px;
+}
+
+
+/* 커스텀 */
+#club-page-article {
+	width: 1320px;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+#club-myInfo-container {
+	background-color: pink;
+	width: 260px;
+	height: 260px;
+	margin: 0 20px;
+}
+
+#club-total-container {
+	width: 260px;
+	margin: 0 20px;
+	border-top: 3px solid;
+}
+
+#club-total-container > div {
+	border-bottom: 1px solid #ccc;
+	padding: 5px 0;
+	display: flex;
+	flex-direction: column;
+}
+#club-total-container > div > a {
+	padding: 5px 0;
+}
+
+#club-total-container > div:first-of-type > a {
+	font-size: 18px;
+	font-weight: bold;
+}
+
+#club-search-container1 {
+	margin: 20px 20px 0 20px;
+}
+
+#club-search-container1 > form > input:focus {
+	outline: none;
+}
+
+#club-search-container1 > form > input {
+	width: 210px;
+	border: 1px solid;
+	border-radius: 2px 0 0 2px;
+}
+
+#club-search-container1 > form > button {
+	width: 50px;
+	margin-left: -11px;
+	border: 1px solid;
+	border-radius: 0 2px 2px 0;
+}
+
+#club-main-container {
+	width: 1000px;
+	height: 600px;
+	margin: 0 20px 0 0;
+	padding-top: 20px;
+	border: 5px solid #ccc;
+	border-radius: 5px;
+}
+#club-main-container2 {
+	width: 1320px;
+	height: 600px;
+	margin: 0 20px 0 0;
+	padding-top: 20px;
+	border: 5px solid #ccc;
+	border-radius: 5px;
+}
+
+#club-main-image-container {
+	display: flex;
+	justify-content: center;
+} 
+
+#club-main-content-container {
+	display: flex;
+	justify-content: center;
+	font-weight: bold;
+	font-size: 24px;
+}
+
+#club-notice-container {
+	width: 1320px;
+	height: 241px;
+	overflow: hidden;
+}
+
+#club-gallery-container {
+	width: 660px;
+	height: 360px;
+	overflow: hidden;
+}
+
+.container-main-gallery {
+	display: flex;	
+	flex-wrap: wrap;
+	justify-content: space-around;
+}
+
+.img-thumbnail {
+	width: 174px;
+}
+
+#club-board-container {
+	width: 660px;
+	height: 961px;
+	overflow: hidden;
+}
+
+#club-greetings-container {
+	width: 660px;
+	height: 241px;
+	overflow: hidden;
+}
+
+#club-reivew-container {
+	width: 660px;
+	height: 401px;
+	overflow: hidden;
+}
+
+#club-schedule-container {
+	width: 960px;
+    margin: 0px 15px;
+}
+
+#mainContent{
+    overflow: auto;
+    resize: vertical;
+    display: flex;
+    margin: -3px 399px;
+    height: 85px;
+    width: 515px;
+}
+#club-title-update-btn{
+	display: flex;
+	justify-content: end;
+	height: 70px;
+    padding: 12px;
+}
+#club-detail-gallery{
+	display: flex;
+    margin: 170px;
+    width: 1700px;
+    flex-wrap: wrap;
+}
+
+
+
+#gallery-photo {
+    height: 295px;
+    width: 295px;
+}
+
+#gallery-photo-div{
+	height: 295px;
+    width: 295px;
+    margin: 10px;
+}
+#like-count{
+	
+	margin-top : 10px;
+	position: absolute;
+ 	z-index: 2; /* 두 번째 요소는 더 위에 위치 */
+}
+
+
+
+.carousel-item {
+	height: 540px;
+}
+#carouselExampleControls > button {
+	width: 5%;
+	opacity: 1;
+}
