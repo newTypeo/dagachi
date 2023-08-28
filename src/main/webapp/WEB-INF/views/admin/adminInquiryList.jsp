@@ -62,7 +62,7 @@ div#search-content {
 			<form onsubmit="searchAdminInquiry(event)">
 				<input type="hidden" name="searchType" value="title" /> <input
 					type="text" name="searchKeyword" size="25"
-					placeholder="게시글의 제목을 입력하세요." value="" />
+					placeholder="게시글의 제목을 입력하세요." />
 				<button type="submit">검색</button>
 			</form>
 		</div>
@@ -71,7 +71,7 @@ div#search-content {
 			<form onsubmit="searchAdminInquiry(event)">
 				<input type="hidden" name="searchType" value="writer" /> <input
 					type="text" name="searchKeyword" size="25"
-					placeholder="검색할 아이디를 입력하세요." value="" />
+					placeholder="검색할 아이디를 입력하세요." />
 				<button type="submit">검색</button>
 			</form>
 		</div>
@@ -80,7 +80,7 @@ div#search-content {
 			<form onsubmit="searcInquirydAdmin(event)">
 				<input type="hidden" name="searchType" value="content" /> <input
 					type="text" name="searchKeyword" size="25"
-					placeholder="게시글의 내용을 입력하세요." value="" />
+					placeholder="게시글의 내용을 입력하세요."  />
 				<button type="submit">검색</button>
 			</form>
 		</div>
@@ -172,6 +172,10 @@ div#search-content {
 			data :{searchKeywordVal,searchTypeVal,inquiryTypeVal,inquiryStatusVal},
 			success(data){
 				const tbody =document.querySelector("#inquiryTable tbody");
+				console.log("바바바inquiryTypeVal"+inquiryTypeVal);
+				console.log("바바바searchTypeVal"+searchTypeVal);
+				console.log("data.inquiryTypeVal: ", data.inquirys);
+				console.log("data.inquirySize: ", data.inquirySize);
 				let html='';
 				if(data.inquirys.length>0){
 					html = data.inquirys.reduce((html,inquiry)=>{	
