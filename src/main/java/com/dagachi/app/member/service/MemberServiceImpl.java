@@ -43,21 +43,15 @@ public class MemberServiceImpl implements MemberService{
 	
 	
 	@Override
-	public int insertMember(MemberDetails member1) {
+	public int insertMember(MemberCreateDto member) {
 
 	  int result = 0;
 
-	  result = memberRepository.insertMember(member1);
-	  log.debug("member = " + member1);
+	  result = memberRepository.insertMember(member);
+	  log.debug("member = " + member);
 
-	  MemberProfile memberProfile = ((MemberDetails) member1).getMemberProfile();
-	  if(memberProfile != null) {
-	    memberProfile.setMemberId(member1.getMemberId());
-	    result = memberRepository.insertMemberProfile(memberProfile);
-	  }
-
-	  memberRepository.insertActivityArea(member1);
-	  memberRepository.insertMemberInterest(member1);
+	  memberRepository.insertActivityArea(member);
+	  memberRepository.insertMemberInterest(member);
 
 	  return result;
 	}
