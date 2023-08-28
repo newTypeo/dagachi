@@ -1282,4 +1282,7 @@ select * from club where club_id = (select club_id from club_member where member
 
 commit;
 
-select * from club;
+
+
+
+

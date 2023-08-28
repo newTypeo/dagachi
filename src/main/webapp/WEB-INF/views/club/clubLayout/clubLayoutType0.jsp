@@ -14,28 +14,48 @@
 	
 <article id="club-page-article">
 	<div id="club-util-box">
-		<div id="club-myInfo-container">
-			<div class="myProfile">
-				<img alt="" src="${pageContext.request.contextPath}/resources/upload/member/profile/<sec:authentication property="principal.memberProfile.renamedFilename"/>">
-			</div>
-			<div>
-				<span><sec:authentication property="principal.nickname"/></span><br>
-				<c:if test ="${memberRole eq 3}">
-					<span>🥇방장</span>
-					<span><a href="${pageContext.request.contextPath}/club/${domain}/clubUpdate.do">모임 관리</a></span>
-				</c:if>
-				<c:if test ="${memberRole eq 2}">
-					<span>🥇부방장</span>
-				</c:if>
-				<c:if test ="${memberRole eq 1}">
-					<span>🥇임원</span>
-				</c:if>
-				<c:if test ="${memberRole eq 0}">
-					<span>🎀일반회원</span>
-				</c:if>
-				<br>
-				<span><a href="${pageContext.request.contextPath}/member/memberClubDetail.do">나의 모임 정보</a></span>
-			</div>
+		<div id="club-info-container">
+			<h5>🚩${clubInfo.clubName}</h5>
+			<span class="fontColors">since 
+				<fmt:parseDate value="${clubInfo.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="createdAt"/>
+	    		<fmt:formatDate value="${createdAt}" pattern="yyyy.MM.dd"/>
+			</span>
+			<span><a href="${pageContext.request.contextPath}/club/${domain}/clubMemberList.do">😀멤버 : ${clubInfo.memberCount}</a></span>
+		</div>
+		<div id="club-myInfo-container" style="border-color: ${layout.pointColor}">
+			<c:if test="${memberRole ne 10}">
+				<div class="myProfile1" style="border-color: ${layout.pointColor}">
+					<img alt="" src="${pageContext.request.contextPath}/resources/upload/member/profile/<sec:authentication property="principal.memberProfile.renamedFilename"/>">
+				</div>
+				<div class="myProfile2">
+					<p><strong><sec:authentication property="principal.nickname"/></strong></p>
+					<c:if test ="${memberRole eq 3}">
+						<p><strong>🥇방장</strong>|<a href="${pageContext.request.contextPath}/club/${domain}/clubUpdate.do">모임 관리</a></p>
+					</c:if>
+					<c:if test ="${memberRole eq 2}">
+						<p><strong>🥇부방장</strong>|<a href="${pageContext.request.contextPath}/club/${domain}/clubUpdate.do">모임 관리</a></p>
+					</c:if>
+					<c:if test ="${memberRole eq 1}">
+						<p><strong>🥇임원</strong>|<a href="${pageContext.request.contextPath}/club/${domain}/clubUpdate.do">모임 관리</a></p>
+					</c:if>
+					<c:if test ="${memberRole eq 0}">
+						<p><strong>🎀일반회원</strong></p>
+					</c:if>
+					<p><a href="${pageContext.request.contextPath}/member/memberClubDetail.do">나의 모임 정보</a></p>
+				</div>
+			</c:if>
+			<c:if test="${memberRole eq 10}">
+				<div>
+					<button 
+						class="btn btn-outline-success my-2 my-sm-0" 
+						type="button" 
+						onclick="location.href = '${pageContext.request.contextPath}/club/${domain}/clubEnroll.do'">
+						가입신청하기
+					</button>	
+				</div>
+			</c:if>
+			<button type="button" class="btn btn-danger" id="clubReport">🚨</button>
+			<button type="button" class="btn btn-danger" id="clubLike" onclick="clubLike()">❤️</button>
 		</div>
 		<div id="club-total-container" class="fontColors" style="border-color: ${layout.pointColor}">
 			<div>
@@ -224,3 +244,53 @@
 		</div>
 	</div>
 </article>
+<script>
+// 모임 좋아요 (현우)
+const clubLike = () => {
+	console.log("함수 연결이 잘 되었늬?")
+	const clubLikeFrm = document.clubLikeFrm;
+	console.log(clubLikeFrm);
+	clubLikeFrm.submit();
+}
+
+//창환(모임 신고)
+document.querySelector("#clubReport").onclick = () => {
+	const frm = document.clubReportFrm;
+	$("#reportModal")
+	.modal()
+	.on('shown.bs.modal', () => {
+	});
+};
+
+// 창환(모임 신고)
+const clubReportSubmit = () => {
+	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
+	
+	const domain = document.querySelector('#domain').value;
+	const reporter = document.querySelector('#reporter').value;
+	const reason = document.querySelector('#reason').value;
+	
+	if(reason == null || reason == '') {
+		alert('신고 내용을 입력해주세요');
+		return;
+	}
+	
+	$.ajax({
+		url : '${pageContext.request.contextPath}/club/${domain}/clubReport.do',
+		method : "post",
+		data : { domain, reporter, reason },
+		beforeSend(xhr) {
+			xhr.setRequestHeader(header, token);
+		},
+		success(response) {
+			console.log(response);
+		}
+	});
+	
+	
+	document.querySelector('#reason').value = ''; // 신고사유 초기화
+};
+
+</script>
+
