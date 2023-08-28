@@ -66,11 +66,11 @@ public class ChatController {
 			@RequestParam int no,
 			Model model
 	) {
-		List<ChatLog> cahtlogs=chatService.clubChat(no);
-		log.debug("cahtlogs={}",cahtlogs);
+		List<ChatLog> chatlogs=chatService.clubChat(no);
+		log.debug("cahtlogs={}",chatlogs);
 		int clubId=no;
 		model.addAttribute("clubId",clubId);
-		model.addAttribute("cahtlogs",cahtlogs);
+		model.addAttribute("chatlogs",chatlogs);
 		
 	}
 }
