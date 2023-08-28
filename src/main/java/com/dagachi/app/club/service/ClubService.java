@@ -162,5 +162,9 @@ public interface ClubService {
 
 	List<Club> findClubsByMemberId(String memberId);
 
+	int likeBoard(Map<String, Object> params);
+
+	int checkBoardLiked(Map<String, Object> params);
+
 
 }

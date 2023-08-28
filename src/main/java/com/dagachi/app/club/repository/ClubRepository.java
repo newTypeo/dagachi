@@ -284,6 +284,16 @@ public interface ClubRepository {
 	@Select("select * from club c join club_member cm on (c.club_id = cm.club_id) where cm.member_id = #{memberId}")
 	
 	List<Club> findClubsByMemberId(String memberId);
+	
+	
+	@Insert("insert into CBC_like values(#{memberId}, 2, #{targetId}, default)")
+	int insertClubLike(Map<String, Object> params);
+	
+	@Delete("delete from CBC_like where member_id = #{memberId} and type = 2 and target_id = #{targetId}")
+	int deleteClubLike(Map<String, Object> params);
+	
+	@Select("select count(*) from CBC_like where member_id = #{memberId} and type = #{type} and target_id = #{targetId}")
+	int checkBoardLiked(Map<String, Object> params);
 
 	
 }

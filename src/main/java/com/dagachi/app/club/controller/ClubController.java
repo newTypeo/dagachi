@@ -177,7 +177,6 @@ public class ClubController {
 	 */
 	@GetMapping("/{domain}/clubBoardCreate.do")
 	public String boardCreate(@PathVariable("domain") String domain, Model model) {
-
 		model.addAttribute("domain", domain);
 		return "/club/clubBoardCreate";
 	}
@@ -189,18 +188,14 @@ public class ClubController {
 	 */
 	@PostMapping("/{domain}/boardCreate.do")
 	public String boardCreate(
-		BindingResult bindingResult, 
-		@Valid ClubBoardCreateDto _board, 
+		@Valid ClubBoardCreateDto _board,
 		@PathVariable("domain") String domain,
 		@AuthenticationPrincipal MemberDetails member,
 		@RequestParam(value = "upFile", required = false) List<MultipartFile> upFiles) 
 				throws IllegalStateException, IOException {
-		
 		List<ClubBoardAttachment> attachments = new ArrayList<>();
-		
 		if (!upFiles.isEmpty())
 			attachments = insertAttachment(upFiles, attachments);
-		
 		Club club = clubService.findByDomain(domain);
 		int clubId = club.getClubId();
 		String memberId = member.getMemberId();
@@ -314,7 +309,6 @@ public class ClubController {
 		ActivityArea activityArea = memberService.findActivityAreaById(member.getMemberId());
 		String mainAreaId = activityArea.getMainAreaId();
 		model.addAttribute("mainAreaId", mainAreaId);
-		System.out.println("mainAreaId= " + mainAreaId);
 	}
 	
 	/**
@@ -618,46 +612,76 @@ public class ClubController {
 	 * @author 상윤, 종환
 	 */
 	@GetMapping("/{domain}/boardDetail.do")
-	public String cluboardDetail(@PathVariable("domain") String domain, @RequestParam int no, Model model) {
+	public String cluboardDetail(
+			@RequestParam int no, Model model,
+			@PathVariable("domain") String domain, 
+			@AuthenticationPrincipal MemberDetails member) {
+		
 		ClubBoard clubBoard = clubBoardGet(domain, no);
-
+		
+		Map<String, Object> params = Map.of(
+			"type", 2,
+			"memberId", member.getMemberId(),
+			"targetId", clubBoard.getBoardId()
+		);
+		
+		Boolean liked = clubService.checkBoardLiked(params) != 0;
+		
 		List<ClubBoardAttachment> attachments = clubService.findAttachments(no);
 		
-		log.debug("attachments={}", attachments);
+		log.debug("liked={}", liked);
+		model.addAttribute("liked", liked);
 		model.addAttribute("clubBoard", clubBoard);
 		model.addAttribute("attachments", attachments);
-
+		
 		return "/club/clubBoardDetail";
 	}
 
 	
 	/**
-	 * @author ?
+	 * 게시글 좋아요
+	 * @author 상윤
 	 */
 	@PostMapping("/{domain}/likeCheck.do")
-	public ResponseEntity<?> likeCheck(@RequestParam int boardId, @RequestParam boolean like,
-			@PathVariable("domain") String domain) {
-
+	public ResponseEntity<?> likeCheck(
+			@RequestParam int boardId,
+			@RequestParam boolean like,
+			@PathVariable("domain") String domain,
+			@AuthenticationPrincipal MemberDetails member) {
+		
 		ClubBoard board = clubService.findByBoardId(boardId);
-		log.debug("board ={}", board);
-		log.debug("boardId ={}", boardId);
+		String memberId = member.getMemberId();
 		int likeCount = board.getLikeCount();
-		int result;
+		
+		Map<String, Object> params = Map.of(
+			"type", 2,
+			"like", like,
+			"board", board,
+			"targetId", boardId,
+			"memberId", memberId
+		);
+		
+		log.debug("params = {}", params);
+		
+		int result = 0;
 		if (like) {
 			likeCount = likeCount + 1;
 			board.setLikeCount(likeCount);
-			result = clubService.updateBoard(board);
+			result = clubService.likeBoard(params);
 		} else {
 			likeCount = likeCount - 1;
 			board.setLikeCount(likeCount);
-			result = clubService.updateBoard(board);
+			result = clubService.likeBoard(params);
 		}
-
+		
+		board = clubService.findByBoardId(boardId);
+		
 		return ResponseEntity.status(HttpStatus.OK).body(board);
 	}
 
 	/**
-	 * @author ?
+	 * 게시글 수정 jsp 전송
+	 * @author 상윤
 	 */
 	@GetMapping("/{domain}/boardUpdate.do")
 	public String boardUpdate(@PathVariable("domain") String domain, @RequestParam int no, Model model) {
@@ -674,7 +698,8 @@ public class ClubController {
 
 	
 	/**
-	 * @author ?
+	 * 게시글 수정 POST
+	 * @author 상윤
 	 */
 	@PostMapping("/{domain}/boardUpdate.do")
 	public String boardUpdate(@PathVariable("domain") String domain, @RequestParam int no, @RequestParam String title,
@@ -697,7 +722,7 @@ public class ClubController {
 
 		int result = clubService.updateBoard(clubBoard);
 
-		log.debug("clubBoard = {}", clubBoard);
+//		log.debug("clubBoard = {}", clubBoard);
 
 		return "redirect:/club/" + domain + "/boardDetail.do?no=" + no;
 	}
@@ -765,7 +790,8 @@ public class ClubController {
 
 	
 	/**
-	 * @author ?
+	 * 
+	 * @author 동찬
 	 */
 	@PostMapping("/clubCreate.do")
 	public String clubCreate(@Valid ClubCreateDto _club, BindingResult bindingResult,
@@ -867,7 +893,8 @@ public class ClubController {
 
 	
 	/**
-	 * @author ?
+	 * 도메인이랑 게시글 번호로 ClubBoard객체 반환하는 메소드
+	 * @author 상윤
 	 */
 	public ClubBoard clubBoardGet(String domain, int no) {
 
@@ -892,9 +919,9 @@ public class ClubController {
 			if (!upFiles.get(i).isEmpty()) {
 				String originalFilename = upFiles.get(i).getOriginalFilename();
 				String renamedFilename = DagachiUtils.getRenameFilename(originalFilename);
-				File destFile = new File(renamedFilename);
-				upFiles.get(i).transferTo(destFile);
-
+				File destFile = new File("/club/board/" + renamedFilename);
+				upFiles.get(i).transferTo(destFile); // 실제 파일 저장
+	
 				ClubBoardAttachment attach = ClubBoardAttachment.builder()
 																.originalFilename(originalFilename)
 																.renamedFilename(renamedFilename).build();
@@ -903,12 +930,7 @@ public class ClubController {
 					attach.setThumbnail(Status.Y);
 				else
 					attach.setThumbnail(Status.N);
-
-				// 실제 파일 저장
-				
-				
-				
-				
+	
 				attachments.add(attach);
 			}
 		}
@@ -1060,7 +1082,8 @@ public class ClubController {
 	
 	
 	/**
-	 * @author ?
+	 * 게시글 삭제
+	 * @author 상윤
 	 */
 	@PostMapping("/{domain}/delBoard.do")
 	public ResponseEntity<?> delClubBoard(@RequestParam int boardId) {
@@ -1072,7 +1095,8 @@ public class ClubController {
 	}
 
 	/**
-	 * @author ?
+	 * 게시판 조회
+	 * @author 상윤
 	 */
 	@GetMapping("/{domain}/searchClubBoard.do")
 	public ResponseEntity<?> searchClubBoard(@PathVariable("domain") String domain,
