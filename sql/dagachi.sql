@@ -1275,17 +1275,6 @@ insert into club_member values('honggddd',3,default,default,3,default);
 insert into club_member values('honggddd',4,default,default,3,default);
 insert into club_member values('honggddd',5,default,default,3,default);
 insert into club_member values('honggddd',6,default,default,3,default);
-<<<<<<< HEAD
-insert into club_member values('honggddd',7,default,default,3,default);
-=======
 insert into club_member values('honggddd',7,default,default,3,default);
 
-select * from activity_area;
 
-select * from club where club_id = (select club_id from club_member where member_id = 'honggd');
-
-commit;
-
-select * from club;
-
->>>>>>> branch 'master' of https://github.com/newTypeo/dagachi
