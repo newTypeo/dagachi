@@ -83,4 +83,28 @@ public class ChatController {
 		model.addAttribute("chatlogs",chatlogs);
 		
 	}
+	
+	@GetMapping("/findWriterProfile.do")
+	public ResponseEntity<?> findWriterProfile(
+			@RequestParam String from,
+			@RequestParam int to
+	){
+		List<MemberProfile> memberProfiles = memberService.findMemberProfileByClubId(to);
+		
+		String filename="";
+		
+		if(!memberProfiles.isEmpty()) {
+			for(MemberProfile memberProfile : memberProfiles) {
+				if(memberProfile.getMemberId().equals(from)) 
+					filename=memberProfile.getRenamedFilename();
+			}
+		}
+		
+		log.debug("filename={}",filename);
+		log.debug("memberProfiles={}",memberProfiles);
+		log.debug("from={}",from);
+		log.debug("to={}",to);
+		return ResponseEntity.status(HttpStatus.OK).body(filename);
+	}
+	
 }

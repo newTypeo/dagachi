@@ -152,10 +152,14 @@ a {
 		<script>
 		const memberId = "${memberId}";
 		const clubId = ${clubId};
-		const memberImg='<img alt="" src="${pageContext.request.contextPath}/resources/upload/member/profile/<sec:authentication property="principal.memberProfile.renamedFilename"/>">';
+		const loot="${pageContext.request.contextPath}";
+	 	let pro='';
+
 		console.log(memberId);
 		
 	</script>
+	
+	
 
 		<section id="club-chatRoom-sec" class="">
 
@@ -184,7 +188,7 @@ a {
 									<c:forEach items="${memberProfiles}" var="memberProfile">
 										<c:if test="${memberProfile.memberId eq chatlog.writer}">
 											<img alt=""
-												src="${pageContext.request.contextPath}/resources/upload/member/profile/${memberProfile.renamedFilename}/>">
+												src="${pageContext.request.contextPath}/resources/upload/member/profile/${memberProfile.renamedFilename}" />
 										</c:if>
 									</c:forEach>
 								</div>
@@ -218,7 +222,19 @@ a {
 
 	</sec:authorize>
 	<script>
-
+const loadPro=(from,to)=>{
+	$.ajax({
+ 		url:'${pageContext.request.contextPath}/chat/findWriterProfile.do',
+ 		data : {from,to},
+ 		success(data){
+ 			console.log(data);
+ 			if(data !== null){
+ 				pro="\${data}";
+ 			}
+ 		}
+ 	
+ 	});
+};
 
 
 document.querySelector("#msgBox").addEventListener("keydown",(e)=>{
