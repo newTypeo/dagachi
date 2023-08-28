@@ -82,7 +82,6 @@
 				</script>
 				
 			</div>
-			<sec:authentication property="principal"/>
 		</sec:authorize>
 	</nav>
 </div>
