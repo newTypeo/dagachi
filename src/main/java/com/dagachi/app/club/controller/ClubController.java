@@ -166,8 +166,10 @@ public class ClubController {
 	 * @author ?
 	 */
 	@GetMapping("/{domain}/clubBoardList.do")
-	public String boardList(@PathVariable("domain") String domain, Model model) {
+	public String boardList(@PathVariable("domain") String domain, @RequestParam(required = false) int no, Model model) {
+		
 		model.addAttribute("domain", domain);
+		model.addAttribute("no", no);
 		return "/club/clubBoardList";
 	}
 
@@ -807,15 +809,19 @@ public class ClubController {
 	 * @author 준한
 	 */
 	@GetMapping("/{domain}/clubUpdate.do")
-	public String clubUpdate(@PathVariable("domain") String domain, Model model) {
+	public String clubUpdate(@PathVariable("domain") String domain, @AuthenticationPrincipal MemberDetails member, Model model) {
 		int clubId = clubService.clubIdFindByDomain(domain);
 		Club club = clubService.findClubById(clubId);
 		ClubProfile clubProfile = clubService.findClubProfileById(clubId);
 		List<ClubTag> clubTagList = clubService.findClubTagById(clubId);
 
-		log.debug("club = {}", club);
-		log.debug("clubProfile={}", clubProfile);
-		log.debug("clubTag = {}", clubTagList);
+		String memberId = member.getMemberId();
+		ClubMemberRole clubMemberRole = ClubMemberRole.builder().clubId(clubId).loginMemberId(memberId).build();
+
+		// 로그인한 회원 아이디로 해당 모임의 권한 가져오기
+		int memberRole = clubService.memberRoleFindByMemberId(clubMemberRole);
+		
+		model.addAttribute("memberRole", memberRole);
 		model.addAttribute("club", club);
 		model.addAttribute("clubProfile", clubProfile);
 		model.addAttribute("clubTagList", clubTagList);
@@ -967,9 +973,15 @@ public class ClubController {
 	 * @author ?
 	 */
 	@GetMapping("/{domain}/clubStyleUpdate.do")
-	public String clubLayoutUpdate(@PathVariable("domain") String domain, Model model) {
+	public String clubLayoutUpdate(@PathVariable("domain") String domain, @AuthenticationPrincipal MemberDetails member, Model model) {
 		int clubId = clubService.clubIdFindByDomain(domain);
+		String memberId = member.getMemberId();
 		ClubLayout layout = clubService.findLayoutById(clubId);
+		ClubMemberRole clubMemberRole = ClubMemberRole.builder().clubId(clubId).loginMemberId(memberId).build();
+
+		// 로그인한 회원 아이디로 해당 모임의 권한 가져오기
+		int memberRole = clubService.memberRoleFindByMemberId(clubMemberRole);
+		model.addAttribute("memberRole", memberRole);
 
 		model.addAttribute("layout", layout);
 		model.addAttribute("domain", domain);
@@ -993,9 +1005,15 @@ public class ClubController {
 	 * @author ?
 	 */
 	@GetMapping("/{domain}/clubTitleUpdate.do")
-	public String clubTitleUpdate(@PathVariable("domain") String domain, Model model) {
+	public String clubTitleUpdate(@PathVariable("domain") String domain, @AuthenticationPrincipal MemberDetails member, Model model) {
 		int clubId = clubService.clubIdFindByDomain(domain);
+		String memberId = member.getMemberId();
 		ClubLayout layout = clubService.findLayoutById(clubId);
+		ClubMemberRole clubMemberRole = ClubMemberRole.builder().clubId(clubId).loginMemberId(memberId).build();
+
+		// 로그인한 회원 아이디로 해당 모임의 권한 가져오기
+		int memberRole = clubService.memberRoleFindByMemberId(clubMemberRole);
+		model.addAttribute("memberRole", memberRole);
 		model.addAttribute("layout", layout);
 		model.addAttribute("domain", domain);
 		return "club/clubTitleUpdate";
@@ -1172,6 +1190,12 @@ public class ClubController {
 		return "/club/clubGallery";
 		
 		
+	}
+	
+	@GetMapping("{domain}/clubManage.do") 
+	public String clubManage(@PathVariable("domain") String domain, @AuthenticationPrincipal MemberDetails member, Model model) {
+		
+		return "/club/clubManage";
 	}
 	
 }

@@ -5,6 +5,8 @@ body {
 }
 
 a {
+	color: inherit;
+	text-decoration: none;
 	cursor: pointer;
 }
 
@@ -66,30 +68,34 @@ footer {
 
 
 /************* 클럽 레이아웃 업데이트 **************/
-#layout-update {
-	background-color: lightyellow;
+#update-btn-container {
+	width: 800px;
+	margin: 20px auto;
 }
-#layout-update h5, #layout-update h3 {
+#layout-update {
+	width: 800px;
+	margin: 20px auto;
+}
+h5, h3 {
 	margin: 10px 20px;
 	font-weight: bold;
 }
 
 .lsc {
 	background-color: #ddd;
-	width: 1280px;
-	margin: 0 20px;
+	width: 800px;
 	padding: 20px;
 	border-radius: 5px;
 	display: flex;
 }
 .lscl {
 	background-color: white;
-	width: 760px;
+	width: 540px;
 	border-radius: 5px;
 }
 .lscr {
 	background-color: white;
-	width: 460px;
+	width: 200px;
 	border-radius: 5px;
 	margin-left: 20px;
 }
@@ -105,7 +111,7 @@ footer {
 	background-color: pink;
 	width: 360px;
 	height: 540px;
-	margin: 60px;
+	margin: 40px;
 }
 #color-select-continer {
 	display: flex;
@@ -114,7 +120,7 @@ footer {
 }
 #color-select-continer > div:last-of-type {
 	margin-right: 20px;
-	height: 40px;
+	height: 60px;
 }
 #color-select-continer > div > label {
 	margin: 0 20px;
@@ -130,9 +136,72 @@ footer {
 }
 
 
+.myProfile {
+	width: 100px;
+	height: 100px;
+}
+.myProfile > img {
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+}
 
 
+#club-page-article {
+	width: 1320px;
+	display: flex;
+	flex-wrap: wrap;
+}
 
+#club-myInfo-container {
+	background-color: pink;
+	width: 260px;
+	height: 260px;
+	margin: 0 20px;
+	display: flex;
+}
+
+#club-total-container {
+	width: 260px;
+	margin: 0 20px;
+	border-top: 3px solid;
+}
+
+#club-total-container > div {
+	border-bottom: 1px solid #ccc;
+	padding: 5px 0;
+	display: flex;
+	flex-direction: column;
+}
+#club-total-container > div > a {
+	padding: 5px 0;
+}
+
+#club-total-container > div:first-of-type > a {
+	font-size: 18px;
+	font-weight: bold;
+}
+
+#club-search-container1 {
+	margin: 20px 20px 0 20px;
+}
+
+#club-search-container1 > form > input:focus {
+	outline: none;
+}
+
+#club-search-container1 > form > input {
+	width: 210px;
+	border: 1px solid;
+	border-radius: 2px 0 0 2px;
+}
+
+#club-search-container1 > form > button {
+	width: 50px;
+	margin-left: -11px;
+	border: 1px solid;
+	border-radius: 0 2px 2px 0;
+}
 
 
 

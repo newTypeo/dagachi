@@ -64,12 +64,7 @@
 	
 	<nav id="club-button">
 		<!-- 방장일 경우에 -->
-		<c:if test ="${memberRole eq 3}">
-			<button type="button" class="btn btn-success" id="club-update-btn">모임 정보 수정</button>
-			<button type="button" class="btn btn-danger" id="clubDisabled">모임 삭제</button>
-			<button type="button" class="btn btn-warning" id="club-style-update">모임 스타일 설정</button>
-			<button type="button" class="btn btn-info" id="club-title-update">모임 타이틀 설정</button>
-		</c:if>
+		
 		
 		<button type="button" class="btn btn-danger" id="clubReport">🚨</button>
 		
@@ -79,7 +74,7 @@
 		</c:if>
 		
 		<a href ="${pageContext.request.contextPath}/club/${domain}/clubMemberList.do">모임내 회원조회</a>
-			<button type="button" class="btn btn-danger" id="clubLike" onclick="clubLike()">❤️</button>
+		<button type="button" class="btn btn-danger" id="clubLike" onclick="clubLike()">❤️</button>
 	</nav>
 	<form:form
 		name="clubLikeFrm"
@@ -146,31 +141,8 @@ const clubReportSubmit = () => {
 };
 
 
-// 준한(모임 비활성화)
-	const domain = "<%= request.getAttribute("domain") %>"; 
-	// 서버 사이드에서 domain 값을 가져와서 설정
-    document.querySelector("#clubDisabled").onclick = (e) => {
-        const userConfirmation = confirm("정말 비활성화 하시겠습니까?");
-        if (userConfirmation) {
-            // 도메인 값을 사용하여 컨트롤러로 이동하는 코드를 추가
-            window.location.href = "${pageContext.request.contextPath}/club/" + domain + "/clubDisabled.do";
-            alert('모임이 성공적으로 비활성화 되었습니다.');
-        }
-    };
-  
-document.querySelector("#club-update-btn").onclick = () => {
-	location.href = '${pageContext.request.contextPath}/club/'+domain+'/clubUpdate.do';
-}
 
-document.querySelector("#club-style-update").onclick = () => {
-	location.href = '${pageContext.request.contextPath}/club/'+domain+'/clubStyleUpdate.do';
-}
 
-document.querySelector("#club-title-update").onclick = () => {
-	location.href = '${pageContext.request.contextPath}/club/'+domain+'/clubTitleUpdate.do';
-}
-
-console.log('${layout}');
 document.body.style.background = '${layout.backgroundColor}';
 
 document.querySelectorAll('.fontColors').forEach((elem) => {

@@ -27,8 +27,9 @@ body {
 }
 
 /********** 전체컨테이너 **********/
-div #container {
-	
+#section {
+	width: 1320px;
+	margin: 0 auto;
 }
 
 /********** header **********/
