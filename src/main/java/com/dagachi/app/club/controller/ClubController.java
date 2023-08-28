@@ -68,6 +68,8 @@ import com.dagachi.app.club.entity.ClubBoard;
 import com.dagachi.app.club.entity.ClubBoardAttachment;
 import com.dagachi.app.club.entity.ClubBoardDetails;
 import com.dagachi.app.club.entity.ClubDetails;
+import com.dagachi.app.club.entity.ClubGallery;
+import com.dagachi.app.club.entity.ClubGalleryAttachment;
 import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
@@ -1157,6 +1159,10 @@ public class ClubController {
 		 return "redirect:/club/" + domain;
 	}
 	
+	/**
+	 * 갤러리 들어가기
+	 * @author 준한 
+	 */
 	@GetMapping("{domain}/clubGallery.do")
 	public String clubGallery(
 			@PathVariable ("domain") String domain,
@@ -1170,8 +1176,83 @@ public class ClubController {
 		model.addAttribute("clubGalleryAndImages",clubGalleryAndImages);
 		
 		return "/club/clubGallery";
-		
-		
 	}
+	
+	/**
+	 * 갤러리 상세보기
+	 * @author 준한
+	 */
+	@GetMapping("/{domain}/{galleryId}")
+	public String clubGalleryDetail(
+			@PathVariable ("galleryId") int id,
+			@PathVariable ("domain") String domain,
+			@AuthenticationPrincipal MemberDetails loginMember,
+			Model model
+			) {
+		
+		List<GalleryAndImageDto> galleryAndImages = clubService.findGalleryAndImageByGalleryId(id);
+		
+		String writer = galleryAndImages.get(0).getMemberId();
+		model.addAttribute("domain",domain);
+		model.addAttribute("id",id);
+		model.addAttribute("writer",writer); // 갤러리 게시글 작성자
+		model.addAttribute("galleryAndImages",galleryAndImages); // 갤러리 첨부파일 배열
+		model.addAttribute("loginMember",loginMember); // 로그인 객체
+		
+		return "/club/clubGalleryDetail";
+	}
+	
+	/**
+	 * 갤러리 삭제
+	 * @author 준한
+	 */
+	@GetMapping("/{domain}/{id}/clubGalleryDelete.do")
+	public String clubGalleryDelete(
+			@AuthenticationPrincipal MemberDetails loginMember,
+			Model model,
+			@PathVariable("id") int id,
+			@PathVariable("domain") String domain
+			
+			) {
+		int result = clubService.clubGalleryDelete(id);
+		
+		return "redirect:/club/" + domain+"/clubGallery.do";
+	}
+	
+	@GetMapping("/{domain}/clubGalleryInsert.do")
+	public String clubGalleryInsert(
+			@AuthenticationPrincipal MemberDetails loginMember,
+			Model model,
+			@PathVariable("domain") String domain
+			) {
+		int clubId = clubService.clubIdFindByDomain(domain);
+		
+		model.addAttribute("domain",domain);
+		model.addAttribute("clubId", clubId);
+		model.addAttribute("loginMember",loginMember);
+		
+		return "club/clubGalleryInsert";
+	}
+	
+//	@PostMapping("{domain}/clubGalleryInsert.do")
+//	public String clubGalleryCreate(
+//			@AuthenticationPrincipal MemberDetails loginMember,
+//			Model model,
+//			BindingResult bindingResult,
+//			@RequestParam(value = "upFile", required = false) List<MultipartFile> upFiles,
+//			@PathVariable("domain") String domain
+//			) {
+//		ClubGallery clubGallery = new ClubGallery();
+//		List<ClubGalleryAttachment> attachments = new ArrayList<>();
+//		if (!upFiles.isEmpty())
+//			attachments = clubGalleryCreate(upFiles, attachments);
+//		Club club = clubService.findByDomain(domain);
+//		int clubId = club.getClubId();
+//		
+//		
+//		return "/club/"+domain+"/clubGallery";
+//	}
+
+
 	
 }

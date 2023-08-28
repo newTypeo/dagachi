@@ -8,6 +8,7 @@ public class ClubGalleryAndImage {
 
 	private int galleryId;
 	private int clubId;
+	private String memberId;
 	private int likeCount;
 	private String status;
 	private int id; // attachment id임

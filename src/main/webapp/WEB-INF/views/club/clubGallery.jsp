@@ -8,10 +8,10 @@
 	<jsp:param value="게시글" name="title" />
 </jsp:include>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/layoutType0.css"/>
-	
+	<button onclick = "insertGallery()">사진 올리기</button>
 	<div id = "club-detail-gallery">
 		<c:forEach items="${clubGalleryAndImages}" var="clubGalleryAndImage" >
-				<a href="${pageContext.request.contextPath}/club/${clubGalleryAndImage.id}/clubGalleryDetail.do">
+				<a href="${pageContext.request.contextPath}/club/${domain}/${clubGalleryAndImage.id}">
 				<div id="gallery-photo-div">
 					<div id="like-count">
 						<h3 style="display:inline">💕${clubGalleryAndImage.likeCount}<h3>
@@ -22,4 +22,11 @@
 		</c:forEach>
 	</div>
 
+
+<script>
+const insertGallery = () => {
+	window.location.href = "${pageContext.request.contextPath}/club/${domain}/clubGalleryInsert.do"
+};
+
+</script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

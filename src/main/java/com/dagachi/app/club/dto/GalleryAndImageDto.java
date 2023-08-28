@@ -12,6 +12,7 @@ public class GalleryAndImageDto {
 	private int galleryId;
 	
 	private int clubId;
+	private String memberId;
 	private int likeCount;
 	private Status status;
 	

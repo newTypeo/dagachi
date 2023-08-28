@@ -162,5 +162,9 @@ public interface ClubService {
 
 	List<Club> findClubsByMemberId(String memberId);
 
+	List<GalleryAndImageDto> findGalleryAndImageByGalleryId(int id);
+
+	int clubGalleryDelete(int id);
+
 
 }

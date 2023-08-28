@@ -520,4 +520,17 @@ public class ClubServiceImpl implements ClubService {
 	public List<Club> findClubsByMemberId(String memberId) {
 		return clubRepository.findClubsByMemberId(memberId);
 	}
+	
+	@Override
+	public List<GalleryAndImageDto> findGalleryAndImageByGalleryId(int id) {
+		return clubRepository.findGalleryAndImageByGalleryId(id);
+	}
+	
+	@Override
+	public int clubGalleryDelete(int id) {
+		int result = 0;
+		result = clubRepository.clubGalleryAttachDelete(id);
+		
+		return clubRepository.clubGalleryDelete(id);
+	}
 }
