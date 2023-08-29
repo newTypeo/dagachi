@@ -56,9 +56,10 @@
 		<p>이메일 :  ${member.email}</p>
 		<p>MBTI : ${member.mbti}</p>
 		<div class="icons">
-
+			<c:if test="${member.memberId eq loginMember.memberId}">
 			<a type="button" onclick="payment();">∘ 모임생성 1회권 구매</a>
 			<span class="verticalBar">|</span> 
+			</c:if>
 			<c:if test="${member.memberId eq loginMember.memberId}">
 				<!-- 로그인한 객체가 보고있는 객체가 같을 때 -->
 				<a type="button" onclick="updateMember()">∘ 정보 수정</a>
@@ -105,11 +106,6 @@
    </div>
 </div>
 
-<c:if test="${member.memberId ne loginMember.memberId}">
-	<!-- 로그인한 객체가 보고있는 객체가 다를 때 -->
-	<button type="button" class="btn btn-outline-danger"
-		onclick="memberLike()">좋아요</button>
-</c:if>
 
 <form:form name="memberLikeFrm" method="POST"
 	action="${pageContext.request.contextPath}/member/memberLike.do">
