@@ -5,6 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <fmt:requestEncoding value="utf-8" />
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/common/navBar.jsp"></jsp:include>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/clubSearch.css" />
 
@@ -14,16 +15,11 @@
 	<div id="filter-wrap">
 		<form
 			action="${pageContext.request.contextPath}/club/searchClubWithFilter.do">
-			<label for="activityArea">활동 지역:</label> <select
-				id="filter-activityArea" name="region">
-				<!-- js로 options 처리 -->
-			</select> <select id="filter-activityAreaDetail" name="zone"
-				style="display: none;">
-				<!-- js로 options 처리 -->
-			</select> <label for="category">모임 분류:</label> <select id="filter-category"
-				name="category">
-				<!-- js로 options 처리 -->
-			</select>
+			<label for="activityArea">활동 지역:</label> 
+			<select id="filter-activityArea" name="region"><!-- js로 options 처리 --></select> 
+			<select id="filter-activityAreaDetail" name="zone" style="display: none;"><!-- js로 options 처리 --></select>
+			
+			<label for="category">모임 분류:</label> <select id="filter-category" name="category"> <!-- js로 options 처리 --></select>
 
 			<button>필터 적용</button>
 		</form>

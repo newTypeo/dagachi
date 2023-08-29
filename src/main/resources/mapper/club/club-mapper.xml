@@ -99,13 +99,15 @@
 		club c left join club_profile cp
 		on c.club_id = cp.club_id
 		where
-		club_name like '%' || #{inputText} || '%'
-		or
-		category like '%' ||
-		#{inputText} || '%'
-		or
-		activity_area like '%' || #{inputText} || '%'
-		and
+		<if test="inputText != ''">
+			club_name like '%' || #{inputText} || '%'
+			or
+			category like '%' ||
+			#{inputText} || '%'
+			or
+			activity_area like '%' || #{inputText} || '%'
+			and
+		</if>
 		status = 'Y'
 		order by
 		c.created_at desc
@@ -124,14 +126,13 @@
 			club_profile cp
 			on c.club_id = cp.club_id
 		where
-			(club_name like '%' ||
-			#{inputText} || '%'
+			(club_name like '%' || #{inputText} || '%'
 			or
 			category like '%' || #{inputText} || '%'
 			or
 			activity_area like '%' || #{inputText} || '%')
 			<if test="area != null and area != ''">
-				and activity_area = #{area}
+				and activity_area = '%' || #{area} || '%'
 			</if>
 			<if test="category != null and category != ''">
 				and category = #{category}

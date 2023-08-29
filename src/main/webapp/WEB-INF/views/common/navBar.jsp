@@ -19,7 +19,7 @@
 	
 	<div id="search-container">
 		<form id="clubSearchFrm" action="${pageContext.request.contextPath}/club/clubSearch.do">
-			<input type="text" name="inputText" id="search-club-box" placeholder="BTS 봉준호 다가치 Let's go" required/>
+			<input type="text" name="inputText" id="search-club-box" placeholder="BTS 봉준호 다가치 Let's go"/>
 			<button id="search-club-btn"><i class="fa-solid fa-magnifying-glass fa-xl"></i></button>
 		</form>
 		<div id="search-detail">
