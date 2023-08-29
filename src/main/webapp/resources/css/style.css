@@ -138,7 +138,6 @@ section .posts .card{
 	display: inherit;
 	width: 20%;
 	color: #051619;
-	border: 1px solid #051619;
 	border-width: 0 1px 1px 2px;
 	cursor: pointer;
 	height : 460px;
@@ -152,7 +151,6 @@ section .posts2 .card{
 	display: inherit;
 	width: 20%;
 	color: #051619;
-	border: 1px solid #051619;
 	border-width: 0 1px 1px 2px;
 	cursor: pointer;
 	height : 460px;
@@ -166,7 +164,6 @@ section .posts3 .card{
 	display: inherit;
 	width: 20%;
 	color: #051619;
-	border: 1px solid #051619;
 	border-width: 0 1px 1px 2px;
 	cursor: pointer;
 	height : 460px;
@@ -236,6 +233,10 @@ section .posts3 {
 }
 
 /*프로필*/
+.verticalBar {
+	color : gainsboro;
+}
+
 figure.snip0045 {
   font-family: 'Raleway', Arial, sans-serif;
   position: relative;
@@ -253,23 +254,18 @@ figure.snip0045 * {
 }
 
 figure.snip0045 > img {
-  width: 50%;
+ 
   border-radius: 50%;
-  border: 4px solid #ffffff;
-  -webkit-transition: all 0.35s ease-in-out;
-  transition: all 0.35s ease-in-out;
-  -webkit-transform: scale(1.6);
-  transform: scale(1.6);
+  border: 4px solid #dcdcdc;
   position: relative;
-  left: -15%;
   z-index: 1;
 }
 
 figure.snip0045 figcaption {
-  padding: 20px 30px 20px 20px;
+  padding: 10px 20px 10px 10px;
   position: absolute;
   right: 0;
-  width: 50%;
+  width: 65%;
 }
 
 figure.snip0045 figcaption h2,
@@ -327,6 +323,7 @@ figure.snip0045 .position {
   font-style: italic;
   color: #ffffff;
   background: #000000;
+  display : none;
 }
 
 figure.snip0045.blue .position {
@@ -343,11 +340,6 @@ figure.snip0045.yellow .position {
 
 figure.snip0045.green .position {
   background: #1e8449;
-}
-
-figure.snip0045:hover > img,
-figure.snip0045.hover > img {
-  left: -12%;
 }
 
 .hide {
@@ -376,7 +368,7 @@ figure.snip0045.hover > img {
 }
 
 .liked-members-list {
-	max-height: 350px; /* Adjust the height as needed */
+	max-height: 280px; /* Adjust the height as needed */
 	overflow-y: auto;
 }
 
@@ -405,7 +397,7 @@ figure.snip0045.hover > img {
 }
 
 /* 여기부터 준한이 css 시도 */
-.card {
+.posts .card,.posts2 .card, .posts3 .card {
 	height: 400px;
 	width: 350px;
 	border-radius: 15px;
@@ -446,3 +438,23 @@ figure.snip0045.hover > img {
     animation: cardReturn 0.3s forwards;
 }
 
+.col-md-4 {
+    -ms-flex: 0 0 33.333333%;
+    flex: 0 0 33.333333%;
+    max-width: 25%;
+}
+
+.mt-4 .card{
+	position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: 15px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}

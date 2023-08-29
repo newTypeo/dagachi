@@ -23,6 +23,7 @@ import com.dagachi.app.club.dto.ClubEnrollDto;
 import com.dagachi.app.club.dto.ClubGalleryAndImage;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
+import com.dagachi.app.club.dto.ClubNameAndCountDto;
 import com.dagachi.app.club.dto.ClubReportDto;
 import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
 import com.dagachi.app.club.dto.JoinClubMember;
@@ -270,6 +271,9 @@ public interface ClubRepository {
 	@Insert("insert into cbc_like values(#{memberId}, 1, #{targetId}, default)")
 	int clubLike(Map<String, Object> params);
 	
+	@Delete("delete from CBC_like where member_id = #{memberId} and type = 1 and target_id = #{targetId}")
+	int cancelClubLike(Map<String, Object> params);
+	
 	List<ClubSearchDto> findClubByDistance(Map<String, Object> params);
 
 	int boardSize(ClubBoard clubBoard);
@@ -286,6 +290,8 @@ public interface ClubRepository {
 	
 	List<Club> findClubsByMemberId(String memberId);
 	
+	@Select("select club_name, created_at, (select count(*) from club_member where club_id = #{clubId}) member_count from club where club_id = #{clubId}")
+	ClubNameAndCountDto findClubInfoById(int clubId);
 	
 	@Insert("insert into CBC_like values(#{memberId}, 2, #{targetId}, default)")
 	int insertClubLike(Map<String, Object> params);
