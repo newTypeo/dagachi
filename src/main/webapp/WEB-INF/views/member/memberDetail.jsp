@@ -200,6 +200,7 @@
 
 
 <script>
+
 /* 화면의 width, height 값 구하기 (창환)*/
 const windowWidth = window.screen.width;
 const windowHeight = window.screen.height;
@@ -210,7 +211,6 @@ const popupHeight = 700;
 
 const popupX = (windowWidth/2) - (popupWidth/2);
 const popupY = (windowHeight/2) - (popupHeight/2);
-
 
 
 const withdrawalMember = () => {
