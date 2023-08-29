@@ -15,6 +15,7 @@ import com.dagachi.app.club.dto.ClubManageApplyDto;
 import com.dagachi.app.club.dto.ClubMemberAndImage;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
+import com.dagachi.app.club.dto.ClubNameAndCountDto;
 import com.dagachi.app.club.dto.ClubReportDto;
 import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
 import com.dagachi.app.club.dto.ClubSearchDto;
@@ -163,6 +164,8 @@ public interface ClubService {
 
 	List<Club> findClubsByMemberId(String memberId);
 
+	ClubNameAndCountDto findClubInfoById(int clubId);
+	
 	int likeBoard(Map<String, Object> params);
 
 	int checkBoardLiked(Map<String, Object> params);

@@ -152,10 +152,14 @@ a {
 		<script>
 		const memberId = "${memberId}";
 		const clubId = ${clubId};
-		const memberImg='<img alt="" src="${pageContext.request.contextPath}/resources/upload/member/profile/<sec:authentication property="principal.memberProfile.renamedFilename"/>">';
+		const loot="${pageContext.request.contextPath}";
+	 	
+
 		console.log(memberId);
 		
 	</script>
+	
+	
 
 		<section id="club-chatRoom-sec" class="">
 
@@ -184,7 +188,7 @@ a {
 									<c:forEach items="${memberProfiles}" var="memberProfile">
 										<c:if test="${memberProfile.memberId eq chatlog.writer}">
 											<img alt=""
-												src="${pageContext.request.contextPath}/resources/upload/member/profile/${memberProfile.renamedFilename}/>">
+												src="${pageContext.request.contextPath}/resources/upload/member/profile/${memberProfile.renamedFilename}" />
 										</c:if>
 									</c:forEach>
 								</div>
@@ -218,8 +222,26 @@ a {
 
 	</sec:authorize>
 	<script>
+const loadPro=(from,to)=>{
+	let pro='';
+	$.ajax({
+ 		url:'${pageContext.request.contextPath}/chat/findWriterProfile.do',
+ 		data : {from,to},
+ 		async :false,
+ 		success(data){
+ 			console.log(data,decodeURI(data));
+ 			if(data !== null){
+ 				pro= decodeURI(data);
+ 			}
+ 		}
+ 		
+ 	});
+	return pro;
+};
 
-
+const loadProProList=(clubId)=>{
+		
+};
 
 document.querySelector("#msgBox").addEventListener("keydown",(e)=>{
 	 if (e.key === "Enter" && !e.shiftKey) {

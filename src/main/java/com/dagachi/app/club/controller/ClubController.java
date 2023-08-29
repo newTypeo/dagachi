@@ -63,6 +63,7 @@ import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.KickMember;
 import com.dagachi.app.club.dto.ManageMember;
 import com.dagachi.app.club.dto.SearchClubBoard;
+import com.dagachi.app.club.dto.ClubNameAndCountDto;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
@@ -395,6 +396,8 @@ public class ClubController {
 
 		int clubId = clubService.clubIdFindByDomain(domain);
 
+		ClubNameAndCountDto clubInfo = clubService.findClubInfoById(clubId);
+		
 		ClubLayout layout = clubService.findLayoutById(clubId);
 
 		List<BoardAndImageDto> boardAndImages = clubService.findBoardAndImageById(clubId);
@@ -420,7 +423,7 @@ public class ClubController {
 		int memberRole = clubService.memberRoleFindByMemberId(clubMemberRole);
 		model.addAttribute("memberId", memberId);
 		model.addAttribute("memberRole", memberRole);
-
+		model.addAttribute("clubInfo", clubInfo);
 		model.addAttribute("domain", domain);
 		model.addAttribute("galleries", galleries);
 		model.addAttribute("boardAndImages", boardAndImages);
@@ -1341,17 +1344,13 @@ public class ClubController {
 			 int result = clubService.clubGalleryCreate2(createGalleryDto);
 		 }
 		
-		
-		
 		return "redirect:/club/" + domain;
 	}
 
 
 
-
 	@GetMapping("{domain}/clubManage.do") 
 	public String clubManage(@PathVariable("domain") String domain, @AuthenticationPrincipal MemberDetails member, Model model) {
-		
 		return "/club/clubManage";
 	}
 	

@@ -51,7 +51,7 @@
 		<h2>
 			<span>${member.name}</span>
 		</h2>
-		<strong>닉네임 : ${member.nickname}</strong>
+		<p>닉네임 : ${member.nickname}</p>
 		<p>성별 : ${member.gender eq 'M' ? '남' : '여'}</p>
 		<p>이메일 :  ${member.email}</p>
 		<p>MBTI : ${member.mbti}</p>
@@ -71,59 +71,36 @@
 	</figcaption>
 	<img
 		src="${pageContext.request.contextPath}/resources/upload/member/profile/${memberProfile.renamedFilename}"
-		alt="sample7" style="width: 380px; height: 360px;" />
+		alt="sample7" style="width: 260px; height: 280px;" />
 	<div class="position">My Profile</div>
 </figure>
  <div class="container2">
-       <div class="row justify-content-center2">
-           <div class="col-md-8-2">
-               <div class="profile-card2">
-                   <div class="liked-members-title">
-                       <h2>나를 좋아한 회원</h2>
-                   </div>
-                   <div class="liked-members-list">
-                       <ul>
-                       	<c:forEach items="${likeMe}" var="like" varStatus="vs">
-                           <li><a href="${pageContext.request.contextPath}/member/${like.likeSender}">❤️ ${like.likeSender}</a></li>
-                         </c:forEach>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                       </ul>
-                   </div>
-               </div>
-           </div>
-       </div>
+	 <c:if test="${member.memberId eq loginMember.memberId}">
+	       <div class="row justify-content-center2">
+	           <div class="col-md-8-2">
+	               <div class="profile-card2">
+	                   <div class="liked-members-title">
+	                       <h2>나를 좋아한 회원</h2>
+	                   </div>
+	                   
+	                   <div class="liked-members-list">
+	                       <ul>
+	                       	<c:forEach items="${likeMe}" var="like" varStatus="vs">
+	                           <li><a href="${pageContext.request.contextPath}/member/${like.likeSender}">❤️ ${like.likeSender}</a></li>
+	                         </c:forEach>
+	                       </ul>
+	                   </div>
+	               </div>
+	           </div>
+	       </div>
+	   </c:if>
+	   	<c:if test="${member.memberId ne loginMember.memberId}">
+			<!-- 로그인한 객체가 보고있는 객체가 다를 때 -->
+			<button type="button" class="btn btn-outline-danger"
+			onclick="memberLike()">좋아요</button>
+		</c:if>
    </div>
 </div>
-
-
-
-<h1>나에게 좋아요를 한 사람 table</h1>
-<c:forEach items="${likeMe}" var="like" varStatus="vs">
-	<a href="${pageContext.request.contextPath}/member/${like.likeSender}">${like.likeSender}</a>
-</c:forEach>
-
 
 <c:if test="${member.memberId ne loginMember.memberId}">
 	<!-- 로그인한 객체가 보고있는 객체가 다를 때 -->

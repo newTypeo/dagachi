@@ -130,8 +130,8 @@ footer {
 }
 
 section .posts .card{
-	margin: 30px; /* 카드들 사이의 간격을 설정합니다 */
-    flex-basis: calc(15% - 30px); /* 카드의 초기 크기를 설정합니다 */
+	margin: 9px; /* 카드들 사이의 간격을 설정합니다 */
+    flex-basis: calc(22% - 45px); /* 카드의 초기 크기를 설정합니다 */
 	box-sizing: border-box;
 	position: relative;
 	text-decoration: none;
@@ -144,8 +144,8 @@ section .posts .card{
 	height : 460px;
 }
 section .posts2 .card{
-	margin: 30px; /* 카드들 사이의 간격을 설정합니다 */
-    flex-basis: calc(15% - 30px); /* 카드의 초기 크기를 설정합니다 */
+	margin: 9px; /* 카드들 사이의 간격을 설정합니다 */
+    flex-basis: calc(22% - 45px); /* 카드의 초기 크기를 설정합니다 */
 	box-sizing: border-box;
 	position: relative;
 	text-decoration: none;
@@ -158,8 +158,8 @@ section .posts2 .card{
 	height : 460px;
 }
 section .posts3 .card{
-	margin: 30px; /* 카드들 사이의 간격을 설정합니다 */
-    flex-basis: calc(15% - 30px); /* 카드의 초기 크기를 설정합니다 */
+	margin: 9px; /* 카드들 사이의 간격을 설정합니다 */
+    flex-basis: calc(22% - 45px); /* 카드의 초기 크기를 설정합니다 */
 	box-sizing: border-box;
 	position: relative;
 	text-decoration: none;
@@ -253,23 +253,18 @@ figure.snip0045 * {
 }
 
 figure.snip0045 > img {
-  width: 50%;
+ 
   border-radius: 50%;
-  border: 4px solid #ffffff;
-  -webkit-transition: all 0.35s ease-in-out;
-  transition: all 0.35s ease-in-out;
-  -webkit-transform: scale(1.6);
-  transform: scale(1.6);
+  border: 4px solid #dcdcdc;
   position: relative;
-  left: -15%;
   z-index: 1;
 }
 
 figure.snip0045 figcaption {
-  padding: 20px 30px 20px 20px;
+  padding: 10px 20px 10px 10px;
   position: absolute;
   right: 0;
-  width: 50%;
+  width: 65%;
 }
 
 figure.snip0045 figcaption h2,
@@ -327,6 +322,7 @@ figure.snip0045 .position {
   font-style: italic;
   color: #ffffff;
   background: #000000;
+  display : none;
 }
 
 figure.snip0045.blue .position {
@@ -343,11 +339,6 @@ figure.snip0045.yellow .position {
 
 figure.snip0045.green .position {
   background: #1e8449;
-}
-
-figure.snip0045:hover > img,
-figure.snip0045.hover > img {
-  left: -12%;
 }
 
 .hide {
@@ -376,7 +367,7 @@ figure.snip0045.hover > img {
 }
 
 .liked-members-list {
-	max-height: 350px; /* Adjust the height as needed */
+	max-height: 280px; /* Adjust the height as needed */
 	overflow-y: auto;
 }
 
@@ -403,3 +394,46 @@ figure.snip0045.hover > img {
 .container2 {
 	margin-left: 150px;
 }
+
+/* 여기부터 준한이 css 시도 */
+.card {
+	height: 400px;
+	width: 350px;
+	border-radius: 15px;
+	display: inline-block;
+	margin-top: 30px;
+	margin-left: 30px;
+	margin-bottom: 30px;
+	position: relative;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	overflow: hidden;
+	transition: all 0.3s ease-in;
+}
+
+
+@keyframes cardHover {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-5px);
+    }
+}
+
+.card:hover {
+    animation: cardHover 0.3s forwards;
+}
+
+@keyframes cardReturn {
+    0% {
+        transform: translateY(-5px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.card:not(:hover) {
+    animation: cardReturn 0.3s forwards;
+}
+
