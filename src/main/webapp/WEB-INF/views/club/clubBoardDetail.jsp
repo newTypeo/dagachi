@@ -4,7 +4,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/clubBoardDetail.css" />
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="게시글" name="title" />
 </jsp:include>
@@ -72,7 +71,7 @@
 				headers: {
 					"X-CSRF-TOKEN": token
 				},
-				success(data){
+				success(data) {
 					alert(data);
 					window.location.href = "${pageContext.request.contextPath}/club/${domain}/clubBoardList.do";
 				}

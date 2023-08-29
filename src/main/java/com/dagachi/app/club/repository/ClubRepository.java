@@ -271,6 +271,9 @@ public interface ClubRepository {
 	@Insert("insert into cbc_like values(#{memberId}, 1, #{targetId}, default)")
 	int clubLike(Map<String, Object> params);
 	
+	@Delete("delete from CBC_like where member_id = #{memberId} and type = 1 and target_id = #{targetId}")
+	int cancelClubLike(Map<String, Object> params);
+	
 	List<ClubSearchDto> findClubByDistance(Map<String, Object> params);
 
 	int boardSize(ClubBoard clubBoard);
