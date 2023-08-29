@@ -255,9 +255,6 @@ const loadPro=(from,to)=>{
 	return pro;
 };
 
-const loadProProList=(clubId)=>{
-		
-};
 
 document.querySelector("#msgBox").addEventListener("keydown",(e)=>{
 	 if (e.key === "Enter" && !e.shiftKey) {
