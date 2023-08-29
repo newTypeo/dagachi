@@ -1153,41 +1153,7 @@ public class ClubController {
 
 	}
 	
-	/**
-	 * 이메일인증으로 아이디 찾기
-	 * @author 준한
-	 */
-	@PostMapping("/searchIdModal.do")
-	 public ResponseEntity<?> sendVerificationCode(
-			 @RequestParam("username") String username, 
-             @RequestParam("email") String email,
-             JavaMailSender javaMailSender
-			 ) {
-		 
-		 Member member = memberService.findMemberByName(username);
-		 Member member2 = memberService.findMemberByEmail(email);
-		 
-		 if(member != null && member2 != null && member.equals(member2)) {
-			 // 입력받은 이름과 이메일이 db에 있는 정보와 일치할 시,
-//			 0 이상 1 미만의 랜덤한 double 값
-//			 double randomValue = Math.random(); 
-//		     String randomValueAsString = Double.toString(randomValue);
-			 String title = "다가치 아이디 찾기 인증코드 발송메일";
-			 String hi = "hi";
-			 SimpleMailMessage message = new SimpleMailMessage();
-			 message.setTo(email);
-			 message.setSubject(title);
-			 message.setText(hi);
-			 
-			 javaMailSender.send(message);
-			 
-		 }else {
-			 
-		 }
-		 
-		 return ResponseEntity.status(HttpStatus.OK).body(username);
-	 }
-	 
+	
 
 	/**
 	 * @author 현우

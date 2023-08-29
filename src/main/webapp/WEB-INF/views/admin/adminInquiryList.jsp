@@ -30,7 +30,7 @@ div#search-content {
 
 <section id="admin-inquiry-sec"  class="p-2 quit-member-list sectionList">
 
-	<h1>문의 목록/관리 페이지</h1>
+	<h1>문의 목록</h1>
 	<div id="member-list-wrapper">
 		<div id="search-container">
 			<div id="searchBar-wrap">
@@ -328,7 +328,7 @@ div#search-content {
 				}else{
 					html=`
 						<tr>
-							<td colspan="8">게시글이 없습니다. 제일먼저 게시글을 작성해보세요😁</td>
+							<td colspan="8">문의가 없습니다.😁</td>
 						</tr>
 					`;
 				}

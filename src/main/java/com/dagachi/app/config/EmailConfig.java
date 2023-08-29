@@ -27,24 +27,24 @@ public class EmailConfig {
     @Bean
     public JavaMailSender javaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost(host);
-        mailSender.setPort(port);
-        mailSender.setUsername(username);
-        mailSender.setPassword(password);
+        mailSender.setHost("smtp.gmail.com");
+        mailSender.setPort(587);
+        mailSender.setUsername("khsso102649@gmail.com");
+        mailSender.setPassword("yjuikbjezgbyosyw");
         mailSender.setDefaultEncoding("UTF-8");
         mailSender.setJavaMailProperties(getMailProperties());
-
         return mailSender;
     }
 
     private Properties getMailProperties() {
         Properties properties = new Properties();
-        properties.put("mail.smtp.auth", auth);
-        properties.put("mail.smtp.starttls.enable", starttlsEnable);
-        properties.put("mail.smtp.starttls.required", starttlsRequired);
-        properties.put("mail.smtp.connectiontimeout", connectionTimeout);
-        properties.put("mail.smtp.timeout", timeout);
-        properties.put("mail.smtp.writetimeout", writeTimeout);
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true"); // 이 부분 추가
+        properties.put("mail.smtp.starttls.required", "true");
+        properties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+        properties.put("mail.smtp.connectiontimeout", "500");
+        properties.put("mail.smtp.timeout", "5000");
+        properties.put("mail.smtp.writetimeout", "5000");
 
         return properties;
     }
