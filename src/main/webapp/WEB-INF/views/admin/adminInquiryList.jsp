@@ -30,7 +30,7 @@ div#search-content {
 
 <section id="admin-inquiry-sec"  class="p-2 quit-member-list sectionList">
 
-	<h1>문의 목록/관리 페이지</h1>
+	<h1>문의 목록</h1>
 	<div id="member-list-wrapper">
 		<div id="search-container">
 			<div id="searchBar-wrap">
