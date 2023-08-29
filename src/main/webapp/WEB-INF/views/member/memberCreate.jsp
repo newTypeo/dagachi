@@ -7,54 +7,13 @@
 <%@ taglib prefix="sec"
    uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/member.css"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/memberCreate.css"/>
 <link href="toggle-radios.css" rel="stylesheet" />
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="회원가입" name="title" />
 </jsp:include>
-<style>
-.modal { top: -920px; }
-.modal-body { height: 400px; }
-#club-create-form-wrapper { margin: 50px auto; width: 800px; }
-.main-area-id-checked, .address-checked { padding: 5px; margin: 0; }
-.main-area-id-checked:hover, .address-checked:hover { background-color: #ddd; cursor: pointer; }
-#tagContainer { display: flex; background-color: lightskyblue; border-radius: 5px; }
-.tagWrapper { height: 30px; margin: 5px; border: 2px solid white; position: relative; border-radius: 5px; display: flex; }
-div#memberId-container { position: relative; padding: 0px; }
-div#memberId-container span.guide { display: none; font-size: 12px; position: absolute; top: 12px; right: 10px; }
-div#memberId-container span.ok { color: blue; }
-div#memberId-container span.error { color: red; }
 
-.top_area, .main_area {
-    margin: 0 auto;
-    width: 600px;
-}
-
-form:form {display: block;margin-top: 0em;}
-
-fieldset{ 
-   padding: 0 50px 50px;
-    margin-top: 47px;
-    border-bottom: 1px solid #d8d8d8;
-}
-
-label {    display: inline-block;
-    font-weight: bold;
-    font-size: 12px;
-    cursor: default;}
-    
-input {
-    padding: 0 6px;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    border: 1px solid #cccccc;
-    color: #333333;
-    background-color: #f8f8f8;
-    font-size: 12px;
-    vertical-align: middle;
-}
-</style>
-
+<div class = "content_wrapping max_width_area">
 <div id="enroll-container" class="mx-auto text-center">
 	<div class = "main_area">
 	 <form:form name="memberCreateFrm"
@@ -63,8 +22,10 @@ input {
 		  enctype="multipart/form-data">
 		  
 		  <h1>회원가입</h1>
+		  
 		<fieldset class = "area_agreement">
-			<div>
+		 <legend class="sub_title">필수 정보</legend>
+			<div class="group" >
 				<label>아이디</label>
 	               <div id="memberId-container">
 	                  <input type="text" 
@@ -82,44 +43,44 @@ input {
 	               </div>			
 			</div>		
 			
-			<div>
+			<div  class="group" >
 				<label>비밀번호</label>
 					<input type="password" class="form-control" name="password" id="password" value="1234" placeholder="대소문자 영문,특수문자,숫자를 포함하여 9자 이상" required>
 					<span class="passwordAlert"></span>			
 			</div>		
-			<div>
+			<div class="group" >
 				<label>비밀번호 확인</label>
 					<input type="password" class="form-control" id="passwordConfirmation" value="1234" placeholder="위의 비밀번호를 다시 입력해주세요" required>
 			</div>		
 			
-			<div>
+			<div class="group" >
 				<label>이름</label>
 					<input type="text" class="form-control" name="name" id="name" value="김나영"  placeholder="이름 입력(2글자 이상)" required>
 					<span class="nameAlert"></span>
 			</div>	
 			
-			<div>
+			<div class="group" >
 				<label>닉네임</label>
 					<input type="text" class="form-control" name="nickname" id="nickname" value="나영너굴" placeholder="사용할 닉네임을 작성해주세요." required>
 					<span class="nicknameAlert"></span>			
 			</div>	
 			
-			<div>
+			<div class="group" >
 				<label>전화번호</label>
 					<input type="text" class="form-control"  name="phoneNo" id="phoneNo" value="010-8119-1111" placeholder="010-0000-0000 양식에 맞게 작성해주세요"  >
 					<span class="phoneNoAlert"></span>
 			</div>	
 			
-			<div>
+			<div class="group" >
 				<label>생년월일</label>
 					<input type="date" class="form-control" name="birthday" id="birthday" value="2004-09-09"/>
 			</div>		
-			<div>
+			<div class="group" >
 				<label>이메일</label>
 					<input type="text" class="form-control"  name="email" id="email" value="nayoung11@naver.com" placeholder="이메일 양식에 맞게 작성해주세요">
 					<span class="emailAlert"></span>
 			</div>	
-			<div>
+			<div class="group" >
 				<label>성별</label>
 			        <input type="radio" name="gender" id="male" value="M" checked>
 			        <label for="male">남</label>
@@ -130,71 +91,86 @@ input {
 		</fieldset>
 		
 		<fieldset class = "area_interest">
-				<label for="activity_area">거주지</label> <!-- 필수값 지도 API 사용 + 상세 주소값 받아야함  -->
-					
+		
+		
+		 <legend class="sub_title">관심 정보</legend>
+		 
+				 <div  class="group" >
+					<label for="activity_area">거주지</label> <!-- 필수값 지도 API 사용 + 상세 주소값 받아야함  -->
+						
 						<div class="input-group">
-							<input type="text" class="form-control" id="activity_area" name="activityArea" readonly aria-describedby="button-addon2" placeholder="본인의 집 주소를 입력해주세요" value="${club.activityArea}">
+								<input type="text" class="form-control" id="activity_area" name="activityArea" readonly aria-describedby="button-addon2" placeholder="본인의 집 주소를 입력해주세요"">
+								<div class="input-group-append">
+									<button class="btn btn-outline-secondary" type="button" data-toggle="modal" 
+									data-target="#activity-area-modal" id="activity-area-search-btn" >검색</button>
+								</div>
+						</div>
+					</div>
+						<!-- <input type="text" class="form-control"  name="address" id="address" value="서울시 역삼동 구리230-1번지"> -->
+				
+				<div  class="group" >
+					<label for="main_area_id">활동 지역</label>
+						<div class="input-group">
+							<input type="text" class="form-control" id="main_area_id" name="mainAreaId" placeholder="주로 활동할 지역을 입력해주세요" readonly aria-describedby="button-addon2">
 							<div class="input-group-append">
 								<button class="btn btn-outline-secondary" type="button" data-toggle="modal" 
-								data-target="#activity-area-modal" id="activity-area-search-btn" >검색</button>
+								data-target="#main-area-id-modal" id="activity-area-search-btn">검색</button>
 							</div>
-						</div>
-						<!-- <input type="text" class="form-control"  name="address" id="address" value="서울시 역삼동 구리230-1번지"> -->
-				<label for="main_area_id">활동 지역</label>
-					<div class="input-group">
-						<input type="text" class="form-control" id="main_area_id" name="mainAreaId" placeholder="주로 활동할 지역을 입력해주세요" readonly aria-describedby="button-addon2">
-						<div class="input-group-append">
-							<button class="btn btn-outline-secondary" type="button" data-toggle="modal" 
-							data-target="#main-area-id-modal" id="activity-area-search-btn">검색</button>
-						</div>
-					</div>			
+						</div>	
+					</div>		
 		</fieldset>
-		
-		<fieldset class = "area_require">
+		<fieldset class = "type">
+		<div>관심 정보</div>
+			<div  class="group" >
 			    <label for="mbti">MBTI</label>
-			        <div class="toggle-radio" data-style="rounded"> 
-							<label><input type="radio" name="mbti" value="ISTJ" class="custom-radio" checked> ISTJ</label>
-							<label><input type="radio" name="mbti" value="ISFJ" class="custom-radio"> ISFJ</label>
-							<label><input type="radio" name="mbti" value="INFJ" class="custom-radio"> INFJ</label>
-							<label><input type="radio" name="mbti" value="INTJ" class="custom-radio"> INTJ</label>
-							<label><input type="radio" name="mbti" value="ISTP" class="custom-radio"> ISTP</label>
-							<label><input type="radio" name="mbti" value="ISFP" class="custom-radio"> ISFP</label>
-							<label><input type="radio" name="mbti" value="INFP" class="custom-radio"> INFP</label>
-							<label><input type="radio" name="mbti" value="INTP" class="custom-radio"> INTP</label>
-							<label><input type="radio" name="mbti" value="ESTP" class="custom-radio"> ESTP</label>
-							<label><input type="radio" name="mbti" value="ESFP" class="custom-radio"> ESFP</label>
-							<label><input type="radio" name="mbti" value="ENFP" class="custom-radio"> ENFP</label>
-							<label><input type="radio" name="mbti" value="ENTP" class="custom-radio"> ENTP</label>
-							<label><input type="radio" name="mbti" value="ESTJ" class="custom-radio"> ESTJ</label>
-							<label><input type="radio" name="mbti" value="ESFJ" class="custom-radio"> ESFJ</label>
-							<label><input type="radio" name="mbti" value="ENFJ" class="custom-radio"> ENFJ</label>
-							<label><input type="radio" name="mbti" value="ENTJ" class="custom-radio"> ENTJ</label>
-			        </div>
+				        <div class="toggle-radio" data-style="rounded"> 
+								<label><input type="radio" name="mbti" value="ISTJ" class="custom-radio" checked> ISTJ</label>
+								<label><input type="radio" name="mbti" value="ISFJ" class="custom-radio"> ISFJ</label>
+								<label><input type="radio" name="mbti" value="INFJ" class="custom-radio"> INFJ</label>
+								<label><input type="radio" name="mbti" value="INTJ" class="custom-radio"> INTJ</label>
+								<label><input type="radio" name="mbti" value="ISTP" class="custom-radio"> ISTP</label>
+								<label><input type="radio" name="mbti" value="ISFP" class="custom-radio"> ISFP</label>
+								<label><input type="radio" name="mbti" value="INFP" class="custom-radio"> INFP</label>
+								<label><input type="radio" name="mbti" value="INTP" class="custom-radio"> INTP</label>
+								<label><input type="radio" name="mbti" value="ESTP" class="custom-radio"> ESTP</label>
+								<label><input type="radio" name="mbti" value="ESFP" class="custom-radio"> ESFP</label>
+								<label><input type="radio" name="mbti" value="ENFP" class="custom-radio"> ENFP</label>
+								<label><input type="radio" name="mbti" value="ENTP" class="custom-radio"> ENTP</label>
+								<label><input type="radio" name="mbti" value="ESTJ" class="custom-radio"> ESTJ</label>
+								<label><input type="radio" name="mbti" value="ESFJ" class="custom-radio"> ESFJ</label>
+								<label><input ty4pe="radio" name="mbti" value="ENFJ" class="custom-radio"> ENFJ</label>
+								<label><input type="radio" name="mbti" value="ENTJ" class="custom-radio"> ENTJ</label>
+				        </div>
+ 					</div>
+				<div  class="group" >
 			    <label for="interests1">관심사</label>
-			        <div class="form-group">
-			            <label><input type="checkbox" name="interests" value="차/오토바이" checked> 차/오토바이</label>
-			            <label><input type="checkbox" name="interests" value="게임/오락"> 게임/오락</label>
-			            <label><input type="checkbox" name="interests" value="여행"> 여행</label>
-			            <label><input type="checkbox" name="interests" value="운동/스포츠"> 운동/스포츠</label>
-			            <label><input type="checkbox" name="interests" value="인문학/독서"> 인문학/독서</label>
-			            <label><input type="checkbox" name="interests" value="업종/직무"> 업종/직무</label>
-			            <label><input type="checkbox" name="interests" value="언어/회화"> 언어/회화</label>
-			            <label><input type="checkbox" name="interests" value="공연/축제"> 공연/축제</label>
-			            <label><input type="checkbox" name="interests" value="음악/악기"> 음악/악기</label>
-			            <label><input type="checkbox" name="interests" value="공예/만들기"> 공예/만들기</label>
-			            <label><input type="checkbox" name="interests" value="댄스/무용"> 댄스/무용</label>
-			            <label><input type="checkbox" name="interests" value="봉사활동"> 봉사활동</label>
-			            <label><input type="checkbox" name="interests" value="사교/인맥"> 사교/인맥</label>
-			            <label><input type="checkbox" name="interests" value="사진/영상"> 사진/영상</label>
-			            <label><input type="checkbox" name="interests" value="야구관람"> 야구관람</label>
-			            <label><input type="checkbox" name="interests" value="요리/제조"> 요리/제조</label>
-			            <label><input type="checkbox" name="interests" value="애완동물"> 애완동물</label>
-			            <label><input type="checkbox" name="interests" value="자유주제"> 자유주제</label>
-			            <div><p id="interestError" style="color: red;"></p></div>
-			        </div>		
+				        <div class="form-group">
+				            <label><input type="checkbox" name="interests" value="차/오토바이" checked> 차/오토바이</label>
+				            <label><input type="checkbox" name="interests" value="게임/오락"> 게임/오락</label>
+				            <label><input type="checkbox" name="interests" value="여행"> 여행</label>
+				            <label><input type="checkbox" name="interests" value="운동/스포츠"> 운동/스포츠</label>
+				            <label><input type="checkbox" name="interests" value="인문학/독서"> 인문학/독서</label>
+				            <label><input type="checkbox" name="interests" value="업종/직무"> 업종/직무</label>
+				            <label><input type="checkbox" name="interests" value="언어/회화"> 언어/회화</label>
+				            <label><input type="checkbox" name="interests" value="공연/축제"> 공연/축제</label>
+				            <label><input type="checkbox" name="interests" value="음악/악기"> 음악/악기</label>
+				            <label><input type="checkbox" name="interests" value="공예/만들기"> 공예/만들기</label>
+				            <label><input type="checkbox" name="interests" value="댄스/무용"> 댄스/무용</label>
+				            <label><input type="checkbox" name="interests" value="봉사활동"> 봉사활동</label>
+				            <label><input type="checkbox" name="interests" value="사교/인맥"> 사교/인맥</label>
+				            <label><input type="checkbox" name="interests" value="사진/영상"> 사진/영상</label>
+				            <label><input type="checkbox" name="interests" value="야구관람"> 야구관람</label>
+				            <label><input type="checkbox" name="interests" value="요리/제조"> 요리/제조</label>
+				            <label><input type="checkbox" name="interests" value="애완동물"> 애완동물</label>
+				            <label><input type="checkbox" name="interests" value="자유주제"> 자유주제</label>
+				            <div><p id="interestError" style="color: red;"></p></div>
+				        </div>		
+			         </div>
 		</fieldset>
 			
-  <fieldset class="area_agreement">
+  			<fieldset class="area_agreement">
+  			
+  			
                             <legend class="sub_title">이용약관 / 개인정보 수집 및 이용 동의</legend>
                             <div class="agreement">
                                 <div class="all_check_area">
@@ -205,15 +181,16 @@ input {
                                     <input type="checkbox" id="chk1" class="check" name="" data-parsley-required="true" data-parsley-multiple="chk1">
                                     <label for="chk1">(필수) 만 14세 이상입니다.</label>
                                 </div>
-                                <div data-error_insert_container="">
-                                    <input type="checkbox" id="chk2" class="check" name="AGREEMENT" data-parsley-required="true" data-parsley-multiple="AGREEMENT">
-                                    <label for="chk2">(필수) 이용약관 동의</label>
-                                    <a href="/api/legal/agreement" class="btn_view" title="이용약관 동의">내용보기</a>
-                                </div>
+								<div data-error_insert_container=""><!-- 수정한거 -->
+								    <input type="checkbox" id="chk2" class="check" name="AGREEMENT" data-parsley-required="true" data-parsley-multiple="AGREEMENT">
+								    <label for="chk2">(필수) 이용약관 동의</label>
+								    <a href="javascript:void(0);" class="btn_view" title="이용약관 동의" id="openModalBtn1">내용보기</a>
+								</div>
+						
                                 <div data-error_insert_container="">
                                     <input type="checkbox" id="chk3" class="check" name="PRIVACY" data-parsley-required="true" data-parsley-multiple="PRIVACY">
                                     <label for="chk3">(필수) 개인정보 수집 및 이용 동의</label>
-                                    <a href="/api/legal/privacy" class="btn_view" title="개인정보 수집 및 이용 동의">내용보기</a>
+                                     <a href="javascript:void(0);"class="btn_view2" title="개인정보 수집 및 이용 동의" id="openModalBtn2">내용보기</a>
                                     <div>
 
                                     </div>
@@ -255,10 +232,29 @@ input {
                         </fieldset>
 
 
+
 			<button type="submit">가입</button>
 		
 		</form:form>
 	</div>
+</div>
+<!-- 모달 -->
+
+	<!-- 모달 창 -->
+	<div id="myModal1" class="modal1">
+	    <div class="modal-content1">
+	        <span class="close1">&times;</span>
+	        <jsp:include page="modalContent1.jsp" />
+	    </div>
+	</div>
+	<!-- 모달 창 -->
+	<div id="myModal2" class="modal2">
+	    <div class="modal-content2">
+	        <span class="close2">&times;</span>
+	        <jsp:include page="modalContent2.jsp" />
+	    </div>
+	</div>
+	
 	<!-- 활동지역 받는 모달창 -->
  	<div class="modal modal-dialog modal-dialog-scrollable fade"
 			id="main-area-id-modal" data-backdrop="static" data-keyboard="false"
@@ -322,24 +318,35 @@ input {
 		</div><!-- 집주소 받는 모달창 end -->
 </div>
 <script>
-//체크박스 전체 선택
-$(".checkbox_group").on("click", "#check_all", function () {
-  var checked = $(this).is(":checked");
 
-  if(checked){
-  	$(this).parents(".checkbox_group").find('input').prop("checked", true);
-  } else {
-  	$(this).parents(".checkbox_group").find('input').prop("checked", false);
-  }
+document.getElementById("openModalBtn1").addEventListener("click", function() {//모달 열기
+    document.getElementById("myModal1").style.display = "block";
 });
-//체크박스 개별 선택
-$(".checkbox_group").on("click", ".normal", function() {
-  var checked = $(this).is(":checked");
 
-  if (!checked) {
-  	$("#check_all").prop("checked", false);
-  }
+document.getElementsByClassName("close1")[0].addEventListener("click", function() {//모달 닫기
+    document.getElementById("myModal1").style.display = "none";
 });
+
+window.addEventListener("click", function(event) {//모달 닫기 ( 외부)
+    if (event.target == document.getElementById("myModal")) {
+        document.getElementById("myModal1").style.display = "none";
+    }
+});
+//-----------
+
+document.getElementById("openModalBtn2").addEventListener("click", function() {//모달 열기
+    document.getElementById("myModal2").style.display = "block";
+});
+document.getElementsByClassName("close2")[0].addEventListener("click", function() {//모달 닫기
+    document.getElementById("myModal2").style.display = "none";
+});
+window.addEventListener("click", function(event) {//모달 닫기 ( 외부)
+    if (event.target == document.getElementById("myModal2")) {
+        document.getElementById("myModal2").style.display = "none";
+    }
+});
+
+
 
 // 관심사 체크
 const minInterestCount = 1;
