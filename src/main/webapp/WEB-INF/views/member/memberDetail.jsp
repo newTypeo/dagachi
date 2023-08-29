@@ -61,9 +61,9 @@
 			<span class="verticalBar">|</span> 
 			<c:if test="${member.memberId eq loginMember.memberId}">
 				<!-- 로그인한 객체가 보고있는 객체가 같을 때 -->
-				<a type="button" onclick="updateMember()">정보 수정</a>
+				<a type="button" onclick="updateMember()">∘ 정보 수정</a>
 				<span class="verticalBar">|</span> 
-				<a type="button" onclick="withdrawalMember();">회원탈퇴</a>
+				<a type="button" onclick="withdrawalMember();">∘ 회원탈퇴</a>
 				<form:form 
 					name="memberDeleteFrm"
 					action="${pageContext.request.contextPath}/member/memberDelete.do"
