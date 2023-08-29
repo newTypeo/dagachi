@@ -131,9 +131,7 @@ public class MemberSecurityController {
 	
 
 	@GetMapping("/memberLogin.do")
-	public void memberLogin() {
-		System.out.println("뭐여");
-	}
+	public void memberLogin() {}
 
 	@PostMapping("/memberLoginSuccess.do")
 	public String memberLoginSuccess(@AuthenticationPrincipal MemberDetails memberDetails, HttpSession session) {
@@ -221,6 +219,11 @@ public class MemberSecurityController {
 		return "redirect:/member/" + member.getMemberId();
 	}
 
+
+	@GetMapping("/memberClubDetail.do")
+	public void memberClubDetail() {
+		
+	}
 
 	
 

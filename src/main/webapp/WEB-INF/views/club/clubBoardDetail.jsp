@@ -10,38 +10,41 @@
 
 <section id="club-boardDetail-sec" class="">
 
-	<div>
-		<div>${clubBoard.title}</div>
-	
-		<c:if test="${!attachments.isEmpty()}">
-			<div class="dropdown">
-				<button class="btn btn-secondary dropdown-toggle" type="button"
-					data-toggle="dropdown" aria-expanded="false">DownLoad button</button>
-				<div class="dropdown-menu">
-					<c:forEach items="${attachments}" var="attachment">
-						<a class="dropdown-item" href="#">${attachment.originalFilename}</a>
-					</c:forEach>
-				</div>
-			</div>
-		</c:if>
-		<div>${clubBoard.content}</div>
-		<div>${clubBoard.writer}</div>
-		<div>${clubBoard.createdAt}</div>
-		<div id="likeCount">${clubBoard.likeCount}</div>
-
-	</div>
-	<div>
-		<div id="hartContainer">
-			<div id="hartButton">❤</div>
-			<input type="checkbox" id="like" style="display: none;"> <label
-				for="hartButton"></label>
-		</div>
-		<div>
-			<button type="button" class="btn btn-secondary btn-lg"
-				onclick="updateButton()">수정</button>
-			<button type="button" class="btn btn-secondary btn-lg"
-				onclick="deleteButton()">삭제</button>
-		</div>
+	<div class="container mt-5">
+	    <div class="row">
+	        <div class="col-md-8 offset-md-2">
+	            <div class="card">
+	                <div class="card-body">
+	                    <h5 class="card-title">게시글 제목 : ${clubBoard.title}</h5>
+	                    
+	            		<c:forEach items="${attachments}" var="attach">
+			                <img src="${pageContext.request.contextPath}/resources/upload/club/board/${attach.renamedFilename}" class="card-img-top" alt="첨부된 이미지">
+	            		</c:forEach>
+	                    <p class="card-text">
+	                        ${clubBoard.content}
+	                    </p>
+	                    <p class="card-text">작성자: ${clubBoard.writer}</p>
+                   		<div>
+							<div>
+								<button type="button" class="btn btn-secondary btn-lg"
+									onclick="updateButton()">수정</button>
+								<button type="button" class="btn btn-secondary btn-lg"
+									onclick="deleteButton()">삭제</button>
+							</div>
+						</div>
+	                </div>
+	                <div class="card-footer">
+	                    작성일: ${clubBoard.createdAt}
+	                    <div class="like-wrapper">
+	                    	<input type="checkbox" id="like" ${liked ? 'checked' : ''}/>
+						    <label for="heart" id="heartButton">
+						        ${clubBoard.likeCount}
+						    </label>
+						</div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
 	</div>
 
 	<form:form name="detailFrm"></form:form>
@@ -68,7 +71,7 @@
 				headers: {
 					"X-CSRF-TOKEN": token
 				},
-				success(data){
+				success(data) {
 					alert(data);
 					window.location.href = "${pageContext.request.contextPath}/club/${domain}/clubBoardList.do";
 				}
@@ -78,28 +81,24 @@
 		
 	};
 
-	document.querySelector("#hartButton").addEventListener("click",()=>{
-		const likeBox = document.querySelector("#like");
-		likeBox.checked = !likeBox.checked; 
-		const like =likeBox.value;
-		likeBox.value=  likeBox.checked ? "true" : "false";
+	document.querySelector("#like").addEventListener("click",()=>{
+		const like = document.querySelector("#like").checked;
+		console.log(like);
 		const token= document.detailFrm._csrf.value;
-		console.log(token);
-		const boardId="${clubBoard.boardId}"
+		const boardId="${clubBoard.boardId}";
 		
 		$.ajax({
 			url : '${pageContext.request.contextPath}/club/${domain}/likeCheck.do',
 			method:"POST",
-			data :{like , boardId },
+			data :{like , boardId},
 			headers: {
 				"X-CSRF-TOKEN": token
 			},
 			success(board){
 				console.log(board);
 				const {boardId,clubId,content,createdAt,likeCount,status,title,type,writer} = board;
-				const likeCountBox =document.querySelector("#likeCount");
-				likeCountBox.innerText=`\${likeCount}`
-				
+				const likeCountBox =document.querySelector("#heartButton");
+				likeCountBox.innerText=`\${likeCount}`;
 			}
 		});
 		

@@ -50,6 +50,10 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/style.css" />
 <style>
+ .resized-image {
+            width: 100%; /* 원하는 크기로 조절 */
+            height: auto; /* 가로 세로 비율을 유지하기 위해 */
+}
 #chatWrap {
 	overflow-y: scroll;
 	max-height: 400px; /* 원하는 최대 높이로 설정 */
@@ -70,7 +74,7 @@ a {
 	text-decoration: none;
 }
 
-.wrap {
+.wrap {bbnb
 	padding: 40px 0;
 	background-color: #A8C0D6;
 }
@@ -141,7 +145,15 @@ a {
 	content: "▶";
 	color: #F9EB54;
 }
+
+
 </style>
+<script>
+	window.onload=()=>{
+		 document.querySelector("#chatWrap").scrollTop = document.querySelector("#chatWrap").scrollHeight;
+	}
+
+</script>
 <body>
 
 
@@ -152,10 +164,13 @@ a {
 		<script>
 		const memberId = "${memberId}";
 		const clubId = ${clubId};
-		
-		console.log(memberId);
+		const root="${pageContext.request.contextPath}";
+	 	let proList=[];
+
 		
 	</script>
+	
+	
 
 		<section id="club-chatRoom-sec" class="">
 
@@ -168,18 +183,27 @@ a {
 
 					<c:forEach items="${chatlogs}" var="chatlog">
 						<c:if test="${chatlog.writer eq memberId}">
+							<div><h6 class="chatIdPrintR">${chatlog.writer}</h6></div>
 							<div class="chat ch2">
 								<div class="icon">
-									<i class="fa-solid fa-user"></i>
+									<i class="fa-solid fa-user"></i> <img alt=""
+										src="${pageContext.request.contextPath}/resources/upload/member/profile/<sec:authentication property="principal.memberProfile.renamedFilename"/>" class="resized-image"/>
 								</div>
 								<div class="textbox">${chatlog.content}</div>
 							</div>
 						</c:if>
 
 						<c:if test="${chatlog.writer ne memberId}">
+						<div><h6 class="chatIdPrintL">${chatlog.writer}</h6></div>
 							<div class="chat ch1">
 								<div class="icon">
 									<i class="fa-solid fa-user"></i>
+									<c:forEach items="${memberProfiles}" var="memberProfile">
+										<c:if test="${memberProfile.memberId eq chatlog.writer}">
+											<img alt=""
+												src="${pageContext.request.contextPath}/resources/upload/member/profile/${memberProfile.renamedFilename}" class="resized-image" />
+										</c:if>
+									</c:forEach>
 								</div>
 								<div class="textbox">${chatlog.content}</div>
 							</div>
@@ -192,25 +216,17 @@ a {
 				</c:if>
 
 				<c:if test="${empty chatlogs}">
-
-					<div class="textbox">채팅을 시작하세요</div>
+					<div class="chat">
+						<div class="icon">
+							<i class="fa-solid fa-user"></i> <img alt=""
+								src="${pageContext.request.contextPath}/resources/upload/member/profile/<sec:authentication property="principal.memberProfile.renamedFilename" />" class="resized-image" />
+						</div>
+						<div class="textbox">채팅을 시작하세요</div>
+					</div>
 				</c:if>
 
 			</div>
 
-			<!-- 			<div class="chat ch1">
-				<div class="icon">
-					<i class="fa-solid fa-user"></i>
-				</div>
-				<div class="textbox">안녕하세요. 반갑습니다.</div>
-			</div>
-			<div class="chat ch2">
-				<div class="icon">
-					<i class="fa-solid fa-user"></i>
-				</div>
-				<div class="textbox">안녕하세요. 친절한효자손입니다. 그동안 잘 지내셨어요?</div>
-			</div>
- -->
 			<div>
 				<textarea rows="3" cols="30" id="msgBox"></textarea>
 				<button id="snedMsg">전송</button>
@@ -219,8 +235,29 @@ a {
 
 	</sec:authorize>
 	<script>
+const loadPro=(from,to)=>{
+	let pro="";
+	$.ajax({
+ 		url:'${pageContext.request.contextPath}/chat/findWriterProfile.do',
+ 		data : {from,to},
+ 		async :false,
+ 		success(data){
+ 			console.log(data,decodeURI(data));
+ 			if(data !== null){
+ 				 pro= decodeURI(data);
+ 			}
+ 			const profileInfo ={userName : from, userProfileName : data};
+ 			proList.push(profileInfo);
+ 			console.log("유저당 한번만 나와야하ㄴ는 콘솔");
+ 		}
+ 		
+ 	});
+	return pro;
+};
 
-
+const loadProProList=(clubId)=>{
+		
+};
 
 document.querySelector("#msgBox").addEventListener("keydown",(e)=>{
 	 if (e.key === "Enter" && !e.shiftKey) {
@@ -234,8 +271,12 @@ document.querySelector("#snedMsg").addEventListener("click",()=>{
 	const content=msgbox.value;
 	console.log(content);
 	msgbox.value="";
-	msgbox.focus();
 	
+	if(content===""){
+		alert("메세지가 비었습니다");
+		msgbox.focus();
+		return false;
+	}
 	const payload = {
 			type : "MOIMTALK",
 			from : memberId,
@@ -249,6 +290,7 @@ document.querySelector("#snedMsg").addEventListener("click",()=>{
 		
 		stompClient.send(url, null, JSON.stringify(payload));
 
+	msgbox.focus();
 });
 	
 

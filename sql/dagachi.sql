@@ -160,6 +160,7 @@ create table member_profile (
 create table club_gallery (
 	gallery_id	number	not null,
 	club_id	number	not null,
+    member_id varchar2(30) not null,
 	like_count number default 0,
 	status char(1) default 'Y'
 );
@@ -311,6 +312,8 @@ create table cbc_like(
     target_id number not null,
     created_at date default sysdate
 );
+
+
 alter table member add constraint pk_member primary key (
 	member_id
 );
@@ -569,6 +572,13 @@ member_id
 );
 alter table club add constraint uq_club_domain unique (
     domain
+);
+
+alter table club_gallery add constraint fk_member_to_club_member_2 foreign key (
+	member_id
+)
+references member (
+	member_id
 );
 CREATE SEQUENCE seq_Inquiry_id
 START WITH 1
@@ -1188,16 +1198,16 @@ insert into club_layout (club_id, type, font, background_color, font_color, poin
 values (1, default, default, '#dddddd', '#778899', '#496682', 'sportClubTitleSample.png', 'sportClubMainSample.png', '스포츠 열정 클럽에 오신것을 환영합니다!');
 
 -- 클럽갤러리 샘플
-insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 10, 'Y');
-insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 20, 'Y');
-insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 30, 'Y');
-insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 14, 'Y');
-insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 15, 'Y');
-insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 13, 'Y');
-insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 187, 'Y');
-insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 12, 'Y');
-insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 5, 'Y');
-insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 7, 'Y');
+insert into club_gallery (gallery_id, club_id,member_id, like_count, status) values (seq_club_gallery_id.nextval, 1,'honggd', 10, 'Y');
+insert into club_gallery (gallery_id, club_id,member_id, like_count, status) values (seq_club_gallery_id.nextval, 1,'honggd', 20, 'Y');
+insert into club_gallery (gallery_id, club_id,member_id, like_count, status) values (seq_club_gallery_id.nextval, 1,'honggd', 30, 'Y');
+insert into club_gallery (gallery_id, club_id,member_id, like_count, status) values (seq_club_gallery_id.nextval, 1,'honggd', 14, 'Y');
+insert into club_gallery (gallery_id, club_id,member_id, like_count, status) values (seq_club_gallery_id.nextval, 1,'honggd', 15, 'Y');
+insert into club_gallery (gallery_id, club_id,member_id, like_count, status) values (seq_club_gallery_id.nextval, 1,'honggd', 13, 'Y');
+insert into club_gallery (gallery_id, club_id,member_id, like_count, status) values (seq_club_gallery_id.nextval, 1,'honggd', 187, 'Y');
+insert into club_gallery (gallery_id, club_id,member_id, like_count, status) values (seq_club_gallery_id.nextval, 1,'honggd', 12, 'Y');
+insert into club_gallery (gallery_id, club_id,member_id, like_count, status) values (seq_club_gallery_id.nextval, 1,'honggd', 5, 'Y');
+insert into club_gallery (gallery_id, club_id,member_id, like_count, status) values (seq_club_gallery_id.nextval, 1,'honggd', 7, 'Y');
 
 -- 클럽갤러리 사진 샘플
 insert into club_gallery_attachment (id, gallery_id, original_filename, renamed_filename, created_at, thumbnail)
@@ -1262,31 +1272,22 @@ insert into main_page values(seq_main_page_id.nextval, 'mainSample4.png', 'mainS
 insert into main_page values(seq_main_page_id.nextval, 'mainSample5.png', 'mainSample5.png', sysdate);
 
 
-insert into club_member values('user9',2,sysdate,null,default,default);
-insert into club_member values('user9',4,sysdate,null,default,default);
-insert into club_member values('user9',7,sysdate,null,default,default);
+--insert into club_member values('user9',2,sysdate,null,default,default);
+--insert into club_member values('user9',4,sysdate,null,default,default);
+--insert into club_member values('user9',7,sysdate,null,default,default);
 
 
 commit;
 
-insert into club_member values('honggddd',1,default,default,3,default);
-insert into club_member values('honggddd',2,default,default,3,default);
-insert into club_member values('honggddd',3,default,default,3,default);
-insert into club_member values('honggddd',4,default,default,3,default);
-insert into club_member values('honggddd',5,default,default,3,default);
-insert into club_member values('honggddd',6,default,default,3,default);
-
-insert into club_member values('honggddd',7,default,default,3,default);
-
-insert into club_member values('honggddd',7,default,default,3,default);
-
-select * from activity_area;
-
-select * from club where club_id = (select club_id from club_member where member_id = 'honggd');
+insert into club_member values('user9',1,default,default,3,default);
+insert into club_member values('user9',2,default,default,3,default);
+insert into club_member values('user9',3,default,default,3,default);
+insert into club_member values('user9',4,default,default,3,default);
+insert into club_member values('user9',5,default,default,3,default);
+insert into club_member values('user9',6,default,default,3,default);
+insert into club_member values('user9',7,default,default,3,default);
 
 commit;
-
-select * from member;
 
 DELETE FROM member WHERE member_id = 'nayoung';
 
@@ -1296,13 +1297,9 @@ values ('admin', '1234', '관리자','관리자', '956-456-7890', 'admin@naver.c
 update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'honggd';
 update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'admin';
 
-
-@Insert("insert into member values (#{memberId}, #{password},#{name}, null , null, #{email}, null , null , null,  null , 0, SYSDATE, NULL, SYSDATE, NULL, 'Y')")
-
 insert into member values ('hihi', '1234','김나영', null , 
 null, 'kim_young5959@naver.com', null , null , 
 null,  null , 0, SYSDATE, NULL, SYSDATE, NULL, 'Y');
-
 
 create table member (
 	member_id	varchar2(30),
@@ -1320,6 +1317,5 @@ create table member (
 	withdrawal_date	date, --  COMMENT 'null 이면 회원'
 	password_change_date	date default sysdate,
 	last_login_date date,
-    status char(1) default 'Y'                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
-    
+    status char(1) default 'Y' 
 );

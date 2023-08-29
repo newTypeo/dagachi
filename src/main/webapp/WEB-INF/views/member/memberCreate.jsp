@@ -24,17 +24,48 @@ div#memberId-container { position: relative; padding: 0px; }
 div#memberId-container span.guide { display: none; font-size: 12px; position: absolute; top: 12px; right: 10px; }
 div#memberId-container span.ok { color: blue; }
 div#memberId-container span.error { color: red; }
+
+.top_area, .main_area {
+    margin: 0 auto;
+    width: 600px;
+}
+
+form:form {display: block;margin-top: 0em;}
+
+fieldset{ 
+   padding: 0 50px 50px;
+    margin-top: 47px;
+    border-bottom: 1px solid #d8d8d8;
+}
+
+label {    display: inline-block;
+    font-weight: bold;
+    font-size: 12px;
+    cursor: default;}
+    
+input {
+    padding: 0 6px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 1px solid #cccccc;
+    color: #333333;
+    background-color: #f8f8f8;
+    font-size: 12px;
+    vertical-align: middle;
+}
 </style>
 
 <div id="enroll-container" class="mx-auto text-center">
+	<div class = "main_area">
 	 <form:form name="memberCreateFrm"
 		  action="${pageContext.request.contextPath}/member/memberCreate.do"
 		  method="POST"
 		  enctype="multipart/form-data">
-		<table class="mx-auto w-75">
-			<tr>
-				<th>아이디</th>
-				<td>
+		  
+		  <h1>회원가입</h1>
+		<fieldset class = "area_agreement">
+			<div>
+				<label>아이디</label>
 	               <div id="memberId-container">
 	                  <input type="text" 
 	                        class="form-control" 
@@ -48,96 +79,79 @@ div#memberId-container span.error { color: red; }
 	                  <span class="guide error">이 아이디는 이미 사용중입니다.</span>
 	                  <span class="memberIdAlert"></span>
 	                  <input type="hidden" id="idValid" value="0"/>
-	               </div>
-				</td>
-			</tr>
-			<tr>
-				<th>패스워드</th><!--실기간 유효성 검사  -->
-				<td>
-					<input type="password" class="form-control" name="password" id="password" value="1234" required>
-					<span class="passwordAlert"></span>
-				</td>
-			</tr>
-			<tr>
-				<th>패스워드확인</th><!--실기간 유효성 검사 + 패스워드 일치 검사-->
-				<td>	
-					<input type="password" class="form-control" id="passwordConfirmation" value="1234" required>
-				</td>
-			</tr>  
-			<tr>
-				<th>이름</th><!--실기간 유효성 검사  -->
-				<td>	
-					<input type="text" class="form-control" name="name" id="name" value="김나영" required>
+	               </div>			
+			</div>		
+			
+			<div>
+				<label>비밀번호</label>
+					<input type="password" class="form-control" name="password" id="password" value="1234" placeholder="대소문자 영문,특수문자,숫자를 포함하여 9자 이상" required>
+					<span class="passwordAlert"></span>			
+			</div>		
+			<div>
+				<label>비밀번호 확인</label>
+					<input type="password" class="form-control" id="passwordConfirmation" value="1234" placeholder="위의 비밀번호를 다시 입력해주세요" required>
+			</div>		
+			
+			<div>
+				<label>이름</label>
+					<input type="text" class="form-control" name="name" id="name" value="김나영"  placeholder="이름 입력(2글자 이상)" required>
 					<span class="nameAlert"></span>
-				</td>
-			</tr>
-			<tr>
-				<th>닉네임</th><!--실기간 유효성 검사  -->
-				<td>	
-					<input type="text" class="form-control" name="nickname" id="nickname" value="나영너굴" required>
-					<span class="nicknameAlert"></span>
-				</td>
-			</tr>
-			<tr>
-				<th>전화번호</th><!--실기간 유효성 검사 + 양식에 맞게 작성하게   -->
-				<td>	
-					<input type="text" class="form-control"  name="phoneNo" id="phoneNo" value="010-8119-1111">
+			</div>	
+			
+			<div>
+				<label>닉네임</label>
+					<input type="text" class="form-control" name="nickname" id="nickname" value="나영너굴" placeholder="사용할 닉네임을 작성해주세요." required>
+					<span class="nicknameAlert"></span>			
+			</div>	
+			
+			<div>
+				<label>전화번호</label>
+					<input type="text" class="form-control"  name="phoneNo" id="phoneNo" value="010-8119-1111" placeholder="010-0000-0000 양식에 맞게 작성해주세요"  >
 					<span class="phoneNoAlert"></span>
-				</td>
-			</tr>	
-			<tr>
-				<th>생년월일</th><!--양식에 맞게  검  -->
-				<td>	
+			</div>	
+			
+			<div>
+				<label>생년월일</label>
 					<input type="date" class="form-control" name="birthday" id="birthday" value="2004-09-09"/>
-				</td>
-			</tr> 
-			<tr>
-				<th>이메일</th><!--이메일은 이메일 인증이필요하기에 걍 두기  -->
-				<td>	
-					<input type="text" class="form-control"  name="email" id="email" value="nayoung11@naver.com">
+			</div>		
+			<div>
+				<label>이메일</label>
+					<input type="text" class="form-control"  name="email" id="email" value="nayoung11@naver.com" placeholder="이메일 양식에 맞게 작성해주세요">
 					<span class="emailAlert"></span>
-				</td>
-			</tr>
-			<tr>
-			    <th>성별</th>
-			    <td>
+			</div>	
+			<div>
+				<label>성별</label>
 			        <input type="radio" name="gender" id="male" value="M" checked>
 			        <label for="male">남</label>
 			        
 			        <input type="radio" name="gender" id="female" value="F">
 			        <label for="female">여</label>
-			    </td>
-			</tr>			
-	
-			<tr>
-				<th><label for="activity_area">거주지</label></th> <!-- 필수값 지도 API 사용 + 상세 주소값 받아야함  -->
-					<td>	
+			</div>	
+		</fieldset>
+		
+		<fieldset class = "area_interest">
+				<label for="activity_area">거주지</label> <!-- 필수값 지도 API 사용 + 상세 주소값 받아야함  -->
+					
 						<div class="input-group">
-							<input type="text" class="form-control" id="activity_area" name="activityArea" readonly aria-describedby="button-addon2" value="${club.activityArea}">
+							<input type="text" class="form-control" id="activity_area" name="activityArea" readonly aria-describedby="button-addon2" placeholder="본인의 집 주소를 입력해주세요" value="${club.activityArea}">
 							<div class="input-group-append">
 								<button class="btn btn-outline-secondary" type="button" data-toggle="modal" 
 								data-target="#activity-area-modal" id="activity-area-search-btn" >검색</button>
 							</div>
 						</div>
 						<!-- <input type="text" class="form-control"  name="address" id="address" value="서울시 역삼동 구리230-1번지"> -->
-					</td>
-				</tr>
-			<tr>	
-				<th><label for="main_area_id">활동 지역</label></th>	
-				<td>				
+				<label for="main_area_id">활동 지역</label>
 					<div class="input-group">
-						<input type="text" class="form-control" id="main_area_id" name="mainAreaId" readonly aria-describedby="button-addon2">
+						<input type="text" class="form-control" id="main_area_id" name="mainAreaId" placeholder="주로 활동할 지역을 입력해주세요" readonly aria-describedby="button-addon2">
 						<div class="input-group-append">
 							<button class="btn btn-outline-secondary" type="button" data-toggle="modal" 
 							data-target="#main-area-id-modal" id="activity-area-search-btn">검색</button>
 						</div>
-					</div>					
-				</td>
-			</tr>		
-			<tr>
-			    <th><label for="mbti">MBTI</label></th>
-			    <td>
-
+					</div>			
+		</fieldset>
+		
+		<fieldset class = "area_require">
+			    <label for="mbti">MBTI</label>
 			        <div class="toggle-radio" data-style="rounded"> 
 							<label><input type="radio" name="mbti" value="ISTJ" class="custom-radio" checked> ISTJ</label>
 							<label><input type="radio" name="mbti" value="ISFJ" class="custom-radio"> ISFJ</label>
@@ -156,11 +170,7 @@ div#memberId-container span.error { color: red; }
 							<label><input type="radio" name="mbti" value="ENFJ" class="custom-radio"> ENFJ</label>
 							<label><input type="radio" name="mbti" value="ENTJ" class="custom-radio"> ENTJ</label>
 			        </div>
-			    </td>
-			</tr>	
-			<tr>
-			    <th><label for="interests1">관심사</label></th>
-			    <td>
+			    <label for="interests1">관심사</label>
 			        <div class="form-group">
 			            <label><input type="checkbox" name="interests" value="차/오토바이" checked> 차/오토바이</label>
 			            <label><input type="checkbox" name="interests" value="게임/오락"> 게임/오락</label>
@@ -181,28 +191,74 @@ div#memberId-container span.error { color: red; }
 			            <label><input type="checkbox" name="interests" value="애완동물"> 애완동물</label>
 			            <label><input type="checkbox" name="interests" value="자유주제"> 자유주제</label>
 			            <div><p id="interestError" style="color: red;"></p></div>
-			        </div>
-			    </td>
-			</tr>
-		</table>
-		
-		<div class="checkbox_group">
+			        </div>		
+		</fieldset>
+			
+  <fieldset class="area_agreement">
+                            <legend class="sub_title">이용약관 / 개인정보 수집 및 이용 동의</legend>
+                            <div class="agreement">
+                                <div class="all_check_area">
+                                    <input type="checkbox" id="all" class="all_check">
+                                    <label for="all">전체동의</label>
+                                </div>
+                                <div data-error_insert_container="">
+                                    <input type="checkbox" id="chk1" class="check" name="" data-parsley-required="true" data-parsley-multiple="chk1">
+                                    <label for="chk1">(필수) 만 14세 이상입니다.</label>
+                                </div>
+                                <div data-error_insert_container="">
+                                    <input type="checkbox" id="chk2" class="check" name="AGREEMENT" data-parsley-required="true" data-parsley-multiple="AGREEMENT">
+                                    <label for="chk2">(필수) 이용약관 동의</label>
+                                    <a href="/api/legal/agreement" class="btn_view" title="이용약관 동의">내용보기</a>
+                                </div>
+                                <div data-error_insert_container="">
+                                    <input type="checkbox" id="chk3" class="check" name="PRIVACY" data-parsley-required="true" data-parsley-multiple="PRIVACY">
+                                    <label for="chk3">(필수) 개인정보 수집 및 이용 동의</label>
+                                    <a href="/api/legal/privacy" class="btn_view" title="개인정보 수집 및 이용 동의">내용보기</a>
+                                    <div>
 
-		  <input type="checkbox" id="check_all" >
-		  <label for="check_all">전체 동의</label>
-		  
-		  <input type="checkbox" id="check_1" class="normal" >
-		  <label for="check_1">개인정보 처리방침 동의</label>
-		  
-		  <input type="checkbox" id="check_2" class="normal" >
-		  <label for="check_2">서비스 이용약관 동의</label>
-		  
-		  <input type="checkbox" id="check_3" class="normal" >
-		  <label for="check_3">마케팅 수신 동의</label>
-		  
-		</div>
-		<button type="submit" >가입</button>
-	</form:form>
+                                    </div>
+                                    <dl>
+                                        <dt>개인정보 수집</dt>
+                                        <dd>
+                                            <div>
+                                                <span>목적</span>이용자 식별 및 본인 여부 확인
+                                            </div>
+                                            <div>
+                                                <span>항목</span>성명, 휴대전화, 이메일, 비밀번호
+                                            </div>
+                                            <div>
+                                                <span>보유기간</span>회원 탈퇴 시 파기
+                                            </div>
+                                        </dd>
+                                    </dl>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="chk4" class="check" name="OFM0001">
+                                    <label for="chk4">(선택) 이메일 수신</label>
+                                    <span class="info_txt">단, 모임 참여와 관련된 정보는 수신동의 여부 관계없이 발송됩니다.</span>
+                                    <dl>
+                                        <dt>선택정보 수집</dt>
+                                        <dd>
+                                            <div>
+                                                <span>목적</span>회사 광고 및 파트너 센터 서비스 제공
+                                            </div>
+                                            <div>
+                                                <span>항목</span>이름, 이메일
+                                            </div>
+                                            <div>
+                                                <span>보유기간</span>수신 동의 철회 또는 회원 탈퇴 시 파기
+                                            </div>
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </fieldset>
+
+
+			<button type="submit">가입</button>
+		
+		</form:form>
+	</div>
 	<!-- 활동지역 받는 모달창 -->
  	<div class="modal modal-dialog modal-dialog-scrollable fade"
 			id="main-area-id-modal" data-backdrop="static" data-keyboard="false"
@@ -266,7 +322,6 @@ div#memberId-container span.error { color: red; }
 		</div><!-- 집주소 받는 모달창 end -->
 </div>
 <script>
-
 //체크박스 전체 선택
 $(".checkbox_group").on("click", "#check_all", function () {
   var checked = $(this).is(":checked");
