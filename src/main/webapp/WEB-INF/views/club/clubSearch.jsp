@@ -68,14 +68,13 @@
 const checkLogin = (domain) => {
 	// 비로그인시 처리코드
 	<sec:authorize access="isAnonymous()">
-	alert("로그인 후 이용해주세요.");
+		alert("로그인 후 이용해주세요.");
 	</sec:authorize>
 	
 	// 로그인시 처리코드
 	<sec:authorize access="isAuthenticated()">
-	window.location = `${pageContext.request.contextPath}/club/\${domain}`;
+		window.location = `${pageContext.request.contextPath}/club/\${domain}`;
 	</sec:authorize>
-	
 };
 
 
