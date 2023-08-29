@@ -15,12 +15,18 @@
 <article id="club-page-article">
 	<div id="club-util-box">
 		<div id="club-info-container">
+			<button type="button" class="btn btn-danger" id="clubLike" onclick="clubLike()">❤️</button>
 			<h5>🚩${clubInfo.clubName}</h5>
 			<span class="fontColors">since 
 				<fmt:parseDate value="${clubInfo.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="createdAt"/>
 	    		<fmt:formatDate value="${createdAt}" pattern="yyyy.MM.dd"/>
 			</span>
-			<span><a href="${pageContext.request.contextPath}/club/${domain}/clubMemberList.do">😀멤버 : ${clubInfo.memberCount}</a></span>
+			<c:if test="${memberRole ne 10}">
+				<span><a href="${pageContext.request.contextPath}/club/${domain}/clubMemberList.do">😀멤버 : ${clubInfo.memberCount}</a></span>
+			</c:if>
+			<c:if test="${memberRole eq 10}">
+				<span>😀멤버 : ${clubInfo.memberCount}</span>
+			</c:if>
 		</div>
 		<div id="club-myInfo-container" style="border-color: ${layout.pointColor}">
 			<c:if test="${memberRole ne 10}">
@@ -43,6 +49,10 @@
 					</c:if>
 					<p><a href="${pageContext.request.contextPath}/member/memberClubDetail.do">나의 모임 정보</a></p>
 				</div>
+				<div class="myProfile3">
+					<button class="btn" style="background-color: ${layout.fontColor}">글쓰기</button>
+					<button class="btn" style="background-color: ${layout.fontColor}">일정생성</button>
+				</div>
 			</c:if>
 			<c:if test="${memberRole eq 10}">
 				<div>
@@ -54,8 +64,8 @@
 					</button>	
 				</div>
 			</c:if>
-			<button type="button" class="btn btn-danger" id="clubReport">🚨</button>
-			<button type="button" class="btn btn-danger" id="clubLike" onclick="clubLike()">❤️</button>
+			
+			
 		</div>
 		<div id="club-total-container" class="fontColors" style="border-color: ${layout.pointColor}">
 			<div>
@@ -244,6 +254,10 @@
 		</div>
 	</div>
 </article>
+<nav style="display: flex; flex-direction: row-reverse;">
+	<button type="button" class="btn btn-danger" id="clubReport">🚨모임 신고하기</button>
+</nav>
+
 <script>
 // 모임 좋아요 (현우)
 const clubLike = () => {

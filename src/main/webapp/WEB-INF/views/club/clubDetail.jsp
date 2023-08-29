@@ -40,15 +40,6 @@
         </div>
       </div>
     </div>
-
-	<button 
-		class="btn btn-outline-success my-2 my-sm-0" 
-		type="button" 
-		onclick="location.href = '${pageContext.request.contextPath}/club/${domain}/clubEnroll.do'">
-		가입신청하기
-	</button>
-	
-	
 	<nav id="club-title" class="">
 		<c:if test="${layout.title eq null}">
 			<div id="default-title">
