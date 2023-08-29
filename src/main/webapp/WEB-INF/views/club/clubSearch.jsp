@@ -36,7 +36,7 @@
 		<c:forEach items="${clubs}" var="club" varStatus="vs">
 			<table>
 				<tr class="cards">
-					<td class="card-images"><img src="${pageContext.request.contextPath}/resources/upload/club/profile/${club.renamedFilename}" width="200px"></td>
+					<td class="card-images"><img src="${pageContext.request.contextPath}/resources/upload/club/profile/${club.renamedFilename}" width="200px" class="image-line"></td>
 					<td class="card-content">
 						<p>모임명 : ${club.clubName}</p>
 						<p>모임 지역 : ${club.activityArea}</p>

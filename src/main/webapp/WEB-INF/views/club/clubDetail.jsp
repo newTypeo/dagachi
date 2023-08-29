@@ -63,7 +63,12 @@
 			<button type="button" class="btn btn-danger" id="clubDisabled">모임 비활성화</button>
 		</c:if>
 		
+
+		<a href ="${pageContext.request.contextPath}/club/${domain}/clubMemberList.do">모임내 회원조회</a>
+		<button type="button" class="btn btn-danger" id="clubLike" onclick="clubLike();">❤️</button>
+
 	</nav>
+	
 	<form:form
 		name="clubLikeFrm"
 		action="${pageContext.request.contextPath}/club/clubLike.do"
@@ -71,7 +76,22 @@
 			<input type="hidden" id="memberId" name="memberId" value="${memberId}">
 			<input type="hidden" id="domain" name="domain" value="${domain}">
 	</form:form>
+
 	
+	<form:form
+		name="deleteClubLikeFrm"
+		action="${pageContext.request.contextPath}/club/deleteClubLike.do"
+		method="POST">
+			<input type="hidden" id="memberId" name="memberId" value="${memberId}">
+			<input type="hidden" id="domain" name="domain" value="${domain}">
+	</form:form>
+	<nav>
+		<h3>메뉴 바</h3>
+		<a href="${pageContext.request.contextPath}/club/${domain}/clubBoardList.do">게시판</a>
+		<a href="${pageContext.request.contextPath}/club/${domain}/chatRoom.do">채팅</a>
+		<a href="${pageContext.request.contextPath}/club/${domain}/manageMember.do">회원관리</a>
+		<a href="${pageContext.request.contextPath}/club/${domain}/clubGallery.do">갤러리</a>
+	</nav>	
 
 	<jsp:include page="/WEB-INF/views/club/clubLayout/clubLayoutType${layout.type}.jsp"></jsp:include>
 
@@ -97,6 +117,41 @@ document.body.style.fontFamily = "${layout.font}";
         alert('${msg}');
     </script>
 </c:if>
+
+<script>
+// 모임 좋아요 (현우)
+	const clubLike = () => {
+		// 찜 목록에 해당클럽이 있는 지 확인.
+		const domain = "${domain}";
+		$.ajax({
+			url : "${pageContext.request.contextPath}/club/clubLikeCheck.do",
+			data : {domain},
+			success(responseData) {
+				console.log("responseData : ", responseData);
+				
+				if (responseData) {
+					if(confirm("찜하신 모임을 취소하시겠습니까?"));
+					const deleteClubLikeFrm = document.deleteClubLikeFrm;
+					console.log(deleteClubLikeFrm);
+					deleteClubLikeFrm.submit();
+					alert("성공적으로 모임 찜을 취소했습니다.");
+					
+				} else {
+					
+				if(confirm("모임을 찜 하시겠습니까?")) {
+					const clubLikeFrm = document.clubLikeFrm;
+					console.log(clubLikeFrm);
+					clubLikeFrm.submit();
+					alert("성공적으로 모임 찜을 완료했습니다.");
+				}	
+					
+				}
+						
+			}
+		});
+		
+		
+	}
 
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

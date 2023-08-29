@@ -1188,7 +1188,8 @@ public class ClubController {
 	 
 
 	/**
-	 * @author ?
+	 * @author 현우
+	 * 모임 찜 목록
 	 */
 	@PostMapping("/clubLike.do")
 	public String clubLike(
@@ -1211,6 +1212,44 @@ public class ClubController {
 		 }
 		 return "redirect:/club/" + domain;
 	}
+	
+	@PostMapping("/deleteClubLike.do")
+	public String deleteClubLike(
+			 @RequestParam String memberId,
+			 @RequestParam String domain
+			) {
+		Club club = clubService.findByDomain(domain);
+		int targetId = club.getClubId();
+		
+		 
+		 Map<String, Object> params = Map.of(
+				 "memberId", memberId,
+				 "targetId", targetId
+				 );
+
+		int result = clubService.cancelClubLike(params); 
+		
+		return "redirect:/club/" + domain;
+		
+	}
+	/**
+	 * 찜 목록에 모임이 있는지 확인 후 리턴
+	 * @author 현우
+	 */
+	@GetMapping("/clubLikeCheck.do")
+	public ResponseEntity<?> clubLikeCheck(@RequestParam String domain) {
+		
+		 Club club = clubService.findByDomain(domain);
+		 int targetId = club.getClubId();
+		 log.debug("잘왔니 정말 정말 정말 = {}", targetId);
+		 
+		 int checkDuplicate = clubService.checkDuplicateClubLike(targetId);
+		 
+		 boolean clubLikeCheck = checkDuplicate != 0 ? true : false;
+		
+		return ResponseEntity.status(HttpStatus.OK).body(clubLikeCheck);
+	}
+	
 	
 	/**
 	 * 갤러리 들어가기
