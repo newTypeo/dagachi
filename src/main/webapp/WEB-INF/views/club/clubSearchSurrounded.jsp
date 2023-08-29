@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <fmt:requestEncoding value="utf-8"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/views/common/navBar.jsp"></jsp:include>
@@ -21,6 +22,13 @@
 	
 	
 <script>
+// 카테고리 변경시 비동기 요청
+document.querySelector("#filter-category").onchange = () => {
+	const rangeTag = document.querySelector("#kmRange");
+	loadCLubs(rangeTag);
+};
+
+// 페이지 로드 시 1km반경의 모임 자동으로 요청
 window.onload = () => {
 	const rangeTag = document.querySelector("#kmRange"); 
 	document.querySelector("#range_val").innerHTML = '1km';
@@ -29,49 +37,52 @@ window.onload = () => {
 };
 
 
+// 페이지 로드 시 카테고리 첫 항목으로 전체 삽입
 const category = document.querySelector("#filter-category");
 category.innerHTML ='<option value="">전체</option>';
 
-//카테고리 option
+//카테고리 option (navBar.jsp에서 가져옴)
 document.querySelectorAll("#category-modal-left-upper a").forEach((a) => {
 	category.innerHTML += `
 		<option value="\${a.innerHTML}" name="\${a.innerHTML}">\${a.innerHTML}</option>
 	`;
 });
 
-
+// range태그 움직일 때마다 km텍스트 출력
 const setValue = (rangeTag) => {
 	document.querySelector("#range_val").innerHTML = rangeTag.value + "km";
 };
 
+// range태그 마우스 클릭 후 때는 순간 모임 비동기 검색
 document.querySelector("#kmRange").onmouseup = (e) => {
 	loadCLubs(e.target);
 }
 
+// 비동기 모임 검색 함수
 const loadCLubs = (target) => {
 	const distance = target.value;
 	if(distance == 0) return;
 	const mainAreaId = ${mainAreaId};
 	
-	$.ajax({ // 4. 위에서 구한 코드로 모든 동정보 요청
+	$.ajax({ // 활동지역코드로 활동지역 명 가져옴 ex) 1168010100 -> "서울특별시 강남구 역삼동"
 		url : "https://grpc-proxy-server-mkvo6j4wsq-du.a.run.app/v1/regcodes?regcode_pattern=" + mainAreaId,
 		data : {is_ignore_zero : true},
-		success({regcodes}) {
+		success({regcodes}) { 
 			const mainAreaName = regcodes[0].name;
 			const category = document.querySelector("#filter-category").value; 
 			
-			$.ajax({
-				url : "${pageContext.request.contextPath}/club/clubSearchByDistance.do",
+			$.ajax({ // km, 주활동지역의 법정동명, 선택한 카테고리(옵션)으로 모임 검색
+				url : "${pageContext.request.contextPath}/club/clubSearchByDistance.do", // 입력한 km반경을 알고리즘으로 구해서 모임을 검색해온다.
 				data : {distance, mainAreaName, category},
 				success(clubs) {
-					console.log("주변모임 비동기검색 success= ", clubs);
+					// console.log("주변모임 비동기검색 success= ", clubs);
 					let html = '';
 					const clubsWrapper = document.querySelector("#clubs-wrapper");
 					clubsWrapper.innerHTML = '';
 					clubs.forEach((club) => {
 						html += `
 							<div class="col-md-4 mb-4">
-					            <div class="card">
+					            <div class="card" onclick="checkLogin('\${club.domain}');">
 					                <img src="/dagachi/resources/upload/club/profile/\${club.renamedFilename}" class="card-img-top img-fluid" alt="Club Image">
 					                <div class="card-body">
 					                    <h5 class="card-title">모임명: \${club.clubName}</h5>
@@ -83,14 +94,25 @@ const loadCLubs = (target) => {
 					            </div>
 				        	</div>
 						`;
-					});
+					}); // forEach
 					clubsWrapper.innerHTML = html;
-				}
-			});
-		}
-	});
+				} // success
+			}); // ajax
+		} // success
+	}); // ajax
 };
 
+const checkLogin = (domain) => {
+	// 비로그인시 처리코드
+	<sec:authorize access="isAnonymous()">
+		alert("로그인 후 이용해주세요.");
+	</sec:authorize>
+	
+	// 로그인시 처리코드
+	<sec:authorize access="isAuthenticated()">
+		window.location = `${pageContext.request.contextPath}/club/\${domain}`;
+	</sec:authorize>
+};
 </script>
 
 

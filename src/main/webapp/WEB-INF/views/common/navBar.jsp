@@ -6,6 +6,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/nav.css" />
 
+
 <!-- 클릭하면 카테고리 관련 창을 닫는 div -->
 <div id="dark" style="position:absolute; width: 100%; height: 100vh; display:none; z-index:1"></div>
 
@@ -22,10 +23,8 @@
 			<input type="text" name="inputText" id="search-club-box" placeholder="BTS 봉준호 다가치 Let's go"/>
 			<button id="search-club-btn"><i class="fa-solid fa-magnifying-glass fa-xl"></i></button>
 		</form>
-		<div id="search-detail">
-			<a href="${pageContext.request.contextPath}/club/clubSearchSurrounded.do">
-				<i class="fa-regular fa-map fa-lg" style="color: #ffffff;"></i>
-			</a>
+		<div id="search-detail" onclick="checkLoginSearch();">
+			<i class="fa-regular fa-map fa-lg" style="color: #ffffff;"></i>
 		</div>
 	</div>
 	
@@ -66,7 +65,7 @@
 	</div>
 </nav>
 
-<!-- 아 왜 넘어가는데!!!!!!!!!! -->
+
 <sec:authorize access="isAnonymous()">
 	<script>
 		document.querySelectorAll('#ccc').forEach((one) => {
@@ -82,6 +81,17 @@
 
 
 <script>
+const checkLoginSearch = () => {
+	// 비로그인시 처리코드
+	<sec:authorize access="isAnonymous()">
+		alert("로그인 후 이용해주세요.");
+	</sec:authorize>
+	
+	// 로그인시 처리코드
+	<sec:authorize access="isAuthenticated()">
+		window.location = `${pageContext.request.contextPath}/club/clubSearchSurrounded.do`;
+	</sec:authorize>
+};
 
 
 // 모임 생성 버튼
