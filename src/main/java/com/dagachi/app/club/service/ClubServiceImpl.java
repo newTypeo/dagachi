@@ -26,6 +26,7 @@ import com.dagachi.app.club.dto.ClubReportDto;
 import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
 import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.ClubStyleUpdateDto;
+import com.dagachi.app.club.dto.CreateGalleryDto;
 import com.dagachi.app.club.dto.GalleryAndImageDto;
 import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.KickMember;
@@ -268,7 +269,31 @@ public class ClubServiceImpl implements ClubService {
 
 		return result;
 	}
-
+	
+	@Override
+	public int likeBoard(Map<String, Object> params) {
+		Boolean like = (Boolean) params.get("like");
+		ClubBoard board = (ClubBoard) params.get("board");
+		
+		// board의 좋아요 수 업데이트
+		int result = clubRepository.updateBoard(board); 
+		
+		if(like) { // 좋아요테이블에 추가
+			System.out.println("좋아요 추가");
+			result += clubRepository.insertClubLike(params);
+		} else { // 좋아요 취소(삭제)
+			System.out.println("좋아요 삭제");
+			result += clubRepository.deleteClubLike(params);
+		}
+		return result;
+	}
+	
+	@Override
+	public int checkBoardLiked(Map<String, Object> params) {
+		return clubRepository.checkBoardLiked(params);
+	}
+	
+	
 	@Override
 	public int clubMemberRoleUpdate(ClubMemberRoleUpdate member) {
 		return clubRepository.clubMemberRoleUpdate(member);
@@ -520,4 +545,30 @@ public class ClubServiceImpl implements ClubService {
 	public List<Club> findClubsByMemberId(String memberId) {
 		return clubRepository.findClubsByMemberId(memberId);
 	}
+	
+	@Override
+	public List<GalleryAndImageDto> findGalleryAndImageByGalleryId(int id) {
+		return clubRepository.findGalleryAndImageByGalleryId(id);
+	}
+	
+	@Override
+	public int clubGalleryDelete(int id) {
+		int result = 0;
+		result = clubRepository.clubGalleryAttachDelete(id);
+		
+		return clubRepository.clubGalleryDelete(id);
+	}
+	
+	@Override
+	public int clubGalleryCreate(CreateGalleryDto createGalleryDto) {
+		int result =  clubRepository.clubGalleryCreate(createGalleryDto);
+		return clubRepository.clubGalleryAttachCreate(createGalleryDto);
+	}
+	
+	@Override
+	public int clubGalleryCreate2(CreateGalleryDto createGalleryDto) {
+		return clubRepository.clubGalleryCreate2(createGalleryDto);
+	}
+	
+	
 }
