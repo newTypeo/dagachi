@@ -1310,17 +1310,13 @@ public class ClubController {
 			 int result = clubService.clubGalleryCreate2(createGalleryDto);
 		 }
 		
-		
-		
 		return "redirect:/club/" + domain;
 	}
 
 
 
-
 	@GetMapping("{domain}/clubManage.do") 
 	public String clubManage(@PathVariable("domain") String domain, @AuthenticationPrincipal MemberDetails member, Model model) {
-		
 		return "/club/clubManage";
 	}
 	
