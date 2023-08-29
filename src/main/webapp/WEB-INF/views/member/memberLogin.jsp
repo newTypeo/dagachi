@@ -32,9 +32,11 @@
 						placeholder="비밀번호" value="1234" required>
 					</div>
 				<div class="modal-footer d-flex flex-column" style="align-items: unset;">
-					<div>
-						<a href="${pageContext.request.contextPath}/oauth2/authorization/kakao">카카오 로그인</a>
-					</div>
+				<div>
+				    <a href="${pageContext.request.contextPath}/oauth2/authorization/kakao">
+				        <img src="${pageContext.request.contextPath}/resources/kakao/kakao_login_medium_narrow.png" alt="카카오 로그인">
+				    </a>
+				</div>
 				<div class="d-flex justify-content-between">
 						<div>
 							<input type="checkbox" class="form-check-input" name="remember-me" id="remember-me"/>
@@ -44,80 +46,42 @@
 							<button type="submit" class="btn btn-outline-success">로그인</button>
 						</div>
 					<!-- 캡챠 -->
-			<div class="container">
+<!-- 			<div class="container">
 				<h1>index page</h1>
 				<button type="button" value="test1" id="btn">이미지생성하기</button>
-			<div id="result">			
+			<div id="result">	 -->		
 									
 				</div>
 			</div>
 		</form:form>
-		<div class = "search-member-btn">
-			<button type="button" class="btn btn-primary" style=" text-align: center; display: block; margin: 0 auto;" id="btnIdOpen">아이디 찾기</button>
-			<button type="button" class="btn btn-success" style="text-align: center; display: block; margin: 0 auto;" id="btnPwOpen">비밀번호 찾기</button>
+		
+		<!-- 아이디 찾기 버튼(준한) -->	
+		<div class = "search-memberId-btn">
+			<input type="button" value="아이디 찾기" onclick="showIdPopup();">
 		</div>
-		<!-- 아이디 찾기 모달 -->
-			<div class="modal fade" id="idModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		    <div class="modal-dialog">
-		        <div class="modal-content">
-		            <div class="modal-header">
-		                <h1 class="modal-title fs-5" id="exampleModalLabel" style="text-align: center; display: block; margin: 0 auto;">아이디 찾기</h1>
-		            </div>
-		            <div class="modal-body">
-		                <form:form action="${pageContext.request.contextPath}/member/searchIdModal" method="post">
-						    <div class="form-group">
-						        <input type="text" class="form-control" name="username" placeholder="이름" value="">
-						    </div>
-						    <div class="form-group">
-						        <div class="input-group">
-						            <input type="email" class="form-control" name="email" placeholder="이메일" value="">
-						            <button type="button" class="btn btn-primary" id="sendCodeButton">인증코드 보내기</button>
-						        </div>
-						    </div>
-		                    <div class="form-group">
-		                        <input type="text" class="form-control" placeholder="인증코드" value="">
-		                    </div>
-		                    <div class="d-flex justify-content-end">
-		                        <button type="submit" class="btn btn-primary">인증</button>
-		                    </div>
-		                </form:form>
-		            </div>
-           		 	<div class="modal-footer">
-                		<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnIdClose">Close</button>
-				    </div>
-		        </div>
-		    </div>
-			</div>
-			
-			<!-- 비밀번호 찾기 모달 -->
-			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		    <div class="modal-dialog">
-		        <div class="modal-content">
-		            <div class="modal-header">
-		                <h1 class="modal-title fs-5" id="exampleModalLabel" style="text-align: center; display: block; margin: 0 auto;">비밀번호 찾기</h1>
-		            </div>
-		            <div class="modal-body">
-		                <form:form action="${pageContext.request.contextPath}/member/searchIdModal" method="post">
-						    <div class="form-group">
-						        <input type="text" class="form-control" name="username" placeholder="이름" value="">
-						    </div>
-						    <div class="form-group">
-						        <div class="input-group">
-						            <input type="email" class="form-control" name="email" placeholder="이메일" value="">
-						            <button type="button" class="btn btn-primary" id="sendCodeButton">인증코드 보내기</button>
-						        </div>
-						    </div>
-		                   
-		                    
-		                </form:form>
-		            </div>
-           		 	<div class="modal-footer">
-                		<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnClose">Close</button>
-				    </div>
-		        </div>
-		    </div>
-			</div>
+		
+		<!-- 비밀번호 찾기 버튼(준한) -->	
+		<div class = "search-memberPw-btn">
+			<input type="button" value="비밀번호 찾기" onclick="showPwPopup();">
+		</div>
+		
+		
+		
+<script>
+/* 아이디 찾기 */
+function showIdPopup(){
+    window.open("${pageContext.request.contextPath}/member/searchId.do","팝업 테스트","width=500, height=500, top=200, left=500");
+}
 
+/* 비밀번호 찾기 */
+function showPwPopup(){
+    window.open("${pageContext.request.contextPath}/member/searchPw.do","팝업 테스트","width=500, height=500, top=200, left=500");
+}
+</script>
+			
+			
+			
+			
 
 <?php $siteKey = '6LfbKtwnAAAAAAIDXAW7vm0GbfBnOPCvP_EONSV9';  ?>		
 <!-- jquery 3.5.1 -->
@@ -126,94 +90,7 @@
 <script src='//www.google.com/recaptcha/api.js' async defer></script>
  
 	
-<script>
-	var btnOpen = document.getElementById("btnIdOpen");
-	var btnClose = document.getElementById("btnIdClose");
-	var token = $("meta[name='_csrf']").attr("content");
-	var header = $("meta[name='_csrf_header']").attr("content");
-	var modal = new bootstrap.Modal(document.getElementById("idModal"));
-	
-	btnOpen.addEventListener("click", function() {
-	    modal.show();
-	});
-	
-	btnClose.addEventListener("click", function() { // 여기 수정
-	    modal.hide();
-	});
-	
-	document.addEventListener("DOMContentLoaded", function() {
-        var sendCodeButton = document.getElementById("sendCodeButton");
-        var searchIdForm = document.querySelector("#idModal form");
-        
-        sendCodeButton.addEventListener("click", function() {
-            var username = searchIdForm.querySelector('input[name="username"]').value;
-            var email = searchIdForm.querySelector('input[name="email"]').value;
-			console.log(username);
-			console.log(email);
-			console.log(header);
-			console.log(name);
-            // AJAX 요청으로 데이터 전송
-            $.ajax({
-                url: "${pageContext.request.contextPath}/club/searchIdModal.do",
-                method: "post",
-                data: {
-                	username: username,
-                    email: email
-                },
-                beforeSend(xhr) {
-                	console.log('xhr : ', xhr)
-        			xhr.setRequestHeader(header, token);
-        		},
-                success: function(response) {
-                    alert('인증코드를 이메일로 발송합니다. 등록된 정보가 없을 시 코드가 발송되지 않으니 주의바랍니다!');
-                }
-            });
-        });
-    });
-</script>
-<script>
-	var btnOpen = document.getElementById("btnPwOpen");
-	var btnClose = document.getElementById("btnPwClose");
-	var token = $("meta[name='_csrf']").attr("content");
-	var header = $("meta[name='_csrf_header']").attr("content");
-	var modal = new bootstrap.Modal(document.getElementById("exampleModal"));
-	
-	btnOpen.addEventListener("click", function() {
-	    modal.show();
-	});
-	
-	btnClose.addEventListener("click", function() { // 여기 수정
-	    modal.hide();
-	});
-	
-	document.addEventListener("DOMContentLoaded", function() {
-        var sendCodeButton = document.getElementById("sendCodeButton");
-        var searchIdForm = document.querySelector("#exampleModal form");
-        
-        sendCodeButton.addEventListener("click", function() {
-            var username = searchIdForm.querySelector('input[name="username"]').value;
-            var email = searchIdForm.querySelector('input[name="email"]').value;
-			console.log(username);
-			console.log(email);
-			console.log(header);
-			console.log(name);
-            // AJAX 요청으로 데이터 전송
-            $.ajax({
-                url: "${pageContext.request.contextPath}/club/searchIdModal.do",
-                method: "post",
-                data: {
-                	username: username,
-                    email: email
-                },
-                beforeSend(xhr) {
-                	console.log('xhr : ', xhr)
-        			xhr.setRequestHeader(header, token);
-        		},
-                success: function(response) {
-                    alert('인증코드를 이메일로 발송합니다. 등록된 정보가 없을 시 코드가 발송되지 않으니 주의바랍니다!');
-                }
-            });
-        });
-    });
-</script>
+
+
+
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

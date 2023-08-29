@@ -328,7 +328,7 @@ div#search-content {
 				}else{
 					html=`
 						<tr>
-							<td colspan="8">게시글이 없습니다. 제일먼저 게시글을 작성해보세요😁</td>
+							<td colspan="8">문의가 없습니다.😁</td>
 						</tr>
 					`;
 				}
