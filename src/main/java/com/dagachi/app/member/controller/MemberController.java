@@ -5,10 +5,20 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -18,11 +28,16 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import javax.mail.internet.MimeMessage;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.core.io.FileSystemResource;
 
 
 import com.dagachi.app.club.dto.ClubAndImage;
@@ -40,10 +55,11 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Validated
-//@RequestMapping("/member")
 @SessionAttributes({"likeMe"})
 @Slf4j
 @RequestMapping("/member")
+@Configuration
+@ConfigurationProperties(prefix = "spring.mail")
 public class MemberController {
 
 	@Autowired
@@ -54,6 +70,10 @@ public class MemberController {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+    private JavaMailSender javaMailSender;
+	
 	
 	 @GetMapping("/{memberId}")
 	    public String memberDetail(
@@ -117,5 +137,117 @@ public class MemberController {
 
 		 return "redirect:/member/" + memberId;
 	 }
+	 
 
+	 @GetMapping("memberLikeCheck.do")
+	 public ResponseEntity<?> memberLikeCheck(
+			 @RequestParam String memberId,
+			 @AuthenticationPrincipal MemberDetails loginMember) {
+		 
+		 int checkDuplicate = memberService.checkDuplicateMemberId(memberId);
+		 
+		 boolean memberLikeCheck = checkDuplicate != 0 ? true : false;
+				 
+		 return ResponseEntity.status(HttpStatus.OK).body(memberLikeCheck);
+	 }
+	 
+	 @PostMapping("/deleteMemberLike.do")
+	 public String deleteMemberLike(
+			 @AuthenticationPrincipal MemberDetails loginMember,
+			 @RequestParam String memberId
+			 ){
+		 String loginMemberId = loginMember.getMemberId();
+		 
+		 Map<String, Object> params = Map.of(
+					"memberId", memberId,
+					"loginMemberId", loginMemberId
+					 );
+		 
+		 int result = memberService.cancelMemberLike(params);
+		 
+		 return "redirect:/member/" + memberId;
+				 
+		 
+	 }
+
+	 @GetMapping("/searchId.do")
+	 public void searchId() {}
+
+	 
+	 @PostMapping("/memberSearchId.do")
+	 public String memberSearchId(
+			 @RequestParam("email") String email,
+			 Model model
+			 ) {
+		 log.debug("email = {} ",email);
+		 
+		 Member member = memberService.findmemberIdByEmail(email);
+		 
+		 if(member == null) {
+			 String memberId = "없음";
+			 model.addAttribute("memberId",memberId);
+		 } else {
+			 String memberId = member.getMemberId();
+			 model.addAttribute("memberId",memberId);
+		 }
+		 
+		 model.addAttribute("member",member);
+		 model.addAttribute("email",email);
+		 
+		 return "/member/searchIdResult";
+	 }
+	 
+	 @GetMapping("/searchPw.do")
+	 public void searchPw() {}
+	 
+	 @GetMapping("/sendCode.do")
+	 public ResponseEntity<?> sendVerificationCode(
+			 @RequestParam("username") String username, 
+             @RequestParam("email") String email
+			 ){
+		 
+		 log.debug("가져오긴했냐? ={}", username);
+		 log.debug("가져오긴했냐? ={}", email);
+		 
+		 Member member = memberService.findMemberByName(username);
+		 Member member2 = memberService.findMemberByEmail(email);
+		 log.debug("memberzzzzzzzzzzzz={}",member);
+		 log.debug("member똑같냐?={}",member2);
+		 String randomCode = null;
+		 if(member != null && member2 != null && member.equals(member2)) {
+			 // 입력받은 이름과 이메일이 db에 있는 정보와 일치할 시,
+			 int min = 100000;
+		     int max = 999999;
+		     Random random = new Random();
+		     int randomNumber = random.nextInt(max - min + 1) + min;
+		     randomCode = String.valueOf(randomNumber);
+		     
+			 SimpleMailMessage message = new SimpleMailMessage();
+			 message.setFrom("khsso102649@gmail.com");
+			 message.setTo(email);
+			 message.setSubject("인증코드 메일");
+			 message.setText(randomCode);
+			 
+			 javaMailSender.send(message);
+			 
+			 
+		 }else {
+			 
+			 randomCode = null;
+			 
+		 }
+		 
+		 return ResponseEntity.status(HttpStatus.OK).body(randomCode);
+	 }
+	 
+//	 @PostMapping("/memberSearchPw.do")
+//	 public String searchPwByCode(
+//			 @RequestParam ("code") String code
+//			 ) {
+//		 
+//		 
+//		 return "";
+//	 }
+	 
+	 
 }
