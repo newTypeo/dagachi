@@ -510,10 +510,16 @@ public class ClubServiceImpl implements ClubService {
 	public int updateClubMainContent(ClubLayout clubLayout) {
 		return  clubRepository.updateClubMainContent(clubLayout);
 	}
+	@Override
 	public int clubLike(Map<String, Object> params) {
 		return clubRepository.clubLike(params);
 	}
 	
+	@Override
+	public int cancelClubLike(Map<String, Object> params) {
+		return clubRepository.cancelClubLike(params);
+	}
+
 	@Override
 	public List<ClubBoard> searchBoards(Map<String, Object> searchBoardMap, Map<String, Object> params) {
 		int limit = (int) params.get("limit");

@@ -175,5 +175,9 @@ public interface ClubService {
 
 	int clubGalleryCreate2(CreateGalleryDto createGalleryDto);
 
+	int cancelClubLike(Map<String, Object> params);
+
+	
+
 
 }
