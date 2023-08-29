@@ -77,6 +77,10 @@ public interface MemberService extends UserDetailsService {
 
 	int insertMember(MemberCreateDto member);
 
+	int cancelMemberLike(Map<String, Object> params);
+	
+	
+
 
 
 }

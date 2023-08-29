@@ -61,9 +61,9 @@
 			<span class="verticalBar">|</span> 
 			<c:if test="${member.memberId eq loginMember.memberId}">
 				<!-- 로그인한 객체가 보고있는 객체가 같을 때 -->
-				<a type="button" onclick="updateMember()">∘ 정보 수정</a>
+				<a type="button" onclick="updateMember()">정보 수정</a>
 				<span class="verticalBar">|</span> 
-				<a type="button" onclick="withdrawalMember();">∘ 회원탈퇴</a>
+				<a type="button" onclick="withdrawalMember();">회원탈퇴</a>
 				<form:form 
 					name="memberDeleteFrm"
 					action="${pageContext.request.contextPath}/member/memberDelete.do"
@@ -110,6 +110,12 @@
 	<button type="button" class="btn btn-outline-danger"
 		onclick="memberLike()">좋아요</button>
 </c:if>
+
+<form:form name="deleteMemberLikeFrm" method="POST"
+	action="${pageContext.request.contextPath}/member/deleteMemberLike.do">
+	<input type="hidden" id="memberId" name="memberId"
+		value="${member.memberId}" />
+</form:form>
 
 <form:form name="memberLikeFrm" method="POST"
 	action="${pageContext.request.contextPath}/member/memberLike.do">
@@ -240,11 +246,34 @@ const payment = () => {
 
 
 const memberLike = () => {
-	//console.log("잘 되는감?");
-	const memberLikeFrm = document.memberLikeFrm;
-	console.log(memberLikeFrm);
-	memberLikeFrm.submit();
-}
+	const memberId = "${member.memberId}";
+	$.ajax({
+		url : "${pageContext.request.contextPath}/member/memberLikeCheck.do",
+		data : { memberId: memberId }, // 객체 프로퍼티 이름을 명시해줘야 함
+		success: function(responseData) {
+			console.log(responseData);
+			if(responseData) {	
+				
+				if(confirm("관심표시를 취소하시겠습니까?")) {
+					console.log("현우야 잘했어 다 왔다!!!!");
+					const deleteMemberLikeFrm = document.deleteMemberLikeFrm;
+					console.log(deleteMemberLikeFrm);		
+					deleteMemberLikeFrm.submit();
+				} 
+				
+			} else {
+				const memberNickname = "${member.nickname}";
+				
+				if(confirm(memberNickname + "님께 관심 표시를 하시겠습니까?")) {
+					const memberLikeFrm = document.memberLikeFrm;
+					console.log(memberLikeFrm);
+					memberLikeFrm.submit();
+				} // 좋아요
+				
+			} // else
+		} // success 
+	}); // ajax
+} // 함수
 
 const updateMember = () => {
 	window.location.href = "${pageContext.request.contextPath}/member/memberUpdate.do" 

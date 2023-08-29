@@ -105,6 +105,9 @@ public interface MemberRepository {
 	
 	@Insert("insert into member_like values(seq_member_like_id.nextval, #{memberId}, #{loginMemberId}, default)")
 	int memberLike(Map<String, Object> params);
+	
+	@Delete("delete from member_like where member_Id = #{memberId} and like_sender = #{loginMemberId}")
+	int cancelMemberLike(Map<String, Object> params);
 
 	@Select("select * from member_like where member_id = #{loginMemberId} order by like_id")
 	List<MemberLike> findAllLikeMe(String loginMemberId);
@@ -117,4 +120,5 @@ public interface MemberRepository {
 
 	@Select("select * from club_member where member_id = #{memberId}")
 	List<ClubMember> findClubMemberByMemberId(String memberId);
+	
 }
