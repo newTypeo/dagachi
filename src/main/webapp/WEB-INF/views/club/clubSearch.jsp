@@ -17,7 +17,8 @@
 			action="${pageContext.request.contextPath}/club/searchClubWithFilter.do">
 			<label for="activityArea">활동 지역:</label> 
 			<select id="filter-activityArea" name="region"><!-- js로 options 처리 --></select> 
-			<select id="filter-activityAreaDetail" name="zone" style="display: none;"><!-- js로 options 처리 --></select>
+			<select id="filter-activityAreaDetail" name="zone" style="display: none;">
+			<option value="">전체</option></select>
 			
 			<label for="category">모임 분류:</label> <select id="filter-category" name="category"> <!-- js로 options 처리 --></select>
 
@@ -32,19 +33,22 @@
 		<c:forEach items="${clubs}" var="club" varStatus="vs">
 			<table>
 				<tr class="cards">
-					<td class="card-images"><img src="${pageContext.request.contextPath}/resources/upload/club/profile/${club.renamedFilename}" width="200px"></td>
-					<td class="card-content">
-						<p>모임명 : ${club.clubName}</p>
-						<p>모임 지역 : ${club.activityArea}</p>
-						<p>모임 분류 : ${club.category}</p>
-						<p>모임 인원 : ${club.memberCount}/100</p>
-						<p>
-							모임 생성일 :
-							<fmt:parseDate value="${club.createdAt}"
-								pattern="yyyy-MM-dd'T'HH:mm" var="createdAt" />
-							<fmt:formatDate value="${createdAt}" pattern="yyyy-MM-dd" />
-						</p>
-					</td>
+					<a class="card" style="width: 18rem;" href="${pageContext.request.contextPath}/club/\${club.domain}">
+						<td class="card-images"><img src="${pageContext.request.contextPath}/resources/upload/club/profile/${club.renamedFilename}" width="200px"></td>
+					</a>
+						<td class="card-content">
+							<p>모임명 : ${club.clubName}</p>
+							<p>모임 지역 : ${club.activityArea}</p>
+							<p>모임 분류 : ${club.category}</p>
+							<p>모임 인원 : ${club.memberCount}/100</p>
+							<p>
+								모임 생성일 :
+								<fmt:parseDate value="${club.createdAt}"
+									pattern="yyyy-MM-dd'T'HH:mm" var="createdAt" />
+								<fmt:formatDate value="${createdAt}" pattern="yyyy-MM-dd" />
+							</p>
+						</td>
+					
 				</tr>
 			</table>
 		</c:forEach>
@@ -78,7 +82,7 @@ document.querySelector("#filter-activityArea").onchange = (e) => {
 				const fullAddr = regcodes[index]["name"];
 				const region = fullAddr.split(" ");
 				
-				if(region[1] == zone) { 
+				if(region[1] == zone) {
 					
 					const first5 = regcodes[index]["code"].toString().substr(0,5); // 3. 사용자가 선택한 구의 모든 동을 조회하기위한 코드 
 					
@@ -113,6 +117,7 @@ document.querySelector("input[name=inputText]").value = '${inputText}';
 const category = document.querySelector("#filter-category");
 category.innerHTML ='<option value="">전체</option>';
 
+
 // 카테고리 option
 document.querySelectorAll("#category-modal-left-upper a").forEach((a) => {
 	category.innerHTML += `
@@ -137,11 +142,14 @@ $.ajax({
 		});
 	},
 	complete() {
-		if(${not empty area}) {
-			document.querySelector("[value='" + '${area}' + "']").selected = 'true';
+		if(${not empty region}) {
+			document.querySelector("[value='" + '${region}' + "']").selected = 'true';
 		}
 		if(${not empty category}) {
 			document.querySelector("[value='" + '${category}' + "']").selected = 'true';
+		}
+		if(${not empty zone}) {
+			document.querySelector("[value='" + '${zone}' + "']").selected = 'true';
 		}
 	}
 });

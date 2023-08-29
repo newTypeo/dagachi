@@ -259,10 +259,7 @@ public class ClubController {
 			@RequestParam String region, 
 			@RequestParam String category,
 			@RequestParam(defaultValue = "1") int page) {
-		log.debug("region = {}", region);
 		String area = region + " " + zone;
-		log.debug("area = {}", area);
-		log.debug("category = {}", category);
 		
 		String getCount = "getCount";
 		String inputText = (String) session.getAttribute("inputText");
@@ -284,7 +281,8 @@ public class ClubController {
 		pageBar = pageBar.replaceAll("\\?", "&");
 		pageBar = pageBar.replaceAll("#&", "\\?");
 		
-		model.addAttribute("area", area);
+		model.addAttribute("zone", zone);
+		model.addAttribute("region", region);
 		model.addAttribute("category", category);
 		model.addAttribute("clubs", clubs);
 		model.addAttribute("pagebar", pageBar);
