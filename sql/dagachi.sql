@@ -183,6 +183,7 @@ create table club_schedule (
 	schedule_id	number	not null,
 	club_id	number	not null,
 	title	varchar2(200)	not null,
+    writer  varchar2(30) not null,
 	start_date date	not null,
 	end_date date,
 	expence	number	default 0,
@@ -1078,15 +1079,15 @@ insert into member_like values(1,'honggd','user1',sysdate);
 insert into member_like values(2,'honggd','user2',sysdate);
 
 -- 소모임 일정 샘플
-INSERT INTO club_schedule (schedule_id, club_id, title, start_date, end_date, expence, capacity, alarm_date, status)
-VALUES (seq_club_schedule_id.nextval, 1, '두근두근 축구데이트', TO_DATE('2023-08-20', 'YYYY-MM-DD'), TO_DATE('2023-08-20', 'YYYY-MM-DD'), 5000, 10, TO_DATE('2023-08-18', 'YYYY-MM-DD'), 'Y');
-INSERT INTO club_schedule (schedule_id, club_id, title, start_date, end_date, expence, capacity, alarm_date, status)
-VALUES (seq_club_schedule_id.nextval, 1, '두근두근 농구데이트', TO_DATE('2023-09-05', 'YYYY-MM-DD'), TO_DATE('2023-09-05', 'YYYY-MM-DD'), 3000, 15, TO_DATE('2023-09-02', 'YYYY-MM-DD'), 'Y');
-INSERT INTO club_schedule (schedule_id, club_id, title, start_date, end_date, expence, capacity, alarm_date, status)
-VALUES (seq_club_schedule_id.nextval, 1, '신나는 볼링데이트', TO_DATE('2023-09-15', 'YYYY-MM-DD'), TO_DATE('2023-09-17', 'YYYY-MM-DD'), 0, 10, TO_DATE('2023-09-10', 'YYYY-MM-DD'), 'Y');
-INSERT INTO club_schedule (schedule_id, club_id, title, start_date, end_date, expence, capacity, alarm_date, status)
-VALUES (seq_club_schedule_id.nextval, 1, '나랑 놀사람', TO_DATE('2023-10-15', 'YYYY-MM-DD'), TO_DATE('2023-10-17', 'YYYY-MM-DD'), 0, 10, TO_DATE('2023-10-10', 'YYYY-MM-DD'), 'Y');
-
+INSERT INTO club_schedule (schedule_id, club_id, title, writer, start_date, end_date, expence, capacity, alarm_date, status)
+VALUES (seq_club_schedule_id.nextval, 1, '두근두근 축구데이트', 'honggd', TO_DATE('2023-08-20', 'YYYY-MM-DD'), TO_DATE('2023-08-20', 'YYYY-MM-DD'), 5000, 10, TO_DATE('2023-08-18', 'YYYY-MM-DD'), 'Y');
+INSERT INTO club_schedule (schedule_id, club_id, title, writer, start_date, end_date, expence, capacity, alarm_date, status)
+VALUES (seq_club_schedule_id.nextval, 1, '두근두근 농구데이트', 'user9', TO_DATE('2023-09-05', 'YYYY-MM-DD'), TO_DATE('2023-09-05', 'YYYY-MM-DD'), 3000, 15, TO_DATE('2023-09-02', 'YYYY-MM-DD'), 'Y');
+INSERT INTO club_schedule (schedule_id, club_id, title, writer, start_date, end_date, expence, capacity, alarm_date, status)
+VALUES (seq_club_schedule_id.nextval, 1, '신나는 볼링데이트', 'user18', TO_DATE('2023-09-15', 'YYYY-MM-DD'), TO_DATE('2023-09-17', 'YYYY-MM-DD'), 0, 10, TO_DATE('2023-09-10', 'YYYY-MM-DD'), 'Y');
+INSERT INTO club_schedule (schedule_id, club_id, title, writer, start_date, end_date, expence, capacity, alarm_date, status)
+VALUES (seq_club_schedule_id.nextval, 1, '나랑 놀사람', 'user26', TO_DATE('2023-10-15', 'YYYY-MM-DD'), TO_DATE('2023-10-17', 'YYYY-MM-DD'), 0, 10, TO_DATE('2023-10-10', 'YYYY-MM-DD'), 'Y');
+select * from club_member where club_id = 1;
 -- 소모임 일정 참가회원 샘플
 INSERT INTO club_schedule_enroll_member (member_id, club_id, schedule_id)
 VALUES ('honggd', 1, 1);

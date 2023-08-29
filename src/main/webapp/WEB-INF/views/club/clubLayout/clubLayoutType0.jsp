@@ -244,11 +244,14 @@
 					<span>👩🏻‍🤝‍🧑🏻${schedule.memberCount}/${schedule.capacity}</span>
 					<span>
 						<fmt:parseDate value="${schedule.startDate}" pattern="yyyy-MM-dd'T'HH:mm" var="startDate"/>
-    					<fmt:formatDate value="${startDate}" pattern="MM.dd HH:mm"/>
+    					<fmt:formatDate value="${startDate}" pattern="MM.dd"/>
     					~
     					<fmt:parseDate value="${schedule.endDate}" pattern="yyyy-MM-dd'T'HH:mm" var="endDate"/>
-    					<fmt:formatDate value="${endDate}" pattern="MM.dd HH:mm"/>
+    					<fmt:formatDate value="${endDate}" pattern="MM.dd"/>
 					</span>
+					<a href="/" class="fontColors">
+						${schedule.writer}
+					</a>
 				</div>
 			</c:forEach>
 		</div>

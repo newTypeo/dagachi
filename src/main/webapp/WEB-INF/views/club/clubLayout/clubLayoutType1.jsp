@@ -14,7 +14,59 @@
 	
 <article id="club-page-article">
 	<div id="club-util-box">
-		<div id="club-myInfo-container"></div>
+		<div id="club-info-container">
+			<button type="button" class="btn btn-danger" id="clubLike" onclick="clubLike()">❤️</button>
+			<h5>🚩${clubInfo.clubName}</h5>
+			<span class="fontColors">since 
+				<fmt:parseDate value="${clubInfo.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="createdAt"/>
+	    		<fmt:formatDate value="${createdAt}" pattern="yyyy.MM.dd"/>
+			</span>
+			<c:if test="${memberRole ne 10}">
+				<span><a href="${pageContext.request.contextPath}/club/${domain}/clubMemberList.do">😀멤버 : ${clubInfo.memberCount}</a></span>
+			</c:if>
+			<c:if test="${memberRole eq 10}">
+				<span>😀멤버 : ${clubInfo.memberCount}</span>
+			</c:if>
+		</div>
+		<div id="club-myInfo-container" style="border-color: ${layout.pointColor}">
+			<c:if test="${memberRole ne 10}">
+				<div class="myProfile1" style="border-color: ${layout.pointColor}">
+					<img alt="" src="${pageContext.request.contextPath}/resources/upload/member/profile/<sec:authentication property="principal.memberProfile.renamedFilename"/>">
+				</div>
+				<div class="myProfile2">
+					<p><strong><sec:authentication property="principal.nickname"/></strong></p>
+					<c:if test ="${memberRole eq 3}">
+						<p><strong>🥇방장</strong>|<a href="${pageContext.request.contextPath}/club/${domain}/clubUpdate.do">모임 관리</a></p>
+					</c:if>
+					<c:if test ="${memberRole eq 2}">
+						<p><strong>🥇부방장</strong>|<a href="${pageContext.request.contextPath}/club/${domain}/clubUpdate.do">모임 관리</a></p>
+					</c:if>
+					<c:if test ="${memberRole eq 1}">
+						<p><strong>🥇임원</strong>|<a href="${pageContext.request.contextPath}/club/${domain}/clubUpdate.do">모임 관리</a></p>
+					</c:if>
+					<c:if test ="${memberRole eq 0}">
+						<p><strong>🎀일반회원</strong></p>
+					</c:if>
+					<p><a href="${pageContext.request.contextPath}/member/memberClubDetail.do">나의 모임 정보</a></p>
+				</div>
+				<div class="myProfile3">
+					<button class="btn" style="background-color: ${layout.fontColor}">글쓰기</button>
+					<button class="btn" style="background-color: ${layout.fontColor}">일정생성</button>
+				</div>
+			</c:if>
+			<c:if test="${memberRole eq 10}">
+				<div>
+					<button 
+						class="btn btn-outline-success my-2 my-sm-0" 
+						type="button" 
+						onclick="location.href = '${pageContext.request.contextPath}/club/${domain}/clubEnroll.do'">
+						가입신청하기
+					</button>	
+				</div>
+			</c:if>
+			
+			
+		</div>
 		<div id="club-total-container" class="fontColors" style="border-color: ${layout.pointColor}">
 			<div>
 				<a>📄전체글보기</a>
@@ -187,11 +239,14 @@
 					<span>👩🏻‍🤝‍🧑🏻${schedule.memberCount}/${schedule.capacity}</span>
 					<span>
 						<fmt:parseDate value="${schedule.startDate}" pattern="yyyy-MM-dd'T'HH:mm" var="startDate"/>
-    					<fmt:formatDate value="${startDate}" pattern="MM.dd HH:mm"/>
+    					<fmt:formatDate value="${startDate}" pattern="MM.dd"/>
     					~
     					<fmt:parseDate value="${schedule.endDate}" pattern="yyyy-MM-dd'T'HH:mm" var="endDate"/>
-    					<fmt:formatDate value="${endDate}" pattern="MM.dd HH:mm"/>
+    					<fmt:formatDate value="${endDate}" pattern="MM.dd"/>
 					</span>
+					<a href="/" class="fontColors">
+						${schedule.writer}
+					</a>
 				</div>
 			</c:forEach>
 		</div>

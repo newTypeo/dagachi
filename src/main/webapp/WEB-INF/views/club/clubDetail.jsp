@@ -88,7 +88,6 @@ document.querySelectorAll('.fontColors').forEach((elem) => {
 document.querySelectorAll('.pointColors').forEach((elem) => {
 	elem.style.color = '${layout.pointColor}';
 });
-console.log("${layout.font}")
 document.body.style.fontFamily = "${layout.font}";
 </script>
 

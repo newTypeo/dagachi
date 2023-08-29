@@ -124,10 +124,7 @@ public class ClubController {
 	 
 		return ResponseEntity.status(HttpStatus.OK).body(clubs); 
 	}
-	
 
-	@GetMapping("/main.do")
-	public void Detail() {}
 
 	/**
 	 * @author ?

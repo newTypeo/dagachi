@@ -87,6 +87,10 @@
 	float: right;
 	margin-left: 10px;
 }
+.container-main-schedule > div > a:last-of-type {
+	display: inline-block;
+	float: right;
+}
 
 
 /* 커스텀 */
@@ -175,8 +179,9 @@
 	height: 540px;
 }
 #carouselExampleControls > button {
-	width: 5%;
-	opacity: 1;
+	width: 2%;
+    margin: 4px;
+    opacity: 1;
 }
 
 
