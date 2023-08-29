@@ -216,5 +216,10 @@ public class MemberServiceImpl implements MemberService{
 		return memberRepository.checkDuplicateMemberId(memberId);
 	}
 	
+	@Override
+	public Member findmemberIdByEmail(String email) {
+		return memberRepository.findmemberIdByEmail(email);
+	}
+	
 	
 }

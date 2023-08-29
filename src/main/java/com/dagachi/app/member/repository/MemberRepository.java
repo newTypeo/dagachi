@@ -117,4 +117,7 @@ public interface MemberRepository {
 
 	@Select("select * from club_member where member_id = #{memberId}")
 	List<ClubMember> findClubMemberByMemberId(String memberId);
+
+	@Select("select * from member where email = #{email}")
+	Member findmemberIdByEmail(String email);
 }

@@ -77,6 +77,8 @@ public interface MemberService extends UserDetailsService {
 
 	int insertMember(MemberCreateDto member);
 
+	Member findmemberIdByEmail(String email);
+
 
 
 }
