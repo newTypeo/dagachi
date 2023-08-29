@@ -1,5 +1,6 @@
 package com.dagachi.app.chat.contorller;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -92,6 +93,7 @@ public class ChatController {
 		List<MemberProfile> memberProfiles = memberService.findMemberProfileByClubId(to);
 		
 		String filename="";
+	
 		
 		if(!memberProfiles.isEmpty()) {
 			for(MemberProfile memberProfile : memberProfiles) {
@@ -100,10 +102,6 @@ public class ChatController {
 			}
 		}
 		
-		log.debug("filename={}",filename);
-		log.debug("memberProfiles={}",memberProfiles);
-		log.debug("from={}",from);
-		log.debug("to={}",to);
 		return ResponseEntity.status(HttpStatus.OK).body(filename);
 	}
 	

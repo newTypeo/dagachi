@@ -153,7 +153,7 @@ a {
 		const memberId = "${memberId}";
 		const clubId = ${clubId};
 		const loot="${pageContext.request.contextPath}";
-	 	let pro='';
+	 	
 
 		console.log(memberId);
 		
@@ -223,19 +223,25 @@ a {
 	</sec:authorize>
 	<script>
 const loadPro=(from,to)=>{
+	let pro='';
 	$.ajax({
  		url:'${pageContext.request.contextPath}/chat/findWriterProfile.do',
  		data : {from,to},
+ 		async :false,
  		success(data){
- 			console.log(data);
+ 			console.log(data,decodeURI(data));
  			if(data !== null){
- 				pro="\${data}";
+ 				pro= decodeURI(data);
  			}
  		}
- 	
+ 		
  	});
+	return pro;
 };
 
+const loadProProList=(clubId)=>{
+		
+};
 
 document.querySelector("#msgBox").addEventListener("keydown",(e)=>{
 	 if (e.key === "Enter" && !e.shiftKey) {

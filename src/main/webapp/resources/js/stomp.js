@@ -30,10 +30,11 @@ const renderMessage = (message) => {
 	 	case "MOIMTALK":
 	 	const chatWrap =document.querySelector("#chatWrap");
 	 	const divbox=document.createElement('div');
+		
+		
+		const pro=loadPro(from,to);
+		console.log("pro===",pro);
 
-		loadPro(from,to);
-		console.log(loadPro(from,to));
-		console.log(pro);
 	 	if(from === memberId)
 	 		divbox.className = 'chat ch2';
 	 	else
