@@ -910,6 +910,9 @@ VALUES ('user29', 4, SYSDATE, 0, 1);
 INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
 VALUES ('user30', 4, SYSDATE, 0, 1);
 
+INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
+VALUES ('nayoung', 1, SYSDATE, 0, 1);
+
 -- 회원권한 샘플
 insert into authority values('admin', 'ADMIN');
 insert into authority values('honggd', 'MEMBER');
@@ -1275,11 +1278,16 @@ insert into club_member values('honggddd',3,default,default,3,default);
 insert into club_member values('honggddd',4,default,default,3,default);
 insert into club_member values('honggddd',5,default,default,3,default);
 insert into club_member values('honggddd',6,default,default,3,default);
+
 insert into club_member values('honggddd',7,default,default,3,default);
 
+select * from activity_area;
 
 select * from club where club_id = (select club_id from club_member where member_id = 'honggd');
 
 commit;
 
 select * from club;
+
+select * from chat_log;
+
