@@ -70,8 +70,8 @@
 			<sec:authorize access="isAnonymous()">
 				<div id="header-nav-container">
 					<a href="${pageContext.request.contextPath}/member/memberLogin.do">로그인</a>
-					<span>|</span> <a
-						href="${pageContext.request.contextPath}/member/memberCreate.do">회원가입</a>
+					<span>|</span> 
+					<a href="${pageContext.request.contextPath}/member/memberCreate.do">회원가입</a>
 				</div>
 			</sec:authorize>
 
@@ -82,7 +82,8 @@
 				    	<sec:authentication property="principal.nickname"/>
 				    </a>님, 안녕하삼</span>
 				    &nbsp;
-				    <button type="button" onclick="document.memberLogoutFrm.submit();">로그아웃</button>
+				    <span>|</span> 
+				    <a type="button" onclick="document.memberLogoutFrm.submit();">로그아웃</a>
 				</div>
 
 				<div class="dropdown">

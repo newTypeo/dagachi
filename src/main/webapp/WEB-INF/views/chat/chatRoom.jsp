@@ -172,7 +172,7 @@ a {
 	
 	
 
-		<section id="club-chatRoom-sec" class="">
+		<article id="club-chatRoom-sec" class="">
 
 			<a href="${pageContext.request.contextPath}/chat/chatBox.jsp">목록으로
 				돌아가기</a>
@@ -231,7 +231,7 @@ a {
 				<textarea rows="3" cols="30" id="msgBox"></textarea>
 				<button id="snedMsg">전송</button>
 			</div>
-		</section>
+		</article>
 
 	</sec:authorize>
 	<script>
