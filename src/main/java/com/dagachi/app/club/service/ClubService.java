@@ -163,6 +163,10 @@ public interface ClubService {
 
 	List<Club> findClubsByMemberId(String memberId);
 
+	int likeBoard(Map<String, Object> params);
+
+	int checkBoardLiked(Map<String, Object> params);
+	
 	List<GalleryAndImageDto> findGalleryAndImageByGalleryId(int id);
 
 	int clubGalleryDelete(int id);
@@ -170,9 +174,6 @@ public interface ClubService {
 	int clubGalleryCreate(CreateGalleryDto createGalleryDto);
 
 	int clubGalleryCreate2(CreateGalleryDto createGalleryDto);
-
-
-	
 
 
 }

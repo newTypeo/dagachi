@@ -269,7 +269,31 @@ public class ClubServiceImpl implements ClubService {
 
 		return result;
 	}
-
+	
+	@Override
+	public int likeBoard(Map<String, Object> params) {
+		Boolean like = (Boolean) params.get("like");
+		ClubBoard board = (ClubBoard) params.get("board");
+		
+		// board의 좋아요 수 업데이트
+		int result = clubRepository.updateBoard(board); 
+		
+		if(like) { // 좋아요테이블에 추가
+			System.out.println("좋아요 추가");
+			result += clubRepository.insertClubLike(params);
+		} else { // 좋아요 취소(삭제)
+			System.out.println("좋아요 삭제");
+			result += clubRepository.deleteClubLike(params);
+		}
+		return result;
+	}
+	
+	@Override
+	public int checkBoardLiked(Map<String, Object> params) {
+		return clubRepository.checkBoardLiked(params);
+	}
+	
+	
 	@Override
 	public int clubMemberRoleUpdate(ClubMemberRoleUpdate member) {
 		return clubRepository.clubMemberRoleUpdate(member);

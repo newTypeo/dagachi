@@ -19,7 +19,7 @@ public class ClubBoardAttachment {
 	private int boardId;
 	private String originalFilename;
 	private String renamedFilename;
-	private LocalDateTime createAt;
+	private LocalDateTime createdAt;
 	private Status thumbnail;
 	
 }
