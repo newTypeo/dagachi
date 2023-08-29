@@ -12,7 +12,7 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
-import com.dagachi.app.member.dto.MemberCreateDto;
+import com.dagachi.app.member.dto.MemberKakaoDto;
 import com.dagachi.app.member.entity.MemberDetails;
 import com.dagachi.app.member.service.MemberService;
 
@@ -22,31 +22,51 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Oauth2UserServiceImpl extends DefaultOAuth2UserService {
 	
+	
 	@Autowired
 	private MemberService memberService;
 	
-	
-	// 카카오톡 로그인 
+	/**
+	 * code/token 교환후 가져온 사용자정보를 인자로 전달
+	 * MemberDetails를 OAuth2User 구현클래스로 사용
+	 */
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 		
 		ClientRegistration clientRegistration = userRequest.getClientRegistration(); // IDP
 		OAuth2AccessToken accessToken = userRequest.getAccessToken();
 		OAuth2User oauth2User = super.loadUser(userRequest);
+		log.debug("clientRegistration = {}", clientRegistration);
+		log.debug("accessToken = {}", accessToken);
+		log.debug("oauth2User = {}", oauth2User);
 		
 		Map<String, Object> attributes = oauth2User.getAttributes();
 		String memberId = attributes.get("id") + "@kakao";
 		MemberDetails member = null;
 	
-		// 기존회원 가입여부 조회 (회원가입처리)
+		// 1. 기존회원 가입여부 조회 (회원가입처리)
 		try {
 			member = (MemberDetails) memberService.loadUserByUsername(memberId);
 		} catch (UsernameNotFoundException ignore) {
 			Map<String, Object> kakaoAccount = (Map<String, Object>) attributes.get("kakao_account");
 			Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
 			
-		
+			String name = (String) profile.get("nickname");
+			String email = (String) kakaoAccount.get("email");
+			MemberKakaoDto memberKakaoDto = 
+					MemberKakaoDto.builder()
+						.memberId(memberId)
+						.password("1234")
+						.name(name)
+						.email(email)
+						.build();
+			
+			int result = memberService.KakaoMember(memberKakaoDto);
+			
+			member = (MemberDetails) memberService.loadUserByUsername(memberId);
 		}
+		
+		
 		
 		return member;
 	}

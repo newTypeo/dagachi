@@ -3,9 +3,10 @@ package com.dagachi.app.member.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
+import static com.dagachi.app.common.DagachiUtils.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -35,6 +36,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
 import com.dagachi.app.admin.entity.AdminInquiry;
+import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.common.DagachiUtils;
 import com.dagachi.app.member.dto.MemberCreateDto;
@@ -45,16 +47,19 @@ import com.dagachi.app.member.entity.MemberDetails;
 import com.dagachi.app.member.entity.MemberInterest;
 import com.dagachi.app.member.entity.MemberProfile;
 import com.dagachi.app.member.service.MemberService;
-
+import com.dagachi.app.oauth.service.Oauth2UserServiceImpl;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
  
 import javax.json.Json;
-import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.net.ssl.HttpsURLConnection;
 
@@ -73,86 +78,35 @@ public class MemberSecurityController {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
-	
+
 
 	@GetMapping("/memberCreate.do")
 	public void memberCreate() {
 	}
 	
 	@PostMapping("/memberCreate.do")
-	public String create(@Valid MemberCreateDto member, BindingResult bindingResult, RedirectAttributes redirectAttr) {
-
-	    log.debug("제발요 -> {}", member);
+	public String create(@Valid MemberCreateDto member, BindingResult bindingResult, RedirectAttributes redirectAttr,
+			@RequestParam String interests) throws UnsupportedEncodingException {
+	    
+		JsonArray documents = kakaoMapApi(member.getMainAreaId(), "address"); 
+	    JsonElement document = documents.getAsJsonArray().get(0);
+	    JsonObject item = document.getAsJsonObject();
+	    JsonObject params = item.get("address").getAsJsonObject();
+	    String bCode = params.get("b_code").getAsString();
+	 
 	    String rawPassword = member.getPassword();
 	    String encodedPassword = passwordEncoder.encode(rawPassword);
-	    member.setPassword(encodedPassword);
 	    
+	    
+	    List<String> interest = Arrays.asList(interests.split(","));
+	    member.setInterest(interest);
+	    member.setPassword(encodedPassword);
+	    member.setMainAreaId(bCode);
+	    log.debug("이게 interest -> {}", interest);
 	    int result = memberService.insertMember(member);
 	    return "redirect:/";
 	}
 	
-/*	@PostMapping("/memberCreate.do")
-	public String create(
-	  @Valid MemberCreateDto _member, BindingResult bindingResult,
-	  RedirectAttributes redirectAttr,
-	  @AuthenticationPrincipal MemberDetails member,
-	  @RequestParam(value = "upFile", required = false) MultipartFile upFile
-	) throws IllegalStateException, IOException {
-	  
-	  if(bindingResult.hasErrors()) {
-	    // 에러 나면
-	    ObjectError error = bindingResult.getAllErrors().get(0);
-	    redirectAttr.addFlashAttribute("msg", error.getDefaultMessage());
-	    // log.debug("오류 -> {}", member);
-	    return "redirect:/member/memberCreate.do";
-	  }
-
-	  // 프로필파일 저장
-	  String uploadDir = "/memberProfile/";
-	  MemberProfile memberProfile = null;
-	  if(!upFile.isEmpty()) {
-	    String originalFilename = upFile.getOriginalFilename();
-	    String renamedFilename = DagachiUtils.getRenameFilename(originalFilename); // 20230807_142828888_123.jpg
-	    File destFile = new File(uploadDir + renamedFilename); // 부모디렉토리 생략가능. spring.servlet.multipart.location 값을 사용
-	    upFile.transferTo(destFile); // 실제파일 저장
-
-	    memberProfile = memberProfile.builder()
-	      .originalFilename(originalFilename)
-	      .renamedFilename(renamedFilename)
-	      .build();
-	  }
-	  
-	  // 인코딩 
-	  String rawPassword = member.getPassword();
-	  String encodedPassword = passwordEncoder.encode(rawPassword);
-	  // log.debug("회원가입 완료{} -> {}", rawPassword, encodedPassword); // 인코딩 비밀번호 알고싶을때 사용
-	  member.setPassword(encodedPassword);
-
-	  
-	  ActivityArea activityArea = new ActivityArea();
-
-	  // 2. db저장
-	  MemberDetails member1 = MemberDetails.builder()
-			    .memberId(_member.getMemberId())
-			    .password(_member.getPassword())
-			    .name(_member.getName())
-			    .nickname(_member.getMemberId())
-			    .phoneNo(_member.getPhoneNo())
-			    .email(_member.getMemberId())
-			    .birthday(_member.getBirthday())
-			    .gender(_member.getGender())
-			    .build();
-	  
-	  int result = memberService.insertMember(member1);
-	  
-	  redirectAttr.addFlashAttribute("msg", "회원가입 완료");
-	  
-	  return "redirect:/";
-	}*/
-	
-
-
-
 	@GetMapping("/memberAdminInquiry.do")
 	public void InquiryCreate() {
 	}
