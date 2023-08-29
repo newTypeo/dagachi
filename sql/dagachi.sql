@@ -159,6 +159,7 @@ create table member_profile (
 create table club_gallery (
 	gallery_id	number	not null,
 	club_id	number	not null,
+    member_id varchar2(30) not null,
 	like_count number default 0,
 	status char(1) default 'Y'
 );
@@ -310,6 +311,8 @@ create table cbc_like(
     target_id number not null,
     created_at date default sysdate
 );
+
+
 alter table member add constraint pk_member primary key (
 	member_id
 );
@@ -568,6 +571,13 @@ member_id
 );
 alter table club add constraint uq_club_domain unique (
     domain
+);
+
+alter table club_gallery add constraint fk_member_to_club_member_2 foreign key (
+	member_id
+)
+references member (
+	member_id
 );
 CREATE SEQUENCE seq_Inquiry_id
 START WITH 1
@@ -1187,16 +1197,16 @@ insert into club_layout (club_id, type, font, background_color, font_color, poin
 values (1, default, default, '#dddddd', '#778899', '#496682', 'sportClubTitleSample.png', 'sportClubMainSample.png', '스포츠 열정 클럽에 오신것을 환영합니다!');
 
 -- 클럽갤러리 샘플
-insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 10, 'Y');
-insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 20, 'Y');
-insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 30, 'Y');
-insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 14, 'Y');
-insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 15, 'Y');
-insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 13, 'Y');
-insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 187, 'Y');
-insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 12, 'Y');
-insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 5, 'Y');
-insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 7, 'Y');
+insert into club_gallery (gallery_id, club_id,member_id, like_count, status) values (seq_club_gallery_id.nextval, 1,'honggd', 10, 'Y');
+insert into club_gallery (gallery_id, club_id,member_id, like_count, status) values (seq_club_gallery_id.nextval, 1,'honggd', 20, 'Y');
+insert into club_gallery (gallery_id, club_id,member_id, like_count, status) values (seq_club_gallery_id.nextval, 1,'honggd', 30, 'Y');
+insert into club_gallery (gallery_id, club_id,member_id, like_count, status) values (seq_club_gallery_id.nextval, 1,'honggd', 14, 'Y');
+insert into club_gallery (gallery_id, club_id,member_id, like_count, status) values (seq_club_gallery_id.nextval, 1,'honggd', 15, 'Y');
+insert into club_gallery (gallery_id, club_id,member_id, like_count, status) values (seq_club_gallery_id.nextval, 1,'honggd', 13, 'Y');
+insert into club_gallery (gallery_id, club_id,member_id, like_count, status) values (seq_club_gallery_id.nextval, 1,'honggd', 187, 'Y');
+insert into club_gallery (gallery_id, club_id,member_id, like_count, status) values (seq_club_gallery_id.nextval, 1,'honggd', 12, 'Y');
+insert into club_gallery (gallery_id, club_id,member_id, like_count, status) values (seq_club_gallery_id.nextval, 1,'honggd', 5, 'Y');
+insert into club_gallery (gallery_id, club_id,member_id, like_count, status) values (seq_club_gallery_id.nextval, 1,'honggd', 7, 'Y');
 
 -- 클럽갤러리 사진 샘플
 insert into club_gallery_attachment (id, gallery_id, original_filename, renamed_filename, created_at, thumbnail)
@@ -1278,7 +1288,6 @@ insert into club_member values('honggddd',6,default,default,3,default);
 insert into club_member values('honggddd',7,default,default,3,default);
 
 
-select * from club where club_id = (select club_id from club_member where member_id = 'honggd');
 
 commit;
 

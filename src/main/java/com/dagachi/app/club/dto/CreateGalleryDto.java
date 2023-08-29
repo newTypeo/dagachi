@@ -1,14 +1,17 @@
-package com.dagachi.app.club.entity;
+package com.dagachi.app.club.dto;
 
 import com.dagachi.app.club.common.Status;
 
+import lombok.Builder;
 import lombok.Data;
 
+@Builder
 @Data
-public class ClubGallery {
+public class CreateGalleryDto {
+
 	private int galleryId;
 	private int clubId;
 	private String memberId;
-	private int likeCount;
+	private String renamedFilename;
 	private Status status;
 }

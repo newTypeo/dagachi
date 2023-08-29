@@ -152,10 +152,14 @@ a {
 		<script>
 		const memberId = "${memberId}";
 		const clubId = ${clubId};
-		
+		const loot="${pageContext.request.contextPath}";
+	 	
+
 		console.log(memberId);
 		
 	</script>
+	
+	
 
 		<section id="club-chatRoom-sec" class="">
 
@@ -170,7 +174,8 @@ a {
 						<c:if test="${chatlog.writer eq memberId}">
 							<div class="chat ch2">
 								<div class="icon">
-									<i class="fa-solid fa-user"></i>
+									<i class="fa-solid fa-user"></i> <img alt=""
+										src="${pageContext.request.contextPath}/resources/upload/member/profile/<sec:authentication property="principal.memberProfile.renamedFilename"/>">
 								</div>
 								<div class="textbox">${chatlog.content}</div>
 							</div>
@@ -180,6 +185,12 @@ a {
 							<div class="chat ch1">
 								<div class="icon">
 									<i class="fa-solid fa-user"></i>
+									<c:forEach items="${memberProfiles}" var="memberProfile">
+										<c:if test="${memberProfile.memberId eq chatlog.writer}">
+											<img alt=""
+												src="${pageContext.request.contextPath}/resources/upload/member/profile/${memberProfile.renamedFilename}" />
+										</c:if>
+									</c:forEach>
 								</div>
 								<div class="textbox">${chatlog.content}</div>
 							</div>
@@ -192,25 +203,17 @@ a {
 				</c:if>
 
 				<c:if test="${empty chatlogs}">
-
-					<div class="textbox">채팅을 시작하세요</div>
+					<div class="chat">
+						<div class="icon">
+							<i class="fa-solid fa-user"></i> <img alt=""
+								src="${pageContext.request.contextPath}/resources/upload/member/profile/<sec:authentication property="principal.memberProfile.renamedFilename"/>">
+						</div>
+						<div class="textbox">채팅을 시작하세요</div>
+					</div>
 				</c:if>
 
 			</div>
 
-			<!-- 			<div class="chat ch1">
-				<div class="icon">
-					<i class="fa-solid fa-user"></i>
-				</div>
-				<div class="textbox">안녕하세요. 반갑습니다.</div>
-			</div>
-			<div class="chat ch2">
-				<div class="icon">
-					<i class="fa-solid fa-user"></i>
-				</div>
-				<div class="textbox">안녕하세요. 친절한효자손입니다. 그동안 잘 지내셨어요?</div>
-			</div>
- -->
 			<div>
 				<textarea rows="3" cols="30" id="msgBox"></textarea>
 				<button id="snedMsg">전송</button>
@@ -219,8 +222,26 @@ a {
 
 	</sec:authorize>
 	<script>
+const loadPro=(from,to)=>{
+	let pro='';
+	$.ajax({
+ 		url:'${pageContext.request.contextPath}/chat/findWriterProfile.do',
+ 		data : {from,to},
+ 		async :false,
+ 		success(data){
+ 			console.log(data,decodeURI(data));
+ 			if(data !== null){
+ 				pro= decodeURI(data);
+ 			}
+ 		}
+ 		
+ 	});
+	return pro;
+};
 
-
+const loadProProList=(clubId)=>{
+		
+};
 
 document.querySelector("#msgBox").addEventListener("keydown",(e)=>{
 	 if (e.key === "Enter" && !e.shiftKey) {
@@ -234,8 +255,12 @@ document.querySelector("#snedMsg").addEventListener("click",()=>{
 	const content=msgbox.value;
 	console.log(content);
 	msgbox.value="";
-	msgbox.focus();
 	
+	if(content===""){
+		alert("메세지가 비었습니다");
+		msgbox.focus();
+		return false;
+	}
 	const payload = {
 			type : "MOIMTALK",
 			from : memberId,
@@ -249,6 +274,7 @@ document.querySelector("#snedMsg").addEventListener("click",()=>{
 		
 		stompClient.send(url, null, JSON.stringify(payload));
 
+	msgbox.focus();
 });
 	
 
