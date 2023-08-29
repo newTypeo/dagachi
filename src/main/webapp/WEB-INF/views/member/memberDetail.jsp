@@ -56,11 +56,14 @@
 		<p>이메일 :  ${member.email}</p>
 		<p>MBTI : ${member.mbti}</p>
 		<div class="icons">
-			<button onclick="payment();">결제하기</button>
+
+			<a type="button" onclick="payment();">∘ 모임생성 1회권 구매</a>
+			<span class="verticalBar">|</span> 
 			<c:if test="${member.memberId eq loginMember.memberId}">
 				<!-- 로그인한 객체가 보고있는 객체가 같을 때 -->
-				<button onclick="updateMember()">회원 정보 수정</button>
-				<button type="button" onclick="withdrawalMember();">회원탈퇴</button>
+				<a type="button" onclick="updateMember()">∘ 정보 수정</a>
+				<span class="verticalBar">|</span> 
+				<a type="button" onclick="withdrawalMember();">∘ 회원탈퇴</a>
 				<form:form 
 					name="memberDeleteFrm"
 					action="${pageContext.request.contextPath}/member/memberDelete.do"
@@ -194,19 +197,22 @@
 		</div>
 	</c:if>
 </section>
-<br />
-<br />
-<br />
-<h1>작성한 글</h1>
-<br />
-<br />
-<br />
-<h1>작성한 댓글</h1>
-<br />
-<br />
-<br />
+
 
 <script>
+/* 화면의 width, height 값 구하기 (창환)*/
+const windowWidth = window.screen.width;
+const windowHeight = window.screen.height;
+
+/* popup 가운데 맞추기 (창환) */
+const popupWidth = 500;
+const popupHeight = 700;
+
+const popupX = (windowWidth/2) - (popupWidth/2);
+const popupY = (windowHeight/2) - (popupHeight/2);
+
+
+
 const withdrawalMember = () => {
 	if(confirm('정말로 탈퇴하시겠습니까?')){
 		document.memberDeleteFrm.submit();
@@ -225,6 +231,9 @@ const payment = () => {
 		},
 		success: function(response) {
 			console.log(response);
+			const url = response.next_redirect_pc_url;
+			window.open(url, "_blank", 'status=no, width=500, height=700' + 
+						', left=' + popupX + ', top=' + popupY);
 		}
 	});
 };

@@ -2,11 +2,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <fmt:requestEncoding value="utf-8"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/layoutType0.css"/>
@@ -257,18 +255,28 @@
 		</div>
 	</div>
 </article>
+
+<form:form
+		name="clubLikeFrm"
+		action="${pageContext.request.contextPath}/club/clubLike.do"
+		method="POST">
+			<input type="hidden" id="memberId" name="memberId" value="${memberId}">
+			<input type="hidden" id="domain" name="domain" value="${domain}">
+</form:form>
+
+<form:form
+		name="deleteClubLikeFrm"
+		action="${pageContext.request.contextPath}/club/deleteClubLike.do"
+		method="POST">
+			<input type="hidden" id="memberId" name="memberId" value="${memberId}">
+			<input type="hidden" id="domain" name="domain" value="${domain}">
+</form:form>
+
 <nav style="display: flex; flex-direction: row-reverse;">
 	<button type="button" class="btn btn-danger" id="clubReport">🚨모임 신고하기</button>
 </nav>
 
 <script>
-// 모임 좋아요 (현우)
-const clubLike = () => {
-	console.log("함수 연결이 잘 되었늬?")
-	const clubLikeFrm = document.clubLikeFrm;
-	console.log(clubLikeFrm);
-	clubLikeFrm.submit();
-}
 
 //창환(모임 신고)
 document.querySelector("#clubReport").onclick = () => {
@@ -308,6 +316,43 @@ const clubReportSubmit = () => {
 	
 	document.querySelector('#reason').value = ''; // 신고사유 초기화
 };
+
+
+//모임 좋아요 (현우)
+const clubLike = () => {
+	// 찜 목록에 해당클럽이 있는 지 확인.
+	const domain = "${domain}";
+	$.ajax({
+		url : "${pageContext.request.contextPath}/club/clubLikeCheck.do",
+		data : {domain},
+		success(responseData) {
+			console.log("responseData : ", responseData);
+			
+			if (responseData) {
+				if(confirm("찜하신 모임을 취소하시겠습니까?")) {
+					document.deleteClubLikeFrm.submit();
+				}
+				alert("성공적으로 모임 찜을 취소했습니다.");
+				
+			} else {
+				
+				if(confirm("모임을 찜 하시겠습니까?")) {
+					var clubLikeFrm = document.forms["clubLikeFrm"];
+					if (clubLikeFrm) {
+					    clubLikeFrm.submit();
+					} else {
+					    console.log("Form not found");
+					}
+				}
+				alert("성공적으로 모임 찜을 완료했습니다.");
+				
+			}
+					
+		}
+	});
+	
+	
+}
 
 </script>
 
