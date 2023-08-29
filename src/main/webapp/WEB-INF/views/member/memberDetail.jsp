@@ -51,7 +51,7 @@
 		<h2>
 			<span>${member.name}</span>
 		</h2>
-		<strong>닉네임 : ${member.nickname}</strong>
+		<p>닉네임 : ${member.nickname}</p>
 		<p>성별 : ${member.gender eq 'M' ? '남' : '여'}</p>
 		<p>이메일 :  ${member.email}</p>
 		<p>MBTI : ${member.mbti}</p>
@@ -71,7 +71,7 @@
 	</figcaption>
 	<img
 		src="${pageContext.request.contextPath}/resources/upload/member/profile/${memberProfile.renamedFilename}"
-		alt="sample7" style="width: 380px; height: 360px;" />
+		alt="sample7" style="width: 260px; height: 280px;" />
 	<div class="position">My Profile</div>
 </figure>
  <div class="container2">
@@ -116,14 +116,6 @@
        </div>
    </div>
 </div>
-
-
-
-<h1>나에게 좋아요를 한 사람 table</h1>
-<c:forEach items="${likeMe}" var="like" varStatus="vs">
-	<a href="${pageContext.request.contextPath}/member/${like.likeSender}">${like.likeSender}</a>
-</c:forEach>
-
 
 <c:if test="${member.memberId ne loginMember.memberId}">
 	<!-- 로그인한 객체가 보고있는 객체가 다를 때 -->
