@@ -1,16 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<script src="https://kit.fontawesome.com/d7ccac7be9.js" crossorigin="anonymous"></script>
 <style>
 #chat-open-btn {
-	width: 80px;
-	height: 80px;
-	border-radius: 50%;
 	z-index: 10;
 	position: fixed;
-	background: white;
 	right: 20px;
     bottom: 20px;
+	width: 80px;
+	height: 80px;
     text-align: center;
+	/* border-radius: 50%;
+	background: white; */
 }
 
 #chat-open-btn:hover {
@@ -34,9 +35,12 @@
 }
 </style>
 
-<button id="chat-open-btn">
-	채팅
-</button>
+<div id="chat-open-btn">
+	<i class="fa-solid fa-shield-cat fa-2xl" style="color: #1064f4;"></i>
+</div>
+<!-- <button id="chat-open-btn">
+	chat
+</button> -->
 
 <div id="chat-wrapper">
 	<div id="chat-box-title">

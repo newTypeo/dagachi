@@ -11,7 +11,7 @@
 	href="${pageContext.request.contextPath}/resources/css/clubSearch.css" />
 
 <section id="club-search-sec" class="p-2 club-search">
-	<div>'${inputText}'검색결과 (${totalCount})</div>
+	<div>"${inputText}"검색결과 (${totalCount})</div>
 	<div id="filter-wrap">
 		<form
 			action="${pageContext.request.contextPath}/club/searchClubWithFilter.do">
@@ -22,7 +22,7 @@
 			
 			<label for="category">모임 분류:</label> <select id="filter-category" name="category"> <!-- js로 options 처리 --></select>
 
-			<button>필터 적용</button>
+			<button class="btn btn-outline-secondary">Search</button>
 		</form>
 	</div>
 
