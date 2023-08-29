@@ -40,15 +40,6 @@
         </div>
       </div>
     </div>
-
-	<button 
-		class="btn btn-outline-success my-2 my-sm-0" 
-		type="button" 
-		onclick="location.href = '${pageContext.request.contextPath}/club/${domain}/clubEnroll.do'">
-		가입신청하기
-	</button>
-	
-	
 	<nav id="club-title" class="">
 		<c:if test="${layout.title eq null}">
 			<div id="default-title">
@@ -66,15 +57,16 @@
 		<!-- 방장일 경우에 -->
 		
 		
-		<button type="button" class="btn btn-danger" id="clubReport">🚨</button>
 		
 		<!-- 관리자일 경우에 -->
 		<c:if test = "${memberId eq 'admin'}">
 			<button type="button" class="btn btn-danger" id="clubDisabled">모임 비활성화</button>
 		</c:if>
 		
+
 		<a href ="${pageContext.request.contextPath}/club/${domain}/clubMemberList.do">모임내 회원조회</a>
 		<button type="button" class="btn btn-danger" id="clubLike" onclick="clubLike();">❤️</button>
+
 	</nav>
 	
 	<form:form
@@ -84,6 +76,7 @@
 			<input type="hidden" id="memberId" name="memberId" value="${memberId}">
 			<input type="hidden" id="domain" name="domain" value="${domain}">
 	</form:form>
+
 	
 	<form:form
 		name="deleteClubLikeFrm"
@@ -98,59 +91,13 @@
 		<a href="${pageContext.request.contextPath}/club/${domain}/chatRoom.do">채팅</a>
 		<a href="${pageContext.request.contextPath}/club/${domain}/manageMember.do">회원관리</a>
 		<a href="${pageContext.request.contextPath}/club/${domain}/clubGallery.do">갤러리</a>
-	</nav>
-	
+	</nav>	
 
 	<jsp:include page="/WEB-INF/views/club/clubLayout/clubLayoutType${layout.type}.jsp"></jsp:include>
 
 	
 </section>
-	<div>
-	
-	</div>
-
 <script>
-// 창환(모임 신고)
-document.querySelector("#clubReport").onclick = () => {
-	const frm = document.clubReportFrm;
-	$("#reportModal")
-	.modal()
-	.on('shown.bs.modal', () => {
-	});
-};
-
-// 창환(모임 신고)
-const clubReportSubmit = () => {
-	var token = $("meta[name='_csrf']").attr("content");
-	var header = $("meta[name='_csrf_header']").attr("content");
-	
-	const domain = document.querySelector('#domain').value;
-	const reporter = document.querySelector('#reporter').value;
-	const reason = document.querySelector('#reason').value;
-	
-	if(reason == null || reason == '') {
-		alert('신고 내용을 입력해주세요');
-		return;
-	}
-	
-	$.ajax({
-		url : '${pageContext.request.contextPath}/club/${domain}/clubReport.do',
-		method : "post",
-		data : { domain, reporter, reason },
-		beforeSend(xhr) {
-			xhr.setRequestHeader(header, token);
-		},
-		success(response) {
-			console.log(response);
-		}
-	});
-	
-	
-	document.querySelector('#reason').value = ''; // 신고사유 초기화
-};
-
-
-
 
 document.body.style.background = '${layout.backgroundColor}';
 
@@ -170,6 +117,7 @@ document.body.style.fontFamily = "${layout.font}";
         alert('${msg}');
     </script>
 </c:if>
+
 <script>
 // 모임 좋아요 (현우)
 	const clubLike = () => {
@@ -205,6 +153,5 @@ document.body.style.fontFamily = "${layout.font}";
 		
 	}
 
-</script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

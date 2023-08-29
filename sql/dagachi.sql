@@ -1272,27 +1272,26 @@ insert into main_page values(seq_main_page_id.nextval, 'mainSample5.png', 'mainS
 
 update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'honggd';
 
-insert into club_member values('user9',2,sysdate,null,default,default);
-insert into club_member values('user9',4,sysdate,null,default,default);
-insert into club_member values('user9',7,sysdate,null,default,default);
+--insert into club_member values('user9',2,sysdate,null,default,default);
+--insert into club_member values('user9',4,sysdate,null,default,default);
+--insert into club_member values('user9',7,sysdate,null,default,default);
 
 
 commit;
 
-insert into club_member values('honggddd',1,default,default,3,default);
-insert into club_member values('honggddd',2,default,default,3,default);
-insert into club_member values('honggddd',3,default,default,3,default);
-insert into club_member values('honggddd',4,default,default,3,default);
-insert into club_member values('honggddd',5,default,default,3,default);
-insert into club_member values('honggddd',6,default,default,3,default);
-insert into club_member values('honggddd',7,default,default,3,default);
+insert into club_member values('user9',1,default,default,3,default);
+insert into club_member values('user9',2,default,default,3,default);
+insert into club_member values('user9',3,default,default,3,default);
+insert into club_member values('user9',4,default,default,3,default);
+insert into club_member values('user9',5,default,default,3,default);
+insert into club_member values('user9',6,default,default,3,default);
+insert into club_member values('user9',7,default,default,3,default);
 
 
 
 commit;
 
 
-select * from club;
 
 
 
