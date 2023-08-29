@@ -24,10 +24,16 @@ const renderMessage = (message) => {
 	
 	const {type, from, to, content, createdAt} = JSON.parse(message.body);
 	
+	
+	
 	switch(type){
 	 	case "MOIMTALK":
 	 	const chatWrap =document.querySelector("#chatWrap");
 	 	const divbox=document.createElement('div');
+		
+		
+		const pro=loadPro(from,to);
+		console.log("pro===",pro);
 
 	 	if(from === memberId)
 	 		divbox.className = 'chat ch2';
@@ -36,7 +42,7 @@ const renderMessage = (message) => {
 	 		
 	 	divbox.innerHTML=`
             <div class="icon"><i class="fa-solid fa-user"></i>
-           	 ${memberImg}
+           		<img alt="" src="${loot}/resources/upload/member/profile/${pro}"/>
             </div>
             <div class="textbox">${content}</div>
       	 	</div>
