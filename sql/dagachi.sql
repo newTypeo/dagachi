@@ -1292,7 +1292,6 @@ insert into club_member values('honggddd',7,default,default,3,default);
 commit;
 
 
-select * from club;
 
 
 
