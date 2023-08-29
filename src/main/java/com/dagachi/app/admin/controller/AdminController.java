@@ -1,6 +1,5 @@
 package com.dagachi.app.admin.controller;
 
-import java.io.Console;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,21 +19,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.dagachi.app.Pagination;
-import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
 import com.dagachi.app.admin.dto.AdminInquiryUpdateDto;
 import com.dagachi.app.admin.entity.AdminInquiry;
 import com.dagachi.app.admin.entity.MainPage;
 import com.dagachi.app.admin.service.AdminService;
-import com.dagachi.app.club.controller.ClubController;
 import com.dagachi.app.club.entity.Club;
-import com.dagachi.app.club.entity.ClubApply;
-import com.dagachi.app.club.entity.ClubBoard;
-import com.dagachi.app.club.entity.ClubBoardAttachment;
-import com.dagachi.app.club.entity.ClubProfile;
-import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.club.service.ClubService;
 import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.entity.MemberDetails;
@@ -119,7 +110,7 @@ public class AdminController {
 				searchInquirydMap.put("type", inquiryTypeVal);
 				searchInquirydMap.put("status", inquiryStatusVal);
 		log.debug("t121212ype={}",inquiryTypeVal);
-		log.debug("21212status={}",searchInquirydMap);
+		log.debug("21212status={}",searchInquirydMap); 
 		
 		Map<String, Object> params = Map.of("page", page, "limit", LIMIT);
 		

@@ -1,5 +1,6 @@
 package com.dagachi.app.member.service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +22,7 @@ import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.member.dto.MemberCreateDto;
+import com.dagachi.app.member.dto.MemberKakaoDto;
 import com.dagachi.app.member.entity.ActivityArea;
 import com.dagachi.app.member.entity.CbcLike;
 import com.dagachi.app.member.entity.Member;
@@ -44,16 +46,20 @@ public class MemberServiceImpl implements MemberService{
 	
 	@Override
 	public int insertMember(MemberCreateDto member) {
+	    int result = 0;
 
-	  int result = 0;
+	    result = memberRepository.insertMember(member);
+	    log.debug("member = " + member);
 
-	  result = memberRepository.insertMember(member);
-	  log.debug("member = " + member);
+	    memberRepository.insertActivityArea(member);
 
-	  memberRepository.insertActivityArea(member);
-	  memberRepository.insertMemberInterest(member);
+	    List<String> interestList = member.getInterest();
 
-	  return result;
+	    for (String interest : interestList) {
+	        memberRepository.insertMemberInterest(member.getMemberId(), interest);
+	    }
+
+	    return result;
 	}
 	
 
@@ -214,6 +220,12 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public int checkDuplicateMemberId(String memberId) {
 		return memberRepository.checkDuplicateMemberId(memberId);
+	}
+
+
+	@Override
+	public int KakaoMember(MemberKakaoDto memberKakaoDto) {
+		return memberRepository.KakaoMember(memberKakaoDto);
 	}
 	
 	@Override

@@ -32,9 +32,11 @@
 						placeholder="비밀번호" value="1234" required>
 					</div>
 				<div class="modal-footer d-flex flex-column" style="align-items: unset;">
-					<div>
-						<a href="${pageContext.request.contextPath}/oauth2/authorization/kakao">카카오 로그인</a>
-					</div>
+				<div>
+				    <a href="${pageContext.request.contextPath}/oauth2/authorization/kakao">
+				        <img src="${pageContext.request.contextPath}/resources/kakao/kakao_login_medium_narrow.png" alt="카카오 로그인">
+				    </a>
+				</div>
 				<div class="d-flex justify-content-between">
 						<div>
 							<input type="checkbox" class="form-check-input" name="remember-me" id="remember-me"/>
@@ -44,10 +46,10 @@
 							<button type="submit" class="btn btn-outline-success">로그인</button>
 						</div>
 					<!-- 캡챠 -->
-			<div class="container">
+<!-- 			<div class="container">
 				<h1>index page</h1>
 				<button type="button" value="test1" id="btn">이미지생성하기</button>
-			<div id="result">			
+			<div id="result">	 -->		
 									
 				</div>
 			</div>
