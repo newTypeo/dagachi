@@ -12,6 +12,7 @@ import com.dagachi.app.admin.entity.AdminInquiry;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.member.dto.MemberCreateDto;
+import com.dagachi.app.member.dto.MemberKakaoDto;
 import com.dagachi.app.member.entity.ActivityArea;
 import com.dagachi.app.member.entity.CbcLike;
 import com.dagachi.app.member.entity.Member;
@@ -79,7 +80,10 @@ public interface MemberService extends UserDetailsService {
 
 	int cancelMemberLike(Map<String, Object> params);
 	
+	Member findmemberIdByEmail(String email);
 	
+	int KakaoMember(MemberKakaoDto memberKakaoDto);
+
 
 
 

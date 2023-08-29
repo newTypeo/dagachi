@@ -16,6 +16,7 @@ import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
 import com.dagachi.app.admin.entity.AdminInquiry;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.member.dto.MemberCreateDto;
+import com.dagachi.app.member.dto.MemberKakaoDto;
 import com.dagachi.app.member.entity.ActivityArea;
 import com.dagachi.app.member.entity.CbcLike;
 import com.dagachi.app.member.entity.Member;
@@ -30,21 +31,15 @@ public interface MemberRepository {
 	
 	
 	// 멤버 회원가입 추가 ( 지우지마삼 )
-	@Insert("insert into member values (#{memberId}, #{password},#{name}, #{nickname}, #{phoneNo}, #{email}, #{birthday, jdbcType=DATE}, #{gender}, #{mbti},  #{address}, 0, SYSDATE, NULL, SYSDATE, NULL, 'Y')"
+	@Insert("insert into member values (#{memberId}, #{password},#{name}, #{nickname}, #{phoneNo}, #{email}, #{birthday, jdbcType=DATE}, #{gender}, #{mbti},  #{activityArea}, 0, SYSDATE, NULL, SYSDATE, NULL, 'Y')"
 	) 
 	int insertMember(MemberCreateDto member);
-
 	// 지역
-
-	@Insert("INSERT INTO activity_area values(#{memberId}, #{mainAreaId}, #{sub1AreaId}, #{sub2AreaId})"
-	) 
+	@Insert("INSERT INTO activity_area values(#{memberId}, #{mainAreaId}, null, null)") 
 	void insertActivityArea(MemberCreateDto member);
-
 	// 관심사
-
 	@Insert("INSERT INTO member_interest values(#{memberId}, #{interest})") 
-	void insertMemberInterest(MemberCreateDto member);
-
+	void insertMemberInterest(String memberId, String interest);
 	// 회원가입 ------------------
 	
 	MemberDetails loadUserByUsername(String memberId);
@@ -120,5 +115,12 @@ public interface MemberRepository {
 
 	@Select("select * from club_member where member_id = #{memberId}")
 	List<ClubMember> findClubMemberByMemberId(String memberId);
+
+	@Select("select * from member where email = #{email}")
+	Member findmemberIdByEmail(String email);
+	
+	@Insert("insert into member values (#{memberId}, #{password},#{name}, null , null, #{email}, null , null , null,  null , 0, SYSDATE, NULL, SYSDATE, NULL, 'Y')")
+	int KakaoMember(MemberKakaoDto memberKakaoDto);
+
 	
 }

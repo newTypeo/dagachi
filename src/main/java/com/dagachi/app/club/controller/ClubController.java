@@ -1,6 +1,7 @@
 package com.dagachi.app.club.controller;
 
-import static com.dagachi.app.common.DagachiUtils.*;
+import static com.dagachi.app.common.DagachiUtils.getAreaNamesByDistance;
+import static com.dagachi.app.common.DagachiUtils.kakaoMapApi;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,21 +17,18 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.stereotype.Service;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StopWatch;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -39,16 +37,15 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.dagachi.app.Pagination;
-import com.dagachi.app.admin.entity.AdminInquiry;
 import com.dagachi.app.club.common.Status;
 import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.ClubBoardCreateDto;
 import com.dagachi.app.club.dto.ClubCreateDto;
-import com.dagachi.app.club.dto.ClubManageApplyDto;
-import com.dagachi.app.club.dto.ClubMemberAndImage;
 import com.dagachi.app.club.dto.ClubEnrollDto;
 import com.dagachi.app.club.dto.ClubGalleryAndImage;
+import com.dagachi.app.club.dto.ClubManageApplyDto;
+import com.dagachi.app.club.dto.ClubMemberAndImage;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
 import com.dagachi.app.club.dto.ClubReportDto;
@@ -70,8 +67,6 @@ import com.dagachi.app.club.entity.ClubBoard;
 import com.dagachi.app.club.entity.ClubBoardAttachment;
 import com.dagachi.app.club.entity.ClubBoardDetails;
 import com.dagachi.app.club.entity.ClubDetails;
-import com.dagachi.app.club.entity.ClubGallery;
-import com.dagachi.app.club.entity.ClubGalleryAttachment;
 import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
@@ -82,7 +77,6 @@ import com.dagachi.app.common.DagachiUtils;
 import com.dagachi.app.member.entity.ActivityArea;
 import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.entity.MemberDetails;
-import com.dagachi.app.member.entity.MemberProfile;
 import com.dagachi.app.member.service.MemberService;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -95,7 +89,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/club")
 @SessionAttributes({ "inputText", "zoneSetList", 
-	"zoneSet1", "zoneSet2", "zoneSet3", "zoneSet4", "zoneSet5", "zoneSet6" })
+						"zoneSet1", "zoneSet2", "zoneSet3", "zoneSet4", "zoneSet5", "zoneSet6" })
 public class ClubController {
 
 	private final JavaMailSender javaMailSender;
@@ -103,7 +97,7 @@ public class ClubController {
 	static final int LIMIT = 10;
 	
 	static final Map<Integer, Double> ANGLEPATTERN // km(key)별로 360도를 나눌 각도(value) 
-	= Map.of(1, 45.0, 2, 30.0, 3, 22.5, 4, 18.0, 5, 15.0, 6, 11.25, 7, 9.0, 8, 7.5, 9, 6.0, 10, 5.0);
+		= Map.of(1, 45.0, 2, 30.0, 3, 22.5, 4, 18.0, 5, 15.0, 6, 11.25, 7, 9.0, 8, 7.5, 9, 6.0, 10, 5.0);
 	
 
 	@Autowired
@@ -217,33 +211,41 @@ public class ClubController {
 	}
 
 	/**
-	 * 메인화면에서 모임 검색
+	 * 메인화면에서 모임 검색 (페이지바 처리 & getPagebar재활용위해 url에 replace처리)
 	 * @author 종환
 	 */
 	@GetMapping("/clubSearch.do")
-	public void clubSearch(@RequestParam(defaultValue = "1") int page, @RequestParam String inputText,
+	public void clubSearch(
+			@RequestParam String inputText,
+			@RequestParam(defaultValue = "1") int page, 
 			HttpServletRequest request, Model model) {
+		
 		String getCount = "getCount";
 
 		Map<String, Object> params = new HashMap<>();
 
 		params.put("page", page);
-		params.put("limit", LIMIT);
+		params.put("limit", LIMIT / 2); // 5개
 		params.put("inputText", inputText);
-
+		
+		// 해당 페이지에 보여질 검색결과
 		List<ClubSearchDto> clubs = clubService.clubSearch(params);
 		model.addAttribute("clubs", clubs);
 
+		// 페이징바에 필요한 검색결과 총 갯수
 		params.put("getCount", getCount);
 		int totalCount = clubService.clubSearch(params).size();
+		
+		// 페이징바 처리
 		String url = request.getRequestURI();
 		url += "#&inputText=" + inputText;
-		String pageBar = Pagination.getPagebar(page, LIMIT, totalCount, url);
+		String pageBar = Pagination.getPagebar(page, LIMIT / 2, totalCount, url);
 		pageBar = pageBar.replaceAll("\\?", "&");
 		pageBar = pageBar.replaceAll("#&", "\\?");
+		
 		model.addAttribute("pagebar", pageBar);
-		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("inputText", inputText);
+		model.addAttribute("totalCount", totalCount);
 	}
 
 	/**
@@ -251,17 +253,24 @@ public class ClubController {
 	 * @author 종환
 	 */
 	@GetMapping("/searchClubWithFilter.do")
-	public String searchClubWithFilter(@RequestParam(defaultValue = "1") int page, @RequestParam String category,
-			@RequestParam String area, HttpServletRequest request, HttpSession session, Model model) {
-
+	public String searchClubWithFilter(
+			Model model,
+			HttpSession session, 
+			HttpServletRequest request, 
+			@RequestParam String zone, 
+			@RequestParam String region, 
+			@RequestParam String category,
+			@RequestParam(defaultValue = "1") int page) {
+		String area = region + " " + zone;
+		
 		String getCount = "getCount";
 		String inputText = (String) session.getAttribute("inputText");
 		Map<String, Object> params = new HashMap<>();
-		params.put("area", area);
 		params.put("page", page);
 		params.put("limit", LIMIT);
 		params.put("category", category);
 		params.put("inputText", inputText);
+		params.put("area", area);
 
 		List<ClubSearchDto> clubs = clubService.searchClubWithFilter(params);
 
@@ -269,12 +278,13 @@ public class ClubController {
 		int totalCount = clubService.searchClubWithFilter(params).size();
 		// log.debug("totalCount, clubs = {}{}", totalCount, clubs);
 		String url = request.getRequestURI();
-		url += "#&inputText=" + inputText + "&area=" + area + "&category=" + category;
+		url += "#&inputText=" + inputText + "&region=" + region + "zone" + zone + "&category=" + category;
 		String pageBar = Pagination.getPagebar(page, LIMIT, totalCount, url);
 		pageBar = pageBar.replaceAll("\\?", "&");
 		pageBar = pageBar.replaceAll("#&", "\\?");
-
-		model.addAttribute("area", area);
+		
+		model.addAttribute("zone", zone);
+		model.addAttribute("region", region);
 		model.addAttribute("category", category);
 		model.addAttribute("clubs", clubs);
 		model.addAttribute("pagebar", pageBar);
@@ -307,7 +317,7 @@ public class ClubController {
 
 	
 	/**
-	 * 로그인한 회원의 활동지역 addAttribute하고 페이지 이동
+	 * 로그인한 회원의 활동지역 Model에 저장하고 페이지 이동
 	 * @author 종환
 	 */
 	@GetMapping("/clubSearchSurrounded.do")
@@ -318,7 +328,7 @@ public class ClubController {
 	}
 	
 	/**
-	 * 활동지역 중심 주변모임 검색
+	 * 활동지역 중심 주변모임 검색 (session에 저장되어있는 정보 사용)
 	 * @author 종환
 	 */
 	@GetMapping("/clubSearchByDistance.do")
@@ -329,7 +339,7 @@ public class ClubController {
 			@RequestParam String mainAreaName, // "서울특별시 **구 **동"
 			@AuthenticationPrincipal MemberDetails member) throws UnsupportedEncodingException {
 		
-//		// 주변의 모든 법정동리스트로 모임 조회 후 리턴
+		// 주변의 모든 법정동리스트로 모임 조회 후 리턴
 		Set<String> zoneSet =  (Set<String>) session.getAttribute("zoneSet" + distance);
 		Map<String, Object> params = new HashMap<>();
 		params.put("zoneSet", zoneSet);
@@ -374,14 +384,13 @@ public class ClubController {
 		StopWatch sw = new StopWatch();
 		sw.start();
 		// 싸인 코사인으로 계산하는 메소드
-		// List<Set<String>> zoneSetList = new ArrayList<>();
 		for (int i = 1; i <= 6; i++) {
 			Set<String> zoneSet = getAreaNamesByDistance(x, y, i, ANGLEPATTERN); // 검색할 km기반으로 주변 동이름이 들어있는 set 반환
 			model.addAttribute("zoneSet" + i, zoneSet);
 			log.debug("zoneSet{}= {}",i, zoneSet);
 		}
 		sw.stop();
-		log.debug("법정동 api 요청시간 = {}초", Math.ceil(sw.getTotalTimeSeconds()));
+		log.debug("법정동 api 요청시간 = {}초", sw.getTotalTimeSeconds());
 		
 	}
 	
@@ -399,7 +408,7 @@ public class ClubController {
 		ClubNameAndCountDto clubInfo = clubService.findClubInfoById(clubId);
 		
 		ClubLayout layout = clubService.findLayoutById(clubId);
-
+		
 		List<BoardAndImageDto> boardAndImages = clubService.findBoardAndImageById(clubId);
 		List<GalleryAndImageDto> galleries = clubService.findgalleryById(clubId);
 		List<ClubScheduleAndMemberDto> schedules = clubService.findScheduleById(clubId);
@@ -436,7 +445,6 @@ public class ClubController {
 	/**
 	 * 로그인이 안되어 있을시
 	 * 메인에서 소모임 전체 조회(카드로 출력)
-	 * 
 	 * @author 준한
 	 */
 	@GetMapping("/clubList.do")
@@ -454,7 +462,6 @@ public class ClubController {
 
 	/**
 	 * 로그인 했을때 로그인객체의 관심사로 소모임 추천 출력(카드)
-	 * 
 	 * @author 준한
 	 */
 	@GetMapping("/loginClubList.do")
@@ -485,7 +492,6 @@ public class ClubController {
 
 	/**
 	 * 사용자가 해당 카테고리를 hover한 값을 db에서 조회 후 반환
-	 * 
 	 * @author 창환
 	 */
 	@GetMapping("/categoryList.do")
@@ -518,7 +524,6 @@ public class ClubController {
 
 	/**
 	 * 해당 모임의 회원관리 클릭시
-	 * 
 	 * @author 창환
 	 */
 	@GetMapping("/{domain}/manageMember.do")
@@ -560,13 +565,11 @@ public class ClubController {
 		model.addAttribute("loginMemberId", loginMemberId); // 로그인한 회원의 아이디
 		model.addAttribute("joinClubMembersInfo", joinClubMembersInfo); // 해당 모임에 가입된 회원 정보 [방장제외](아아디, 이름, 닉네임, 가입일, 회원
 																		// 권한)
-
 		return "/club/manageMember";
 	}
 
 	/**
 	 * 해당 모임의 회원 강제 탈퇴
-	 * 
 	 * @author 창환
 	 */
 	@PostMapping("/{domain}/kickMember.do")
@@ -648,7 +651,7 @@ public class ClubController {
 	
 	/**
 	 * 게시글 좋아요
-	 * @author 상윤
+	 * @author 상윤, 종환
 	 */
 	@PostMapping("/{domain}/likeCheck.do")
 	public ResponseEntity<?> likeCheck(
@@ -737,7 +740,6 @@ public class ClubController {
 
 	/**
 	 * 해당 모임의 방장, 부방장은 모임에 가입되어있는 회원의 권한을 변경 가능
-	 * 
 	 * @author 창환
 	 */
 	@PostMapping("/{domain}/clubMemberRole.do")
@@ -762,7 +764,6 @@ public class ClubController {
 
 	/**
 	 * 클럽 비활성화 버튼( 클럽테이블의 status값을 Y -> N으로 변경)
-	 * 
 	 * @author 준한
 	 */
 	@GetMapping("/{domain}/clubDisabled.do")
@@ -964,7 +965,8 @@ public class ClubController {
 
 	
 	/**
-	 * @author ?
+	 * 첨부파일 삭제
+	 * @author 상윤
 	 */
 	@PostMapping("/delAttach.do")
 	public ResponseEntity<?> delAttachment(@RequestParam int id) {
@@ -1151,41 +1153,7 @@ public class ClubController {
 
 	}
 	
-	/**
-	 * 이메일인증으로 아이디 찾기
-	 * @author 준한
-	 */
-	@PostMapping("/searchIdModal.do")
-	 public ResponseEntity<?> sendVerificationCode(
-			 @RequestParam("username") String username, 
-             @RequestParam("email") String email,
-             JavaMailSender javaMailSender
-			 ) {
-		 
-		 Member member = memberService.findMemberByName(username);
-		 Member member2 = memberService.findMemberByEmail(email);
-		 
-		 if(member != null && member2 != null && member.equals(member2)) {
-			 // 입력받은 이름과 이메일이 db에 있는 정보와 일치할 시,
-//			 0 이상 1 미만의 랜덤한 double 값
-//			 double randomValue = Math.random(); 
-//		     String randomValueAsString = Double.toString(randomValue);
-			 String title = "다가치 아이디 찾기 인증코드 발송메일";
-			 String hi = "hi";
-			 SimpleMailMessage message = new SimpleMailMessage();
-			 message.setTo(email);
-			 message.setSubject(title);
-			 message.setText(hi);
-			 
-			 javaMailSender.send(message);
-			 
-		 }else {
-			 
-		 }
-		 
-		 return ResponseEntity.status(HttpStatus.OK).body(username);
-	 }
-	 
+	
 
 	/**
 	 * @author 현우
