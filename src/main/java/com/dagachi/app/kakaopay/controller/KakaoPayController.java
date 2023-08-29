@@ -34,11 +34,13 @@ public class KakaoPayController {
      * 결제 성공
      */
     @GetMapping("/success")
-    public ResponseEntity<KakaoApproveResponse> afterPayRequest(@RequestParam("pg_token") String pgToken) {
-
+    public void afterPayRequest(@RequestParam(name="pg_token", required=false) String pgToken) {
+    	
+    	System.out.println("pgToken = " + pgToken);
         KakaoApproveResponse kakaoApprove = kakaoPayService.approveResponse(pgToken);
+//        System.out.println("kakaoApprove = " + kakaoApprove);
 
-        return new ResponseEntity<>(kakaoApprove, HttpStatus.OK);
+//        return new ResponseEntity<>(kakaoApprove, HttpStatus.OK);
     }
 	
 	@GetMapping("/cancel")

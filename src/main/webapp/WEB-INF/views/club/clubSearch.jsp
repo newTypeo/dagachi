@@ -10,7 +10,6 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/clubSearch.css" />
 
-
 <section id="club-search-sec" class="p-2 club-search">
 	<div>'${inputText}'검색결과 (${totalCount})</div>
 	<div id="filter-wrap">

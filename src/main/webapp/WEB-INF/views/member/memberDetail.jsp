@@ -51,16 +51,19 @@
 		<h2>
 			<span>${member.name}</span>
 		</h2>
-		<strong>닉네임 : ${member.nickname}</strong>
+		<p>닉네임 : ${member.nickname}</p>
 		<p>성별 : ${member.gender eq 'M' ? '남' : '여'}</p>
 		<p>이메일 :  ${member.email}</p>
 		<p>MBTI : ${member.mbti}</p>
 		<div class="icons">
-			<button onclick="payment();">결제하기</button>
+
+			<a type="button" onclick="payment();">∘ 모임생성 1회권 구매</a>
+			<span class="verticalBar">|</span> 
 			<c:if test="${member.memberId eq loginMember.memberId}">
 				<!-- 로그인한 객체가 보고있는 객체가 같을 때 -->
-				<button onclick="updateMember()">회원 정보 수정</button>
-				<button type="button" onclick="withdrawalMember();">회원탈퇴</button>
+				<a type="button" onclick="updateMember()">∘ 정보 수정</a>
+				<span class="verticalBar">|</span> 
+				<a type="button" onclick="withdrawalMember();">∘ 회원탈퇴</a>
 				<form:form 
 					name="memberDeleteFrm"
 					action="${pageContext.request.contextPath}/member/memberDelete.do"
@@ -71,59 +74,36 @@
 	</figcaption>
 	<img
 		src="${pageContext.request.contextPath}/resources/upload/member/profile/${memberProfile.renamedFilename}"
-		alt="sample7" style="width: 380px; height: 360px;" />
+		alt="sample7" style="width: 260px; height: 280px;" />
 	<div class="position">My Profile</div>
 </figure>
  <div class="container2">
-       <div class="row justify-content-center2">
-           <div class="col-md-8-2">
-               <div class="profile-card2">
-                   <div class="liked-members-title">
-                       <h2>나를 좋아한 회원</h2>
-                   </div>
-                   <div class="liked-members-list">
-                       <ul>
-                       	<c:forEach items="${likeMe}" var="like" varStatus="vs">
-                           <li><a href="${pageContext.request.contextPath}/member/${like.likeSender}">❤️ ${like.likeSender}</a></li>
-                         </c:forEach>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                         	<li>user1</li>
-                       </ul>
-                   </div>
-               </div>
-           </div>
-       </div>
+	 <c:if test="${member.memberId eq loginMember.memberId}">
+	       <div class="row justify-content-center2">
+	           <div class="col-md-8-2">
+	               <div class="profile-card2">
+	                   <div class="liked-members-title">
+	                       <h2>나를 좋아한 회원</h2>
+	                   </div>
+	                   
+	                   <div class="liked-members-list">
+	                       <ul>
+	                       	<c:forEach items="${likeMe}" var="like" varStatus="vs">
+	                           <li><a href="${pageContext.request.contextPath}/member/${like.likeSender}">❤️ ${like.likeSender}</a></li>
+	                         </c:forEach>
+	                       </ul>
+	                   </div>
+	               </div>
+	           </div>
+	       </div>
+	   </c:if>
+	   	<c:if test="${member.memberId ne loginMember.memberId}">
+			<!-- 로그인한 객체가 보고있는 객체가 다를 때 -->
+			<button type="button" class="btn btn-outline-danger"
+			onclick="memberLike()">좋아요</button>
+		</c:if>
    </div>
 </div>
-
-
-
-<h1>나에게 좋아요를 한 사람 table</h1>
-<c:forEach items="${likeMe}" var="like" varStatus="vs">
-	<a href="${pageContext.request.contextPath}/member/${like.likeSender}">${like.likeSender}</a>
-</c:forEach>
-
 
 <c:if test="${member.memberId ne loginMember.memberId}">
 	<!-- 로그인한 객체가 보고있는 객체가 다를 때 -->
@@ -217,19 +197,22 @@
 		</div>
 	</c:if>
 </section>
-<br />
-<br />
-<br />
-<h1>작성한 글</h1>
-<br />
-<br />
-<br />
-<h1>작성한 댓글</h1>
-<br />
-<br />
-<br />
+
 
 <script>
+/* 화면의 width, height 값 구하기 (창환)*/
+const windowWidth = window.screen.width;
+const windowHeight = window.screen.height;
+
+/* popup 가운데 맞추기 (창환) */
+const popupWidth = 500;
+const popupHeight = 700;
+
+const popupX = (windowWidth/2) - (popupWidth/2);
+const popupY = (windowHeight/2) - (popupHeight/2);
+
+
+
 const withdrawalMember = () => {
 	if(confirm('정말로 탈퇴하시겠습니까?')){
 		document.memberDeleteFrm.submit();
@@ -248,6 +231,9 @@ const payment = () => {
 		},
 		success: function(response) {
 			console.log(response);
+			const url = response.next_redirect_pc_url;
+			window.open(url, "_blank", 'status=no, width=500, height=700' + 
+						', left=' + popupX + ', top=' + popupY);
 		}
 	});
 };

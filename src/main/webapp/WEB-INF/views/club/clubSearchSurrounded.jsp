@@ -5,7 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <fmt:requestEncoding value="utf-8"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-	
+<jsp:include page="/WEB-INF/views/common/navBar.jsp"></jsp:include>
 	
 <section id="club-search-sec" class="p-2 club-search">
 

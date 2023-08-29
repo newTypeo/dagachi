@@ -24,11 +24,26 @@ const renderMessage = (message) => {
 	
 	const {type, from, to, content, createdAt} = JSON.parse(message.body);
 	
+	
+	
 	switch(type){
 	 	case "MOIMTALK":
 	 	const chatWrap =document.querySelector("#chatWrap");
 	 	const divbox=document.createElement('div');
-
+		let pro="";
+		
+		if(proList.length>0){
+			for(let i=0; i<proList.length; i++){
+			console.log("i번인덱스 확인",proList[i]["userProfileName"]);
+				if(proList[i]["userName"]===from){
+					pro=proList[i]["userProfileName"];
+				}
+			}
+		}
+		
+		if(pro === "")
+			pro=loadPro(from,to);
+		
 	 	if(from === memberId)
 	 		divbox.className = 'chat ch2';
 	 	else
@@ -36,7 +51,7 @@ const renderMessage = (message) => {
 	 		
 	 	divbox.innerHTML=`
             <div class="icon"><i class="fa-solid fa-user"></i>
-           	 ${memberImg}
+           		<img alt="" src="${root}/resources/upload/member/profile/${pro}" class="resized-image" />
             </div>
             <div class="textbox">${content}</div>
       	 	</div>
