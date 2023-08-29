@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <fmt:requestEncoding value="utf-8" />
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/views/common/navBar.jsp"></jsp:include>
@@ -32,10 +33,10 @@
 	<c:if test="${not empty clubs}">
 		<c:forEach items="${clubs}" var="club" varStatus="vs">
 			<table>
-				<tr class="cards">
-					<a class="card" style="width: 18rem;" href="${pageContext.request.contextPath}/club/\${club.domain}">
-						<td class="card-images"><img src="${pageContext.request.contextPath}/resources/upload/club/profile/${club.renamedFilename}" width="200px"></td>
-					</a>
+				<tr class="cards" onclick="checkLogin('${club.domain}');">
+						<td class="card-images">
+							<img src="${pageContext.request.contextPath}/resources/upload/club/profile/${club.renamedFilename}" width="200px">
+						</td>
 						<td class="card-content">
 							<p>모임명 : ${club.clubName}</p>
 							<p>모임 지역 : ${club.activityArea}</p>
@@ -48,7 +49,6 @@
 								<fmt:formatDate value="${createdAt}" pattern="yyyy-MM-dd" />
 							</p>
 						</td>
-					
 				</tr>
 			</table>
 		</c:forEach>
@@ -65,6 +65,20 @@
 </section>
 
 <script>
+const checkLogin = (domain) => {
+	// 비로그인시 처리코드
+	<sec:authorize access="isAnonymous()">
+	alert("로그인 후 이용해주세요.");
+	</sec:authorize>
+	
+	// 로그인시 처리코드
+	<sec:authorize access="isAuthenticated()">
+	window.location = `${pageContext.request.contextPath}/club/\${domain}`;
+	</sec:authorize>
+	
+};
+
+
 document.querySelector("#filter-activityArea").onchange = (e) => {
 	const detail = document.querySelector("#filter-activityAreaDetail");
 	const zone = e.target.value; 
