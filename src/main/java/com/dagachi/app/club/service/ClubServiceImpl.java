@@ -22,6 +22,7 @@ import com.dagachi.app.club.dto.ClubEnrollDto;
 import com.dagachi.app.club.dto.ClubGalleryAndImage;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
+import com.dagachi.app.club.dto.ClubNameAndCountDto;
 import com.dagachi.app.club.dto.ClubReportDto;
 import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
 import com.dagachi.app.club.dto.ClubSearchDto;
@@ -124,8 +125,8 @@ public class ClubServiceImpl implements ClubService {
 		List<ClubSearchDto> clubs = clubRepository.searchClubWithFilter(rowBounds, params);
 
 		// 모임 인원 가져오기
-		for (ClubSearchDto club : clubs)
-			club.setMemberCount(clubRepository.countClubMember(club.getClubId()));
+//		for (ClubSearchDto club : clubs)
+//			club.setMemberCount(clubRepository.countClubMember(club.getClubId()));
 
 		return clubs;
 	}
@@ -510,10 +511,16 @@ public class ClubServiceImpl implements ClubService {
 	public int updateClubMainContent(ClubLayout clubLayout) {
 		return  clubRepository.updateClubMainContent(clubLayout);
 	}
+	@Override
 	public int clubLike(Map<String, Object> params) {
 		return clubRepository.clubLike(params);
 	}
 	
+	@Override
+	public int cancelClubLike(Map<String, Object> params) {
+		return clubRepository.cancelClubLike(params);
+	}
+
 	@Override
 	public List<ClubBoard> searchBoards(Map<String, Object> searchBoardMap, Map<String, Object> params) {
 		int limit = (int) params.get("limit");
@@ -544,6 +551,11 @@ public class ClubServiceImpl implements ClubService {
 	@Override
 	public List<Club> findClubsByMemberId(String memberId) {
 		return clubRepository.findClubsByMemberId(memberId);
+	}
+	
+	@Override
+	public ClubNameAndCountDto findClubInfoById(int clubId) {
+		return clubRepository.findClubInfoById(clubId);
 	}
 	
 	@Override

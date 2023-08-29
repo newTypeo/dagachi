@@ -1,5 +1,6 @@
 package com.dagachi.app.chat.contorller;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,4 +84,25 @@ public class ChatController {
 		model.addAttribute("chatlogs",chatlogs);
 		
 	}
+	
+	@GetMapping("/findWriterProfile.do")
+	public ResponseEntity<?> findWriterProfile(
+			@RequestParam String from,
+			@RequestParam int to
+	){
+		List<MemberProfile> memberProfiles = memberService.findMemberProfileByClubId(to);
+		
+		String filename="";
+	
+		
+		if(!memberProfiles.isEmpty()) {
+			for(MemberProfile memberProfile : memberProfiles) {
+				if(memberProfile.getMemberId().equals(from)) 
+					filename=memberProfile.getRenamedFilename();
+			}
+		}
+		
+		return ResponseEntity.status(HttpStatus.OK).body(filename);
+	}
+	
 }

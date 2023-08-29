@@ -3,27 +3,24 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <fmt:requestEncoding value="utf-8" />
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/common/navBar.jsp"></jsp:include>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/clubSearch.css" />
-
 
 <section id="club-search-sec" class="p-2 club-search">
 	<div>'${inputText}'검색결과 (${totalCount})</div>
 	<div id="filter-wrap">
 		<form
 			action="${pageContext.request.contextPath}/club/searchClubWithFilter.do">
-			<label for="activityArea">활동 지역:</label> <select
-				id="filter-activityArea" name="region">
-				<!-- js로 options 처리 -->
-			</select> <select id="filter-activityAreaDetail" name="zone"
-				style="display: none;">
-				<!-- js로 options 처리 -->
-			</select> <label for="category">모임 분류:</label> <select id="filter-category"
-				name="category">
-				<!-- js로 options 처리 -->
-			</select>
+			<label for="activityArea">활동 지역:</label> 
+			<select id="filter-activityArea" name="region"><!-- js로 options 처리 --></select> 
+			<select id="filter-activityAreaDetail" name="zone" style="display: none;">
+			<option value="">전체</option></select>
+			
+			<label for="category">모임 분류:</label> <select id="filter-category" name="category"> <!-- js로 options 처리 --></select>
 
 			<button>필터 적용</button>
 		</form>
@@ -35,20 +32,22 @@
 	<c:if test="${not empty clubs}">
 		<c:forEach items="${clubs}" var="club" varStatus="vs">
 			<table>
-				<tr class="cards">
-					<td class="card-images"><img src="${pageContext.request.contextPath}/resources/upload/club/profile/${club.renamedFilename}" width="200px"></td>
-					<td class="card-content">
-						<p>모임명 : ${club.clubName}</p>
-						<p>모임 지역 : ${club.activityArea}</p>
-						<p>모임 분류 : ${club.category}</p>
-						<p>모임 인원 : ${club.memberCount}/100</p>
-						<p>
-							모임 생성일 :
-							<fmt:parseDate value="${club.createdAt}"
-								pattern="yyyy-MM-dd'T'HH:mm" var="createdAt" />
-							<fmt:formatDate value="${createdAt}" pattern="yyyy-MM-dd" />
-						</p>
-					</td>
+				<tr class="cards" onclick="checkLogin('${club.domain}');">
+						<td class="card-images">
+							<img src="${pageContext.request.contextPath}/resources/upload/club/profile/${club.renamedFilename}" width="200px">
+						</td>
+						<td class="card-content">
+							<p>모임명 : ${club.clubName}</p>
+							<p>모임 지역 : ${club.activityArea}</p>
+							<p>모임 분류 : ${club.category}</p>
+							<p>모임 인원 : ${club.memberCount}/100</p>
+							<p>
+								모임 생성일 :
+								<fmt:parseDate value="${club.createdAt}"
+									pattern="yyyy-MM-dd'T'HH:mm" var="createdAt" />
+								<fmt:formatDate value="${createdAt}" pattern="yyyy-MM-dd" />
+							</p>
+						</td>
 				</tr>
 			</table>
 		</c:forEach>
@@ -65,6 +64,19 @@
 </section>
 
 <script>
+const checkLogin = (domain) => {
+	// 비로그인시 처리코드
+	<sec:authorize access="isAnonymous()">
+		alert("로그인 후 이용해주세요.");
+	</sec:authorize>
+	
+	// 로그인시 처리코드
+	<sec:authorize access="isAuthenticated()">
+		window.location = `${pageContext.request.contextPath}/club/\${domain}`;
+	</sec:authorize>
+};
+
+
 document.querySelector("#filter-activityArea").onchange = (e) => {
 	const detail = document.querySelector("#filter-activityAreaDetail");
 	const zone = e.target.value; 
@@ -82,7 +94,7 @@ document.querySelector("#filter-activityArea").onchange = (e) => {
 				const fullAddr = regcodes[index]["name"];
 				const region = fullAddr.split(" ");
 				
-				if(region[1] == zone) { 
+				if(region[1] == zone) {
 					
 					const first5 = regcodes[index]["code"].toString().substr(0,5); // 3. 사용자가 선택한 구의 모든 동을 조회하기위한 코드 
 					
@@ -117,6 +129,7 @@ document.querySelector("input[name=inputText]").value = '${inputText}';
 const category = document.querySelector("#filter-category");
 category.innerHTML ='<option value="">전체</option>';
 
+
 // 카테고리 option
 document.querySelectorAll("#category-modal-left-upper a").forEach((a) => {
 	category.innerHTML += `
@@ -141,11 +154,14 @@ $.ajax({
 		});
 	},
 	complete() {
-		if(${not empty area}) {
-			document.querySelector("[value='" + '${area}' + "']").selected = 'true';
+		if(${not empty region}) {
+			document.querySelector("[value='" + '${region}' + "']").selected = 'true';
 		}
 		if(${not empty category}) {
 			document.querySelector("[value='" + '${category}' + "']").selected = 'true';
+		}
+		if(${not empty zone}) {
+			document.querySelector("[value='" + '${zone}' + "']").selected = 'true';
 		}
 	}
 });

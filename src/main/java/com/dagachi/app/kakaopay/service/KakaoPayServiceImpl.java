@@ -39,9 +39,9 @@ public class KakaoPayServiceImpl implements KakaoPayService {
 		parameters.add("total_amount", "2200");
 		parameters.add("tax_free_amount", "0");
 		parameters.add("vat_amount", "200");
-		parameters.add("approval_url", "http://localhost:8080/payment/success");
-		parameters.add("cancel_url", "http://localhost:8080/payment/cancel");
-		parameters.add("fail_url", "http://localhost:8080/payment/fail");
+		parameters.add("approval_url", "http://localhost:8080/dagachi/payment/success");
+		parameters.add("cancel_url", "http://localhost:8080/dagachi/payment/cancel");
+		parameters.add("fail_url", "http://localhost:8080/dagachi/payment/fail");
 		
 		System.out.println("1");
 		
@@ -78,19 +78,16 @@ public class KakaoPayServiceImpl implements KakaoPayService {
         MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
         parameters.add("cid", cid);
         parameters.add("tid", kakaoReady.getTid());
-        parameters.add("partner_order_id", "가맹점 주문 번호");
-        parameters.add("partner_user_id", "가맹점 회원 ID");
+        parameters.add("partner_order_id", "partner_order_id"); // 가맹점 주문 번호
+        parameters.add("partner_user_id", "partner_user_id"); // 가맹점 회원 ID
         parameters.add("pg_token", pgToken);
 
-        
-     // 요청 header, 사용자입력값
+        // 요청 header, 사용자입력값
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set("Authorization", HttpHeaders.AUTHORIZATION);
+        httpHeaders.set("Authorization", "KakaoAK " + admin_key);
         httpHeaders.set("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
-        
         // 파라미터, 헤더
         HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(parameters, httpHeaders);
-        
         // 외부에 보낼 url
         RestTemplate restTemplate = new RestTemplate();
         

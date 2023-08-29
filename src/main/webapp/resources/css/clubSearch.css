@@ -27,6 +27,10 @@ td.card-content {
 	text-align: left;
 }
 
+.images-line {
+	border : 2px solid gray;
+}
+
 body {
 	font-family: Arial, sans-serif;
 	margin: 0;

@@ -233,6 +233,10 @@ section .posts3 {
 }
 
 /*프로필*/
+.verticalBar {
+	color : gainsboro;
+}
+
 figure.snip0045 {
   font-family: 'Raleway', Arial, sans-serif;
   position: relative;
@@ -250,23 +254,18 @@ figure.snip0045 * {
 }
 
 figure.snip0045 > img {
-  width: 50%;
+ 
   border-radius: 50%;
-  border: 4px solid #ffffff;
-  -webkit-transition: all 0.35s ease-in-out;
-  transition: all 0.35s ease-in-out;
-  -webkit-transform: scale(1.6);
-  transform: scale(1.6);
+  border: 4px solid #dcdcdc;
   position: relative;
-  left: -15%;
   z-index: 1;
 }
 
 figure.snip0045 figcaption {
-  padding: 20px 30px 20px 20px;
+  padding: 10px 20px 10px 10px;
   position: absolute;
   right: 0;
-  width: 50%;
+  width: 65%;
 }
 
 figure.snip0045 figcaption h2,
@@ -324,6 +323,7 @@ figure.snip0045 .position {
   font-style: italic;
   color: #ffffff;
   background: #000000;
+  display : none;
 }
 
 figure.snip0045.blue .position {
@@ -340,11 +340,6 @@ figure.snip0045.yellow .position {
 
 figure.snip0045.green .position {
   background: #1e8449;
-}
-
-figure.snip0045:hover > img,
-figure.snip0045.hover > img {
-  left: -12%;
 }
 
 .hide {
@@ -373,7 +368,7 @@ figure.snip0045.hover > img {
 }
 
 .liked-members-list {
-	max-height: 350px; /* Adjust the height as needed */
+	max-height: 280px; /* Adjust the height as needed */
 	overflow-y: auto;
 }
 
