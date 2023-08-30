@@ -10,12 +10,15 @@ import java.util.Random;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -25,6 +28,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -39,6 +43,7 @@ import org.springframework.core.io.FileSystemResource;
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.service.ClubService;
 import com.dagachi.app.common.DagachiUtils;
+import com.dagachi.app.member.dto.MemberPwUpdateDto;
 import com.dagachi.app.member.dto.MemberUpdateDto;
 import com.dagachi.app.member.entity.CbcLike;
 import com.dagachi.app.member.entity.Member;
@@ -134,6 +139,38 @@ public class MemberController {
 		 return "redirect:/member/" + memberId;
 	 }
 	 
+
+	 @GetMapping("memberLikeCheck.do")
+	 public ResponseEntity<?> memberLikeCheck(
+			 @RequestParam String memberId,
+			 @AuthenticationPrincipal MemberDetails loginMember) {
+		 
+		 int checkDuplicate = memberService.checkDuplicateMemberId(memberId);
+		 
+		 boolean memberLikeCheck = checkDuplicate != 0 ? true : false;
+				 
+		 return ResponseEntity.status(HttpStatus.OK).body(memberLikeCheck);
+	 }
+	 
+	 @PostMapping("/deleteMemberLike.do")
+	 public String deleteMemberLike(
+			 @AuthenticationPrincipal MemberDetails loginMember,
+			 @RequestParam String memberId
+			 ){
+		 String loginMemberId = loginMember.getMemberId();
+		 
+		 Map<String, Object> params = Map.of(
+					"memberId", memberId,
+					"loginMemberId", loginMemberId
+					 );
+		 
+		 int result = memberService.cancelMemberLike(params);
+		 
+		 return "redirect:/member/" + memberId;
+				 
+		 
+	 }
+
 	 @GetMapping("/searchId.do")
 	 public void searchId() {}
 
@@ -164,8 +201,13 @@ public class MemberController {
 	 @GetMapping("/searchPw.do")
 	 public void searchPw() {}
 	 
-	 @GetMapping("/sendCode.do")
-	 public ResponseEntity<?> sendVerificationCode(
+	 /**
+	  * @author 김준한
+	  * 이메일로 6자리 랜덤코드생성해서
+	  * 코드 보내기
+	  */
+	@GetMapping("/sendCode.do")
+	public ResponseEntity<?> sendVerificationCode(
 			 @RequestParam("username") String username, 
              @RequestParam("email") String email
 			 ){
@@ -194,24 +236,43 @@ public class MemberController {
 			 
 			 javaMailSender.send(message);
 			 
-			 
 		 }else {
-			 
 			 randomCode = null;
-			 
 		 }
-		 
 		 return ResponseEntity.status(HttpStatus.OK).body(randomCode);
 	 }
 	 
-//	 @PostMapping("/memberSearchPw.do")
-//	 public String searchPwByCode(
-//			 @RequestParam ("code") String code
-//			 ) {
-//		 
-//		 
-//		 return "";
-//	 }
-	 
-	 
+	@RequestMapping("{email}/memberPwUpdate.do")
+	public String updateMemberPassword(
+			@PathVariable("email") String email,
+			Model model
+			) {
+		model.addAttribute("email",email);
+		
+		return "/member/memberPwUpdate";
+	}
+	
+	
+	/**
+	 * @author 김준한
+	 * 이메일인증을 통한 비밀번호 찾기후 변경
+	 */
+	@PostMapping("/memberPwUpdate.do")
+	public String memberPwUpdate(
+			@RequestParam("newPassword") String password,
+			@RequestParam("email") String email,
+			RedirectAttributes redirectAttr
+			) {
+//		log.debug("passwordzzzzzzzzzzzzzzzz = {}",password);
+//		log.debug("email = {}",email);
+		String encodedPassword = passwordEncoder.encode(password);
+		MemberPwUpdateDto memberPwUpdateDto = MemberPwUpdateDto.builder()
+				.password(encodedPassword)
+				.email(email).build();
+		int result = memberService.memberPwUpdate(memberPwUpdateDto);
+		
+		redirectAttr.addFlashAttribute("msg", "비밀번호가 변경되었습니다.");
+		
+		return "redirect:/member/searchPw.do";
+	}
 }

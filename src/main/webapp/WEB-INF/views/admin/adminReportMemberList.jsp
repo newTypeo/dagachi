@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin.css"/>
 
 <section id="admin-report-member-list-sec" class="p-2 report-member-list sectionList">
-	<h1>신고 회원목록 페이지</h1>
+	<h1>신고 회원목록</h1>
 
 	<div id="report-member-list-wrapper">
 		<div id="search-container">

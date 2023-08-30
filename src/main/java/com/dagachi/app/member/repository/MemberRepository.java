@@ -17,6 +17,7 @@ import com.dagachi.app.admin.entity.AdminInquiry;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.member.dto.MemberCreateDto;
 import com.dagachi.app.member.dto.MemberKakaoDto;
+import com.dagachi.app.member.dto.MemberPwUpdateDto;
 import com.dagachi.app.member.entity.ActivityArea;
 import com.dagachi.app.member.entity.CbcLike;
 import com.dagachi.app.member.entity.Member;
@@ -100,6 +101,9 @@ public interface MemberRepository {
 	
 	@Insert("insert into member_like values(seq_member_like_id.nextval, #{memberId}, #{loginMemberId}, default)")
 	int memberLike(Map<String, Object> params);
+	
+	@Delete("delete from member_like where member_Id = #{memberId} and like_sender = #{loginMemberId}")
+	int cancelMemberLike(Map<String, Object> params);
 
 	@Select("select * from member_like where member_id = #{loginMemberId} order by like_id")
 	List<MemberLike> findAllLikeMe(String loginMemberId);
@@ -118,6 +122,9 @@ public interface MemberRepository {
 	
 	@Insert("insert into member values (#{memberId}, #{password},#{name}, null , null, #{email}, null , null , null,  null , 0, SYSDATE, NULL, SYSDATE, NULL, 'Y')")
 	int KakaoMember(MemberKakaoDto memberKakaoDto);
+	
+	@Update("update member set password = #{password} where email = #{email}")
+	int memberPwUpdate(MemberPwUpdateDto memberPwUpdateDto);
 
 	
 }

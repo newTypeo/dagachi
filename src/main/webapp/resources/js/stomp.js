@@ -59,5 +59,7 @@ const renderMessage = (message) => {
 	 	chatWrap.appendChild(divbox);
       	 document.querySelector("#chatWrap").scrollTop = document.querySelector("#chatWrap").scrollHeight;
 	 	 break;
+	 	 
+	 	 
 	}
 }; 
