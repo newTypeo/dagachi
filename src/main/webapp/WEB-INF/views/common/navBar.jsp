@@ -20,7 +20,7 @@
 	
 	<div id="search-container">
 		<form id="clubSearchFrm" action="${pageContext.request.contextPath}/club/clubSearch.do">
-			<input type="text" name="inputText" id="search-club-box" placeholder="BTS 봉준호 다가치 Let's go"/>
+			<input type="text" name="inputText" id="search-club-box" placeholder="BTS 봉준호 손흥민 다가치 Let's go"/>
 			<button id="search-club-btn"><i class="fa-solid fa-magnifying-glass fa-xl"></i></button>
 		</form>
 		<div id="search-detail" onclick="checkLoginSearch();">
@@ -110,7 +110,7 @@ const categoryDiv = document.querySelectorAll("#category-modal-left-upper div");
 const dark = document.querySelector("#dark");
 
 
-categoryContainer.addEventListener('mouseover', () => {
+categoryContainer.addEventListener('click', () => {
 	categoryModalLeft.style.display = "block";
 	dark.style.display = "block";
 });
@@ -118,11 +118,11 @@ categoryModalContainer.addEventListener('mouseover', () => {
 	categoryModalLeft.style.display = "block";
 	dark.style.display = "block";
 });
-
+/*
 categoryContainer.addEventListener('mouseout', () => {
 	categoryModalLeft.style.display = "none";
 	//categoryModalRight.style.display = "none";
-});
+});*/
 /*
 categoryModalContainer.addEventListener('mouseout', () => {
 	categoryModalLeft.style.display = "none";

@@ -137,9 +137,11 @@ $.ajax({
 	
 	<sec:authorize access="isAuthenticated()">
 		<section id="class2">
-			<h1>추천 목록</h1>
+	   		<br>
+			<h3>추천 모임</h3>
 	   		<div class="posts2"></div>
-	   		<h1>모든 모임</h1>
+	   		<br>
+	   		<h3>모든 모임</h3>
 	   		<div class="posts3"></div>
 		</section>
 

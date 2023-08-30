@@ -53,6 +53,7 @@
 		    	<sec:authentication property="principal.nickname"/>
 		    </a>님, 안녕하삼</span>
 		    &nbsp;
-		    <button type="button" onclick="document.memberLogoutFrm.submit();">로그아웃</button>
+		    <span> | </span>
+		    <a type="button" onclick="document.memberLogoutFrm.submit();">로그아웃</a>
 		</div>
 	</header>

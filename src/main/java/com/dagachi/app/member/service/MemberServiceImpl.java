@@ -185,6 +185,10 @@ public class MemberServiceImpl implements MemberService{
 		return memberRepository.memberLike(params);
 	}
 	
+	@Override
+	public int cancelMemberLike(Map<String, Object> params) {
+		return memberRepository.cancelMemberLike(params);
+	}
 	
 	public int UpdateMember(Member member) {
 		int result = 0;	

@@ -10,12 +10,15 @@ import java.util.Random;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -25,6 +28,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -135,6 +139,38 @@ public class MemberController {
 		 return "redirect:/member/" + memberId;
 	 }
 	 
+
+	 @GetMapping("memberLikeCheck.do")
+	 public ResponseEntity<?> memberLikeCheck(
+			 @RequestParam String memberId,
+			 @AuthenticationPrincipal MemberDetails loginMember) {
+		 
+		 int checkDuplicate = memberService.checkDuplicateMemberId(memberId);
+		 
+		 boolean memberLikeCheck = checkDuplicate != 0 ? true : false;
+				 
+		 return ResponseEntity.status(HttpStatus.OK).body(memberLikeCheck);
+	 }
+	 
+	 @PostMapping("/deleteMemberLike.do")
+	 public String deleteMemberLike(
+			 @AuthenticationPrincipal MemberDetails loginMember,
+			 @RequestParam String memberId
+			 ){
+		 String loginMemberId = loginMember.getMemberId();
+		 
+		 Map<String, Object> params = Map.of(
+					"memberId", memberId,
+					"loginMemberId", loginMemberId
+					 );
+		 
+		 int result = memberService.cancelMemberLike(params);
+		 
+		 return "redirect:/member/" + memberId;
+				 
+		 
+	 }
+
 	 @GetMapping("/searchId.do")
 	 public void searchId() {}
 

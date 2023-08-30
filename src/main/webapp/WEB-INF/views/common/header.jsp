@@ -44,6 +44,8 @@
 <!-- 사용자작성 css -->
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/style.css" />
+	
+<!-- 토큰 -->
 <meta id="_csrf" name="_csrf" content="${_csrf.token}" />
 <meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}" />
 
@@ -58,8 +60,6 @@
 	<div id="container">
 
 		<header>
-
-
 			<div id="main-logo-container">
 				<a href="${pageContext.request.contextPath}"> <img
 					id="main-logo"
@@ -79,14 +79,15 @@
 				    <span>
 				    <a title="<sec:authentication property="authorities"/>" href="${pageContext.request.contextPath}/member/<sec:authentication property="principal.memberId"/>">
 				    	<sec:authentication property="principal.nickname"/>
-				    </a>님, 안녕하삼</span>
-				    &nbsp;
+				    </a>님</span>
+				    <span>|</span> 
+				    <a href="${pageContext.request.contextPath}/member/memberAdminInquiryList.do">문의하기</a>
 				    <span>|</span> 
 				    <a type="button" onclick="document.memberLogoutFrm.submit();">로그아웃</a>
 				</div>
 
 				<div class="dropdown">
-					<button class="btn btn-secondary dropdown-toggle" type="button"
+					<button id="admin-nav-btn" class="btn btn-secondary dropdown-toggle" type="button"
 						data-toggle="dropdown" aria-expanded="false">회원관리</button>
 					<div class="dropdown-menu">
 						<button class="dropdown-item" type="button"><a href="${pageContext.request.contextPath}/admin/adminMemberList.do?keyword=&column=">회원조회</a></button>
