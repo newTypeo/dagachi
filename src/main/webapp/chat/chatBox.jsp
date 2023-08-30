@@ -51,12 +51,8 @@
 	
 		window.onload = ()=>{
 			
-			
 			openChatList();
-				
-		
-			
-		
+						
 			//openChatList(memberId)
 		};
 	</script>

@@ -921,6 +921,9 @@ VALUES ('user29', 4, SYSDATE, 0, 1);
 INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
 VALUES ('user30', 4, SYSDATE, 0, 1);
 
+INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
+VALUES ('nayoung', 1, SYSDATE, 0, 1);
+
 -- 회원권한 샘플
 insert into authority values('admin', 'ADMIN');
 insert into authority values('honggd', 'MEMBER');
@@ -1279,6 +1282,7 @@ insert into main_page values(seq_main_page_id.nextval, 'mainSample5.png', 'mainS
 
 commit;
 
+
 insert into club_member values('user9',1,default,default,3,default);
 insert into club_member values('user9',2,default,default,3,default);
 insert into club_member values('user9',3,default,default,3,default);
@@ -1287,9 +1291,15 @@ insert into club_member values('user9',5,default,default,3,default);
 insert into club_member values('user9',6,default,default,3,default);
 insert into club_member values('user9',7,default,default,3,default);
 
+
+
+select * from activity_area;
 commit;
 
+
 DELETE FROM member WHERE member_id = 'nayoung';
+
+select * from chat_log;
 
 insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
 values ('admin', '1234', '관리자','관리자', '956-456-7890', 'admin@naver.com', TO_DATE('1990-01-15', 'YYYY-MM-DD'), 'M', 'ISTJ', '서울시 강남구 123번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y');
@@ -1319,3 +1329,4 @@ create table member (
 	last_login_date date,
     status char(1) default 'Y' 
 );
+

@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin.css"/>
 
 <section id="admin-quit-member-list-sec" class="p-2 quit-member-list sectionList">
-	<h1>탈퇴 회원목록 페이지</h1>
+	<h1>탈퇴 회원목록</h1>
 
 	<div id="quit-member-list-wrapper">
 		<div id="search-container">

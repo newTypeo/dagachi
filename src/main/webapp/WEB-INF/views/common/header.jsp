@@ -44,6 +44,8 @@
 <!-- 사용자작성 css -->
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/style.css" />
+	
+<!-- 토큰 -->
 <meta id="_csrf" name="_csrf" content="${_csrf.token}" />
 <meta id="_csrf_header" name="_csrf_header"
 	content="${_csrf.headerName}" />
@@ -59,8 +61,6 @@
 	<div id="container">
 
 		<header>
-
-
 			<div id="main-logo-container">
 				<a href="${pageContext.request.contextPath}"> <img
 					id="main-logo"
@@ -80,8 +80,9 @@
 				    <span>
 				    <a title="<sec:authentication property="authorities"/>" href="${pageContext.request.contextPath}/member/<sec:authentication property="principal.memberId"/>">
 				    	<sec:authentication property="principal.nickname"/>
-				    </a>님, 안녕하삼</span>
-				    &nbsp;
+				    </a>님</span>
+				    <span>|</span> 
+				    <a href="${pageContext.request.contextPath}/member/memberAdminInquiryList.do">문의하기</a>
 				    <span>|</span> 
 				    <a type="button" onclick="document.memberLogoutFrm.submit();">로그아웃</a>
 				</div>
