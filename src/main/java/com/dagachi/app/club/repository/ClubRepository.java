@@ -33,6 +33,7 @@ import com.dagachi.app.club.dto.ClubStyleUpdateDto;
 import com.dagachi.app.club.dto.CreateGalleryDto;
 import com.dagachi.app.club.dto.GalleryAndImageDto;
 import com.dagachi.app.club.dto.ManageMember;
+import com.dagachi.app.club.entity.BoardComment;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
@@ -320,6 +321,20 @@ public interface ClubRepository {
 	
 	@Insert("insert into club_gallery_attachment (id,gallery_id,original_filename,renamed_filename, thumbnail) values (seq_club_gallery_attachment_id.nextval,seq_club_gallery_id.currval,#{originalFilename},#{renamedFilename},'N')")
 	int clubGalleryCreate2(CreateGalleryDto createGalleryDto);
+	
+	@Insert("insert into board_comment (comment_id, board_id,writer,content,created_at,status) values (seq_board_comment_id.nextval,#{boardId},#{writer}, #{content},default,default)")
+	@SelectKey(
+			before = false, 
+			keyProperty = "commentId", 
+			resultType = int.class,
+			statement = "select seq_board_comment_id.currval from dual")
+	int boardCommentCreate(BoardComment comment);
+	
+	@Select("select * from board_comment where board_id=#{no}")
+	List<BoardComment> findComments(int no);
+	
+	@Select("select * from  board_comment where comment_id=#{commentId}")
+	BoardComment findBoardComment(int commentId);
 
 	
 }

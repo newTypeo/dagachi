@@ -25,6 +25,7 @@ import com.dagachi.app.club.dto.GalleryAndImageDto;
 import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.KickMember;
 import com.dagachi.app.club.dto.ManageMember;
+import com.dagachi.app.club.entity.BoardComment;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
@@ -179,6 +180,12 @@ public interface ClubService {
 	int clubGalleryCreate2(CreateGalleryDto createGalleryDto);
 
 	int cancelClubLike(Map<String, Object> params);
+
+	int boardCommentCreate(BoardComment comment);
+
+	List<BoardComment> findComments(int no);
+
+	BoardComment findBoardComment(int commentId);
 
 	
 

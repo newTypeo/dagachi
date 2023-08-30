@@ -75,7 +75,7 @@ public class MemberController {
 	@Autowired
     private JavaMailSender javaMailSender;
 	
-	
+	   
 	 @GetMapping("/{memberId}")
 	    public String memberDetail(
 	    		@PathVariable("memberId") String memberId,

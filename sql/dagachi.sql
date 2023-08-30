@@ -212,7 +212,7 @@ create table board_comment (
 	comment_id	number	not null,
 	board_id	number	not null,
 	writer	varchar2(30)	not null,
-	comment_ref	number, -- null 댓글인경우 | board_comment.no 대댓글인 경우
+	comment_ref	number default null, -- 0 댓글인경우 | board_comment.no 대댓글인 경우
 	content	varchar2(1000)	not null,
 	created_at	date default sysdate,
 	status char(1) default 'Y',
@@ -1298,4 +1298,3 @@ insert into club_member values('user9',6,default,default,3,default);
 insert into club_member values('user9',7,default,default,3,default);
 
 commit;
-

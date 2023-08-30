@@ -39,6 +39,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.dagachi.app.Pagination;
 import com.dagachi.app.club.common.Status;
 import com.dagachi.app.club.dto.BoardAndImageDto;
+import com.dagachi.app.club.dto.BoardCommentDto;
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.ClubBoardCreateDto;
 import com.dagachi.app.club.dto.ClubCreateDto;
@@ -61,6 +62,7 @@ import com.dagachi.app.club.dto.KickMember;
 import com.dagachi.app.club.dto.ManageMember;
 import com.dagachi.app.club.dto.SearchClubBoard;
 import com.dagachi.app.club.dto.ClubNameAndCountDto;
+import com.dagachi.app.club.entity.BoardComment;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
@@ -77,6 +79,7 @@ import com.dagachi.app.common.DagachiUtils;
 import com.dagachi.app.member.entity.ActivityArea;
 import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.entity.MemberDetails;
+import com.dagachi.app.member.entity.MemberProfile;
 import com.dagachi.app.member.service.MemberService;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -637,12 +640,77 @@ public class ClubController {
 		
 		List<ClubBoardAttachment> attachments = clubService.findAttachments(no);
 		
+		List<BoardComment> _comments=clubService.findComments(no);
+		List<BoardCommentDto> comments=new ArrayList<>();
+		List<MemberProfile> clubProfiles=memberService.findMemberProfileByClubId(clubBoard.getClubId());
+		
+		if(!_comments.isEmpty()) {
+			for(BoardComment comment:_comments) {
+				BoardCommentDto commentDto=buildCommentDto(comment);
+				comments.add(commentDto);
+			}
+		}
+		
+
+		
+		
 		log.debug("liked={}", liked);
 		model.addAttribute("liked", liked);
 		model.addAttribute("clubBoard", clubBoard);
 		model.addAttribute("attachments", attachments);
+		model.addAttribute("comments", comments);
 		
 		return "/club/clubBoardDetail";
+	}
+	
+	public BoardCommentDto buildCommentDto(BoardComment comment) {
+		
+		BoardCommentDto commentDto= BoardCommentDto.builder()
+				.commentId(comment.getCommentId())
+				.boardId(comment.getBoardId())
+				.writer(comment.getWriter())
+				.commentRef(comment.getCommentRef())
+				.content(comment.getContent())
+				.createdAt(comment.getCreatedAt())
+				.status(comment.getStatus())
+				.commentLevel(comment.getCommentId())
+				.profile(memberService.findMemberProfile(comment.getWriter()).getRenamedFilename())
+				.build();
+		
+		return commentDto;
+	}
+	
+	
+	/**
+	 * 게시글 댓글 작성
+	 * @author 상윤
+	 */
+	@PostMapping("/{domain}/createComment.do")
+	public  ResponseEntity<?> createComment(
+			@PathVariable("domain") String domain,
+			@AuthenticationPrincipal MemberDetails member,
+			@RequestParam String content,
+			@RequestParam int boardId
+	){
+		ClubBoard clubBoard =clubBoardGet(domain, boardId);
+		String memberId=member.getMemberId();
+		
+		BoardComment _comment=BoardComment.builder()
+				.content(content)
+				.writer(memberId)
+				.boardId(boardId)
+				.build();
+				
+		int result=clubService.boardCommentCreate(_comment);
+		
+		BoardComment comment=clubService.findBoardComment(_comment.getCommentId());
+		
+		BoardCommentDto commentDto =buildCommentDto(comment);
+		
+		log.debug("comment={}",commentDto);
+		
+		
+		return ResponseEntity.status(HttpStatus.OK).body(commentDto);
 	}
 
 	

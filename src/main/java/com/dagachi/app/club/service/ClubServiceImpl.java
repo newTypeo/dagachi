@@ -32,6 +32,7 @@ import com.dagachi.app.club.dto.GalleryAndImageDto;
 import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.KickMember;
 import com.dagachi.app.club.dto.ManageMember;
+import com.dagachi.app.club.entity.BoardComment;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
@@ -582,5 +583,19 @@ public class ClubServiceImpl implements ClubService {
 		return clubRepository.clubGalleryCreate2(createGalleryDto);
 	}
 	
+	@Override
+	public int boardCommentCreate(BoardComment comment) {
+		return clubRepository.boardCommentCreate(comment);
+	}
+	
+	@Override
+	public List<BoardComment> findComments(int no) {
+		return clubRepository.findComments(no);
+	}
+	
+	@Override
+	public BoardComment findBoardComment(int commentId) {
+		return clubRepository.findBoardComment(commentId);
+	}
 	
 }
