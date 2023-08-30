@@ -17,6 +17,7 @@ import com.dagachi.app.admin.entity.AdminInquiry;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.member.dto.MemberCreateDto;
 import com.dagachi.app.member.dto.MemberKakaoDto;
+import com.dagachi.app.member.dto.MemberPwUpdateDto;
 import com.dagachi.app.member.entity.ActivityArea;
 import com.dagachi.app.member.entity.CbcLike;
 import com.dagachi.app.member.entity.Member;
@@ -121,6 +122,9 @@ public interface MemberRepository {
 	
 	@Insert("insert into member values (#{memberId}, #{password},#{name}, null , null, #{email}, null , null , null,  null , 0, SYSDATE, NULL, SYSDATE, NULL, 'Y')")
 	int KakaoMember(MemberKakaoDto memberKakaoDto);
+	
+	@Update("update member set password = #{password} where email = #{email}")
+	int memberPwUpdate(MemberPwUpdateDto memberPwUpdateDto);
 
 	
 }

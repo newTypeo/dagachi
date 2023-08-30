@@ -1299,12 +1299,3 @@ insert into club_member values('user9',7,default,default,3,default);
 
 commit;
 
-
-DELETE FROM member WHERE member_id = 'nayoung';
-
-
-insert into member values ('hihi', '1234','김나영', null , 
-null, 'kim_young5959@naver.com', null , null , 
-null,  null , 0, SYSDATE, NULL, SYSDATE, NULL, 'Y');
-
-select * from club_schedule_place;

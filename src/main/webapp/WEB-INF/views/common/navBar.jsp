@@ -110,7 +110,7 @@ const categoryDiv = document.querySelectorAll("#category-modal-left-upper div");
 const dark = document.querySelector("#dark");
 
 
-categoryContainer.addEventListener('mouseover', () => {
+categoryContainer.addEventListener('click', () => {
 	categoryModalLeft.style.display = "block";
 	dark.style.display = "block";
 });
@@ -118,11 +118,11 @@ categoryModalContainer.addEventListener('mouseover', () => {
 	categoryModalLeft.style.display = "block";
 	dark.style.display = "block";
 });
-
+/*
 categoryContainer.addEventListener('mouseout', () => {
 	categoryModalLeft.style.display = "none";
 	//categoryModalRight.style.display = "none";
-});
+});*/
 /*
 categoryModalContainer.addEventListener('mouseout', () => {
 	categoryModalLeft.style.display = "none";

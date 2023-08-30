@@ -1312,6 +1312,7 @@ public class ClubController {
 			 createGalleryDto = createGalleryDto.builder()
 					 .clubId(clubId)
 					 .memberId(loginMember.getMemberId())
+					 .originalFilename(originalFilename)
 					 .renamedFilename(renamedFilename)
 					 .build();
 			 
@@ -1327,6 +1328,7 @@ public class ClubController {
 			 createGalleryDto = createGalleryDto.builder()
 					 .clubId(clubId)
 					 .memberId(loginMember.getMemberId())
+					 .originalFilename(originalFilename)
 					 .renamedFilename(renamedFilename)
 					 .build();
 			 
@@ -1342,6 +1344,7 @@ public class ClubController {
 			 createGalleryDto = createGalleryDto.builder()
 					 .clubId(clubId)
 					 .memberId(loginMember.getMemberId())
+					 .originalFilename(originalFilename)
 					 .renamedFilename(renamedFilename)
 					 .build();
 			 
