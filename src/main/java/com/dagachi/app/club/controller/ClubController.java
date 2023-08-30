@@ -118,10 +118,7 @@ public class ClubController {
 	 
 		return ResponseEntity.status(HttpStatus.OK).body(clubs); 
 	}
-	
 
-	@GetMapping("/main.do")
-	public void Detail() {}
 
 	/**
 	 * @author ?
@@ -404,10 +401,10 @@ public class ClubController {
 			Model model) {
 
 		int clubId = clubService.clubIdFindByDomain(domain);
+		ClubLayout layout = clubService.findLayoutById(clubId);
 
 		ClubNameAndCountDto clubInfo = clubService.findClubInfoById(clubId);
 		
-		ClubLayout layout = clubService.findLayoutById(clubId);
 		
 		List<BoardAndImageDto> boardAndImages = clubService.findBoardAndImageById(clubId);
 		List<GalleryAndImageDto> galleries = clubService.findgalleryById(clubId);
@@ -1315,6 +1312,7 @@ public class ClubController {
 			 createGalleryDto = createGalleryDto.builder()
 					 .clubId(clubId)
 					 .memberId(loginMember.getMemberId())
+					 .originalFilename(originalFilename)
 					 .renamedFilename(renamedFilename)
 					 .build();
 			 
@@ -1330,6 +1328,7 @@ public class ClubController {
 			 createGalleryDto = createGalleryDto.builder()
 					 .clubId(clubId)
 					 .memberId(loginMember.getMemberId())
+					 .originalFilename(originalFilename)
 					 .renamedFilename(renamedFilename)
 					 .build();
 			 
@@ -1345,6 +1344,7 @@ public class ClubController {
 			 createGalleryDto = createGalleryDto.builder()
 					 .clubId(clubId)
 					 .memberId(loginMember.getMemberId())
+					 .originalFilename(originalFilename)
 					 .renamedFilename(renamedFilename)
 					 .build();
 			 

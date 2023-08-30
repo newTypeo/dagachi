@@ -180,8 +180,8 @@ section {
 			<div>
 				<label for="gender">성별</label> <select class="custom-select"
 					id="gender" name="gender">
-					<option value="${loginMember.gender eq 'M' ? 'selected' : '' }" selected>M</option>
-					<option value="${loginMember.gender eq 'F' ? 'selected' : '' }">F</option>
+					<option value="M" ${loginMember.gender eq 'M' ? 'selected' : '' }>M</option>
+                	<option value="F" ${loginMember.gender eq 'F' ? 'selected' : '' }>F</option>
 				</select>
 			</div>
 
