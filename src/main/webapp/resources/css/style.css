@@ -1,4 +1,8 @@
 @CHARSET "UTF-8";
+/* a태그 밑줄 제거 */
+a:hover {
+  text-decoration: none;
+}
 
 /* #2990D0 */
 body {
@@ -69,6 +73,11 @@ header #header-nav-container span {
 	font-size: 15px;
 	color: #666;
 	margin-left: 10px;
+}
+
+#admin-nav-btn {
+	position: absolute;
+    transform: translate(-96px, -16px);
 }
 
 /********** main-page-sec **********/
@@ -348,23 +357,24 @@ figure.snip0045.green .position {
 
 /*회원 좋아요*/
 .profile-card2 {
-	border: 1px solid #ccc;
 	border-radius: 10px;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 	overflow: hidden;
 	width: 280px;
 }
 
 .liked-members-title {
-	background-color: #3498db;
-	color: white;
+	color: black;
 	padding: 15px;
 	text-align: center;
 }
 
 .liked-members-title h2 {
-	font-size: 28px;
+	font-size: 20px;
 	margin: 0;
+}
+
+.fitLine {
+	margin-top: 10px;
 }
 
 .liked-members-list {
@@ -376,7 +386,8 @@ figure.snip0045.green .position {
 	list-style: none;
 	padding-left: 0;
 	margin: 0;
-	font-size: x-large;
+	font-size: larger;
+	text-align: center;
 }
 
 .liked-members-list li {

@@ -23,6 +23,7 @@ import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.member.dto.MemberCreateDto;
 import com.dagachi.app.member.dto.MemberKakaoDto;
+import com.dagachi.app.member.dto.MemberPwUpdateDto;
 import com.dagachi.app.member.entity.ActivityArea;
 import com.dagachi.app.member.entity.CbcLike;
 import com.dagachi.app.member.entity.Member;
@@ -254,5 +255,9 @@ public class MemberServiceImpl implements MemberService{
 	    return result;
 	}
 	
+	@Override
+	public int memberPwUpdate(MemberPwUpdateDto memberPwUpdateDto) {
+		return memberRepository.memberPwUpdate(memberPwUpdateDto);
+	}
 	
 }
