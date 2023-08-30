@@ -84,7 +84,8 @@
 	           <div class="col-md-8-2">
 	               <div class="profile-card2">
 	                   <div class="liked-members-title">
-	                       <h2>나를 좋아한 회원</h2>
+	                       <h2 class="fitLine" style="margin-top: 10px;">나를 좋아한 회원</h2>
+	                       <hr>
 	                   </div>
 	                   
 	                   <div class="liked-members-list">
