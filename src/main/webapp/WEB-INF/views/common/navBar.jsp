@@ -59,8 +59,10 @@
 				<a>모든 주제 보기 ></a>
 			</div>
 		</div>
-		<div id="category-modal-right" style="display:none; flex-wrap: wrap; align-content: flex-start;">
+		<div id="category-modal-right" style="display:none;">
+			<div id="row" class="row" style="padding:5px;">
 			
+			</div>
 		</div>
 	</div>
 </nav>
@@ -106,6 +108,7 @@ const categoryModalContainer = document.querySelector("#category-modal-container
 const categoryModalLeft = document.querySelector("#category-modal-left");
 const categoryModalRight = document.querySelector("#category-modal-right");
 const categoryDiv = document.querySelectorAll("#category-modal-left-upper div");
+const row = document.querySelector("#row");
 
 const dark = document.querySelector("#dark");
 
@@ -139,13 +142,13 @@ dark.addEventListener('click', () => {
 
 categoryDiv.forEach((element) => {
 	element.addEventListener("click", function(e) {
-		categoryModalRight.style.display = "flex";
+		categoryModalRight.style.display = "block";
 		
 		const value = e.target.innerText;
-		console.log(value);
 		selected = value;
 		
-		categoryModalRight.innerHTML = '';
+		//categoryModalRight.innerHTML = '';
+		row.innerHTML = '';
 		
 		$.ajax({
 			url: "${pageContext.request.contextPath}/club/categoryList.do",
@@ -153,17 +156,18 @@ categoryDiv.forEach((element) => {
 				category : value 
 			},
 			success(response) {
-				console.log(response);
 				response.forEach((club) => {
-					categoryModalRight.innerHTML += `
-						<a class="card" id="ccc" style="width: 9rem; text-align:center;" href="${pageContext.request.contextPath}/club/\${club.domain}">
-							<img src="${pageContext.request.contextPath}/resources/upload/club/profile/\${club.renamedFilename}" class="card-img-top" alt="..." />
-							    <span class="card-title">\${club.clubName}</span>
-						</a>
+					row.innerHTML += `
+						<div class="col col-lg-6" style="padding-right: 0px;">
+							<a class="card" id="ccc" style="width: 9.5rem; text-align:center;" href="${pageContext.request.contextPath}/club/\${club.domain}">
+								<img src="${pageContext.request.contextPath}/resources/upload/club/profile/\${club.renamedFilename}" class="card-img-top" style="height: 9rem;" alt="..." />
+								    <span class="card-title" style="height: 3rem;">\${club.clubName}</span>
+							</a>
+						</div>
 					`;
 				});
-				categoryModalRight.innerHTML += `
-				<a href="${pageContext.request.contextPath}/club/clubSearch.do?inputText=\${selected}">더보기</a>
+				row.innerHTML += `<br/>
+				&nbsp;&nbsp;&nbsp; <a href="${pageContext.request.contextPath}/club/clubSearch.do?inputText=\${selected}">더보기</a>
 				`;
 			}
 		});

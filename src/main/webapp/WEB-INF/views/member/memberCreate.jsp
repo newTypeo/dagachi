@@ -260,64 +260,62 @@
 			id="main-area-id-modal" data-backdrop="static" data-keyboard="false"
 			tabindex="-1" aria-labelledby="staticBackdropLabel" style="display: none;"
 			aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="staticBackdropLabel">주소검색</h5>
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<label for="main-area-id-search-box">주 활동지 : </label> 
-					<input id="main-area-id-search-box" name="address" readonly/><br>
-					<label for="gu-filter">서울특별시 </label>
-					<select id="gu-filter"></select>
-					<div class="main-area-id-box">
-						<p>먼저 지역구를 선택해주십시오.</p>
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="staticBackdropLabel">주소검색</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<label for="main-area-id-search-box">주 활동지 : </label> 
+						<input id="main-area-id-search-box" name="address" readonly/><br>
+						<label for="gu-filter">서울특별시 </label>
+						<select id="gu-filter"></select>
+						<div class="main-area-id-box">
+							<p>먼저 지역구를 선택해주십시오.</p>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">닫기</button>
+						<button id="main-area-id-confirm-btn" type="button"
+							class="btn btn-primary">확인</button>
 					</div>
 				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">닫기</button>
-					<button id="main-area-id-confirm-btn" type="button"
-						class="btn btn-primary">확인</button>
-				</div>
 			</div>
-		</div>
-	</div><!-- 활동지역 받는 모달창 end -->
-		
-		
+		</div><!-- 활동지역 받는 모달창 end -->
 		<!-- 집주소 받는 모달창 -->
-	<div class="modal modal-dialog modal-dialog-scrollable fade"
-		id="activity-area-modal" data-backdrop="static" data-keyboard="false"
-		tabindex="-1" aria-labelledby="staticBackdropLabel" style="display: none;"
-		aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="staticBackdropLabel">주소 검색:</h5>
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<label for="address-search-box">도로명 주소 : </label> <input
-						id="address-search-box" name="address"
-						placeholder="ex) 강남구 역삼동 or 역삼동" />
-					<div class="address-box"></div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">닫기</button>
-					<button id="address-confirm-btn" type="button"
-						class="btn btn-primary">확인</button>
+		<div class="modal modal-dialog modal-dialog-scrollable fade"
+			id="activity-area-modal" data-backdrop="static" data-keyboard="false"
+			tabindex="-1" aria-labelledby="staticBackdropLabel" style="display: none;"
+			aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="staticBackdropLabel">주소 검색:</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<label for="address-search-box">도로명 주소 : </label> <input
+							id="address-search-box" name="address"
+							placeholder="ex) 강남구 역삼동 or 역삼동" />
+						<div class="address-box"></div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">닫기</button>
+						<button id="address-confirm-btn" type="button"
+							class="btn btn-primary">확인</button>
+					</div>
 				</div>
 			</div>
-		</div>
-	</div><!-- 집주소 받는 모달창 end -->
+		</div><!-- 집주소 받는 모달창 end -->
 </div>
 <script>
 
