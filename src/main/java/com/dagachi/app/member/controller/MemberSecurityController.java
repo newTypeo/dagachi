@@ -109,6 +109,31 @@ public class MemberSecurityController {
 	    return "redirect:/";
 	}
 	
+	@PostMapping("/memberKakaoCreate.do")
+	public String kakaoUpadteCreate(@Valid MemberCreateDto member, BindingResult bindingResult, RedirectAttributes redirectAttr,
+			@RequestParam String interests) throws UnsupportedEncodingException {
+	    
+		JsonArray documents = kakaoMapApi(member.getMainAreaId(), "address"); 
+	    JsonElement document = documents.getAsJsonArray().get(0);
+	    JsonObject item = document.getAsJsonObject();
+	    JsonObject params = item.get("address").getAsJsonObject();
+	    String bCode = params.get("b_code").getAsString();
+	 
+	    String rawPassword = member.getPassword();
+	    String encodedPassword = passwordEncoder.encode(rawPassword);
+	    
+	    
+	    List<String> interest = Arrays.asList(interests.split(","));
+	    member.setInterest(interest);
+	    member.setPassword(encodedPassword);
+	    member.setMainAreaId(bCode);
+	    log.debug("이게 interest -> {}", interest);
+	    int result = memberService.kakaoUpadteCreate(member);
+	    return "redirect:/";
+	}
+		
+	
+	
 	@GetMapping("/memberAdminInquiry.do")
 	public void InquiryCreate() {
 	}
