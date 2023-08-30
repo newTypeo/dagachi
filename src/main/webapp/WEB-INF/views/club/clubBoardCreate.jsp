@@ -7,11 +7,9 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="게시글 작성" name="title" />
 </jsp:include>
-
 <script>
 
 </script>
-
 <section id="club-board-sec" class="">
 
 

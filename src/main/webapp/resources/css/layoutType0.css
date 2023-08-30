@@ -1,15 +1,7 @@
 @charset "UTF-8";
 
 /************ club-title *************/
-#club-title img {
-	width: 1320px;
-}
 
-#default-title {
-	width: 1320px;
-	height: 100px;
-	background-color: pink;
-}
 #previewContainer{
 	width: 1320px;
 	height: 300px;
@@ -94,7 +86,10 @@
 	float: right;
 	margin-left: 10px;
 }
-
+.container-main-schedule > div > a:last-of-type {
+	display: inline-block;
+	float: right;
+}
 
 /* 커스텀 */
 

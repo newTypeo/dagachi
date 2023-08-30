@@ -117,7 +117,8 @@ input {
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%;
+    width: 50%;
+    height: 400px;
 }
 
 .close1 {
@@ -135,6 +136,7 @@ input {
 
 /* 모달 스타일 */
 .modal2 {
+	height: 400px;
     display: none;
     position: fixed;
     z-index: 1;
@@ -151,7 +153,8 @@ input {
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%;
+    width: 50%;
+    height: 400px
 }
 
 .close2 {
