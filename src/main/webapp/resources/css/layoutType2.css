@@ -1,23 +1,7 @@
 @charset "UTF-8";
 
 /************ club-title *************/
-#club-title img {
-	width: 1320px;
-}
 
-#default-title {
-	width: 1320px;
-	height: 100px;
-	background-color: pink;
-}
-#previewContainer{
-	width: 1320px;
-	height: 300px;
-}
-#previewContainer2{
-	width: 508px;
-	height: 337px;
-}
 
 
 /********** club-page-article **********/
@@ -167,11 +151,6 @@
 	overflow: hidden;
 }
 
-#club-schedule-container {
-	width: 960px;
-    margin: 0px 15px;
-}
-
 #mainContent{
     overflow: auto;
     resize: vertical;
@@ -218,6 +197,35 @@
 	height: 540px;
 }
 #carouselExampleControls > button {
-	width: 5%;
-	opacity: 1;
+	width: 2%;
+    margin: 4px;
+    opacity: 1;
 }
+
+
+/*********** full calendar *************/
+#club-schedule-container {
+	width: 960px;
+    margin: 0px 15px;
+}
+#club-schedule-container > .container-header {
+	position: absolute;
+	width: 920px;
+}
+.fc-toolbar-chunk:nth-of-type(2) {
+	transform: translate(77px, 0px);
+}
+.fc-toolbar-chunk:last-of-type {
+	transform: translate(-66px, 0px);
+}
+.fc-toolbar-chunk:last-of-type button {
+	height: 33px;
+    width: 48px;
+    padding: 0px;
+}
+.fc-daygrid-day-top {
+	height: 23px;
+    margin: -5px 0;
+}
+
+

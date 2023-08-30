@@ -109,12 +109,12 @@
     justify-content: center;
 }
 #category-modal-right {
-	background-color: yellow;
+	background-color: #fff;
 	box-sizing: border-box;
 	border-width: 1px 1px 1px 0;
 	border-style: solid;
 	border-color: #999;
-	width: 320px;
+	width: 340px;
     height: 598px;
 	position: relative;
     z-index: 10;

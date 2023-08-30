@@ -2,11 +2,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <fmt:requestEncoding value="utf-8"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/layoutType1.css"/>
@@ -14,22 +12,74 @@
 	
 <article id="club-page-article">
 	<div id="club-util-box">
-		<div id="club-myInfo-container"></div>
+		<div id="club-info-container">
+			<button type="button" class="btn btn-danger" id="clubLike" onclick="clubLike()">❤️</button>
+			<h5>🚩${clubInfo.clubName}</h5>
+			<span class="fontColors">since 
+				<fmt:parseDate value="${clubInfo.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="createdAt"/>
+	    		<fmt:formatDate value="${createdAt}" pattern="yyyy.MM.dd"/>
+			</span>
+			<c:if test="${memberRole ne 10}">
+				<span><a href="${pageContext.request.contextPath}/club/${domain}/clubMemberList.do">😀멤버 : ${clubInfo.memberCount}</a></span>
+			</c:if>
+			<c:if test="${memberRole eq 10}">
+				<span>😀멤버 : ${clubInfo.memberCount}</span>
+			</c:if>
+		</div>
+		<div id="club-myInfo-container" style="border-color: ${layout.pointColor}">
+			<c:if test="${memberRole ne 10}">
+				<div class="myProfile1" style="border-color: ${layout.pointColor}">
+					<img alt="" src="${pageContext.request.contextPath}/resources/upload/member/profile/<sec:authentication property="principal.memberProfile.renamedFilename"/>">
+				</div>
+				<div class="myProfile2">
+					<p><strong><sec:authentication property="principal.nickname"/></strong></p>
+					<c:if test ="${memberRole eq 3}">
+						<p><strong>🥇방장</strong>|<a href="${pageContext.request.contextPath}/club/${domain}/clubUpdate.do">모임 관리</a></p>
+					</c:if>
+					<c:if test ="${memberRole eq 2}">
+						<p><strong>🥇부방장</strong>|<a href="${pageContext.request.contextPath}/club/${domain}/clubUpdate.do">모임 관리</a></p>
+					</c:if>
+					<c:if test ="${memberRole eq 1}">
+						<p><strong>🥇임원</strong>|<a href="${pageContext.request.contextPath}/club/${domain}/clubUpdate.do">모임 관리</a></p>
+					</c:if>
+					<c:if test ="${memberRole eq 0}">
+						<p><strong>🎀일반회원</strong></p>
+					</c:if>
+					<p><a href="${pageContext.request.contextPath}/member/memberClubDetail.do">나의 모임 정보</a></p>
+				</div>
+				<div class="myProfile3">
+					<button class="btn" style="background-color: ${layout.fontColor}">글쓰기</button>
+					<button class="btn" style="background-color: ${layout.fontColor}">일정생성</button>
+				</div>
+			</c:if>
+			<c:if test="${memberRole eq 10}">
+				<div>
+					<button 
+						class="btn btn-outline-success my-2 my-sm-0" 
+						type="button" 
+						onclick="location.href = '${pageContext.request.contextPath}/club/${domain}/clubEnroll.do'">
+						가입신청하기
+					</button>	
+				</div>
+			</c:if>
+			
+			
+		</div>
 		<div id="club-total-container" class="fontColors" style="border-color: ${layout.pointColor}">
 			<div>
-				<a>📄전체글보기</a>
+				<a href="${pageContext.request.contextPath}/club/${domain}/clubBoardList.do?no=0">📄전체글보기</a>
 			</div>
 			<div>
-				<a>📢공지사항</a>
-				<a>🐳자유게시판</a>
-				<a>✋가입인사</a>
-				<a>🎉정모후기</a>
+				<a href="${pageContext.request.contextPath}/club/${domain}/clubBoardList.do?no=4">📢공지사항</a>
+				<a href="${pageContext.request.contextPath}/club/${domain}/clubBoardList.do?no=1">🐳자유게시판</a>
+				<a href="${pageContext.request.contextPath}/club/${domain}/clubBoardList.do?no=3">✋가입인사</a>
+				<a href="${pageContext.request.contextPath}/club/${domain}/clubBoardList.do?no=2">🎉정모후기</a>
 			</div>
 			<div>
-				<a>📷갤러리</a>
+				<a href="${pageContext.request.contextPath}/club/${domain}/clubGallery.do">📷갤러리</a>
 			</div>
 			<div>
-				<a>📅일정</a>
+				<a href="${pageContext.request.contextPath}/club/${domain}/clubSchedule.do">📅일정</a>
 			</div>
 		</div>
 		<div id="club-search-container1">
@@ -187,11 +237,14 @@
 					<span>👩🏻‍🤝‍🧑🏻${schedule.memberCount}/${schedule.capacity}</span>
 					<span>
 						<fmt:parseDate value="${schedule.startDate}" pattern="yyyy-MM-dd'T'HH:mm" var="startDate"/>
-    					<fmt:formatDate value="${startDate}" pattern="MM.dd HH:mm"/>
+    					<fmt:formatDate value="${startDate}" pattern="MM.dd"/>
     					~
     					<fmt:parseDate value="${schedule.endDate}" pattern="yyyy-MM-dd'T'HH:mm" var="endDate"/>
-    					<fmt:formatDate value="${endDate}" pattern="MM.dd HH:mm"/>
+    					<fmt:formatDate value="${endDate}" pattern="MM.dd"/>
 					</span>
+					<a href="/" class="fontColors">
+						${schedule.writer}
+					</a>
 				</div>
 			</c:forEach>
 		</div>
@@ -227,8 +280,104 @@
 	</div>
 </article>
 
+<form:form
+		name="clubLikeFrm"
+		action="${pageContext.request.contextPath}/club/clubLike.do"
+		method="POST">
+			<input type="hidden" id="memberId" name="memberId" value="${memberId}">
+			<input type="hidden" id="domain" name="domain" value="${domain}">
+</form:form>
+
+<form:form
+		name="deleteClubLikeFrm"
+		action="${pageContext.request.contextPath}/club/deleteClubLike.do"
+		method="POST">
+			<input type="hidden" id="memberId" name="memberId" value="${memberId}">
+			<input type="hidden" id="domain" name="domain" value="${domain}">
+</form:form>
+
+<nav style="display: flex; flex-direction: row-reverse;">
+	<button type="button" class="btn btn-danger" id="clubReport">🚨모임 신고하기</button>
+</nav>
+
 <script>
 $('.carousel').carousel({
 	interval: false
 })
+
+//창환(모임 신고)
+document.querySelector("#clubReport").onclick = () => {
+	const frm = document.clubReportFrm;
+	$("#reportModal")
+	.modal()
+	.on('shown.bs.modal', () => {
+	});
+};
+
+// 창환(모임 신고)
+const clubReportSubmit = () => {
+	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
+	
+	const domain = document.querySelector('#domain').value;
+	const reporter = document.querySelector('#reporter').value;
+	const reason = document.querySelector('#reason').value;
+	
+	if(reason == null || reason == '') {
+		alert('신고 내용을 입력해주세요');
+		return;
+	}
+	
+	$.ajax({
+		url : '${pageContext.request.contextPath}/club/${domain}/clubReport.do',
+		method : "post",
+		data : { domain, reporter, reason },
+		beforeSend(xhr) {
+			xhr.setRequestHeader(header, token);
+		},
+		success(response) {
+			console.log(response);
+		}
+	});
+	
+	
+	document.querySelector('#reason').value = ''; // 신고사유 초기화
+};
+
+
+//모임 좋아요 (현우)
+const clubLike = () => {
+	// 찜 목록에 해당클럽이 있는 지 확인.
+	const domain = "${domain}";
+	$.ajax({
+		url : "${pageContext.request.contextPath}/club/clubLikeCheck.do",
+		data : {domain},
+		success(responseData) {
+			console.log("responseData : ", responseData);
+			
+			if (responseData) {
+				if(confirm("찜하신 모임을 취소하시겠습니까?")) {
+					document.deleteClubLikeFrm.submit();
+				}
+				alert("성공적으로 모임 찜을 취소했습니다.");
+				
+			} else {
+				
+				if(confirm("모임을 찜 하시겠습니까?")) {
+					var clubLikeFrm = document.forms["clubLikeFrm"];
+					if (clubLikeFrm) {
+					    clubLikeFrm.submit();
+					} else {
+					    console.log("Form not found");
+					}
+				}
+				alert("성공적으로 모임 찜을 완료했습니다.");
+				
+			}
+					
+		}
+	});
+	
+	
+}
 </script>

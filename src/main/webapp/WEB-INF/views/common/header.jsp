@@ -47,8 +47,7 @@
 	
 <!-- 토큰 -->
 <meta id="_csrf" name="_csrf" content="${_csrf.token}" />
-<meta id="_csrf_header" name="_csrf_header"
-	content="${_csrf.headerName}" />
+<meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}" />
 
 </head>
 <body>
@@ -88,7 +87,7 @@
 				</div>
 
 				<div class="dropdown">
-					<button class="btn btn-secondary dropdown-toggle" type="button"
+					<button id="admin-nav-btn" class="btn btn-secondary dropdown-toggle" type="button"
 						data-toggle="dropdown" aria-expanded="false">회원관리</button>
 					<div class="dropdown-menu">
 						<button class="dropdown-item" type="button"><a href="${pageContext.request.contextPath}/admin/adminMemberList.do?keyword=&column=">회원조회</a></button>

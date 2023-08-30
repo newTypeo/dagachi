@@ -17,6 +17,7 @@ import com.dagachi.app.admin.entity.AdminInquiry;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.member.dto.MemberCreateDto;
 import com.dagachi.app.member.dto.MemberKakaoDto;
+import com.dagachi.app.member.dto.MemberPwUpdateDto;
 import com.dagachi.app.member.entity.ActivityArea;
 import com.dagachi.app.member.entity.CbcLike;
 import com.dagachi.app.member.entity.Member;
@@ -30,18 +31,25 @@ import com.dagachi.app.member.entity.MemberProfile;
 public interface MemberRepository {
 	
 	
-	// 멤버 회원가입 추가 ( 지우지마삼 )
+	//멤버 회원가입 
 	@Insert("insert into member values (#{memberId}, #{password},#{name}, #{nickname}, #{phoneNo}, #{email}, #{birthday, jdbcType=DATE}, #{gender}, #{mbti},  #{activityArea}, 0, SYSDATE, NULL, SYSDATE, NULL, 'Y')"
 	) 
 	int insertMember(MemberCreateDto member);
-	// 지역
+	//회원가입 지역
 	@Insert("INSERT INTO activity_area values(#{memberId}, #{mainAreaId}, null, null)") 
 	void insertActivityArea(MemberCreateDto member);
-	// 관심사
+	//회원가입 관심사
 	@Insert("INSERT INTO member_interest values(#{memberId}, #{interest})") 
 	void insertMemberInterest(String memberId, String interest);
-	// 회원가입 ------------------
 	
+	//카카오톡 회원가입
+	@Insert("insert into member values (#{memberId}, #{password},#{name}, null , null, #{email}, null , null , null,  null , 0, SYSDATE, NULL, SYSDATE, NULL, 'Y')")
+	int KakaoMember(MemberKakaoDto memberKakaoDto);
+	
+	//카카오톡 회원 정보 업데이트
+	@Update("update set member where nickname = #{nickname}, phone_no=  #{phoneNo}, birthday = #{birthday, jdbcType=DATE}, gender = #{gender}, mbti = #{mbti},  address = #{activityArea}")
+	int kakaoUpadteCreate(MemberCreateDto member);
+	// 회원가입 ------------------
 	MemberDetails loadUserByUsername(String memberId);
 	
 	@Select("select * from member where member_id =#{memberId}")
@@ -65,17 +73,12 @@ public interface MemberRepository {
 
 	@Select("select * from member where member_Id = #{memberId}")
 	Member findMemberBymemberId(String memberId);
-	
-//	/*임시 회원가입 (지우지 마삼) */
-//	@Insert("insert into member values (#{memberId}, #{password},#{name}, #{nickname}, #{phoneNo}, #{email}, #{birthday, jdbcType=DATE}, #{gender}, #{mbti},  #{address}, 0, SYSDATE, NULL, SYSDATE, NULL, 'Y')")
-//	int insertMember(MemberCreateDto member);
 
 	@Insert("insert into admin_Inquiry values (seq_Inquiry_id.nextval,#{memberId},#{title} ,#{content}, SYSDATE ,#{type},1,NULL,NULL,#{open},NULL)")
 	int InquiryCreate(AdminInquiryCreateDto inquiry);
 	
 	@Select("select * from activity_area where member_id = #{memberId}")
 	ActivityArea findActivityAreaById(String memberId);
-
 
 	@Select("select * from member_profile where member_id = #{memberId}")
 	MemberProfile findMemberProfile(String memberId);
@@ -119,8 +122,8 @@ public interface MemberRepository {
 	@Select("select * from member where email = #{email}")
 	Member findmemberIdByEmail(String email);
 	
-	@Insert("insert into member values (#{memberId}, #{password},#{name}, null , null, #{email}, null , null , null,  null , 0, SYSDATE, NULL, SYSDATE, NULL, 'Y')")
-	int KakaoMember(MemberKakaoDto memberKakaoDto);
+	@Update("update member set password = #{password} where email = #{email}")
+	int memberPwUpdate(MemberPwUpdateDto memberPwUpdateDto);
 
 	
 }

@@ -12,6 +12,7 @@ public class ClubScheduleAndMemberDto {
 	private int clubId;
 	
 	private String title;
+	private String writer;
 	private LocalDateTime startDate;
 	private LocalDateTime endDate;
 	private int capacity;

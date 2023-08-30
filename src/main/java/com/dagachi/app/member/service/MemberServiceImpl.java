@@ -23,6 +23,7 @@ import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.member.dto.MemberCreateDto;
 import com.dagachi.app.member.dto.MemberKakaoDto;
+import com.dagachi.app.member.dto.MemberPwUpdateDto;
 import com.dagachi.app.member.entity.ActivityArea;
 import com.dagachi.app.member.entity.CbcLike;
 import com.dagachi.app.member.entity.Member;
@@ -236,6 +237,27 @@ public class MemberServiceImpl implements MemberService{
 	public Member findmemberIdByEmail(String email) {
 		return memberRepository.findmemberIdByEmail(email);
 	}
+
+
+	@Override
+	public int kakaoUpadteCreate(MemberCreateDto member) {
+	    int result = 0;
+
+	    result = memberRepository.kakaoUpadteCreate(member);
+	    log.debug("member = " + member);
+
+	    memberRepository.insertActivityArea(member);
+	    List<String> interestList = member.getInterest();
+
+	    for (String interest : interestList) {
+	        memberRepository.insertMemberInterest(member.getMemberId(), interest);
+	    }
+	    return result;
+	}
 	
+	@Override
+	public int memberPwUpdate(MemberPwUpdateDto memberPwUpdateDto) {
+		return memberRepository.memberPwUpdate(memberPwUpdateDto);
+	}
 	
 }

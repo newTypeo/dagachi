@@ -316,10 +316,10 @@ public interface ClubRepository {
 	int clubGalleryCreate(CreateGalleryDto createGalleryDto);
 	
 	
-	@Insert("insert into club_gallery_attachment (id,gallery_id,original_filename,renamed_filename, thumbnail) values (seq_club_gallery_attachment_id.nextval,seq_club_gallery_id.currval,'asd',#{renamedFilename},'Y')")
+	@Insert("insert into club_gallery_attachment (id,gallery_id,original_filename,renamed_filename, thumbnail) values (seq_club_gallery_attachment_id.nextval,seq_club_gallery_id.currval,#{originalFilename},#{renamedFilename},'Y')")
 	int clubGalleryAttachCreate(CreateGalleryDto createGalleryDto);
 	
-	@Insert("insert into club_gallery_attachment (id,gallery_id,original_filename,renamed_filename, thumbnail) values (seq_club_gallery_attachment_id.nextval,seq_club_gallery_id.currval,'asd',#{renamedFilename},'N')")
+	@Insert("insert into club_gallery_attachment (id,gallery_id,original_filename,renamed_filename, thumbnail) values (seq_club_gallery_attachment_id.nextval,seq_club_gallery_id.currval,#{originalFilename},#{renamedFilename},'N')")
 	int clubGalleryCreate2(CreateGalleryDto createGalleryDto);
 	
 	@Insert("insert into board_comment (comment_id, board_id,writer,content,created_at,status) values (seq_board_comment_id.nextval,#{boardId},#{writer}, #{content},default,default)")
