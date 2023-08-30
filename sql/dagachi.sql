@@ -1297,36 +1297,7 @@ select * from activity_area;
 commit;
 
 
-DELETE FROM member WHERE member_id = 'nayoung';
 
-select * from chat_log;
 
-insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
-values ('admin', '1234', '관리자','관리자', '956-456-7890', 'admin@naver.com', TO_DATE('1990-01-15', 'YYYY-MM-DD'), 'M', 'ISTJ', '서울시 강남구 123번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y');
 
-update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'honggd';
-update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'admin';
-
-insert into member values ('hihi', '1234','김나영', null , 
-null, 'kim_young5959@naver.com', null , null , 
-null,  null , 0, SYSDATE, NULL, SYSDATE, NULL, 'Y');
-
-create table member (
-	member_id	varchar2(30),
-	password	varchar2(150),
-	name	 varchar2(20),
-    nickname varchar2(30),
-	phone_no	varchar2(20),
-	email	varchar2(50),
-	birthday	date,
-	gender	char(1), -- 	COMMENT 'M, F'
-	mbti	varchar(10),
-	address	varchar2(200)	,
-	report_count	number	default 0,
-	enroll_date	date default sysdate,
-	withdrawal_date	date, --  COMMENT 'null 이면 회원'
-	password_change_date	date default sysdate,
-	last_login_date date,
-    status char(1) default 'Y' 
-);
 
