@@ -45,8 +45,7 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/style.css" />
 <meta id="_csrf" name="_csrf" content="${_csrf.token}" />
-<meta id="_csrf_header" name="_csrf_header"
-	content="${_csrf.headerName}" />
+<meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}" />
 
 </head>
 <body>

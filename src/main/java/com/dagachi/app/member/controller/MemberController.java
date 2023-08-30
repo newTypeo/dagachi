@@ -39,6 +39,7 @@ import org.springframework.core.io.FileSystemResource;
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.service.ClubService;
 import com.dagachi.app.common.DagachiUtils;
+import com.dagachi.app.member.dto.MemberPwUpdateDto;
 import com.dagachi.app.member.dto.MemberUpdateDto;
 import com.dagachi.app.member.entity.CbcLike;
 import com.dagachi.app.member.entity.Member;
@@ -164,8 +165,13 @@ public class MemberController {
 	 @GetMapping("/searchPw.do")
 	 public void searchPw() {}
 	 
-	 @GetMapping("/sendCode.do")
-	 public ResponseEntity<?> sendVerificationCode(
+	 /**
+	  * @author 김준한
+	  * 이메일로 6자리 랜덤코드생성해서
+	  * 코드 보내기
+	  */
+	@GetMapping("/sendCode.do")
+	public ResponseEntity<?> sendVerificationCode(
 			 @RequestParam("username") String username, 
              @RequestParam("email") String email
 			 ){
@@ -194,24 +200,43 @@ public class MemberController {
 			 
 			 javaMailSender.send(message);
 			 
-			 
 		 }else {
-			 
 			 randomCode = null;
-			 
 		 }
-		 
 		 return ResponseEntity.status(HttpStatus.OK).body(randomCode);
 	 }
 	 
-//	 @PostMapping("/memberSearchPw.do")
-//	 public String searchPwByCode(
-//			 @RequestParam ("code") String code
-//			 ) {
-//		 
-//		 
-//		 return "";
-//	 }
-	 
-	 
+	@RequestMapping("{email}/memberPwUpdate.do")
+	public String updateMemberPassword(
+			@PathVariable("email") String email,
+			Model model
+			) {
+		model.addAttribute("email",email);
+		
+		return "/member/memberPwUpdate";
+	}
+	
+	
+	/**
+	 * @author 김준한
+	 * 이메일인증을 통한 비밀번호 찾기후 변경
+	 */
+	@PostMapping("/memberPwUpdate.do")
+	public String memberPwUpdate(
+			@RequestParam("newPassword") String password,
+			@RequestParam("email") String email,
+			RedirectAttributes redirectAttr
+			) {
+//		log.debug("passwordzzzzzzzzzzzzzzzz = {}",password);
+//		log.debug("email = {}",email);
+		String encodedPassword = passwordEncoder.encode(password);
+		MemberPwUpdateDto memberPwUpdateDto = MemberPwUpdateDto.builder()
+				.password(encodedPassword)
+				.email(email).build();
+		int result = memberService.memberPwUpdate(memberPwUpdateDto);
+		
+		redirectAttr.addFlashAttribute("msg", "비밀번호가 변경되었습니다.");
+		
+		return "redirect:/member/searchPw.do";
+	}
 }
