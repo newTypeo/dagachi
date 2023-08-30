@@ -190,6 +190,7 @@ create table club_schedule (
 	expence	number	default 0,
 	capacity	number	default 0,
 	alarm_date	date,
+    created_at  date default sysdate,
 	status char(1) default 'Y'
 );
 create table club_schedule_place (
@@ -197,6 +198,7 @@ create table club_schedule_place (
 	schedule_id	number	not null,
 	name	varchar2(100)	not null,
 	address	varchar2(200),
+    details varchar2(100),
 	sequence	number default 0,
 	start_time	date	not null
 );
@@ -1103,12 +1105,12 @@ INSERT INTO club_schedule_enroll_member (member_id, club_id, schedule_id)
 VALUES ('user18', 1, 3);
 
 -- 소모임 일정 장소 샘플
-INSERT INTO club_schedule_place (id, schedule_id, name, address, sequence, start_time)
-VALUES (seq_club_schedule_place_id.nextval, 1, '강남 축구장', '서울시 강남구', 1, TO_DATE('2023-08-20 10:00:00', 'YYYY-MM-DD HH24:MI:SS'));
-INSERT INTO club_schedule_place (id, schedule_id, name, address, sequence, start_time)
-VALUES (seq_club_schedule_place_id.nextval, 2, '마포 농구장 B', '서울시 마포구', 2, TO_DATE('2023-09-05 19:30:00', 'YYYY-MM-DD HH24:MI:SS'));
-INSERT INTO club_schedule_place (id, schedule_id, name, address, sequence, start_time)
-VALUES (seq_club_schedule_place_id.nextval, 3, '관악 볼링장', '서울시 관악구', 3, TO_DATE('2023-09-15 14:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO club_schedule_place (id, schedule_id, name, address, details, sequence, start_time)
+VALUES (seq_club_schedule_place_id.nextval, 1, '강남 축구장', '서울특별시 강남구 논현2동 논현로 748', '1층', 1, TO_DATE('2023-08-20 10:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO club_schedule_place (id, schedule_id, name, address, details, sequence, start_time)
+VALUES (seq_club_schedule_place_id.nextval, 1, '마포 농구장 B', '서울특별시 마포구 서교동 411-3', 'B2층', 2, TO_DATE('2023-08-20 14:30:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO club_schedule_place (id, schedule_id, name, address, details, sequence, start_time)
+VALUES (seq_club_schedule_place_id.nextval, 1, '동작 볼링장', '서울특별시 동작구 여의대방로 250', '대림쇼핑타운 한숲볼링센타 309호', 3, TO_DATE('2023-08-20 17:50:00', 'YYYY-MM-DD HH24:MI:SS'));
 
 -- 소모임 게시판 샘플
 INSERT INTO club_board (board_id, club_id, writer, title, content, type, like_count)
@@ -1280,6 +1282,9 @@ insert into main_page values(seq_main_page_id.nextval, 'mainSample5.png', 'mainS
 --insert into club_member values('user9',4,sysdate,null,default,default);
 --insert into club_member values('user9',7,sysdate,null,default,default);
 
+update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'honggd';
+update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'admin';
+
 
 commit;
 
@@ -1292,42 +1297,14 @@ insert into club_member values('user9',5,default,default,3,default);
 insert into club_member values('user9',6,default,default,3,default);
 insert into club_member values('user9',7,default,default,3,default);
 
-
-
-select * from activity_area;
 commit;
 
 
 DELETE FROM member WHERE member_id = 'nayoung';
 
-select * from chat_log;
-
-insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
-values ('admin', '1234', '관리자','관리자', '956-456-7890', 'admin@naver.com', TO_DATE('1990-01-15', 'YYYY-MM-DD'), 'M', 'ISTJ', '서울시 강남구 123번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y');
-
-update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'honggd';
-update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'admin';
 
 insert into member values ('hihi', '1234','김나영', null , 
 null, 'kim_young5959@naver.com', null , null , 
 null,  null , 0, SYSDATE, NULL, SYSDATE, NULL, 'Y');
 
-create table member (
-	member_id	varchar2(30),
-	password	varchar2(150),
-	name	 varchar2(20),
-    nickname varchar2(30),
-	phone_no	varchar2(20),
-	email	varchar2(50),
-	birthday	date,
-	gender	char(1), -- 	COMMENT 'M, F'
-	mbti	varchar(10),
-	address	varchar2(200)	,
-	report_count	number	default 0,
-	enroll_date	date default sysdate,
-	withdrawal_date	date, --  COMMENT 'null 이면 회원'
-	password_change_date	date default sysdate,
-	last_login_date date,
-    status char(1) default 'Y' 
-);
-
+select * from club_schedule_place;

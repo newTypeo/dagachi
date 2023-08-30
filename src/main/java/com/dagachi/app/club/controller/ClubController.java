@@ -401,10 +401,10 @@ public class ClubController {
 			Model model) {
 
 		int clubId = clubService.clubIdFindByDomain(domain);
+		ClubLayout layout = clubService.findLayoutById(clubId);
 
 		ClubNameAndCountDto clubInfo = clubService.findClubInfoById(clubId);
 		
-		ClubLayout layout = clubService.findLayoutById(clubId);
 		
 		List<BoardAndImageDto> boardAndImages = clubService.findBoardAndImageById(clubId);
 		List<GalleryAndImageDto> galleries = clubService.findgalleryById(clubId);

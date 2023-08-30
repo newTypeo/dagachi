@@ -55,7 +55,17 @@ header #header-nav-container span {
 	margin-left: 10px;
 }
 
+/************ club-title *************/
+#club-title img {
+	width: 1320px;
+	margin-bottom: 10px; 
+}
 
+#default-title {
+	width: 1320px;
+	height: 100px;
+	background-color: pink;
+}
 
 
 /********** footer **********/
@@ -236,6 +246,70 @@ h5, h3 {
 	border: 1px solid;
 	border-radius: 0 2px 2px 0;
 }
+
+
+#club-nav-bar {
+	border: 2px solid;
+	border-radius: 2px;
+	display: flex;
+	align-items: center;
+}
+#club-nav-bar ul {
+	display: flex;
+    height: 40px;
+    width: 625px;
+    margin: 0 145px;
+    align-items: center;
+    justify-content: space-between;
+}
+#club-nav-bar ul li {
+
+}
+
+#club-nav-bar ul li:first-of-type {
+	list-style: none;
+}
+
+
+/************** schedule ***************/
+#schedule-content-container {
+	height: 400px;
+	border: 1px solid #aaa;
+	margin: 10px 0;
+	border-radius: 2px;
+	padding: 10px 40px;
+}
+#schedule-content-container > div > figure {
+
+}
+#schedule-content-container > div > figure > img {
+	width: 60px;
+	border: 1px solid #aaa;
+	border-radius: 50%;
+}
+#schedule-content-container > div {
+	margin: 0 20px;
+	display: flex;
+}
+#schedule-content-container > div > div {
+	margin: 5px 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

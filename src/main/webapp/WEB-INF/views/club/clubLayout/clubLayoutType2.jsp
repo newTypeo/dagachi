@@ -2,11 +2,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <fmt:requestEncoding value="utf-8"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/layoutType2.css"/>
@@ -74,19 +72,19 @@
 		</div>
 		<div id="club-total-container" class="fontColors" style="border-color: ${layout.pointColor}">
 			<div>
-				<a>📄전체글보기</a>
+				<a href="${pageContext.request.contextPath}/club/${domain}/clubBoardList.do?no=0">📄전체글보기</a>
 			</div>
 			<div>
-				<a>📢공지사항</a>
-				<a>🐳자유게시판</a>
-				<a>✋가입인사</a>
-				<a>🎉정모후기</a>
+				<a href="${pageContext.request.contextPath}/club/${domain}/clubBoardList.do?no=4">📢공지사항</a>
+				<a href="${pageContext.request.contextPath}/club/${domain}/clubBoardList.do?no=1">🐳자유게시판</a>
+				<a href="${pageContext.request.contextPath}/club/${domain}/clubBoardList.do?no=3">✋가입인사</a>
+				<a href="${pageContext.request.contextPath}/club/${domain}/clubBoardList.do?no=2">🎉정모후기</a>
 			</div>
 			<div>
-				<a>📷갤러리</a>
+				<a href="${pageContext.request.contextPath}/club/${domain}/clubGallery.do">📷갤러리</a>
 			</div>
 			<div>
-				<a>📅일정</a>
+				<a href="${pageContext.request.contextPath}/club/${domain}/clubSchedule.do">📅일정</a>
 			</div>
 		</div>
 		<div id="club-search-container1">
@@ -263,11 +261,27 @@
 			</div>
 		</div>
 	</div>
-	
-	
-	
-	
 </article>
+
+<form:form
+		name="clubLikeFrm"
+		action="${pageContext.request.contextPath}/club/clubLike.do"
+		method="POST">
+			<input type="hidden" id="memberId" name="memberId" value="${memberId}">
+			<input type="hidden" id="domain" name="domain" value="${domain}">
+</form:form>
+
+<form:form
+		name="deleteClubLikeFrm"
+		action="${pageContext.request.contextPath}/club/deleteClubLike.do"
+		method="POST">
+			<input type="hidden" id="memberId" name="memberId" value="${memberId}">
+			<input type="hidden" id="domain" name="domain" value="${domain}">
+</form:form>
+
+<nav style="display: flex; flex-direction: row-reverse;">
+	<button type="button" class="btn btn-danger" id="clubReport">🚨모임 신고하기</button>
+</nav>
 
 <script>
 $('.carousel').carousel({
@@ -282,15 +296,16 @@ document.addEventListener('DOMContentLoaded', function() {
 	
 	
 	$.ajax({
-		url: '${pageContext.request.contextPath}/schedule/${domain}/getSchedules.do',
+		url: '${pageContext.request.contextPath}/club/${domain}/getSchedules.do',
 		success(schedules) {
 			
 			console.log(schedules);
 			var eventLists = [];
 			schedules.forEach((schedule) => {
-				var {title, startDate, endDate} = schedule;
+				var {scheduleId, title, startDate, endDate} = schedule;
 				var event = {
 					title : title,
+					url : '${pageContext.request.contextPath}/club/${domain}/scheduleDetail.do?no=' + scheduleId,
 					start : startDate,
 					end : endDate
 				};
@@ -319,5 +334,83 @@ document.addEventListener('DOMContentLoaded', function() {
 	});
 	
 });
+
+
+
+//창환(모임 신고)
+document.querySelector("#clubReport").onclick = () => {
+	const frm = document.clubReportFrm;
+	$("#reportModal")
+	.modal()
+	.on('shown.bs.modal', () => {
+	});
+};
+
+// 창환(모임 신고)
+const clubReportSubmit = () => {
+	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
+	
+	const domain = document.querySelector('#domain').value;
+	const reporter = document.querySelector('#reporter').value;
+	const reason = document.querySelector('#reason').value;
+	
+	if(reason == null || reason == '') {
+		alert('신고 내용을 입력해주세요');
+		return;
+	}
+	
+	$.ajax({
+		url : '${pageContext.request.contextPath}/club/${domain}/clubReport.do',
+		method : "post",
+		data : { domain, reporter, reason },
+		beforeSend(xhr) {
+			xhr.setRequestHeader(header, token);
+		},
+		success(response) {
+			console.log(response);
+		}
+	});
+	
+	
+	document.querySelector('#reason').value = ''; // 신고사유 초기화
+};
+
+
+//모임 좋아요 (현우)
+const clubLike = () => {
+	// 찜 목록에 해당클럽이 있는 지 확인.
+	const domain = "${domain}";
+	$.ajax({
+		url : "${pageContext.request.contextPath}/club/clubLikeCheck.do",
+		data : {domain},
+		success(responseData) {
+			console.log("responseData : ", responseData);
+			
+			if (responseData) {
+				if(confirm("찜하신 모임을 취소하시겠습니까?")) {
+					document.deleteClubLikeFrm.submit();
+				}
+				alert("성공적으로 모임 찜을 취소했습니다.");
+				
+			} else {
+				
+				if(confirm("모임을 찜 하시겠습니까?")) {
+					var clubLikeFrm = document.forms["clubLikeFrm"];
+					if (clubLikeFrm) {
+					    clubLikeFrm.submit();
+					} else {
+					    console.log("Form not found");
+					}
+				}
+				alert("성공적으로 모임 찜을 완료했습니다.");
+				
+			}
+					
+		}
+	});
+	
+	
+}
 
 </script>

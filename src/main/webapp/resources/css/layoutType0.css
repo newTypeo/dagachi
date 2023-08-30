@@ -1,15 +1,7 @@
 @charset "UTF-8";
 
 /************ club-title *************/
-#club-title img {
-	width: 1320px;
-}
 
-#default-title {
-	width: 1320px;
-	height: 100px;
-	background-color: pink;
-}
 #previewContainer{
 	width: 1320px;
 	height: 300px;
