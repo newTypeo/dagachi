@@ -209,7 +209,7 @@ create table board_comment (
 	comment_id	number	not null,
 	board_id	number	not null,
 	writer	varchar2(30)	not null,
-	comment_ref	number, -- null 댓글인경우 | board_comment.no 대댓글인 경우
+	comment_ref	number default null, -- 0 댓글인경우 | board_comment.no 대댓글인 경우
 	content	varchar2(1000)	not null,
 	created_at	date default sysdate,
 	status char(1) default 'Y',
@@ -1330,3 +1330,6 @@ create table member (
     status char(1) default 'Y' 
 );
 
+insert into board_comment (comment_id, board_id,writer,comment_ref,content,created_at,status,comment_level) values (seq_board_comment_id.nextval,1,'honggd',null,'무플입니다',default,default,default);
+
+select * from board_comment;
