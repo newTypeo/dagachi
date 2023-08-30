@@ -10,7 +10,7 @@
 
 <section id="admin-club-list-sec" class="p-2 club-list sectionList">
 	
-	<h1>모임목록 페이지</h1>
+	<h1>모임목록</h1>
 	<div id="club-list-wrapper">
 		<div id="search-container">
 			<div id="searchBar-wrap">

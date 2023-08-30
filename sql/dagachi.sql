@@ -83,22 +83,23 @@ create sequence seq_alarm_id;
 
 ------------------------------------------------- 테이블 -------------------------------------------------
 create table member (
-	member_id	varchar2(30)	not null,
-	password	varchar2(150)	not null,
-	name	 varchar2(20)	not null,
-    nickname varchar2(30) not null,
-	phone_no	varchar2(20)	not null,
-	email	varchar2(50)	not null,
-	birthday	date	not null,
-	gender	char(1)	not null, -- 	COMMENT 'M, F'
-	mbti	varchar(10)	,
-	address	varchar2(200)	not null,
+	member_id	varchar2(30),
+	password	varchar2(150),
+	name	 varchar2(20),
+    nickname varchar2(30),
+	phone_no	varchar2(20),
+	email	varchar2(50),
+	birthday	date,
+	gender	char(1), -- 	COMMENT 'M, F'
+	mbti	varchar(10),
+	address	varchar2(200)	,
 	report_count	number	default 0,
 	enroll_date	date default sysdate,
 	withdrawal_date	date, --  COMMENT 'null 이면 회원'
 	password_change_date	date default sysdate,
 	last_login_date date,
-    status char(1) default 'Y'
+    status char(1) default 'Y'                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+    
 );
 
 -- security rememeberme 를 위해 만들어진 테이블
@@ -921,6 +922,9 @@ VALUES ('user29', 4, SYSDATE, 0, 1);
 INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
 VALUES ('user30', 4, SYSDATE, 0, 1);
 
+INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
+VALUES ('nayoung', 1, SYSDATE, 0, 1);
+
 -- 회원권한 샘플
 insert into authority values('admin', 'ADMIN');
 insert into authority values('honggd', 'MEMBER');
@@ -1271,7 +1275,6 @@ insert into main_page values(seq_main_page_id.nextval, 'mainSample3.png', 'mainS
 insert into main_page values(seq_main_page_id.nextval, 'mainSample4.png', 'mainSample4.png', sysdate);
 insert into main_page values(seq_main_page_id.nextval, 'mainSample5.png', 'mainSample5.png', sysdate);
 
-update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'honggd';
 
 --insert into club_member values('user9',2,sysdate,null,default,default);
 --insert into club_member values('user9',4,sysdate,null,default,default);
@@ -1279,6 +1282,7 @@ update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63Szlhn
 
 
 commit;
+
 
 insert into club_member values('user9',1,default,default,3,default);
 insert into club_member values('user9',2,default,default,3,default);
@@ -1290,9 +1294,40 @@ insert into club_member values('user9',7,default,default,3,default);
 
 
 
+select * from activity_area;
 commit;
 
 
+DELETE FROM member WHERE member_id = 'nayoung';
 
+select * from chat_log;
 
+insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
+values ('admin', '1234', '관리자','관리자', '956-456-7890', 'admin@naver.com', TO_DATE('1990-01-15', 'YYYY-MM-DD'), 'M', 'ISTJ', '서울시 강남구 123번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y');
+
+update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'honggd';
+update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'admin';
+
+insert into member values ('hihi', '1234','김나영', null , 
+null, 'kim_young5959@naver.com', null , null , 
+null,  null , 0, SYSDATE, NULL, SYSDATE, NULL, 'Y');
+
+create table member (
+	member_id	varchar2(30),
+	password	varchar2(150),
+	name	 varchar2(20),
+    nickname varchar2(30),
+	phone_no	varchar2(20),
+	email	varchar2(50),
+	birthday	date,
+	gender	char(1), -- 	COMMENT 'M, F'
+	mbti	varchar(10),
+	address	varchar2(200)	,
+	report_count	number	default 0,
+	enroll_date	date default sysdate,
+	withdrawal_date	date, --  COMMENT 'null 이면 회원'
+	password_change_date	date default sysdate,
+	last_login_date date,
+    status char(1) default 'Y' 
+);
 

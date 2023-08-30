@@ -10,21 +10,81 @@
 
 <section id="club-boardDetail-sec" class="">
 
+	<style>
+.profile-card {
+	background-color: #ffffff;
+	border-radius: 10px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	display: flex;
+	padding: 20px;
+}
+
+.profile-picture {
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+	margin-right: 15px;
+	border: 1px solid;
+}
+
+.profile-info {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.name {
+	font-size: 1.2rem;
+	margin: 0;
+	color: #333333;
+}
+
+.comment {
+	font-size: 0.9rem;
+	margin: 5px 0 0;
+	color: #666666;
+}
+
+.comment-input {
+	display: flex;
+	align-items: center;
+	margin-top: 20px;
+}
+
+.comment-textarea {
+	flex: 1;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	padding: 10px;
+	resize: none;
+}
+
+.comment-button {
+	background-color: #007bff;
+	color: #fff;
+	border: none;
+	border-radius: 3px;
+	padding: 5px 10px;
+	margin-left: 10px;
+	cursor: pointer;
+}
+</style>
+
 	<div class="container mt-5">
-	    <div class="row">
-	        <div class="col-md-8 offset-md-2">
-	            <div class="card">
-	                <div class="card-body">
-	                    <h5 class="card-title">게시글 제목 : ${clubBoard.title}</h5>
-	                    
-	            		<c:forEach items="${attachments}" var="attach">
-			                <img src="${pageContext.request.contextPath}/resources/upload/club/board/${attach.renamedFilename}" class="card-img-top" alt="첨부된 이미지">
-	            		</c:forEach>
-	                    <p class="card-text">
-	                        ${clubBoard.content}
-	                    </p>
-	                    <p class="card-text">작성자: ${clubBoard.writer}</p>
-                   		<div>
+		<div class="row">
+			<div class="col-md-8 offset-md-2">
+				<div class="card">
+					<div class="card-body">
+						<h5 class="card-title">게시글 제목 : ${clubBoard.title}</h5>
+
+						<c:forEach items="${attachments}" var="attach">
+							<img
+								src="${pageContext.request.contextPath}/resources/upload/club/board/${attach.renamedFilename}"
+								class="card-img-top" alt="첨부된 이미지">
+						</c:forEach>
+						<p class="card-text">${clubBoard.content}</p>
+						<p class="card-text">작성자: ${clubBoard.writer}</p>
+						<div>
 							<div>
 								<button type="button" class="btn btn-secondary btn-lg"
 									onclick="updateButton()">수정</button>
@@ -32,26 +92,53 @@
 									onclick="deleteButton()">삭제</button>
 							</div>
 						</div>
-	                </div>
-	                <div class="card-footer">
-	                    작성일: ${clubBoard.createdAt}
-	                    <div class="like-wrapper">
-	                    	<input type="checkbox" id="like" ${liked ? 'checked' : ''}/>
-						    <label for="heart" id="heartButton">
-						        ${clubBoard.likeCount}
-						    </label>
+					</div>
+					<div class="card-footer">
+						작성일: ${clubBoard.createdAt}
+						<div class="like-wrapper">
+							<input type="checkbox" id="like" ${liked ? 'checked' : ''} /> <label
+								for="heart" id="heartButton"> ${clubBoard.likeCount} </label>
 						</div>
-	                </div>
-	            </div>
-	        </div>
-	    </div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
+
+	<div>
+
+		<div class="comment-input">
+			<textarea id="comment-textarea" class="comment-textarea" placeholder="댓글을 입력하세요. :)"></textarea>
+			<button id="comment-button" class="comment-button" onclick="creatComment()">게시</button>
+		</div>
+
+		<div id="commentBox">
+			<div class="profile-card">
+				<img class="profile-picture" src="/gsap/images/프로필사진.jpeg" alt="">
+				<div class="profile-info">
+					<h2 class="name">정상윤</h2>
+					<p class="comment">일단 이렇게 먼저 만들면 나중에 댓글 창은 수정해줄게.</p>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+
 
 	<form:form name="detailFrm"></form:form>
 
 </section>
 
 <script>
+	
+	const creatComment=()=>{
+		const commentContent=document.querySelector("#comment-textarea");
+		
+		
+	};
+	
 
 	const updateButton=()=>{
 		

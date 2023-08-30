@@ -24,7 +24,6 @@ import lombok.ToString;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(callSuper = true)
 public class MemberCreateDto {
 	private String memberId;// 아이디 
 	
@@ -43,16 +42,12 @@ public class MemberCreateDto {
 	
 	private String mbti;// mbti 
 	
-	private String address;// 주소 
+	private String activityArea;// 주소 
 
 	private String gender;// 성별 
 	
-	private int sub1AreaId;// 서브 활동지역1
+	private String mainAreaId; // 주 활동 지역
 	
-	private int mainAreaId; // 주 활동 지역
-	
-	private int sub2AreaId;// 서브 활동지역2
-	
-	private String interest;// 관심사
+	private List<String> interest;// 관심사
 
 }
