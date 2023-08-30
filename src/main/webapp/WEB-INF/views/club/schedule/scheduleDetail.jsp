@@ -5,6 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <jsp:include page="/WEB-INF/views/common/clubHeader.jsp"></jsp:include>
+
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/club.css"/>
 
 <section id="club-board-sec" class="">
@@ -32,15 +33,8 @@
 				<li><a href="${pageContext.request.contextPath}/club/${domain}/clubGallery.do">📷갤러리</a></li>
 				<li><a href="${pageContext.request.contextPath}/club/${domain}/clubSchedule.do">📅일정</a></li>
 			</ul>
-			
-			
-			
-			
-			
-			
 		</div>
 	</nav>
-	
 
 	<div id="schedule-content-container">
 		<h3>${schedule.title}</h3>	
@@ -69,6 +63,13 @@
 				</span>
 			</div>
 		</div>
+		<div id="schedule-content-container2">
+			<div id="scc2-left">
+			
+			</div>
+			<div id="scc2-right">
+			</div>
+		</div>
 	</div>
 
 	
@@ -90,6 +91,27 @@ document.querySelectorAll('.pointColors').forEach((elem) => {
 });
 
 document.body.style.fontFamily = "${layout.font}";
+
+
+
+const REST_API_KEY = '0b08c9c74b754bc22377c45ec5ce2736';
+const url = 'https://apis-navi.kakaomobility.com/v1/directions?origin=127.11015314141542,37.39472714688412&destination=127.10824367964793,37.401937080111644';
+fetch(url, {
+	method: "GET",
+	headers: {
+		"Authorization": 'KakaoAK ' + REST_API_KEY
+	}
+})
+.then(response => response.json())
+.then(data => {
+	// 여기서 data를 활용하여 원하는 동작을 수행하세요
+	console.log(data);
+})
+.catch(error => {
+	// 오류 처리
+	console.error("Error:", error);
+});
+
 </script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
