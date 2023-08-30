@@ -108,20 +108,42 @@
 	<div>
 
 		<div class="comment-input">
-			<textarea id="comment-textarea" class="comment-textarea" placeholder="댓글을 입력하세요. :)"></textarea>
-			<button id="comment-button" class="comment-button" onclick="creatComment()">게시</button>
+			<textarea id="comment-textarea" class="comment-textarea"
+				placeholder="댓글을 입력하세요. :)"></textarea>
+			<button id="comment-button" class="comment-button"
+				onclick="creatComment()">게시</button>
 		</div>
+
 
 		<div id="commentBox">
-			<div class="profile-card">
-				<img class="profile-picture" src="/gsap/images/프로필사진.jpeg" alt="">
-				<div class="profile-info">
-					<h2 class="name">정상윤</h2>
-					<p class="comment">일단 이렇게 먼저 만들면 나중에 댓글 창은 수정해줄게.</p>
+			<c:if test="${empty comments}">
+				<div class="profile-card">
+					<div class="profile-info">
+						<p class="comment">아직 댓글이 없습니다.</p>
+					</div>
 				</div>
-			</div>
+			</c:if>
+
+			<c:if test="${not empty comments}">
+
+				<c:forEach items="${comments}" var="comment">
+
+					<div class="profile-card">
+						<img class="profile-picture"
+							src="${pageContext.request.contextPath}/resources/upload/member/profile/${comment.profile}"
+							alt="">
+						<div class="profile-info">
+							<h2 class="name">${comment.writer}</h2>
+							<p class="comment">${comment.content}</p>
+						</div>
+					</div>
+
+				</c:forEach>
+
+			</c:if>
 
 		</div>
+
 
 	</div>
 
@@ -133,8 +155,52 @@
 
 <script>
 	
+	document.querySelector("#comment-textarea").addEventListener("keydown",(e)=>{
+		 if (e.key === "Enter" && !e.shiftKey) {
+			 e.preventDefault();
+			 creatComment();
+		 }
+	});
+		
+	
 	const creatComment=()=>{
 		const commentContent=document.querySelector("#comment-textarea");
+		const content= commentContent.value;
+		const boardId=${clubBoard.boardId};
+		const token= document.detailFrm._csrf.value;
+		
+		commentContent.value="";
+		
+		console.log(content);
+		console.log(boardId);
+		
+		$.ajax({
+			url : '${pageContext.request.contextPath}/club/${domain}/createComment.do',
+			method:"POST",
+			data :{boardId,content},
+			headers: {
+				"X-CSRF-TOKEN": token
+			},
+			success(data) {
+				console.log(data);
+				const {boardId,commentId,commentLevel,commentRef,content,createdAt,status,writer,profile}=data;
+				
+				const newCommentDiv = document.createElement("div");
+				newCommentDiv.className="profile-card";
+				newCommentDiv.innerHTML=`
+					<img class="profile-picture"
+					src="http://localhost:8080/dagachi/resources/upload/member/profile/\{profile}"
+					alt="">
+					<div class="profile-info">
+						<h2 class="name">${comment.writer}</h2>
+						<p class="comment">${comment.content}</p>
+					</div>
+				`;
+				
+				 const commentBox = document.querySelector("#commentBox");
+			     commentBox.appendChild(newCommentDiv);
+			}
+		});
 		
 		
 	};
