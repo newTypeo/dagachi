@@ -17,7 +17,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js"
 	integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
 	crossorigin="anonymous"></script>
-
+	
 <!-- bootstrap js: jquery load 이후에 작성할것.-->
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
@@ -89,12 +89,12 @@
 		
 		if(clubIds.length>0){
 			clubIds.forEach((clubId)=>{
-					console.log(clubId);
+					// console.log(clubId);
 				$.ajax({
 					url : "${pageContext.request.contextPath}/chat/chat/findChatList.do",
 					data : {clubId},
 					success(data) {
-						console.log(data);
+						// console.log(data);
 						if(data.cahtlog !=null){
 							const {id,clubId,writer,content,createdAt}=data.cahtlog
 							html+=`
