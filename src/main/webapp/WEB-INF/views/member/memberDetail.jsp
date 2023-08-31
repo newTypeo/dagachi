@@ -84,14 +84,14 @@
 	           <div class="col-md-8-2">
 	               <div class="profile-card2">
 	                   <div class="liked-members-title">
-	                       <h2 class="fitLine" style="margin-top: 10px;">나를 좋아한 회원</h2>
-	                       <hr>
+	                       <strong class="fitLine">관심 보낸 회원</strong>
+	                       <!-- <hr> -->
 	                   </div>
 	                   
 	                   <div class="liked-members-list">
 	                       <ul>
 	                       	<c:forEach items="${likeMe}" var="like" varStatus="vs">
-	                           <li><a href="${pageContext.request.contextPath}/member/${like.likeSender}">❤️ ${like.likeSender}</a></li>
+	                           <li><a href="${pageContext.request.contextPath}/member/${like.likeSender}">√ ${like.likeSender}</a></li>
 	                         </c:forEach>
 	                       </ul>
 	                   </div>
@@ -122,7 +122,7 @@
 
 	<c:if test="${member.memberId eq loginMember.memberId}">
 		<!-- 로그인한 객체가 보고있는 객체가 같을 때 -->
-		<h1>최근 본 모임</h1>
+		<strong class="title-headLine">최근 본 모임</strong>
 		<c:if test="${empty clubAndImages}">
 			<h1>최근 조회하신 모임이 없습니다.</h1>
 		</c:if>
@@ -148,8 +148,8 @@
 			</div>
 		</c:if>
 	</c:if>
-
-	<h1>가입 되어있는 모임</h1>
+	<br>
+	<strong class="title-headLine">가입 되어있는 모임</strong>
 	<c:if test="${empty joinClub}">
 		<h1>최근 조회하신 모임이 없습니다.</h1>
 	</c:if>
@@ -173,8 +173,8 @@
 			</c:forEach>
 		</div>
 	</c:if>
-
-	<h1>찜 되어있는 모임</h1>
+	<br>
+	<strong class="title-headLine">찜 되어있는 모임</strong>
 	<c:if test="${empty clubLikeAndImages}">
 		<h1>찜하신 모임이 없습니다.</h1>
 	</c:if>
