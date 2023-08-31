@@ -108,13 +108,13 @@
 	
 	<div class="inputGroup inputGroup1">
 	
-		<label for="memberId">아이디</label>
-		<input type="text" id="email" class="email" maxlength="256" name="memberId" placeholder="Id를 입력하세요"  />
+		<label for="memberId">ID</label>
+		<input type="text" id="email" class="email" maxlength="30" name="memberId" value="honggd"/>
 		<span class="indicator"></span>
 	</div>
 	<div class="inputGroup inputGroup2">
-		<label for="password">비밀번호</label>
-		<input type="password" id="password" class="password" name="password"/>
+		<label for="password">PASSWORD</label>
+		<input type="password" id="password" class="password" name="password" value="1234"/>
 	</div>
 	<div class="inputGroup inputGroup3">
 		<c:if test="${param.error ne null}">
@@ -123,7 +123,7 @@
 			</div>
 		</c:if>
 						
-		<button  type="submit" id="login">로그인</button>
+		<button  type="submit" id="login">LOG-IN</button>
 		
 	</div>	
 		<div>
