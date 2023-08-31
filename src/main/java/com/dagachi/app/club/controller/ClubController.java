@@ -1361,4 +1361,17 @@ public class ClubController {
 		return "/club/clubManage";
 	}
 	
+	@GetMapping("{domain}/memberClubDetail.do")
+	   public void memberClubDetail() {
+	      
+	   }
+	
+	
+	@PostMapping("")
+	public String clubMemberDelete() {
+		
+		
+		
+		return "redirect:club/";
+	}
 }

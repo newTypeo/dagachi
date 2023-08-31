@@ -33,6 +33,8 @@
 <section>
 	<h1>멤버 클럽 디테일</h1>
 	<p>탈퇴기능, 내 글 조회 기능, 내 댓글 조회 기능</p>
+	
+	<a href="${pageContext.request.contextPath}/club/clubMemberDelete.do">모임탈퇴</a>
 
 
 </section>
