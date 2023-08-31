@@ -67,12 +67,6 @@
 		</div>
 		<div id="schedule-content-container2">
 			<div id="scc2-left">
-				<button class="0to${schedule.places.size()} btn btn-primary onloadBtn" onclick="getPath(this);">전체경로</button>
-				<h5 class="seq0 ${myHome[0]} ${myHome[1]}">우리집</h5>
-				<c:forEach items="${schedule.places}" var="place" varStatus="vs">
-					<button class="${vs.index}to${vs.index+1} btn btn-primary" onclick="getPath(this);">경로</button>
-					<h5 class="seq${place.sequence} ${place.getXCo()} ${place.getYCo()}">${place.name}</h5>									
-				</c:forEach>
 			</div>
 			<div id="scc2-right">
 				<div id="map" style="width:800px;height:800px;"></div>
@@ -225,6 +219,36 @@ function getPoint(startSeq, endSeq, leng) {
 	map.setBounds(bounds);
 }
 
+// --------------------------------------------------
+
+var startDate = new Date('${schedule.getStartDate()}');
+var endDate = new Date('${schedule.getEndDate()}');
+const scc2Left = document.querySelector("#scc2-left");
+var index = 0;
+var currentDate = new Date(startDate);
+
+while (currentDate <= endDate) {
+	scc2Left.insertAdjacentHTML("beforeend", `
+		<div class="scheduleSlide\${index}"></div>		
+	`);
+	console.log(currentDate);
+    currentDate.setDate(currentDate.getDate() + 1);
+    index++;
+}
+
+
+
+
+
+document.querySelector(".scheduleSlide0").innerHTML = `
+	<div></div>
+	<button class="0to${schedule.places.size()} btn btn-primary onloadBtn" onclick="getPath(this);">전체경로</button>
+	<h5 class="seq0 ${myHome[0]} ${myHome[1]}">우리집</h5>
+	<c:forEach items="${schedule.places}" var="place" varStatus="vs">
+		<button class="${vs.index}to${vs.index+1} btn btn-primary" onclick="getPath(this);">경로</button>
+		<h5 class="seq${place.sequence} ${place.getXCo()} ${place.getYCo()}">${place.name}</h5>									
+	</c:forEach>
+`;
 
 
 </script>
