@@ -463,7 +463,7 @@ public class ClubServiceImpl implements ClubService {
 		List<Member> member = new ArrayList<>();
 		for (Member mn : memberName) {
 			String id = mn.getMemberId();
-			member.add(clubRepository.findMembersById(id));
+			member.add(clubRepository.findMemberById(id));
 		}
 
 		List<ClubMemberAndImage> members = new ArrayList<>();
