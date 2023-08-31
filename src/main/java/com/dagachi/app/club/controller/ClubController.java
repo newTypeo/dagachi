@@ -707,7 +707,8 @@ public class ClubController {
 		
 		BoardCommentDto commentDto =buildCommentDto(comment);
 		
-		log.debug("comment={}",commentDto);
+		log.debug("comment={}",comment);
+		log.debug("commentDto={}",commentDto);
 		
 		
 		return ResponseEntity.status(HttpStatus.OK).body(commentDto);
