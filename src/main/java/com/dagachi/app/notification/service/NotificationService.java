@@ -1,4 +1,4 @@
-package com.dagachi.app.notificationService;
+package com.dagachi.app.notification.service;
 
 import com.dagachi.app.chat.entity.ChatLog;
 
