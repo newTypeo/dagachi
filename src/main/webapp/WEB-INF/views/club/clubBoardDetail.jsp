@@ -189,7 +189,7 @@
 				newCommentDiv.className="profile-card";
 				newCommentDiv.innerHTML=`
 					<img class="profile-picture"
-					src="http://localhost:8080/dagachi/resources/upload/member/profile/\{profile}"
+					src="http://localhost:8080/dagachi/resources/upload/member/profile/\${profile}"
 					alt="">
 					<div class="profile-info">
 						<h2 class="name">${comment.writer}</h2>
