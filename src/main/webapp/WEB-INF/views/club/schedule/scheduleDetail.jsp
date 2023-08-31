@@ -67,9 +67,15 @@
 		</div>
 		<div id="schedule-content-container2">
 			<div id="scc2-left">
+				<button class="0to${schedule.places.size()} btn btn-primary onloadBtn" onclick="getPath(this);">전체경로</button>
+				<h5 class="seq0 ${myHome[0]} ${myHome[1]}">우리집</h5>
+				<c:forEach items="${schedule.places}" var="place" varStatus="vs">
+					<button class="${vs.index}to${vs.index+1} btn btn-primary" onclick="getPath(this);">경로</button>
+					<h5 class="seq${place.sequence} ${place.getXCo()} ${place.getYCo()}">${place.name}</h5>									
+				</c:forEach>
 			</div>
 			<div id="scc2-right">
-				<div id="map" style="width:500px;height:400px;"></div>
+				<div id="map" style="width:800px;height:800px;"></div>
 			</div>
 		</div>
 	</div>
@@ -77,9 +83,10 @@
 	
 	
 </section>
-				<button onclick="getCarDirection();">test</button>
 
 <div>${schedule}</div>
+<div>
+</div>
 
 <script>
 
@@ -95,105 +102,128 @@ document.querySelectorAll('.pointColors').forEach((elem) => {
 
 document.body.style.fontFamily = "${layout.font}";
 
-// -------------------------------길찾기----
+// -------------------------------길찾기--------
+const startX = '${schedule.places[0].getXCo()}';
+const startY = '${schedule.places[0].getYCo()}';
 
 var container = document.getElementById('map');
 var options = {
-	center: new kakao.maps.LatLng(37.394727, 127.110153),
+	center: new kakao.maps.LatLng(startY, startX),
 	level: 5
 };
 var map = new kakao.maps.Map(container, options);
 
-
-//마커가 표시될 위치입니다 
-var markerPosition  = new kakao.maps.LatLng(37.394727, 127.110153); 
-
-// 마커를 생성합니다
-var marker = new kakao.maps.Marker({
-    position: markerPosition
+window.addEventListener('DOMContentLoaded', function() {
+    // 버튼 클릭 효과 처리
+    document.querySelector('.onloadBtn').click();
 });
 
-// 마커가 지도 위에 표시되도록 설정합니다
-marker.setMap(map);
 
-/* const REST_API_KEY = '0b08c9c74b754bc22377c45ec5ce2736';
-const url = 'https://apis-navi.kakaomobility.com/v1/directions?origin=127.11015314141542,37.39472714688412&destination=127.10824367964793,37.401937080111644';
-fetch(url, {
-	method: "GET",
-	headers: {
-		"Authorization": 'KakaoAK ' + REST_API_KEY
+const REST_API_KEY = '0b08c9c74b754bc22377c45ec5ce2736';
+const url = 'https://apis-navi.kakaomobility.com/v1/directions?';
+var polyline = new kakao.maps.Polyline({
+	strokeWeight: 4,
+	strokeColor: 'darkred',
+	strokeOpacity: 0.8,
+	strokeStyle: 'solid'
+}); 
+
+function getPath(elem) {
+	polyline.setMap(null);
+	const startSeq = elem.classList[0].split("to")[0];
+	const endSeq = elem.classList[0].split("to")[1];
+	var leng = endSeq - startSeq + 1;
+	
+	getPoint(startSeq, endSeq, leng); // 마커를 표시하고 지도 위치 이동
+	
+	var keywordUrl = ''; // url뒤에 붙을 내용
+	var origin = '';
+	var waypoints = '';
+	var destination = '';
+	
+	for (let i = startSeq; i <= endSeq; i++) {
+		var xStr = document.querySelector(".seq"+i).classList[1];
+		var yStr = document.querySelector(".seq"+i).classList[2];
+		var name = document.querySelector(".seq"+i).innerHTML;
+		if (i == startSeq) {
+			origin = xStr + ',' + yStr;
+		} else if (i == endSeq) {
+			destination = xStr + ',' + yStr;
+		} else {
+			waypoints += xStr + ',' + yStr;
+			if (i != endSeq-1) {
+				waypoints += '|';
+			}
+		}
 	}
-})
-.then(response => response.json())
-.then(data => {
-	// 여기서 data를 활용하여 원하는 동작을 수행하세요
-	console.log(data);
-})
-.catch(error => {
-	// 오류 처리
-	console.error("Error:", error);
-}); */
+	keywordUrl += 'origin=' + origin + '&waypoints=' + waypoints + '&destination=' + destination;
+	const requestUrl = url + keywordUrl;
+	
+	fetch(requestUrl, {
+		method: "GET",
+		headers: {
+			"Authorization": 'KakaoAK ' + REST_API_KEY
+		}
+	})
+	.then(response => response.json())
+	.then(data => {
+		
+		const linePath = [];
+		data.routes[0].sections.forEach((section) => {
+			section.roads.forEach((road) => {
+				road.vertexes.forEach((vertex, index) => {
+					// x,y 좌표가 우르르 들어옵니다. 그래서 인덱스가 짝수일 때만 linePath에 넣어봅시다.
+					// 저도 실수한 것인데 lat이 y이고 lng이 x입니다.
+					if (index % 2 === 0) {
+						linePath.push(new kakao.maps.LatLng(road.vertexes[index + 1], road.vertexes[index]));
+					}
+				});
+			});
+		});
+		polyline.setPath(linePath);
+		polyline.setMap(map);
+	})
+	.catch(error => {
+		// 오류 처리
+		console.error("Error:", error);
+	});
+	
+}
 
-async function getCarDirection() {
-    const REST_API_KEY = '0b08c9c74b754bc22377c45ec5ce2736';
-    // 호출방식의 URL을 입력합니다.
-    const url = 'https://apis-navi.kakaomobility.com/v1/directions';
 
-   // 출발지(origin), 목적지(destination)의 좌표를 문자열로 변환합니다.
-  //  const origin = `${pointObj.startPoint.lng},${pointObj.startPoint.lat}`; 
-  //  const destination = `${pointObj.endPoint.lng},${pointObj.endPoint.lat}`;
-    
-    // 요청 헤더를 추가합니다.
-    const headers = {
-      Authorization: 'KakaoAK ' + REST_API_KEY,
-      'Content-Type': 'application/json'
-    };
-  
-    // 표3의 요청 파라미터에 필수값을 적어줍니다.
-//    const queryParams = new URLSearchParams({
- //     origin: origin,
-//      destination: destination
-//    });
-    
-//    const requestUrl = `${url}?${queryParams}`; // 파라미터까지 포함된 전체 URL
 
-    try {
-      const response = await fetch(url + '?origin=127.11015314141542,37.39472714688412&destination=127.10824367964793,37.401937080111644', {
-        method: 'GET',
-        headers: headers
-      });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
 
-      const data = await response.json();
-      console.log(data)
-      
-      const linePath = [];
-      data.routes[0].sections[0].roads.forEach(router => {
-        router.vertexes.forEach((vertex, index) => {
-           // x,y 좌표가 우르르 들어옵니다. 그래서 인덱스가 짝수일 때만 linePath에 넣어봅시다.
-           // 저도 실수한 것인데 lat이 y이고 lng이 x입니다.
-          if (index % 2 === 0) {
-            linePath.push(new kakao.maps.LatLng(router.vertexes[index + 1], router.vertexes[index]));
-          }
-        });
-      });
-      var polyline = new kakao.maps.Polyline({
-        path: linePath,
-        strokeWeight: 5,
-        strokeColor: '#000000',
-        strokeOpacity: 0.7,
-        strokeStyle: 'solid'
-      }); 
-      polyline.setMap(map);
-      
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  }
-
+function getPoint(startSeq, endSeq, leng) {
+	var xSum = 0;
+	var ySum = 0;
+	
+	for (let i = startSeq; i <= endSeq; i++) {
+		var x = parseFloat(document.querySelector(".seq"+i).classList[1]);
+		var y = parseFloat(document.querySelector(".seq"+i).classList[2]);
+		
+		xSum += x;
+		ySum += y;
+	}
+	
+	map.setCenter(new kakao.maps.LatLng(ySum/leng, xSum/leng)); // 지도 중심 이동
+	
+	var bounds = new kakao.maps.LatLngBounds();  // 지도를 재설정할 범위정보 객체 생성
+	
+	for (let i = startSeq; i <= endSeq; i++) {
+		var x = parseFloat(document.querySelector(".seq"+i).classList[1]);
+		var y = parseFloat(document.querySelector(".seq"+i).classList[2]);
+		var marker = new kakao.maps.Marker({
+		    position: new kakao.maps.LatLng(y, x)
+		});
+	    marker.setMap(map); // 마커 추가
+	    
+	    var extraLatLng = new kakao.maps.LatLng(y, x);
+	    bounds.extend(extraLatLng); // 마커가 다 보이도록 영역 확장
+	}
+	
+	map.setBounds(bounds);
+}
 
 
 

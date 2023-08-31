@@ -15,4 +15,6 @@ import lombok.experimental.SuperBuilder;
 @ToString(callSuper = true)
 public class BoardCommentDto extends BoardComment{
 	private String profile;
+	private String nickname;
+	private int clubMemberRole;
 }
