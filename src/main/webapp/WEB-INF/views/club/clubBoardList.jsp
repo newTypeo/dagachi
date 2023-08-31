@@ -24,21 +24,21 @@ div#search-content {display: none;}
 
 <section id="club-board-sec" class="">
 
-
-	<select class="custom-select custom-select-lg mb-3" id="boardType">
-		<option value="0" selected>전체보기</option>
-		<option value="1">자유글</option>
-		<option value="2">정모후기</option>
-		<option value="3">가입인사</option>
-		<option value="4">공지사항</option>
-	</select>
+			<select class="custom-select custom-select-lg mb-3" id="boardType" style="width: 120px;">
+				<option value="0" selected>전체보기</option>
+				<option value="1">자유글</option>
+				<option value="2">정모후기</option>
+				<option value="3">가입인사</option>
+				<option value="4">공지사항</option>
+			</select>
+			
 
 	<div>
-		<button type="button" class="btn btn-primary"
+		<button type="button" class="btn btn-primary" style="margin-left: 1255px; transform: translate(8px, 15px);"
 			onclick="location.href = '${pageContext.request.contextPath}/club/${domain}/clubBoardCreate.do'">작성</button>
 	</div>
 
-	<div id="search-container">
+	<div id="search-container" style="margin-top: -45px;">
 
 		<div>
 			<label for="searchType">검색타입 :</label> <select id="searchType">
@@ -47,6 +47,7 @@ div#search-content {display: none;}
 				<option value="content">내용</option>
 			</select>
 		</div>
+		
 
 		<div id="search-title" class="search-type">
 			<form onsubmit="searchClubBoard(event)">
@@ -77,7 +78,7 @@ div#search-content {display: none;}
 
 	</div>
 
-	<table class="table" id="boardTable">
+	<table class="table" id="boardTable" style="margin-top: 5px; text-align: center">
 		<thead class="thead-light">
 			<tr>
 				<th scope="col">게시판</th>
