@@ -15,6 +15,7 @@ public class ScheduleDetailsDto {
 	private int clubId;
 	private String title;
 	private String writer;
+	private String content;
 	private LocalDateTime startDate;
 	private LocalDateTime endDate;
 	private int expense;
