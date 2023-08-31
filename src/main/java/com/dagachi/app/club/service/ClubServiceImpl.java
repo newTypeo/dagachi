@@ -598,4 +598,13 @@ public class ClubServiceImpl implements ClubService {
 		return clubRepository.findBoardComment(commentId);
 	}
 	
+	@Override
+	public int clubMemberDelete(Map<String, Object> params) {
+		return clubRepository.clubMemberDelete(params);
+	}
+	
+	@Override
+	public ClubMember findClubMemberRoleByClubId(Map<String, Object> params) {
+		return clubRepository.findClubMemberRoleByClubId(params);
+	}
 }

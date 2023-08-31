@@ -247,10 +247,7 @@ public class MemberSecurityController {
 	}
 
 
-	@GetMapping("/memberClubDetail.do")
-	public void memberClubDetail() {
-		
-	}
+	
 
 		
 
