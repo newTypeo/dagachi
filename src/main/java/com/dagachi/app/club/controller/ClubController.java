@@ -39,6 +39,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.dagachi.app.Pagination;
 import com.dagachi.app.club.common.Status;
 import com.dagachi.app.club.dto.BoardAndImageDto;
+import com.dagachi.app.club.dto.BoardCommentDto;
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.ClubBoardCreateDto;
 import com.dagachi.app.club.dto.ClubCreateDto;
@@ -61,6 +62,7 @@ import com.dagachi.app.club.dto.KickMember;
 import com.dagachi.app.club.dto.ManageMember;
 import com.dagachi.app.club.dto.SearchClubBoard;
 import com.dagachi.app.club.dto.ClubNameAndCountDto;
+import com.dagachi.app.club.entity.BoardComment;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
@@ -77,6 +79,7 @@ import com.dagachi.app.common.DagachiUtils;
 import com.dagachi.app.member.entity.ActivityArea;
 import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.entity.MemberDetails;
+import com.dagachi.app.member.entity.MemberProfile;
 import com.dagachi.app.member.service.MemberService;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -118,10 +121,7 @@ public class ClubController {
 	 
 		return ResponseEntity.status(HttpStatus.OK).body(clubs); 
 	}
-	
 
-	@GetMapping("/main.do")
-	public void Detail() {}
 
 	/**
 	 * @author ?
@@ -161,7 +161,7 @@ public class ClubController {
 
 	
 	/**
-	 * @author ?
+	 * @author 상윤
 	 */
 	@GetMapping("/{domain}/clubBoardList.do")
 	public String boardList(@PathVariable("domain") String domain, @RequestParam(required = false) int no, Model model) {
@@ -187,7 +187,7 @@ public class ClubController {
 	 * @author 상윤, 종환
 	 */
 	@PostMapping("/{domain}/boardCreate.do")
-	public String boardCreate(
+	public String boardCreate (
 		@Valid ClubBoardCreateDto _board,
 		@PathVariable("domain") String domain,
 		@AuthenticationPrincipal MemberDetails member,
@@ -207,9 +207,40 @@ public class ClubController {
 															       .content(_board.getContent())
 															        .title(_board.getTitle()).build();
 		int result = clubService.postBoard(clubBoard);
-		return "/club/clubBoardList";
+		return "redirect:/" + domain + "/clubBoardList.do";
 	}
 
+	/**
+	 * 게시글 작성 시 첨부파일이 있는 경우 저장
+	 * @author 상윤
+	 */
+	public List<ClubBoardAttachment> insertAttachment(List<MultipartFile> upFiles,
+			List<ClubBoardAttachment> attachments) throws IllegalStateException, IOException {
+
+		for (int i = 0; i < upFiles.size(); i++) {
+			if (!upFiles.get(i).isEmpty()) {
+				String originalFilename = upFiles.get(i).getOriginalFilename();
+				String renamedFilename = DagachiUtils.getRenameFilename(originalFilename);
+				File destFile = new File("/club/board/" + renamedFilename);
+				upFiles.get(i).transferTo(destFile); // 실제 파일 저장
+	
+				ClubBoardAttachment attach = ClubBoardAttachment.builder()
+																.originalFilename(originalFilename)
+																.renamedFilename(renamedFilename).build();
+//				log.debug("attach = {}", attach);
+				if (!attachments.isEmpty() && i == 0)
+					attach.setThumbnail(Status.Y);
+				else
+					attach.setThumbnail(Status.N);
+	
+				attachments.add(attach);
+			}
+		}
+		return attachments;
+	}
+	
+	
+	
 	/**
 	 * 메인화면에서 모임 검색 (페이지바 처리 & getPagebar재활용위해 url에 replace처리)
 	 * @author 종환
@@ -404,10 +435,10 @@ public class ClubController {
 			Model model) {
 
 		int clubId = clubService.clubIdFindByDomain(domain);
+		ClubLayout layout = clubService.findLayoutById(clubId);
 
 		ClubNameAndCountDto clubInfo = clubService.findClubInfoById(clubId);
 		
-		ClubLayout layout = clubService.findLayoutById(clubId);
 		
 		List<BoardAndImageDto> boardAndImages = clubService.findBoardAndImageById(clubId);
 		List<GalleryAndImageDto> galleries = clubService.findgalleryById(clubId);
@@ -590,7 +621,7 @@ public class ClubController {
 
 	
 	/**
-	 * @author ?
+	 * @author 상윤 비동기 10개씩 조회하는 핸들러
 	 */
 	@GetMapping("/{domain}/findBoardType.do")
 	public ResponseEntity<?> boardList(@RequestParam(required = false, defaultValue = "0") int boardType,
@@ -640,12 +671,79 @@ public class ClubController {
 		
 		List<ClubBoardAttachment> attachments = clubService.findAttachments(no);
 		
+		List<BoardComment> _comments=clubService.findComments(no);
+		List<BoardCommentDto> comments=new ArrayList<>();
+		List<MemberProfile> clubProfiles=memberService.findMemberProfileByClubId(clubBoard.getClubId());
+		
+		if(!_comments.isEmpty()) {
+			for(BoardComment comment:_comments) {
+				BoardCommentDto commentDto=buildCommentDto(comment);
+				comments.add(commentDto);
+			}
+		}
+		
+
+		
+		
 		log.debug("liked={}", liked);
 		model.addAttribute("liked", liked);
 		model.addAttribute("clubBoard", clubBoard);
 		model.addAttribute("attachments", attachments);
+		model.addAttribute("comments", comments);
 		
 		return "/club/clubBoardDetail";
+	}
+	
+	//상윤 댓글 객체에서 dto+profile 객체만드는 메소
+	public BoardCommentDto buildCommentDto(BoardComment comment) {
+		
+		BoardCommentDto commentDto= BoardCommentDto.builder()
+				.commentId(comment.getCommentId())
+				.boardId(comment.getBoardId())
+				.writer(comment.getWriter())
+				.commentRef(comment.getCommentRef())
+				.content(comment.getContent())
+				.createdAt(comment.getCreatedAt())
+				.status(comment.getStatus())
+				.commentLevel(comment.getCommentId())
+				.profile(memberService.findMemberProfile(comment.getWriter()).getRenamedFilename())
+				.build();
+		
+		return commentDto;
+	}
+	
+	
+	/**
+	 * 게시글 댓글 작성
+	 * @author 상윤
+	 */
+	@PostMapping("/{domain}/createComment.do")
+	public  ResponseEntity<?> createComment(
+			@PathVariable("domain") String domain,
+			@AuthenticationPrincipal MemberDetails member,
+			@RequestParam String content,
+			@RequestParam int boardId
+	){
+		ClubBoard clubBoard =clubBoardGet(domain, boardId);
+		String memberId=member.getMemberId();
+		
+		BoardComment _comment=BoardComment.builder()
+				.content(content)
+				.writer(memberId)
+				.boardId(boardId)
+				.build();
+				
+		int result=clubService.boardCommentCreate(_comment);
+		
+		BoardComment comment=clubService.findBoardComment(_comment.getCommentId());
+		
+		BoardCommentDto commentDto =buildCommentDto(comment);
+
+		log.debug("commentDto={}",commentDto);
+		log.debug("comment={}",comment);
+		
+		
+		return ResponseEntity.status(HttpStatus.OK).body(commentDto);
 	}
 
 	
@@ -921,35 +1019,6 @@ public class ClubController {
 	}
 
 	
-	/**
-	 * 게시글 작성 시 첨부파일이 있는 경우 저장
-	 * @author 상윤
-	 */
-	public List<ClubBoardAttachment> insertAttachment(List<MultipartFile> upFiles,
-			List<ClubBoardAttachment> attachments) throws IllegalStateException, IOException {
-
-		for (int i = 0; i < upFiles.size(); i++) {
-			if (!upFiles.get(i).isEmpty()) {
-				String originalFilename = upFiles.get(i).getOriginalFilename();
-				String renamedFilename = DagachiUtils.getRenameFilename(originalFilename);
-				File destFile = new File("/club/board/" + renamedFilename);
-				upFiles.get(i).transferTo(destFile); // 실제 파일 저장
-	
-				ClubBoardAttachment attach = ClubBoardAttachment.builder()
-																.originalFilename(originalFilename)
-																.renamedFilename(renamedFilename).build();
-//				log.debug("attach = {}", attach);
-				if (!attachments.isEmpty() && i == 0)
-					attach.setThumbnail(Status.Y);
-				else
-					attach.setThumbnail(Status.N);
-	
-				attachments.add(attach);
-			}
-		}
-		return attachments;
-	}
-
 	
 	/**
 	 * @author ?
@@ -1315,6 +1384,7 @@ public class ClubController {
 			 createGalleryDto = createGalleryDto.builder()
 					 .clubId(clubId)
 					 .memberId(loginMember.getMemberId())
+					 .originalFilename(originalFilename)
 					 .renamedFilename(renamedFilename)
 					 .build();
 			 
@@ -1330,6 +1400,7 @@ public class ClubController {
 			 createGalleryDto = createGalleryDto.builder()
 					 .clubId(clubId)
 					 .memberId(loginMember.getMemberId())
+					 .originalFilename(originalFilename)
 					 .renamedFilename(renamedFilename)
 					 .build();
 			 
@@ -1345,6 +1416,7 @@ public class ClubController {
 			 createGalleryDto = createGalleryDto.builder()
 					 .clubId(clubId)
 					 .memberId(loginMember.getMemberId())
+					 .originalFilename(originalFilename)
 					 .renamedFilename(renamedFilename)
 					 .build();
 			 

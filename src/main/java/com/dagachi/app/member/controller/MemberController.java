@@ -43,6 +43,7 @@ import org.springframework.core.io.FileSystemResource;
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.service.ClubService;
 import com.dagachi.app.common.DagachiUtils;
+import com.dagachi.app.member.dto.MemberPwUpdateDto;
 import com.dagachi.app.member.dto.MemberUpdateDto;
 import com.dagachi.app.member.entity.CbcLike;
 import com.dagachi.app.member.entity.Member;
@@ -74,7 +75,7 @@ public class MemberController {
 	@Autowired
     private JavaMailSender javaMailSender;
 	
-	
+	   
 	 @GetMapping("/{memberId}")
 	    public String memberDetail(
 	    		@PathVariable("memberId") String memberId,
@@ -174,12 +175,15 @@ public class MemberController {
 	 public void searchId() {}
 
 	 
-	 @PostMapping("/memberSearchId.do")
+	 /**
+	 * @author 김준한
+	 * 아이디 찾기
+	 */
+	@PostMapping("/memberSearchId.do")
 	 public String memberSearchId(
 			 @RequestParam("email") String email,
 			 Model model
 			 ) {
-		 log.debug("email = {} ",email);
 		 
 		 Member member = memberService.findmemberIdByEmail(email);
 		 
@@ -188,7 +192,11 @@ public class MemberController {
 			 model.addAttribute("memberId",memberId);
 		 } else {
 			 String memberId = member.getMemberId();
-			 model.addAttribute("memberId",memberId);
+			 String maskedMemberId = memberId.substring(0, 3) + "*".repeat(memberId.length() - 3);
+			 
+			 model.addAttribute("memberId",maskedMemberId);
+			 
+			 
 		 }
 		 
 		 model.addAttribute("member",member);
@@ -200,19 +208,20 @@ public class MemberController {
 	 @GetMapping("/searchPw.do")
 	 public void searchPw() {}
 	 
-	 @GetMapping("/sendCode.do")
-	 public ResponseEntity<?> sendVerificationCode(
+	 /**
+	  * @author 김준한
+	  * 이메일로 6자리 랜덤코드생성해서
+	  * 코드 보내기
+	  */
+	@GetMapping("/sendCode.do")
+	public ResponseEntity<?> sendVerificationCode(
 			 @RequestParam("username") String username, 
              @RequestParam("email") String email
 			 ){
 		 
-		 log.debug("가져오긴했냐? ={}", username);
-		 log.debug("가져오긴했냐? ={}", email);
 		 
 		 Member member = memberService.findMemberByName(username);
 		 Member member2 = memberService.findMemberByEmail(email);
-		 log.debug("memberzzzzzzzzzzzz={}",member);
-		 log.debug("member똑같냐?={}",member2);
 		 String randomCode = null;
 		 if(member != null && member2 != null && member.equals(member2)) {
 			 // 입력받은 이름과 이메일이 db에 있는 정보와 일치할 시,
@@ -225,29 +234,48 @@ public class MemberController {
 			 SimpleMailMessage message = new SimpleMailMessage();
 			 message.setFrom("khsso102649@gmail.com");
 			 message.setTo(email);
-			 message.setSubject("인증코드 메일");
+			 message.setSubject("다가치 홈페이지 인증코드 메일");
 			 message.setText(randomCode);
 			 
 			 javaMailSender.send(message);
 			 
-			 
 		 }else {
-			 
 			 randomCode = null;
-			 
 		 }
-		 
 		 return ResponseEntity.status(HttpStatus.OK).body(randomCode);
 	 }
 	 
-//	 @PostMapping("/memberSearchPw.do")
-//	 public String searchPwByCode(
-//			 @RequestParam ("code") String code
-//			 ) {
-//		 
-//		 
-//		 return "";
-//	 }
-	 
-	 
+	@RequestMapping("{email}/memberPwUpdate.do")
+	public String updateMemberPassword(
+			@PathVariable("email") String email,
+			Model model
+			) {
+		model.addAttribute("email",email);
+		
+		return "/member/memberPwUpdate";
+	}
+	
+	
+	/**
+	 * @author 김준한
+	 * 이메일인증을 통한 비밀번호 찾기후 변경
+	 */
+	@PostMapping("/memberPwUpdate.do")
+	public String memberPwUpdate(
+			@RequestParam("newPassword") String password,
+			@RequestParam("email") String email,
+			RedirectAttributes redirectAttr
+			) {
+//		log.debug("passwordzzzzzzzzzzzzzzzz = {}",password);
+//		log.debug("email = {}",email);
+		String encodedPassword = passwordEncoder.encode(password);
+		MemberPwUpdateDto memberPwUpdateDto = MemberPwUpdateDto.builder()
+				.password(encodedPassword)
+				.email(email).build();
+		int result = memberService.memberPwUpdate(memberPwUpdateDto);
+		
+		redirectAttr.addFlashAttribute("msg", "비밀번호가 변경되었습니다.");
+		
+		return "redirect:/member/searchPw.do";
+	}
 }

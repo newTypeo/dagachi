@@ -26,6 +26,36 @@
 <fmt:requestEncoding value="utf-8"/>
 <meta id="_csrf" name="_csrf" content="${_csrf.token}"/>
 <meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}"/>
+<style>
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    line-height: 1.2;
+    text-align: center;
+        height: 53px;
+    }
+.code-btn{
+margin-left: 175px;
+    margin-top: -14px;
+    height: 56px;
+}
+.codeConpare-btn{
+margin-left: 184px;
+    margin-top: -14px;
+    height: 56px;
+}
+
+
+}
+</style>
+	
+	<c:if test="${msg ne null}">
+		<script>
+		alert('${msg}');
+		window.close();
+		</script>
+	</c:if>
+
 	<form:form
 		action = "${pageContext.request.contextPath}/member/memberSearchPw.do"
 		method = "post"
@@ -42,7 +72,9 @@
 	  <label for="floatingInputDisabled"></label>
 	</div>
 	
+	<div class = "code-btn">
 	<button type="button" class="btn btn-primary" id="sendCodeButton">인증코드 보내기</button>
+	</div>
 	
 	<h3>인증코드를 입력하세요</h3>
 	<div class="form-floating mb-3">
@@ -50,8 +82,11 @@
 	  <label for="floatingInputDisabled"></label>
 	</div>
 	
-	<button type="button" class="btn btn-primary" id="compareCodeBtn">비밀번호 찾기</button>
+	
+	<div class="codeConpare-btn">
+	<button type="button" class="btn btn-primary" id="compareCodeBtn">인증번호 확인</button>
 	</form:form>	
+	</div>
 	
 	<script>
 	var token = $("meta[name='_csrf']").attr("content");
@@ -75,21 +110,25 @@
     		},
             success: function(response) {
                 alert('인증코드를 이메일로 발송합니다. 등록된 정보가 없을 시 코드가 발송되지 않으니 주의바랍니다!');
+                console.log(response); // test를 위해 브라우저 콘솔창에서도 코드보여줄수있게함
+                
+			compareCodeBtn.addEventListener("click", function() {
+			    var userEnteredCode = document.getElementById('floatingInputDisabled3').value;
+			    
+			    if(userEnteredCode === response){
+			    	alert('일치 ㅋ' + email);
+			    	window.location.href ="${pageContext.request.contextPath}/member/"+email+"/memberPwUpdate.do";
+			    }
+			    else{
+			    	alert('불일치 ㅋ');
+			    }
+			});
             }
         });
     });
 	
 	 
 	 
-	 compareCodeBtn.addEventListener("click",function(){
-		 var code = document.getElementById('floatingInputDisabled3').value;
-		 var randomCode = 
-			if(code == randomCode){
-				window.location.href = "${pageContext.request.contextPath}/member/memberUpdatePw.do";
-			}else{
-				alert('코드가 다름');
-			}
-	 });
 	
 	</script>
 	

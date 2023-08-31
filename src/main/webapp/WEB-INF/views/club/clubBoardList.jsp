@@ -7,18 +7,11 @@
 	<jsp:param value="게시판" name="title" />
 </jsp:include>
 <style>
-div#search-title {
-	display: inline-block;
-}
-
-div#search-writer {
-	display: none;
-}
-
-div#search-content {
-	display: none;
-}
+div#search-title {display: inline-block;}
+div#search-writer {display: none;}
+div#search-content {display: none;}
 </style>
+
 <script>
 	window.onload = () =>{
 		const boardLoadType = ${no};

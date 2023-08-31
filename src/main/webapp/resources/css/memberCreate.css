@@ -1,105 +1,51 @@
 @charset "UTF-8";
 
-.modal { top: -920px; }
-.modal-body { height: 400px; }
-#club-create-form-wrapper { margin: 50px auto; width: 800px; }
-.main-area-id-checked, .address-checked { padding: 5px; margin: 0; }
-.main-area-id-checked:hover, .address-checked:hover { background-color: #ddd; cursor: pointer; }
-#tagContainer { display: flex; background-color: lightskyblue; border-radius: 5px; }
-.tagWrapper { height: 30px; margin: 5px; border: 2px solid white; position: relative; border-radius: 5px; display: flex; }
-div#memberId-container { position: relative; padding: 0px; }
-div#memberId-container span.guide { display: none; font-size: 12px; position: absolute; top: 12px; right: 10px; }
-div#memberId-container span.ok { color: blue; }
-div#memberId-container span.error { color: red; }
-
-
-div .group {
-    width: 80%;
-    display: inline-flex;
-    padding: 0.375rem 0.75rem;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-    background-color: #fff;
-    background-clip: padding-box;
-    border-radius: 0.25rem;
-    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
- }
-    
-    
-fieldset {
-	border: 1px solid; /* 경계 스타일 지정 */
-    margin-inline-start: 2px;
-    margin-inline-end: 2px;
-    padding-block-start: 0.35em;
-    padding-inline-start: 0.75em;
-    padding-inline-end: 0.75em;
-    padding-block-end: 0.625em;
-    min-inline-size: min-content;
-    border-width: 2px;
-    border-style: groove;
-    border-color: rgb(192, 192, 192);
-    border-image: initial;
-}
-
-.max_width_area {
-    position: relative;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 980px;
-    margin: 0 auto;
-    margin-top: 100px;
-    margin-bottom: 100px;
-}
-.main_area {
-    padding: 56px 0 100px;
-    margin: auto;
-    width: 600px;
-}
-
-.main_area {
-    /* padding: 80px 103px 98px; */
-    /* -webkit-box-sizing: border-box; */
-    box-sizing: border-box;
-    border: solid 1px #d8d8d8;
-    background-color: #ffffff;
-}
-.top_area, .main_area {
-    margin: 0 auto;
-    width: 600px;
-    
-}
-
-.top_area, .main_area {
-    margin: 0 auto;
-    width: 600px;
-}
-
-form:form {margin-top: 0em;}
-
-fieldset{ 
-   padding: 0 50px 50px;
-    margin-top: 47px;
-    border-bottom: 1px solid #d8d8d8;
-}
-
-label {    display: inline-block;
-    font-weight: bold;
-    font-size: 12px;
-    cursor: default;}
-    
-input {
-    padding: 0 6px;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    border: 1px solid #cccccc;
-    color: #333333;
-    background-color: #f8f8f8;
-    font-size: 12px;
-    vertical-align: middle;
-}
-
 /* 모달 스타일 */
+.modal {
+    top: -920px;
+}
+
+/* 모달 내용 스타일 */
+.modal-body {
+    height: 400px;
+}
+
+/* 클럽 생성 폼 래퍼 스타일 */
+#club-create-form-wrapper {
+    margin: 50px auto 100px auto;
+    width: 800px;
+}
+
+/* 메인 지역 ID 및 주소 검사 스타일 */
+.main-area-id-checked, .address-checked {
+    padding: 5px;
+    margin: 0;
+}
+
+/* 메인 지역 ID 및 주소 검사 호버 스타일 */
+.main-area-id-checked:hover, .address-checked:hover {
+    background-color: #ddd;
+    cursor: pointer;
+}
+
+/* 태그 컨테이너 스타일 */
+#tagContainer {
+    display: flex;
+    background-color: lightskyblue;
+    border-radius: 5px;
+}
+
+/* 태그 래퍼 스타일 */
+.tagWrapper {
+    height: 30px;
+    margin: 5px;
+    border: 2px solid white;
+    position: relative;
+    border-radius: 5px;
+    display: flex;
+}
+
+/* 모달 1 스타일 */
 .modal1 {
     display: none;
     position: fixed;
@@ -112,14 +58,17 @@ input {
     background-color: rgba(0,0,0,0.7);
 }
 
+/* 모달 내용 1 스타일 */
 .modal-content1 {
     background-color: #fff;
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%;
+    width: 50%;
+    height: 400px;
 }
 
+/* 닫기 버튼 1 스타일 */
 .close1 {
     color: #aaa;
     float: right;
@@ -128,13 +77,14 @@ input {
     cursor: pointer;
 }
 
-/* 모달 열기 버튼 스타일 */
+/* 보기 버튼 스타일 */
 .btn_view {
     cursor: pointer;
 }
 
-/* 모달 스타일 */
+/* 모달 2 스타일 */
 .modal2 {
+    height: 400px;
     display: none;
     position: fixed;
     z-index: 1;
@@ -146,14 +96,17 @@ input {
     background-color: rgba(0,0,0,0.7);
 }
 
+/* 모달 내용 2 스타일 */
 .modal-content2 {
     background-color: #fff;
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%;
+    width: 50%;
+    height: 400px
 }
 
+/* 닫기 버튼 2 스타일 */
 .close2 {
     color: #aaa;
     float: right;
@@ -162,23 +115,7 @@ input {
     cursor: pointer;
 }
 
-/* 모달 열기 버튼 스타일 */
+/* 보기 버튼 스타일 */
 .btn_view {
     cursor: pointer;
 }
-dd {
-    display: block;
-    margin-inline-start: 40px;
-}
-
-dl{
-display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    padding: 16px 19px;
-    margin-top: 8px;
-    margin-bottom: 0;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    font-size: 11px;
-    background-color: #f8f8f8;}

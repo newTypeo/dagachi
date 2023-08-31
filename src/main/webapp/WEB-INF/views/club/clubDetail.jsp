@@ -54,10 +54,7 @@
 	</nav>
 	
 	<nav id="club-button">
-		<!-- 방장일 경우에 -->
-		
-		
-		
+
 		<!-- 관리자일 경우에 -->
 		<c:if test = "${memberId eq 'admin'}">
 			<button type="button" class="btn btn-danger" id="clubDisabled">모임 비활성화</button>
@@ -88,6 +85,7 @@ document.querySelectorAll('.fontColors').forEach((elem) => {
 document.querySelectorAll('.pointColors').forEach((elem) => {
 	elem.style.color = '${layout.pointColor}';
 });
+
 document.body.style.fontFamily = "${layout.font}";
 </script>
 

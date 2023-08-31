@@ -6,13 +6,6 @@
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%><!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>${param.title}</title>
-
 <script src="https://code.jquery.com/jquery-3.6.0.js"
 	integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
 	crossorigin="anonymous"></script>
@@ -30,17 +23,26 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
 	integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
 	crossorigin="anonymous">
+<fmt:requestEncoding value="utf-8"/>
+	<h3>비밀번호 변경</h3>
+	<form:form name = "memberPwUpdateFrm"
+	 action ="${pageContext.request.contextPath}/member/memberPwUpdate.do"
+	 method="POST"
+	 >
+		<h5>변경할 비밀번호</h5>
+		<input type="text" name="newPassword">
+		
+		<h5>비밀번호 확인</h5>
+		<input type="text" name="newPassword2">
+		
+		<!-- 받아온 이메일 input태그에 숨겨서 컨트롤러로 제출 -->
+		<input type="hidden" name="email" value="${email}">
+		
+		<button type="submit">변경</button>
+	</form:form>
+	
+	
 
-<!-- 사용자작성 css -->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/chat.css" />
-<sec:authorize access="isAuthenticated()">
-	<script>
-	//const memberId = '<sec:authentication property="principal.MemberDetails.memberId"/>';
-	<%-- </script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js" integrity="sha512-1QvjE7BtotQjkq8PxLeF6P46gEpBRXuskzIVgjFpekzFVF4yjRgrQvTG1MTOJ3yQgvTteKAcO7DSZI92+u/yZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js" integrity="sha512-iKDtgDyTHjAitUDdLljGhenhPwrbBfqTKWO1mkhSFH3A7blITC9MhYon6SjnMhp4o0rADGw9yAC6EW4t5a4K3g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/stomp.js"></script> --%>
-	</script>
-</sec:authorize>
+	
+
 
