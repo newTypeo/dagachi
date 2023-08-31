@@ -187,6 +187,10 @@ public interface ClubService {
 
 	BoardComment findBoardComment(int commentId);
 
+	int clubMemberDelete(Map<String, Object> params);
+
+	ClubMember findClubMemberRoleByClubId(Map<String, Object> params);
+
 	
 
 

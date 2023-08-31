@@ -92,8 +92,11 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/club")
 @SessionAttributes({ "inputText", "zoneSetList", 
-						"zoneSet1", "zoneSet2", "zoneSet3", "zoneSet4", "zoneSet5", "zoneSet6" })
+						"zoneSet1", "zoneSet2", "zoneSet3", "zoneSet4", "zoneSet5", "zoneSet6", "clubAdminMsg" })
 public class ClubController {
+	
+	@Autowired
+    private HttpSession httpSession;
 
 	private final JavaMailSender javaMailSender;
 	
@@ -1433,17 +1436,50 @@ public class ClubController {
 		return "/club/clubManage";
 	}
 	
-	@GetMapping("{domain}/memberClubDetail.do")
-	   public void memberClubDetail() {
-	      
-	   }
+	@GetMapping("/{domain}/memberClubDetail.do")
+    public String memberClubDetail(
+    		@PathVariable("domain") String domain,
+    		Model model) {
+		
+		model.addAttribute("domain", domain);
+		log.debug("종환아 여기 잘 봐바 = {}," + domain);
+		
+		return "/club/memberClubDetail";
+    }
 	
 	
-	@PostMapping("")
-	public String clubMemberDelete() {
+	@PostMapping("/{domain}/clubMemberDelete.do")
+	public String clubMemberDelete(
+			@PathVariable("domain") String domain,
+			@AuthenticationPrincipal MemberDetails loginMember,
+			Model model
+			) {
 		
+		String memberId = loginMember.getMemberId();
+		Club club = clubService.findByDomain(domain);
+		int clubId = club.getClubId();
 		
+		Map<String, Object> params = Map.of(
+				"memberId" , memberId,
+				"clubId", clubId
+				);
+		ClubMember clubMember = clubService.findClubMemberRoleByClubId(params);
+		int clubMemberRole = clubMember.getClubMemberRole();
 		
-		return "redirect:club/";
+		if(clubMemberRole == 3) {
+			log.debug("여기는 if문이 실행 되는지 확인하는 곳 {}",clubMemberRole);
+			String clubAdminMsg = "방장은 모임에서 탈퇴할 수 없습니다.";
+			model.addAttribute("clubAdminMsg", clubAdminMsg);
+			System.out.println(clubAdminMsg);
+			
+			// 해당 세션을 삭제
+			httpSession.removeAttribute(clubAdminMsg);
+
+			return "redirect:/club/" + domain + "/memberClubDetail.do";
+			
+		}		
+		int result = clubService.clubMemberDelete(params);
+		
+		return "redirect:/club/" + domain;
 	}
 }

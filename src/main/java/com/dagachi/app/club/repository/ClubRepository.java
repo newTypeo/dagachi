@@ -335,6 +335,12 @@ public interface ClubRepository {
 	
 	@Select("select * from  board_comment where comment_id=#{commentId}")
 	BoardComment findBoardComment(int commentId);
+	
+	@Delete("delete from club_member where member_id = #{memberId} and club_id = #{clubId} and club_member_role != 3")
+	int clubMemberDelete(Map<String, Object> params);
+	
+	@Select("select * from club_member where member_id = #{memberId} and club_id = #{clubId}")
+	ClubMember findClubMemberRoleByClubId(Map<String, Object> params);
 
 	
 }
