@@ -8,6 +8,11 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
+<style>
+#alarmBox{
+            visibility: hidden;
+}
+</style>
 <head>
 <meta charset="UTF-8">
 <title>다가치</title>
@@ -95,13 +100,9 @@
 			<sec:authorize access="isAuthenticated()">
 				<div id="header-nav-container">
 						 <i class="fa-solid fa-bell fa-beat"></i> 
-						 <i class="fa-solid fa-bell"></i> 
-							<div  id="alarmBox" class=""> 
-								<div class="list-group">
-									 <a href="#" class="list-group-item list-group-item-action list-group-item-light">
-									 	알람내용
-									 </a>
-								</div>
+						 <i id="bell" class="fa-solid fa-bell"></i> 
+							<div  id="alarmBox" class="" > 
+								sdasdffasdfasdf
 							</div>
 					<span>
 						 	<a title="<sec:authentication property="authorities"/>"
@@ -172,6 +173,33 @@
 				
 				</script>
 				</c:if>
+				
+				<script>
+				
+			/* 	document.querySelector("#bell").addEventListener("click",(e)=>{
+					console.log(e.target);
+					const bell=e.target;
+					bell.classList.remove("fa-beat");
+					
+					const alarmToggle=document.querySelector("#alarmBox");
+					
+					 if (alarmBox.style.visibility === "hidden") {
+						 alarmBox.style.visibility = "visible";
+					console.log(alarmBox);
+						 console.log("visible");
+					 }else{
+						 alarmBox.style.visibility = "hidden";
+						 console.log("hidden");
+					console.log(alarmBox);
+					 }
+				});
+				
+				
+				const alarmLoad=()=>{
+					
+				}; */
+				
+				</script>
 
 			</sec:authorize>
 
