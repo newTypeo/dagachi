@@ -166,4 +166,14 @@ public class DagachiUtils {
 		return zoneSet;
 	}
 	
+	
+	public static double[] getPlaceCoordinate(String address) throws UnsupportedEncodingException {
+		JsonArray document = kakaoMapApi(address, "address");
+		JsonObject item = document.get(0).getAsJsonObject();
+		double xCo = Double.parseDouble(item.get("x").getAsString());
+		double yCo = Double.parseDouble(item.get("y").getAsString());
+		double[] coordinate = {xCo, yCo};
+		return coordinate; 
+	}
+	
 }

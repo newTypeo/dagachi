@@ -797,7 +797,7 @@ values(9, '건강정보');
 insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
 values ('admin', '1234', '관리자','관리자', '956-456-7890', 'admin@naver.com', TO_DATE('1990-01-15', 'YYYY-MM-DD'), 'M', 'ISTJ', '서울시 강남구 123번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y');
 insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
-values ('honggd', '1234', '홍길동','길동길동', '123-456-7890', 'honggd@naver.com', TO_DATE('1990-01-15', 'YYYY-MM-DD'), 'M', 'ISTJ', '서울시 강남구 123번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y');
+values ('honggd', '1234', '홍길동','길동길동', '123-456-7890', 'honggd@naver.com', TO_DATE('1990-01-15', 'YYYY-MM-DD'), 'M', 'ISTJ', '서울 용산구 독서당로 111', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y');
 insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
 values ('user1', 'password1', '김영희','영희얌', '987-654-3210', 'user1@example.com', TO_DATE('1992-03-20', 'YYYY-MM-DD'), 'F', 'ENFP', '서울시 종로구 456번지', 1, SYSDATE, NULL, SYSDATE, NULL, 'Y');
 insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
@@ -1286,7 +1286,6 @@ insert into main_page values(seq_main_page_id.nextval, 'mainSample5.png', 'mainS
 update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'honggd';
 update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'admin';
 
-
 commit;
 
 
@@ -1299,3 +1298,6 @@ insert into club_member values('user9',6,default,default,3,default);
 insert into club_member values('user9',7,default,default,3,default);
 
 commit;
+
+select * from club_schedule_place;
+select * from member where member_id = 'honggd';
