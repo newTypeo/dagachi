@@ -738,7 +738,7 @@ public class ClubController {
 		BoardComment comment=clubService.findBoardComment(_comment.getCommentId());
 		
 		BoardCommentDto commentDto =buildCommentDto(comment);
-		
+
 		log.debug("commentDto={}",commentDto);
 		log.debug("comment={}",comment);
 		

@@ -192,8 +192,8 @@
 					src="http://localhost:8080/dagachi/resources/upload/member/profile/\${profile}"
 					alt="">
 					<div class="profile-info">
-						<h2 class="name">${comment.writer}</h2>
-						<p class="comment">${comment.content}</p>
+						<h2 class="name">\${writer}</h2>
+						<p class="comment">\${content}</p>
 					</div>
 				`;
 				
