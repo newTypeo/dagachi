@@ -273,31 +273,41 @@ h5, h3 {
 
 /************** schedule ***************/
 #schedule-content-container {
-	height: 400px;
 	border: 1px solid #aaa;
 	margin: 10px 0;
 	border-radius: 2px;
 	padding: 10px 40px;
 }
-#schedule-content-container > div > figure {
+#schedule-content-container > div:first-of-type > figure {
 
 }
-#schedule-content-container > div > figure > img {
+#schedule-content-container > div:first-of-type > figure > img {
 	width: 60px;
 	border: 1px solid #aaa;
 	border-radius: 50%;
 }
-#schedule-content-container > div {
+#schedule-content-container > div:first-of-type {
 	margin: 0 20px;
 	display: flex;
 }
-#schedule-content-container > div > div {
+#schedule-content-container > div:first-of-type > div {
 	margin: 5px 10px;
 }
 
-
-
-
+#schedule-content-container2 {
+	display: flex;
+	margin: 10px;
+}
+#scc2-left {
+	background-color: lightblue;
+	width: 300px;
+	height: 300px;	
+}
+#scc2-right {
+	background-color: lightgreen;
+	width: 800px;
+	height: 800px;	
+}
 
 
 

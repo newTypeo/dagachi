@@ -125,8 +125,6 @@
 					}// success2
 				}); // ajax1
 				
-				
-				
 				</script>
 				</c:if>
 

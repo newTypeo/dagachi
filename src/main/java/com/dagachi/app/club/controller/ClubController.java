@@ -590,7 +590,7 @@ public class ClubController {
 
 	
 	/**
-	 * @author ?
+	 * @author 상윤 비동기 10개씩 조회하는 핸들러
 	 */
 	@GetMapping("/{domain}/findBoardType.do")
 	public ResponseEntity<?> boardList(@RequestParam(required = false, defaultValue = "0") int boardType,
@@ -663,6 +663,7 @@ public class ClubController {
 		return "/club/clubBoardDetail";
 	}
 	
+	//상윤 댓글 객체에서 dto+profile 객체만드는 메소
 	public BoardCommentDto buildCommentDto(BoardComment comment) {
 		
 		BoardCommentDto commentDto= BoardCommentDto.builder()
@@ -706,9 +707,9 @@ public class ClubController {
 		BoardComment comment=clubService.findBoardComment(_comment.getCommentId());
 		
 		BoardCommentDto commentDto =buildCommentDto(comment);
-		
-		log.debug("comment={}",comment);
+
 		log.debug("commentDto={}",commentDto);
+		log.debug("comment={}",comment);
 		
 		
 		return ResponseEntity.status(HttpStatus.OK).body(commentDto);
