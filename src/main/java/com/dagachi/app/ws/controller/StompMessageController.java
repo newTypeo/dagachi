@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 
 import com.dagachi.app.chat.entity.ChatLog;
 import com.dagachi.app.chat.service.ChatService;
-import com.dagachi.app.notificationService.NotificationService;
+import com.dagachi.app.notification.service.NotificationService;
 import com.dagachi.app.ws.dto.Payload;
 
 import lombok.extern.slf4j.Slf4j;
