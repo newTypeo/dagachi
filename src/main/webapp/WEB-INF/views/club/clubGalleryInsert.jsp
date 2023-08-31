@@ -7,8 +7,24 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="갤러리 작성" name="title" />
 </jsp:include>
+<style>
+.submit-div{
+	position: relative;
+    width: 102px;
+    margin-top: 29px;
+    margin-left: 1515px;
+    height: 300px;
+}
+
+.form{
+    margin: 100px;
+}
+</style>
+<section>
 	<div>
+		
 		<h1>갤러리 사진 올리기</h1>
+		<div class = "form">
 		<form:form name = "clubGalleryInsertFrm"
 		action = "${pageContext.request.contextPath}/club/${domain}/clubGalleryInsert.do"
 		enctype = "multipart/form-data" method = "post">
@@ -35,13 +51,14 @@
 	  	</div>
 		
 		
-		
-			<button class = "btn btn-primary" type = "submit">사진 올리기</button>
+			<div class="submit-div">
+				<button class = "btn btn-primary" type = "submit">사진 올리기</button>
+			</div>
 		</form:form>
-	
+		</div>
 	</div>
 	
-	
+</section>
 <script>
 document.querySelector("#fileInput").addEventListener("change",(e) => {
 	
