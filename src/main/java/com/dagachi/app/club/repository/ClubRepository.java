@@ -250,7 +250,7 @@ public interface ClubRepository {
 	List<MemberProfile> findProfileById(String id);
 	
 	@Select("select * from member where member_id = #{id}")
-	Member findMembersById(String id);
+	Member findMemberById(String id);
 	
 	@Update("update club_layout set type=#{type}, font=#{font}, background_color=#{backgroundColor}, font_color=#{fontColor}, point_color=#{pointColor} where club_id=#{clubId}")
 	int clubStyleUpdate(ClubStyleUpdateDto style);

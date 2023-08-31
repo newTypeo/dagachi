@@ -4,13 +4,14 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="게시글" name="title" />
 </jsp:include>
 
 <section id="club-boardDetail-sec" class="">
 
-	<style>
+<style>
 .profile-card {
 	background-color: #ffffff;
 	border-radius: 10px;
@@ -20,8 +21,8 @@
 }
 
 .profile-picture {
-	width: 80px;
-	height: 80px;
+	width: 50px;
+	height : 50px;
 	border-radius: 50%;
 	margin-right: 15px;
 	border: 1px solid;
@@ -83,15 +84,22 @@
 								class="card-img-top" alt="첨부된 이미지">
 						</c:forEach>
 						<p class="card-text">${clubBoard.content}</p>
-						<p class="card-text">작성자: ${clubBoard.writer}</p>
-						<div>
+						<p class="card-text">작성자: ${nickname}</p>
+						
+						<sec:authentication property="principal.username" var="username"/>
+						<c:if test="${clubBoard.writer eq username or ClubMemberRole != 0}">
 							<div>
-								<button type="button" class="btn btn-secondary btn-lg"
-									onclick="updateButton()">수정</button>
-								<button type="button" class="btn btn-secondary btn-lg"
-									onclick="deleteButton()">삭제</button>
+								<div>
+									
+									<button type="button" class="btn btn-secondary btn-lg"
+										onclick="updateButton();">수정</button>
+									<button type="button" class="btn btn-secondary btn-lg"
+										onclick="deleteButton();">삭제</button>
+								</div>
 							</div>
-						</div>
+						</c:if>
+						
+						
 					</div>
 					<div class="card-footer">
 						작성일: ${clubBoard.createdAt}
@@ -133,21 +141,15 @@
 							src="${pageContext.request.contextPath}/resources/upload/member/profile/${comment.profile}"
 							alt="">
 						<div class="profile-info">
-							<h2 class="name">${comment.writer}</h2>
+							<h2 class="name">${comment.nickname}</h2>
 							<p class="comment">${comment.content}</p>
 						</div>
 					</div>
 
 				</c:forEach>
-
 			</c:if>
-
 		</div>
-
-
 	</div>
-
-
 
 	<form:form name="detailFrm"></form:form>
 
@@ -155,15 +157,15 @@
 
 <script>
 	
-	document.querySelector("#comment-textarea").addEventListener("keydown",(e)=>{
+	document.querySelector("#comment-textarea").addEventListener("keydown", (e) => {
 		 if (e.key === "Enter" && !e.shiftKey) {
 			 e.preventDefault();
 			 creatComment();
 		 }
 	});
 		
-	
-	const creatComment=()=>{
+	// 비동기 댓글작성 후 출력
+	const creatComment = () => {
 		const commentContent=document.querySelector("#comment-textarea");
 		const content= commentContent.value;
 		const boardId=${clubBoard.boardId};
@@ -171,19 +173,16 @@
 		
 		commentContent.value="";
 		
-		console.log(content);
-		console.log(boardId);
-		
 		$.ajax({
 			url : '${pageContext.request.contextPath}/club/${domain}/createComment.do',
 			method:"POST",
-			data :{boardId,content},
+			data :{boardId, content},
 			headers: {
 				"X-CSRF-TOKEN": token
 			},
 			success(data) {
-				console.log(data);
-				const {boardId,commentId,commentLevel,commentRef,content,createdAt,status,writer,profile}=data;
+				// console.log(data);
+				const {boardId, commentId, commentLevel, commentRef, content, createdAt, status, nickname, profile} = data;
 				
 				const newCommentDiv = document.createElement("div");
 				newCommentDiv.className="profile-card";
@@ -192,7 +191,7 @@
 					src="http://localhost:8080/dagachi/resources/upload/member/profile/\${profile}"
 					alt="">
 					<div class="profile-info">
-						<h2 class="name">\${writer}</h2>
+						<h2 class="name">\${nickname}</h2>
 						<p class="comment">\${content}</p>
 					</div>
 				`;
@@ -224,9 +223,9 @@
 				headers: {
 					"X-CSRF-TOKEN": token
 				},
-				success(data) {
-					alert(data);
-					window.location.href = "${pageContext.request.contextPath}/club/${domain}/clubBoardList.do";
+				success(msg) {
+					alert(msg);
+					window.location.href = "${pageContext.request.contextPath}/club/${domain}/clubBoardList.do?no=0";
 				}
 			});
 		}
