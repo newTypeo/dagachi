@@ -1,6 +1,40 @@
 @CHARSET "UTF-8";
 
-#chatBox {
+/* #chatBox {
 	height: 550px;
 	background-color: yellow;
+} */
+
+#chatBox {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 100%;
+}
+
+#chatListBox {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 10px 10px 0 0;
+  overflow: hidden;
+}
+
+#chatListBox th {
+  background-color: #f7f7f7;
+  padding: 10px;
+  text-align: left;
+  font-weight: bold;
+}
+
+#chatListBox td {
+  padding: 15px 10px;
+}
+
+#chatListBox tbody tr:nth-child(even) {
+  background-color: #f7f7f7;
+}
+
+#chatListBox tbody tr:hover {
+  background-color: #eaeaea;
 }

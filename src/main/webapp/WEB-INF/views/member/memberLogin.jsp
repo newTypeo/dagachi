@@ -108,13 +108,13 @@
 	
 	<div class="inputGroup inputGroup1">
 	
-		<label for="memberId">아이디</label>
-		<input type="text" id="email" class="email" maxlength="256" name="memberId" placeholder="Id를 입력하세요"  />
+		<label for="memberId">ID</label>
+		<input type="text" id="email" class="email" maxlength="30" name="memberId" value="honggd"/>
 		<span class="indicator"></span>
 	</div>
 	<div class="inputGroup inputGroup2">
-		<label for="password">비밀번호</label>
-		<input type="password" id="password" class="password" name="password"/>
+		<label for="password">PASSWORD</label>
+		<input type="password" id="password" class="password" name="password" value="1234"/>
 	</div>
 	<div class="inputGroup inputGroup3">
 		<c:if test="${param.error ne null}">
@@ -123,26 +123,25 @@
 			</div>
 		</c:if>
 						
-		<button  type="submit" id="login">로그인</button>
+		<button  type="submit" id="login">LOG-IN</button>
 		
 	</div>	
 		<div>
 			<input type="checkbox" class="form-check-input" name="remember-me" id="remember-me"/>
 			<label for="remember-me" class="form-check-label">Remember me</label>
 		</div>
-	<div>
+		<br/>
+	<div class = kakaoLoginDiv>
 		 <a href="${pageContext.request.contextPath}/oauth2/authorization/kakao">
 			<img src="${pageContext.request.contextPath}/resources/kakao/kakao_login_medium_narrow.png" alt="카카오 로그인">
 		 </a>
 		 
+		 <br/>
 		 		<!-- 아이디 찾기 버튼(준한) -->	
-		<div class = "search-memberId-btn">
-			<input type="button" value="아이디 찾기" onclick="showIdPopup();">
-		</div>
-		
+		<div class = "search-memberId-div">
+			<input type="button" value="아이디 찾기" onclick="showIdPopup();" class ="searchIdBtn">
 		<!-- 비밀번호 찾기 버튼(준한) -->	
-		<div class = "search-memberPw-btn">
-			<input type="button" value="비밀번호 찾기" onclick="showPwPopup();">
+			<input type="button" value="비밀번호 찾기" onclick="showPwPopup();" class ="searchPwBtn">
 		</div>
 		
 	</div>	
@@ -154,12 +153,12 @@
 <script>
 /* 아이디 찾기 */
 function showIdPopup(){
-    window.open("${pageContext.request.contextPath}/member/searchId.do","팝업 테스트","width=500, height=500, top=200, left=500");
+    window.open("${pageContext.request.contextPath}/member/searchId.do","팝업 테스트","width=500, height=500, top=200, left=695");
 }
 
 /* 비밀번호 찾기 */
 function showPwPopup(){
-    window.open("${pageContext.request.contextPath}/member/searchPw.do","팝업 테스트","width=500, height=500, top=200, left=500");
+    window.open("${pageContext.request.contextPath}/member/searchPw.do","팝업 테스트","width=500, height=500, top=200, left=695");
 }
 </script>
 

@@ -8,6 +8,11 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
+<style>
+#alarmBox{
+            visibility: hidden;
+}
+</style>
 <head>
 <meta charset="UTF-8">
 <title>다가치</title>
@@ -44,12 +49,30 @@
 <!-- 사용자작성 css -->
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/style.css" />
-	
+
 <!-- 토큰 -->
 <meta id="_csrf" name="_csrf" content="${_csrf.token}" />
-<meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}" />
+<meta id="_csrf_header" name="_csrf_header"
+	content="${_csrf.headerName}" />
 
 </head>
+<sec:authorize access="isAuthenticated()">
+	<script >
+		const memberId= "<sec:authentication property="principal.memberId"/>";
+		window.roomMaps = new Map();
+	</script>
+
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"
+		integrity="sha512-1QvjE7BtotQjkq8PxLeF6P46gEpBRXuskzIVgjFpekzFVF4yjRgrQvTG1MTOJ3yQgvTteKAcO7DSZI92+u/yZw=="
+		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"
+		integrity="sha512-iKDtgDyTHjAitUDdLljGhenhPwrbBfqTKWO1mkhSFH3A7blITC9MhYon6SjnMhp4o0rADGw9yAC6EW4t5a4K3g=="
+		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/stomp.js"></script>
+</sec:authorize>
+
 <body>
 	<sec:authorize access="isAuthenticated()">
 		<form:form name="memberLogoutFrm"
@@ -69,33 +92,56 @@
 			<sec:authorize access="isAnonymous()">
 				<div id="header-nav-container">
 					<a href="${pageContext.request.contextPath}/member/memberLogin.do">로그인</a>
-					<span>|</span> 
-					<a href="${pageContext.request.contextPath}/member/memberCreate.do">회원가입</a>
+					<span>|</span> <a
+						href="${pageContext.request.contextPath}/member/memberCreate.do">회원가입</a>
 				</div>
 			</sec:authorize>
 
 			<sec:authorize access="isAuthenticated()">
 				<div id="header-nav-container">
-				    <span>
-				    <a title="<sec:authentication property="authorities"/>" href="${pageContext.request.contextPath}/member/<sec:authentication property="principal.memberId"/>">
-				    	<sec:authentication property="principal.nickname"/>
-				    </a>님</span>
-				    <span>|</span> 
-				    <a href="${pageContext.request.contextPath}/member/memberAdminInquiryList.do">문의하기</a>
-				    <span>|</span> 
-				    <a type="button" onclick="document.memberLogoutFrm.submit();">로그아웃</a>
+						 <i class="fa-solid fa-bell fa-beat"></i> 
+						 <i id="bell" class="fa-solid fa-bell"></i> 
+							<div  id="alarmBox" class="" > 
+								sdasdffasdfasdf
+							</div>
+					<span>
+						 	<a title="<sec:authentication property="authorities"/>"
+							href="${pageContext.request.contextPath}/member/<sec:authentication property="principal.memberId"/>">
+								<sec:authentication property="principal.nickname" />
+						</a>님
+					</span> <span>|</span> <a
+						href="${pageContext.request.contextPath}/member/memberAdminInquiryList.do">문의하기</a>
+					<span>|</span> <a type="button"
+						onclick="document.memberLogoutFrm.submit();">로그아웃</a>
 				</div>
 
 				<div class="dropdown">
-					<button id="admin-nav-btn" class="btn btn-secondary dropdown-toggle" type="button"
+					<button id="admin-nav-btn"
+						class="btn btn-secondary dropdown-toggle" type="button"
 						data-toggle="dropdown" aria-expanded="false">회원관리</button>
 					<div class="dropdown-menu">
-						<button class="dropdown-item" type="button"><a href="${pageContext.request.contextPath}/admin/adminMemberList.do?keyword=&column=">회원조회</a></button>
-						<button class="dropdown-item" type="button"><a href="${pageContext.request.contextPath}/admin/adminQuitMemberList.do?keyword=&column=">탈퇴회원조회</a></button>
-						<button class="dropdown-item" type="button"><a href="${pageContext.request.contextPath}/admin/adminReportMemberList.do?keyword=&column=">신고회원조회</a></button>
-						<button class="dropdown-item" type="button"><a href="${pageContext.request.contextPath}/admin/adminClubList.do?keyword=&column=">모임목록</a></button>
-						<button class="dropdown-item" type="button"><a href="${pageContext.request.contextPath}/admin/adminInquiryList.do?">문의 목록/답변(관리자)</a></button>
-				
+						<button class="dropdown-item" type="button">
+							<a
+								href="${pageContext.request.contextPath}/admin/adminMemberList.do?keyword=&column=">회원조회</a>
+						</button>
+						<button class="dropdown-item" type="button">
+							<a
+								href="${pageContext.request.contextPath}/admin/adminQuitMemberList.do?keyword=&column=">탈퇴회원조회</a>
+						</button>
+						<button class="dropdown-item" type="button">
+							<a
+								href="${pageContext.request.contextPath}/admin/adminReportMemberList.do?keyword=&column=">신고회원조회</a>
+						</button>
+						<button class="dropdown-item" type="button">
+							<a
+								href="${pageContext.request.contextPath}/admin/adminClubList.do?keyword=&column=">모임목록</a>
+						</button>
+						<button class="dropdown-item" type="button">
+							<a
+								href="${pageContext.request.contextPath}/admin/adminInquiryList.do?">문의
+								목록/답변(관리자)</a>
+						</button>
+
 					</div>
 				</div>
 
@@ -125,13 +171,36 @@
 					}// success2
 				}); // ajax1
 				
-				
-				
 				</script>
 				</c:if>
+				
+				<script>
+				
+			/* 	document.querySelector("#bell").addEventListener("click",(e)=>{
+					console.log(e.target);
+					const bell=e.target;
+					bell.classList.remove("fa-beat");
+					
+					const alarmToggle=document.querySelector("#alarmBox");
+					
+					 if (alarmBox.style.visibility === "hidden") {
+						 alarmBox.style.visibility = "visible";
+					console.log(alarmBox);
+						 console.log("visible");
+					 }else{
+						 alarmBox.style.visibility = "hidden";
+						 console.log("hidden");
+					console.log(alarmBox);
+					 }
+				});
+				
+				
+				const alarmLoad=()=>{
+					
+				}; */
+				
+				</script>
 
 			</sec:authorize>
 
 		</header>
-
-		

@@ -463,7 +463,7 @@ public class ClubServiceImpl implements ClubService {
 		List<Member> member = new ArrayList<>();
 		for (Member mn : memberName) {
 			String id = mn.getMemberId();
-			member.add(clubRepository.findMembersById(id));
+			member.add(clubRepository.findMemberById(id));
 		}
 
 		List<ClubMemberAndImage> members = new ArrayList<>();
@@ -598,4 +598,13 @@ public class ClubServiceImpl implements ClubService {
 		return clubRepository.findBoardComment(commentId);
 	}
 	
+	@Override
+	public int clubMemberDelete(Map<String, Object> params) {
+		return clubRepository.clubMemberDelete(params);
+	}
+	
+	@Override
+	public ClubMember findClubMemberRoleByClubId(Map<String, Object> params) {
+		return clubRepository.findClubMemberRoleByClubId(params);
+	}
 }

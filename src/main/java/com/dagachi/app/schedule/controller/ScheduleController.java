@@ -1,5 +1,7 @@
 package com.dagachi.app.schedule.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,10 +21,13 @@ import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubSchedule;
+import com.dagachi.app.club.entity.ClubSchedulePlace;
 import com.dagachi.app.club.service.ClubService;
+import com.dagachi.app.common.DagachiUtils;
 import com.dagachi.app.member.entity.MemberDetails;
 import com.dagachi.app.schedule.dto.ScheduleAndWriterProfileDto;
 import com.dagachi.app.schedule.dto.ScheduleDetailsDto;
+import com.dagachi.app.schedule.entity.ClubSchedulePlaceDetail;
 import com.dagachi.app.schedule.service.ScheduleService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -53,20 +58,26 @@ public class ScheduleController {
 			@PathVariable("domain") String domain, 
 			@RequestParam int no,
 			@AuthenticationPrincipal MemberDetails member,
-			Model model) {
+			Model model) throws UnsupportedEncodingException {
 		
 		// ScheduleDetailsDto scheduleDetails = scheduleService.findScheduleDetailById(no);
-		ScheduleAndWriterProfileDto schedule = scheduleService.findscheduleById(no);
+		ScheduleDetailsDto schedule = scheduleService.findscheduleById(no);
 		Club club = clubService.findByDomain(domain);
 		ClubLayout layout = clubService.findLayoutById(club.getClubId());
 		Map<String, Object> mIdAndcId = Map.of(
 				"memberId", schedule.getWriter(), 
 				"clubId", club.getClubId());
-		ClubMember clubMember = scheduleService.getWriterInfo(mIdAndcId); 
+		ClubMember clubMember = scheduleService.getWriterInfo(mIdAndcId);
 		
-		System.out.println(member);
+		for (ClubSchedulePlaceDetail place : schedule.getPlaces()) {
+			double[] coordinate = DagachiUtils.getPlaceCoordinate(place.getAddress());
+			place.setXCo(coordinate[0]);
+			place.setYCo(coordinate[1]);
+		}
 		
+		double[] myHome = DagachiUtils.getPlaceCoordinate(member.getAddress());
 		
+		model.addAttribute("myHome", myHome);
 		model.addAttribute("clubName", club.getClubName());
 		model.addAttribute("schedule", schedule);
 		model.addAttribute("clubMember", clubMember);

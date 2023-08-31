@@ -323,7 +323,8 @@ document.addEventListener('DOMContentLoaded', function() {
 				initialView: 'dayGridMonth',
 				height: '533px',
 				locale: 'ko',
-				events : eventLists
+				events : eventLists,
+				defaultAllDay : true
 			});
 			calendar.render();
 			
