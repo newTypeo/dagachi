@@ -126,9 +126,22 @@ function getPath(elem) {
 	
 	getPoint(startSeq, endSeq, leng); // 마커를 표시하고 지도 위치 이동
 	
+	var keywordUrl = ''; // url뒤에 붙을 내용
+	var origin = '';
+	var waypoints = '';
+	var origin = '';
+	
 	for (let i = startSeq; i <= endSeq; i++) {
 		var x = parseFloat(document.querySelector(".seq"+i).classList[1]);
 		var y = parseFloat(document.querySelector(".seq"+i).classList[2]);
+		
+		if (i == startSeq) {
+			console.log("start");
+		} else if (i == endSeq) {
+			console.log("end");
+		} else {
+			console.log("sd")	
+		}
 		
 		console.log(x);
 		console.log(y);
