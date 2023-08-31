@@ -207,7 +207,7 @@ public class ClubController {
 															       .content(_board.getContent())
 															        .title(_board.getTitle()).build();
 		int result = clubService.postBoard(clubBoard);
-		return "redirect:/" + domain + "/clubBoardList.do";
+		return "redirect:/club/" + domain + "/clubBoardList.do?no=0";
 	}
 
 	/**
