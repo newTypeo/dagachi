@@ -33,10 +33,11 @@ public class StompMessageController {
 	 * 
 	 * @return
 	 */
-	@MessageMapping("/notice")
-	@SendTo("/app/notice")
-	public Payload notice(Payload message) {
+	@MessageMapping("/notice/{memberId}")
+	@SendTo("/app/notice/{memberId}")
+	public Payload notice(@DestinationVariable String memberId,Payload message) {
 		log.debug("message = {}", message);
+		log.debug("memberId = {}", memberId);
 		// notificationService.insertNotification(message);
 		return message;
 	}
@@ -53,6 +54,8 @@ public class StompMessageController {
 				.build();
 		
 		int result=chatService.sendClubChat(chatlog);
+		int alarmResult=notificationService.sendChatalarm(chatlog);
+		
 		
 		return message;
 	}
