@@ -79,6 +79,7 @@ button:hover {
 .listTable {
   width: 100%;
   border-collapse: collapse;
+  margin-top: 5px;
 }
 
 .listTable th,
