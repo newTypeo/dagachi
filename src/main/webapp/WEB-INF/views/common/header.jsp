@@ -54,7 +54,7 @@
 <sec:authorize access="isAuthenticated()">
 	<script >
 		const memberId= "<sec:authentication property="principal.memberId"/>";
-		const roomMaps = new Map();
+		window.roomMaps = new Map();
 	</script>
 
 	<script

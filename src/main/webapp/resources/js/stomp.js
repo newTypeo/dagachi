@@ -38,27 +38,29 @@ const renderMessage = (message) => {
 		case "CHATNOTICE":
 			const alarmWrap=window.parent.document.querySelector("#alarmBox");
 			const roomMaps= window.parent.roomMaps;
-			console.log(roomMaps);
-			const chatRoomCheck=window.parent.document.querySelector("#content");
-			if(chatRoomCheck !== chatRoomCheck){
-				roomMaps.set(content, (0));
+			console.log(roomMaps,"룸 널인지 확인");
+			const divId=`#${content.replace(/\s/g, "_")}`;
+			const spanId=`#${content.replace(/\s/g, "-")}`;
+			const chatRoomCheck=window.parent.document.querySelector(divId);
+			console.log(window.parent.document.querySelector(spanId),spanId,content.replace(/\s/g, "."));
+			if(chatRoomCheck === null){
+				roomMaps.set(content, 1);
 				const alarmDiv=document.createElement('div');
-				alarmDiv.setAttribute('id', content);
+				alarmDiv.setAttribute('id', content.replace(/\s/g, "_"));
 				alarmDiv.className = 'list-group';
 				alarmDiv.innerHTML=`
 					 <a href="#" class="list-group-item list-group-item-action list-group-item-light">
 						${content} :새로운 메세지가 도착하였습니다 
+						<span id="${content.replace(/\s/g, "-")}" class="badge badge-primary">
+							${roomMaps.get(content)}
+						</span>
 					</a>
-					<span id="" class="badge badge-primary">
-						${roomMaps.get(content) || 1}
-					</span>
 				`;
 				alarmWrap.appendChild(alarmDiv);
 			}else{
-				roomMaps.set(content, (contentCountMap.get(content)) + 1)
-				window.parent.document.querySelector("#alarmBox").innerText=`
-						${roomMaps.get(content)}
-				`;
+				roomMaps.set(content, (roomMaps.get(content)+ 1));
+				
+				window.parent.document.querySelector(spanId).innerText=`${roomMaps.get(content)}`;
 			}
 			
 		
