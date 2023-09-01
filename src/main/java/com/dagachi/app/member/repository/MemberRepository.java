@@ -32,7 +32,7 @@ public interface MemberRepository {
 	
 	
 	//멤버 회원가입 
-	@Insert("insert into member values (#{memberId}, #{password},#{name}, #{nickname}, #{phoneNo}, #{email}, #{birthday, jdbcType=DATE}, #{gender}, #{mbti},  #{activityArea}, 0, SYSDATE, NULL, SYSDATE, NULL, 'Y')"
+	@Insert("insert into member values (#{memberId}, #{password},#{name}, #{nickname}, #{phoneNo}, #{email}, #{birthday, jdbcType=DATE}, #{gender}, #{mbti},  #{activityArea}, 0, SYSDATE, NULL, SYSDATE, NULL, 'Y', default)"
 	) 
 	int insertMember(MemberCreateDto member);
 	//회원가입 지역
@@ -43,12 +43,16 @@ public interface MemberRepository {
 	void insertMemberInterest(String memberId, String interest);
 	
 	//카카오톡 회원가입
-	@Insert("insert into member values (#{memberId}, #{password},#{name}, null , null, #{email}, null , null , null,  null , 0, SYSDATE, NULL, SYSDATE, NULL, 'Y')")
+	@Insert("insert into member values (#{memberId}, #{password},#{name}, null , null, #{email}, null , null , null,  null , 0, SYSDATE, NULL, SYSDATE, NULL, 'Y' , default)")
 	int KakaoMember(MemberKakaoDto memberKakaoDto);
 	
 	//카카오톡 회원 정보 업데이트
 	@Update("update set member where nickname = #{nickname}, phone_no=  #{phoneNo}, birthday = #{birthday, jdbcType=DATE}, gender = #{gender}, mbti = #{mbti},  address = #{activityArea}")
 	int kakaoUpadteCreate(MemberCreateDto member);
+	
+	//카카오톡 회원 업데이트 안한 사람 찾아오기
+	@Select("SELECT COUNT(*) FROM member WHERE member_id = CONCAT(#{memberId}, '@Kakao') AND phoneNo IS NULL")
+	UserDetails checkKakao(String memberId);
 	// 회원가입 ------------------
 	MemberDetails loadUserByUsername(String memberId);
 	
@@ -61,7 +65,7 @@ public interface MemberRepository {
 	//탈퇴회원 목록 조회 및 검색
 	List<Member> adminQuitMemberList(RowBounds rowBounds, Map<String, Object> params);
 	List<Member> adminQuitMemberList(Map<String, Object> params);
-	//신고회원 목록 조회 및 검색
+	//신고회원 findMemberById목록 조회 및 검색
 	List<Member> adminReportMemberList(RowBounds rowBounds, Map<String, Object> params);
 	List<Member> adminReportMemberList(Map<String, Object> params);
 
@@ -124,6 +128,9 @@ public interface MemberRepository {
 	
 	@Update("update member set password = #{password} where email = #{email}")
 	int memberPwUpdate(MemberPwUpdateDto memberPwUpdateDto);
+	
+	@Update("update member set create_club_cnt = create_club_cnt + 1 where member_id = #{memberId}")
+	int buyCreateClubTicket(String memberId);
 
 	
 }

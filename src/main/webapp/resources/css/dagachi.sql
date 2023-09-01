@@ -81,6 +81,7 @@ create sequence seq_main_page_id;
 create sequence seq_admin_notice_id;
 create sequence seq_alarm_id;
 
+
 ------------------------------------------------- 테이블 -------------------------------------------------
 create table member (
 	member_id	varchar2(30),
@@ -98,8 +99,8 @@ create table member (
 	withdrawal_date	date, --  COMMENT 'null 이면 회원'
 	password_change_date	date default sysdate,
 	last_login_date date,
-    status char(1) default 'Y',
-    create_club_cnt number default 0
+    status char(1) default 'Y'                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+    
 );
 
 -- security rememeberme 를 위해 만들어진 테이블
@@ -925,8 +926,8 @@ VALUES ('user29', 4, SYSDATE, 0, 1);
 INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
 VALUES ('user30', 4, SYSDATE, 0, 1);
 
---INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
---VALUES ('nayoung', 1, SYSDATE, 0, 1);
+INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
+VALUES ('nayoung', 1, SYSDATE, 0, 1);
 
 -- 회원권한 샘플
 insert into authority values('admin', 'ADMIN');
@@ -1292,13 +1293,13 @@ select * from club_member;
 
 SELECT * FROM club_member where member_id = 'honggd';
 
---insert into club_member values('honggd',2,default,default,0,default);
+insert into club_member values('honggd',2,default,default,0,default);
 insert into club_member values('honggd',3,default,default,0,default);
 insert into club_member values('honggd',4,default,default,0,default);
 insert into club_member values('honggd',5,default,default,0,default);
 
 
---insert into club_member values('user9',1,default,default,3,default);
+insert into club_member values('user9',1,default,default,3,default);
 insert into club_member values('user9',2,default,default,3,default);
 insert into club_member values('user9',3,default,default,3,default);
 insert into club_member values('user9',4,default,default,3,default);
@@ -1306,6 +1307,4 @@ insert into club_member values('user9',5,default,default,3,default);
 insert into club_member values('user9',6,default,default,3,default);
 insert into club_member values('user9',7,default,default,3,default);
 
-
 commit;
-
