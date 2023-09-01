@@ -357,6 +357,9 @@ public interface ClubRepository {
 	        "values (seq_club_gallery_attachment_id.nextval, #{galleryId}, #{originalFilename}, #{renamedFilename}, default , #{thumbnail})")
 	int insertAttachment(ClubGalleryAttachment attach);
 	
+	@Select("select count(*) from recent_visit_list where club_id = #{clubId} and member_id = #{memberId}")
+	int checkDuplicateClubIdAndId(Map<String, Object> params);
+	
 	
 }
    
