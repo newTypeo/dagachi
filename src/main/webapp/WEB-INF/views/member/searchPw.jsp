@@ -126,8 +126,6 @@ margin-left: 184px;
             }
         });
     });
-	
-	 
 	 
 	
 	</script>
