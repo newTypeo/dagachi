@@ -268,5 +268,17 @@ public class MemberServiceImpl implements MemberService{
 	public int buyCreateClubTicket(String memberId) {
 		return memberRepository.buyCreateClubTicket(memberId);
 	}
+
+
+	@Override
+	public Member checkNickNameDuplicate(String nickname) {
+		return memberRepository.checkNickNameDuplicate(nickname);
+	}
+
+
+	@Override
+	public Member checkEmailDuplicate(String email) {
+		return memberRepository.checkEmailDuplicate(email);
+	}
 	
 }

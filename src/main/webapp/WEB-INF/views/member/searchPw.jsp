@@ -85,8 +85,9 @@ margin-left: 184px;
 	
 	<div class="codeConpare-btn">
 	<button type="button" class="btn btn-primary" id="compareCodeBtn">인증번호 확인</button>
-	</form:form>	
 	</div>
+	</form:form>	
+	
 	
 	<script>
 	var token = $("meta[name='_csrf']").attr("content");

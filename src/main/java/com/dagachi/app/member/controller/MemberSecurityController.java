@@ -89,6 +89,12 @@ public class MemberSecurityController {
 	@PostMapping("/memberCreate.do")
 	public String create(@Valid MemberCreateDto member, BindingResult bindingResult, RedirectAttributes redirectAttr,
 			@RequestParam String interests) throws UnsupportedEncodingException {
+	
+		if(bindingResult.hasErrors()) {
+			ObjectError error = bindingResult.getAllErrors().get(0);
+			redirectAttr.addFlashAttribute("msg", error.getDefaultMessage());
+			return "redirect:/member/memberCreate.do";
+		} 
 	    
 		JsonArray documents = kakaoMapApi(member.getMainAreaId(), "address"); 
 	    JsonElement document = documents.getAsJsonArray().get(0);
