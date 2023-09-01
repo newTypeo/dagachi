@@ -6,8 +6,7 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="문의 관리" name="title" />
 </jsp:include>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin.css"/>
-
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/adminInquiry.css"/>
 <style>
 div#search-title {
 	display: inline-block;
@@ -34,55 +33,51 @@ div#search-content {
 	<div id="member-list-wrapper">
 		<div id="search-container">
 			<div id="searchBar-wrap">
-
-	<select class="searchType" id="inquiryType">
-		<option value="0" selected>카테고리 전체보기</option>
-		<option value="1">회원 정보 문의</option>
-		<option value="2">소모임 관련 문의</option>
-		<option value="3">결제 문의</option>
-		<option value="4">신고 문의</option>
-	</select>
-	
-	<select class="searchType" id="inquiryStatus">
-		<option value="1">답변</option>
-		<option value="2"> 비답변</option>
-		<option value="0" selected>답변여부 / 전체</option>
-	</select>
-
-		<div>
-			<label for="searchType">검색타입 :</label>
-			 <select id="searchType">
-				<option id="searchOption" value="title">제목</option>
-				<option id="searchOption" value="writer">작성자</option>
-				<option id="searchOption" value="content">내용</option>
-			</select>
-		</div>
-
-		<div id="search-title" class="search-type">
-			<form onsubmit="searchAdminInquiry(event)">
-				<input type="hidden" name="searchType" value="title" /> <input
-					type="text" name="searchKeyword" size="25"
-					placeholder="게시글의 제목을 입력하세요." />
-				<button type="submit">검색</button>
-			</form>
-		</div>
-
-		<div id="search-writer" class="search-type">
-			<form onsubmit="searchAdminInquiry(event)">
-				<input type="hidden" name="searchType" value="writer" /> <input
-					type="text" name="searchKeyword" size="25"
-					placeholder="검색할 아이디를 입력하세요." />
-				<button type="submit">검색</button>
-			</form>
-		</div>
-
-		<div id="search-content" class="search-type">
-			<form onsubmit="searcInquirydAdmin(event)">
-				<input type="hidden" name="searchType" value="content" /> <input
-					type="text" name="searchKeyword" size="25"
-					placeholder="게시글의 내용을 입력하세요."  />
-				<button type="submit">검색</button>
-			</form>
+				<div>
+					<select class="searchType" id="inquiryType">
+						<option value="0" selected>카테고리 전체보기</option>
+						<option value="1">회원 정보 문의</option>
+						<option value="2">소모임 관련 문의</option>
+						<option value="3">결제 문의</option>
+						<option value="4">신고 문의</option>
+					</select>
+					<select class="searchType" id="inquiryStatus">
+						<option value="1">답변</option>
+						<option value="2"> 비답변</option>
+						<option value="0" selected>답변여부 / 전체</option>
+					</select>
+					 <select id="searchType">
+						<option id="searchOption" value="title">제목</option>
+						<option id="searchOption" value="writer">작성자</option>
+						<option id="searchOption" value="content">내용</option>
+					</select>
+				</div>
+		
+				<div id="search-title" class="search-type">
+					<form onsubmit="searchAdminInquiry(event)">
+						<input type="hidden" name="searchType" value="title" /> <input
+							type="text" name="searchKeyword" size="25"
+							placeholder="게시글의 제목을 입력하세요." />
+						<button type="submit">검색</button>
+					</form>
+				</div>
+		
+				<div id="search-writer" class="search-type">
+					<form onsubmit="searchAdminInquiry(event)">
+						<input type="hidden" name="searchType" value="writer" /> <input
+							type="text" name="searchKeyword" size="25"
+							placeholder="검색할 아이디를 입력하세요." />
+						<button type="submit">검색</button>
+					</form>
+				</div>
+		
+				<div id="search-content" class="search-type">
+					<form onsubmit="searcInquirydAdmin(event)">
+						<input type="hidden" name="searchType" value="content" /> <input
+							type="text" name="searchKeyword" size="25"
+							placeholder="게시글의 내용을 입력하세요."  />
+						<button type="submit">검색</button>
+					</form>
 		</div>
 
 	<table  class="listTable" id="inquiryTable">

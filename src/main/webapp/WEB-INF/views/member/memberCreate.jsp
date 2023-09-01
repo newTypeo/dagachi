@@ -7,33 +7,58 @@
 <%@ taglib prefix="sec"
    uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/memberCreate.css"/>
-<link href="toggle-radios.css" rel="stylesheet" />
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="회원가입" name="title" />
 </jsp:include>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/memberCreate.css"/>
+<link href="toggle-radios.css" rel="stylesheet" />
+<!--   <script> 입력 안하면 sub,it 안되는거 만드드중 
+        window.onload = function () {
+            var requiredFields = document.querySelectorAll('.group input[required]');
+            var submitButton = document.querySelector('button[type="submit"]');
 
-<div class = "content_wrapping max_width_area">
-<div id="enroll-container" class="mx-auto text-center">
+            requiredFields.forEach(function (field) {
+                field.addEventListener('input', checkForm);
+            });
+            submitButton.disabled = true;
+        }
+        function checkForm() {
+            var requiredFields = document.querySelectorAll('.group input[required]');
+            var submitButton = document.querySelector('button[type="submit"]');
+            var allFieldsFilled = true;
+            requiredFields.forEach(function (field) {
+                if (field.value.trim() === '') {
+                    allFieldsFilled = false;
+                }
+            });
+            if (allFieldsFilled) {
+                submitButton.disabled = false;
+            } else {
+                submitButton.disabled = true;
+            }
+        }
+</script> -->
+ <div class="container">
+   <div class="member-container">
 	<div class = "main_area">
 	 <form:form name="memberCreateFrm"
 		  action="${pageContext.request.contextPath}/member/memberCreate.do"
 		  method="POST"
 		  enctype="multipart/form-data">
-		  
-		  <h1>회원가입</h1>
+	    <div class="header"> 
+          <div>회원 가입</div>
+		</div> 
 		  
 		<fieldset class = "area_agreement">
 		 <legend class="sub_title">필수 정보</legend>
-			<div class="group" >
+			<div class="fadeIn first">
 				<label>아이디</label>
 	               <div id="memberId-container">
 	                  <input type="text" 
 	                        class="form-control" 
-	                        placeholder="4글자이상"
+	                        placeholder="4글자이상 영문으로 된 아이디를 작성해주세요"
 	                        name="memberId" 
 	                        id="memberId"
-	                        value="nayoung11"
 	                        pattern="\w{4,}"
 	                        required>
 	                  <span class="guide ok">이 아이디는 사용가능합니다.</span>
@@ -43,44 +68,44 @@
 	               </div>			
 			</div>		
 			
-			<div  class="group" >
+			<div class="fadeIn first">
 				<label>비밀번호</label>
-					<input type="password" class="form-control" name="password" id="password" value="1234" placeholder="대소문자 영문,특수문자,숫자를 포함하여 9자 이상" required>
+					<input type="password" class="form-control" name="password" id="password"  placeholder="대소문자 영문,특수문자,숫자를 포함하여 9자 이상" required>
 					<span class="passwordAlert"></span>			
 			</div>		
-			<div class="group" >
+			<div class="fadeIn first">
 				<label>비밀번호 확인</label>
-					<input type="password" class="form-control" id="passwordConfirmation" value="1234" placeholder="위의 비밀번호를 다시 입력해주세요" required>
+					<input type="password" class="form-control" id="passwordConfirmation"  placeholder="위의 비밀번호를 다시 입력해주세요" required>
 			</div>		
 			
-			<div class="group" >
+			<div class="fadeIn first">
 				<label>이름</label>
-					<input type="text" class="form-control" name="name" id="name" value="김나영"  placeholder="이름 입력(2글자 이상)" required>
+					<input type="text" class="form-control" name="name" id="name" placeholder="이름 입력(2글자 이상)" required>
 					<span class="nameAlert"></span>
 			</div>	
 			
-			<div class="group" >
+			<div class="fadeIn first">
 				<label>닉네임</label>
-					<input type="text" class="form-control" name="nickname" id="nickname" value="나영너굴" placeholder="사용할 닉네임을 작성해주세요." required>
+					<input type="text" class="form-control" name="nickname" id="nickname"  placeholder="사용할 닉네임을 작성해주세요." required>
 					<span class="nicknameAlert"></span>			
 			</div>	
 			
-			<div class="group" >
+			<div class="fadeIn first">
 				<label>전화번호</label>
-					<input type="text" class="form-control"  name="phoneNo" id="phoneNo" value="010-8119-1111" placeholder="010-0000-0000 양식에 맞게 작성해주세요"  >
+					<input type="text" class="form-control"  name="phoneNo" id="phoneNo"  placeholder="010-0000-0000 양식에 맞게 작성해주세요"  >
 					<span class="phoneNoAlert"></span>
 			</div>	
 			
-			<div class="group" >
+			<div class="fadeIn first">
 				<label>생년월일</label>
-					<input type="date" class="form-control" name="birthday" id="birthday" value="2004-09-09"/>
+					<input type="date" class="form-control" name="birthday" id="birthday" />
 			</div>		
-			<div class="group" >
+			<div class="fadeIn first">
 				<label>이메일</label>
-					<input type="text" class="form-control"  name="email" id="email" value="nayoung11@naver.com" placeholder="이메일 양식에 맞게 작성해주세요">
+					<input type="text" class="form-control"  name="email" id="email" placeholder="이메일 양식에 맞게 작성해주세요">
 					<span class="emailAlert"></span>
 			</div>	
-			<div class="group" >
+			<div class="fadeIn first">
 				<label>성별</label>
 			        <input type="radio" name="gender" id="male" value="M" checked>
 			        <label for="male">남</label>
@@ -95,7 +120,7 @@
 		
 		 <legend class="sub_title">관심 정보</legend>
 		 
-				 <div  class="group" >
+				 <div class="fadeIn first">
 					<label for="activity_area">거주지</label> <!-- 필수값 지도 API 사용 + 상세 주소값 받아야함  -->
 						
 						<div class="input-group">
@@ -108,7 +133,7 @@
 					</div>
 						<!-- <input type="text" class="form-control"  name="address" id="address" value="서울시 역삼동 구리230-1번지"> -->
 				
-				<div  class="group" >
+				<div class="fadeIn first">
 					<label for="main_area_id">활동 지역</label>
 						<div class="input-group">
 							<input type="text" class="form-control" id="main_area_id" name="mainAreaId" placeholder="주로 활동할 지역을 입력해주세요" readonly aria-describedby="button-addon2">
@@ -121,7 +146,7 @@
 		</fieldset>
 		<fieldset class = "type">
 		<div>관심 정보</div>
-			<div  class="group" >
+			<div class="fadeIn first"> 
 			    <label for="mbti">MBTI</label>
 				        <div class="toggle-radio" data-style="rounded"> 
 								<label><input type="radio" name="mbti" value="ISTJ" class="custom-radio" checked> ISTJ</label>
@@ -138,11 +163,11 @@
 								<label><input type="radio" name="mbti" value="ENTP" class="custom-radio"> ENTP</label>
 								<label><input type="radio" name="mbti" value="ESTJ" class="custom-radio"> ESTJ</label>
 								<label><input type="radio" name="mbti" value="ESFJ" class="custom-radio"> ESFJ</label>
-								<label><input ty4pe="radio" name="mbti" value="ENFJ" class="custom-radio"> ENFJ</label>
+								<label><input type="radio" name="mbti" value="ENFJ" class="custom-radio"> ENFJ</label>
 								<label><input type="radio" name="mbti" value="ENTJ" class="custom-radio"> ENTJ</label>
 				        </div>
  					</div>
-				<div  class="group" >
+				<div class="fadeIn first"> 
 			    <label for="interests1">관심사</label>
 				        <div class="form-group">
 				            <label><input type="checkbox" name="interests" value="차/오토바이" checked> 차/오토바이</label>
@@ -172,7 +197,7 @@
   			
   			
                             <legend class="sub_title">이용약관 / 개인정보 수집 및 이용 동의</legend>
-                            <div class="agreement">
+                            <div class="agree-check">
                                 <div class="all_check_area">
                                     <input type="checkbox" id="all" class="all_check">
                                     <label for="all">전체동의</label>
@@ -232,14 +257,13 @@
                         </fieldset>
 
 
-
+		<div class="loginbtn">
 			<button type="submit">가입</button>
-		
+	    </div>	
 		</form:form>
 	</div>
 </div>
 <!-- 모달 -->
-
 	<!-- 모달 창 -->
 	<div id="myModal1" class="modal1">
 	    <div class="modal-content1">
@@ -347,7 +371,6 @@ window.addEventListener("click", function(event) {//모달 닫기 ( 외부)
 });
 
 
-
 // 관심사 체크
 const minInterestCount = 1;
 const maxInterestCount = 3;
@@ -366,6 +389,16 @@ interestCheckboxes.forEach((checkbox) => {
     });
 });
 
+
+// 전체동의 체크 
+document.getElementById("all").addEventListener("click", function () {
+    var checkboxes = document.querySelectorAll(".check");
+    var allChecked = this.checked;
+
+    checkboxes.forEach(function (checkbox) {
+        checkbox.checked = allChecked;
+    });
+});
 
 // 멤버 아이디 실시간 유효성 검사 ( 뭔가 이상함 )
 document.querySelector("#memberId").onkeyup = (e) => {
