@@ -102,7 +102,6 @@
 						 <i class="fa-solid fa-bell fa-beat"></i> 
 						 <i id="bell" class="fa-solid fa-bell"></i> 
 							<div  id="alarmBox" class="" > 
-								sdasdffasdfasdf
 							</div>
 					<span>
 						 	<a title="<sec:authentication property="authorities"/>"

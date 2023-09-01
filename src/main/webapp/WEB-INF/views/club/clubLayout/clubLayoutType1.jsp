@@ -45,7 +45,7 @@
 					<c:if test ="${memberRole eq 0}">
 						<p><strong>🎀일반회원</strong></p>
 					</c:if>
-					<p><a href="${pageContext.request.contextPath}/member/memberClubDetail.do">나의 모임 정보</a></p>
+					<p><a href="${pageContext.request.contextPath}/club/${domain}/memberClubDetail.do">나의 모임 정보</a></p>
 				</div>
 				<div class="myProfile3">
 					<button class="btn" style="background-color: ${layout.fontColor}">글쓰기</button>

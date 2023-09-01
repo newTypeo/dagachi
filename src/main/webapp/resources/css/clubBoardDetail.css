@@ -1,11 +1,10 @@
 @charset "UTF-8";
 
 .profile-card {
-	background-color: #ffffff;
 	border-radius: 10px;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 	display: flex;
-	padding: 20px;
+	padding: 12px;
 }
 
 .profile-picture {
@@ -44,8 +43,11 @@
 
 .comment-input {
 	display: flex;
-	align-items: center;
-	margin-top: 20px;
+	align-items : strech;
+	/* margin-top: 20px; */
+	width: 775px;
+    margin: 10 250px;
+    margin-top: 5px;
 }
 
 .comment-textarea {
@@ -56,6 +58,12 @@
 	resize: none;
 }
 
+#commentBox{
+	width: 850px;
+    margin: 15 auto;
+    align-items: stretch;
+}
+
 .comment-button {
 	background-color: #007bff;
 	color: #fff;
@@ -64,4 +72,8 @@
 	padding: 5px 10px;
 	margin-left: 10px;
 	cursor: pointer;
+}
+
+#count-input {
+	transform: translate(660px, 40px);
 }

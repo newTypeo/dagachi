@@ -278,19 +278,27 @@ h5, h3 {
 	border-radius: 2px;
 	padding: 10px 40px;
 }
-#schedule-content-container > div:first-of-type > figure {
+#info-wrapper {
+	display: flex;
+}
+#schedule-info {
+	font-weight: bold;
+	margin: 0 20px;
+}
+#writer-info > figure {
 
 }
-#schedule-content-container > div:first-of-type > figure > img {
+#writer-info > figure > img {
 	width: 60px;
 	border: 1px solid #aaa;
 	border-radius: 50%;
 }
-#schedule-content-container > div:first-of-type {
-	margin: 0 20px;
+#writer-info {
 	display: flex;
+	padding: 0 20px;
+	border-bottom: 1px solid;
 }
-#schedule-content-container > div:first-of-type > div {
+#writer-info > div {
 	margin: 5px 10px;
 }
 
@@ -299,21 +307,48 @@ h5, h3 {
 	margin: 10px;
 }
 #scc2-left {
-	background-color: lightblue;
-	width: 300px;
-	height: 800px;	
+	width: 400px;
+	margin-right: 14px;
 }
 #scc2-right {
-	background-color: lightgreen;
-	width: 800px;
-	height: 800px;	
+	width: 804px;
+	height: 804px;	
+	border: 2px solid;
+}
+.customOverlay {
+	background-color: #ddd;
+	font-weight: bold;
+	display: none;
+	padding: 10px;
+	border-radius: 5px;
+	transform: translate(-10px, -80px);
+}
+.accordion .card-header {
+	padding: 0;
+}
+.accordion .card-body {
+	border-bottom: 1px solid;
+	padding: 15px 20px;
+}
+#schedule-explain {
+	padding: 20px 10px;
 }
 
-
-
-
-
-
+.dropdown button {
+	height: 27px;
+    width: 110px;
+    padding: 0;
+}
+#schedule-enroll-form-container {
+	position: absolute;
+	transform: translate(1090px, 88px);
+}
+#schedule-enroll-form-container button {
+	font-weight: bold;
+	font-size: 24px;
+	background-color: #2990D0;
+	color: white;
+}
 
 
 

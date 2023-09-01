@@ -5,6 +5,11 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <jsp:include page="/WEB-INF/views/common/clubHeader.jsp"></jsp:include>
+<c:if test="${not empty msg}">
+	<script>
+		alert('${msg}');
+	</script>
+</c:if>
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/club.css"/>
 
@@ -39,8 +44,35 @@
 	</nav>
 
 	<div id="schedule-content-container">
-		<h3>${schedule.title}</h3>	
-		<div>
+		<div id="schedule-enroll-form-container">
+			<c:if test="${isEnrolled}">
+				<form:form action="${pageContext.request.contextPath}/club/${domain}/scheduleEnrollCancle.do" method="post">
+					<input type="hidden" name="no" value="${schedule.scheduleId}">
+					<button type="submit" class="btn">👎취소하기</button>
+				</form:form>
+			</c:if>
+			<c:if test="${!isEnrolled}">
+				<form:form action="${pageContext.request.contextPath}/club/${domain}/scheduleEnroll.do" method="post">
+					<input type="hidden" name="no" value="${schedule.scheduleId}">
+					<button type="submit" class="btn">🖐참여하기</button>
+				</form:form>
+			</c:if>
+		</div>
+		<h3>${schedule.title}</h3>
+		<div id="info-wrapper">
+			<span id="schedule-info"></span>
+			<div class="dropdown">
+				<button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+					참여자 보기
+				</button>
+				<div class="dropdown-menu">
+					<c:forEach items="${schedule.enrollMembers}" var="enrollMember">
+						<a class="dropdown-item" href="#">${enrollMember.getNickname()}</a>
+					</c:forEach>
+				</div>
+			</div>
+		</div>
+		<div id="writer-info" style="border-color: ${layout.pointColor}">
 			<figure>
 				<img src="${pageContext.request.contextPath}/resources/upload/member/profile/${schedule.renamedFilename}">
 			</figure>
@@ -67,8 +99,57 @@
 		</div>
 		<div id="schedule-content-container2">
 			<div id="scc2-left">
+				<div id="schedule-explain" class="fontColors">
+					${schedule.content}
+				</div>
+				<div class="accordion" id="accordionExample">
+				
+				  <div class="card">
+				    <div class="card-header" id="headingOne">
+				      <h2 class="mb-0">
+				        <button class="0to${schedule.places.size()} btn btn-block text-center onloadBtn" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" onclick="getPath(this);" >
+				          <i class="fa-solid fa-angles-down"></i> 전체경로
+				        </button>
+				      </h2>
+				    </div>
+				    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+				      <div class="card-body" style="border-color: ${layout.pointColor}">
+				      	<span class="duration0to${schedule.places.size()}"></span>
+				      </div>
+				    </div>
+					<h5 class="seq0 ${myHome[0]} ${myHome[1]}">우리집</h5>
+				  </div>
+				  <c:set var="preAddress" value="${myAddress}" />
+				  
+				  <c:forEach items="${schedule.places}" var="place" varStatus="vs">
+				  	<div class="card">
+				      <div class="card-header">
+				        <h2 class="mb-0">
+				          <button class="${vs.index}to${vs.index+1} btn btn-block text-center collapsed" type="button" data-toggle="collapse" data-target="#collapse${vs.index}" aria-expanded="false" aria-controls="collapse${vs.index}" onclick="getPath(this);">
+				            <i class="fa-solid fa-angles-down"></i> 경로
+  				          </button>
+	  			        </h2>
+		  		      </div>
+				      <div id="collapse${vs.index}" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+				        <div class="card-body" style="border-color: ${layout.pointColor}">
+				          <span class="duration${vs.index}to${vs.index+1}"></span>
+				          <br>
+				          <span>상세주소 : ${place.getAddress()}, ${place.getDetails()}</span>
+				          <br>
+				          <strong><a href="https://map.kakao.com/?sName=${preAddress}&eName=${place.getAddress()}"  target="_blank">대중교통 보기</a></strong>
+				        </div>
+				      </div>
+					  <h5 class="seq${place.sequence} ${place.getXCo()} ${place.getYCo()}">(${place.sequence})${place.name} - 
+					    <fmt:parseDate value="${place.startTime}" pattern="yyyy-MM-dd'T'HH:mm" var="startTime"/>
+    					<fmt:formatDate value="${startTime}" pattern="MM.dd HH:mm"/>
+					  </h5>									
+				    </div>
+				    
+				    <c:set var="preAddress" value="${place.address}" />
+				  </c:forEach>
+				</div>
 			</div>
-			<div id="scc2-right">
+			<div id="scc2-right" style="border-color: ${layout.pointColor}">
 				<div id="map" style="width:800px;height:800px;"></div>
 			</div>
 		</div>
@@ -77,11 +158,7 @@
 	
 	
 </section>
-
-<div>${schedule}</div>
-<div>
-</div>
-
+<div>${schedule.enrollMembers}</div>
 <script>
 
 document.body.style.background = '${layout.backgroundColor}';
@@ -108,6 +185,7 @@ var options = {
 var map = new kakao.maps.Map(container, options);
 
 window.addEventListener('DOMContentLoaded', function() {
+
     // 버튼 클릭 효과 처리
     document.querySelector('.onloadBtn').click();
 });
@@ -124,8 +202,8 @@ var polyline = new kakao.maps.Polyline({
 
 function getPath(elem) {
 	polyline.setMap(null);
-	const startSeq = elem.classList[0].split("to")[0];
-	const endSeq = elem.classList[0].split("to")[1];
+	const startSeq = parseInt(elem.classList[0].split("to")[0]);
+	const endSeq = parseInt(elem.classList[0].split("to")[1]);
 	var leng = endSeq - startSeq + 1;
 	
 	getPoint(startSeq, endSeq, leng); // 마커를 표시하고 지도 위치 이동
@@ -161,7 +239,6 @@ function getPath(elem) {
 	})
 	.then(response => response.json())
 	.then(data => {
-		
 		const linePath = [];
 		data.routes[0].sections.forEach((section) => {
 			section.roads.forEach((road) => {
@@ -174,6 +251,9 @@ function getPath(elem) {
 				});
 			});
 		});
+		var time = secondsToTime(data.routes[0].summary.duration);
+		var formattedTime = formatTime(time);
+		document.querySelector(`.duration\${startSeq}to\${endSeq}`).innerHTML = "소요시간 : " + formattedTime;
 		polyline.setPath(linePath);
 		polyline.setMap(map);
 	})
@@ -207,10 +287,26 @@ function getPoint(startSeq, endSeq, leng) {
 	for (let i = startSeq; i <= endSeq; i++) {
 		var x = parseFloat(document.querySelector(".seq"+i).classList[1]);
 		var y = parseFloat(document.querySelector(".seq"+i).classList[2]);
+		var placeName = document.querySelector(".seq"+i).innerHTML;
 		var marker = new kakao.maps.Marker({
 		    position: new kakao.maps.LatLng(y, x)
 		});
 	    marker.setMap(map); // 마커 추가
+	    
+	    var customOverlay = new kakao.maps.CustomOverlay({
+	        map: map,
+	        clickable: true,
+	        content: `<div class="customOverlay customOverlay\${i}">\${placeName}</a></div>`,
+	        position: new kakao.maps.LatLng(y, x),
+	        zIndex: 3
+	    });
+	    customOverlay.setMap(map);
+		kakao.maps.event.addListener(marker, 'mouseover', function() {
+			document.querySelector(".customOverlay"+i).style.display = "block";
+		});
+		kakao.maps.event.addListener(marker, 'mouseout', function() {
+			document.querySelector(".customOverlay"+i).style.display = "none";
+		});
 	    
 	    var extraLatLng = new kakao.maps.LatLng(y, x);
 	    bounds.extend(extraLatLng); // 마커가 다 보이도록 영역 확장
@@ -221,35 +317,36 @@ function getPoint(startSeq, endSeq, leng) {
 
 // --------------------------------------------------
 
-var startDate = new Date('${schedule.getStartDate()}');
-var endDate = new Date('${schedule.getEndDate()}');
-const scc2Left = document.querySelector("#scc2-left");
-var index = 0;
-var currentDate = new Date(startDate);
 
-while (currentDate <= endDate) {
-	scc2Left.insertAdjacentHTML("beforeend", `
-		<div class="scheduleSlide\${index}"></div>		
-	`);
-	console.log(currentDate);
-    currentDate.setDate(currentDate.getDate() + 1);
-    index++;
+function secondsToTime(seconds) {
+    var hours = Math.floor(seconds / 3600);
+    var minutes = Math.floor((seconds % 3600) / 60);
+    return {
+        hours: hours,
+        minutes: minutes
+    };
 }
 
+function formatTime(time) {
+    var formattedTime = "";
+    if (time.hours > 0) {
+        formattedTime += time.hours + "시간 ";
+    }
+    formattedTime += time.minutes + "분";
+    return formattedTime;
+}
 
+//------------------------------------------------------
+const scheduleInfo = document.querySelector("#schedule-info");
+var scheduleDate = '';
+if ('${schedule.startDate}' == '${schedule.endDate}') {
+	scheduleDate = '${schedule.startDate}'.substring(0, 10);
+} else {
+	scheduleDate = '${schedule.startDate}'.substring(0, 10) + ' ~ ' + '${schedule.endDate}'.substring(0, 10);
+}
 
-
-
-document.querySelector(".scheduleSlide0").innerHTML = `
-	<div></div>
-	<button class="0to${schedule.places.size()} btn btn-primary onloadBtn" onclick="getPath(this);">전체경로</button>
-	<h5 class="seq0 ${myHome[0]} ${myHome[1]}">우리집</h5>
-	<c:forEach items="${schedule.places}" var="place" varStatus="vs">
-		<button class="${vs.index}to${vs.index+1} btn btn-primary" onclick="getPath(this);">경로</button>
-		<h5 class="seq${place.sequence} ${place.getXCo()} ${place.getYCo()}">${place.name}</h5>									
-	</c:forEach>
-`;
-
+var scheduleEnroll = '(${schedule.enrollMembers.size()}/${schedule.capacity})';
+scheduleInfo.innerHTML = scheduleDate + ' / 참여인원' + scheduleEnroll;
 
 </script>
 
