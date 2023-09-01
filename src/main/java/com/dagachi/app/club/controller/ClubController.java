@@ -345,7 +345,8 @@ public class ClubController {
 	 */
 	@PostMapping("/{domain}/manageApply.do")
 	public String permitApply(@PathVariable("domain") String domain, ClubManageApplyDto clubManageApplyDto) {
-
+		
+		log.debug("ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ = {}" ,clubManageApplyDto);
 		if (clubManageApplyDto.isPermit())
 			clubService.permitApply(clubManageApplyDto); // 가입 승인
 		else
