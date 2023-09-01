@@ -51,8 +51,8 @@
 	href="${pageContext.request.contextPath}/resources/css/style.css" />
 <style>
  .resized-image {
-            width: 100%; /* 원하는 크기로 조절 */
-            height: auto; /* 가로 세로 비율을 유지하기 위해 */
+    width: 100%; /* 원하는 크기로 조절 */
+    height: auto; /* 가로 세로 비율을 유지하기 위해 */
 }
 #chatWrap {
 	overflow-y: scroll;

@@ -37,6 +37,13 @@ section {
 }
 
 /********** header **********/
+#main-letter-logo {
+    position: absolute;
+    transform: translate(-430px, 45px);
+    width: 142px;
+    height: 71px;
+}
+
 header {
 	height: 120px;
 	margin: 0 auto;

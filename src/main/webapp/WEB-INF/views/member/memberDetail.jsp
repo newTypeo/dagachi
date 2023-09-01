@@ -75,7 +75,7 @@
 	</figcaption>
 	<img
 		src="${pageContext.request.contextPath}/resources/upload/member/profile/${memberProfile.renamedFilename}"
-		alt="sample7" style="width: 260px; height: 280px;" />
+		alt="sample7" style="width: 280px; height: 280px;" />
 	<div class="position">My Profile</div>
 </figure>
  <div class="container2">
@@ -124,7 +124,7 @@
 		<!-- 로그인한 객체가 보고있는 객체가 같을 때 -->
 		<strong class="title-headLine">최근 본 모임</strong>
 		<c:if test="${empty clubAndImages}">
-			<h1>최근 조회하신 모임이 없습니다.</h1>
+			<p>&nbsp;&nbsp;&nbsp;&nbsp;최근 조회하신 모임이 없습니다.</p>
 		</c:if>
 
 		<c:if test="${not empty clubAndImages}">
@@ -151,7 +151,7 @@
 	<br>
 	<strong class="title-headLine">가입 되어있는 모임</strong>
 	<c:if test="${empty joinClub}">
-		<h1>최근 조회하신 모임이 없습니다.</h1>
+		<p>&nbsp;&nbsp;&nbsp;&nbsp;최근 조회하신 모임이 없습니다.</p>
 	</c:if>
 
 	<c:if test="${not empty joinClub}">
@@ -176,7 +176,7 @@
 	<br>
 	<strong class="title-headLine">찜 되어있는 모임</strong>
 	<c:if test="${empty clubLikeAndImages}">
-		<h1>찜하신 모임이 없습니다.</h1>
+		<p>&nbsp;&nbsp;&nbsp;&nbsp;찜하신 모임이 없습니다.</p>
 	</c:if>
 
 	<c:if test="${not empty clubLikeAndImages}">

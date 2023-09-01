@@ -14,9 +14,7 @@
 	background: white; */
 }
 
-#chat-open-btn:hover {
-	cursor: pointer;
-}
+#chat-open-btn:hover {cursor: pointer;}
 
 #chat-wrapper {
 	width: 300px;
@@ -30,13 +28,14 @@
     display: none;
 }
 
-#chat-box-title {
-	height: 50px;
-}
+#chat-box-title {height: 50px;}
+
+/* 채팅이모티콘 */
+.fa-cat {font-size : 60px;}
 </style>
 
 <div id="chat-open-btn">
-	<i class="fa-solid fa-shield-cat fa-2xl" style="color: #1064f4;"></i>
+	<i class="fa-solid fa-cat" style="color: #1060ea;"></i>
 </div>
 <!-- <button id="chat-open-btn">
 	chat
