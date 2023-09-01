@@ -95,44 +95,35 @@ body {
   color: #000000;
 }
 
-.loginbtn {
+.loginbtn button {
   display: flex;
   flex-direction: column;
   margin-top: 350px;
   width: 470px;
   height: 106px;
   border-top: 1px solid #2990D0;
-}
-
-button {
-  margin-top: 30px;
-  width: 470px;
-  height: 75px;
-  font-weight: 400;
   font-size: 18px;
-  line-height: 27px;
-  text-align: center;
-  color: #2990D0;
-  background: #ffffff;
+  color:  #ffffff;
+  background:#2990D0;
   border: 1px solid #2990D0;
   border-radius: 10px;
 }
 
+
 /******/
 /* 모달 스타일 */
 .modal {
-    top: -920px;
+    top: 50px;
 }
 
 /* 모달 내용 스타일 */
 .modal-body {
-    height: 400px;
+    height: 200px;
 }
-
-/* 클럽 생성 폼 래퍼 스타일 */
-#club-create-form-wrapper {
-    margin: 50px auto 100px auto;
-    width: 800px;
+.modal.show .modal-dialog {
+    -webkit-transform: none;
+    transform: none;
+    margin-top: 250px;
 }
 
 /* 메인 지역 ID 및 주소 검사 스타일 */
@@ -185,6 +176,7 @@ button {
     border: 1px solid #888;
     width: 50%;
     height: 400px;
+    overflow: scroll;
 }
 
 /* 닫기 버튼 1 스타일 */
@@ -211,7 +203,7 @@ button {
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: auto;
+    overflow: scroll;
     background-color: rgba(0,0,0,0.7);
 }
 

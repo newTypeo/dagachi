@@ -90,6 +90,10 @@ public interface MemberService extends UserDetailsService {
 	
 	int buyCreateClubTicket(String memberId);
 
+	Member checkNickNameDuplicate(String nickname);
+
+	Member checkEmailDuplicate(String email);
+	
 	int checkDuplicateMemberIdAndMyId(Map<String, Object> params);
 
 }
