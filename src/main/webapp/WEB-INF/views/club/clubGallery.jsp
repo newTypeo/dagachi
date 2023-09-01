@@ -10,7 +10,7 @@
 <style>
 .insertGallery-div{
 	position : absolute;
-	margin-left :1600px;
+	margin-left :1630px;
 	margin-top : 100px;
 }
 </style>
@@ -20,7 +20,7 @@
 	</div>
 	<div id = "club-detail-gallery">
 		<c:forEach items="${clubGalleryAndImages}" var="clubGalleryAndImage" >
-				<a href="${pageContext.request.contextPath}/club/${domain}/${clubGalleryAndImage.id}">
+				<a href="${pageContext.request.contextPath}/club/${domain}/${clubGalleryAndImage.galleryId}">
 				<div id="gallery-photo-div">
 					<div id="like-count">
 						<h3 style="display:inline">💕${clubGalleryAndImage.likeCount}<h3>

@@ -31,6 +31,7 @@ import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
 import com.dagachi.app.club.entity.ClubBoardAttachment;
 import com.dagachi.app.club.entity.ClubDetails;
+import com.dagachi.app.club.entity.ClubGalleryDetails;
 import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
@@ -190,6 +191,8 @@ public interface ClubService {
 	int clubMemberDelete(Map<String, Object> params);
 
 	ClubMember findClubMemberRoleByClubId(Map<String, Object> params);
+
+	int postGallery(ClubGalleryDetails clubGallery);
 
 	
 
