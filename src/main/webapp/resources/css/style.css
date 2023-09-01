@@ -113,7 +113,7 @@ header #header-nav-container span {
 	width: 320px;
 	margin-left: 20px;
 	box-sizing: border-box;
-	border: 1px solid #aaa;
+	border: 2px solid #aaa;
 	border-radius: 10px;
 }
 .myInfo {
