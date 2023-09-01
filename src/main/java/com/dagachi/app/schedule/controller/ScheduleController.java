@@ -13,14 +13,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubSchedule;
+import com.dagachi.app.club.entity.ClubScheduleEnrollMember;
 import com.dagachi.app.club.entity.ClubSchedulePlace;
 import com.dagachi.app.club.service.ClubService;
 import com.dagachi.app.common.DagachiUtils;
@@ -60,7 +63,6 @@ public class ScheduleController {
 			@AuthenticationPrincipal MemberDetails member,
 			Model model) throws UnsupportedEncodingException {
 		
-		// ScheduleDetailsDto scheduleDetails = scheduleService.findScheduleDetailById(no);
 		ScheduleDetailsDto schedule = scheduleService.findscheduleById(no);
 		Club club = clubService.findByDomain(domain);
 		ClubLayout layout = clubService.findLayoutById(club.getClubId());
@@ -77,7 +79,16 @@ public class ScheduleController {
 		
 		double[] myHome = DagachiUtils.getPlaceCoordinate(member.getAddress());
 		
+		boolean isEnrolled = false;
+		for (ClubScheduleEnrollMember enrollMember : schedule.getEnrollMembers()) {
+			if (enrollMember.getMemberId().equals(member.getMemberId())) {;
+				isEnrolled = true;
+			}
+		}
+		
+		model.addAttribute("myAddress", member.getAddress());
 		model.addAttribute("myHome", myHome);
+		model.addAttribute("isEnrolled", isEnrolled);
 		model.addAttribute("clubName", club.getClubName());
 		model.addAttribute("schedule", schedule);
 		model.addAttribute("clubMember", clubMember);
@@ -85,4 +96,42 @@ public class ScheduleController {
 		
 		return "club/schedule/scheduleDetail";
 	}
+	
+	@PostMapping("/scheduleEnroll.do")
+	public String scheduleEnroll(
+			@PathVariable("domain") String domain, 
+			@RequestParam int no,
+			RedirectAttributes redirectAttr,
+			@AuthenticationPrincipal MemberDetails member) {
+		int clubId = clubService.clubIdFindByDomain(domain);
+		
+		ClubScheduleEnrollMember memberInfo = ClubScheduleEnrollMember.builder()
+				.clubId(clubId)
+				.memberId(member.getMemberId())
+				.scheduleId(no).build();
+
+		int result = scheduleService.insertEnrollMember(memberInfo);
+		redirectAttr.addFlashAttribute("msg", "😀성공적으로 일정에 신청되었습니다.");
+		
+		return "redirect:/club/{domain}/scheduleDetail.do?no=" + no;
+	};
+	
+	@PostMapping("/scheduleEnrollCancle.do")
+	public String scheduleEnrollCancle(
+			@PathVariable("domain") String domain, 
+			@RequestParam int no,
+			RedirectAttributes redirectAttr,
+			@AuthenticationPrincipal MemberDetails member) {
+		int clubId = clubService.clubIdFindByDomain(domain);
+		
+		ClubScheduleEnrollMember memberInfo = ClubScheduleEnrollMember.builder()
+				.clubId(clubId)
+				.memberId(member.getMemberId())
+				.scheduleId(no).build();
+
+		int result = scheduleService.deleteEnrollMember(memberInfo);
+		redirectAttr.addFlashAttribute("msg", "😥참여를 취소하였습니다.");
+		
+		return "redirect:/club/{domain}/scheduleDetail.do?no=" + no;
+	};
 }

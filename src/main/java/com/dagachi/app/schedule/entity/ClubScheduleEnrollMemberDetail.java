@@ -1,9 +1,10 @@
-package com.dagachi.app.club.entity;
+package com.dagachi.app.schedule.entity;
 
 import java.time.LocalDateTime;
 
+import com.dagachi.app.club.entity.ClubScheduleEnrollMember;
+
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -14,9 +15,6 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-public class ClubScheduleEnrollMember {
-	private String memberId;
-	private int clubId;
-	private int scheduleId;
-	private LocalDateTime createdAt;
+public class ClubScheduleEnrollMemberDetail extends ClubScheduleEnrollMember {
+	private String nickname; 
 }

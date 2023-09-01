@@ -13,6 +13,7 @@ import com.dagachi.app.club.entity.ClubScheduleEnrollMember;
 import com.dagachi.app.club.entity.ClubSchedulePlace;
 import com.dagachi.app.schedule.dto.ScheduleAndWriterProfileDto;
 import com.dagachi.app.schedule.dto.ScheduleDetailsDto;
+import com.dagachi.app.schedule.entity.ClubScheduleEnrollMemberDetail;
 import com.dagachi.app.schedule.entity.ClubSchedulePlaceDetail;
 import com.dagachi.app.schedule.repository.ScheduleRepository;
 
@@ -36,7 +37,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 		ScheduleDetailsDto schedule = scheduleRepository.findScheduleById(no);
 		List<ClubSchedulePlaceDetail> places = scheduleRepository.getPlaces(no);
 		schedule.setPlaces(places);
-		List<ClubScheduleEnrollMember> enrollMembers = scheduleRepository.getEnrollMembers(no);
+		List<ClubScheduleEnrollMemberDetail> enrollMembers = scheduleRepository.getEnrollMembers(no);
 		schedule.setEnrollMembers(enrollMembers);
 		return schedule;
 	}
@@ -44,6 +45,21 @@ public class ScheduleServiceImpl implements ScheduleService {
 	@Override
 	public ClubMember getWriterInfo(Map<String, Object> mIdAndcId) {
 		return scheduleRepository.getWriterInfo(mIdAndcId);
+	}
+	
+	@Override
+	public ClubScheduleEnrollMember findEnrollMember(ClubScheduleEnrollMember memberInfo) {
+		return scheduleRepository.findEnrollMember(memberInfo);
+	}
+	
+	@Override
+	public int insertEnrollMember(ClubScheduleEnrollMember memberInfo) {
+		return scheduleRepository.insertEnrollMember(memberInfo);
+	}
+	
+	@Override
+	public int deleteEnrollMember(ClubScheduleEnrollMember memberInfo) {
+		return scheduleRepository.deleteEnrollMember(memberInfo);
 	}
 }
 
