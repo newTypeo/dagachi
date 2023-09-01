@@ -912,14 +912,15 @@ public class ClubController {
 
 	
 	/**
-	 * 
+	 * 소모임 생성
 	 * @author 동찬
 	 */
 	@PostMapping("/clubCreate.do")
-	public String clubCreate(@Valid ClubCreateDto _club, BindingResult bindingResult,
-			@AuthenticationPrincipal MemberDetails member, @RequestParam(value = "upFile") MultipartFile upFile)
-			throws IllegalStateException, IOException {
-
+	public String clubCreate(
+			@Valid ClubCreateDto _club, 
+			@AuthenticationPrincipal MemberDetails member, 
+			@RequestParam(value = "upFile") MultipartFile upFile) throws IllegalStateException, IOException {
+		System.out.println(_club);
 		// 1. 파일저장
 		String uploadDir = "/club/profile/";
 		ClubProfile clubProfile = null;
@@ -927,11 +928,12 @@ public class ClubController {
 			String originalFilename = upFile.getOriginalFilename();
 			String renamedFilename = DagachiUtils.getRenameFilename(originalFilename); // 20230807_142828888_123.jpg
 			File destFile = new File(uploadDir + renamedFilename); // 부모디렉토리 생략가능. spring.servlet.multipart.location 값을
-																	// 사용
+																   // 사용
 			upFile.transferTo(destFile); // 실제파일 저장
 
-			clubProfile = ClubProfile.builder().originalFilename(originalFilename).renamedFilename(renamedFilename)
-					.build();
+			clubProfile = ClubProfile.builder()
+									 .originalFilename(originalFilename)
+									 .renamedFilename(renamedFilename).build();
 		}
 
 		List<String> tagList = new ArrayList<>();
@@ -940,13 +942,18 @@ public class ClubController {
 		}
 
 		// 2. db저장
-		ClubDetails club = ClubDetails.builder().clubName(_club.getClubName()).activityArea(_club.getActivityArea())
-				.category(_club.getCategory()).tagList(tagList).domain(_club.getDomain())
-				.introduce(_club.getIntroduce()).enrollQuestion(_club.getEnrollQuestion()).clubProfile(clubProfile)
-				.build();
+		ClubDetails club = ClubDetails.builder()
+									  .tagList(tagList)
+									  .clubProfile(clubProfile)
+									  .domain(_club.getDomain())
+									  .clubName(_club.getClubName())
+									  .category(_club.getCategory())
+									  .introduce(_club.getIntroduce())
+									  .enrollQuestion(_club.getEnrollQuestion())
+									  .activityArea(_club.getActivityArea()).build();
 
-		int result = clubService.insertClub(club);
-
+		int result = clubService.insertClub(club, member.getMemberId());
+		
 		return "redirect:/club/" + _club.getDomain();
 	}
 

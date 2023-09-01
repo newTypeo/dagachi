@@ -357,6 +357,9 @@ public interface ClubRepository {
 	        "values (seq_club_gallery_attachment_id.nextval, #{galleryId}, #{originalFilename}, #{renamedFilename}, default , #{thumbnail})")
 	int insertAttachment(ClubGalleryAttachment attach);
 	
+	@Insert("insert into club_member values(#{memberId}, #{clubId}, default, sysdate, 3, default)")
+	int insertClubLeaderById(Map<String, Object> params);
+	
 	
 }
    
