@@ -70,7 +70,10 @@ header #header-nav-container span {
 
 /********** footer **********/
 footer {
-	height: 100px;
+    height: 100px;
+    width: 1320px;
+    margin: 0 auto;
+    text-align: center;
 }
 
 
@@ -350,9 +353,12 @@ h5, h3 {
 	color: white;
 }
 
-
-
-
+#scheduleSummaryBox {
+	width: 100px;
+	height: 100px;
+	background-color: pink;
+	position: absolute;
+}
 
 
 

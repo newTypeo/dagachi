@@ -624,4 +624,9 @@ public class ClubServiceImpl implements ClubService {
 		}
 		return result;
 	}
+	
+	@Override
+	public int checkDuplicateClubIdAndId(Map<String, Object> params) {
+		return clubRepository.checkDuplicateClubIdAndId(params);
+	}
 }

@@ -195,6 +195,8 @@ public interface ClubService {
 
 	int postGallery(ClubGalleryDetails clubGallery);
 
+	int checkDuplicateClubIdAndId(Map<String, Object> params);
+
 	
 
 
