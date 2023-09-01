@@ -122,6 +122,7 @@ public interface ClubService {
 	List<ClubAndImage> categoryList(String category);
 	
 	int permitApply(ClubManageApplyDto clubManageApplyDto);
+	
 	int refuseApply(ClubManageApplyDto clubManageApplyDto);
 	
 	List<ClubScheduleAndMemberDto> findScheduleById(int clubId);
@@ -193,6 +194,8 @@ public interface ClubService {
 	ClubMember findClubMemberRoleByClubId(Map<String, Object> params);
 
 	int postGallery(ClubGalleryDetails clubGallery);
+
+	int checkDuplicateClubIdAndId(Map<String, Object> params);
 
 	
 

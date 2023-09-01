@@ -38,7 +38,7 @@ section {
 
 /********** header **********/
 header {
-	height: 200px;
+	height: 120px;
 	margin: 0 auto;
 	display: flex;
 	justify-content: flex-end;
@@ -53,12 +53,12 @@ header {
 
 #main-logo {
 	height: 120px;
-	margin-top: 120px;
+	margin-top: 24px;
 }
 
 header #header-nav-container {
 	float: right;
-	top: 130px;
+	top: 65px;
 	position: absolute;
 }
 

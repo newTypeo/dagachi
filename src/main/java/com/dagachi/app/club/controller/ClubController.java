@@ -333,7 +333,8 @@ public class ClubController {
 	 */
 	@PostMapping("/{domain}/manageApply.do")
 	public String permitApply(@PathVariable("domain") String domain, ClubManageApplyDto clubManageApplyDto) {
-
+		
+		log.debug("ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ = {}" ,clubManageApplyDto);
 		if (clubManageApplyDto.isPermit())
 			clubService.permitApply(clubManageApplyDto); // 가입 승인
 		else
@@ -444,13 +445,18 @@ public class ClubController {
 
 		// 최근 본 모임 전체 조회 (현우)
 		List<ClubRecentVisited> recentVisitClubs = clubService.findAllrecentVisitClubs();
-
+		
+		Map<String, Object> params = Map.of(
+				 "memberId", memberId,
+				 "clubId", clubId
+				 );
+		
 		int checkDuplicate = clubService.checkDuplicateClubId(clubId);
-
+		int checkDuplicated = clubService.checkDuplicateClubIdAndId(params);
 //		log.debug("recentVisitClubs = {}", recentVisitClubs);
 
 		// 최근 본 모임 클릭 시 중복검사 후 db에 삽입
-		if (checkDuplicate == 0) {
+		if (checkDuplicated == 0) {
 			int result = clubService.insertClubRecentVisitd(memberId, clubId);
 		}
 
