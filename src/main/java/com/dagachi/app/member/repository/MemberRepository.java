@@ -31,18 +31,29 @@ import com.dagachi.app.member.entity.MemberProfile;
 public interface MemberRepository {
 	
 	
-	// 멤버 회원가입 추가 ( 지우지마삼 )
-	@Insert("insert into member values (#{memberId}, #{password},#{name}, #{nickname}, #{phoneNo}, #{email}, #{birthday, jdbcType=DATE}, #{gender}, #{mbti},  #{activityArea}, 0, SYSDATE, NULL, SYSDATE, NULL, 'Y')"
+	//멤버 회원가입 
+	@Insert("insert into member values (#{memberId}, #{password},#{name}, #{nickname}, #{phoneNo}, #{email}, #{birthday, jdbcType=DATE}, #{gender}, #{mbti},  #{activityArea}, 0, SYSDATE, NULL, SYSDATE, NULL, 'Y', default)"
 	) 
 	int insertMember(MemberCreateDto member);
-	// 지역
+	//회원가입 지역
 	@Insert("INSERT INTO activity_area values(#{memberId}, #{mainAreaId}, null, null)") 
 	void insertActivityArea(MemberCreateDto member);
-	// 관심사
+	//회원가입 관심사
 	@Insert("INSERT INTO member_interest values(#{memberId}, #{interest})") 
 	void insertMemberInterest(String memberId, String interest);
-	// 회원가입 ------------------
 	
+	//카카오톡 회원가입
+	@Insert("insert into member values (#{memberId}, #{password},#{name}, null , null, #{email}, null , null , null,  null , 0, SYSDATE, NULL, SYSDATE, NULL, 'Y' , default)")
+	int KakaoMember(MemberKakaoDto memberKakaoDto);
+	
+	//카카오톡 회원 정보 업데이트
+	@Update("update set member where nickname = #{nickname}, phone_no=  #{phoneNo}, birthday = #{birthday, jdbcType=DATE}, gender = #{gender}, mbti = #{mbti},  address = #{activityArea}")
+	int kakaoUpadteCreate(MemberCreateDto member);
+	
+	//카카오톡 회원 업데이트 안한 사람 찾아오기
+	@Select("SELECT COUNT(*) FROM member WHERE member_id = CONCAT(#{memberId}, '@Kakao') AND phoneNo IS NULL")
+	UserDetails checkKakao(String memberId);
+	// 회원가입 ------------------
 	MemberDetails loadUserByUsername(String memberId);
 	
 	@Select("select * from member where member_id =#{memberId}")
@@ -54,7 +65,7 @@ public interface MemberRepository {
 	//탈퇴회원 목록 조회 및 검색
 	List<Member> adminQuitMemberList(RowBounds rowBounds, Map<String, Object> params);
 	List<Member> adminQuitMemberList(Map<String, Object> params);
-	//신고회원 목록 조회 및 검색
+	//신고회원 findMemberById목록 조회 및 검색
 	List<Member> adminReportMemberList(RowBounds rowBounds, Map<String, Object> params);
 	List<Member> adminReportMemberList(Map<String, Object> params);
 
@@ -66,17 +77,12 @@ public interface MemberRepository {
 
 	@Select("select * from member where member_Id = #{memberId}")
 	Member findMemberBymemberId(String memberId);
-	
-//	/*임시 회원가입 (지우지 마삼) */
-//	@Insert("insert into member values (#{memberId}, #{password},#{name}, #{nickname}, #{phoneNo}, #{email}, #{birthday, jdbcType=DATE}, #{gender}, #{mbti},  #{address}, 0, SYSDATE, NULL, SYSDATE, NULL, 'Y')")
-//	int insertMember(MemberCreateDto member);
 
 	@Insert("insert into admin_Inquiry values (seq_Inquiry_id.nextval,#{memberId},#{title} ,#{content}, SYSDATE ,#{type},1,NULL,NULL,#{open},NULL)")
 	int InquiryCreate(AdminInquiryCreateDto inquiry);
 	
 	@Select("select * from activity_area where member_id = #{memberId}")
 	ActivityArea findActivityAreaById(String memberId);
-
 
 	@Select("select * from member_profile where member_id = #{memberId}")
 	MemberProfile findMemberProfile(String memberId);
@@ -120,11 +126,11 @@ public interface MemberRepository {
 	@Select("select * from member where email = #{email}")
 	Member findmemberIdByEmail(String email);
 	
-	@Insert("insert into member values (#{memberId}, #{password},#{name}, null , null, #{email}, null , null , null,  null , 0, SYSDATE, NULL, SYSDATE, NULL, 'Y')")
-	int KakaoMember(MemberKakaoDto memberKakaoDto);
-	
 	@Update("update member set password = #{password} where email = #{email}")
 	int memberPwUpdate(MemberPwUpdateDto memberPwUpdateDto);
+	
+	@Update("update member set create_club_cnt = create_club_cnt + 1 where member_id = #{memberId}")
+	int buyCreateClubTicket(String memberId);
 
 	
 }

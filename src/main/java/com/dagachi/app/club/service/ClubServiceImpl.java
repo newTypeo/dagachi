@@ -32,6 +32,7 @@ import com.dagachi.app.club.dto.GalleryAndImageDto;
 import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.KickMember;
 import com.dagachi.app.club.dto.ManageMember;
+import com.dagachi.app.club.entity.BoardComment;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
@@ -40,6 +41,7 @@ import com.dagachi.app.club.entity.ClubBoardDetails;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubDetails;
 import com.dagachi.app.club.entity.ClubGalleryAttachment;
+import com.dagachi.app.club.entity.ClubGalleryDetails;
 import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
@@ -462,7 +464,7 @@ public class ClubServiceImpl implements ClubService {
 		List<Member> member = new ArrayList<>();
 		for (Member mn : memberName) {
 			String id = mn.getMemberId();
-			member.add(clubRepository.findMembersById(id));
+			member.add(clubRepository.findMemberById(id));
 		}
 
 		List<ClubMemberAndImage> members = new ArrayList<>();
@@ -582,5 +584,44 @@ public class ClubServiceImpl implements ClubService {
 		return clubRepository.clubGalleryCreate2(createGalleryDto);
 	}
 	
+	@Override
+	public int boardCommentCreate(BoardComment comment) {
+		return clubRepository.boardCommentCreate(comment);
+	}
 	
+	@Override
+	public List<BoardComment> findComments(int no) {
+		return clubRepository.findComments(no);
+	}
+	
+	@Override
+	public BoardComment findBoardComment(int commentId) {
+		return clubRepository.findBoardComment(commentId);
+	}
+	
+	@Override
+	public int clubMemberDelete(Map<String, Object> params) {
+		return clubRepository.clubMemberDelete(params);
+	}
+	
+	@Override
+	public ClubMember findClubMemberRoleByClubId(Map<String, Object> params) {
+		return clubRepository.findClubMemberRoleByClubId(params);
+	}
+	
+	@Override
+	public int postGallery(ClubGalleryDetails clubGallery) {
+		int result = 0;
+
+		result = clubRepository.postGallery(clubGallery);
+
+		List<ClubGalleryAttachment> attachments = ((ClubGalleryDetails) clubGallery).getAttachments();
+		if (attachments != null && !attachments.isEmpty()) {
+			for (ClubGalleryAttachment attach : attachments) {
+				attach.setGalleryId(clubGallery.getGalleryId());
+				result = clubRepository.insertAttachment(attach);
+			}
+		}
+		return result;
+	}
 }

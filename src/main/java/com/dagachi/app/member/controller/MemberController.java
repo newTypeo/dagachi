@@ -75,7 +75,7 @@ public class MemberController {
 	@Autowired
     private JavaMailSender javaMailSender;
 	
-	
+	   
 	 @GetMapping("/{memberId}")
 	    public String memberDetail(
 	    		@PathVariable("memberId") String memberId,
@@ -175,12 +175,15 @@ public class MemberController {
 	 public void searchId() {}
 
 	 
-	 @PostMapping("/memberSearchId.do")
+	 /**
+	 * @author 김준한
+	 * 아이디 찾기
+	 */
+	@PostMapping("/memberSearchId.do")
 	 public String memberSearchId(
 			 @RequestParam("email") String email,
 			 Model model
 			 ) {
-		 log.debug("email = {} ",email);
 		 
 		 Member member = memberService.findmemberIdByEmail(email);
 		 
@@ -189,7 +192,11 @@ public class MemberController {
 			 model.addAttribute("memberId",memberId);
 		 } else {
 			 String memberId = member.getMemberId();
-			 model.addAttribute("memberId",memberId);
+			 String maskedMemberId = memberId.substring(0, 3) + "*".repeat(memberId.length() - 3);
+			 
+			 model.addAttribute("memberId",maskedMemberId);
+			 
+			 
 		 }
 		 
 		 model.addAttribute("member",member);
@@ -212,13 +219,9 @@ public class MemberController {
              @RequestParam("email") String email
 			 ){
 		 
-		 log.debug("가져오긴했냐? ={}", username);
-		 log.debug("가져오긴했냐? ={}", email);
 		 
 		 Member member = memberService.findMemberByName(username);
 		 Member member2 = memberService.findMemberByEmail(email);
-		 log.debug("memberzzzzzzzzzzzz={}",member);
-		 log.debug("member똑같냐?={}",member2);
 		 String randomCode = null;
 		 if(member != null && member2 != null && member.equals(member2)) {
 			 // 입력받은 이름과 이메일이 db에 있는 정보와 일치할 시,
@@ -231,7 +234,7 @@ public class MemberController {
 			 SimpleMailMessage message = new SimpleMailMessage();
 			 message.setFrom("khsso102649@gmail.com");
 			 message.setTo(email);
-			 message.setSubject("인증코드 메일");
+			 message.setSubject("다가치 홈페이지 인증코드 메일");
 			 message.setText(randomCode);
 			 
 			 javaMailSender.send(message);

@@ -7,26 +7,37 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
 <style>
-    /* 가운데 정렬을 위한 스타일 */
-    #reportInquiryListTable {
-       background-color: #fff;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  text-align: center;
-  magin: 0 auto;
+* {
+  box-sizing: border-box;
+  font-family: 'IBM Plex Sans KR', sans-serif;
+  font-style: normal;
+}
+
+   #reportInquiryListTable {
+      background-color: #fff;
+	  padding: 20px;
+	  border-radius: 20px;
+	  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	  width: 70%;
+	  text-align: center;
     }
 
-    /* 각 열 사이 여백을 주기 위한 스타일 */
     #reportInquiryListTable td {
-        padding: 8px; /* 원하는 여백 크기로 조정 가능 */
+        padding: 8px; 
     }
 	#admin-report-inquiry-list-sec {
-	    text-align: center; /* 수평 가운데 정렬 */
+	    text-align: center; 
+	    margin-left:820px; 
+	    hight : 1000px;
 	}
-	
 
+.gray-text {
+    color: gray; 
+}
+
+ .oneList:hover {
+        background-color: lightblue;
+  }
 
 </style>
 
@@ -50,7 +61,7 @@
 						<c:if test="${not empty inquiry}">
 							<c:forEach items="${inquiry}" var="inquiry" varStatus="vs">
 							        <tr class ="oneList">
-							            <c:if test="${inquiry.open == 1}"><td>🔒</td></c:if>
+							            <c:if test="${inquiry.open == 1}"><td>🔐</td></c:if>
 							            <c:if test="${inquiry.open == 0}"><td>🔓</td></c:if>
 							            <td>${inquiry.inquiryId}</td>
 										<c:choose>
@@ -81,12 +92,12 @@
 							            </td>
 							            </tr>
 							            <tr class ="twoList">
-							            <td colspan="5">
-							                <div id="response-${vs.index}" style="display: none;">
+							            <td colspan="6">
+							                <div id="response-${vs.index}" style="display: none; background-color: lightgray ; ">
 							              		<c:if test="${inquiry.open == 0}">
 										           <c:if test="${empty inquiry.response}">
 											             문의 내용 : ${inquiry.content}</br>
-											             아직 답변이 달리지 않았습니다.
+											           <span  class="gray-text" >아직 답변이 달리지 않았습니다.</span>
 										            </c:if>
 									                <c:if test="${not empty inquiry.response}">
 									         	        문의 내용 :  ${inquiry.content} </br>
@@ -97,7 +108,7 @@
 								                </c:if>
 								               <!--  // 여기에 권한 추가해야함 -->
 									            <c:if test="${inquiry.open == 1}">
-									            		권한이 없습니다.
+									            		<span  class="gray-text" >권한이 없습니다.</span>
 									            </c:if>								                
 								              </div>							            
 							            </td>

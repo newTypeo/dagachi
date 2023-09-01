@@ -26,7 +26,28 @@
 <fmt:requestEncoding value="utf-8"/>
 <meta id="_csrf" name="_csrf" content="${_csrf.token}"/>
 <meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}"/>
+<style>
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    line-height: 1.2;
+    text-align: center;
+        height: 53px;
+    }
+.code-btn{
+margin-left: 175px;
+    margin-top: -14px;
+    height: 56px;
+}
+.codeConpare-btn{
+margin-left: 184px;
+    margin-top: -14px;
+    height: 56px;
+}
 
+
+}
+</style>
 	
 	<c:if test="${msg ne null}">
 		<script>
@@ -51,7 +72,9 @@
 	  <label for="floatingInputDisabled"></label>
 	</div>
 	
+	<div class = "code-btn">
 	<button type="button" class="btn btn-primary" id="sendCodeButton">인증코드 보내기</button>
+	</div>
 	
 	<h3>인증코드를 입력하세요</h3>
 	<div class="form-floating mb-3">
@@ -59,13 +82,16 @@
 	  <label for="floatingInputDisabled"></label>
 	</div>
 	
+	
+	<div class="codeConpare-btn">
 	<button type="button" class="btn btn-primary" id="compareCodeBtn">인증번호 확인</button>
 	</form:form>	
+	</div>
 	
 	<script>
 	var token = $("meta[name='_csrf']").attr("content");
 	var header = $("meta[name='_csrf_header']").attr("content");
-	sendCodeButton.addEventListener("click", function() {
+	.addEventListener("click", function() {
 		var username = document.getElementById('floatingInputDisabled').value; // username 입력 필드 값
         var email = document.getElementById('floatingInputDisabled2').value; // email 입력 필드 값
 		console.log(email);
@@ -76,7 +102,7 @@
             method: "get",
             data: {
             	username: username,
-                email: email
+                email: emailsendCodeButton
             },
             beforeSend(xhr) {
             	console.log('xhr : ', xhr)

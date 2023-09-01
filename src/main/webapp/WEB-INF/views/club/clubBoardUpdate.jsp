@@ -60,7 +60,7 @@ window.onload = function() {
 
 		<div id="attachBox">
 			<ul>
-
+				<!-- 비동기로 첨부파일 & 삭제 -->
 			</ul>
 		</div>
 
@@ -74,19 +74,18 @@ window.onload = function() {
 		<div class="input-group mb-3">
 			<div class="input-group-prepend">
 				<div class="input-group-text">
-					<input type="checkbox"
-						aria-label="Checkbox for following text input" id="mustRead">
+					<input type="checkbox" id="mustRead"
+							aria-label="Checkbox for following text input">
 				</div>
 			</div>
 			<input type="text" class="form-control"
-				aria-label="Text input with checkbox"
-				value="필독을 선택하시면 게시판 상단에 고정됩니다." readonly>
+					aria-label="Text input with checkbox"
+					 value="필독을 선택하시면 게시판 상단에 고정됩니다." readonly>
 		</div>
 
 		<button type="submit" class="btn btn-primary btn-lg">수정하기</button>
 
 	</form:form>
-
 
 </section>
 
@@ -98,44 +97,38 @@ window.onload = function() {
 
 const renderAtt=()=>{
 	
-	const no ="${clubBoard.boardId}";
 	const domain ="${domain}";
-
+	const no ="${clubBoard.boardId}";
 	
 	$.ajax({
 		url : '${pageContext.request.contextPath}/club/findAttachments.do',
 		method:"GET",
-		data :{no,domain},
-		success(attachs){
+		data :{no, domain},
+		success(attachs) {
 		
-			if(attachs.length>0){
-				const liBox=document.querySelector("#attachBox ul");
-				let html='';
-				html =attachs.reduce((html,attach)=>{
-				const {boardId, id, originalFilename,renamedFilename,thumbnail,createAt} =attach
-				
-				return html +`
-					<li>
-						<input type="checkbox" class="delFile"
-						value="\${id}" /> \${originalFilename}
-						<button type="button" class="attdel" onclick="attdel(this)" value="\${id}">삭제하기</button>
-					</li>
-				`;
-					
-				},"");
-				
-				liBox.innerHTML= html;
-			}
+			const liBox=document.querySelector("#attachBox ul");
+			let html = '';
+			html = attachs.reduce((html, attach) => {
+			const {boardId, id, originalFilename, renamedFilename, thumbnail, createAt} = attach;
 			
+			return html +`
+				<li>
+					\${originalFilename}
+					<button type="button" class="btn btn-danger attdel" onclick="attdel(this);" value="\${id}">삭제</button>
+				</li>
+			`;
+				
+			}, "");
+			liBox.innerHTML = html;
 		}
 	});
 };
 
-const attdel=(e)=>{
+const attdel = (e) => {
 	
-	if(confirm("첨부파일을 삭제하시겠습니까?")){
-		const id=e.value;
-		const token= document.boardFrm._csrf.value;
+	if(confirm("첨부파일을 삭제하시겠습니까?")) {
+		const id = e.value;
+		const token = document.boardFrm._csrf.value;
 		
 		$.ajax({
 			url : '${pageContext.request.contextPath}/club/delAttach.do',
@@ -144,7 +137,7 @@ const attdel=(e)=>{
 			headers: {
 				"X-CSRF-TOKEN": token
 			},
-			success(data){
+			success(data) {
 				renderAtt();
 			}
 		});

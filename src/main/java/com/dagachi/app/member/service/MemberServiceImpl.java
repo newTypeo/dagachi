@@ -237,10 +237,36 @@ public class MemberServiceImpl implements MemberService{
 	public Member findmemberIdByEmail(String email) {
 		return memberRepository.findmemberIdByEmail(email);
 	}
+
+
+	@Override
+	public int kakaoUpadteCreate(MemberCreateDto member) {
+	    int result = 0;
+
+	    result = memberRepository.kakaoUpadteCreate(member);
+	    log.debug("member = " + member);
+
+	    memberRepository.insertActivityArea(member);
+	    List<String> interestList = member.getInterest();
+
+	    for (String interest : interestList) {
+	        memberRepository.insertMemberInterest(member.getMemberId(), interest);
+	    }
+	    return result;
+	}
 	
 	@Override
 	public int memberPwUpdate(MemberPwUpdateDto memberPwUpdateDto) {
 		return memberRepository.memberPwUpdate(memberPwUpdateDto);
+	}
+
+	@Override
+	public UserDetails checkKakao(String memberId) {
+		return memberRepository.checkKakao(memberId);
+	}
+	@Override
+	public int buyCreateClubTicket(String memberId) {
+		return memberRepository.buyCreateClubTicket(memberId);
 	}
 	
 }

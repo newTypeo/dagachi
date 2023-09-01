@@ -45,7 +45,7 @@
 					<c:if test ="${memberRole eq 0}">
 						<p><strong>🎀일반회원</strong></p>
 					</c:if>
-					<p><a href="${pageContext.request.contextPath}/member/memberClubDetail.do">나의 모임 정보</a></p>
+					<p><a href="${pageContext.request.contextPath}/club/${domain}/memberClubDetail.do">나의 모임 정보</a></p>
 				</div>
 				<div class="myProfile3">
 					<button class="btn" style="background-color: ${layout.fontColor}">글쓰기</button>
@@ -242,11 +242,14 @@
 					<span>👩🏻‍🤝‍🧑🏻${schedule.memberCount}/${schedule.capacity}</span>
 					<span>
 						<fmt:parseDate value="${schedule.startDate}" pattern="yyyy-MM-dd'T'HH:mm" var="startDate"/>
-    					<fmt:formatDate value="${startDate}" pattern="MM.dd HH:mm"/>
+    					<fmt:formatDate value="${startDate}" pattern="MM.dd"/>
     					~
     					<fmt:parseDate value="${schedule.endDate}" pattern="yyyy-MM-dd'T'HH:mm" var="endDate"/>
-    					<fmt:formatDate value="${endDate}" pattern="MM.dd HH:mm"/>
+    					<fmt:formatDate value="${endDate}" pattern="MM.dd"/>
 					</span>
+					<a href="/" class="fontColors">
+						${schedule.writer}
+					</a>
 				</div>
 			</c:forEach>
 		</div>
