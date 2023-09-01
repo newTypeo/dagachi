@@ -1,4 +1,3 @@
-<%--진짜 회원가입이 될 창 지우지 마세요 --%>
  <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -10,8 +9,18 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
    <jsp:param value="회원가입" name="title" />
 </jsp:include>
-<style>
 
+<c:if test="${not empty msg}">
+	<script>
+		alert('${msg}');
+	</script>
+</c:if>
+
+<style>
+.disabled-button {
+  opacity: 0.7; /* 오파시티 설정 */
+  cursor: not-allowed; /* 마우스 커서를 기본으로 변경 */
+}
 div#memberId-container { position:relative; padding:0px; }
 div#nickname-container { position:relative; padding:0px; }
 div#email-container { position:relative; padding:0px; }
@@ -39,81 +48,48 @@ span.email { display:none; font-size:12px; position:absolute; top:12px; right:10
 .phone.error{
 	display: none;
 }
-
 </style>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/memberCreate.css"/>
-<!--   <script> 입력 안하면 sub,it 안되는거 만드드중 
-        window.onload = function () {
-            var requiredFields = document.querySelectorAll('.group input[required]');
-            var submitButton = document.querySelector('button[type="submit"]');
 
-            requiredFields.forEach(function (field) {
-                field.addEventListener('input', checkForm);
-            });
-            submitButton.disabled = true;
-        }
-        function checkForm() {
-            var requiredFields = document.querySelectorAll('.group input[required]');
-            var submitButton = document.querySelector('button[type="submit"]');
-            var allFieldsFilled = true;
-            requiredFields.forEach(function (field) {
-                if (field.value.trim() === '') {
-                    allFieldsFilled = false;
-                }
-            });
-            if (allFieldsFilled) {
-                submitButton.disabled = false;
-            } else {
-                submitButton.disabled = true;
-            }
-        }
-</script> -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/memberCreate.css"/>
  <div class="container">
    <div class="member-container">
    <div class = "main_area">
-    <form:form name="memberCreateFrm"
-        action="${pageContext.request.contextPath}/member/memberCreate.do"
-        method="POST"
-        enctype="multipart/form-data">
+	 <form:form name="memberCreateFrm"
+		  action="${pageContext.request.contextPath}/member/memberCreate.do"
+		  method="POST"
+		  enctype="multipart/form-data">
        <div class="header"> 
           <div>회원 가입</div>
       </div> 
-        
       <fieldset class = "area_agreement">
        <legend class="sub_title">필수 정보</legend>
-       
-       
          <div class="fadeIn first">
             <label>아이디</label>
                   <div id="memberId-container">
-                     <input type="text" class="form-control" name="memberId" id="memberId">
+                     <input type="text" class="form-control" name="memberId" id="memberId"  placeholder="아이디를 작성해주세요.">
                      <span class="guide error" style="color: red; font-size: 12px;">이 아이디는 이미 사용중입니다.</span>
                      <span class="guide reg"style="color: red; font-size: 12px;" >영,숫자로만 이루어진 5~19자리여야합니다.</span>
                      <input type="hidden" id="idValid" value="0"/>
                   </div>         
          </div>      
-         
 		<div class="fadeIn first">
 		    <label>비밀번호</label>
 		    <input type="password" class="form-control" name="password" id="password" placeholder="대소문자 영문,특수문자,숫자를 포함하여 9자 이상" required>
-		         
 		</div>      
 		<div class="fadeIn first">
 		    <label>비밀번호 확인</label>
-		    <input type="password" class="form-control" id="passwordConfirmation" placeholder="위의 비밀번호를 다시 입력해주세요" required>
+		    <input type="password" class="form-control" id="passwordConfirmation" placeholder="위의 비밀번호를 다시 입력해주세요." required>
 			 <span class="passwordAlert" style="color: red; font-size: 12px;"></span>   
 		</div>   
-         
-         <div class="fadeIn first">
-            <label>이름</label>
-               <input type="text" class="form-control" name="name" id="name" placeholder="이름 입력(2글자 이상)" required>
-               <span class="nameAlert" style="color: red; font-size: 12px;"></span>
-         </div>   
-         
+		<div class="fadeIn first">
+		  <label>이름</label>
+		  <input type="text" class="form-control" name="name" id="name" placeholder="이름을 입력(2글자 이상) 해주세요." required>
+		  <span class="nameAlert" style="color: red; font-size: 12px;"></span>
+		</div>
          <div class="fadeIn first">
                 <label>닉네임</label>
 			    <div id="nickname-container">
-			        <input type="text" class="form-control" name="nickname" id="nickname">
+			        <input type="text" class="form-control" name="nickname" id="nickname"  placeholder="닉네임을 입력해주세요.">
 			        <span class="nickname error" style="color: red; font-size: 12px;">이 닉네임은 이미 사용중입니다.</span>
 			        <span class="nickname reg" style="color: red; font-size: 12px;">특수문자가 안들어간 5~10자리여야합니다.</span>
 			        <input type="hidden" id="nicknameValid" value="0"/>
@@ -123,9 +99,9 @@ span.email { display:none; font-size:12px; position:absolute; top:12px; right:10
          <div class="fadeIn first">
             <label>전화번호</label>
 			<div id="phone-container">
-			  <input type="text" class="form-control" name="phone1" id="phone1" maxlength="3" required>-
-			  <input type="text" class="form-control" name="phone2" id="phone2" maxlength="4" required>-
-			  <input type="text" class="form-control" name="phone3" id="phone3" maxlength="4" required>
+			  <input type="text" class="form-control" name="phone1" id="phone1" maxlength="3" required  placeholder="010">-
+			  <input type="text" class="form-control" name="phone2" id="phone2" maxlength="4" required placeholder="4자리">-
+			  <input type="text" class="form-control" name="phone3" id="phone3" maxlength="4" required placeholder="4자리">
 			  <input type="hidden" id="phone" name="phoneNo" value="">
 			  <span class="phone error" style="color: red; font-size: 12px;">핸드폰 번호 형식이 올바르지 않습니다.</span>
 			</div>
@@ -138,7 +114,7 @@ span.email { display:none; font-size:12px; position:absolute; top:12px; right:10
          <div class="fadeIn first">
             <label>이메일</label>
 			    <div id="email-container">
-			        <input type="text" class="form-control" name="email" id="email">
+			        <input type="text" class="form-control" name="email" id="email" placeholder="이메일 양식에 맞게 작성해주세요.">
 			        <span class="email error" style="color: red; font-size: 12px;" >이 이메일은 이미 사용중입니다.</span>
 			        <span class="email reg" style="color: red; font-size: 12px;">올바른 이메일 형식이어야 합니다.</span>
 			        <input type="hidden" id="emailValid" value="0"/>
@@ -217,30 +193,36 @@ span.email { display:none; font-size:12px; position:absolute; top:12px; right:10
                         <label><input type="radio" name="mbti" value="ENTJ" class="custom-radio"> ENTJ</label>
                     </div>
                 </div>
-            <div class="fadeIn first"> 
-             <label for="interests1">관심사</label>
-                    <div class="form-group">
-                        <label><input type="checkbox" name="interests" value="차/오토바이" checked> 차/오토바이</label>
-                        <label><input type="checkbox" name="interests" value="게임/오락"> 게임/오락</label>
-                        <label><input type="checkbox" name="interests" value="여행"> 여행</label>
-                        <label><input type="checkbox" name="interests" value="운동/스포츠"> 운동/스포츠</label>
-                        <label><input type="checkbox" name="interests" value="인문학/독서"> 인문학/독서</label>
-                        <label><input type="checkbox" name="interests" value="업종/직무"> 업종/직무</label>
-                        <label><input type="checkbox" name="interests" value="언어/회화"> 언어/회화</label>
-                        <label><input type="checkbox" name="interests" value="공연/축제"> 공연/축제</label>
-                        <label><input type="checkbox" name="interests" value="음악/악기"> 음악/악기</label>
-                        <label><input type="checkbox" name="interests" value="공예/만들기"> 공예/만들기</label>
-                        <label><input type="checkbox" name="interests" value="댄스/무용"> 댄스/무용</label>
-                        <label><input type="checkbox" name="interests" value="봉사활동"> 봉사활동</label>
-                        <label><input type="checkbox" name="interests" value="사교/인맥"> 사교/인맥</label>
-                        <label><input type="checkbox" name="interests" value="사진/영상"> 사진/영상</label>
-                        <label><input type="checkbox" name="interests" value="야구관람"> 야구관람</label>
-                        <label><input type="checkbox" name="interests" value="요리/제조"> 요리/제조</label>
-                        <label><input type="checkbox" name="interests" value="애완동물"> 애완동물</label>
-                        <label><input type="checkbox" name="interests" value="자유주제"> 자유주제</label>
-                        <div><p id="interestError" style="color: red; font-size: 12px;"></p></div>
-                    </div>      
-                  </div>
+
+
+
+				<div class="fadeIn first"> 
+			    <label for="interests">관심사</label>
+				        <div class="form-group">
+				            <label><input type="checkbox" name="interests" value="차/오토바이" checked> 차/오토바이</label>
+				            <label><input type="checkbox" name="interests" value="게임/오락"> 게임/오락</label>
+				            <label><input type="checkbox" name="interests" value="여행"> 여행</label>
+				            <label><input type="checkbox" name="interests" value="운동/스포츠"> 운동/스포츠</label>
+				            <label><input type="checkbox" name="interests" value="인문학/독서"> 인문학/독서</label>
+				            <label><input type="checkbox" name="interests" value="업종/직무"> 업종/직무</label>
+				            <label><input type="checkbox" name="interests" value="언어/회화"> 언어/회화</label>
+				            <label><input type="checkbox" name="interests" value="공연/축제"> 공연/축제</label>
+				            <label><input type="checkbox" name="interests" value="음악/악기"> 음악/악기</label>
+				            <label><input type="checkbox" name="interests" value="공예/만들기"> 공예/만들기</label>
+				            <label><input type="checkbox" name="interests" value="댄스/무용"> 댄스/무용</label>
+				            <label><input type="checkbox" name="interests" value="봉사활동"> 봉사활동</label>
+				            <label><input type="checkbox" name="interests" value="사교/인맥"> 사교/인맥</label>
+				            <label><input type="checkbox" name="interests" value="사진/영상"> 사진/영상</label>
+				            <label><input type="checkbox" name="interests" value="야구관람"> 야구관람</label>
+				            <label><input type="checkbox" name="interests" value="요리/제조"> 요리/제조</label>
+				            <label><input type="checkbox" name="interests" value="애완동물"> 애완동물</label>
+				            <label><input type="checkbox" name="interests" value="자유주제"> 자유주제</label>
+				            <input type="hidden" name="interest" > 
+				            <div><p id="interestError" style="color: red;"></p></div>
+				        </div>		
+			         </div>
+
+
       </fieldset>
          
            <fieldset class="area_agreement">
@@ -434,29 +416,39 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+//관심사 체크
+document.addEventListener("DOMContentLoaded", function () {
+    const interestCheckboxes = document.querySelectorAll('input[name="interests"]');
+    const interestError = document.getElementById("interestError");
+    
+    interestCheckboxes.forEach((checkbox) => {
+        checkbox.addEventListener("change", function () {
+            const checkedInterestCount = document.querySelectorAll(
+                'input[name="interests"]:checked'
+            ).length;
 
-// 관심사 체크 (반드시 하나를 체크 하게 하기 / 3개이상 체크 금지)
-const minInterestCount = 1;
-const maxInterestCount = 3;
-const interestCheckboxes = document.querySelectorAll('input[type="checkbox"][name="interests"]');
-const interestError = document.getElementById('interestError');
-const initialCheckbox = interestCheckboxes[0]; // 첫 번째 체크박스를 선택
+            if (checkedInterestCount === 0) {
+                interestError.textContent = "최소 1개의 관심사를 선택해야 합니다.";
+            } else if (checkedInterestCount > 3) {
+                interestError.textContent = "최대 3개의 관심사까지 선택 가능합니다.";
+                this.checked = false; // 3개 이상 선택 시 체크 해제
+            } else {
+                interestError.textContent = "";
+            }
 
-initialCheckbox.checked = true;
-interestCheckboxes.forEach((checkbox) => {
-    checkbox.addEventListener('change', () => {
-        const selectedInterestCount = document.querySelectorAll('input[type="checkbox"][name="interest"]:checked').length;
-        if (selectedInterestCount < minInterestCount) {
-            interestError.textContent = '최소 하나 이상의 관심사를 선택하세요.';
-            checkbox.checked = true;
-        } else if (selectedInterestCount > maxInterestCount) {
-            interestError.textContent = '최대 세 개의 관심사까지 선택할 수 있습니다.';
-            checkbox.checked = false;
-        } else {
-            interestError.textContent = '';
-        }
+            const selectedInterests = Array.from(interestCheckboxes)
+                .filter((checkbox) => checkbox.checked)
+                .map((checkbox) => checkbox.value)
+                .join(", ");
+            
+            console.log(selectedInterests);
+                
+            // 선택한 관심사를 쉼표로 구분된 문자열로 만들어서 input 필드에 설정
+            document.querySelector('input[name="interest"]').value = selectedInterests;
+        });
     });
 });
+
 
 // 전체동의 체크 (누르면 전체동의 한번더 누르면 전체동의 안됨)
 document.getElementById("all").addEventListener("click", function () {
@@ -605,7 +597,27 @@ document.addEventListener('click', (e) => {
 });
 //-------------------------------------- 활동지역end--------------------------------
 
-// 실시간 유효성 검사들 -------------------------------
+// ------------------------------- 실시간 유효성 검사들 -------------------------------
+// 관심사 체크
+const minInterestCount = 1;
+const maxInterestCount = 3;
+const interestCheckboxes = document.querySelectorAll('input[type="checkbox"][name="interests"]');
+const interestError = document.getElementById('interestError');
+
+interestCheckboxes.forEach((checkbox) => {
+    checkbox.addEventListener('change', () => {
+    	console.log(interestCheckboxes);
+    	console.log(interestError);
+        const selectedInterestCount = document.querySelectorAll('input[type="checkbox"][name="interests"]:checked').length;
+        if (selectedInterestCount < minInterestCount) {
+            interestError.textContent = '최소 하나 이상의 관심사를 선택하세요.';
+        } else if (selectedInterestCount > maxInterestCount) {
+            interestError.textContent = '최대 세 개의 관심사까지 선택할 수 있습니다.';
+        } else {
+            interestError.textContent = '';
+        }
+    });
+});
 
 //멤버 아이디 실시간 유효성 검사
 $(document).ready(function() {
@@ -646,7 +658,6 @@ $(document).ready(function() {
   };
 });
 
-// 닉네임 실시간 검사
 // 닉네임 실시간 검사
 document.addEventListener("DOMContentLoaded", function () {
   const nicknameInput = document.querySelector("#nickname");
@@ -717,7 +728,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	        type: "GET",
 	        dataType: "json",
 	        success: function(responseData) {
-	          console.log("바바바"+responseData);
 	          const { available } = responseData;
 	          if (available) {
 	            emailError.style.display = "none";
@@ -761,28 +771,71 @@ document.querySelector("#phone2").onkeyup = () => {
 document.querySelector("#phone3").onkeyup = () => {
   combinePhoneNumbers();
 };
-
 function combinePhoneNumbers() {
   const phone1 = document.querySelector("#phone1").value;
   const phone2 = document.querySelector("#phone2").value;
   const phone3 = document.querySelector("#phone3").value;
   const phoneInput = document.querySelector("#phone");
   const phoneAlert = document.querySelector(".phone.error");
-
-  // 유효성 검사: 각각의 입력란에 대한 유효성 검사를 수행
   if (phone1.length !== 3 || phone2.length !== 4 || phone3.length !== 4) {
     phoneAlert.innerText = "핸드폰 번호 형식이 올바르지 않습니다.";
-    // 아래 라인을 추가하여 핸드폰 번호 형식이 올바르지 않을 때는 오류 메시지를 보여줍니다.
     document.querySelector(".phone.error").style.display = "inline";
     phoneInput.value = "";
   } else {
-    phoneAlert.innerText = ""; // 오류 메시지를 초기화
-    // 아래 라인을 추가하여 핸드폰 번호 형식이 올바를 때는 오류 메시지를 숨깁니다.
+    phoneAlert.innerText = ""; 
     document.querySelector(".phone.error").style.display = "none";
-    phoneInput.value = `${phone1}-${phone2}-${phone3}`; // 원하는 양식으로 조합
+    phoneInput.value = `${phone1}-${phone2}-${phone3}`; 
   }
 }
 
+// 이름 유효성 검사
+document.querySelector("#name").addEventListener("input", function () {
+    const nameInput = this.value.trim(); // 공백 제거
+    const nameAlert = document.querySelector(".nameAlert");
+
+    if (/^[가-힣]{2,5}$/.test(nameInput)) {
+      // 2자에서 5자 사이의 한국어 문자열인 경우
+      nameAlert.textContent = "";
+    } else {
+      // 조건에 맞지 않는 경우
+      nameAlert.textContent = "이름을 2자에서 5자 사이의 한국어로 입력해주세요.";
+    }
+  });
+  
+
+// 조건 불 만족시 제출 버튼 비활성화
+document.querySelector('form[name="memberCreateFrm"]').addEventListener('submit', function (e) {
+  const memberId = document.querySelector("#memberId").value;
+  const password = document.querySelector("#password").value;
+  const passwordConfirmation = document.querySelector("#passwordConfirmation").value;
+  const name = document.querySelector("#name").value;
+  const nickname = document.querySelector("#nickname").value;
+  const phone1 = document.querySelector("#phone1").value;
+  const phone2 = document.querySelector("#phone2").value;
+  const phone3 = document.querySelector("#phone3").value;
+  const email = document.querySelector("#email").value;
+  const code = document.querySelector("#floatingInputDisabled3").value;
+  const submitButton = document.querySelector("button[type='submit']"); // 제출 버튼 선택
+
+  if (
+    memberId === "" ||
+    password === "" ||
+    passwordConfirmation === "" ||
+    name === "" ||
+    nickname === "" ||
+    phone1 === "" ||
+    phone2 === "" ||
+    phone3 === "" ||
+    email === "" ||
+    code === ""
+  ) {
+    alert("입력 필드를 모두 작성해주세요.");
+    e.preventDefault(); // 폼 제출 막기
+    submitButton.disabled = false; // 제출 버튼 활성화
+  } else {
+    submitButton.disabled = true; // 제출 버튼 비활성화
+  }
+});
 
 </script>
 
