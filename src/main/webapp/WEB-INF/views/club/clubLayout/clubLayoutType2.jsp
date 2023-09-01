@@ -293,8 +293,6 @@ document.documentElement.style.setProperty('--fc-border-color', '${layout.pointC
 
 
 document.addEventListener('DOMContentLoaded', function() {
-	
-	
 	$.ajax({
 		url: '${pageContext.request.contextPath}/club/${domain}/getSchedules.do',
 		success(schedules) {
@@ -327,13 +325,8 @@ document.addEventListener('DOMContentLoaded', function() {
 				defaultAllDay : true
 			});
 			calendar.render();
-			
-
-			
-			
 		}
 	});
-	
 });
 
 
