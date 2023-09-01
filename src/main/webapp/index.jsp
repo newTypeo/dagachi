@@ -39,10 +39,10 @@
 		<sec:authorize access="isAuthenticated()">
 			<div class="myInfo">
 				<div class="myProfile">
-					<img alt="" src="${pageContext.request.contextPath}/resources/upload/member/profile/<sec:authentication property="principal.memberProfile.renamedFilename"/>">
+					<img class="img-place" alt="" src="${pageContext.request.contextPath}/resources/upload/member/profile/<sec:authentication property="principal.memberProfile.renamedFilename"/>">
 				</div>
-				<div>
-					<span><sec:authentication property="principal.nickname"/></span><br>
+				<div class="my-info-place">
+					<span class="my-info-nickname"><sec:authentication property="principal.nickname"/></span><br>
 					<span class="mainArea"></span>
 					<script>
 					$.ajax({
@@ -62,8 +62,8 @@
 				</div>
 			</div>
 			<div class="myClubList">
-				<h5>나의 소모임</h5>
-				<ul>
+				<h5 class="myClubList-header-text-style"">👌 나의 소모임</h5>
+				<ul style="list-style: none;">
 				</ul>
 				<script>
 					
@@ -73,7 +73,7 @@
 							const clubListUl = document.querySelector(".myClubList ul");
 							clubs.forEach((club) => {
 								clubListUl.innerHTML += `
-									<li>\${club.clubName}</li>
+									<li>▸ \${club.clubName}</li>
 								`;					
 							});
 						}

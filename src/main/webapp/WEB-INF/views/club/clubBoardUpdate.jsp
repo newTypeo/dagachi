@@ -21,7 +21,8 @@ window.onload = function() {
 
 	<form:form name="boardFrm"
 		action="${pageContext.request.contextPath}/club/${domain}/boardUpdate.do?no=${clubBoard.boardId}"
-		enctype="multipart/form-data" method="post">
+		enctype="multipart/form-data" method="post"
+		style="width: 700px; margin: 0 auto; margin-top: 30px;">
 		<div class="form-group">
 			<label for="exampleFormControlInput1"></label> <input type="text"
 				class="form-control" id="exampleFormControlInput1" name="title"
@@ -83,7 +84,7 @@ window.onload = function() {
 					 value="필독을 선택하시면 게시판 상단에 고정됩니다." readonly>
 		</div>
 
-		<button type="submit" class="btn btn-primary btn-lg">수정하기</button>
+		<button type="submit">수정하기</button>
 
 	</form:form>
 
