@@ -98,8 +98,8 @@ create table member (
 	withdrawal_date	date, --  COMMENT 'null 이면 회원'
 	password_change_date	date default sysdate,
 	last_login_date date,
-    status char(1) default 'Y'                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
-    
+    status char(1) default 'Y',                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+    create_club_cnt number default 0
 );
 
 -- security rememeberme 를 위해 만들어진 테이블
@@ -1307,5 +1307,3 @@ insert into club_member values('user9',6,default,default,3,default);
 insert into club_member values('user9',7,default,default,3,default);
 
 commit;
-
-select * from member;
