@@ -18,7 +18,7 @@
 		<nav id="club-title" class="">
 			메인배너에 추가 할 이미지:
 			<div class="custom-file">
-				<input type="file" name="upFile" class="custom-file-input" id="fileInput"> 
+				<input type="file" name="upFile" class="custom-file-input" id="fileInput" required> 
 				<label class="custom-file-label" for="fileInput" >${layout.title}</label>
 			</div>
 		</nav>
