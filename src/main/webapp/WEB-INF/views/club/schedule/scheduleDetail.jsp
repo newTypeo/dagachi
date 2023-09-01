@@ -154,11 +154,7 @@
 			</div>
 		</div>
 	</div>
-
-	
-	
 </section>
-<div>${schedule.enrollMembers}</div>
 <script>
 
 document.body.style.background = '${layout.backgroundColor}';
