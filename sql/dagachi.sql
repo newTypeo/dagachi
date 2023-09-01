@@ -1306,5 +1306,6 @@ insert into club_member values('user9',5,default,default,3,default);
 insert into club_member values('user9',6,default,default,3,default);
 insert into club_member values('user9',7,default,default,3,default);
 
+
 commit;
 
