@@ -6,9 +6,9 @@
 <div align=center>
 
 ***여러분들은 취미가 있으신가요?***  
-바쁜 현대사회.설명 = () => {
-
-};
+바쁜 현대사회, 여러분들은 스트레스를 어떻게 해소하시나요?
+취미를 함께 공유하는 즐거움. 다가치에서 모임을 찾아보세요!
+평소에 하고싶었지만 도전해보지 못 한 취미도 편하게 다가가보세요.
 <br />
 ![이미지](https://github.com/newTypeo/dagachi/blob/master/githubImg/images.jpg?raw=true)  
 </div>
@@ -23,10 +23,10 @@
 
 ## 📢 주요 서비스 기능
 <ul>
-  <li> 설명--------------------------------------------------------------- </li>
-  <li> 설명--------------------------------------------------------------- </li>
-  <li> 설명--------------------------------------------------------------- </li>
-  <li> 설명--------------------------------------------------------------- </li>
+  <li> 소셜로그인으로 보다 손쉽게 가입할 수 있다. </li>
+  <li> 회원가입 시 입력한 정보를 바탕으로 동네모임 & 개인별 추천모임을 확인할 수 있다. </li>
+  <li> 모임에서 일정을 만들면 일정의 이동장소간의 소요시간 및 경로를 볼 수 있다. </li>
+  <li> 모임별로 실시간 단체채팅과 알림기능이 있어 즉각적인 소통이 가능하다. </li>
 </ul>
 
 <br /> <br />
@@ -72,17 +72,15 @@
 <br /> <br />
 
 ### Backend Tech Stacks
-<img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white">  <img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white">  <img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">  <img src="https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens&logoColor=white">  <img src="https://img.shields.io/badge/spring security-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white">
+<img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white">  <img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white">  <img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">   <img src="https://img.shields.io/badge/spring security-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white">
 <br />
-<img src="https://img.shields.io/badge/websocket-FFCD00?style=for-the-badge&logo=websocket&logoColor=white">  <img src="https://img.shields.io/badge/sockJS-010101?style=for-the-badge&logo=socket.io&logoColor=white">  <img src="https://img.shields.io/badge/webrtc-333333?style=for-the-badge&logo=webrtc&logoColor=white">  <img src="https://img.shields.io/badge/stomp-006272?style=for-the-badge&logo=stomp&logoColor=white">
+<img src="https://img.shields.io/badge/websocket-FFCD00?style=for-the-badge&logo=websocket&logoColor=white">   <img src="https://img.shields.io/badge/stomp-006272?style=for-the-badge&logo=stomp&logoColor=white">
 <br />
-<img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">  <img src="https://img.shields.io/badge/redis-DC382D?style=for-the-badge&logo=redis&logoColor=white">  <img src="https://img.shields.io/badge/amazon ec2-FF9900?style=for-the-badge&logo=amazonec2&logoColor=white">  <img src="https://img.shields.io/badge/amazon s3-569A31?style=for-the-badge&logo=amazons3&logoColor=white">  <img src="https://img.shields.io/badge/amazon rds-527FFF?style=for-the-badge&logo=amazonrds&logoColor=white"> 
-<br />
-<img src="https://img.shields.io/badge/aws codedeploy-FF9E9F?style=for-the-badge&logo=awscodedeploy&logoColor=white">  <img src="https://img.shields.io/badge/github actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white">
+<img src="https://img.shields.io/badge/oracle cloud-FF9900?style=for-the-badge&logo=oraclecloud&logoColor=white">  <img src="https://img.shields.io/badge/sql developer-569A31?style=for-the-badge&logo=sqldeveloper&logoColor=white">  <img src="https://img.shields.io/badge/sql-527FFF?style=for-the-badge&logo=sql&logoColor=white"> 
 <br /> <br />
   
 ### Team Collaboration Tools
-<img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">  <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">  <img src="https://img.shields.io/badge/figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white">  <img src="https://img.shields.io/badge/slack-4A154B?style=for-the-badge&logo=slack&logoColor=white">  <img src="https://img.shields.io/badge/notion-000000?style=for-the-badge&logo=notion&logoColor=white">  <img src="https://img.shields.io/badge/postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white">  <img src="https://img.shields.io/badge/intellij-000000?style=for-the-badge&logo=intellijidea&logoColor=white">
+<img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">  <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">  <img src="https://img.shields.io/badge/notion-000000?style=for-the-badge&logo=notion&logoColor=white">   <img src="https://img.shields.io/badge/intellij-000000?style=for-the-badge&logo=intellijidea&logoColor=white">
 <br />
 
 </div>
