@@ -67,12 +67,6 @@
 		</div>
 		<div id="schedule-content-container2">
 			<div id="scc2-left">
-				<button class="0to${schedule.places.size()} btn btn-primary" onclick="getPath(this);">전체경로</button>
-				<h5 class="seq0 ${myHome[0]} ${myHome[1]}">우리집</h5>
-				<c:forEach items="${schedule.places}" var="place" varStatus="vs">
-					<button class="${vs.index}to${vs.index+1} btn btn-primary" onclick="getPath(this);">경로</button>
-					<h5 class="seq${place.sequence} ${place.getXCo()} ${place.getYCo()}">${place.name}</h5>									
-				</c:forEach>
 			</div>
 			<div id="scc2-right">
 				<div id="map" style="width:800px;height:800px;"></div>
@@ -83,9 +77,8 @@
 	
 	
 </section>
-				<button onclick="getCarDirection();">test</button>
 
-<div>${schedule.places[0]}</div>
+<div>${schedule}</div>
 <div>
 </div>
 
@@ -114,27 +107,51 @@ var options = {
 };
 var map = new kakao.maps.Map(container, options);
 
+window.addEventListener('DOMContentLoaded', function() {
+    // 버튼 클릭 효과 처리
+    document.querySelector('.onloadBtn').click();
+});
 
 
 const REST_API_KEY = '0b08c9c74b754bc22377c45ec5ce2736';
 const url = 'https://apis-navi.kakaomobility.com/v1/directions?';
+var polyline = new kakao.maps.Polyline({
+	strokeWeight: 4,
+	strokeColor: 'darkred',
+	strokeOpacity: 0.8,
+	strokeStyle: 'solid'
+}); 
 
 function getPath(elem) {
+	polyline.setMap(null);
 	const startSeq = elem.classList[0].split("to")[0];
 	const endSeq = elem.classList[0].split("to")[1];
 	var leng = endSeq - startSeq + 1;
 	
 	getPoint(startSeq, endSeq, leng); // 마커를 표시하고 지도 위치 이동
 	
+	var keywordUrl = ''; // url뒤에 붙을 내용
+	var origin = '';
+	var waypoints = '';
+	var destination = '';
+	
 	for (let i = startSeq; i <= endSeq; i++) {
-		var x = parseFloat(document.querySelector(".seq"+i).classList[1]);
-		var y = parseFloat(document.querySelector(".seq"+i).classList[2]);
-		
-		console.log(x);
-		console.log(y);
+		var xStr = document.querySelector(".seq"+i).classList[1];
+		var yStr = document.querySelector(".seq"+i).classList[2];
+		var name = document.querySelector(".seq"+i).innerHTML;
+		if (i == startSeq) {
+			origin = xStr + ',' + yStr;
+		} else if (i == endSeq) {
+			destination = xStr + ',' + yStr;
+		} else {
+			waypoints += xStr + ',' + yStr;
+			if (i != endSeq-1) {
+				waypoints += '|';
+			}
+		}
 	}
-	
-	
+	keywordUrl += 'origin=' + origin + '&waypoints=' + waypoints + '&destination=' + destination;
+	const requestUrl = url + keywordUrl;
 	
 	fetch(requestUrl, {
 		method: "GET",
@@ -144,8 +161,21 @@ function getPath(elem) {
 	})
 	.then(response => response.json())
 	.then(data => {
-		// 여기서 data를 활용하여 원하는 동작을 수행하세요
-		console.log(data);
+		
+		const linePath = [];
+		data.routes[0].sections.forEach((section) => {
+			section.roads.forEach((road) => {
+				road.vertexes.forEach((vertex, index) => {
+					// x,y 좌표가 우르르 들어옵니다. 그래서 인덱스가 짝수일 때만 linePath에 넣어봅시다.
+					// 저도 실수한 것인데 lat이 y이고 lng이 x입니다.
+					if (index % 2 === 0) {
+						linePath.push(new kakao.maps.LatLng(road.vertexes[index + 1], road.vertexes[index]));
+					}
+				});
+			});
+		});
+		polyline.setPath(linePath);
+		polyline.setMap(map);
 	})
 	.catch(error => {
 		// 오류 처리
@@ -189,6 +219,36 @@ function getPoint(startSeq, endSeq, leng) {
 	map.setBounds(bounds);
 }
 
+// --------------------------------------------------
+
+var startDate = new Date('${schedule.getStartDate()}');
+var endDate = new Date('${schedule.getEndDate()}');
+const scc2Left = document.querySelector("#scc2-left");
+var index = 0;
+var currentDate = new Date(startDate);
+
+while (currentDate <= endDate) {
+	scc2Left.insertAdjacentHTML("beforeend", `
+		<div class="scheduleSlide\${index}"></div>		
+	`);
+	console.log(currentDate);
+    currentDate.setDate(currentDate.getDate() + 1);
+    index++;
+}
+
+
+
+
+
+document.querySelector(".scheduleSlide0").innerHTML = `
+	<div></div>
+	<button class="0to${schedule.places.size()} btn btn-primary onloadBtn" onclick="getPath(this);">전체경로</button>
+	<h5 class="seq0 ${myHome[0]} ${myHome[1]}">우리집</h5>
+	<c:forEach items="${schedule.places}" var="place" varStatus="vs">
+		<button class="${vs.index}to${vs.index+1} btn btn-primary" onclick="getPath(this);">경로</button>
+		<h5 class="seq${place.sequence} ${place.getXCo()} ${place.getYCo()}">${place.name}</h5>									
+	</c:forEach>
+`;
 
 
 </script>

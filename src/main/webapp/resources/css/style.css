@@ -136,6 +136,9 @@ header #header-nav-container span {
 /********** footer **********/
 footer {
 	height: 100px;
+	width: 1320px;
+	margin: 0 auto;
+	text-align: center;
 }
 
 section .posts .card{
@@ -374,7 +377,7 @@ figure.snip0045.green .position {
 }
 
 .fitLine {
-	margin-top: 10px;
+	border-bottom: 1px solid darkgrey;
 }
 
 .liked-members-list {
@@ -386,7 +389,6 @@ figure.snip0045.green .position {
 	list-style: none;
 	padding-left: 0;
 	margin: 0;
-	font-size: larger;
 	text-align: center;
 }
 
@@ -396,16 +398,27 @@ figure.snip0045.green .position {
 }
 
 .liked-members-list a {
-	color: #007bff;
+	color: darkslategray;
 	text-decoration: none;
 }
 .with-flex {
 	display: flex;
+	margin-bottom: 20px;
 }
 
 .container2 {
 	margin-left: 150px;
 }
+
+/*제목 헤드라인*/
+.title-headLine{
+	font-size: x-large;
+    border-bottom: 1px solid;
+    font-family: ui-sans-serif;
+    margin-left: 15px;
+}
+
+
 
 /* 여기부터 준한이 css 시도 */
 .posts .card,.posts2 .card, .posts3 .card {

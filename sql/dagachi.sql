@@ -1288,6 +1288,15 @@ update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63Szlhn
 
 commit;
 
+select * from club_member;
+
+SELECT * FROM club_member where member_id = 'honggd';
+
+insert into club_member values('honggd',2,default,default,0,default);
+insert into club_member values('honggd',3,default,default,0,default);
+insert into club_member values('honggd',4,default,default,0,default);
+insert into club_member values('honggd',5,default,default,0,default);
+
 
 --insert into club_member values('user9',1,default,default,3,default);
 insert into club_member values('user9',2,default,default,3,default);
@@ -1298,6 +1307,3 @@ insert into club_member values('user9',6,default,default,3,default);
 insert into club_member values('user9',7,default,default,3,default);
 
 commit;
-
-select * from club_schedule_place;
-select * from member where member_id = 'honggd';
