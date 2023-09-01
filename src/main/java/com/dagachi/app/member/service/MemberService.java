@@ -23,11 +23,7 @@ import com.dagachi.app.member.entity.MemberInterest;
 import com.dagachi.app.member.entity.MemberLike;
 import com.dagachi.app.member.entity.MemberProfile;
 
-
-
 public interface MemberService extends UserDetailsService {
-	
-	
 
 	Member findMemberById(String memberId);
 	
@@ -91,8 +87,5 @@ public interface MemberService extends UserDetailsService {
 	int memberPwUpdate(MemberPwUpdateDto memberPwUpdateDto);
 
 	UserDetails checkKakao(String memberId);
-
-
-
 
 }
