@@ -43,8 +43,6 @@ public class KakaoPayServiceImpl implements KakaoPayService {
 		parameters.add("cancel_url", "http://localhost:8080/dagachi/payment/cancel");
 		parameters.add("fail_url", "http://localhost:8080/dagachi/payment/fail");
 		
-		System.out.println("1");
-		
 		// 요청 header, 사용자입력값
         HttpHeaders httpHeaders = new HttpHeaders();
 //        httpHeaders.set("Authorization", HttpHeaders.AUTHORIZATION);
@@ -57,7 +55,6 @@ public class KakaoPayServiceImpl implements KakaoPayService {
         HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(parameters, httpHeaders);
 		
 		RestTemplate restTemplate = new RestTemplate(); // 타서버로의 요청객체
-        System.out.println("2");
 //        String uri = "https://kapi.kakao.com/v1/payment/ready";
 //        kakaoReady = restTemplate.exchange(URI.create(uri), HttpMethod.GET, requestEntity, KakaoReadyResponse.class);
         kakaoReady = restTemplate.postForObject(
@@ -65,7 +62,6 @@ public class KakaoPayServiceImpl implements KakaoPayService {
                 requestEntity,
                 KakaoReadyResponse.class);
 //        restTemplate.postForObject("https://kapi.kakao.com/v1/payment/ready", requestEntity, KakaoReadyResponse.class);
-		System.out.println("3");
 		return kakaoReady;
 	}
 	

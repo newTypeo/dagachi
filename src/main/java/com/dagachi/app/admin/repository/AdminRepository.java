@@ -3,6 +3,7 @@ package com.dagachi.app.admin.repository;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -12,6 +13,7 @@ import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
 import com.dagachi.app.admin.dto.AdminInquiryUpdateDto;
 import com.dagachi.app.admin.entity.AdminInquiry;
 import com.dagachi.app.admin.entity.MainPage;
+import com.dagachi.app.club.entity.ClubBoardAttachment;
 
 @Mapper
 public interface AdminRepository {
@@ -30,5 +32,8 @@ public interface AdminRepository {
 
 	List<AdminInquiry> searchInquirys(Map<String, Object> searchInquirydMap, RowBounds rowBounds);
 	List<AdminInquiry> searchInquiry(Map<String, Object> searchInquirydMap);
+
+	@Insert("insert into main_page values(seq_main_page_id.nextval, #{originalFilename}, #{renamedFilename}, sysdate)")
+	int updateBanner(ClubBoardAttachment attach);
 
 }
