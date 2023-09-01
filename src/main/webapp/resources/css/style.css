@@ -38,7 +38,7 @@ section {
 
 /********** header **********/
 header {
-	height: 200px;
+	height: 120px;
 	margin: 0 auto;
 	display: flex;
 	justify-content: flex-end;
@@ -53,12 +53,12 @@ header {
 
 #main-logo {
 	height: 120px;
-	margin-top: 120px;
+	margin-top: 24px;
 }
 
 header #header-nav-container {
 	float: right;
-	top: 130px;
+	top: 65px;
 	position: absolute;
 }
 
@@ -110,23 +110,46 @@ header #header-nav-container span {
 
 /********** my-club-info ***********/
 #my-club-info {
-	background-color: lightpink;
 	width: 320px;
 	margin-left: 20px;
 	box-sizing: border-box;
-	border: 1px solid #aaa;
+	border: 2px solid #aaa;
 	border-radius: 10px;
 }
 .myInfo {
-	height: 220px;
+	height: 200px;
 	padding: 10px;
 	display: flex;
-	border-bottom: 1px solid #aaa;
+	border-bottom: 2px solid #aaa;
+}
+.my-info-place {
+	margin-top: 15px;
 }
 .myProfile {
 	width: 100px;
 	height: 100px;
 }
+.mainArea {
+	margin-left: 20px;
+}
+.my-info-nickname {
+	margin-left: 20px;
+    font-weight: 900;
+    color: black;
+}
+.myClubList {
+	 padding: 10px;
+}
+.myClubList-header-text-style {
+	margin-left: 20px;
+    margin-top: 10px;
+    font-weight: revert;
+}
+
+.img-place {
+	margin-top: 30px;
+}
+
 .myProfile > img {
 	width: 100px;
 	height: 100px;
@@ -408,12 +431,12 @@ figure.snip0045.green .position {
 
 .container2 {
 	margin-left: 150px;
+	margin-top: 25px;
 }
 
 /*제목 헤드라인*/
 .title-headLine{
 	font-size: x-large;
-    border-bottom: 1px solid;
     font-family: ui-sans-serif;
     margin-left: 15px;
 }

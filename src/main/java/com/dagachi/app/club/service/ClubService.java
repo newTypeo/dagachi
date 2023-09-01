@@ -122,6 +122,7 @@ public interface ClubService {
 	List<ClubAndImage> categoryList(String category);
 	
 	int permitApply(ClubManageApplyDto clubManageApplyDto);
+	
 	int refuseApply(ClubManageApplyDto clubManageApplyDto);
 	
 	List<ClubScheduleAndMemberDto> findScheduleById(int clubId);

@@ -217,6 +217,7 @@ public interface ClubRepository {
 
 	@Insert("insert into club_member values(#{memberId}, #{clubId}, default, null, default, default)")
 	int permitApply(ClubManageApplyDto clubManageApplyDto);
+	
 	@Delete("delete from club_apply where member_id = #{memberId} and club_id = #{clubId}")
 	int refuseApply(ClubManageApplyDto clubManageApplyDto);
 	

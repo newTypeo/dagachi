@@ -85,13 +85,13 @@ margin-left: 184px;
 	
 	<div class="codeConpare-btn">
 	<button type="button" class="btn btn-primary" id="compareCodeBtn">인증번호 확인</button>
-	</form:form>	
 	</div>
+	</form:form>	
 	
 	<script>
 	var token = $("meta[name='_csrf']").attr("content");
 	var header = $("meta[name='_csrf_header']").attr("content");
-	.addEventListener("click", function() {
+	sendCodeButton.addEventListener("click", function() {
 		var username = document.getElementById('floatingInputDisabled').value; // username 입력 필드 값
         var email = document.getElementById('floatingInputDisabled2').value; // email 입력 필드 값
 		console.log(email);
@@ -102,7 +102,7 @@ margin-left: 184px;
             method: "get",
             data: {
             	username: username,
-                email: emailsendCodeButton
+                email: email
             },
             beforeSend(xhr) {
             	console.log('xhr : ', xhr)

@@ -124,7 +124,7 @@ create table club (
 );
 create table club_member (
 	member_id	varchar2(30)	not null,
-	club_id	number	not null,
+	club_id number	not null,
 	enroll_at	 date	default sysdate,
 	last_activity_date	date,
 	club_member_role number	 default 0, -- 	COMMENT '0 : 일반회원 (default) 1: 임원 (최대 5명) null가능 2: 서브리더 (1명) null가능 3: 리더 (1명) notnull',
@@ -1023,6 +1023,7 @@ insert into Member_interest values('user30','인문학/독서');
 insert into Member_interest values('user30','요리/제조');
 
 -- 활동지역 샘플
+insert into activity_area values('admin',1168010100,2,3);
 insert into activity_area values('honggd',1168010100,2,3);
 insert into activity_area values('user1',6,5,3);
 insert into activity_area values('user2',11,12,13);
@@ -1305,6 +1306,7 @@ insert into club_member values('user9',4,default,default,3,default);
 insert into club_member values('user9',5,default,default,3,default);
 insert into club_member values('user9',6,default,default,3,default);
 insert into club_member values('user9',7,default,default,3,default);
+select * from member;
+
 
 commit;
-
