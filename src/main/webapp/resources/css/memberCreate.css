@@ -1,5 +1,124 @@
 @charset "UTF-8";
 
+* {
+  box-sizing: border-box;
+  font-family: 'IBM Plex Sans KR', sans-serif;
+  font-style: normal;
+}
+
+body {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 700px;
+  height: 2150px;
+  margin-top: 60px;
+  margin-bottom: 60px;
+  background: #ffffff;
+  border: solid 4px #DDD;
+  border-radius: 20px;
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0); 
+  transition: box-shadow 0.3s ease-in-out; 
+}
+.container:hover {
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.3);
+}
+.member-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 470px;
+  height: 818px;
+  margin-top: 72px;
+  margin-bottom: 70px;
+}
+
+.header {
+  width: 466px;
+  height: 94px;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 47px;
+  color: #2990D0;
+}
+
+.user-info div {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #797979;
+  border-bottom: 1px solid #cfcfcf;
+  width: 466px;
+  height: 80px;
+  margin-top: 21px;
+}
+
+.user-info #email {
+  border-bottom: 1px solid #2990D0;
+}
+
+.gender {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 140px;
+  height: 23.94px;
+  margin-top: 50px;
+}
+
+.gender input {
+  width: 20px;
+  height: 19.95px;
+  background: #ebebeb;
+  border: 1px solid #2990D0;
+}
+
+.gender label {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.agree-check {
+  width: 454px;
+  height: 21.06px;
+  margin-top: 52.05px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  color: #000000;
+}
+
+.loginbtn {
+  display: flex;
+  flex-direction: column;
+  margin-top: 350px;
+  width: 470px;
+  height: 106px;
+  border-top: 1px solid #2990D0;
+}
+
+button {
+  margin-top: 30px;
+  width: 470px;
+  height: 75px;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 27px;
+  text-align: center;
+  color: #2990D0;
+  background: #ffffff;
+  border: 1px solid #2990D0;
+  border-radius: 10px;
+}
+
+/******/
 /* 모달 스타일 */
 .modal {
     top: -920px;

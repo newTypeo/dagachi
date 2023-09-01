@@ -112,8 +112,6 @@ const searchClub = (btnTag) => {
 	document.querySelector("#columnHidden").value = column;
 	document.searchClubFrm.submit();
 };
-
-
 </script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

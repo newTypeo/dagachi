@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
@@ -88,6 +89,8 @@ public interface MemberService extends UserDetailsService {
 	int kakaoUpadteCreate( MemberCreateDto member);
 	
 	int memberPwUpdate(MemberPwUpdateDto memberPwUpdateDto);
+
+	UserDetails checkKakao(String memberId);
 
 
 

@@ -81,6 +81,7 @@ create sequence seq_main_page_id;
 create sequence seq_admin_notice_id;
 create sequence seq_alarm_id;
 
+
 ------------------------------------------------- 테이블 -------------------------------------------------
 create table member (
 	member_id	varchar2(30),
