@@ -9,10 +9,9 @@
 </jsp:include>
 <style>
 .submit-div{
-	position: relative;
     width: 102px;
     margin-top: 29px;
-    margin-left: 1515px;
+    margin-left: 1100px;
     height: 300px;
 }
 
@@ -29,27 +28,20 @@
 		action = "${pageContext.request.contextPath}/club/${domain}/clubGalleryInsert.do"
 		enctype = "multipart/form-data" method = "post">
 		
-		<h2>썸네일에 쓸 사진</h2>
+		<h2>썸네일에 쓸 사진을 가장먼저 첨부해주세요!</h2>
 		<div class="custom-file">
 		<input type="file" name="upFile" class="custom-file-input" id="fileInput"
 		aria-describedby="inputGroupFileAddon01" multiple> <label
-		class="custom-file-label" for="fileInput" >${layout.title}</label>
+		class="custom-file-label" for="fileInput" ></label>
 	  	</div>
 	  	
-	  	<br/><br/>
-		<div class="custom-file">
-		<input type="file" name="upFile2" class="custom-file-input" id="fileInput2"
-		aria-describedby="inputGroupFileAddon01" multiple> <label
-		class="custom-file-label" for="fileInput2" >${layout.mainImage}</label>
-	  	</div>
 	  	
-	  	<br/><br/>
-		<div class="custom-file">
-		<input type="file" name="upFile3" class="custom-file-input" id="fileInput3"
-		aria-describedby="inputGroupFileAddon01" multiple> <label
-		class="custom-file-label" for="fileInput3" >${layout.mainImage}</label>
+		<div id="attchBox">
+					<ul>
+						
+					</ul>
+				</div>
 	  	</div>
-		
 		
 			<div class="submit-div">
 				<button class = "btn btn-primary" type = "submit">사진 올리기</button>
@@ -73,31 +65,52 @@ document.querySelector("#fileInput").addEventListener("change",(e) => {
 
 });
 
-document.querySelector("#fileInput2").addEventListener("change",(e) => {
+document.querySelector("#fileInput").addEventListener("change",() => {
+
 	
-	const label = e.target.nextElementSibling;
-	const files = e.target.files;
-	if(files[0]) {
-		label.innerHTML = files[0].name;
-	}
-	else {
-		label.innerHTML = "파일을 선택하세요";
-	}
+	const files = Array.from(document.querySelector("#fileInput").files);
+	
+	renderAttach(files);
 
 });
 
-document.querySelector("#fileInput3").addEventListener("change",(e) => {
+const renderAttach=(files)=>{
 	
-	const label = e.target.nextElementSibling;
-	const files = e.target.files;
-	if(files[0]) {
-		label.innerHTML = files[0].name;
-	}
-	else {
-		label.innerHTML = "파일을 선택하세요";
-	}
+	let html='';
+	
+	const attBox=document.querySelector("#attchBox ul");
+	
+	attBox.innerHTML = files.reduce((html,file,index)=>{
+		 return html + `
+			<li>
+				 \${file.name}  
+				 <button type="button" class="selCancel" onclick="selCancel(this,\${index})">x</button>
+			 </li>
+		`;
+	},"");
+};
 
-});
+const selCancel= (e,index)=>{
+	
+	const fileElement = e.parentElement;
+    fileElement.remove();
+    
+    const filesInput = document.querySelector("#inputFile01");
+    const selectedFiles = Array.from(filesInput.files);
+    selectedFiles.splice(index, 1);
+    
+    const updatedFileList = new DataTransfer();
+    
+    for (const file of selectedFiles) 
+        updatedFileList.items.add(file);
+    
+    filesInput.files = updatedFileList.files;
+    
+    const files = Array.from(filesInput.files);
+    
+    renderAttach(files);
+    
+};
 
 
 </script>

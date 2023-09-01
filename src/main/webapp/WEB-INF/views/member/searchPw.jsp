@@ -91,7 +91,7 @@ margin-left: 184px;
 	<script>
 	var token = $("meta[name='_csrf']").attr("content");
 	var header = $("meta[name='_csrf_header']").attr("content");
-	sendCodeButton.addEventListener("click", function() {
+	.addEventListener("click", function() {
 		var username = document.getElementById('floatingInputDisabled').value; // username 입력 필드 값
         var email = document.getElementById('floatingInputDisabled2').value; // email 입력 필드 값
 		console.log(email);
@@ -102,7 +102,7 @@ margin-left: 184px;
             method: "get",
             data: {
             	username: username,
-                email: email
+                email: emailsendCodeButton
             },
             beforeSend(xhr) {
             	console.log('xhr : ', xhr)
