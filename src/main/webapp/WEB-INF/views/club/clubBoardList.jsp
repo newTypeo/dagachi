@@ -49,29 +49,32 @@ window.onload = () => {
 			</ul>
 		</div>
 	</nav>
-
-	<select class="custom-select custom-select-lg mb-3" id="boardType" style="width: 120px;">
-		<option value="0" selected>전체보기</option>
-		<option value="1">자유글</option>
-		<option value="2">정모후기</option>
-		<option value="3">가입인사</option>
-		<option value="4">공지사항</option>
-	</select>
+	
 			
 
 	<div>
-		<button type="button" class="btn btn-primary" style="margin-left: 1255px; transform: translate(8px, 15px);"
+		<button type="button" class="btn btn-primary" style="margin-left: 1255px; transform: translate(8px, 70px);"
 			onclick="location.href = '${pageContext.request.contextPath}/club/${domain}/clubBoardCreate.do'">작성</button>
 	</div>
 
-	<div id="search-container" style="margin-top: -45px;">
-
-		<div>
-			<label for="searchType">검색타입 :</label> <select id="searchType">
-				<option value="title">제목</option>
-				<option value="writer">작성자</option>
-				<option value="content">내용</option>
+	<div id="search-container" style="margin-top: -20px;">
+		<div class="searchType-place" style="display: flex;">
+			<label for="searchType" style="transform: translate(0px, 2px);">◾게시물 타입</label>
+			<select id="boardType" style="height: 28px; margin-left: 5px;">
+				<option value="0" selected>전체보기</option>
+				<option value="1">자유글</option>
+				<option value="2">정모후기</option>
+				<option value="3">가입인사</option>
+				<option value="4">공지사항</option>
 			</select>
+	
+			<div>
+				<label for="searchType" style="margin-left:5px;">◾검색타입</label> <select id="searchType">
+					<option value="title">제목</option>
+					<option value="writer">작성자</option>
+					<option value="content">내용</option>
+				</select>
+			</div>
 		</div>
 		
 
