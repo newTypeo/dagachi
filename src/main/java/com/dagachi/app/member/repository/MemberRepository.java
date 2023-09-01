@@ -132,6 +132,12 @@ public interface MemberRepository {
 	@Update("update member set create_club_cnt = create_club_cnt + 1 where member_id = #{memberId}")
 	int buyCreateClubTicket(String memberId);
 	
+	@Select("select * from member where nickname = #{nickname}")
+	Member checkNickNameDuplicate(String nickname);
+	
+	@Select("select * from member where email = #{email}")
+	Member checkEmailDuplicate(String email);
+	
 	@Select("select count(*) from member_like where member_id = #{memberId} and like_sender = #{loginMemberId}")
 	int checkDuplicateMemberIdAndMyId(Map<String, Object> params);
 

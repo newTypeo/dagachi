@@ -89,6 +89,14 @@ public class MemberSecurityController {
 	@PostMapping("/memberCreate.do")
 	public String create(@Valid MemberCreateDto member, BindingResult bindingResult, RedirectAttributes redirectAttr,
 			@RequestParam String interests) throws UnsupportedEncodingException {
+	
+		if(bindingResult.hasErrors()) {
+			ObjectError error = bindingResult.getAllErrors().get(0);
+			redirectAttr.addFlashAttribute("msg", "다시 확인하고 입력하세요");
+			 log.debug("이게 interest -> {}", error);
+			 log.debug("오류가 나는걱이야 -> {}");
+			return "redirect:/member/memberCreate.do";
+		} 
 	    
 		JsonArray documents = kakaoMapApi(member.getMainAreaId(), "address"); 
 	    JsonElement document = documents.getAsJsonArray().get(0);
@@ -112,6 +120,8 @@ public class MemberSecurityController {
 	@PostMapping("/memberKakaoCreate.do")
 	public String kakaoUpadteCreate(@Valid MemberCreateDto member, BindingResult bindingResult, RedirectAttributes redirectAttr,
 			@RequestParam String interests) throws UnsupportedEncodingException {
+		log.debug("이게 member -> {}", member);
+	    log.debug("이게 interests -> {}", interests);		
 	    
 		JsonArray documents = kakaoMapApi(member.getMainAreaId(), "address"); 
 	    JsonElement document = documents.getAsJsonArray().get(0);
@@ -121,7 +131,6 @@ public class MemberSecurityController {
 	 
 	    String rawPassword = member.getPassword();
 	    String encodedPassword = passwordEncoder.encode(rawPassword);
-	    
 	    
 	    List<String> interest = Arrays.asList(interests.split(","));
 	    member.setInterest(interest);
@@ -153,8 +162,6 @@ public class MemberSecurityController {
 		int result = memberService.InquiryCreate(inquiry);
 		return "redirect:/member/memberAdminInquiryList.do";
 	}
-
-
 	
 
 	@GetMapping("/memberLogin.do")

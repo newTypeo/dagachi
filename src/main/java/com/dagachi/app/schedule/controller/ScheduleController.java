@@ -134,4 +134,16 @@ public class ScheduleController {
 		
 		return "redirect:/club/{domain}/scheduleDetail.do?no=" + no;
 	};
+	
+	@GetMapping("/clubSchedule.do")
+	public String clubSchedule(@PathVariable("domain") String domain, Model model) {
+		
+		Club club = clubService.findByDomain(domain);
+		ClubLayout layout = clubService.findLayoutById(club.getClubId());
+		
+		
+		model.addAttribute("clubName", club.getClubName());
+		model.addAttribute("layout", layout);
+		return "/club/schedule/scheduleList";
+	}
 }
