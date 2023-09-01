@@ -128,6 +128,9 @@ public interface MemberRepository {
 	
 	@Update("update member set password = #{password} where email = #{email}")
 	int memberPwUpdate(MemberPwUpdateDto memberPwUpdateDto);
+	
+	@Update("update member set create_club_cnt = create_club_cnt + 1 where member_id = #{memberId}")
+	int buyCreateClubTicket(String memberId);
 
 	
 }
