@@ -217,6 +217,7 @@ public interface ClubRepository {
 
 	@Insert("insert into club_member values(#{memberId}, #{clubId}, default, null, default, default)")
 	int permitApply(ClubManageApplyDto clubManageApplyDto);
+	
 	@Delete("delete from club_apply where member_id = #{memberId} and club_id = #{clubId}")
 	int refuseApply(ClubManageApplyDto clubManageApplyDto);
 	
@@ -355,6 +356,9 @@ public interface ClubRepository {
 	@Insert("insert into club_gallery_attachment (id, gallery_id, original_filename, renamed_filename,created_at, thumbnail) " +
 	        "values (seq_club_gallery_attachment_id.nextval, #{galleryId}, #{originalFilename}, #{renamedFilename}, default , #{thumbnail})")
 	int insertAttachment(ClubGalleryAttachment attach);
+	
+	@Select("select count(*) from recent_visit_list where club_id = #{clubId} and member_id = #{memberId}")
+	int checkDuplicateClubIdAndId(Map<String, Object> params);
 	
 	
 }

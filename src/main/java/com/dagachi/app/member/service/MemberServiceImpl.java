@@ -269,4 +269,9 @@ public class MemberServiceImpl implements MemberService{
 		return memberRepository.buyCreateClubTicket(memberId);
 	}
 	
+	@Override
+	public int checkDuplicateMemberIdAndMyId(Map<String, Object> params) {
+		return memberRepository.checkDuplicateMemberIdAndMyId(params);
+	}
+	
 }

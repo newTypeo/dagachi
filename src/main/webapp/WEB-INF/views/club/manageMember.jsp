@@ -64,6 +64,9 @@ const manageApply = (clubId, memberId, permit) => {
 			document.querySelector("input[name=memberId]").value = memberId;		
 		} else return; 
 	}
+	document.querySelector("input[name=clubId]").value = clubId;
+	document.querySelector("input[name=permit]").value = permit;
+	document.querySelector("input[name=memberId]").value = memberId;
 	document.permitApplyFrm.submit();
 };
 </script>

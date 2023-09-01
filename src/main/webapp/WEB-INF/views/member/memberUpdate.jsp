@@ -147,7 +147,7 @@ section {
 				<div>
 					<label for="nickname">닉네임</label>
 					<input type="text" class="form-control11" id="nickname"
-						name="nickname" value="Nokil" value="" required>
+						name="nickname" value="${loginMember.nickname}" required>
 				</div>
 			</div>
 
