@@ -1292,7 +1292,7 @@ select * from club_member;
 
 SELECT * FROM club_member where member_id = 'honggd';
 
-insert into club_member values('honggd',2,default,default,0,default);
+--insert into club_member values('honggd',2,default,default,0,default);
 insert into club_member values('honggd',3,default,default,0,default);
 insert into club_member values('honggd',4,default,default,0,default);
 insert into club_member values('honggd',5,default,default,0,default);

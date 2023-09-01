@@ -89,6 +89,8 @@ public interface MemberService extends UserDetailsService {
 	
 	int memberPwUpdate(MemberPwUpdateDto memberPwUpdateDto);
 
+	int buyCreateClubTicket(String memberId);
+
 
 
 
