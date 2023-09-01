@@ -6,20 +6,20 @@
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <style>
-#alarmBox{
-            visibility: hidden;
-}
+#alarmBox {visibility : hidden;}
 </style>
+
 <head>
 <meta charset="UTF-8">
 <title>다가치</title>
 
 <script src="https://code.jquery.com/jquery-3.6.0.js"
-	integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
-	crossorigin="anonymous"></script>
+		integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+		crossorigin="anonymous"></script>
 
 <!-- bootstrap js: jquery load 이후에 작성할것.-->
 <script
@@ -36,8 +36,7 @@
 	crossorigin="anonymous">
 
 <!-- 아이콘 링크 -->
-<script src="https://kit.fontawesome.com/d7ccac7be9.js"
-	crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/d7ccac7be9.js" crossorigin="anonymous"></script>
 
 <!-- 폰트 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -47,8 +46,7 @@
 	rel="stylesheet">
 
 <!-- 사용자작성 css -->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/style.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css" />
 
 <!-- 토큰 -->
 <meta id="_csrf" name="_csrf" content="${_csrf.token}" />
@@ -84,10 +82,15 @@
 
 		<header>
 			<div id="main-logo-container">
-				<a href="${pageContext.request.contextPath}"> <img
-					id="main-logo"
-					src="${pageContext.request.contextPath}/resources/images/004.png"
-					class="p-2"></a>
+				<a href="${pageContext.request.contextPath}">
+					<img id="main-letter-logo"
+						 src="${pageContext.request.contextPath}/resources/images/mainLogo.png"
+						 class="p-2"></a>
+			
+				<a href="${pageContext.request.contextPath}">
+					<img id="main-logo"
+						 src="${pageContext.request.contextPath}/resources/images/004.png"
+						 class="p-2"></a>
 			</div>
 			<sec:authorize access="isAnonymous()">
 				<div id="header-nav-container">
@@ -114,11 +117,14 @@
 						onclick="document.memberLogoutFrm.submit();">로그아웃</a>
 				</div>
 
-				<c:if test="${memberId eq admin}">
 					<div class="dropdown">
-						<button id="admin-nav-btn"
-							class="btn btn-secondary dropdown-toggle" type="button"
-							data-toggle="dropdown" aria-expanded="false">회원관리</button>
+						
+						<sec:authorize access="hasRole('ADMIN')">
+							<button id="admin-nav-btn"
+								class="btn btn-secondary dropdown-toggle" type="button"
+								data-toggle="dropdown" aria-expanded="false">회원관리</button>
+						</sec:authorize>
+					
 						<div class="dropdown-menu">
 							<button class="dropdown-item" type="button">
 								<a href="${pageContext.request.contextPath}/admin/adminMemberList.do?keyword=&column=">회원조회</a>
@@ -141,7 +147,6 @@
 	
 						</div>
 					</div>
-				</c:if>
 				<!-- 로그인한 회원에 한해 최초 1회 실행되는 코드(반경 동정보 session에 저장) -->
 				<c:if test="${empty zoneSet1 or zoneSet1 eq null}">
 					<script>
@@ -160,7 +165,7 @@
 									url : "${pageContext.request.contextPath}/club/setZoneInSession.do",
 									data : {mainAreaName},
 									success() {
-										console.log("session에 동네 저장 완료!(종환)");
+										// console.log("session에 동네 저장 완료!(종환)");
 									}
 								}); // ajax3
 							} // success2

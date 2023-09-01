@@ -160,6 +160,10 @@ public class MemberSecurityController {
 	@GetMapping("/memberLogin.do")
 	public void memberLogin() {}
 
+	/**
+	 * 로그인 시 principal에 추가 정보 삽입
+	 * @author 동찬
+	 */
 	@PostMapping("/memberLoginSuccess.do")
 	public String memberLoginSuccess(@AuthenticationPrincipal MemberDetails memberDetails, HttpSession session) {
 		String memberId = memberDetails.getMemberId();
@@ -172,13 +176,11 @@ public class MemberSecurityController {
 		memberDetails.setMemberProfile(profile);
 		memberDetails.setMemberInterest(interests);
 		memberDetails.setClubMember(clubMembers);
-
-		System.out.println(memberDetails);
 		
 		// 리다이렉트 처리
 		SavedRequest savedRequest = (SavedRequest) session.getAttribute("SPRING_SECURITY_SAVED_REQUEST");
 		String location = savedRequest == null ? "/" : savedRequest.getRedirectUrl();
-		log.debug("location = {}", location);
+//		log.debug("location = {}", location);
 		return "redirect:" + location;
 	}
 
@@ -250,11 +252,15 @@ public class MemberSecurityController {
 					.originalFilename(originalFilename).renamedFilename(renamedFilename).build();
 
 			int result = memberService.updateMemberProfile(memberProfile);
+			
+			// 프로필사진 업데이트시 principal객체 업데이트
+			if(result != 0)
+				loginMember.getMemberProfile().setRenamedFilename(renamedFilename);
 		}
 
 		Member member = Member.builder().memberId(loginMember.getMemberId()).name(_member.getName())
-				.nickname(_member.getNickname()).phoneNo(_member.getPhoneNo()).address(_member.getAddress())
-				.gender(_member.getGender()).mbti(_member.getMbti()).birthday(_member.getBirthday()).build();
+								.nickname(_member.getNickname()).phoneNo(_member.getPhoneNo()).address(_member.getAddress())
+								.gender(_member.getGender()).mbti(_member.getMbti()).birthday(_member.getBirthday()).build();
 
 		int result2 = memberService.UpdateMember(member);
 
