@@ -13,6 +13,7 @@
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/club.css"/>
 
+
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=93a8b5c4b928b15af7b1a5137fba4962"></script>
 
 <section id="club-board-sec" class="">
