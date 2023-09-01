@@ -7,30 +7,32 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
 <style>
+* {
+  box-sizing: border-box;
+  font-family: 'IBM Plex Sans KR', sans-serif;
+  font-style: normal;
+}
 
-	
-    /* 가운데 정렬을 위한 스타일 */
    #reportInquiryListTable {
       background-color: #fff;
 	  padding: 20px;
-	  border-radius: 5px;
+	  border-radius: 20px;
 	  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-	  width: 60%;
+	  width: 70%;
 	  text-align: center;
-	  magin: 0 auto;
     }
 
-    /* 각 열 사이 여백을 주기 위한 스타일 */
     #reportInquiryListTable td {
-        padding: 8px; /* 원하는 여백 크기로 조정 가능 */
+        padding: 8px; 
     }
 	#admin-report-inquiry-list-sec {
-	    text-align: center; /* 수평 가운데 정렬 */
-	    margin-left:100px; 
+	    text-align: center; 
+	    margin-left:820px; 
+	    hight : 1000px;
 	}
 
 .gray-text {
-    color: gray; /* 회색으로 글자 색상 설정 */
+    color: gray; 
 }
 
  .oneList:hover {

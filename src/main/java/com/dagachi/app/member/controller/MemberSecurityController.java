@@ -194,6 +194,21 @@ public class MemberSecurityController {
 		}
 		return ResponseEntity.status(HttpStatus.OK).body(Map.of("available", available, "memberId", memberId));
 	}
+	
+	
+	// 카카오톡 아이디 확인 
+	@GetMapping("/checkKakao.do")
+	@ResponseBody
+	public ResponseEntity<?> checkKakao(@RequestParam String memberId) {
+		boolean available = false;
+		try {
+			UserDetails memberDetails = memberService.checkKakao(memberId);
+		} catch (UsernameNotFoundException e) {
+			available = true;
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(Map.of("available", available, "memberId", memberId));
+	}
+	
 
 	@PostMapping("memberDelete.do")
 	public String memberDelete(@AuthenticationPrincipal MemberDetails member) {

@@ -259,5 +259,14 @@ public class MemberServiceImpl implements MemberService{
 	public int memberPwUpdate(MemberPwUpdateDto memberPwUpdateDto) {
 		return memberRepository.memberPwUpdate(memberPwUpdateDto);
 	}
+
+	@Override
+	public UserDetails checkKakao(String memberId) {
+		return memberRepository.checkKakao(memberId);
+	}
+	@Override
+	public int buyCreateClubTicket(String memberId) {
+		return memberRepository.buyCreateClubTicket(memberId);
+	}
 	
 }
