@@ -226,7 +226,7 @@ span.email { display:none; font-size:12px; position:absolute; top:12px; right:10
       </fieldset>
          
            <fieldset class="area_agreement">
-           
+            
            
                             <legend class="sub_title">이용약관 / 개인정보 수집 및 이용 동의</legend>
                             <div class="agree-check">
