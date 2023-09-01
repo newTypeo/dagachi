@@ -137,6 +137,9 @@ public interface MemberRepository {
 	
 	@Select("select * from member where email = #{email}")
 	Member checkEmailDuplicate(String email);
+	
+	@Select("select count(*) from member_like where member_id = #{memberId} and like_sender = #{loginMemberId}")
+	int checkDuplicateMemberIdAndMyId(Map<String, Object> params);
 
 	
 }

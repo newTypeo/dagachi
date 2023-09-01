@@ -1,22 +1,23 @@
 package com.dagachi.app.club.entity;
 
-import java.time.LocalDateTime;
+import java.util.List;
+
+import com.dagachi.app.member.entity.Member;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
-
 @Data
 @SuperBuilder
+@ToString(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(callSuper = true)
-public class ClubScheduleEnrollMember {
-	private String memberId;
-	private int clubId;
-	private int scheduleId;
-	private LocalDateTime createdAt;
+public class ClubGalleryDetails extends ClubGallery{
+
+			private Member member;
+			private List<ClubGalleryAttachment> attachments;
+			
+	
 }

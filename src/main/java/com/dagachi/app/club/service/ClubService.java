@@ -31,6 +31,7 @@ import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
 import com.dagachi.app.club.entity.ClubBoardAttachment;
 import com.dagachi.app.club.entity.ClubDetails;
+import com.dagachi.app.club.entity.ClubGalleryDetails;
 import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
@@ -121,6 +122,7 @@ public interface ClubService {
 	List<ClubAndImage> categoryList(String category);
 	
 	int permitApply(ClubManageApplyDto clubManageApplyDto);
+	
 	int refuseApply(ClubManageApplyDto clubManageApplyDto);
 	
 	List<ClubScheduleAndMemberDto> findScheduleById(int clubId);
@@ -190,6 +192,10 @@ public interface ClubService {
 	int clubMemberDelete(Map<String, Object> params);
 
 	ClubMember findClubMemberRoleByClubId(Map<String, Object> params);
+
+	int postGallery(ClubGalleryDetails clubGallery);
+
+	int checkDuplicateClubIdAndId(Map<String, Object> params);
 
 	
 

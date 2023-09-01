@@ -13,6 +13,7 @@ import com.dagachi.app.admin.dto.AdminInquiryUpdateDto;
 import com.dagachi.app.admin.entity.AdminInquiry;
 import com.dagachi.app.admin.entity.MainPage;
 import com.dagachi.app.admin.repository.AdminRepository;
+import com.dagachi.app.club.entity.ClubBoardAttachment;
 import com.dagachi.app.club.service.ClubServiceImpl;
 import com.dagachi.app.member.service.MemberServiceImpl;
 
@@ -73,5 +74,9 @@ public class AdminServiceImpl implements AdminService{
 		return adminRepository.searchInquiry(searchInquirydMap);
 	}
 
-
+	@Override
+	public int updateBanner(ClubBoardAttachment attach) {
+		return adminRepository.updateBanner(attach);
+	}
+	
 }

@@ -69,6 +69,9 @@ import com.dagachi.app.club.entity.ClubBoard;
 import com.dagachi.app.club.entity.ClubBoardAttachment;
 import com.dagachi.app.club.entity.ClubBoardDetails;
 import com.dagachi.app.club.entity.ClubDetails;
+import com.dagachi.app.club.entity.ClubGallery;
+import com.dagachi.app.club.entity.ClubGalleryAttachment;
+import com.dagachi.app.club.entity.ClubGalleryDetails;
 import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
@@ -342,7 +345,8 @@ public class ClubController {
 	 */
 	@PostMapping("/{domain}/manageApply.do")
 	public String permitApply(@PathVariable("domain") String domain, ClubManageApplyDto clubManageApplyDto) {
-
+		
+		log.debug("ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ = {}" ,clubManageApplyDto);
 		if (clubManageApplyDto.isPermit())
 			clubService.permitApply(clubManageApplyDto); // 가입 승인
 		else
@@ -452,13 +456,18 @@ public class ClubController {
 		
 		// 최근 본 모임 전체 조회 (현우)
 		List<ClubRecentVisited> recentVisitClubs = clubService.findAllrecentVisitClubs();
-
+		
+		Map<String, Object> params = Map.of(
+				 "memberId", memberId,
+				 "clubId", clubId
+				 );
+		
 		int checkDuplicate = clubService.checkDuplicateClubId(clubId);
-
+		int checkDuplicated = clubService.checkDuplicateClubIdAndId(params);
 //		log.debug("recentVisitClubs = {}", recentVisitClubs);
 
 		// 최근 본 모임 클릭 시 중복검사 후 db에 삽입
-		if (checkDuplicate == 0) {
+		if (checkDuplicated == 0) {
 			int result = clubService.insertClubRecentVisitd(memberId, clubId);
 		}
 
@@ -1376,66 +1385,49 @@ public class ClubController {
 	public String clubGalleryCreate(
 			@AuthenticationPrincipal MemberDetails loginMember,
 			@PathVariable("domain") String domain,
-			@RequestParam(value = "upFile") MultipartFile upFile,
-			@RequestParam(value = "upFile2") MultipartFile upFile2,
-			@RequestParam(value = "upFile3") MultipartFile upFile3
+			@RequestParam(value = "upFile") List<MultipartFile> upFiles
 			) throws IllegalStateException, IOException{
-		int clubId = clubService.clubIdFindByDomain(domain);
+		
 		String uploadDir = "/club/gallery/";
-		CreateGalleryDto createGalleryDto = null;
-		if(!upFile.isEmpty()) {
-			 String originalFilename = upFile.getOriginalFilename();
-			 String renamedFilename = DagachiUtils.getRenameFilename(originalFilename);
-			 File destFile = new File(uploadDir + renamedFilename);
-			 
-			 upFile.transferTo(destFile);
-			 
-			 createGalleryDto = createGalleryDto.builder()
-					 .clubId(clubId)
-					 .memberId(loginMember.getMemberId())
-					 .originalFilename(originalFilename)
-					 .renamedFilename(renamedFilename)
-					 .build();
-			 
-			 int result = clubService.clubGalleryCreate(createGalleryDto);
-		 }
-		if(!upFile2.isEmpty()) {
-			 String originalFilename = upFile2.getOriginalFilename();
-			 String renamedFilename = DagachiUtils.getRenameFilename(originalFilename);
-			 File destFile = new File(uploadDir + renamedFilename);
-			 
-			 upFile2.transferTo(destFile);
-			 
-			 createGalleryDto = createGalleryDto.builder()
-					 .clubId(clubId)
-					 .memberId(loginMember.getMemberId())
-					 .originalFilename(originalFilename)
-					 .renamedFilename(renamedFilename)
-					 .build();
-			 
-			 int result = clubService.clubGalleryCreate2(createGalleryDto);
-		 }
-		if(!upFile3.isEmpty()) {
-			 String originalFilename = upFile3.getOriginalFilename();
-			 String renamedFilename = DagachiUtils.getRenameFilename(originalFilename);
-			 File destFile = new File(uploadDir + renamedFilename);
-			 
-			 upFile3.transferTo(destFile);
-			 
-			 createGalleryDto = createGalleryDto.builder()
-					 .clubId(clubId)
-					 .memberId(loginMember.getMemberId())
-					 .originalFilename(originalFilename)
-					 .renamedFilename(renamedFilename)
-					 .build();
-			 
-			 int result = clubService.clubGalleryCreate2(createGalleryDto);
+		List<ClubGalleryAttachment> attachments = new ArrayList<>();
+		if(!upFiles.isEmpty()) {
+				attachments = insertAttachments(upFiles, attachments);
+			int clubId = clubService.clubIdFindByDomain(domain);
+			ClubGalleryDetails clubGallery = ClubGalleryDetails.builder().clubId(clubId)
+					.memberId(loginMember.getMemberId())
+					.attachments(attachments)
+					.build();
+			
+			int result = clubService.postGallery(clubGallery);
+			
 		 }
 		
 		return "redirect:/club/" + domain;
 	}
 
 
+	public List<ClubGalleryAttachment> insertAttachments(List<MultipartFile> upFiles,
+			List<ClubGalleryAttachment> attachments) throws IllegalStateException, IOException {
+		for (int i = 0; i < upFiles.size(); i++) {
+			if (!upFiles.get(i).isEmpty()) {
+				String originalFilename = upFiles.get(i).getOriginalFilename();
+				String renamedFilename = DagachiUtils.getRenameFilename(originalFilename);
+				File destFile = new File("/club/gallery/" + renamedFilename);
+				upFiles.get(i).transferTo(destFile); // 실제 파일 저장
+	
+				ClubGalleryAttachment attach = ClubGalleryAttachment.builder()
+																.originalFilename(originalFilename)
+																.renamedFilename(renamedFilename).build();
+				if (i == 0)
+					attach.setThumbnail(Status.Y);
+				else
+					attach.setThumbnail(Status.N);
+	
+				attachments.add(attach);
+			}
+		}
+		return attachments;
+	}
 
 	@GetMapping("{domain}/clubManage.do") 
 	public String clubManage(@PathVariable("domain") String domain, @AuthenticationPrincipal MemberDetails member, Model model) {

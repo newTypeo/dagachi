@@ -281,4 +281,9 @@ public class MemberServiceImpl implements MemberService{
 		return memberRepository.checkEmailDuplicate(email);
 	}
 	
+	@Override
+	public int checkDuplicateMemberIdAndMyId(Map<String, Object> params) {
+		return memberRepository.checkDuplicateMemberIdAndMyId(params);
+	}
+	
 }

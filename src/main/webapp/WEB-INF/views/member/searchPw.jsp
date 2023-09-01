@@ -87,7 +87,10 @@ margin-left: 184px;
 	<button type="button" class="btn btn-primary" id="compareCodeBtn">인증번호 확인</button>
 	</div>
 	</form:form>	
+<<<<<<< HEAD
 	
+=======
+>>>>>>> branch 'master' of https://github.com/newTypeo/dagachi
 	
 	<script>
 	var token = $("meta[name='_csrf']").attr("content");
@@ -127,8 +130,6 @@ margin-left: 184px;
             }
         });
     });
-	
-	 
 	 
 	
 	</script>

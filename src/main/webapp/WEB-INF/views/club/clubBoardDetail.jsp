@@ -56,7 +56,7 @@
 	<div>
 
 		<div class="comment-input">
-			<div id="count-input">0/100</div>
+			<div id="count-input">0/99</div>
 			<textarea id="comment-textarea" class="comment-textarea" placeholder="댓글을 입력하세요." maxlength="150" style="height: 65px;"></textarea>
 			<button id="comment-button" class="comment-button"
 				onclick="creatComment()">게시</button>

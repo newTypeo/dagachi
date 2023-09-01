@@ -41,6 +41,7 @@ import com.dagachi.app.club.entity.ClubBoardDetails;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubDetails;
 import com.dagachi.app.club.entity.ClubGalleryAttachment;
+import com.dagachi.app.club.entity.ClubGalleryDetails;
 import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
@@ -606,5 +607,26 @@ public class ClubServiceImpl implements ClubService {
 	@Override
 	public ClubMember findClubMemberRoleByClubId(Map<String, Object> params) {
 		return clubRepository.findClubMemberRoleByClubId(params);
+	}
+	
+	@Override
+	public int postGallery(ClubGalleryDetails clubGallery) {
+		int result = 0;
+
+		result = clubRepository.postGallery(clubGallery);
+
+		List<ClubGalleryAttachment> attachments = ((ClubGalleryDetails) clubGallery).getAttachments();
+		if (attachments != null && !attachments.isEmpty()) {
+			for (ClubGalleryAttachment attach : attachments) {
+				attach.setGalleryId(clubGallery.getGalleryId());
+				result = clubRepository.insertAttachment(attach);
+			}
+		}
+		return result;
+	}
+	
+	@Override
+	public int checkDuplicateClubIdAndId(Map<String, Object> params) {
+		return clubRepository.checkDuplicateClubIdAndId(params);
 	}
 }

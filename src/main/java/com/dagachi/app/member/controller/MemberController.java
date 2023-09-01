@@ -128,14 +128,14 @@ public class MemberController {
 		 String loginMemberId = loginMember.getMemberId();
 		 
 		 // 중복DB가 있을 경우, 있는 데이터 반환 없으면 0 반환
-		 int checkDuplicate = memberService.checkDuplicateMemberId(memberId);
-		 
 		 Map<String, Object> params = Map.of(
-				"memberId", memberId,
-				"loginMemberId", loginMemberId
+				 "memberId", memberId,
+				 "loginMemberId", loginMemberId
 				 );
+		 int checkDuplicate = memberService.checkDuplicateMemberId(memberId);
+		 int checkDuplicated = memberService.checkDuplicateMemberIdAndMyId(params);
 		 // 중복이 없는 경우 코드 실행
-		 if(checkDuplicate == 0) {
+		 if(checkDuplicated == 0) {
 			 int result = memberService.memberLike(params);			 
 		 }
 
@@ -147,10 +147,15 @@ public class MemberController {
 	 public ResponseEntity<?> memberLikeCheck(
 			 @RequestParam String memberId,
 			 @AuthenticationPrincipal MemberDetails loginMember) {
-		 
+		 String loginMemberId = loginMember.getMemberId();
+		 Map<String, Object> params = Map.of(
+				 "memberId", memberId,
+				 "loginMemberId", loginMemberId
+				 );
 		 int checkDuplicate = memberService.checkDuplicateMemberId(memberId);
+		 int checkDuplicated = memberService.checkDuplicateMemberIdAndMyId(params);
 		 
-		 boolean memberLikeCheck = checkDuplicate != 0 ? true : false;
+		 boolean memberLikeCheck = checkDuplicated != 0 ? true : false;
 				 
 		 return ResponseEntity.status(HttpStatus.OK).body(memberLikeCheck);
 	 }
@@ -348,5 +353,6 @@ public class MemberController {
 		redirectAttr.addFlashAttribute("msg", "비밀번호가 변경되었습니다.");
 		
 		return "redirect:/member/searchPw.do";
+		
 	}
 }

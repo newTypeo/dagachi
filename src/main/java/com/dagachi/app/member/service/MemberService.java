@@ -93,5 +93,7 @@ public interface MemberService extends UserDetailsService {
 	Member checkNickNameDuplicate(String nickname);
 
 	Member checkEmailDuplicate(String email);
+	
+	int checkDuplicateMemberIdAndMyId(Map<String, Object> params);
 
 }
