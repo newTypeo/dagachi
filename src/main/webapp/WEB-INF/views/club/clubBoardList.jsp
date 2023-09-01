@@ -13,24 +13,23 @@ div#search-content {display: none;}
 </style>
 
 <script>
-	window.onload = () =>{
-		const boardLoadType = ${no};
-	//	console.log(no)
-		renderBoardList(boardLoadType);
-		document.querySelector("#boardType").value= boardLoadType;
-	};
+window.onload = () => {
+	const boardLoadType = ${no};
+	renderBoardList(boardLoadType);
+	document.querySelector("#boardType").value= boardLoadType;
+};
 </script>
 
 
 <section id="club-board-sec" class="">
 
-			<select class="custom-select custom-select-lg mb-3" id="boardType" style="width: 120px;">
-				<option value="0" selected>전체보기</option>
-				<option value="1">자유글</option>
-				<option value="2">정모후기</option>
-				<option value="3">가입인사</option>
-				<option value="4">공지사항</option>
-			</select>
+	<select class="custom-select custom-select-lg mb-3" id="boardType" style="width: 120px;">
+		<option value="0" selected>전체보기</option>
+		<option value="1">자유글</option>
+		<option value="2">정모후기</option>
+		<option value="3">가입인사</option>
+		<option value="4">공지사항</option>
+	</select>
 			
 
 	<div>
@@ -53,8 +52,8 @@ div#search-content {display: none;}
 			<form onsubmit="searchClubBoard(event)">
 				<input type="hidden" name="searchType" value="title" /> <input
 					type="text" name="searchKeyword" size="25"
-					placeholder="게시글의 제목을 입력하세요." value="" />
-				<button type="submit">검색</button>
+					placeholder="게시글의 제목을 입력하세요." style="height: 37px;" value="" />
+				<button type="submit" class="btn btn-outline-secondary">검색</button>
 			</form>
 		</div>
 
