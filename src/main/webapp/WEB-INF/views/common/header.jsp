@@ -121,25 +121,22 @@
 						data-toggle="dropdown" aria-expanded="false">회원관리</button>
 					<div class="dropdown-menu">
 						<button class="dropdown-item" type="button">
-							<a
-								href="${pageContext.request.contextPath}/admin/adminMemberList.do?keyword=&column=">회원조회</a>
+							<a href="${pageContext.request.contextPath}/admin/adminMemberList.do?keyword=&column=">회원조회</a>
 						</button>
 						<button class="dropdown-item" type="button">
-							<a
-								href="${pageContext.request.contextPath}/admin/adminQuitMemberList.do?keyword=&column=">탈퇴회원조회</a>
+							<a href="${pageContext.request.contextPath}/admin/adminQuitMemberList.do?keyword=&column=">탈퇴회원조회</a>
 						</button>
 						<button class="dropdown-item" type="button">
-							<a
-								href="${pageContext.request.contextPath}/admin/adminReportMemberList.do?keyword=&column=">신고회원조회</a>
+							<a href="${pageContext.request.contextPath}/admin/adminReportMemberList.do?keyword=&column=">신고회원조회</a>
 						</button>
 						<button class="dropdown-item" type="button">
-							<a
-								href="${pageContext.request.contextPath}/admin/adminClubList.do?keyword=&column=">모임목록</a>
+							<a href="${pageContext.request.contextPath}/admin/adminClubList.do?keyword=&column=">모임목록</a>
 						</button>
 						<button class="dropdown-item" type="button">
-							<a
-								href="${pageContext.request.contextPath}/admin/adminInquiryList.do?">문의
-								목록/답변(관리자)</a>
+							<a href="${pageContext.request.contextPath}/admin/adminUpdateBanner.do">배너변경</a>
+						</button>
+						<button class="dropdown-item" type="button">
+							<a href="${pageContext.request.contextPath}/admin/adminInquiryList.do?">문의목록/답변(관리자)</a>
 						</button>
 
 					</div>

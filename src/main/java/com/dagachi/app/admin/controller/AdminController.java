@@ -1,5 +1,7 @@
 package com.dagachi.app.admin.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,23 +21,27 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.dagachi.app.Pagination;
 import com.dagachi.app.admin.dto.AdminInquiryUpdateDto;
 import com.dagachi.app.admin.entity.AdminInquiry;
 import com.dagachi.app.admin.entity.MainPage;
 import com.dagachi.app.admin.service.AdminService;
+import com.dagachi.app.club.common.Status;
 import com.dagachi.app.club.entity.Club;
+import com.dagachi.app.club.entity.ClubBoardAttachment;
 import com.dagachi.app.club.service.ClubService;
+import com.dagachi.app.common.DagachiUtils;
 import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.entity.MemberDetails;
 import com.dagachi.app.member.service.MemberService;
 
 import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 @RequestMapping("/admin")
-@Slf4j
 public class AdminController {
 
 	@Autowired
@@ -49,12 +55,40 @@ public class AdminController {
 	
 	static final int LIMIT = 10;
 	
+	@GetMapping("/adminUpdateBanner.do")
+	public void adminUpdateBanner() {}
+	
+	/**
+	 * 관리자 - 메인 배너 추가
+	 * @author 종환
+	 */
+	@PostMapping("/adminUpdateBanner.do")
+	public String adminUpdateBanner(@RequestParam(value = "upFile", required = false) List<MultipartFile> upFiles) throws IllegalStateException, IOException {
+		
+		if (!upFiles.get(0).isEmpty()) {
+			String originalFilename = upFiles.get(0).getOriginalFilename();
+			String renamedFilename = DagachiUtils.getRenameFilename(originalFilename);
+			File destFile = new File("/main/" + renamedFilename);
+			
+			// 실제 파일 저장
+			upFiles.get(0).transferTo(destFile);
+
+			ClubBoardAttachment attach = ClubBoardAttachment.builder()
+															.originalFilename(originalFilename)
+															.renamedFilename(renamedFilename).build();
+			int result = adminService.updateBanner(attach);
+		}
+		
+		return "redirect:/";
+	}
+	
 	@GetMapping("/adminInquiryUpdate.do")
 	public String adminInquiryUpdate(@RequestParam int inquiryId, Model model){
 	    AdminInquiry inquiry = adminService.findInquiry(inquiryId);
 	    model.addAttribute("inquiry",inquiry );
 	    return "/admin/adminInquiryUpdate";
 	}
+	
 	@PostMapping("/adminInquiryUpdate.do")
 	public String adminInquiryUpdate(@RequestParam String inquiryId, @RequestParam String response, @AuthenticationPrincipal MemberDetails member) {
 	    AdminInquiryUpdateDto inquiryUpdate = new AdminInquiryUpdateDto(); 
