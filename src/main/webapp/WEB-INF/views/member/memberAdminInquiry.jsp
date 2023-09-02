@@ -11,7 +11,9 @@
 <section id="club-Inquiry-sec" class="">
 	<form:form  name="InquiryFrm"
 		action="${pageContext.request.contextPath}/member/memberAdminInquiry.do"
-		enctype="multipart/form-data" method="post">
+		enctype="multipart/form-data" method="post"
+		style="width: 700px; margin: 80px auto;">
+		<h3 style="text-align: center; font-weight: bold;">📢 Q & A</h3>
 		<div class="form-group">
 			<label for="exampleFormControlInput1"></label> <input type="text"
 				class="form-control" id="exampleFormControlInput1" name="title"
@@ -22,7 +24,8 @@
 				<label class="input-group-text" for="inputGroupSelect01">카테고리</label>
 			</div>
 			<select class="custom-select" id="inputGroupSelect01"
-				name="type">
+				name="type"
+				style="height: 50px; text-align: center;">
 				<option value="1" selected>회원 정보 문의</option>
 				<option value="2">소모임 관련 문의</option>
 				<option value="3">결제 문의</option>
@@ -30,7 +33,7 @@
 			</select>
 			
 			
-			<div class="form-check">
+			<div class="form-check" style="transform: translateX(10px);">
 			  <input class="form-check-input" type="radio" name="open" id="openAll" value="0" checked>
 			  <label class="form-check-label" for="openAll">전체 공개</label>
 			  </br>
@@ -47,7 +50,7 @@
 				rows="3" placeholder="내용을 입력하세요"></textarea>
 		</div>
 
-		<button type="submit" class="btn btn-primary btn-lg">문의 하기</button>
+		<button type="submit" class="btn btn-primary btn-lg" style="margin-left: 290px;">문의 하기</button>
 		
 	 </form:form>
 </section>
