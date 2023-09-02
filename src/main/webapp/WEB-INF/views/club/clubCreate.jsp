@@ -53,12 +53,17 @@
 	cursor: pointer;
 	text-align: center;
 }
+.clubCreate-tilte-headLine {
+    text-align: center;
+    font-weight: bold;
+}
+}
 </style>
 
 <section id="club-create-sec" class="">
 
 	<div id="club-create-form-wrapper">
-		<h1>소모임 생성</h1>
+		<h3 class="clubCreate-tilte-headLine">◼ 소모임 생성</h3>
 		<form:form name="clubCreateFrm"
 		action="${pageContext.request.contextPath}/club/clubCreate.do"
 		enctype="multipart/form-data" method="post">
