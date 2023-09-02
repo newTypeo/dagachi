@@ -9,6 +9,9 @@ a {
 	text-decoration: none;
 	cursor: pointer;
 }
+a:hover {
+	color: inherit;
+}
 
 section {
 	width: 1320px;
@@ -362,6 +365,111 @@ h5, h3 {
 
 
 
+/************ schedule create *************/
+#schedule-create-container {
+	background-color: pink;
+	width: 800px;
+	margin: 0 auto;
+	padding: 0 20px 20px 20px;
+}
+#schedule-create-container label {
+	margin-top: 20px;
+	margin-left: 10px;
+}
+#date-input-container,
+#capacity-expence-container {
+	display: flex;
+	justify-content: space-between;
+}
+#date-input-container > div,
+#capacity-expence-container > div {
+	width: 360px;
+}
+#date-input-container > span {
+	font-size: 24px;
+	margin-top: 52px;
+}
+#place-create-container {
+	padding: 10px;
+	height: 310px;
+	border: 2px solid #eee;
+	border-radius: 5px;
+	margin-top: 20px;
+}
+.modal {
+    top: -1050px;
+}
 
+/* 모달 내용 스타일 */
+.modal-body {
+    height: 200px;
+}
+.modal.show .modal-dialog {
+    -webkit-transform: none;
+    transform: none;
+    margin-top: 250px;
+}
 
+/* 메인 지역 ID 및 주소 검사 스타일 */
+.address-checked {
+    padding: 5px;
+    margin: 0;
+}
+.address-checked:hover {
+    background-color: #ddd;
+    cursor: pointer;
+}
 
+#address-input-container {
+	display: flex;
+	justify-content: space-between;
+}
+#address-input-container1 {
+	width: 410px;
+}
+#address-input-container2 {
+	width: 300px
+}
+#place-add-btn {
+	background-color: #2990D0;
+	font-weight: bold;
+	color: white;
+	margin: 20px 0 20px 0;
+	float: right;
+}
+
+.added-place {
+    border: 2px solid #2990D0;
+    border-radius: 5px;
+    margin-top: 5px;
+    padding: 5px;
+    display: flex;
+    height: 70px;
+    align-items: center;
+}
+.startTime-container {
+	position: absolute;
+	transform: translate(388px, -15px);
+}
+.updown-container {
+	width: 20px;
+	margin-right: 10px;
+}
+.updown-container > div {
+	text-align: center;
+	cursor: pointer;
+}
+.cancle-container {
+    position: absolute;
+    transform: translate(725px, 0px);
+}
+.cancle-box {
+	cursor: pointer;
+}
+
+#scheduleCreateBtn2 {
+	background-color: #2990D0;
+	font-weight: bold;
+	color: white;
+	transform: translate(914px, 0px);
+}
