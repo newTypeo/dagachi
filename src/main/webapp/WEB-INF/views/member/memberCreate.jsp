@@ -17,16 +17,211 @@
 </c:if>
 
 <style>
+* {
+  box-sizing: border-box;
+  font-family: 'IBM Plex Sans KR', sans-serif;
+  font-style: normal;
+}
+
+body {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 700px;
+  height: 1900px;
+  margin-top: 130px;
+  margin-bottom: 60px;
+  background: #ffffff;
+  border: solid 4px #DDD;
+  border-radius: 20px;
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0); 
+  transition: box-shadow 0.3s ease-in-out; 
+}
+.container:hover {
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.3);
+}
+.member-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 470px;
+  height: 818px;
+  margin-top: 72px;
+  margin-bottom: 70px;
+}
+
+.header {
+  width: 466px;
+  height: 94px;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 47px;
+  color: #2990D0;
+}
+
+.user-info div {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #797979;
+  border-bottom: 1px solid #cfcfcf;
+  width: 466px;
+  height: 80px;
+  margin-top: 21px;
+}
+
+.user-info #email {
+  border-bottom: 1px solid #2990D0;
+}
+
+.gender {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 140px;
+  height: 23.94px;
+  margin-top: 50px;
+}
+
+.form-control input {
+  width: 20px;
+  height: 19.95px;
+  background: #ebebeb;
+  border: 1px solid #2990D0;
+}
+
+
+.agree-check {
+  width: 454px;
+  height: 21.06px;
+  margin-top: 52.05px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  color: #000000;
+}
+
+.loginbtn button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 텍스트를 수직 방향 가운데 정렬 */
+  align-items: center; /* 텍스트를 수평 방향 가운데 정렬 */
+  margin-top: 40px;
+  width: 470px;
+  height: 106px;
+  border-top: 1px solid #2990D0;
+  font-size: 30px;
+  color: #ffffff;
+  background: #2990D0;
+  border: 1px solid #2990D0;
+  border-radius: 10px;
+}
+
+.btn-email {
+  background: #2990D0;
+  color: #ffffff;
+  border-radius: 5px;
+  border: 1px solid #2990D0; 
+   
+}
+/******/
+.modal {
+    top: 50px;
+}
+
+.modal-body {
+    height: 200px;
+}
+.modal.show .modal-dialog {
+    -webkit-transform: none;
+    transform: none;
+    margin-top: 250px;
+}
+
+.main-area-id-checked, .address-checked {
+    padding: 5px;
+    margin: 0;
+}
+
+.main-area-id-checked:hover, .address-checked:hover {
+    background-color: #ddd;
+    cursor: pointer;
+}
+
+#tagContainer {
+    display: flex;
+    background-color: lightskyblue;
+    border-radius: 5px;
+}
+
+.tagWrapper {
+    height: 30px;
+    margin: 5px;
+    border: 2px solid white;
+    position: relative;
+    border-radius: 5px;
+    display: flex;
+}
+
+.modal1 {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.7);
+}
+
+.modal-content1 {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+    height: 400px;
+    overflow: scroll;
+}
+
+/* 닫기 버튼 1 스타일 */
+.close1 {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* 보기 버튼 스타일 */
+.btn_view {
+    cursor: pointer;
+}
+
+
 .disabled-button {
   opacity: 0.7; /* 오파시티 설정 */
   cursor: not-allowed; /* 마우스 커서를 기본으로 변경 */
 }
 div#memberId-container { position:relative; padding:0px; }
 div#nickname-container { position:relative; padding:0px; }
+div#name-container { position:relative; padding:0px; }
 div#email-container { position:relative; padding:0px; }
+div#password-container { position:relative; padding:0px; }
+div#passwordConfirmation-container { position:relative; padding:0px; }
 span.guide { display:none; font-size:12px; position:absolute; top:12px; right:10px; }
 span.nickname { display:none; font-size:12px; position:absolute; top:12px; right:10px; }
+span.name { display:none; font-size:12px; position:absolute; top:12px; right:10px; }
 span.email { display:none; font-size:12px; position:absolute; top:12px; right:10px; }
+span.password { display:none; font-size:12px; position:absolute; top:12px; right:10px; }
+span.passwordConfirmation { display:none; font-size:12px; position:absolute; top:12px; right:10px; }
 #phone-container {
   display: flex; /* Flexbox 사용 */
   align-items: center; /* 수직 정렬을 가운데로 조정 */
@@ -48,6 +243,157 @@ span.email { display:none; font-size:12px; position:absolute; top:12px; right:10
 .phone.error{
 	display: none;
 }
+
+/* 전체 동의 영역 스타일 */
+.agreement {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
+    height: 400px;
+    background-color: #f8f8f8;
+}
+
+/* 전체 동의 제목 스타일 */
+.sub_title {
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 20px;
+  border-bottom: 1px solid #2990D0; /* 아래쪽에 1px 두께의 선 추가 */
+  display: inline-block; /* 선을 추가하기 위해 inline-block으로 설정합니다. */
+  padding-bottom: 5px; /* 선 아래 여백 조절 (선택 사항) */
+}
+
+.sub_title1 {
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 20px;
+
+}
+
+/* 전체 동의 체크박스 및 라벨 스타일 */
+.all_check_area {
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.all_check_area input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+/* '내용보기' 링크 스타일 */
+.btn_view {
+  color: gray;
+  text-decoration: none;
+  font-size: 14px;
+  margin-left: 10px;
+}
+
+/* 개인정보 수집 dl 스타일 */
+.agreement dl {
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.agreement dl dt {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.agreement dl dd {
+  margin-bottom: 15px;
+}
+
+/* 필수 항목 텍스트 스타일 */
+.agreement .check label {
+  font-weight: bold;
+}
+/* email_group 클래스에 대한 스타일 */
+.email_group {
+    display: flex; /* 내부 요소를 가로로 나란히 배치하기 위해 Flex 사용 */
+}
+
+
+
+.form-control#email {
+    width: 370px; /* 원하는 너비로 설정 (예: 100%는 부모 요소의 너비에 맞게 확장) */
+}
+.form-control#floatingInputDisabled3 {
+    width: 370px; /* 원하는 너비로 설정 (예: 100%는 부모 요소의 너비에 맞게 확장) */
+}
+/* fadeIn.first 내부 요소를 가로로 나란히 표시 */
+.fadeIn.first {
+	display: flex;
+    align-items: stretch;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+
+/* 아이디 라벨 스타일 */
+.fadeIn.first label {
+    font-size: 16px; /* 라벨의 텍스트 크기 조절 */
+    color: #333; /* 라벨 텍스트 색상 설정 */
+    margin-right: 30px; /* 라벨과 입력 필드 사이 간격 설정 */
+}
+
+/* 아이디 입력 필드 스타일 */
+.fadeIn.first input[type="text"] {
+    flex: 1; /* 남은 공간을 모두 사용하여 확장 */
+    font-size: 16px; /* 입력 필드 텍스트 크기 조절 */
+}
+/* 아이디 입력 필드 너비 조정 */
+#memberId {
+    width: 370px; /* 원하는 너비로 설정 (예: 100%는 부모 요소의 너비에 맞게 확장) */
+    font-size: 16px; /* 입력 필드 텍스트 크기 조절 */
+}
+#password{
+    width: 370px;  /* 원하는 너비로 설정 (예: 100%는 부모 요소의 너비에 맞게 확장) */
+    font-size: 16px; /* 입력 필드 텍스트 크기 조절 */
+}
+#passwordConfirmation{
+    width: 370px; /* 원하는 너비로 설정 (예: 100%는 부모 요소의 너비에 맞게 확장) */
+    font-size: 16px; /* 입력 필드 텍스트 크기 조절 */
+}
+#name{
+    width: 370px;  /* 원하는 너비로 설정 (예: 100%는 부모 요소의 너비에 맞게 확장) */
+    font-size: 16px; /* 입력 필드 텍스트 크기 조절 */
+}
+#nickname{
+    width:  370px;  /* 원하는 너비로 설정 (예: 100%는 부모 요소의 너비에 맞게 확장) */
+    font-size: 16px; /* 입력 필드 텍스트 크기 조절 */
+}
+
+/* .fadeIn.first 클래스 내부의 라디오 버튼에만 적용되는 CSS */
+.fadeIn.first input[type="radio"][name="gender"] {
+    /* 라디오 버튼 스타일 (숨김) */
+    display: none;
+}
+
+.fadeIn.first input[type="radio"][name="gender"] + label {
+    /* 라디오 버튼 레이블 스타일 */
+    margin-right: 10px; /* 라디오 버튼 레이블 간의 간격 조정 */
+    padding: 4px 8px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.fadeIn.first input[type="radio"][name="gender"]:checked + label {
+    /* 선택된 라디오 버튼 스타일 */
+    background-color: #2990D0;
+    color: #fff;
+    border-color: #2990D0;
+}
+/* 마우스 커서 숨기기 */
+.fadeIn.first {
+    cursor: none;
+}
 </style>
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/memberCreate.css"/>
@@ -67,43 +413,54 @@ span.email { display:none; font-size:12px; position:absolute; top:12px; right:10
             <label>아이디</label>
                   <div id="memberId-container">
                      <input type="text" class="form-control" name="memberId" id="memberId"  placeholder="아이디를 작성해주세요.">
-                     <span class="guide error" style="color: red; font-size: 12px;">이 아이디는 이미 사용중입니다.</span>
-                     <span class="guide reg"style="color: red; font-size: 12px;" >영,숫자로만 이루어진 5~19자리여야합니다.</span>
+                     <span class="guide error" style="color: GRAY; font-size: 12px;">이 아이디는 이미 사용중입니다.</span>
+                     <span class="guide reg"style="color: GRAY; font-size: 12px;" >영,숫자로만 이루어진 5~19자리여야합니다.</span>
                      <input type="hidden" id="idValid" value="0"/>
                   </div>         
          </div>      
+         
 		<div class="fadeIn first">
 		    <label>비밀번호</label>
+		     <div id="name-container">
 		    <input type="password" class="form-control" name="password" id="password" placeholder="대소문자 영문,특수문자,숫자를 포함하여 9자 이상" required>
-		</div>      
+		    <span class="password error" style="color: GRAY; font-size: 12px;">비밀번호 형식이 올바르지 않습니다.</span>
+		    </div>
+		</div>
+		
 		<div class="fadeIn first">
 		    <label>비밀번호 확인</label>
+		     <div id="passwordConfirmation-container">
 		    <input type="password" class="form-control" id="passwordConfirmation" placeholder="위의 비밀번호를 다시 입력해주세요." required>
-			 <span class="passwordAlert" style="color: red; font-size: 12px;"></span>   
+			<span class="passwordConfirmation error" style="color: GRAY; font-size: 12px;">비밀번호가 일치하지 않습니다.</span>
+			</div>
 		</div>   
+		
 		<div class="fadeIn first">
-		  <label>이름</label>
-		  <input type="text" class="form-control" name="name" id="name" placeholder="이름을 입력(2글자 이상) 해주세요." required>
-		  <span class="nameAlert" style="color: red; font-size: 12px;"></span>
+		   <label>이름</label>
+			  <div id="name-container">
+			  <input type="text" class="form-control" name="name" id="name" placeholder="이름을 입력(2글자 이상) 해주세요." required>
+			  <span class="name reg" style="color: GRAY; font-size: 12px;">이름은 한글 2~5글자 여야합니다.</span>
+			  <input type="hidden" id=nameValid" value="0"/>		  
+			</div>
 		</div>
+		
          <div class="fadeIn first">
                 <label>닉네임</label>
 			    <div id="nickname-container">
 			        <input type="text" class="form-control" name="nickname" id="nickname"  placeholder="닉네임을 입력해주세요.">
-			        <span class="nickname error" style="color: red; font-size: 12px;">이 닉네임은 이미 사용중입니다.</span>
-			        <span class="nickname reg" style="color: red; font-size: 12px;">특수문자가 안들어간 5~10자리여야합니다.</span>
+			        <span class="nickname error" style="color: GRAY; font-size: 12px;">이 닉네임은 이미 사용중입니다.</span>
+			        <span class="nickname reg" style="color: GRAY; font-size: 12px;">특수문자가 안들어간 5~10자리여야합니다.</span>
 			        <input type="hidden" id="nicknameValid" value="0"/>
 			    </div>		  
          </div>   
          
          <div class="fadeIn first">
-            <label>전화번호</label>
+            <label>전화번호  </label><span class="phone error" style="color: GRAY; font-size: 12px;"> 핸드폰 번호 형식이 올바르지 않습니다.</span>
 			<div id="phone-container">
 			  <input type="text" class="form-control" name="phone1" id="phone1" maxlength="3" required  placeholder="010">-
 			  <input type="text" class="form-control" name="phone2" id="phone2" maxlength="4" required placeholder="4자리">-
 			  <input type="text" class="form-control" name="phone3" id="phone3" maxlength="4" required placeholder="4자리">
 			  <input type="hidden" id="phone" name="phoneNo" value="">
-			  <span class="phone error" style="color: red; font-size: 12px;">핸드폰 번호 형식이 올바르지 않습니다.</span>
 			</div>
          </div>   
          
@@ -111,28 +468,7 @@ span.email { display:none; font-size:12px; position:absolute; top:12px; right:10
             <label>생년월일</label>
                <input type="date" class="form-control" name="birthday" id="birthday" required/>
          </div>      
-         <div class="fadeIn first">
-            <label>이메일</label>
-			    <div id="email-container">
-			        <input type="text" class="form-control" name="email" id="email" placeholder="이메일 양식에 맞게 작성해주세요.">
-			        <span class="email error" style="color: red; font-size: 12px;" >이 이메일은 이미 사용중입니다.</span>
-			        <span class="email reg" style="color: red; font-size: 12px;">올바른 이메일 형식이어야 합니다.</span>
-			        <input type="hidden" id="emailValid" value="0"/>
-			    </div>	   
-            <div class = "code-btn">
-            <button type="button" class="btn btn-primary" id="sendCodeButton">인증코드 보내기</button>
-            </div>               
-            <div>인증 코드</div>
-            <div class="form-floating mb-3">
-              <input type="text" class="form-control" id="floatingInputDisabled3" placeholder="q1w2e3r4" name = "code" required>
-              <label for="floatingInputDisabled"></label>
-            </div>
-            <div><p id="emailWarning" style="color: red;"></p></div>
-            <div class = "emailWarning "></div>
-               <div class="codeConpare-btn">
-               <button type="button" class="btn btn-primary" id="compareCodeBtn">인증번호 확인</button>
-               </div>
-         </div>   
+                     
          <div class="fadeIn first">
             <label>성별</label>
                  <input type="radio" name="gender" id="male" value="M" checked>
@@ -140,7 +476,35 @@ span.email { display:none; font-size:12px; position:absolute; top:12px; right:10
                  
                  <input type="radio" name="gender" id="female" value="F">
                  <label for="female">여</label>
+         </div>
+         
+         <div class="fadeIn first">
+            <label>이메일</label>
+            <div class = "email_group">
+			    <div id="email-container">
+			        <input type="text" class="form-control" name="email" id="email" placeholder="이메일 양식에 맞게 작성해주세요.">
+			        <span class="email error" style="color: GRAY; font-size: 12px;" >이 이메일은 이미 사용중입니다.</span>
+			        <span class="email reg" style="color: GRAY; font-size: 12px;">올바른 이메일 형식이어야 합니다.</span>
+			        <input type="hidden" id="emailValid" value="0"/>
+			    </div>	   
+	            <div class = "code-btn">
+	           		 <button type="button" class = "btn-email" id="sendCodeButton">인증코드 보내기</button>
+	          	</div>  
+	         </div>
+	         
+	          <div class = "email_group">
+	            <div>
+	              <input type="text" class="form-control" id="floatingInputDisabled3" placeholder="인증코드를 입력해주세요." name = "code" required>
+	              <label for="floatingInputDisabled"></label>
+	            </div>
+	            <div>
+	              <button type="button" class = "btn-email"  id="compareCodeBtn">인증번호 확인</button>
+	            </div>
+            </div>
+            <div><p id="emailWarning" style="color: GRAY;"></p></div>
+              <div class = "emailWarning "></div>
          </div>   
+   
       </fieldset>
       
       <fieldset class = "area_interest">
@@ -171,7 +535,6 @@ span.email { display:none; font-size:12px; position:absolute; top:12px; right:10
                </div>      
       </fieldset>
       <fieldset class = "type">
-      <div>관심 정보</div>
          <div class="fadeIn first"> 
              <label for="mbti">MBTI</label>
                     <div class="toggle-radio" data-style="rounded"> 
@@ -193,9 +556,6 @@ span.email { display:none; font-size:12px; position:absolute; top:12px; right:10
                         <label><input type="radio" name="mbti" value="ENTJ" class="custom-radio"> ENTJ</label>
                     </div>
                 </div>
-
-
-
 				<div class="fadeIn first"> 
 			    <label for="interests">관심사</label>
 				        <div class="form-group">
@@ -218,17 +578,15 @@ span.email { display:none; font-size:12px; position:absolute; top:12px; right:10
 				            <label><input type="checkbox" name="interests" value="애완동물"> 애완동물</label>
 				            <label><input type="checkbox" name="interests" value="자유주제"> 자유주제</label>
 				            <input type="hidden" name="interest" > 
-				            <div><p id="interestError" style="color: red;"></p></div>
+				            <div><p id="interestError" style="color: GRAY;"></p></div>
 				        </div>		
 			         </div>
 
 
       </fieldset>
          
-           <fieldset class="area_agreement">
-            
-           
-                            <legend class="sub_title">이용약관 / 개인정보 수집 및 이용 동의</legend>
+           <fieldset class="agreement">
+                            <legend class="sub_title1">이용약관 / 개인정보 수집 및 이용 동의</legend>
                             <div class="agree-check">
                                 <div class="all_check_area">
                                     <input type="checkbox" id="all" class="all_check">
@@ -247,8 +605,7 @@ span.email { display:none; font-size:12px; position:absolute; top:12px; right:10
                                 <div data-error_insert_container="">
                                     <input type="checkbox" id="chk3" class="check" name="PRIVACY" data-parsley-required="true" data-parsley-multiple="PRIVACY">
                                     <label for="chk3">(필수) 개인정보 수집 및 이용 동의</label>
-                                     <a href="javascript:void(0);"class="btn_view2" title="개인정보 수집 및 이용 동의" id="openModalBtn2">내용보기</a>
-                                    <div>
+                                <div>
 
                                     </div>
                                     <dl>
@@ -266,29 +623,8 @@ span.email { display:none; font-size:12px; position:absolute; top:12px; right:10
                                         </dd>
                                     </dl>
                                 </div>
-                                <div>
-                                    <input type="checkbox" id="chk4" class="check" name="OFM0001">
-                                    <label for="chk4">(선택) 이메일 수신</label>
-                                    <span class="info_txt">단, 모임 참여와 관련된 정보는 수신동의 여부 관계없이 발송됩니다.</span>
-                                    <dl>
-                                        <dt>선택정보 수집</dt>
-                                        <dd>
-                                            <div>
-                                                <span>목적</span>회사 광고 및 파트너 센터 서비스 제공
-                                            </div>
-                                            <div>
-                                                <span>항목</span>이름, 이메일
-                                            </div>
-                                            <div>
-                                                <span>보유기간</span>수신 동의 철회 또는 회원 탈퇴 시 파기
-                                            </div>
-                                        </dd>
-                                    </dl>
-                                </div>
                             </div>
                         </fieldset>
-
-
       <div class="loginbtn">
          <button type="submit">가입</button>
        </div>   
@@ -303,14 +639,7 @@ span.email { display:none; font-size:12px; position:absolute; top:12px; right:10
            <jsp:include page="modalContent1.jsp" />
        </div>
    </div>
-   <!-- 모달 창 -->
-   <div id="myModal2" class="modal2">
-       <div class="modal-content2">
-           <span class="close2">&times;</span>
-           <jsp:include page="modalContent2.jsp" />
-       </div>
-   </div>
-   
+
    <!-- 활동지역 받는 모달창 -->
     <div class="modal modal-dialog modal-dialog-scrollable fade"
          id="main-area-id-modal" data-backdrop="static" data-keyboard="false"
@@ -380,10 +709,8 @@ var header = $("meta[name='_csrf_header']").attr("content");
 document.addEventListener('DOMContentLoaded', function() {
     var emailInput = document.querySelector("#email"); // email 입력 필드 요소
     var email = ""; // email 변수 초기화
-
     var emailWarning = document.getElementById('emailWarning'); // ID로 찾음
     var sendCodeButton = document.getElementById('sendCodeButton'); // 버튼 엘리먼트
-
     sendCodeButton.addEventListener("click", function() {
     	emailWarning.textContent = '인증번호 전송중. . . ';
         email = emailInput.value; // 버튼 클릭 시 입력 필드의 값을 가져옴
@@ -398,7 +725,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 xhr.setRequestHeader(header, token);
             },
             success: function(response) {
-               emailWarning.textContent = '이미 존재하는 이메일이거나, 양식이 올바르지 않으면 코드가 도착하지 않을수있습니다. 반복된다면 관리자에게 문의하세요. ';
+               emailWarning.textContent = '인증번호 발송 완료 !인증번호가 오지 않으면 입력하신 정보가 맞는지 확인해주세요.문제가 지속된다면 관리자에게 문의 바랍니다.';
                 console.log(response);
                 
                 var compareCodeBtn = document.getElementById('compareCodeBtn'); // 버튼 엘리먼트
@@ -472,18 +799,6 @@ document.getElementsByClassName("close1")[0].addEventListener("click", function(
 window.addEventListener("click", function(event) {//모달 닫기 ( 외부)
     if (event.target == document.getElementById("myModal")) {
         document.getElementById("myModal1").style.display = "none";
-    }
-});
-
-document.getElementById("openModalBtn2").addEventListener("click", function() {//모달 열기
-    document.getElementById("myModal2").style.display = "block";
-});
-document.getElementsByClassName("close2")[0].addEventListener("click", function() {//모달 닫기
-    document.getElementById("myModal2").style.display = "none";
-});
-window.addEventListener("click", function(event) {//모달 닫기 ( 외부)
-    if (event.target == document.getElementById("myModal2")) {
-        document.getElementById("myModal2").style.display = "none";
     }
 });
 
@@ -606,18 +921,20 @@ const interestError = document.getElementById('interestError');
 
 interestCheckboxes.forEach((checkbox) => {
     checkbox.addEventListener('change', () => {
-    	console.log(interestCheckboxes);
-    	console.log(interestError);
         const selectedInterestCount = document.querySelectorAll('input[type="checkbox"][name="interests"]:checked').length;
+
         if (selectedInterestCount < minInterestCount) {
             interestError.textContent = '최소 하나 이상의 관심사를 선택하세요.';
+            checkbox.checked = true; 
         } else if (selectedInterestCount > maxInterestCount) {
             interestError.textContent = '최대 세 개의 관심사까지 선택할 수 있습니다.';
+            checkbox.checked = false; 
         } else {
             interestError.textContent = '';
         }
     });
 });
+
 
 //멤버 아이디 실시간 유효성 검사
 $(document).ready(function() {
@@ -661,7 +978,6 @@ $(document).ready(function() {
 // 닉네임 실시간 검사
 document.addEventListener("DOMContentLoaded", function () {
   const nicknameInput = document.querySelector("#nickname");
-  const nicknameOk = document.querySelector(".nickname.ok");
   const nicknameError = document.querySelector(".nickname.error");
   const nicknameRegMsg = document.querySelector(".nickname.reg");
   const nicknameValid = document.querySelector("#nicknameValid");
@@ -673,26 +989,22 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!nicknameReg.test(value)) {
       nicknameRegMsg.style.display = "inline";
       nicknameError.style.display = "none";
-      nicknameOk.style.display = "none";
       nicknameValid.value = "0";
     } else {
       nicknameRegMsg.style.display = "none";
       $.ajax({
         url: "${pageContext.request.contextPath}/member/checkNicknameDuplicate.do",
         data: {
-          nickname: value
-        },
+          nickname: value},
         type: "GET",
         dataType: "json",
         success: function(responseData) {
           console.log(responseData);
-          const { available } = responseData;
+          const {available} = responseData;
           if (available) {
-            nicknameOk.style.display = "inline";
             nicknameError.style.display = "none";
             nicknameValid.value = "1";
           } else {
-            nicknameOk.style.display = "none";
             nicknameError.style.display = "inline";
             nicknameValid.value = "0";
           }
@@ -704,6 +1016,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 // 이메일 실시간검사
+//DOMContentLoaded 문서의 요소가 로드후 발생하는 이벤트
 document.addEventListener("DOMContentLoaded", function () {
 	  document.querySelector("#email").onkeyup = () => {
 	    const emailInput = document.querySelector("#email");
@@ -711,10 +1024,12 @@ document.addEventListener("DOMContentLoaded", function () {
 	    const emailRegMsg = document.querySelector(".email.reg");
 	    const emailValid = document.querySelector("#emailValid");
 	    const emailReg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+	    var sendCodeButton = document.getElementById('sendCodeButton');
 	    
 	    const value = emailInput.value;
 	    
 	    if (!emailReg.test(value)) {
+	      sendCodeButton.style.cssText = "opacity: 0.7; pointer-events: none;";
 	      emailRegMsg.style.display = "inline";
 	      emailError.style.display = "none";
 	      emailValid.value = "0";
@@ -730,12 +1045,14 @@ document.addEventListener("DOMContentLoaded", function () {
 	        success: function(responseData) {
 	          const { available } = responseData;
 	          if (available) {
-	            emailError.style.display = "none";
-	            emailValid.value = "1";
-	          } else {
-	            emailError.style.display = "inline";
-	            emailValid.value = "0";
-	          }
+	        	  sendCodeButton.style.cssText = "opacity: 1; pointer-events: auto;";
+	        	  emailError.style.display = "none";
+	        	  emailValid.value = "1";
+	        	} else {
+	        	  sendCodeButton.style.cssText = "opacity: 0.7; pointer-events: none;";
+	        	  emailError.style.display = "inline";
+	        	  emailValid.value = "0";
+	        	}
 	        }
 	      });
 	    }
@@ -743,100 +1060,80 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
 	
 // 비밀번호 검사
-document.querySelector("#passwordConfirmation").onkeyup = () => {
-  const password = document.querySelector("#password").value;
-  const passwordConfirmation = document.querySelector("#passwordConfirmation").value;
-  const passwordAlert = document.querySelector(".passwordAlert");
-  const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{9,}$/;
+    const passwordInput = document.querySelector("#password");
+    const passwordConfirmationInput = document.querySelector("#passwordConfirmation");
+    const passwordError = document.querySelector(".password.error");
+    const passwordConfirmationError = document.querySelector(".passwordConfirmation.error");
 
-  if (password !== passwordConfirmation) {
-    passwordAlert.innerText = "비밀번호가 일치하지 않습니다.";
-  } else if (!passwordPattern.test(password)) {
-    passwordAlert.innerText = "비밀번호 형식이 올바르지 않습니다. (대소문자 영문, 특수문자, 숫자를 포함하여 9자 이상)";
-  } else {
-    passwordAlert.innerText = ""; // 유효성 검사 통과
-  }
-};
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{9,}$/;
 
+    passwordInput.addEventListener("input", () => {
+        const password = passwordInput.value;
+        if (!passwordPattern.test(password)) {
+            passwordError.style.display = "inline";
+        } else {
+            passwordError.style.display = "none";
+        }
+    });
+
+    passwordConfirmationInput.addEventListener("keyup", () => {
+        const password = passwordInput.value;
+        const passwordConfirmation = passwordConfirmationInput.value;
+        if (password !== passwordConfirmation) {
+            passwordConfirmationError.style.display = "inline";
+        } else {
+            passwordConfirmationError.style.display = "none";
+        }
+    });
 	
 // 핸드폰 유효성 검사
-document.querySelector("#phone1").onkeyup = () => {
-  combinePhoneNumbers();
-};
+document.querySelector("#phone1").addEventListener("input", () => {
+    combinePhoneNumbers();
+});
 
-document.querySelector("#phone2").onkeyup = () => {
-  combinePhoneNumbers();
-};
+document.querySelector("#phone2").addEventListener("input", () => {
+    combinePhoneNumbers();
+});
 
-document.querySelector("#phone3").onkeyup = () => {
-  combinePhoneNumbers();
-};
+document.querySelector("#phone3").addEventListener("input", () => {
+    combinePhoneNumbers();
+});
+
 function combinePhoneNumbers() {
-  const phone1 = document.querySelector("#phone1").value;
-  const phone2 = document.querySelector("#phone2").value;
-  const phone3 = document.querySelector("#phone3").value;
-  const phoneInput = document.querySelector("#phone");
-  const phoneAlert = document.querySelector(".phone.error");
-  if (phone1.length !== 3 || phone2.length !== 4 || phone3.length !== 4) {
-    phoneAlert.innerText = "핸드폰 번호 형식이 올바르지 않습니다.";
-    document.querySelector(".phone.error").style.display = "inline";
-    phoneInput.value = "";
-  } else {
-    phoneAlert.innerText = ""; 
-    document.querySelector(".phone.error").style.display = "none";
-    phoneInput.value = `${phone1}-${phone2}-${phone3}`; 
-  }
+    const phone1 = document.querySelector("#phone1").value;
+    const phone2 = document.querySelector("#phone2").value;
+    const phone3 = document.querySelector("#phone3").value;
+    const phoneInput = document.querySelector("#phone");
+
+    // 숫자만 남기고 다른 문자는 제거
+    const sanitizedPhone1 = phone1.replace(/\D/g, "");
+    const sanitizedPhone2 = phone2.replace(/\D/g, "");
+    const sanitizedPhone3 = phone3.replace(/\D/g, "");
+
+    if (sanitizedPhone1.length !== 3 || sanitizedPhone2.length !== 4 || sanitizedPhone3.length !== 4) {
+        document.querySelector(".phone.error").style.display = "inline";
+        phoneInput.value = "";
+    } else {
+        phoneAlert.innerText = "";
+        document.querySelector(".phone.error").style.display = "none";
+        phoneInput.value = `${sanitizedPhone1}-${sanitizedPhone2}-${sanitizedPhone3}`;
+    }
 }
 
 // 이름 유효성 검사
-document.querySelector("#name").addEventListener("input", function () {
-    const nameInput = this.value.trim(); // 공백 제거
-    const nameAlert = document.querySelector(".nameAlert");
+        const nameInput = document.getElementById("name");
+        const nameReg = document.querySelector(".name.reg");
 
-    if (/^[가-힣]{2,5}$/.test(nameInput)) {
-      // 2자에서 5자 사이의 한국어 문자열인 경우
-      nameAlert.textContent = "";
-    } else {
-      // 조건에 맞지 않는 경우
-      nameAlert.textContent = "이름을 2자에서 5자 사이의 한국어로 입력해주세요.";
-    }
-  });
-  
+        nameInput.addEventListener("input", function () {
+            const name = nameInput.value.trim();
+            const isValid = /^[가-힣]{2,5}$/.test(name);
 
-// 조건 불 만족시 제출 버튼 비활성화
-document.querySelector('form[name="memberCreateFrm"]').addEventListener('submit', function (e) {
-  const memberId = document.querySelector("#memberId").value;
-  const password = document.querySelector("#password").value;
-  const passwordConfirmation = document.querySelector("#passwordConfirmation").value;
-  const name = document.querySelector("#name").value;
-  const nickname = document.querySelector("#nickname").value;
-  const phone1 = document.querySelector("#phone1").value;
-  const phone2 = document.querySelector("#phone2").value;
-  const phone3 = document.querySelector("#phone3").value;
-  const email = document.querySelector("#email").value;
-  const code = document.querySelector("#floatingInputDisabled3").value;
-  const submitButton = document.querySelector("button[type='submit']"); // 제출 버튼 선택
-
-  if (
-    memberId === "" ||
-    password === "" ||
-    passwordConfirmation === "" ||
-    name === "" ||
-    nickname === "" ||
-    phone1 === "" ||
-    phone2 === "" ||
-    phone3 === "" ||
-    email === "" ||
-    code === ""
-  ) {
-    alert("입력 필드를 모두 작성해주세요.");
-    e.preventDefault(); // 폼 제출 막기
-    submitButton.disabled = false; // 제출 버튼 활성화
-  } else {
-    submitButton.disabled = true; // 제출 버튼 비활성화
-  }
-});
-
+            if (!isValid) {
+                nameReg.style.display = "block";
+            } else {
+                nameReg.style.display = "none";
+            }
+        });
 </script>
 
 

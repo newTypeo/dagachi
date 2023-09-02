@@ -136,7 +136,6 @@ public class MemberSecurityController {
 	    member.setInterest(interest);
 	    member.setPassword(encodedPassword);
 	    member.setMainAreaId(bCode);
-	    log.debug("이게 interest -> {}", interest);
 	    int result = memberService.kakaoUpadteCreate(member);
 	    return "redirect:/";
 	}
