@@ -94,6 +94,8 @@ document.querySelectorAll('.pointColors').forEach((elem) => {
 
 document.body.style.fontFamily = "${layout.font}";
 
+//--------------
+
 document.documentElement.style.setProperty('--fc-border-color', '${layout.pointColor}');
 
 const scheduleSummaryBox = document.querySelector("#scheduleSummaryBox");
@@ -140,9 +142,17 @@ $.ajax({
 				// 이동할 div의 위치를 변경합니다.
 				scheduleSummaryBox.style.left = newX + "px";
 				scheduleSummaryBox.style.top = newY + "px";
+				scheduleSummaryBox.style.display = "block";
+			});
+			e.addEventListener('mouseleave', (event) => {
+				scheduleSummaryBox.style.display = "none";
 			});
 		})
 	}
+});
+
+scheduleCreateBtn.addEventListener('click', () => {
+	location.href = "${pageContext.request.contextPath}/club/${domain}/scheduleCreate.do";
 });
 
 </script>
