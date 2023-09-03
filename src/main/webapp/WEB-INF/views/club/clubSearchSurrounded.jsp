@@ -82,7 +82,7 @@ const loadCLubs = (target) => {
 					                </div>
 					            </div>
 				        	</div>
-						`;
+						`;  
 					});
 					clubsWrapper.innerHTML = html;
 				}
