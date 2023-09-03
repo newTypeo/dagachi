@@ -357,9 +357,10 @@ h5, h3 {
 }
 #enrollBtn3 {
 	font-weight: bold;
-	font-size: 24px;
-	background-color: #fd6c70;
-	color: white;
+	font-size: 18px;
+    background-color: #ed4c4c;
+    color: white;
+    transform: translate(27px, -129px);
 }
 
 #scheduleSummaryBox {
