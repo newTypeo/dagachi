@@ -121,15 +121,8 @@ public class MemberSecurityController {
 
 	@GetMapping("/memberKakaoCreate.do")
 	public String kakaoUpadteCreate(
-	    		@PathVariable("memberId") String memberId,
-	    		Model model,
 	    		@AuthenticationPrincipal MemberDetails loginMember
 	    		) {
-		 	Member member = memberService.findMemberBymemberId(memberId);
-		 	MemberProfile memberProfile = memberService.findMemberProfile(memberId); 
-
-		 	String loginMemberId = loginMember.getMemberId();
-		 	
 	        return "member/memberKakaoCreate";
 	        
 	    }
@@ -225,7 +218,7 @@ public class MemberSecurityController {
 	public ResponseEntity<?> checkKakao(@RequestParam String memberId) {
 		boolean available = false;
 		try {
-			UserDetails memberDetails = memberService.checkKakao(memberId);
+			int memberDetails = memberService.checkKakao(memberId);
 		} catch (UsernameNotFoundException e) {
 			available = true;
 		}

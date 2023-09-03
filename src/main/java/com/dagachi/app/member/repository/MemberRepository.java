@@ -52,8 +52,8 @@ public interface MemberRepository {
 	int kakaoUpadteCreate(MemberCreateDto member);
 	
 	//카카오톡 회원 업데이트 안한 사람 찾아오기
-	@Select("SELECT COUNT(*) FROM member WHERE member_id = CONCAT(#{memberId}, '@Kakao') AND phoneNo IS NULL")
-	UserDetails checkKakao(String memberId);
+	@Select("SELECT COUNT(*) FROM member WHERE member_id = CONCAT(#{memberId}, '@Kakao') AND phone_No IS NULL")
+	int checkKakao(String memberId);
 	// 회원가입 ------------------
 	MemberDetails loadUserByUsername(String memberId);
 	

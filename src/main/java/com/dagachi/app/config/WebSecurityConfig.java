@@ -88,12 +88,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		    .tokenValiditySeconds(60 * 60 * 24 * 14); // 2주
 		
 		http.oauth2Login()
-	    .userInfoEndpoint()
-	    .userService(oauth2UserService)
-	    .and()
-	    .successHandler(new FirstTimeLoginSuccessHandler())
-	    .defaultSuccessUrl("/")
-	    .permitAll();
+		    .userInfoEndpoint()
+		    .userService(oauth2UserService)
+		    .and()
+		    .successHandler(new FirstTimeLoginSuccessHandler())
+		    .defaultSuccessUrl("/")
+		    .permitAll();
 	}
 	
 

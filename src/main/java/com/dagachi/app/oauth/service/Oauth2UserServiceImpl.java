@@ -3,6 +3,7 @@ package com.dagachi.app.oauth.service;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -21,7 +22,6 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 public class Oauth2UserServiceImpl extends DefaultOAuth2UserService {
-	
 	
 	@Autowired
 	private MemberService memberService;
@@ -66,8 +66,10 @@ public class Oauth2UserServiceImpl extends DefaultOAuth2UserService {
 			member = (MemberDetails) memberService.loadUserByUsername(memberId);
 		}
 		
+		int memberDetails = memberService.checkKakao(memberId);
 		
-		
+
+	
 		return member;
 	}
 
