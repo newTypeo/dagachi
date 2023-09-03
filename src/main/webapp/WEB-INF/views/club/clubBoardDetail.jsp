@@ -159,7 +159,7 @@ const creatComment = () => {
 	const content= commentContent.value;
 	const boardId=${clubBoard.boardId};
 	const token= document.detailFrm._csrf.value;
-	
+	console.log(token);
 	commentContent.value="";
 	
 	$.ajax({

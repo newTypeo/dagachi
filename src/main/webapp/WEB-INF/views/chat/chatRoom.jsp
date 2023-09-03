@@ -247,7 +247,7 @@ const loadPro=(from,to)=>{
  			}
  			const profileInfo ={userName : from, userProfileName : data};
  			proList.push(profileInfo);
- 			console.log("유저당 한번만 나와야하ㄴ는 콘솔");
+ 			console.log("유저당 한번만 나와야하는 콘솔");
  		}
  		
  	});
