@@ -371,7 +371,6 @@ public class ClubController {
 
 	/**
 	 * 로그인한 회원의 활동지역 Model에 저장하고 페이지 이동
-	 * 
 	 * @author 종환
 	 */
 	@GetMapping("/clubSearchSurrounded.do")
@@ -383,7 +382,6 @@ public class ClubController {
 
 	/**
 	 * 활동지역 중심 주변모임 검색 (session에 저장되어있는 정보 사용)
-	 * 
 	 * @author 종환
 	 */
 	@GetMapping("/clubSearchByDistance.do")
@@ -422,7 +420,6 @@ public class ClubController {
 
 	/**
 	 * 최초 로그인 시 km 별로 반경에 있는 법정동명 session에 저장
-	 * 
 	 * @author 종환
 	 */
 	@ResponseBody
@@ -1087,10 +1084,17 @@ public class ClubController {
 			Model model) {
 		int clubId = clubService.clubIdFindByDomain(domain);
 		Club club = clubService.findClubById(clubId);
+		
+		String clubName = club.getClubName();
+		ClubLayout layout = clubService.findLayoutById(clubId);
+		
+		
 		List<ClubMemberAndImage> clubMembers = clubService.findClubMembers(clubId);
 
 		model.addAttribute("clubMembers", clubMembers);
 		model.addAttribute("club", club);
+		model.addAttribute("layout", layout);
+		model.addAttribute("clubName", clubName);
 
 		return "/club/clubMemberList";
 	}

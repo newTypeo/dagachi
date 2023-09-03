@@ -280,8 +280,9 @@
 </form:form>
 
 <nav style="display: flex; flex-direction: row-reverse;">
-
-	<button type="button" onclick="clubMemberDelete();" class="btn btn-danger">모임탈퇴</button>
+	<c:if test="${memberRole ne 10 and memberRole lt 3}">
+		<button type="button" onclick="clubMemberDelete();" class="btn btn-danger">😿모임탈퇴</button>
+	</c:if>
 	<form:form 
 		name="clubMemberDeleteFrm"
 		action="${pageContext.request.contextPath}/club/${domain}/clubMemberDelete.do"
@@ -293,14 +294,16 @@
 			<%session.removeAttribute("clubAdminMsg");%>
 		</script>
 	</c:if>
-
+	&nbsp;
 	<button type="button" class="btn btn-danger" id="clubReport">🚨모임 신고하기</button>
 </nav>
 
 <script>
+console.log("memberRole= ", ${memberRole});
+
 const clubMemberDelete = () => {
 	if(confirm("모임을 정말 탈퇴하시겠습니까?")) {
-		console.log(document.clubMemberDeleteFrm);
+		// console.log(document.clubMemberDeleteFrm);
 		document.clubMemberDeleteFrm.submit();
 	}
 }
@@ -322,7 +325,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		url: '${pageContext.request.contextPath}/club/${domain}/getSchedules.do',
 		success(schedules) {
 			
-			console.log(schedules);
+			// console.log(schedules);
 			var eventLists = [];
 			schedules.forEach((schedule) => {
 				var {scheduleId, title, startDate, endDate} = schedule;
@@ -334,7 +337,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				};
 				eventLists.push(event);
 			});
-			console.log(eventLists);
+			// console.log(eventLists);
 			
 			var calendarEl = document.getElementById('calendar');
 			var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -387,7 +390,7 @@ const clubReportSubmit = () => {
 			xhr.setRequestHeader(header, token);
 		},
 		success(response) {
-			console.log(response);
+			// console.log(response);
 		}
 	});
 	
@@ -404,7 +407,7 @@ const clubLike = () => {
 		url : "${pageContext.request.contextPath}/club/clubLikeCheck.do",
 		data : {domain},
 		success(responseData) {
-			console.log("responseData : ", responseData);
+			// console.log("responseData : ", responseData);
 			
 			if (responseData) {
 				if(confirm("찜하신 모임을 취소하시겠습니까?")) {
