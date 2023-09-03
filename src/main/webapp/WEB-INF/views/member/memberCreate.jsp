@@ -6,15 +6,14 @@
 <%@ taglib prefix="sec"
    uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<jsp:include page="/WEB-INF/views/common/header.jsp">
-   <jsp:param value="회원가입" name="title" />
-</jsp:include>
-
 <c:if test="${not empty msg}">
 	<script>
 		alert('${msg}');
 	</script>
 </c:if>
+<jsp:include page="/WEB-INF/views/common/header.jsp">
+   <jsp:param value="회원가입" name="title" />
+</jsp:include>
 
 <style>
 * {
@@ -477,7 +476,7 @@ img {
          <div class="fadeIn first">
             <label>전화번호  </label><span class="phone error" style="color: GRAY; font-size: 12px;"> 핸드폰 번호 형식이 올바르지 않습니다.</span>
 			<div id="phone-container">
-			  <input type="text" class="form-control" name="phone1" id="phone1" maxlength="3" required  placeholder="010">-
+			  <input type="text" class="form-control" name="phone1" id="phone1" maxlength="3" required  placeholder="3자리">-
 			  <input type="text" class="form-control" name="phone2" id="phone2" maxlength="4" required placeholder="4자리">-
 			  <input type="text" class="form-control" name="phone3" id="phone3" maxlength="4" required placeholder="4자리">
 			  <input type="hidden" id="phoneNo" name="phoneNo" value="">
@@ -536,7 +535,7 @@ img {
                <label for="activity_area">거주지</label> <!-- 필수값 지도 API 사용 + 상세 주소값 받아야함  -->
                   
                   <div class="input-group">
-                        <input type="text" class="form-control" id="activity_area" name="activityArea" readonly aria-describedby="button-addon2" placeholder="본인의 집 주소를 입력해주세요" required>
+                        <input type="text" class="form-control" id="activity_area" name="activityArea" readonly aria-describedby="button-addon2" value = "서울 강남구 역삼1동" placeholder="본인의 집 주소를 입력해주세요" required>
                         <div class="input-group-append">
                            <button class="btn btn-outline-secondary" type="button" data-toggle="modal" 
                            data-target="#activity-area-modal" id="activity-area-search-btn" >검색</button>
@@ -546,7 +545,7 @@ img {
             <div class="fadeIn first">
                <label for="main_area_id">활동 지역</label>
                   <div class="input-group">
-                     <input type="text" class="form-control" id="main_area_id" name="mainAreaId" placeholder="주로 활동할 지역을 입력해주세요" readonly aria-describedby="button-addon2" required>
+                     <input type="text" class="form-control" id="main_area_id" name="mainAreaId" placeholder="주로 활동할 지역을 입력해주세요" value = "서울특별시 종로구 청운동"   readonly aria-describedby="button-addon2" required>
                      <div class="input-group-append">
                         <button class="btn btn-outline-secondary" type="button" data-toggle="modal" 
                         data-target="#main-area-id-modal" id="activity-area-search-btn">검색</button>
@@ -580,8 +579,8 @@ img {
 			    <label for="interests">관심사</label>
 				        <div class="form-group">
 				            <label><input type="checkbox" name="interests" value="차/오토바이" checked> 차/오토바이</label>
-				            <label><input type="checkbox" name="interests" value="게임/오락"> 게임/오락</label>
-				            <label><input type="checkbox" name="interests" value="여행"> 여행</label>
+				            <label><input type="checkbox" name="interests" value="게임/오락" checked> 게임/오락</label>
+				            <label><input type="checkbox" name="interests" value="여행" checked> 여행</label>
 				            <label><input type="checkbox" name="interests" value="운동/스포츠"> 운동/스포츠</label>
 				            <label><input type="checkbox" name="interests" value="인문학/독서"> 인문학/독서</label>
 				            <label><input type="checkbox" name="interests" value="업종/직무"> 업종/직무</label>
@@ -965,7 +964,7 @@ $(document).ready(function() {
           } else {
             guideError.style.display = "inline";
             idValid.value = "0";
-          }
+          } 
         }
       });
     }
