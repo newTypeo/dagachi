@@ -267,12 +267,13 @@ h5, h3 {
     margin: 0 145px;
     align-items: center;
     justify-content: space-between;
+    
 }
 #club-nav-bar ul li {
-
+	
 }
 
-.fontColor {
+#club-nav-bar > div.fontColors  {
 	position: absolute;
     transform: translate(190px, 2px);
 }
