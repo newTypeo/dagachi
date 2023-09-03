@@ -19,6 +19,7 @@ import com.dagachi.app.chat.entity.ChatLog;
 import com.dagachi.app.chat.service.ChatService;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubMember;
+import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.club.service.ClubService;
 import com.dagachi.app.member.entity.MemberDetails;
 import com.dagachi.app.member.entity.MemberProfile;
@@ -51,8 +52,10 @@ public class ChatController {
 			@RequestParam int clubId
 	) {
 		
-		Club club= clubService.findClubById(clubId);
+		Club club = clubService.findClubById(clubId);
 		String clubName= club.getClubName();
+		ClubProfile clubProfile = clubService.findClubProfileById(clubId);
+		String filename = clubProfile.getRenamedFilename();
 		
 		ChatLog cahtlog=chatService.findByRecentChat(clubId);
 		
@@ -62,6 +65,7 @@ public class ChatController {
 		Map<String, Object> data = new HashMap<>();
 		data.put("cahtlog", cahtlog);
 		data.put("clubName", clubName);
+		data.put("clubProfile", filename);
 		
 		
 		return ResponseEntity.status(HttpStatus.OK).body(data);

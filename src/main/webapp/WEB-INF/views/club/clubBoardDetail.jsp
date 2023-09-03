@@ -6,11 +6,38 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/clubBoardDetail.css" />
-<jsp:include page="/WEB-INF/views/common/header.jsp">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/club.css"/>
+<jsp:include page="/WEB-INF/views/common/clubHeader.jsp">
 	<jsp:param value="게시글" name="title" />
 </jsp:include>
 
 <section id="club-boardDetail-sec" class="">
+		<nav id="club-title" class="">
+		<c:if test="${layout.title eq null}">
+			<div id="default-title">
+				<h2>${domain}</h2>
+			</div>
+		</c:if>
+		
+		<c:if test="${layout.title ne null}">
+			<img src="${pageContext.request.contextPath}/resources/upload/club/title/${layout.title}">
+		</c:if>
+	</nav>
+	
+	<nav id="club-nav-bar" style="border-color: ${layout.pointColor}">
+		<h5><a href="${pageContext.request.contextPath}/club/${domain}">🚩${clubName}</a></h5>
+		<div class="fontColors">
+			<ul>
+				<li><a href="${pageContext.request.contextPath}/club/${domain}/clubBoardList.do?no=4">📢공지사항</a></li>
+				<li><a href="${pageContext.request.contextPath}/club/${domain}/clubBoardList.do?no=1">🐳자유게시판</a></li>
+				<li><a href="${pageContext.request.contextPath}/club/${domain}/clubBoardList.do?no=3">✋가입인사</a></li>
+				<li><a href="${pageContext.request.contextPath}/club/${domain}/clubBoardList.do?no=2">🎉정모후기</a></li>
+				<li><a href="${pageContext.request.contextPath}/club/${domain}/clubGallery.do">📷갤러리</a></li>
+				<li><a href="${pageContext.request.contextPath}/club/${domain}/clubSchedule.do">📅일정</a></li>
+			</ul>
+		</div>
+	</nav>
+	
 
 	<div class="container mt-5">
 		<div class="row">
@@ -23,7 +50,7 @@
 						<c:forEach items="${attachments}" var="attach">
 							<img
 								src="${pageContext.request.contextPath}/resources/upload/club/board/${attach.renamedFilename}"
-								class="card-img-top attach-img" alt="첨부된 이미지" style="width: 500px;">
+								class="card-img-top attach-img" alt="첨부된 이미지" style="width: 690px;">
 						</c:forEach>
 						<p class="card-text1">${clubBoard.content}</p>
 						
@@ -96,6 +123,22 @@
 </section>
 
 <script>
+
+// 레이아웃 및 네브바
+document.body.style.background = '${layout.backgroundColor}';
+
+document.querySelectorAll('.fontColors').forEach((elem) => {
+	elem.style.color = '${layout.fontColor}';
+});
+
+document.querySelectorAll('.pointColors').forEach((elem) => {
+	elem.style.color = '${layout.pointColor}';
+});
+
+document.body.style.fontFamily = "${layout.font}";
+
+
+
 document.querySelector("#comment-textarea").onkeyup = (e) => {
 	const tag = document.querySelector("#count-input");
 	tag.innerHTML = e.target.textLength;
@@ -116,7 +159,7 @@ const creatComment = () => {
 	const content= commentContent.value;
 	const boardId=${clubBoard.boardId};
 	const token= document.detailFrm._csrf.value;
-	
+	console.log(token);
 	commentContent.value="";
 	
 	$.ajax({
@@ -142,6 +185,7 @@ const creatComment = () => {
 				</div>
 			`;
 			
+			 document.querySelector(".profile-info").innerHTML = '';
 			 const commentBox = document.querySelector("#commentBox");
 		     commentBox.appendChild(newCommentDiv);
 		} // success

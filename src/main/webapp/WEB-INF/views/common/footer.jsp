@@ -3,7 +3,7 @@
 	
 	<hr style="width:1320px">
 	<footer>
-		<p>&lt;Copyright 2023. <strong>DAGACHI</strong>. All rights reserved.&gt;</p>
+		<p class="footer-place" style="text-align:center;">&lt;Copyright 2023. <strong>DAGACHI</strong>. All rights reserved.&gt;</p>
 	</footer>
 	
 </div>

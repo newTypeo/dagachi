@@ -6,6 +6,17 @@
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<style>
+body {
+	width: 300px;
+    margin: 100 auto;
+    border: 2px solid;
+    height: 200px;
+    padding: 15px;
+    border-radius: 15px;
+}
+
+</style>
 <script src="https://code.jquery.com/jquery-3.6.0.js"
 	integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
 	crossorigin="anonymous"></script>
@@ -19,21 +30,21 @@
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
 	integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
 	crossorigin="anonymous"></script>
-<link rel="stylesheet"
+<!-- <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
 	integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
-	crossorigin="anonymous">
+	crossorigin="anonymous"> -->
 <fmt:requestEncoding value="utf-8"/>
-	<h3>비밀번호 변경</h3>
+	<h4>비밀번호 변경</h4>
 	<form:form name = "memberPwUpdateFrm"
 	 action ="${pageContext.request.contextPath}/member/memberPwUpdate.do"
 	 method="POST"
 	 >
-		<h5>변경할 비밀번호</h5>
-		<input type="text" name="newPassword">
+		<h5>•변경할 비밀번호</h5>
+		<input type="text" name="newPassword" class="input-bar">
 		
-		<h5>비밀번호 확인</h5>
-		<input type="text" name="newPassword2">
+		<h5>•비밀번호 확인</h5>
+		<input type="text" name="newPassword2" class="input-bar">
 		
 		<!-- 받아온 이메일 input태그에 숨겨서 컨트롤러로 제출 -->
 		<input type="hidden" name="email" value="${email}">

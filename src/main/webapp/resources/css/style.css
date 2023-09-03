@@ -2,6 +2,13 @@
 /* a태그 밑줄 제거 */
 a:hover {
   text-decoration: none;
+  color: #000;
+}
+.my-club-a:link {
+	color: #000;
+}
+a {
+	color: #000;
 }
 
 /* #2990D0 */
@@ -37,6 +44,13 @@ section {
 }
 
 /********** header **********/
+#main-letter-logo {
+    position: absolute;
+    transform: translate(-430px, 45px);
+    width: 142px;
+    height: 71px;
+}
+
 header {
 	height: 120px;
 	margin: 0 auto;
@@ -77,7 +91,7 @@ header #header-nav-container span {
 
 #admin-nav-btn {
 	position: absolute;
-    transform: translate(-96px, -16px);
+    transform: translate(-96px, -40px);
 }
 
 /********** main-page-sec **********/
@@ -162,6 +176,10 @@ footer {
 	width: 1320px;
 	margin: 0 auto;
 	text-align: center;
+}
+
+.footer-place{
+	text-align:center;
 }
 
 section .posts .card{

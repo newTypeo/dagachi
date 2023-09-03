@@ -41,7 +41,7 @@ public class KakaoPayController {
      * 결제 성공
      */
     @GetMapping("/success")
-    public void afterPayRequest(
+    public ResponseEntity<?> afterPayRequest(
     		@RequestParam(name="pg_token", required=false) String pgToken,
     		@AuthenticationPrincipal MemberDetails member) {
     	
@@ -50,7 +50,11 @@ public class KakaoPayController {
         String memberId = member.getMemberId();
         
         int result = memberService.buyCreateClubTicket(memberId);
-        		
+        return ResponseEntity.status(HttpStatus.OK).body("<script>"
+											        	   + "alert('결제가 완료되었습니다.');"
+											        	   + "window.close();"
+										        	   + "</script>");
+        
     }
 	
 	@GetMapping("/cancel")

@@ -23,6 +23,7 @@ import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.member.dto.MemberCreateDto;
 import com.dagachi.app.member.dto.MemberKakaoDto;
+import com.dagachi.app.member.dto.MemberKakaoUpdateDto;
 import com.dagachi.app.member.dto.MemberPwUpdateDto;
 import com.dagachi.app.member.dto.MemberUpdateDto;
 import com.dagachi.app.member.entity.ActivityArea;
@@ -258,12 +259,24 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public UserDetails checkKakao(String memberId) {
+	public int checkKakao(String memberId) {
 		return memberRepository.checkKakao(memberId);
 	}
 	@Override
 	public int buyCreateClubTicket(String memberId) {
 		return memberRepository.buyCreateClubTicket(memberId);
+	}
+
+
+	@Override
+	public Member checkNickNameDuplicate(String nickname) {
+		return memberRepository.checkNickNameDuplicate(nickname);
+	}
+
+
+	@Override
+	public Member checkEmailDuplicate(String email) {
+		return memberRepository.checkEmailDuplicate(email);
 	}
 	
 	@Override

@@ -19,6 +19,7 @@ import com.dagachi.app.admin.entity.AdminInquiry;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.member.dto.MemberCreateDto;
 import com.dagachi.app.member.dto.MemberKakaoDto;
+import com.dagachi.app.member.dto.MemberKakaoUpdateDto;
 import com.dagachi.app.member.dto.MemberPwUpdateDto;
 import com.dagachi.app.member.dto.MemberUpdateDto;
 import com.dagachi.app.member.entity.ActivityArea;
@@ -54,8 +55,8 @@ public interface MemberRepository {
 	int kakaoUpadteCreate(MemberCreateDto member);
 	
 	//카카오톡 회원 업데이트 안한 사람 찾아오기
-	@Select("SELECT COUNT(*) FROM member WHERE member_id = CONCAT(#{memberId}, '@Kakao') AND phoneNo IS NULL")
-	UserDetails checkKakao(String memberId);
+	@Select("SELECT COUNT(*) FROM member WHERE member_id = CONCAT(#{memberId}, '@Kakao') AND phone_No IS NULL")
+	int checkKakao(String memberId);
 	// 회원가입 ------------------
 	MemberDetails loadUserByUsername(String memberId);
 	
@@ -122,7 +123,7 @@ public interface MemberRepository {
 	@Select("select * from member_interest where member_id = #{memberId}")
 	List<MemberInterest> findMemberInterestsByMemberId(String memberId);
 
-	@Select("select * from club_member where member_id = #{memberId}")
+	@Select("select cm.* from club_member cm join club c on (c.club_id = cm.club_id) where cm.member_id = #{memberId} and c.status = 'Y'")
 	List<ClubMember> findClubMemberByMemberId(String memberId);
 
 	@Select("select * from member where email = #{email}")
@@ -133,6 +134,12 @@ public interface MemberRepository {
 	
 	@Update("update member set create_club_cnt = create_club_cnt + 1 where member_id = #{memberId}")
 	int buyCreateClubTicket(String memberId);
+	
+	@Select("select * from member where nickname = #{nickname}")
+	Member checkNickNameDuplicate(String nickname);
+	
+	@Select("select * from member where email = #{email}")
+	Member checkEmailDuplicate(String email);
 	
 	@Select("select count(*) from member_like where member_id = #{memberId} and like_sender = #{loginMemberId}")
 	int checkDuplicateMemberIdAndMyId(Map<String, Object> params);
