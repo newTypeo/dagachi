@@ -209,11 +209,11 @@ public class ClubServiceImpl implements ClubService {
 	@Override
 	public int insertClub(Club club, String memberId) {
 		int result = 0;
-		int clubId = club.getClubId();
 		
 		// club 저장
 		result = clubRepository.insertClub(club);
 		
+		int clubId = club.getClubId();
 		// clubProfile 저장
 		ClubProfile clubProfile = ((ClubDetails) club).getClubProfile();
 		if (clubProfile != null) {
