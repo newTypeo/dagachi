@@ -49,13 +49,20 @@
 			<c:if test="${isEnrolled}">
 				<form:form action="${pageContext.request.contextPath}/club/${domain}/scheduleEnrollCancle.do" method="post">
 					<input type="hidden" name="no" value="${schedule.scheduleId}">
-					<button type="submit" class="btn">👎취소하기</button>
+					<button id="enrollBtn1" type="submit" class="btn">👎취소하기</button>
 				</form:form>
 			</c:if>
 			<c:if test="${!isEnrolled}">
 				<form:form action="${pageContext.request.contextPath}/club/${domain}/scheduleEnroll.do" method="post">
 					<input type="hidden" name="no" value="${schedule.scheduleId}">
-					<button type="submit" class="btn">🖐참여하기</button>
+					<button id="enrollBtn2" type="submit" class="btn">🖐참여하기</button>
+				</form:form>
+			</c:if>
+			<sec:authentication property="principal.username" var="username"/>
+			<c:if test="${schedule.writer eq username or clubMember.clubMemberRole ne 0}">
+				<form:form action="${pageContext.request.contextPath}/club/${domain}/scheduleRemove.do" method="post">
+					<input type="hidden" name="no" value="${schedule.scheduleId}">
+					<button id="enrollBtn3" type="submit" class="btn">😫일정취소</button>					
 				</form:form>
 			</c:if>
 		</div>
