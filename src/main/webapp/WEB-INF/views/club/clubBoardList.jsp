@@ -106,6 +106,15 @@ window.onload = () => {
 		</div>
 
 	</div>
+	
+	<table class="table fontColors" id="mustTable" style="margin-top: 5px; text-align: center">
+		<thead class="thead-light">
+			<tr>
+				<th scope="col">필독</th>
+			</tr>
+		</thead>
+		<tbody></tbody>
+	</table>
 
 	<table class="table fontColors" id="boardTable" style="margin-top: 5px; text-align: center">
 		<thead class="thead-light">
@@ -202,7 +211,6 @@ document.body.style.fontFamily = "${layout.font}";
 		const searchTypeVal= frm.searchType.value;
 		const boardTypeVal= document.querySelector("#boardType").value;
 		
-		console.log(boardTypeVal);
 		 $.ajax({
 			url : '${pageContext.request.contextPath}/club/${domain}/searchClubBoard.do',
 			method:"GET",
@@ -237,7 +245,7 @@ document.body.style.fontFamily = "${layout.font}";
 						`;
 						
 					},"");
-					
+				
 				}else{
 					html=`
 						<tr>
@@ -301,7 +309,19 @@ document.body.style.fontFamily = "${layout.font}";
 						case 2: typeText ="정모후기"; break;
 						case 3: typeText ="가입인사"; break;
 						case 4: typeText ="공지사항"; break;
+						case 5: typeText ="필독"; break;
 					}
+					
+					if(type === 5){
+						const mustReadBody=document.querySelector("#mustTable tbody");
+						
+						mustReadBody.innerHTML=`
+							<td>
+								[필독] <a href="${pageContext.request.contextPath}/club/${domain}/boardDetail.do?no=\${boardId}">\${title}❗</a>
+							</td>
+						`;
+					}
+					
 					
 						return html + `
 							<tr>
@@ -316,6 +336,8 @@ document.body.style.fontFamily = "${layout.font}";
 						`;
 						
 					},"");
+					
+					
 					
 				}else{
 					html=`
