@@ -90,6 +90,10 @@ public class ScheduleController {
 			}
 		}
 		
+		mIdAndcId = Map.of("myId", member.getMemberId(), "clubId", club.getClubId());
+		int myRole = scheduleService.getMyRole(mIdAndcId);
+		
+		model.addAttribute("myRole", myRole);
 		model.addAttribute("myAddress", member.getAddress());
 		model.addAttribute("myHome", myHome);
 		model.addAttribute("isEnrolled", isEnrolled);
