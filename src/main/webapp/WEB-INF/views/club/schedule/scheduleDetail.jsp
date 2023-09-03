@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <jsp:include page="/WEB-INF/views/common/clubHeader.jsp"></jsp:include>
 <c:if test="${not empty msg}">
 	<script>
@@ -43,7 +44,7 @@
 			</ul>
 		</div>
 	</nav>
-
+	
 	<div id="schedule-content-container">
 		<div id="schedule-enroll-form-container">
 			<c:if test="${isEnrolled}">
@@ -59,10 +60,10 @@
 				</form:form>
 			</c:if>
 			<sec:authentication property="principal.username" var="username"/>
-			<c:if test="${schedule.writer eq username or clubMember.clubMemberRole ne 0}">
+			<c:if test="${schedule.writer eq username or myRole ne 0}">
 				<form:form action="${pageContext.request.contextPath}/club/${domain}/scheduleRemove.do" method="post">
 					<input type="hidden" name="no" value="${schedule.scheduleId}">
-					<button id="enrollBtn3" type="submit" class="btn">😫일정취소</button>					
+					<button id="enrollBtn3" type="submit" class="btn">😫일정삭제</button>					
 				</form:form>
 			</c:if>
 		</div>
