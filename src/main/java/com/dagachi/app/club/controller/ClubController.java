@@ -922,6 +922,7 @@ public class ClubController {
 			@AuthenticationPrincipal MemberDetails member, 
 			@RequestParam(value = "upFile") MultipartFile upFile) throws IllegalStateException, IOException {
 		System.out.println(_club);
+		System.out.println(upFile);
 		// 1. 파일저장
 		String uploadDir = "/club/profile/";
 		ClubProfile clubProfile = null;
@@ -931,7 +932,7 @@ public class ClubController {
 			File destFile = new File(uploadDir + renamedFilename); // 부모디렉토리 생략가능. spring.servlet.multipart.location 값을
 																   // 사용
 			upFile.transferTo(destFile); // 실제파일 저장
-
+			System.out.println("파일이 저장 됬나?");
 			clubProfile = ClubProfile.builder()
 									 .originalFilename(originalFilename)
 									 .renamedFilename(renamedFilename).build();

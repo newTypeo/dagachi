@@ -212,6 +212,7 @@ public class ClubServiceImpl implements ClubService {
 		
 		// club 저장
 		result = clubRepository.insertClub(club);
+		int clubId = club.getClubId();
 		
 		int clubId = club.getClubId();
 		// clubProfile 저장
