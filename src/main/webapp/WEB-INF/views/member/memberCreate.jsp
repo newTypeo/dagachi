@@ -557,7 +557,7 @@ img {
          <div class="fadeIn first"> 
              <label for="mbti">MBTI</label>
                     <div class="toggle-radio" data-style="rounded"> 
-                        <label><input type="radio" name="mbti" value="ISTJ" class="custom-radio" checked> ISTJ</label>
+                        <label><input type="radio" name="mbti" value="ISTJ" class="custom-radio"> ISTJ</label>
                         <label><input type="radio" name="mbti" value="ISFJ" class="custom-radio"> ISFJ</label>
                         <label><input type="radio" name="mbti" value="INFJ" class="custom-radio"> INFJ</label>
                         <label><input type="radio" name="mbti" value="INTJ" class="custom-radio"> INTJ</label>
@@ -578,9 +578,9 @@ img {
 				<div class="fadeIn first"> 
 			    <label for="interests">관심사</label>
 				        <div class="form-group">
-				            <label><input type="checkbox" name="interests" value="차/오토바이" checked> 차/오토바이</label>
-				            <label><input type="checkbox" name="interests" value="게임/오락" checked> 게임/오락</label>
-				            <label><input type="checkbox" name="interests" value="여행" checked> 여행</label>
+				            <label><input type="checkbox" name="interests" value="차/오토바이" > 차/오토바이</label>
+				            <label><input type="checkbox" name="interests" value="게임/오락" > 게임/오락</label>
+				            <label><input type="checkbox" name="interests" value="여행" > 여행</label>
 				            <label><input type="checkbox" name="interests" value="운동/스포츠"> 운동/스포츠</label>
 				            <label><input type="checkbox" name="interests" value="인문학/독서"> 인문학/독서</label>
 				            <label><input type="checkbox" name="interests" value="업종/직무"> 업종/직무</label>
@@ -596,10 +596,10 @@ img {
 				            <label><input type="checkbox" name="interests" value="요리/제조"> 요리/제조</label>
 				            <label><input type="checkbox" name="interests" value="애완동물"> 애완동물</label>
 				            <label><input type="checkbox" name="interests" value="자유주제"> 자유주제</label>
-				            <input type="hidden" name="interest" > 
 				            <div><p id="interestError" style="color: GRAY;"></p></div>
 				        </div>		
 			         </div>
+			         <input type="hidden" name="interest" > 
 
 
       </fieldset>
@@ -754,7 +754,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         emailWarning.textContent = '이메일 인증 성공!';
                     } else {
                         emailWarning.textContent = '이메일 인증 실패! 다시 시도해주세요.';
-                        document.getElementById('email').value = '';
                     }
                 });
             }
