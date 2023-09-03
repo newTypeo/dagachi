@@ -50,7 +50,7 @@
 					<c:if test ="${memberRole eq 0}">
 						<p><strong>🎀일반회원</strong></p>
 					</c:if>
-					<p><a href="${pageContext.request.contextPath}/club/${domain}/memberClubDetail.do">나의 모임 정보</a></p>
+					<%-- <p><a href="${pageContext.request.contextPath}/club/${domain}/memberClubDetail.do">나의 모임 정보</a></p> --%>
 				</div>
 				<div class="myProfile3">
 					<button class="btn" style="background-color: ${layout.fontColor}">글쓰기</button>
@@ -280,10 +280,31 @@
 </form:form>
 
 <nav style="display: flex; flex-direction: row-reverse;">
+
+	<button type="button" onclick="clubMemberDelete();" class="btn btn-danger">모임탈퇴</button>
+	<form:form 
+		name="clubMemberDeleteFrm"
+		action="${pageContext.request.contextPath}/club/${domain}/clubMemberDelete.do"
+		method = "post">
+	</form:form>
+	<c:if test="${not empty clubAdminMsg}">
+		<script>
+			alert('${clubAdminMsg}');
+			<%session.removeAttribute("clubAdminMsg");%>
+		</script>
+	</c:if>
+
 	<button type="button" class="btn btn-danger" id="clubReport">🚨모임 신고하기</button>
 </nav>
 
 <script>
+const clubMemberDelete = () => {
+	if(confirm("모임을 정말 탈퇴하시겠습니까?")) {
+		console.log(document.clubMemberDeleteFrm);
+		document.clubMemberDeleteFrm.submit();
+	}
+}
+
 scheduleCreateBtn.addEventListener('click', () => {
 	location.href = "${pageContext.request.contextPath}/club/${domain}/scheduleCreate.do";
 });

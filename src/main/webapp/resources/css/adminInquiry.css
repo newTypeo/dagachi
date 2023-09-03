@@ -88,10 +88,10 @@ button:hover {
 }
 
 /* 테이블 스타일 */
-.listTable {
+/* .listTable {
   width: 100%;
   border-collapse: collapse;
-}
+} */
 
 .listTable th,
 .listTable td {
@@ -127,6 +127,6 @@ button:hover {
 }
 
 .justify-content-center{
-	margin: 10px;
+	margin: 10px; 
 	
 }

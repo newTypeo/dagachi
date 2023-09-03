@@ -76,6 +76,7 @@
 </section>
 <script>
 
+
 document.body.style.background = '${layout.backgroundColor}';
 
 document.querySelectorAll('.fontColors').forEach((elem) => {

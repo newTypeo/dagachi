@@ -57,7 +57,7 @@
 		<p>MBTI : ${member.mbti}</p>
 		<div class="icons">
 			<c:if test="${member.memberId eq loginMember.memberId}">
-			<a type="button" onclick="payment();">∘ 모임생성 1회권 구매</a>
+			<a type="button" onclick="payment();">모임생성 1회권 구매</a>
 			<span class="verticalBar">|</span> 
 			</c:if>
 			<c:if test="${member.memberId eq loginMember.memberId}">
@@ -237,6 +237,9 @@ const payment = () => {
 			const url = response.next_redirect_pc_url;
 			window.open(url, "_blank", 'status=no, width=500, height=700' + 
 						', left=' + popupX + ', top=' + popupY);
+		},
+		complete() {
+			console.log("결제완료");
 		}
 	});
 };
