@@ -13,7 +13,7 @@
 <article id="club-page-article">
 	<div id="club-util-box">
 		<div id="club-info-container">
-			<button type="button" class="btn btn-danger" id="clubLike" onclick="clubLike()">❤️</button>
+			<button type="button" class="btn btn-danger" id="clubLike" onclick="clubLike('${domain}', '${pageContext.request.contextPath}')">❤️</button>
 			<h5>🚩${clubInfo.clubName}</h5>
 			<span class="fontColors">since 
 				<fmt:parseDate value="${clubInfo.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="createdAt"/>
@@ -342,37 +342,36 @@ const clubReportSubmit = () => {
 
 
 //모임 좋아요 (현우)
-const clubLike = () => {
-	// 찜 목록에 해당클럽이 있는 지 확인.
-	const domain = "${domain}";
-	$.ajax({
-		url : "${pageContext.request.contextPath}/club/clubLikeCheck.do",
-		data : {domain},
-		success(responseData) {
-			console.log("responseData : ", responseData);
-			
-			if (responseData) {
-				if(confirm("찜하신 모임을 취소하시겠습니까?")) {
-					document.deleteClubLikeFrm.submit();
-				}
-				alert("성공적으로 모임 찜을 취소했습니다.");
-				
-			} else {
-				
-				if(confirm("모임을 찜 하시겠습니까?")) {
-					var clubLikeFrm = document.forms["clubLikeFrm"];
-					if (clubLikeFrm) {
-					    clubLikeFrm.submit();
-					} else {
-					    console.log("Form not found");
-					}
-				}
-				alert("성공적으로 모임 찜을 완료했습니다.");
-				
-			}
-					
-		}
-	});
+function clubLike(domain, contextPath) {
+    // 찜 목록에 해당 클럽이 있는 지 확인.
+    $.ajax({
+        url: contextPath + "/club/clubLikeCheck.do",
+        data: { domain },
+        success(responseData) {
+            console.log("responseData : ", responseData);
+
+            if (responseData) {
+                if (confirm("찜하신 모임을 취소하시겠습니까?")) {
+                    document.deleteClubLikeFrm.submit();
+                    alert("성공적으로 모임 찜을 취소했습니다.");
+                }
+
+            } else {
+
+                if (confirm("모임을 찜 하시겠습니까?")) {
+                    var clubLikeFrm = document.forms["clubLikeFrm"];
+                    if (clubLikeFrm) {
+                        clubLikeFrm.submit();
+                        alert("성공적으로 모임 찜을 완료했습니다.");
+                    } else {
+                        console.log("Form not found");
+                    }
+                }
+
+            }
+
+        }
+    });
 	
 	
 }

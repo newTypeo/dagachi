@@ -74,5 +74,10 @@ public class ScheduleServiceImpl implements ScheduleService {
 		}
 		return result;
 	}
+	
+	@Override
+	public int updateScheduleStatus(int no) {
+		return scheduleRepository.updateScheduleStatus(no);
+	}
 }
 
