@@ -1,35 +1,42 @@
 package com.dagachi.app.config;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import java.io.IOException;
 
-public class FirstTimeLoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
+public class FirstTimeLoginSuccessHandler implements AuthenticationSuccessHandler {
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
-        boolean isFirstTimeLogin = checkIfFirstTimeLogin(authentication);
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+        // 최초 로그인 여부를 세션에 저장
+        HttpSession session = request.getSession();
+        session.setAttribute("isFirstTimeLogin", true);
 
+        // 최초 로그인 여부를 세션에서 가져오기
+        boolean isFirstTimeLogin = (boolean) session.getAttribute("isFirstTimeLogin");
+
+        // 이후 로그인 시 최초 로그인 여부 업데이트
         if (isFirstTimeLogin) {
-            // 최초 로그인 시
-            getRedirectStrategy().sendRedirect(request, response, "/member/memberKakaoCreate.do");
+            session.setAttribute("isFirstTimeLogin", false);
+        }
+
+        // 이후 원하는 리다이렉션 또는 다른 처리를 수행
+        // 예를 들어, 다음과 같이 리다이렉션할 수 있습니다.
+        if (isFirstTimeLogin) {
+            response.sendRedirect("/member/memberKakaoCreate.do");
         } else {
-            // 그 이후 
-            super.onAuthenticationSuccess(request, response, authentication);
+            // 최초 로그인이 아닌 경우 다른 로직 수행
+            // 예를 들어, 기본 로그인 후 홈페이지로 리다이렉션
+            response.sendRedirect("/");
         }
     }
-
-    private boolean checkIfFirstTimeLogin(Authentication authentication) {
-        // 여기에 최초 로그인 여부를 확인하는 로직을 구현합니다.
-        // 세션, 데이터베이스 등을 사용하여 구현할 수 있습니다.
-        // 예를 들어 세션에 "firstTimeLogin" 플래그를 저장하고 이를 확인하는 방법이 있습니다.
-        // 실제 사용하는 방법에 따라 구현이 달라집니다.
-        // 여기서는 예시로 true를 반환하도록 합니다.
-    	
-        return true;
-    }
 }
+

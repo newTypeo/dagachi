@@ -395,10 +395,7 @@ span.passwordConfirmation { display:none; font-size:12px; position:absolute; top
     color: #fff;
     border-color: #2990D0;
 }
-/* 마우스 커서 숨기기 */
-.fadeIn.first {
-    cursor: none;
-}
+
 img {
     vertical-align: middle;
     border-style: none;

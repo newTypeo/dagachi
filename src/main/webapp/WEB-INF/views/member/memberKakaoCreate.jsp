@@ -392,7 +392,10 @@ span.passwordConfirmation { display:none; font-size:12px; position:absolute; top
 }
 /* 마우스 커서 숨기기 */
 .fadeIn.first {
-    cursor: none;
+    cursor: none;}
+.kakao{
+	font-size: 12px;
+    margin-top: -13px;
 }
 </style>
 
@@ -406,7 +409,7 @@ span.passwordConfirmation { display:none; font-size:12px; position:absolute; top
 		  enctype="multipart/form-data">
        <div class="header"> 
           <div>카카오톡 회원 가입</div>
-           <div>카카오톡으로 회원가입 진행시, 아래 칸을 필수로 작성해주셔야 이용이 가능합니다.</div>
+           <div class = "kakao">카카오톡으로 회원가입 진행시, 아래 칸을 필수로 작성해주셔야 이용이 가능합니다.</div>
       </div> 
       <fieldset class = "area_agreement">
        <legend class="sub_title">필수 정보</legend>

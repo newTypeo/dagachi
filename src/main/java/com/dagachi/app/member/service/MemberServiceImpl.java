@@ -262,7 +262,7 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public UserDetails checkKakao(String memberId) {
+	public int checkKakao(String memberId) {
 		return memberRepository.checkKakao(memberId);
 	}
 	@Override
