@@ -116,6 +116,7 @@ section {
 }
 
 </style>
+<br><br><br>
 <section>
 	<form:form id="command" name="memberUpdateFrm"
 		action="${pageContext.request.contextPath}/member/memberUpdate.do" method="POST"
@@ -194,6 +195,7 @@ section {
 		</div>
 	</form:form>
 </section>
+<br><br><br>
 <script>
   document.querySelector("#inputGroupFile01").addEventListener("change",(e) => {
 		
