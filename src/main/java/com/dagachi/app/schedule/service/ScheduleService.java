@@ -25,4 +25,6 @@ public interface ScheduleService {
 
 	int insertSchedule(ScheduleCreateDto scheduleCreateDto);
 
+	int updateScheduleStatus(int no);
+
 }

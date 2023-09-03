@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
+import org.apache.ibatis.annotations.Update;
 
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubSchedule;
@@ -55,5 +56,8 @@ public interface ScheduleRepository {
 
 	@Insert("insert into club_schedule_place values (seq_club_schedule_place_id.nextval, #{scheduleId}, #{name}, #{address}, #{details}, #{sequence}, #{startTime})")
 	int insertSchedulePlace(ClubSchedulePlace place);
+
+	@Update("update club_schedule set status = 'N' where schedule_id = #{no}")
+	int updateScheduleStatus(int no);
 
 }
