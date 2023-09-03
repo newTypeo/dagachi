@@ -34,31 +34,15 @@
 	<h1>멤버 클럽 디테일</h1>
 	<p>탈퇴기능, 내 글 조회 기능, 내 댓글 조회 기능</p>
 	
-	<button type="button" onclick="clubMemberDelete();">모임탈퇴</button>
-	<form:form 
-		name="clubMemberDeleteFrm"
-		action="${pageContext.request.contextPath}/club/${domain}/clubMemberDelete.do"
-		method = "post"
-		>
-	</form:form>
+	
 
 </section>
 
-<c:if test="${not empty clubAdminMsg}">
-	<script>
-		alert('${clubAdminMsg}');
-		<%session.removeAttribute("clubAdminMsg");%>
-	</script>
-</c:if>
+
 
 
 <script>
-const clubMemberDelete = () => {
-	if(confirm("모임을 정말 탈퇴하시겠습니까?")) {
-		console.log(document.clubMemberDeleteFrm);
-		document.clubMemberDeleteFrm.submit();
-	}
-}
+
 
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
