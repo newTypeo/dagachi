@@ -289,8 +289,7 @@ public interface ClubRepository {
 	@Select("select * from club_gallery a join club_gallery_attachment b on a.gallery_id = b.gallery_id where (club_id = #{clubId} and thumbnail = 'Y') order by 9")
 	List<ClubGalleryAndImage> clubGalleryAndImageFindByClubId(int clubId);
 	
-	@Select("select * from club c join club_member cm on (c.club_id = cm.club_id) where cm.member_id = #{memberId}")
-	
+	@Select("select * from club c join club_member cm on (c.club_id = cm.club_id) where cm.member_id = #{memberId} and c.status = 'Y'")
 	List<Club> findClubsByMemberId(String memberId);
 	
 	@Select("select club_name, created_at, (select count(*) from club_member where club_id = #{clubId}) member_count from club where club_id = #{clubId}")

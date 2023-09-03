@@ -1,54 +1,34 @@
 package com.dagachi.app.member.controller;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.multipart.MultipartFile;
-import javax.mail.internet.MimeMessage;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.core.io.FileSystemResource;
-
 
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.service.ClubService;
-import com.dagachi.app.common.DagachiUtils;
 import com.dagachi.app.member.dto.MemberPwUpdateDto;
-import com.dagachi.app.member.dto.MemberUpdateDto;
-import com.dagachi.app.member.entity.CbcLike;
 import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.entity.MemberDetails;
 import com.dagachi.app.member.entity.MemberLike;
@@ -57,12 +37,12 @@ import com.dagachi.app.member.service.MemberService;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Controller
-@Validated
-@SessionAttributes({"likeMe"})
 @Slf4j
-@RequestMapping("/member")
+@Validated
+@Controller
 @Configuration
+@RequestMapping("/member")
+@SessionAttributes({"likeMe"})
 @ConfigurationProperties(prefix = "spring.mail")
 public class MemberController {
 
@@ -81,8 +61,8 @@ public class MemberController {
 	   
 	 @GetMapping("/{memberId}")
 	    public String memberDetail(
-	    		@PathVariable("memberId") String memberId,
 	    		Model model,
+	    		@PathVariable("memberId") String memberId,
 	    		@AuthenticationPrincipal MemberDetails loginMember
 	    		) {
 		 	Member member = memberService.findMemberBymemberId(memberId);
