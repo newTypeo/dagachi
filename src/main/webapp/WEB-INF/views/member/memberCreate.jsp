@@ -34,7 +34,7 @@ body {
   flex-direction: column;
   align-items: center;
   width: 700px;
-  height: 1900px;
+  height: 1990px;
   margin-top: 130px;
   margin-bottom: 60px;
   background: #ffffff;
@@ -93,7 +93,7 @@ body {
   width: 20px;
   height: 19.95px;
   background: #ebebeb;
-  border: 1px solid #2990D0;
+  border: 1px solid #2990d0;
 }
 
 
@@ -112,9 +112,9 @@ body {
   flex-direction: column;
   justify-content: center; /* 텍스트를 수직 방향 가운데 정렬 */
   align-items: center; /* 텍스트를 수평 방향 가운데 정렬 */
-  margin-top: 40px;
+  margin-top: 25x;
   width: 470px;
-  height: 106px;
+  height:70px
   border-top: 1px solid #2990D0;
   font-size: 30px;
   color: #ffffff;
@@ -126,6 +126,7 @@ body {
 .btn-email {
   background: #2990D0;
   color: #ffffff;
+  height: 36px;
   border-radius: 5px;
   border: 1px solid #2990D0; 
    
@@ -249,9 +250,10 @@ span.passwordConfirmation { display:none; font-size:12px; position:absolute; top
     border: 1px solid #ccc;
     border-radius: 10px;
     padding: 20px;
-    margin-top: 20px;
-    height: 400px;
-    background-color: #f8f8f8;
+    margin-top: -20px;
+    margin-bottom: 40px;
+    height: 340px;
+    background-color: #e9ecef;
 }
 
 /* 전체 동의 제목 스타일 */
@@ -273,11 +275,13 @@ span.passwordConfirmation { display:none; font-size:12px; position:absolute; top
 
 /* 전체 동의 체크박스 및 라벨 스타일 */
 .all_check_area {
-  border-bottom: 1px solid #ccc;
-  padding-bottom: 10px;
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
+    border-bottom: 1px solid #ccc;
+    font-size: 24px;
+    margin-top: -60px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
 }
 
 .all_check_area input[type="checkbox"] {
@@ -322,6 +326,7 @@ span.passwordConfirmation { display:none; font-size:12px; position:absolute; top
 
 .form-control#email {
     width: 370px; /* 원하는 너비로 설정 (예: 100%는 부모 요소의 너비에 맞게 확장) */
+    margin-bottom: 10px;
 }
 .form-control#floatingInputDisabled3 {
     width: 370px; /* 원하는 너비로 설정 (예: 100%는 부모 요소의 너비에 맞게 확장) */
@@ -332,6 +337,7 @@ span.passwordConfirmation { display:none; font-size:12px; position:absolute; top
     align-items: stretch;
     flex-wrap: wrap;
     justify-content: space-between;
+    margin: 3px;
 }
 
 
@@ -394,6 +400,12 @@ span.passwordConfirmation { display:none; font-size:12px; position:absolute; top
 .fadeIn.first {
     cursor: none;
 }
+img {
+    vertical-align: middle;
+    border-style: none;
+    margin-bottom: 60px;
+}
+
 </style>
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/memberCreate.css"/>
@@ -404,11 +416,19 @@ span.passwordConfirmation { display:none; font-size:12px; position:absolute; top
 		  action="${pageContext.request.contextPath}/member/memberCreate.do"
 		  method="POST"
 		  enctype="multipart/form-data">
+
+		 
        <div class="header"> 
           <div>회원 가입</div>
       </div> 
+      
+      <legend class="sub_title">간편 회원가입</legend>  
+		 <a href="${pageContext.request.contextPath}/oauth2/authorization/kakao">
+			<img src="${pageContext.request.contextPath}/resources/images/kakaoL.png" alt="카카오 로그인">
+		 </a>
+		 
       <fieldset class = "area_agreement">
-       <legend class="sub_title">필수 정보</legend>
+       <legend class="sub_title">회원 정보</legend>
          <div class="fadeIn first">
             <label>아이디</label>
                   <div id="memberId-container">
@@ -460,7 +480,7 @@ span.passwordConfirmation { display:none; font-size:12px; position:absolute; top
 			  <input type="text" class="form-control" name="phone1" id="phone1" maxlength="3" required  placeholder="010">-
 			  <input type="text" class="form-control" name="phone2" id="phone2" maxlength="4" required placeholder="4자리">-
 			  <input type="text" class="form-control" name="phone3" id="phone3" maxlength="4" required placeholder="4자리">
-			  <input type="hidden" id="phone" name="phoneNo" value="">
+			  <input type="hidden" id="phoneNo" name="phoneNo" value="">
 			</div>
          </div>   
          
@@ -725,7 +745,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 xhr.setRequestHeader(header, token);
             },
             success: function(response) {
-               emailWarning.textContent = '인증번호 발송 완료 !인증번호가 오지 않으면 입력하신 정보가 맞는지 확인해주세요.문제가 지속된다면 관리자에게 문의 바랍니다.';
+               emailWarning.textContent = ' ! ! !인증번호 발송 완료 ! ! ! 인증번호가 오지 않으면 입력하신 정보가 맞는지 확인해주세요.문제가 지속된다면 관리자에게 문의 바랍니다.';
                 console.log(response);
                 
                 var compareCodeBtn = document.getElementById('compareCodeBtn'); // 버튼 엘리먼트
@@ -734,7 +754,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (userEnteredCode === response) {
                         emailWarning.textContent = '이메일 인증 성공!';
                     } else {
-                        emailWarning.textContent = '이메일 인증 실패';
+                        emailWarning.textContent = '이메일 인증 실패! 다시 시도해주세요.';
                         document.getElementById('email').value = '';
                     }
                 });
@@ -743,38 +763,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-//관심사 체크
-document.addEventListener("DOMContentLoaded", function () {
-    const interestCheckboxes = document.querySelectorAll('input[name="interests"]');
-    const interestError = document.getElementById("interestError");
-    
-    interestCheckboxes.forEach((checkbox) => {
-        checkbox.addEventListener("change", function () {
-            const checkedInterestCount = document.querySelectorAll(
-                'input[name="interests"]:checked'
-            ).length;
-
-            if (checkedInterestCount === 0) {
-                interestError.textContent = "최소 1개의 관심사를 선택해야 합니다.";
-            } else if (checkedInterestCount > 3) {
-                interestError.textContent = "최대 3개의 관심사까지 선택 가능합니다.";
-                this.checked = false; // 3개 이상 선택 시 체크 해제
-            } else {
-                interestError.textContent = "";
-            }
-
-            const selectedInterests = Array.from(interestCheckboxes)
-                .filter((checkbox) => checkbox.checked)
-                .map((checkbox) => checkbox.value)
-                .join(", ");
-            
-            console.log(selectedInterests);
-                
-            // 선택한 관심사를 쉼표로 구분된 문자열로 만들어서 input 필드에 설정
-            document.querySelector('input[name="interest"]').value = selectedInterests;
-        });
-    });
-});
 
 
 // 전체동의 체크 (누르면 전체동의 한번더 누르면 전체동의 안됨)
@@ -913,28 +901,37 @@ document.addEventListener('click', (e) => {
 //-------------------------------------- 활동지역end--------------------------------
 
 // ------------------------------- 실시간 유효성 검사들 -------------------------------
-// 관심사 체크
-const minInterestCount = 1;
-const maxInterestCount = 3;
-const interestCheckboxes = document.querySelectorAll('input[type="checkbox"][name="interests"]');
-const interestError = document.getElementById('interestError');
+//관심사 체크
+document.addEventListener("DOMContentLoaded", function () {
+    const interestCheckboxes = document.querySelectorAll('input[name="interests"]');
+    const interestError = document.getElementById("interestError");
+    
+    interestCheckboxes.forEach((checkbox) => {
+        checkbox.addEventListener("change", function () {
+            const checkedInterestCount = document.querySelectorAll(
+                'input[name="interests"]:checked'
+            ).length;
 
-interestCheckboxes.forEach((checkbox) => {
-    checkbox.addEventListener('change', () => {
-        const selectedInterestCount = document.querySelectorAll('input[type="checkbox"][name="interests"]:checked').length;
-
-        if (selectedInterestCount < minInterestCount) {
-            interestError.textContent = '최소 하나 이상의 관심사를 선택하세요.';
-            checkbox.checked = true; 
-        } else if (selectedInterestCount > maxInterestCount) {
-            interestError.textContent = '최대 세 개의 관심사까지 선택할 수 있습니다.';
-            checkbox.checked = false; 
-        } else {
-            interestError.textContent = '';
-        }
+            if (checkedInterestCount === 0) {
+                interestError.textContent = "최소 1개의 관심사를 선택해야 합니다.";
+            } else if (checkedInterestCount > 3) {
+                interestError.textContent = "최대 3개의 관심사까지 선택 가능합니다.";
+                this.checked = false; // 3개 이상 선택 시 체크 해제
+            } else {
+                interestError.textContent = "";
+            }
+            const selectedInterests = Array.from(interestCheckboxes)
+                .filter((checkbox) => checkbox.checked)
+                .map((checkbox) => checkbox.value)
+                .join(", ");
+            console.log(selectedInterests);
+            // 선택한 관심사를 쉼표로 구분된 문자열로 만들어서 input 필드에 설정
+            document.querySelector('input[name="interest"]').value = selectedInterests;
+        });
     });
 });
 
+ 
 
 //멤버 아이디 실시간 유효성 검사
 $(document).ready(function() {
@@ -1103,8 +1100,7 @@ function combinePhoneNumbers() {
     const phone1 = document.querySelector("#phone1").value;
     const phone2 = document.querySelector("#phone2").value;
     const phone3 = document.querySelector("#phone3").value;
-    const phoneInput = document.querySelector("#phone");
-
+    const phoneInput = document.querySelector("#phoneNo");
     // 숫자만 남기고 다른 문자는 제거
     const sanitizedPhone1 = phone1.replace(/\D/g, "");
     const sanitizedPhone2 = phone2.replace(/\D/g, "");
@@ -1112,9 +1108,7 @@ function combinePhoneNumbers() {
 
     if (sanitizedPhone1.length !== 3 || sanitizedPhone2.length !== 4 || sanitizedPhone3.length !== 4) {
         document.querySelector(".phone.error").style.display = "inline";
-        phoneInput.value = "";
     } else {
-        phoneAlert.innerText = "";
         document.querySelector(".phone.error").style.display = "none";
         phoneInput.value = `${sanitizedPhone1}-${sanitizedPhone2}-${sanitizedPhone3}`;
     }

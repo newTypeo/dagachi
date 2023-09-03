@@ -119,7 +119,7 @@ public class MemberSecurityController {
 	    return "redirect:/";
 	}
 
-	@PostMapping("/memberKakaoCreate.do")
+	@GetMapping("/memberKakaoCreate.do")
 	public String kakaoUpadteCreate(
 	    		@PathVariable("memberId") String memberId,
 	    		Model model,
@@ -129,7 +129,6 @@ public class MemberSecurityController {
 		 	MemberProfile memberProfile = memberService.findMemberProfile(memberId); 
 
 		 	String loginMemberId = loginMember.getMemberId();
-		 	
 		 	
 	        return "member/memberKakaoCreate";
 	        
