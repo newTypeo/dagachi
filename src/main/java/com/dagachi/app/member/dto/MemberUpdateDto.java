@@ -24,14 +24,22 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder // 부모필드까지 설정가능한 Builder
 public class MemberUpdateDto extends Member{
 
+	private String memberId;
 	private String name;
 	private String nickname;
 	private String phoneNo;
-	private String address;
+	private String activityArea;
 	private String gender;
 	private String mbti;
+	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate birthday;
+	
+	private String mainAreaId; // 주 활동 지역
+
+	private List<String> interest;// 관심사
+	
+	
 	
 	
 }

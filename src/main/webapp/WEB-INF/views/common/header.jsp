@@ -114,7 +114,7 @@
 						onclick="document.memberLogoutFrm.submit();">로그아웃</a>
 				</div>
 
-				<c:if test="${memberId eq admin}">
+				<c:if test="${memberId eq 'admin'}">
 					<div class="dropdown">
 						<button id="admin-nav-btn"
 							class="btn btn-secondary dropdown-toggle" type="button"

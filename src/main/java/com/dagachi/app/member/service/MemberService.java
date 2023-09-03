@@ -15,6 +15,7 @@ import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.member.dto.MemberCreateDto;
 import com.dagachi.app.member.dto.MemberKakaoDto;
 import com.dagachi.app.member.dto.MemberPwUpdateDto;
+import com.dagachi.app.member.dto.MemberUpdateDto;
 import com.dagachi.app.member.entity.ActivityArea;
 import com.dagachi.app.member.entity.CbcLike;
 import com.dagachi.app.member.entity.Member;
@@ -60,7 +61,6 @@ public interface MemberService extends UserDetailsService {
 
 	int memberLike(Map<String, Object> params);
 
-	int UpdateMember(Member member);
 
 	int updateMemberProfile(MemberProfile memberProfile);
 	
@@ -91,5 +91,11 @@ public interface MemberService extends UserDetailsService {
 	int buyCreateClubTicket(String memberId);
 
 	int checkDuplicateMemberIdAndMyId(Map<String, Object> params);
+
+	int updateMember(@Valid MemberUpdateDto _member);
+
+	int updateMemberArea(@Valid MemberUpdateDto _member);
+
+	int updateMemberInterest(@Valid MemberUpdateDto _member);
 
 }

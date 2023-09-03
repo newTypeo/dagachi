@@ -116,11 +116,11 @@ margin-left: 184px;
 			    var userEnteredCode = document.getElementById('floatingInputDisabled3').value;
 			    
 			    if(userEnteredCode === response){
-			    	alert('일치 ㅋ' + email);
+			    	alert('인증코드가 일치합니다.');
 			    	window.location.href ="${pageContext.request.contextPath}/member/"+email+"/memberPwUpdate.do";
 			    }
 			    else{
-			    	alert('불일치 ㅋ');
+			    	alert('인증코드가 불일치 합니다.');
 			    }
 			});
             }

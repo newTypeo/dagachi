@@ -24,6 +24,7 @@ import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.member.dto.MemberCreateDto;
 import com.dagachi.app.member.dto.MemberKakaoDto;
 import com.dagachi.app.member.dto.MemberPwUpdateDto;
+import com.dagachi.app.member.dto.MemberUpdateDto;
 import com.dagachi.app.member.entity.ActivityArea;
 import com.dagachi.app.member.entity.CbcLike;
 import com.dagachi.app.member.entity.Member;
@@ -190,11 +191,7 @@ public class MemberServiceImpl implements MemberService{
 		return memberRepository.cancelMemberLike(params);
 	}
 	
-	public int UpdateMember(Member member) {
-		int result = 0;	
-		result = memberRepository.updateMember(member);
-		return result;
-	}
+
 	
 	@Override
 	public int updateMemberProfile(MemberProfile memberProfile) {
@@ -273,5 +270,27 @@ public class MemberServiceImpl implements MemberService{
 	public int checkDuplicateMemberIdAndMyId(Map<String, Object> params) {
 		return memberRepository.checkDuplicateMemberIdAndMyId(params);
 	}
+	
+	@Override
+	public int updateMember(@Valid MemberUpdateDto _member) {
+		return memberRepository.updateMember(_member);
+	}
+	
+	@Override
+	public int updateMemberArea(@Valid MemberUpdateDto _member) {
+		return memberRepository.updateMemberArea(_member);
+	}
+	
+	@Override
+	public int updateMemberInterest(@Valid MemberUpdateDto _member) {
+		int result = 0;
+		List<String> interestList = _member.getInterest();
+
+	    for (String interest : interestList) {
+	        memberRepository.updateMemberInterest(_member.getMemberId(), interest);
+	    }
+	    return result;
+	}
+	
 	
 }

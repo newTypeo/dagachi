@@ -4,6 +4,8 @@ package com.dagachi.app.member.repository;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -18,6 +20,7 @@ import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.member.dto.MemberCreateDto;
 import com.dagachi.app.member.dto.MemberKakaoDto;
 import com.dagachi.app.member.dto.MemberPwUpdateDto;
+import com.dagachi.app.member.dto.MemberUpdateDto;
 import com.dagachi.app.member.entity.ActivityArea;
 import com.dagachi.app.member.entity.CbcLike;
 import com.dagachi.app.member.entity.Member;
@@ -96,9 +99,8 @@ public interface MemberRepository {
 	@Select("select * from member where name = #{username}")
 	Member findMemberByName(String username);
 
-	@Update("update member set name = #{name}, nickname=#{nickname}, phone_no = #{phoneNo}, address=#{address}, mbti =#{mbti}, birthday = #{birthday, jdbcType=DATE}, gender = #{gender} where member_id = #{memberId}")
-	int updateMember(Member member);
 
+	
 	@Update("update member_profile set original_filename = #{originalFilename}, renamed_filename = #{renamedFilename} where member_id = #{memberId}")
 	int updateMemberProfile(MemberProfile memberProfile);
 	
@@ -134,6 +136,15 @@ public interface MemberRepository {
 	
 	@Select("select count(*) from member_like where member_id = #{memberId} and like_sender = #{loginMemberId}")
 	int checkDuplicateMemberIdAndMyId(Map<String, Object> params);
-
+	
+	@Update("update member set name=#{name}, nickname = #{nickname}, phone_no = #{phoneNo}, address = #{activityArea}, gender = #{gender}, mbti = #{mbti}, birthday = #{birthday, jdbcType=DATE}")
+	int updateMember(@Valid MemberUpdateDto _member);
+	
+	@Update("update activity_area set member_Id = #{memberId}, main_area_id = #{mainAreaId}")
+	int updateMemberArea(@Valid MemberUpdateDto _member);
+	
+	@Update("update member_interest set member_Id = #{memberId}, interest=#{interest}")
+	void updateMemberInterest(String memberId, String interest);
+	
 	
 }
