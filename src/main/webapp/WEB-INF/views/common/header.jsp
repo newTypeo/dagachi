@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <html>
 <style>
-#alarmBox {visibility : hidden;}
+#alarmBox {display : none;}
 </style>
 
 <head>
@@ -58,7 +58,12 @@
 	<script >
 		const memberId= "<sec:authentication property="principal.memberId"/>";
 		window.roomMaps = new Map();
-	</script>
+
+		window.onload=()=>{
+			alarmLoad();
+		};
+		
+		</script>
 
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"
@@ -69,6 +74,7 @@
 		integrity="sha512-iKDtgDyTHjAitUDdLljGhenhPwrbBfqTKWO1mkhSFH3A7blITC9MhYon6SjnMhp4o0rADGw9yAC6EW4t5a4K3g=="
 		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/stomp.js"></script>
+
 </sec:authorize>
 
 <body>
@@ -102,10 +108,8 @@
 
 			<sec:authorize access="isAuthenticated()">
 				<div id="header-nav-container">
-						 <i class="fa-solid fa-bell fa-beat"></i> 
-						 <i id="bell" class="fa-solid fa-bell"></i> 
-							<div  id="alarmBox" class="" > 
-							</div>
+						 <i id="bell" class="fa-solid fa-bell fa-2xl"></i> 
+							<div  id="alarmBox" class="" ></div>
 					<span>
 						 	<a title="<sec:authentication property="authorities"/>"
 							href="${pageContext.request.contextPath}/member/<sec:authentication property="principal.memberId"/>">
@@ -178,28 +182,98 @@
 				
 				<script>
 				
-			/* 	document.querySelector("#bell").addEventListener("click",(e)=>{
-					console.log(e.target);
+				document.querySelector("#bell").addEventListener("click",(e)=>{
+					const receiver= memberId;
 					const bell=e.target;
+					const token= document.memberLogoutFrm._csrf.value;
 					bell.classList.remove("fa-beat");
 					
-					const alarmToggle=document.querySelector("#alarmBox");
+					const alarmBox=document.querySelector("#alarmBox");
+					const computedStyle = window.getComputedStyle(alarmBox);
+					const displayPropertyValue = computedStyle.getPropertyValue("display");
 					
-					 if (alarmBox.style.visibility === "hidden") {
-						 alarmBox.style.visibility = "visible";
-					console.log(alarmBox);
-						 console.log("visible");
-					 }else{
-						 alarmBox.style.visibility = "hidden";
-						 console.log("hidden");
-					console.log(alarmBox);
-					 }
+					if (displayPropertyValue === "none"){
+						  alarmBox.style.display = "inline";
+		
+						$.ajax({
+							url:"${pageContext.request.contextPath}/notification/checkedAlarm.do",
+							method :"POST",
+							data:{receiver},
+							headers: {
+								"X-CSRF-TOKEN": token
+							},
+							success(){}
+						});
+						
+					}
+					else 
+						  alarmBox.style.display = "none";
+					
+					
+					 
 				});
 				
 				
 				const alarmLoad=()=>{
+					const receiver= memberId;
+					console.log(receiver);
+					$.ajax({
+						url:"${pageContext.request.contextPath}/notification/findAlarms.do",
+						data:{receiver},
+						success(alarms){
+							console.log(alarms);
 					
-				}; */
+							if(alarms.length>0){
+								alarms.forEach((alarm)=>{
+									const {id,receiver,sender,type,createdAt,content}=alarm;
+									
+									const alarmWrap=document.querySelector("#alarmBox");
+									if(type==="CHATNOTICE"){
+										const divId=`#\${content.replace(/\s/g, "_")}`;
+										const spanId=`#\${content.replace(/\s/g, "-")}`;
+										
+										const chatRoomCheck=document.querySelector(divId);
+										if(chatRoomCheck === null){
+											roomMaps.set(content, 1);
+											const alarmDiv=document.createElement('div');
+											alarmDiv.setAttribute('id', content.replace(/\s/g, "_"));
+											alarmDiv.className = 'list-group';
+											alarmDiv.innerHTML=`
+												 <a href="#" class="list-group-item list-group-item-action list-group-item-light">
+													\${content} :새로운 메세지가 도착하였습니다 
+													<span id="\${content.replace(/\s/g, "-")}" class="badge badge-primary">
+														\${roomMaps.get(content)}
+													</span>
+												</a>
+											`;
+											alarmWrap.appendChild(alarmDiv);
+										}else{
+											roomMaps.set(content, (roomMaps.get(content)+ 1));
+											
+											document.querySelector(spanId).innerText=`\${roomMaps.get(content)}`;
+										}
+									
+									}else{
+						
+								 	 	const noticeAlarm=document.createElement('div');
+								 	 	noticeAlarm.className = 'list-group';
+								 	 	noticeAlarm.innerHTML=`
+												 <a href="#" class="list-group-item list-group-item-action list-group-item-light">
+													\${content} 
+												</a>
+											`;
+										alarmWrap.appendChild(noticeAlarm);
+									}
+								
+								});
+								
+								document.querySelector("#bell").classList.add("fa-beat");
+							}
+						
+						}
+						
+					});
+				}; 
 				
 				</script>
 
