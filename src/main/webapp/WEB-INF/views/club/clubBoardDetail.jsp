@@ -185,6 +185,7 @@ const creatComment = () => {
 				</div>
 			`;
 			
+			 document.querySelector(".profile-info").innerHTML = '';
 			 const commentBox = document.querySelector("#commentBox");
 		     commentBox.appendChild(newCommentDiv);
 		} // success
