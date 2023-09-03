@@ -25,7 +25,7 @@ public interface ScheduleRepository {
 	@Select("select * from club_schedule where club_id = #{clubId} and status = 'Y'")
 	List<ClubSchedule> findSchedulesByClubId(int clubId);
 
-	@Select("select cs.*, mp.original_filename, mp.renamed_filename, m.nickname from club_schedule cs join member_profile mp on (cs.writer = mp.member_id) left join member m on (cs.writer = m.member_id) where schedule_id = #{no}")
+	@Select("select cs.*, mp.original_filename, mp.renamed_filename, m.nickname from club_schedule cs join member_profile mp on (cs.writer = mp.member_id) left join member m on (cs.writer = m.member_id) where cs.schedule_id = #{no} and cs.status = 'Y'")
 	ScheduleDetailsDto findScheduleById(int no);
 
 	@Select("select * from club_member where member_id = #{memberId} and club_id = #{clubId}")
@@ -59,5 +59,8 @@ public interface ScheduleRepository {
 
 	@Update("update club_schedule set status = 'N' where schedule_id = #{no}")
 	int updateScheduleStatus(int no);
+
+	@Select("select club_member_role from club_member where club_id = #{clubId} and member_id = #{myId}")
+	int getMyRole(Map<String, Object> mIdAndcId);
 
 }

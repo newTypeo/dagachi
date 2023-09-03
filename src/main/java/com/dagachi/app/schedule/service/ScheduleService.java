@@ -27,4 +27,6 @@ public interface ScheduleService {
 
 	int updateScheduleStatus(int no);
 
+	int getMyRole(Map<String, Object> mIdAndcId);
+
 }
