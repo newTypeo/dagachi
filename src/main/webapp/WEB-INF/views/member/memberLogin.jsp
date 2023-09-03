@@ -378,3 +378,7 @@ TweenMax.set(armR, {x: -93, y: 220, rotation: -105, transformOrigin: "top right"
 </script>
 
 
+<br><br><br><br><br>
+<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
+
+
