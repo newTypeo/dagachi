@@ -133,7 +133,9 @@ public class ClubController {
 	}
 
 	/**
-	 * @author ?
+	 * 모임 가입 신청
+	 * 
+	 * @author 나영
 	 */
 	@GetMapping("/{domain}/clubEnroll.do")
 	public String ClubEnroll(@PathVariable("domain") String domain, RedirectAttributes redirectAttr, Model model,

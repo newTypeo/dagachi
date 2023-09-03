@@ -8,6 +8,31 @@
 	<jsp:param value="관리자에게 문의하기" name="title" />
 </jsp:include>
 
+<style>
+
+.form-check-input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 20px;
+    height: 20px; 
+    border: 2px solid #2990D0; 
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.form-check-input[type="radio"]:checked {
+    background-color: #2990D0;
+    border: 2px solid #2990D0;
+}
+
+.form-check-label {
+    font-size: 16px; 
+    color: #333; 
+    margin-left: 10px;
+}
+</style>
+
 <section id="club-Inquiry-sec" class="">
 	<form:form  name="InquiryFrm"
 		action="${pageContext.request.contextPath}/member/memberAdminInquiry.do"
@@ -50,7 +75,7 @@
 				rows="3" placeholder="내용을 입력하세요"></textarea>
 		</div>
 
-		<button type="submit" class="btn btn-primary btn-lg" style="margin-left: 290px;">문의 하기</button>
+		<button type="submit" class="btn btn-primary btn-lg" style="margin-left: 290px;  border: none;  background-color: #2990D0;">문의 하기</button>
 		
 	 </form:form>
 </section>
@@ -65,7 +90,7 @@ document.InquiryFrm.addEventListener("submit",(e)=>{
 	if(title === "" || content === "" || type === ""){
 		e.preventDefault();
 		//임시 얼럿트 추후에 빨간글이든 뭐든 되면 하지 모
-		alert("입력값이 부족합니다.");
+		alert("문의 내용이 부족합니다.");
 	}
 	
 });

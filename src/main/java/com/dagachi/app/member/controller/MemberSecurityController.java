@@ -28,6 +28,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -47,6 +48,7 @@ import com.dagachi.app.member.entity.ActivityArea;
 import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.entity.MemberDetails;
 import com.dagachi.app.member.entity.MemberInterest;
+import com.dagachi.app.member.entity.MemberLike;
 import com.dagachi.app.member.entity.MemberProfile;
 import com.dagachi.app.member.service.MemberService;
 import com.dagachi.app.oauth.service.Oauth2UserServiceImpl;
@@ -116,7 +118,22 @@ public class MemberSecurityController {
 	    int result = memberService.insertMember(member);
 	    return "redirect:/";
 	}
-	
+
+	@GetMapping("/memberKakaoCreate.do")
+	public String kakaoUpadteCreate(
+	    		@PathVariable("memberId") String memberId,
+	    		Model model,
+	    		@AuthenticationPrincipal MemberDetails loginMember
+	    		) {
+		 	Member member = memberService.findMemberBymemberId(memberId);
+		 	MemberProfile memberProfile = memberService.findMemberProfile(memberId); 
+
+		 	String loginMemberId = loginMember.getMemberId();
+		 	
+	        return "member/memberKakaoCreate";
+	        
+	    }
+
 	@PostMapping("/memberKakaoCreate.do")
 	public String kakaoUpadteCreate(@Valid MemberCreateDto member, BindingResult bindingResult, RedirectAttributes redirectAttr,
 			@RequestParam String interests) throws UnsupportedEncodingException {
@@ -129,12 +146,9 @@ public class MemberSecurityController {
 	    JsonObject params = item.get("address").getAsJsonObject();
 	    String bCode = params.get("b_code").getAsString();
 	 
-	    String rawPassword = member.getPassword();
-	    String encodedPassword = passwordEncoder.encode(rawPassword);
 	    
 	    List<String> interest = Arrays.asList(interests.split(","));
 	    member.setInterest(interest);
-	    member.setPassword(encodedPassword);
 	    member.setMainAreaId(bCode);
 	    log.debug("이게 interest -> {}", interest);
 	    int result = memberService.kakaoUpadteCreate(member);

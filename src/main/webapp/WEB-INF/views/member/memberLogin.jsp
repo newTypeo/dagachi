@@ -133,7 +133,7 @@
 		<br/>
 	<div class = kakaoLoginDiv>
 		 <a href="${pageContext.request.contextPath}/oauth2/authorization/kakao">
-			<img src="${pageContext.request.contextPath}/resources/kakao/kakao_login_medium_narrow.png" alt="카카오 로그인">
+			<img src="${pageContext.request.contextPath}/resources/images/kakaoL.png" alt="카카오 로그인">
 		 </a>
 		 
 		 <br/>
