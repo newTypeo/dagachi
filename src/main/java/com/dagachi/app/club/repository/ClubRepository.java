@@ -23,14 +23,17 @@ import com.dagachi.app.club.dto.ClubEnrollDto;
 import com.dagachi.app.club.dto.ClubGalleryAndImage;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
+import com.dagachi.app.club.dto.ClubNameAndCountDto;
 import com.dagachi.app.club.dto.ClubReportDto;
 import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
 import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.KickMember;
 import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.ClubStyleUpdateDto;
+import com.dagachi.app.club.dto.CreateGalleryDto;
 import com.dagachi.app.club.dto.GalleryAndImageDto;
 import com.dagachi.app.club.dto.ManageMember;
+import com.dagachi.app.club.entity.BoardComment;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
@@ -38,6 +41,7 @@ import com.dagachi.app.club.entity.ClubBoardAttachment;
 import com.dagachi.app.club.entity.ClubBoardDetails;
 import com.dagachi.app.club.entity.ClubDetails;
 import com.dagachi.app.club.entity.ClubGalleryAttachment;
+import com.dagachi.app.club.entity.ClubGalleryDetails;
 import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
@@ -187,9 +191,6 @@ public interface ClubRepository {
 	
 	@Select("select * from (select * from club_gallery cg left join club_gallery_attachment ca on cg.gallery_id = ca.gallery_id where (ca.thumbnail = 'Y' or ca.thumbnail is null) and club_id = #{clubId} order by cg.gallery_id desc) where rownum <= 8")
 	List<GalleryAndImageDto> findgalleryById(int clubId);
-	
-	@Insert("insert into club_layout values (#{clubId}, default, default, default, default, default, default, default, default)")
-	int insertLayout(int clubId);
 
 	@Delete("delete from club_member where club_id = #{clubId} and member_id = #{memberId}")
 	int kickMember(KickMember kickMember);
@@ -216,6 +217,7 @@ public interface ClubRepository {
 
 	@Insert("insert into club_member values(#{memberId}, #{clubId}, default, null, default, default)")
 	int permitApply(ClubManageApplyDto clubManageApplyDto);
+	
 	@Delete("delete from club_apply where member_id = #{memberId} and club_id = #{clubId}")
 	int refuseApply(ClubManageApplyDto clubManageApplyDto);
 	
@@ -250,7 +252,7 @@ public interface ClubRepository {
 	List<MemberProfile> findProfileById(String id);
 	
 	@Select("select * from member where member_id = #{id}")
-	Member findMembersById(String id);
+	Member findMemberById(String id);
 	
 	@Update("update club_layout set type=#{type}, font=#{font}, background_color=#{backgroundColor}, font_color=#{fontColor}, point_color=#{pointColor} where club_id=#{clubId}")
 	int clubStyleUpdate(ClubStyleUpdateDto style);
@@ -272,6 +274,9 @@ public interface ClubRepository {
 	@Insert("insert into cbc_like values(#{memberId}, 1, #{targetId}, default)")
 	int clubLike(Map<String, Object> params);
 	
+	@Delete("delete from CBC_like where member_id = #{memberId} and type = 1 and target_id = #{targetId}")
+	int cancelClubLike(Map<String, Object> params);
+	
 	List<ClubSearchDto> findClubByDistance(Map<String, Object> params);
 
 	int boardSize(ClubBoard clubBoard);
@@ -281,13 +286,83 @@ public interface ClubRepository {
 	@Select("select * from club join club_profile on club.club_id = club_profile.club_id left join cbc_like on club.club_id = cbc_like.target_id where member_id = #{loginMemberId}")
 	List<ClubAndImage> findAllClubLike(String loginMemberId);
 	
-	@Select("select * from club_gallery a join club_gallery_attachment b on a.gallery_id = b.gallery_id where club_id = #{clubId}")
+	@Select("select * from club_gallery a join club_gallery_attachment b on a.gallery_id = b.gallery_id where (club_id = #{clubId} and thumbnail = 'Y') order by 9")
 	List<ClubGalleryAndImage> clubGalleryAndImageFindByClubId(int clubId);
 	
 	@Select("select * from club c join club_member cm on (c.club_id = cm.club_id) where cm.member_id = #{memberId}")
 	
 	List<Club> findClubsByMemberId(String memberId);
-
+	
+	@Select("select club_name, created_at, (select count(*) from club_member where club_id = #{clubId}) member_count from club where club_id = #{clubId}")
+	ClubNameAndCountDto findClubInfoById(int clubId);
+	
+	@Insert("insert into CBC_like values(#{memberId}, 2, #{targetId}, default)")
+	int insertClubLike(Map<String, Object> params);
+	
+	@Delete("delete from CBC_like where member_id = #{memberId} and type = 2 and target_id = #{targetId}")
+	int deleteClubLike(Map<String, Object> params);
+	
+	@Select("select count(*) from CBC_like where member_id = #{memberId} and type = #{type} and target_id = #{targetId}")
+	int checkBoardLiked(Map<String, Object> params);
+	
+	@Select("select * from club_gallery a join club_gallery_attachment b on a.gallery_id = b.gallery_id where a.gallery_id = #{galleryId}")
+	List<GalleryAndImageDto> findGalleryAndImageByGalleryId(int id);
+	
+	@Delete("delete club_gallery_attachment where gallery_id = #{id}")
+	int clubGalleryAttachDelete(int id);
+	
+	@Delete("delete club_gallery where gallery_id = #{id}")
+	int clubGalleryDelete(int id);
+	
+	@Insert("insert into club_gallery (gallery_id,club_id,member_id,status) values(seq_club_gallery_id.nextval, #{clubId},#{memberId},'Y')")
+	int clubGalleryCreate(CreateGalleryDto createGalleryDto);
+	
+	
+	@Insert("insert into club_gallery_attachment (id,gallery_id,original_filename,renamed_filename, thumbnail) values (seq_club_gallery_attachment_id.nextval,seq_club_gallery_id.currval,#{originalFilename},#{renamedFilename},'Y')")
+	int clubGalleryAttachCreate(CreateGalleryDto createGalleryDto);
+	
+	@Insert("insert into club_gallery_attachment (id,gallery_id,original_filename,renamed_filename, thumbnail) values (seq_club_gallery_attachment_id.nextval,seq_club_gallery_id.currval,#{originalFilename},#{renamedFilename},'N')")
+	int clubGalleryCreate2(CreateGalleryDto createGalleryDto);
+	
+	@Insert("insert into board_comment (comment_id, board_id,writer,content,created_at,status) values (seq_board_comment_id.nextval,#{boardId},#{writer}, #{content},default,default)")
+	@SelectKey(
+			before = false, 
+			keyProperty = "commentId", 
+			resultType = int.class,
+			statement = "select seq_board_comment_id.currval from dual")
+	int boardCommentCreate(BoardComment comment);
+	
+	@Select("select * from board_comment where board_id=#{no}")
+	List<BoardComment> findComments(int no);
+	
+	@Select("select * from  board_comment where comment_id=#{commentId}")
+	BoardComment findBoardComment(int commentId);
+	
+	@Delete("delete from club_member where member_id = #{memberId} and club_id = #{clubId} and club_member_role != 3")
+	int clubMemberDelete(Map<String, Object> params);
+	
+	@Select("select * from club_member where member_id = #{memberId} and club_id = #{clubId}")
+	ClubMember findClubMemberRoleByClubId(Map<String, Object> params);
+	
+	@Insert("insert into club_gallery (gallery_id, club_id, member_id) " +
+	        "values (seq_club_gallery_id.nextval, #{clubId}, #{memberId})")
+	@SelectKey(
+			before = false, 
+			keyProperty = "galleryId", 
+			resultType = int.class,
+			statement = "select seq_club_gallery_id.currval from dual")
+	int postGallery(ClubGalleryDetails clubGallery);
+	
+	@Insert("insert into club_gallery_attachment (id, gallery_id, original_filename, renamed_filename,created_at, thumbnail) " +
+	        "values (seq_club_gallery_attachment_id.nextval, #{galleryId}, #{originalFilename}, #{renamedFilename}, default , #{thumbnail})")
+	int insertAttachment(ClubGalleryAttachment attach);
+	
+	@Insert("insert into club_member values(#{memberId}, #{clubId}, default, sysdate, 3, default)")
+	int insertClubLeaderById(Map<String, Object> params);
+	
+	@Select("select count(*) from recent_visit_list where club_id = #{clubId} and member_id = #{memberId}")
+	int checkDuplicateClubIdAndId(Map<String, Object> params);
+	
 	
 }
    

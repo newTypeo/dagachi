@@ -3,61 +3,87 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<jsp:include page="/WEB-INF/views/common/header.jsp">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/club.css"/>
+<jsp:include page="/WEB-INF/views/common/clubHeader.jsp">
 	<jsp:param value="게시판" name="title" />
 </jsp:include>
 <style>
-div#search-title {
-	display: inline-block;
-}
-
-div#search-writer {
-	display: none;
-}
-
-div#search-content {
-	display: none;
-}
+div#search-title {display: inline-block;}
+div#search-writer {display: none;}
+div#search-content {display: none;}
 </style>
+
 <script>
-	window.onload = ()=>{
-		renderBoardList(0);
-	};
+window.onload = () => {
+	const boardLoadType = ${no};
+	renderBoardList(boardLoadType);
+	document.querySelector("#boardType").value= boardLoadType;
+};
 </script>
 
 
 <section id="club-board-sec" class="">
 
-
-	<select class="custom-select custom-select-lg mb-3" id="boardType">
-		<option value="0" selected>전체보기</option>
-		<option value="1">자유글</option>
-		<option value="2">정모후기</option>
-		<option value="3">가입인사</option>
-		<option value="4">공지사항</option>
-	</select>
+	<nav id="club-title" class="">
+		<c:if test="${layout.title eq null}">
+			<div id="default-title">
+				<h2>${domain}</h2>
+			</div>
+		</c:if>
+		
+		<c:if test="${layout.title ne null}">
+			<img src="${pageContext.request.contextPath}/resources/upload/club/title/${layout.title}">
+		</c:if>
+	</nav>
+	
+	<nav id="club-nav-bar" style="border-color: ${layout.pointColor}">
+		<h5><a href="${pageContext.request.contextPath}/club/${domain}">🚩${clubName}</a></h5>
+		<div class="fontColors">
+			<ul>
+				<li><a href="${pageContext.request.contextPath}/club/${domain}/clubBoardList.do?no=4">📢공지사항</a></li>
+				<li><a href="${pageContext.request.contextPath}/club/${domain}/clubBoardList.do?no=1">🐳자유게시판</a></li>
+				<li><a href="${pageContext.request.contextPath}/club/${domain}/clubBoardList.do?no=3">✋가입인사</a></li>
+				<li><a href="${pageContext.request.contextPath}/club/${domain}/clubBoardList.do?no=2">🎉정모후기</a></li>
+				<li><a href="${pageContext.request.contextPath}/club/${domain}/clubGallery.do">📷갤러리</a></li>
+				<li><a href="${pageContext.request.contextPath}/club/${domain}/clubSchedule.do">📅일정</a></li>
+			</ul>
+		</div>
+	</nav>
+	
+			
 
 	<div>
-		<button type="button" class="btn btn-primary"
+		<button type="button" class="btn btn-primary" style="margin-left: 1255px; transform: translate(8px, 70px);"
 			onclick="location.href = '${pageContext.request.contextPath}/club/${domain}/clubBoardCreate.do'">작성</button>
 	</div>
 
-	<div id="search-container">
-
-		<div>
-			<label for="searchType">검색타입 :</label> <select id="searchType">
-				<option value="title">제목</option>
-				<option value="writer">작성자</option>
-				<option value="content">내용</option>
+	<div id="search-container" style="margin-top: -20px;">
+		<div class="searchType-place" style="display: flex;">
+			<label for="searchType" style="transform: translate(0px, 2px);">◾게시물 타입</label>
+			<select id="boardType" style="height: 28px; margin-left: 5px;">
+				<option value="0" selected>전체보기</option>
+				<option value="1">자유글</option>
+				<option value="2">정모후기</option>
+				<option value="3">가입인사</option>
+				<option value="4">공지사항</option>
 			</select>
+	
+			<div>
+				<label for="searchType" style="margin-left:5px;">◾검색타입</label> <select id="searchType">
+					<option value="title">제목</option>
+					<option value="writer">작성자</option>
+					<option value="content">내용</option>
+				</select>
+			</div>
 		</div>
+		
 
 		<div id="search-title" class="search-type">
 			<form onsubmit="searchClubBoard(event)">
 				<input type="hidden" name="searchType" value="title" /> <input
 					type="text" name="searchKeyword" size="25"
-					placeholder="게시글의 제목을 입력하세요." value="" />
-				<button type="submit">검색</button>
+					placeholder="게시글의 제목을 입력하세요." style="height: 37px;" value="" />
+				<button type="submit" class="btn btn-outline-secondary">검색</button>
 			</form>
 		</div>
 
@@ -81,7 +107,7 @@ div#search-content {
 
 	</div>
 
-	<table class="table" id="boardTable">
+	<table class="table fontColors" id="boardTable" style="margin-top: 5px; text-align: center">
 		<thead class="thead-light">
 			<tr>
 				<th scope="col">게시판</th>
@@ -105,6 +131,19 @@ div#search-content {
 
 
 <script>
+
+//레이아웃 및 네브바
+document.body.style.background = '${layout.backgroundColor}';
+
+document.querySelectorAll('.fontColors').forEach((elem) => {
+	elem.style.color = '${layout.fontColor}';
+});
+
+document.querySelectorAll('.pointColors').forEach((elem) => {
+	elem.style.color = '${layout.pointColor}';
+});
+
+document.body.style.fontFamily = "${layout.font}";
 
 //page script
 

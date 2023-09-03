@@ -5,7 +5,12 @@ body {
 }
 
 a {
+	color: inherit;
+	text-decoration: none;
 	cursor: pointer;
+}
+a:hover {
+	color: inherit;
 }
 
 section {
@@ -16,15 +21,62 @@ section {
 
 /********** club-header **********/
 header {
-	height:100px;
+	height: 49px;
+	margin: 0 auto;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	width: 1320px;
+	padding: 0 10px;
+}
+#mini-logo-container {
+	margin: 0 auto 0 0;
 }
 
+#mini-logo-container img:first-of-type {
+	height: 30px;
+}
+#mini-logo-container img:last-of-type {
+	height: 20px;
+}
 
+header #header-nav-container {
+	float: right;
+	position: absolute;
+}
+
+header #header-nav-container a {
+	font-family: 'IBM Plex Sans KR', sans-serif;
+	font-size: 15px;
+	color: #666;
+	margin-left: 10px;
+}
+
+header #header-nav-container span {
+	font-size: 15px;
+	color: #666;
+	margin-left: 10px;
+}
+
+/************ club-title *************/
+#club-title img {
+	width: 1320px;
+	margin-bottom: 10px; 
+}
+
+#default-title {
+	width: 1320px;
+	height: 100px;
+	background-color: pink;
+}
 
 
 /********** footer **********/
 footer {
-	height: 100px;
+    height: 100px;
+    width: 1320px;
+    margin: 0 auto;
+    text-align: center;
 }
 
 
@@ -32,30 +84,34 @@ footer {
 
 
 /************* 클럽 레이아웃 업데이트 **************/
-#layout-update {
-	background-color: lightyellow;
+#update-btn-container {
+	width: 800px;
+	margin: 20px auto;
 }
-#layout-update h5, #layout-update h3 {
+#layout-update {
+	width: 800px;
+	margin: 20px auto;
+}
+h5, h3 {
 	margin: 10px 20px;
 	font-weight: bold;
 }
 
 .lsc {
 	background-color: #ddd;
-	width: 1280px;
-	margin: 0 20px;
+	width: 800px;
 	padding: 20px;
 	border-radius: 5px;
 	display: flex;
 }
 .lscl {
 	background-color: white;
-	width: 760px;
+	width: 540px;
 	border-radius: 5px;
 }
 .lscr {
 	background-color: white;
-	width: 460px;
+	width: 200px;
 	border-radius: 5px;
 	margin-left: 20px;
 }
@@ -71,7 +127,7 @@ footer {
 	background-color: pink;
 	width: 360px;
 	height: 540px;
-	margin: 60px;
+	margin: 40px;
 }
 #color-select-continer {
 	display: flex;
@@ -80,7 +136,7 @@ footer {
 }
 #color-select-continer > div:last-of-type {
 	margin-right: 20px;
-	height: 40px;
+	height: 60px;
 }
 #color-select-continer > div > label {
 	margin: 0 20px;
@@ -95,11 +151,325 @@ footer {
 	margin-left: 15px;
 }
 
+.myProfile1 {
+	width: 100px;
+	height: 100px;
+	border: 2px solid;
+	display: flex;
+	align-items: center;
+    justify-content: center;
+	border-radius: 50%;
+	overflow: hidden;
+	margin: 10px 5px;
+}
+.myProfile1 > img {
+	width: 100px;
+	height: 100px;
+}
+.myProfile2 {
+	margin: 10px;
+}
+.myProfile2 p {
+	margin: 0;
+	padding-bottom: 10px;
+}
+.myProfile3 {
+	position: absolute;
+	transform: translate(5px, 120px);
+}
+.myProfile3 button {
+	margin: 4px;
+    width: 110px;
+    color: white;
+}
+#club-page-article {
+	width: 1320px;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+#club-info-container {
+	width: 260px;
+	margin: 0;
+}
+#club-info-container > span:first-of-type {
+	margin: 0 20px;
+}
+
+#club-myInfo-container {
+	width: 260px;
+	height: 190px;
+	margin: 5px 20px 0 20px;
+	padding: 5px 5px;
+	border-top: 3px solid;
+	display: flex;
+}
+#clubLike {
+	position: absolute;
+    width: 30px;
+    height: 28px;
+    padding: 0px;
+    transform: translateX(250px);
+}
+#club-total-container {
+	width: 260px;
+	margin: 0 20px;
+	border-top: 3px solid;
+}
+
+#club-total-container > div {
+	border-bottom: 1px solid #ccc;
+	padding: 5px 0;
+	display: flex;
+	flex-direction: column;
+}
+#club-total-container > div > a {
+	padding: 5px 0;
+}
+
+#club-total-container > div:first-of-type > a {
+	font-size: 18px;
+	font-weight: bold;
+}
+
+#club-search-container1 {
+	margin: 20px 20px 0 20px;
+}
+
+#club-search-container1 > form > input:focus {
+	outline: none;
+}
+
+#club-search-container1 > form > input {
+	width: 210px;
+	border: 1px solid;
+	border-radius: 2px 0 0 2px;
+}
+
+#club-search-container1 > form > button {
+	width: 50px;
+	margin-left: -11px;
+	border: 1px solid;
+	border-radius: 0 2px 2px 0;
+}
+
+
+#club-nav-bar {
+	border: 2px solid;
+	border-radius: 2px;
+	display: flex;
+	align-items: center;
+}
+#club-nav-bar ul {
+	display: flex;
+    height: 40px;
+    width: 625px;
+    margin: 0 145px;
+    align-items: center;
+    justify-content: space-between;
+}
+#club-nav-bar ul li {
+
+}
+
+#club-nav-bar ul li:first-of-type {
+	list-style: none;
+}
+
+
+/************** schedule ***************/
+#schedule-content-container {
+	border: 1px solid #aaa;
+	margin: 10px 0;
+	border-radius: 2px;
+	padding: 10px 40px;
+}
+#info-wrapper {
+	display: flex;
+}
+#schedule-info {
+	font-weight: bold;
+	margin: 0 20px;
+}
+#writer-info > figure {
+
+}
+#writer-info > figure > img {
+	width: 60px;
+	border: 1px solid #aaa;
+	border-radius: 50%;
+}
+#writer-info {
+	display: flex;
+	padding: 0 20px;
+	border-bottom: 1px solid;
+}
+#writer-info > div {
+	margin: 5px 10px;
+}
+
+#schedule-content-container2 {
+	display: flex;
+	margin: 10px;
+}
+#scc2-left {
+	width: 400px;
+	margin-right: 14px;
+}
+#scc2-right {
+	width: 804px;
+	height: 804px;	
+	border: 2px solid;
+}
+.customOverlay {
+	background-color: #ddd;
+	font-weight: bold;
+	display: none;
+	padding: 10px;
+	border-radius: 5px;
+	transform: translate(-10px, -80px);
+}
+.accordion .card-header {
+	padding: 0;
+}
+.accordion .card-body {
+	border-bottom: 1px solid;
+	padding: 15px 20px;
+}
+#schedule-explain {
+	padding: 20px 10px;
+}
+
+.dropdown button {
+	height: 27px;
+    width: 110px;
+    padding: 0;
+}
+#schedule-enroll-form-container {
+	position: absolute;
+	transform: translate(1090px, 88px);
+}
+#schedule-enroll-form-container button {
+	font-weight: bold;
+	font-size: 24px;
+	background-color: #2990D0;
+	color: white;
+}
+
+#scheduleSummaryBox {
+	width: 100px;
+	height: 100px;
+	background-color: pink;
+	position: absolute;
+}
 
 
 
+/************ schedule create *************/
+#schedule-create-container {
+	background-color: pink;
+	width: 800px;
+	margin: 0 auto;
+	padding: 0 20px 20px 20px;
+}
+#schedule-create-container label {
+	margin-top: 20px;
+	margin-left: 10px;
+}
+#date-input-container,
+#capacity-expence-container {
+	display: flex;
+	justify-content: space-between;
+}
+#date-input-container > div,
+#capacity-expence-container > div {
+	width: 360px;
+}
+#date-input-container > span {
+	font-size: 24px;
+	margin-top: 52px;
+}
+#place-create-container {
+	padding: 10px;
+	height: 310px;
+	border: 2px solid #eee;
+	border-radius: 5px;
+	margin-top: 20px;
+}
+.modal {
+    top: -1050px;
+}
 
+/* 모달 내용 스타일 */
+.modal-body {
+    height: 200px;
+}
+.modal.show .modal-dialog {
+    -webkit-transform: none;
+    transform: none;
+    margin-top: 250px;
+}
 
+/* 메인 지역 ID 및 주소 검사 스타일 */
+.address-checked {
+    padding: 5px;
+    margin: 0;
+}
+.address-checked:hover {
+    background-color: #ddd;
+    cursor: pointer;
+}
 
+#address-input-container {
+	display: flex;
+	justify-content: space-between;
+}
+#address-input-container1 {
+	width: 410px;
+}
+#address-input-container2 {
+	width: 300px
+}
+#place-add-btn {
+	background-color: #2990D0;
+	font-weight: bold;
+	color: white;
+	margin: 20px 0 20px 0;
+	float: right;
+}
 
+.added-place {
+    border: 2px solid #2990D0;
+    border-radius: 5px;
+    margin-top: 5px;
+    padding: 5px;
+    display: flex;
+    height: 70px;
+    align-items: center;
+}
+.startTime-container {
+	position: absolute;
+	transform: translate(388px, -15px);
+}
+.updown-container {
+	width: 20px;
+	margin-right: 10px;
+}
+.updown-container > div {
+	text-align: center;
+	cursor: pointer;
+}
+.cancle-container {
+    position: absolute;
+    transform: translate(725px, 0px);
+}
+.cancle-box {
+	cursor: pointer;
+}
 
+#scheduleCreateBtn2 {
+	background-color: #2990D0;
+	font-weight: bold;
+	color: white;
+	transform: translate(914px, 0px);
+}

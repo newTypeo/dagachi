@@ -1,5 +1,7 @@
 package com.dagachi.app.ws.dto;
 
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

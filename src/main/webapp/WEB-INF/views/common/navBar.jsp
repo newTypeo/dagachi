@@ -6,6 +6,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/nav.css" />
 
+
 <!-- 클릭하면 카테고리 관련 창을 닫는 div -->
 <div id="dark" style="position:absolute; width: 100%; height: 100vh; display:none; z-index:1"></div>
 
@@ -19,13 +20,11 @@
 	
 	<div id="search-container">
 		<form id="clubSearchFrm" action="${pageContext.request.contextPath}/club/clubSearch.do">
-			<input type="text" name="inputText" id="search-club-box" placeholder="BTS 봉준호 다가치 Let's go" required/>
+			<input type="text" name="inputText" id="search-club-box" placeholder="BTS 봉준호 손흥민 다가치 Let's go"/>
 			<button id="search-club-btn"><i class="fa-solid fa-magnifying-glass fa-xl"></i></button>
 		</form>
-		<div id="search-detail">
-			<a href="${pageContext.request.contextPath}/club/clubSearchSurrounded.do">
-				<i class="fa-regular fa-map fa-lg" style="color: #ffffff;"></i>
-			</a>
+		<div id="search-detail" onclick="checkLoginSearch();">
+			<i class="fa-regular fa-map fa-lg" style="color: #ffffff;"></i>
 		</div>
 	</div>
 	
@@ -60,13 +59,15 @@
 				<a>모든 주제 보기 ></a>
 			</div>
 		</div>
-		<div id="category-modal-right" style="display:none; flex-wrap: wrap; align-content: flex-start;">
+		<div id="category-modal-right" style="display:none;">
+			<div id="row" class="row" style="padding:5px;">
 			
+			</div>
 		</div>
 	</div>
 </nav>
 
-<!-- 아 왜 넘어가는데!!!!!!!!!! -->
+
 <sec:authorize access="isAnonymous()">
 	<script>
 		document.querySelectorAll('#ccc').forEach((one) => {
@@ -82,6 +83,17 @@
 
 
 <script>
+const checkLoginSearch = () => {
+	// 비로그인시 처리코드
+	<sec:authorize access="isAnonymous()">
+		alert("로그인 후 이용해주세요.");
+	</sec:authorize>
+	
+	// 로그인시 처리코드
+	<sec:authorize access="isAuthenticated()">
+		window.location = `${pageContext.request.contextPath}/club/clubSearchSurrounded.do`;
+	</sec:authorize>
+};
 
 
 // 모임 생성 버튼
@@ -96,11 +108,12 @@ const categoryModalContainer = document.querySelector("#category-modal-container
 const categoryModalLeft = document.querySelector("#category-modal-left");
 const categoryModalRight = document.querySelector("#category-modal-right");
 const categoryDiv = document.querySelectorAll("#category-modal-left-upper div");
+const row = document.querySelector("#row");
 
 const dark = document.querySelector("#dark");
 
 
-categoryContainer.addEventListener('mouseover', () => {
+categoryContainer.addEventListener('click', () => {
 	categoryModalLeft.style.display = "block";
 	dark.style.display = "block";
 });
@@ -108,11 +121,11 @@ categoryModalContainer.addEventListener('mouseover', () => {
 	categoryModalLeft.style.display = "block";
 	dark.style.display = "block";
 });
-
+/*
 categoryContainer.addEventListener('mouseout', () => {
 	categoryModalLeft.style.display = "none";
 	//categoryModalRight.style.display = "none";
-});
+});*/
 /*
 categoryModalContainer.addEventListener('mouseout', () => {
 	categoryModalLeft.style.display = "none";
@@ -129,13 +142,13 @@ dark.addEventListener('click', () => {
 
 categoryDiv.forEach((element) => {
 	element.addEventListener("click", function(e) {
-		categoryModalRight.style.display = "flex";
+		categoryModalRight.style.display = "block";
 		
 		const value = e.target.innerText;
-		console.log(value);
 		selected = value;
 		
-		categoryModalRight.innerHTML = '';
+		//categoryModalRight.innerHTML = '';
+		row.innerHTML = '';
 		
 		$.ajax({
 			url: "${pageContext.request.contextPath}/club/categoryList.do",
@@ -143,17 +156,18 @@ categoryDiv.forEach((element) => {
 				category : value 
 			},
 			success(response) {
-				console.log(response);
 				response.forEach((club) => {
-					categoryModalRight.innerHTML += `
-						<a class="card" id="ccc" style="width: 9rem; text-align:center;" href="${pageContext.request.contextPath}/club/\${club.domain}">
-							<img src="${pageContext.request.contextPath}/resources/upload/club/profile/\${club.renamedFilename}" class="card-img-top" alt="..." />
-							    <span class="card-title">\${club.clubName}</span>
-						</a>
+					row.innerHTML += `
+						<div class="col col-lg-6" style="padding-right: 0px;">
+							<a class="card" id="ccc" style="width: 9.5rem; text-align:center;" href="${pageContext.request.contextPath}/club/\${club.domain}">
+								<img src="${pageContext.request.contextPath}/resources/upload/club/profile/\${club.renamedFilename}" class="card-img-top" style="height: 9rem;" alt="..." />
+								    <span class="card-title" style="height: 3rem;">\${club.clubName}</span>
+							</a>
+						</div>
 					`;
 				});
-				categoryModalRight.innerHTML += `
-				<a href="${pageContext.request.contextPath}/club/clubSearch.do?inputText=\${selected}">더보기</a>
+				row.innerHTML += `<br/>
+				&nbsp;&nbsp;&nbsp; <a href="${pageContext.request.contextPath}/club/clubSearch.do?inputText=\${selected}">더보기</a>
 				`;
 			}
 		});

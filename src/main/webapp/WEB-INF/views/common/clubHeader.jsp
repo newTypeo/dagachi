@@ -32,13 +32,34 @@
 <meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}"/>
 </head>
 <body>
+<sec:authorize access="isAuthenticated()">
+	<form:form 
+		name="memberLogoutFrm" 
+		action="${pageContext.request.contextPath}/member/memberLogout.do" 
+		method="POST"></form:form>
+</sec:authorize>
+
+<sec:authorize access="isAuthenticated()">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js" integrity="sha512-1QvjE7BtotQjkq8PxLeF6P46gEpBRXuskzIVgjFpekzFVF4yjRgrQvTG1MTOJ3yQgvTteKAcO7DSZI92+u/yZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js" integrity="sha512-iKDtgDyTHjAitUDdLljGhenhPwrbBfqTKWO1mkhSFH3A7blITC9MhYon6SjnMhp4o0rADGw9yAC6EW4t5a4K3g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		<script src="${pageContext.request.contextPath}/resources/js/stomp.js"></script>
+</sec:authorize>
+
 <div id="container">
-	<header class="p-2">
-		<div>미니로고</div>
-		<button onclick="location.href = '${pageContext.request.contextPath}/member/memberLogin.do';">
-			로그인 : /member/memberLogin.do
-		</button>
-		<button onclick="location.href = '${pageContext.request.contextPath}/member/memberCreate.do';">
-			회원가입 : /member/memberCreate.do
-		</button>
+	<header>
+		<div id="mini-logo-container">
+			<a href="${pageContext.request.contextPath}">
+				<img src="${pageContext.request.contextPath}/resources/images/002.png"/>
+				<img src="${pageContext.request.contextPath}/resources/images/006.png"/>
+			</a>
+		</div>
+		<div id="header-nav-container">
+		    <span>
+		    <a title="<sec:authentication property="authorities"/>" href="${pageContext.request.contextPath}/member/<sec:authentication property="principal.memberId"/>">
+		    	<sec:authentication property="principal.nickname"/>
+		    </a>님, 안녕하삼</span>
+		    &nbsp;
+		    <span> | </span>
+		    <a type="button" onclick="document.memberLogoutFrm.submit();">로그아웃</a>
+		</div>
 	</header>

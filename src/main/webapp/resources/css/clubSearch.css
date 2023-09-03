@@ -1,0 +1,121 @@
+@charset "UTF-8";
+
+/* 카드 스타일 */
+table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 20px;
+}
+
+tr.cards {
+	background-color: white;
+	border-radius: 5px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	transition: transform 0.2s;
+}
+
+tr.cards:hover {
+	transform: translateY(-5px);
+}
+
+td.card-images {
+	padding: 10px;
+}
+
+td.card-content {
+	padding: 10px;
+	text-align: left;
+}
+
+.images-line {
+	border : 2px solid gray;
+}
+
+body {
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+	
+}
+
+#club-search-sec {
+	width : 1200px;
+}
+
+/* 스타일링 전체 섹션 */
+#club-search-sec {
+	padding: 20px;
+	border-radius: 10px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	background-color: white;
+	margin: 50px auto;
+}
+
+/* 검색 결과 스타일 */
+#club-search-sec>div:first-child {
+	font-size: 18px;
+	color: #3498db; /* 파란색 글자색 */
+	margin-bottom: 20px;
+}
+
+/* 필터 및 검색바 스타일 */
+#filter-wrap {
+	margin-bottom: 20px;
+}
+
+form {
+	display: flex;
+	align-items: center;
+}
+
+label {
+	font-weight: bold;
+	margin-right: 10px;
+}
+
+select, button {
+	padding: 5px;
+	border-radius: 3px;
+	border: 1px solid #ccc;
+	margin-right: 10px;
+}
+
+button {
+	background-color: #3498db; /* 파란색 배경 */
+	color: white;
+	cursor: pointer;
+	border: none;
+}
+
+button:hover {
+	background-color: #2980b9; /* 진한 파란색 배경 */
+}
+
+/* 테이블 스타일 */
+table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 20px;
+}
+
+tr {
+	background-color: #f8f8f8; /* 연한 회색 배경 */
+}
+
+td, th {
+	padding: 10px;
+	text-align: center;
+	border-bottom: 1px solid #ddd;
+}
+
+/* 페이지네이션 스타일 */
+#pagebar-wrapper {
+	margin-top: 20px;
+	text-align: center;
+}
+
+.page {
+	font-weight: bold;
+	color: #3498db; /* 파란색 글자색 */
+	margin: 0 5px;
+}

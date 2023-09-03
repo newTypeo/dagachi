@@ -1,15 +1,5 @@
 @charset "UTF-8";
 
-/************ club-title *************/
-#club-title img {
-	width: 1320px;
-}
-
-#default-title {
-	width: 1320px;
-	height: 100px;
-	background-color: pink;
-}
 
 
 /********** club-page-article **********/
@@ -87,63 +77,14 @@
 	float: right;
 	margin-left: 10px;
 }
+.container-main-schedule > div > a:last-of-type {
+	display: inline-block;
+	float: right;
+}
 
 
 /* 커스텀 */
-#club-page-article {
-	width: 1320px;
-	display: flex;
-	flex-wrap: wrap;
-}
 
-#club-myInfo-container {
-	background-color: pink;
-	width: 260px;
-	height: 300px;
-	margin: 0 20px;
-}
-
-#club-total-container {
-	width: 260px;
-	margin: 0 20px;
-	border-top: 3px solid;
-}
-
-#club-total-container > div {
-	border-bottom: 1px solid #ccc;
-	padding: 5px 0;
-	display: flex;
-	flex-direction: column;
-}
-#club-total-container > div > a {
-	padding: 5px 0;
-}
-
-#club-total-container > div:first-of-type > a {
-	font-size: 18px;
-	font-weight: bold;
-}
-
-#club-search-container1 {
-	margin: 20px 20px 0 20px;
-}
-
-#club-search-container1 > form > input:focus {
-	outline: none;
-}
-
-#club-search-container1 > form > input {
-	width: 210px;
-	border: 1px solid;
-	border-radius: 2px 0 0 2px;
-}
-
-#club-search-container1 > form > button {
-	width: 50px;
-	margin-left: -11px;
-	border: 1px solid;
-	border-radius: 0 2px 2px 0;
-}
 
 #club-main-container {
 	width: 1000px;
@@ -200,25 +141,25 @@
 
 #club-board-container {
 	width: 660px;
-	height: 397px;
+	height: 961px;
 	overflow: hidden;
 }
 
 #club-greetings-container {
 	width: 660px;
-	height: 397px;
+	height: 281px;
 	overflow: hidden;
 }
 
 #club-reivew-container {
 	width: 660px;
-	height: 397px;
+	height: 321px;
 	overflow: hidden;
 }
 
 #club-schedule-container {
 	width: 660px;
-	height: 397px;
+	height: 359px;
 	overflow: hidden;
 }
 
@@ -228,8 +169,9 @@
 	height: 540px;
 }
 #carouselExampleControls > button {
-	width: 5%;
-	opacity: 1;
+	width: 2%;
+    margin: 4px;
+    opacity: 1;
 }
 
 

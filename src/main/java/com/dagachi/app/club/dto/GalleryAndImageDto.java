@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import com.dagachi.app.club.common.Status;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
@@ -12,6 +13,7 @@ public class GalleryAndImageDto {
 	private int galleryId;
 	
 	private int clubId;
+	private String memberId;
 	private int likeCount;
 	private Status status;
 	

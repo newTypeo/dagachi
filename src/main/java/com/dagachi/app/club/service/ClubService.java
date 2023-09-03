@@ -15,19 +15,23 @@ import com.dagachi.app.club.dto.ClubManageApplyDto;
 import com.dagachi.app.club.dto.ClubMemberAndImage;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
+import com.dagachi.app.club.dto.ClubNameAndCountDto;
 import com.dagachi.app.club.dto.ClubReportDto;
 import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
 import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.ClubStyleUpdateDto;
+import com.dagachi.app.club.dto.CreateGalleryDto;
 import com.dagachi.app.club.dto.GalleryAndImageDto;
 import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.KickMember;
 import com.dagachi.app.club.dto.ManageMember;
+import com.dagachi.app.club.entity.BoardComment;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
 import com.dagachi.app.club.entity.ClubBoardAttachment;
 import com.dagachi.app.club.entity.ClubDetails;
+import com.dagachi.app.club.entity.ClubGalleryDetails;
 import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
@@ -68,7 +72,7 @@ public interface ClubService {
 
 	List<JoinClubMember> clubMemberInfoByFindByMemberId(List<ClubMember> clubMembers, int clubId);
 	
-	int insertClub(Club club);
+	int insertClub(Club club, String memberId);
 
 	Club findClubById(int clubId);
 	
@@ -118,6 +122,7 @@ public interface ClubService {
 	List<ClubAndImage> categoryList(String category);
 	
 	int permitApply(ClubManageApplyDto clubManageApplyDto);
+	
 	int refuseApply(ClubManageApplyDto clubManageApplyDto);
 	
 	List<ClubScheduleAndMemberDto> findScheduleById(int clubId);
@@ -161,6 +166,38 @@ public interface ClubService {
 	List<ClubGalleryAndImage> clubGalleryAndImageFindByClubId(int clubId);
 
 	List<Club> findClubsByMemberId(String memberId);
+
+	ClubNameAndCountDto findClubInfoById(int clubId);
+	
+	int likeBoard(Map<String, Object> params);
+
+	int checkBoardLiked(Map<String, Object> params);
+	
+	List<GalleryAndImageDto> findGalleryAndImageByGalleryId(int id);
+
+	int clubGalleryDelete(int id);
+
+	int clubGalleryCreate(CreateGalleryDto createGalleryDto);
+
+	int clubGalleryCreate2(CreateGalleryDto createGalleryDto);
+
+	int cancelClubLike(Map<String, Object> params);
+
+	int boardCommentCreate(BoardComment comment);
+
+	List<BoardComment> findComments(int no);
+
+	BoardComment findBoardComment(int commentId);
+
+	int clubMemberDelete(Map<String, Object> params);
+
+	ClubMember findClubMemberRoleByClubId(Map<String, Object> params);
+
+	int postGallery(ClubGalleryDetails clubGallery);
+
+	int checkDuplicateClubIdAndId(Map<String, Object> params);
+
+	
 
 
 }

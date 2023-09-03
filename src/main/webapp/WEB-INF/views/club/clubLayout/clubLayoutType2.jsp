@@ -1,0 +1,414 @@
+<%@page import="java.util.List"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<fmt:requestEncoding value="utf-8"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/layoutType2.css"/>
+
+<!-- fullcalendar CDN -->
+<link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css' rel='stylesheet' />
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js'></script>
+<!-- fullcalendar 언어 CDN -->
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>
+
+<article id="club-page-article">
+	<div id="club-util-box">
+		<div id="club-info-container">
+			<button type="button" class="btn btn-danger" id="clubLike" onclick="clubLike()">❤️</button>
+			<h5>🚩${clubInfo.clubName}</h5>
+			<span class="fontColors">since 
+				<fmt:parseDate value="${clubInfo.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="createdAt"/>
+	    		<fmt:formatDate value="${createdAt}" pattern="yyyy.MM.dd"/>
+			</span>
+			<c:if test="${memberRole ne 10}">
+				<span><a href="${pageContext.request.contextPath}/club/${domain}/clubMemberList.do">😀멤버 : ${clubInfo.memberCount}</a></span>
+			</c:if>
+			<c:if test="${memberRole eq 10}">
+				<span>😀멤버 : ${clubInfo.memberCount}</span>
+			</c:if>
+		</div>
+		<div id="club-myInfo-container" style="border-color: ${layout.pointColor}">
+			<c:if test="${memberRole ne 10}">
+				<div class="myProfile1" style="border-color: ${layout.pointColor}">
+					<img alt="" src="${pageContext.request.contextPath}/resources/upload/member/profile/<sec:authentication property="principal.memberProfile.renamedFilename"/>">
+				</div>
+				<div class="myProfile2">
+					<p><strong><sec:authentication property="principal.nickname"/></strong></p>
+					<c:if test ="${memberRole eq 3}">
+						<p><strong>🥇방장</strong>|<a href="${pageContext.request.contextPath}/club/${domain}/clubUpdate.do">모임 관리</a></p>
+					</c:if>
+					<c:if test ="${memberRole eq 2}">
+						<p><strong>🥇부방장</strong>|<a href="${pageContext.request.contextPath}/club/${domain}/clubUpdate.do">모임 관리</a></p>
+					</c:if>
+					<c:if test ="${memberRole eq 1}">
+						<p><strong>🥇임원</strong>|<a href="${pageContext.request.contextPath}/club/${domain}/clubUpdate.do">모임 관리</a></p>
+					</c:if>
+					<c:if test ="${memberRole eq 0}">
+						<p><strong>🎀일반회원</strong></p>
+					</c:if>
+					<p><a href="${pageContext.request.contextPath}/club/${domain}/memberClubDetail.do">나의 모임 정보</a></p>
+				</div>
+				<div class="myProfile3">
+					<button class="btn" style="background-color: ${layout.fontColor}">글쓰기</button>
+					<button id="scheduleCreateBtn" class="btn" style="background-color: ${layout.fontColor}">일정생성</button>
+				</div>
+			</c:if>
+			<c:if test="${memberRole eq 10}">
+				<div>
+					<button 
+						class="btn btn-outline-success my-2 my-sm-0" 
+						type="button" 
+						onclick="location.href = '${pageContext.request.contextPath}/club/${domain}/clubEnroll.do'">
+						가입신청하기
+					</button>	
+				</div>
+			</c:if>
+			
+			
+		</div>
+		<div id="club-total-container" class="fontColors" style="border-color: ${layout.pointColor}">
+			<div>
+				<a href="${pageContext.request.contextPath}/club/${domain}/clubBoardList.do?no=0">📄전체글보기</a>
+			</div>
+			<div>
+				<a href="${pageContext.request.contextPath}/club/${domain}/clubBoardList.do?no=4">📢공지사항</a>
+				<a href="${pageContext.request.contextPath}/club/${domain}/clubBoardList.do?no=1">🐳자유게시판</a>
+				<a href="${pageContext.request.contextPath}/club/${domain}/clubBoardList.do?no=3">✋가입인사</a>
+				<a href="${pageContext.request.contextPath}/club/${domain}/clubBoardList.do?no=2">🎉정모후기</a>
+			</div>
+			<div>
+				<a href="${pageContext.request.contextPath}/club/${domain}/clubGallery.do">📷갤러리</a>
+			</div>
+			<div>
+				<a href="${pageContext.request.contextPath}/club/${domain}/clubSchedule.do">📅일정</a>
+			</div>
+		</div>
+		<div id="club-search-container1">
+			<form action="">
+				<input name="" style="background-color: ${layout.backgroundColor}; border-color: ${layout.pointColor};"/>
+				<button style="border-color: ${layout.pointColor};">검색</button>
+			</form>
+		</div>
+	</div>
+	
+	<div id="club-main-container">
+		<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+			<div class="carousel-inner">
+				<div class="carousel-item active">
+					<div id="club-schedule-container" class="preview-container">
+						<div class="container-header" style="border-color: ${layout.pointColor}">
+							<span class="fontColors">일정</span>
+							<a class="pointColors" href="${pageContext.request.contextPath}/club/${domain}/clubSchedule.do">
+								더보기<i class="fa-solid fa-angle-right"></i>
+							</a>
+						</div>
+						<div class="container-main-schedule">
+							<div id="calendar"></div>
+						</div>
+					</div>
+				</div>
+				<div class="carousel-item">
+					<div id="club-main-image-container">
+						<img
+							src="${pageContext.request.contextPath}/resources/upload/club/main/${layout.mainImage}">
+					</div>
+					<div id="club-main-content-container">
+						<p class="fontColors">${layout.mainContent}</p>
+					</div>
+				</div>
+			</div>
+			<button class="carousel-control-prev" type="button"
+				data-target="#carouselExampleControls" data-slide="prev">
+				<span aria-hidden="true"><i class="fa-solid fa-angle-left fa-2xl pointColors"></i></span>
+				<span class="sr-only">Previous</span>
+			</button>
+			<button class="carousel-control-next" type="button"
+				data-target="#carouselExampleControls" data-slide="next">
+				<span aria-hidden="true"><i class="fa-solid fa-angle-right fa-2xl pointColors"></i></span>
+				<span class="sr-only">Next</span>
+			</button>
+		</div>
+	</div>
+	
+	<div id="club-notice-container" class="preview-container">
+		<div class="container-header" style="border-color: ${layout.pointColor}">
+			<span class="fontColors">공지사항</span>
+			<a class="pointColors" href="${pageContext.request.contextPath}/club/${domain}/clubBoardList.do?no=4">
+				더보기<i class="fa-solid fa-angle-right"></i>
+			</a>
+		</div>
+		<div class="container-main container-main-long">
+			<c:forEach items="${boardAndImages}" var="board">
+				<c:if test="${board.type eq 4}">
+					<div>
+						<span class="badge badge-danger">공지</span>
+						<a class="fontColors" href="${pageContext.request.contextPath}/club/sportsclub/boardDetail.do?no=${board.boardId}">${board.title}</a>
+						<span>
+							<fmt:parseDate value="${board.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="createdAt"/>
+	    					<fmt:formatDate value="${createdAt}" pattern="yy.MM.dd HH:mm"/>
+						</span>
+						<span>❤${board.likeCount < 100 ? board.likeCount : '99+'}</span>
+						<a href="/" class="fontColors">
+							${board.writer}
+						</a>
+					</div>
+				</c:if>
+			</c:forEach>
+		</div>
+	</div>
+	
+	<div id="club-board-container" class="preview-container">
+		<div class="container-header" style="border-color: ${layout.pointColor}">
+			<span class="fontColors">자유게시판</span>
+			<a class="pointColors" href="${pageContext.request.contextPath}/club/${domain}/clubBoardList.do?no=1">
+				더보기<i class="fa-solid fa-angle-right"></i>
+			</a>
+		</div>
+		<div class="container-main container-main-short">
+			<c:forEach items="${boardAndImages}" var="board">
+				<c:if test="${board.type eq 1}">
+					<div>
+						<span class="pointColors">·</span>
+						<a class="fontColors" href="${pageContext.request.contextPath}/club/sportsclub/boardDetail.do?no=${board.boardId}">${board.title}</a>
+						<span>
+							<fmt:parseDate value="${board.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="createdAt"/>
+	    					<fmt:formatDate value="${createdAt}" pattern="MM.dd HH:mm"/>
+						</span>
+						<span>❤${board.likeCount < 100 ? board.likeCount : '99+'}</span>
+						<a href="/" class="fontColors">
+							${board.writer}
+						</a>
+					</div>
+				</c:if>
+			</c:forEach>
+		</div>
+	</div>
+	
+	<div>
+		<div id="club-gallery-container" class="preview-container">
+			<div class="container-header" style="border-color: ${layout.pointColor}">
+				<span class="fontColors">갤러리</span>
+				<a class="pointColors" href="${pageContext.request.contextPath}/club/${domain}/clubGallery.do">
+					더보기<i class="fa-solid fa-angle-right"></i>
+				</a>
+			</div>
+			<div class="container-main-gallery">
+				<c:forEach items="${galleries}" var="gallery" >
+					<div>
+						<a href="/">
+							<img src="${pageContext.request.contextPath}/resources/upload/club/gallery/${gallery.renamedFilename}" class="img-thumbnail">
+						</a>
+					</div>
+				</c:forEach>
+			</div>
+		</div>
+		
+		<div id="club-greetings-container" class="preview-container">
+			<div class="container-header" style="border-color: ${layout.pointColor}">
+				<span class="fontColors">가입인사</span>
+				<a class="pointColors" href="${pageContext.request.contextPath}/club/${domain}/clubBoardList.do?no=3">
+					더보기<i class="fa-solid fa-angle-right"></i>
+				</a>
+			</div>
+			<div class="container-main container-main-short">
+				<c:forEach items="${boardAndImages}" var="board">
+					<c:if test="${board.type eq 3}">
+						<div>
+							<span class="pointColors">·</span>
+							<a class="fontColors" href="${pageContext.request.contextPath}/club/sportsclub/boardDetail.do?no=${board.boardId}">${board.title}</a>
+							<span>
+								<fmt:parseDate value="${board.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="createdAt"/>
+		    					<fmt:formatDate value="${createdAt}" pattern="MM.dd HH:mm"/>
+							</span>
+							<span>❤${board.likeCount < 100 ? board.likeCount : '99+'}</span>
+							<a href="/" class="fontColors">
+								${board.writer}
+							</a>
+						</div>
+					</c:if>
+				</c:forEach>
+			</div>
+		</div>
+		
+		<div id="club-reivew-container" class="preview-container">
+			<div class="container-header" style="border-color: ${layout.pointColor}">
+				<span class="fontColors">정모후기</span>
+				<a class="pointColors" href="${pageContext.request.contextPath}/club/${domain}/clubBoardList.do?no=2">
+					더보기<i class="fa-solid fa-angle-right"></i>
+				</a>
+			</div>
+			<div class="container-main container-main-short">
+				<c:forEach items="${boardAndImages}" var="board">
+					<c:if test="${board.type eq 2}">
+						<div>
+							<span class="pointColors">·</span>
+							<a class="fontColors" href="${pageContext.request.contextPath}/club/sportsclub/boardDetail.do?no=${board.boardId}">${board.title}</a>
+							<span>
+								<fmt:parseDate value="${board.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="createdAt"/>
+		    					<fmt:formatDate value="${createdAt}" pattern="MM.dd HH:mm"/>
+							</span>
+							<span>❤${board.likeCount < 100 ? board.likeCount : '99+'}</span>
+							<a href="/" class="fontColors">
+								${board.writer}
+							</a>
+						</div>
+					</c:if>
+				</c:forEach>
+			</div>
+		</div>
+	</div>
+</article>
+
+<form:form
+		name="clubLikeFrm"
+		action="${pageContext.request.contextPath}/club/clubLike.do"
+		method="POST">
+			<input type="hidden" id="memberId" name="memberId" value="${memberId}">
+			<input type="hidden" id="domain" name="domain" value="${domain}">
+</form:form>
+
+<form:form
+		name="deleteClubLikeFrm"
+		action="${pageContext.request.contextPath}/club/deleteClubLike.do"
+		method="POST">
+			<input type="hidden" id="memberId" name="memberId" value="${memberId}">
+			<input type="hidden" id="domain" name="domain" value="${domain}">
+</form:form>
+
+<nav style="display: flex; flex-direction: row-reverse;">
+	<button type="button" class="btn btn-danger" id="clubReport">🚨모임 신고하기</button>
+</nav>
+
+<script>
+scheduleCreateBtn.addEventListener('click', () => {
+	location.href = "${pageContext.request.contextPath}/club/${domain}/scheduleCreate.do";
+});
+
+$('.carousel').carousel({
+	interval: false
+})
+
+document.documentElement.style.setProperty('--fc-border-color', '${layout.pointColor}');
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+	$.ajax({
+		url: '${pageContext.request.contextPath}/club/${domain}/getSchedules.do',
+		success(schedules) {
+			
+			console.log(schedules);
+			var eventLists = [];
+			schedules.forEach((schedule) => {
+				var {scheduleId, title, startDate, endDate} = schedule;
+				var event = {
+					title : title,
+					url : '${pageContext.request.contextPath}/club/${domain}/scheduleDetail.do?no=' + scheduleId,
+					start : startDate,
+					end : endDate
+				};
+				eventLists.push(event);
+			});
+			console.log(eventLists);
+			
+			var calendarEl = document.getElementById('calendar');
+			var calendar = new FullCalendar.Calendar(calendarEl, {
+				headerToolbar: {
+			          left: '',
+			          center: 'title',
+			          right: 'prev,next today'
+			    },
+				initialView: 'dayGridMonth',
+				height: '533px',
+				locale: 'ko',
+				events : eventLists,
+				defaultAllDay : true
+			});
+			calendar.render();
+		}
+	});
+});
+
+
+
+//창환(모임 신고)
+document.querySelector("#clubReport").onclick = () => {
+	const frm = document.clubReportFrm;
+	$("#reportModal")
+	.modal()
+	.on('shown.bs.modal', () => {
+	});
+};
+
+// 창환(모임 신고)
+const clubReportSubmit = () => {
+	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
+	
+	const domain = document.querySelector('#domain').value;
+	const reporter = document.querySelector('#reporter').value;
+	const reason = document.querySelector('#reason').value;
+	
+	if(reason == null || reason == '') {
+		alert('신고 내용을 입력해주세요');
+		return;
+	}
+	
+	$.ajax({
+		url : '${pageContext.request.contextPath}/club/${domain}/clubReport.do',
+		method : "post",
+		data : { domain, reporter, reason },
+		beforeSend(xhr) {
+			xhr.setRequestHeader(header, token);
+		},
+		success(response) {
+			console.log(response);
+		}
+	});
+	
+	
+	document.querySelector('#reason').value = ''; // 신고사유 초기화
+};
+
+
+//모임 좋아요 (현우)
+const clubLike = () => {
+	// 찜 목록에 해당클럽이 있는 지 확인.
+	const domain = "${domain}";
+	$.ajax({
+		url : "${pageContext.request.contextPath}/club/clubLikeCheck.do",
+		data : {domain},
+		success(responseData) {
+			console.log("responseData : ", responseData);
+			
+			if (responseData) {
+				if(confirm("찜하신 모임을 취소하시겠습니까?")) {
+					document.deleteClubLikeFrm.submit();
+				}
+				alert("성공적으로 모임 찜을 취소했습니다.");
+				
+			} else {
+				
+				if(confirm("모임을 찜 하시겠습니까?")) {
+					var clubLikeFrm = document.forms["clubLikeFrm"];
+					if (clubLikeFrm) {
+					    clubLikeFrm.submit();
+					} else {
+					    console.log("Form not found");
+					}
+				}
+				alert("성공적으로 모임 찜을 완료했습니다.");
+				
+			}
+					
+		}
+	});
+	
+	
+}
+
+</script>
