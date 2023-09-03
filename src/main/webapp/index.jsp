@@ -73,7 +73,7 @@
 							const clubListUl = document.querySelector(".myClubList ul");
 							clubs.forEach((club) => {
 								clubListUl.innerHTML += `
-									<li>▸ \${club.clubName}</li>
+									<li>▸ <a href='${pageContext.request.contextPath}/club/\${club.domain}'>\${club.clubName}</a></li>
 								`;					
 							});
 						}
