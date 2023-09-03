@@ -10,9 +10,12 @@
 <jsp:include page="/WEB-INF/views/common/clubHeader.jsp"></jsp:include>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/club.css"/>
 
+<<<<<<< HEAD
 <h3 style="text-align:center;">🧾<${club.clubName}> 회원목록</h3>
 
 <section id="main-page-sec" class="p-2">
+
+<h1>${club.clubName} 의 회원 List</h1>
 
 	<c:if test ="${empty clubMembers}">
 		<h1>회원이 없습니다.</h1>
