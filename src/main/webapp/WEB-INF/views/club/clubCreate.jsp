@@ -70,12 +70,12 @@
 		
 			<label for="club_name">소모임 이름</label>
 			<div class="input-group">
-				<input type="text" class="form-control" id="club_name" name="clubName">
+				<input type="text" class="form-control" id="club_name" name="clubName" required>
 			</div>
 
 			<label for="activity_area">주 활동지</label>
 			<div class="input-group">
-				<input type="text" class="form-control" id="activity_area" name="activityArea" readonly aria-describedby="button-addon2">
+				<input type="text" class="form-control" id="activity_area" name="activityArea" readonly aria-describedby="button-addon2" required>
 				<div class="input-group-append">
 					<button class="btn btn-outline-secondary" type="button" data-toggle="modal" 
 					data-target="#activity-area-modal" id="activity-area-search-btn">검색</button>
@@ -84,7 +84,7 @@
 			
 			<div class="form-group">
 				<label for="category">카테고리</label> <select class="form-control"
-					id="category" name="category">
+					id="category" name="category" required>
 					<option disabled selected>-카테고리 선택-</option>
 					<option>차/오토바이</option>
 					<option>게임/오락</option>
@@ -112,7 +112,7 @@
 				<div class="custom-file">
 					<input type="file" class="custom-file-input" id="inputGroupFile01"
 						name="upFile" aria-describedby="inputGroupFileAddon01"> <label
-						class="custom-file-label" for="inputGroupFile01">Choose
+						class="custom-file-label" for="inputGroupFile01" required>Choose
 						file</label>
 				</div>
 			</div>
@@ -130,18 +130,18 @@
 
 			<div class="form-group">
 				<label for="domain">도메인</label> <input type="text"
-					class="form-control" id="domain" name="domain">
+					class="form-control" id="domain" name="domain" required> 
 			</div>
 
 			<div class="form-group">
 				<label for="introduce">소개글</label>
 				<textarea class="form-control" id="introduce" name="introduce"
-					rows="3"></textarea>
+					rows="3" required></textarea>
 			</div>
 			<div class="form-group">
 				<label for="enroll_question">가입질문</label>
 				<textarea class="form-control" id="enroll_question"
-					name="enrollQuestion" rows="3"></textarea>
+					name="enrollQuestion" rows="3" required></textarea>
 			</div>
 
 			<button class="btn btn-primary" type="submit" style="float: right">소모임 생성</button>

@@ -62,4 +62,5 @@
 		    <span> | </span>
 		    <a type="button" onclick="document.memberLogoutFrm.submit();">로그아웃</a>
 		</div>
+			<jsp:include page="/WEB-INF/views/common/alarm.jsp"></jsp:include>
 	</header>
