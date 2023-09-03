@@ -272,6 +272,11 @@ h5, h3 {
 
 }
 
+.fontColor {
+	position: absolute;
+    transform: translate(190px, 2px);
+}
+
 #club-nav-bar ul li:first-of-type {
 	list-style: none;
 }

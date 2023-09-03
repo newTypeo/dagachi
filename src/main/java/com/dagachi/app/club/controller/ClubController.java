@@ -1084,10 +1084,17 @@ public class ClubController {
 			Model model) {
 		int clubId = clubService.clubIdFindByDomain(domain);
 		Club club = clubService.findClubById(clubId);
+		
+		String clubName = club.getClubName();
+		ClubLayout layout = clubService.findLayoutById(clubId);
+		
+		
 		List<ClubMemberAndImage> clubMembers = clubService.findClubMembers(clubId);
 
 		model.addAttribute("clubMembers", clubMembers);
 		model.addAttribute("club", club);
+		model.addAttribute("layout", layout);
+		model.addAttribute("clubName", clubName);
 
 		return "/club/clubMemberList";
 	}
