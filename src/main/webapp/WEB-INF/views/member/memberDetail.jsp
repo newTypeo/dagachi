@@ -57,7 +57,7 @@
 		<p>MBTI : ${member.mbti}</p>
 		<div class="icons">
 			<c:if test="${member.memberId eq loginMember.memberId}">
-			<a type="button" onclick="payment();">∘ 모임생성 1회권 구매</a>
+			<a type="button" onclick="payment();">모임생성 1회권 구매</a>
 			<span class="verticalBar">|</span> 
 			</c:if>
 			<c:if test="${member.memberId eq loginMember.memberId}">
