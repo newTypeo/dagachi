@@ -9,7 +9,18 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/club.css"/>
 
 <br/><br/><br/><br/>
-
+<section>
+<div id="update-btn-container">
+	<c:if test ="${memberRole eq 3}">
+		<div class="btn-group" role="group" aria-label="Basic example">
+			<button type="button" class="btn btn-primary" id="club-update-btn">정보 수정</button>
+			<button type="button" class="btn btn-primary" id="club-style-update">스타일 설정</button>
+			<button type="button" class="btn btn-primary" id="club-title-update">타이틀 설정</button>
+			<button type="button" class="btn btn-primary" id="club-member-manage">회원 관리</button>
+		</div>
+		<button type="button" class="btn btn-danger" id="clubDisabled">모임 해산</button>
+	</c:if>
+</div>
 <div>
 	<fieldset>
 		<legend>가입신청회원</legend>
@@ -53,6 +64,9 @@ const manageApply = (clubId, memberId, permit) => {
 			document.querySelector("input[name=memberId]").value = memberId;		
 		} else return; 
 	}
+	document.querySelector("input[name=clubId]").value = clubId;
+	document.querySelector("input[name=permit]").value = permit;
+	document.querySelector("input[name=memberId]").value = memberId;
 	document.permitApplyFrm.submit();
 };
 </script>
@@ -183,6 +197,7 @@ const manageApply = (clubId, memberId, permit) => {
 		</table>
 	</fieldset>
 </div>
+</section>
 <%-- 회원추방시 사용 되는 폼 --%>
 <form:form
 	name="kickMember"
@@ -245,6 +260,34 @@ document.querySelectorAll('#searchType').forEach((select) => {
 		}
 	};
 });
+
+//준한(모임 비활성화)
+const domain = "<%= request.getAttribute("domain") %>"; 
+//서버 사이드에서 domain 값을 가져와서 설정
+document.querySelector("#clubDisabled").onclick = (e) => {
+  const userConfirmation = confirm("정말 비활성화 하시겠습니까?");
+  if (userConfirmation) {
+      // 도메인 값을 사용하여 컨트롤러로 이동하는 코드를 추가
+      window.location.href = "${pageContext.request.contextPath}/club/" + domain + "/clubDisabled.do";
+      alert('모임이 성공적으로 비활성화 되었습니다.');
+  }
+};
+
+document.querySelector("#club-update-btn").onclick = () => {
+	location.href = '${pageContext.request.contextPath}/club/'+domain+'/clubUpdate.do';
+}
+
+document.querySelector("#club-style-update").onclick = () => {
+	location.href = '${pageContext.request.contextPath}/club/'+domain+'/clubStyleUpdate.do';
+}
+
+document.querySelector("#club-title-update").onclick = () => {
+	location.href = '${pageContext.request.contextPath}/club/'+domain+'/clubTitleUpdate.do';
+}
+
+document.querySelector("#club-member-manage").onclick = () => {
+	location.href = '${pageContext.request.contextPath}/club/'+domain+'/manageMember.do';
+}
 </script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

@@ -12,9 +12,8 @@
 
 <fmt:requestEncoding value="utf-8"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/common/navBar.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/views/common/chatBtn.jsp"></jsp:include>
-
-<section></section>
 
 <section id="main-page-sec" class="">
 <div id="banner-and-info-container">
@@ -40,10 +39,10 @@
 		<sec:authorize access="isAuthenticated()">
 			<div class="myInfo">
 				<div class="myProfile">
-					<img alt="" src="${pageContext.request.contextPath}/resources/upload/member/profile/<sec:authentication property="principal.memberProfile.renamedFilename"/>">
+					<img class="img-place" alt="" src="${pageContext.request.contextPath}/resources/upload/member/profile/<sec:authentication property="principal.memberProfile.renamedFilename"/>">
 				</div>
-				<div>
-					<span><sec:authentication property="principal.nickname"/></span><br>
+				<div class="my-info-place">
+					<span class="my-info-nickname"><sec:authentication property="principal.nickname"/></span><br>
 					<span class="mainArea"></span>
 					<script>
 					$.ajax({
@@ -63,8 +62,8 @@
 				</div>
 			</div>
 			<div class="myClubList">
-				<h5>나의 소모임</h5>
-				<ul>
+				<h5 class="myClubList-header-text-style"">👌 나의 소모임</h5>
+				<ul style="list-style: none;">
 				</ul>
 				<script>
 					
@@ -74,25 +73,19 @@
 							const clubListUl = document.querySelector(".myClubList ul");
 							clubs.forEach((club) => {
 								clubListUl.innerHTML += `
-									<li>\${club.clubName}</li>
+									<li>▸ \${club.clubName}</li>
 								`;					
 							});
 						}
 					});
 				</script>
-				
 			</div>
-			<sec:authentication property="principal"/>
 		</sec:authorize>
 	</nav>
 </div>
 
 <nav>
-	<a href="${pageContext.request.contextPath}/admin/adminMemberList.do?keyword=&column=">회원조회(관리자)</a>
-	<a href="${pageContext.request.contextPath}/admin/adminQuitMemberList.do?keyword=&column=">탈퇴회원조회(관리자)</a>
-	<a href="${pageContext.request.contextPath}/admin/adminReportMemberList.do?keyword=&column=">신고회원조회(관리자)</a>
-	<a href="${pageContext.request.contextPath}/admin/adminClubList.do?keyword=&column=">모임목록(관리자)</a>
-	<a href="${pageContext.request.contextPath}/admin/adminInquiryList.do?">문의 목록/답변(관리자)</a>
+	
 
 </nav>
 
@@ -144,9 +137,11 @@ $.ajax({
 	
 	<sec:authorize access="isAuthenticated()">
 		<section id="class2">
-			<h1>추천 목록</h1>
+	   		<br>
+			<strong class="title-headLine">추천 모임</strong>
 	   		<div class="posts2"></div>
-	   		<h1>모든 모임</h1>
+	   		<br>
+	   		<strong class="title-headLine">모든 모임</strong>
 	   		<div class="posts3"></div>
 		</section>
 
@@ -239,7 +234,7 @@ $.ajax({
 
 <script>
 
-console.log()
+
 </script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

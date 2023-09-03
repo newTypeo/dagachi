@@ -83,22 +83,23 @@ create sequence seq_alarm_id;
 
 ------------------------------------------------- 테이블 -------------------------------------------------
 create table member (
-	member_id	varchar2(30)	not null,
-	password	varchar2(150)	not null,
-	name	 varchar2(20)	not null,
-    nickname varchar2(30) not null,
-	phone_no	varchar2(20)	not null,
-	email	varchar2(50)	not null,
-	birthday	date	not null,
-	gender	char(1)	not null, -- 	COMMENT 'M, F'
-	mbti	varchar(10)	,
-	address	varchar2(200)	not null,
+	member_id	varchar2(30),
+	password	varchar2(150),
+	name	 varchar2(20),
+    nickname varchar2(30),
+	phone_no	varchar2(20),
+	email	varchar2(50),
+	birthday	date,
+	gender	char(1), -- 	COMMENT 'M, F'
+	mbti	varchar(10),
+	address	varchar2(200)	,
 	report_count	number	default 0,
 	enroll_date	date default sysdate,
 	withdrawal_date	date, --  COMMENT 'null 이면 회원'
 	password_change_date	date default sysdate,
 	last_login_date date,
-    status char(1) default 'Y'
+    status char(1) default 'Y',
+    create_club_cnt number default 0
 );
 
 -- security rememeberme 를 위해 만들어진 테이블
@@ -123,7 +124,7 @@ create table club (
 );
 create table club_member (
 	member_id	varchar2(30)	not null,
-	club_id	number	not null,
+	club_id number	not null,
 	enroll_at	 date	default sysdate,
 	last_activity_date	date,
 	club_member_role number	 default 0, -- 	COMMENT '0 : 일반회원 (default) 1: 임원 (최대 5명) null가능 2: 서브리더 (1명) null가능 3: 리더 (1명) notnull',
@@ -159,6 +160,7 @@ create table member_profile (
 create table club_gallery (
 	gallery_id	number	not null,
 	club_id	number	not null,
+    member_id varchar2(30) not null,
 	like_count number default 0,
 	status char(1) default 'Y'
 );
@@ -182,11 +184,14 @@ create table club_schedule (
 	schedule_id	number	not null,
 	club_id	number	not null,
 	title	varchar2(200)	not null,
-	start_date date	not null,
+    writer  varchar2(30) not null,
+    content varchar2(2000) not null,
+	start_date date	 not null,
 	end_date date,
 	expence	number	default 0,
 	capacity	number	default 0,
 	alarm_date	date,
+    created_at  date default sysdate,
 	status char(1) default 'Y'
 );
 create table club_schedule_place (
@@ -194,6 +199,7 @@ create table club_schedule_place (
 	schedule_id	number	not null,
 	name	varchar2(100)	not null,
 	address	varchar2(200),
+    details varchar2(100),
 	sequence	number default 0,
 	start_time	date	not null
 );
@@ -207,7 +213,7 @@ create table board_comment (
 	comment_id	number	not null,
 	board_id	number	not null,
 	writer	varchar2(30)	not null,
-	comment_ref	number, -- null 댓글인경우 | board_comment.no 대댓글인 경우
+	comment_ref	number default null, -- 0 댓글인경우 | board_comment.no 대댓글인 경우
 	content	varchar2(1000)	not null,
 	created_at	date default sysdate,
 	status char(1) default 'Y',
@@ -310,6 +316,8 @@ create table cbc_like(
     target_id number not null,
     created_at date default sysdate
 );
+
+
 alter table member add constraint pk_member primary key (
 	member_id
 );
@@ -569,6 +577,13 @@ member_id
 alter table club add constraint uq_club_domain unique (
     domain
 );
+
+alter table club_gallery add constraint fk_member_to_club_member_2 foreign key (
+	member_id
+)
+references member (
+	member_id
+);
 CREATE SEQUENCE seq_Inquiry_id
 START WITH 1
 INCREMENT BY 1
@@ -782,7 +797,7 @@ values(9, '건강정보');
 insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
 values ('admin', '1234', '관리자','관리자', '956-456-7890', 'admin@naver.com', TO_DATE('1990-01-15', 'YYYY-MM-DD'), 'M', 'ISTJ', '서울시 강남구 123번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y');
 insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
-values ('honggd', '1234', '홍길동','길동길동', '123-456-7890', 'honggd@naver.com', TO_DATE('1990-01-15', 'YYYY-MM-DD'), 'M', 'ISTJ', '서울시 강남구 123번지', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y');
+values ('honggd', '1234', '홍길동','길동길동', '123-456-7890', 'honggd@naver.com', TO_DATE('1990-01-15', 'YYYY-MM-DD'), 'M', 'ISTJ', '서울 용산구 독서당로 111', 0, SYSDATE, NULL, SYSDATE, NULL, 'Y');
 insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
 values ('user1', 'password1', '김영희','영희얌', '987-654-3210', 'user1@example.com', TO_DATE('1992-03-20', 'YYYY-MM-DD'), 'F', 'ENFP', '서울시 종로구 456번지', 1, SYSDATE, NULL, SYSDATE, NULL, 'Y');
 insert into member (member_id, password, name, nickname, phone_no, email, birthday, gender, mbti, address, report_count, enroll_date, withdrawal_date, password_change_date, last_login_date, status)
@@ -910,6 +925,9 @@ VALUES ('user29', 4, SYSDATE, 0, 1);
 INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
 VALUES ('user30', 4, SYSDATE, 0, 1);
 
+--INSERT INTO club_member (member_id, club_id, enroll_at, club_member_role, enroll_count)
+--VALUES ('nayoung', 1, SYSDATE, 0, 1);
+
 -- 회원권한 샘플
 insert into authority values('admin', 'ADMIN');
 insert into authority values('honggd', 'MEMBER');
@@ -1005,6 +1023,7 @@ insert into Member_interest values('user30','인문학/독서');
 insert into Member_interest values('user30','요리/제조');
 
 -- 활동지역 샘플
+insert into activity_area values('admin',1168010100,2,3);
 insert into activity_area values('honggd',1168010100,2,3);
 insert into activity_area values('user1',6,5,3);
 insert into activity_area values('user2',11,12,13);
@@ -1068,15 +1087,15 @@ insert into member_like values(1,'honggd','user1',sysdate);
 insert into member_like values(2,'honggd','user2',sysdate);
 
 -- 소모임 일정 샘플
-INSERT INTO club_schedule (schedule_id, club_id, title, start_date, end_date, expence, capacity, alarm_date, status)
-VALUES (seq_club_schedule_id.nextval, 1, '두근두근 축구데이트', TO_DATE('2023-08-20', 'YYYY-MM-DD'), TO_DATE('2023-08-20', 'YYYY-MM-DD'), 5000, 10, TO_DATE('2023-08-18', 'YYYY-MM-DD'), 'Y');
-INSERT INTO club_schedule (schedule_id, club_id, title, start_date, end_date, expence, capacity, alarm_date, status)
-VALUES (seq_club_schedule_id.nextval, 1, '두근두근 농구데이트', TO_DATE('2023-09-05', 'YYYY-MM-DD'), TO_DATE('2023-09-05', 'YYYY-MM-DD'), 3000, 15, TO_DATE('2023-09-02', 'YYYY-MM-DD'), 'Y');
-INSERT INTO club_schedule (schedule_id, club_id, title, start_date, end_date, expence, capacity, alarm_date, status)
-VALUES (seq_club_schedule_id.nextval, 1, '신나는 볼링데이트', TO_DATE('2023-09-15', 'YYYY-MM-DD'), TO_DATE('2023-09-17', 'YYYY-MM-DD'), 0, 10, TO_DATE('2023-09-10', 'YYYY-MM-DD'), 'Y');
-INSERT INTO club_schedule (schedule_id, club_id, title, start_date, end_date, expence, capacity, alarm_date, status)
-VALUES (seq_club_schedule_id.nextval, 1, '나랑 놀사람', TO_DATE('2023-10-15', 'YYYY-MM-DD'), TO_DATE('2023-10-17', 'YYYY-MM-DD'), 0, 10, TO_DATE('2023-10-10', 'YYYY-MM-DD'), 'Y');
-
+INSERT INTO club_schedule (schedule_id, club_id, title, writer, content, start_date, end_date, expence, capacity, alarm_date, status)
+VALUES (seq_club_schedule_id.nextval, 1, '두근두근 축구데이트', 'honggd', 'ㅎㅇㅎㅇ', TO_DATE('2023-08-20', 'YYYY-MM-DD'), TO_DATE('2023-08-20', 'YYYY-MM-DD'), 5000, 10, TO_DATE('2023-08-18', 'YYYY-MM-DD'), 'Y');
+INSERT INTO club_schedule (schedule_id, club_id, title, writer, content, start_date, end_date, expence, capacity, alarm_date, status)
+VALUES (seq_club_schedule_id.nextval, 1, '두근두근 농구데이트', 'user9', 'ㅎㅇㅎㅇ', TO_DATE('2023-09-05', 'YYYY-MM-DD'), TO_DATE('2023-09-05', 'YYYY-MM-DD'), 3000, 15, TO_DATE('2023-09-02', 'YYYY-MM-DD'), 'Y');
+INSERT INTO club_schedule (schedule_id, club_id, title, writer, content, start_date, end_date, expence, capacity, alarm_date, status)
+VALUES (seq_club_schedule_id.nextval, 1, '신나는 볼링데이트', 'user18', 'ㅎㅇㅎㅇ', TO_DATE('2023-09-15', 'YYYY-MM-DD'), TO_DATE('2023-09-17', 'YYYY-MM-DD'), 0, 10, TO_DATE('2023-09-10', 'YYYY-MM-DD'), 'Y');
+INSERT INTO club_schedule (schedule_id, club_id, title, writer, content, start_date, end_date, expence, capacity, alarm_date, status)
+VALUES (seq_club_schedule_id.nextval, 1, '나랑 놀사람', 'user26', 'ㅎㅇㅎㅇ', TO_DATE('2023-10-15', 'YYYY-MM-DD'), TO_DATE('2023-10-17', 'YYYY-MM-DD'), 0, 10, TO_DATE('2023-10-10', 'YYYY-MM-DD'), 'Y');
+select * from club_member where club_id = 1;
 -- 소모임 일정 참가회원 샘플
 INSERT INTO club_schedule_enroll_member (member_id, club_id, schedule_id)
 VALUES ('honggd', 1, 1);
@@ -1088,12 +1107,12 @@ INSERT INTO club_schedule_enroll_member (member_id, club_id, schedule_id)
 VALUES ('user18', 1, 3);
 
 -- 소모임 일정 장소 샘플
-INSERT INTO club_schedule_place (id, schedule_id, name, address, sequence, start_time)
-VALUES (seq_club_schedule_place_id.nextval, 1, '강남 축구장', '서울시 강남구', 1, TO_DATE('2023-08-20 10:00:00', 'YYYY-MM-DD HH24:MI:SS'));
-INSERT INTO club_schedule_place (id, schedule_id, name, address, sequence, start_time)
-VALUES (seq_club_schedule_place_id.nextval, 2, '마포 농구장 B', '서울시 마포구', 2, TO_DATE('2023-09-05 19:30:00', 'YYYY-MM-DD HH24:MI:SS'));
-INSERT INTO club_schedule_place (id, schedule_id, name, address, sequence, start_time)
-VALUES (seq_club_schedule_place_id.nextval, 3, '관악 볼링장', '서울시 관악구', 3, TO_DATE('2023-09-15 14:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO club_schedule_place (id, schedule_id, name, address, details, sequence, start_time)
+VALUES (seq_club_schedule_place_id.nextval, 1, '강남 축구장', '서울특별시 강남구 논현2동 논현로 748', '1층', 1, TO_DATE('2023-08-20 10:00:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO club_schedule_place (id, schedule_id, name, address, details, sequence, start_time)
+VALUES (seq_club_schedule_place_id.nextval, 1, '마포 농구장 B', '서울특별시 마포구 서교동 411-3', 'B2층', 2, TO_DATE('2023-08-20 14:30:00', 'YYYY-MM-DD HH24:MI:SS'));
+INSERT INTO club_schedule_place (id, schedule_id, name, address, details, sequence, start_time)
+VALUES (seq_club_schedule_place_id.nextval, 1, '동작 볼링장', '서울특별시 동작구 여의대방로 250', '대림쇼핑타운 한숲볼링센타 309호', 3, TO_DATE('2023-08-20 17:50:00', 'YYYY-MM-DD HH24:MI:SS'));
 
 -- 소모임 게시판 샘플
 INSERT INTO club_board (board_id, club_id, writer, title, content, type, like_count)
@@ -1187,16 +1206,16 @@ insert into club_layout (club_id, type, font, background_color, font_color, poin
 values (1, default, default, '#dddddd', '#778899', '#496682', 'sportClubTitleSample.png', 'sportClubMainSample.png', '스포츠 열정 클럽에 오신것을 환영합니다!');
 
 -- 클럽갤러리 샘플
-insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 10, 'Y');
-insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 20, 'Y');
-insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 30, 'Y');
-insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 14, 'Y');
-insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 15, 'Y');
-insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 13, 'Y');
-insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 187, 'Y');
-insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 12, 'Y');
-insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 5, 'Y');
-insert into club_gallery (gallery_id, club_id, like_count, status) values (seq_club_gallery_id.nextval, 1, 7, 'Y');
+insert into club_gallery (gallery_id, club_id,member_id, like_count, status) values (seq_club_gallery_id.nextval, 1,'honggd', 10, 'Y');
+insert into club_gallery (gallery_id, club_id,member_id, like_count, status) values (seq_club_gallery_id.nextval, 1,'honggd', 20, 'Y');
+insert into club_gallery (gallery_id, club_id,member_id, like_count, status) values (seq_club_gallery_id.nextval, 1,'honggd', 30, 'Y');
+insert into club_gallery (gallery_id, club_id,member_id, like_count, status) values (seq_club_gallery_id.nextval, 1,'honggd', 14, 'Y');
+insert into club_gallery (gallery_id, club_id,member_id, like_count, status) values (seq_club_gallery_id.nextval, 1,'honggd', 15, 'Y');
+insert into club_gallery (gallery_id, club_id,member_id, like_count, status) values (seq_club_gallery_id.nextval, 1,'honggd', 13, 'Y');
+insert into club_gallery (gallery_id, club_id,member_id, like_count, status) values (seq_club_gallery_id.nextval, 1,'honggd', 187, 'Y');
+insert into club_gallery (gallery_id, club_id,member_id, like_count, status) values (seq_club_gallery_id.nextval, 1,'honggd', 12, 'Y');
+insert into club_gallery (gallery_id, club_id,member_id, like_count, status) values (seq_club_gallery_id.nextval, 1,'honggd', 5, 'Y');
+insert into club_gallery (gallery_id, club_id,member_id, like_count, status) values (seq_club_gallery_id.nextval, 1,'honggd', 7, 'Y');
 
 -- 클럽갤러리 사진 샘플
 insert into club_gallery_attachment (id, gallery_id, original_filename, renamed_filename, created_at, thumbnail)
@@ -1260,19 +1279,34 @@ insert into main_page values(seq_main_page_id.nextval, 'mainSample3.png', 'mainS
 insert into main_page values(seq_main_page_id.nextval, 'mainSample4.png', 'mainSample4.png', sysdate);
 insert into main_page values(seq_main_page_id.nextval, 'mainSample5.png', 'mainSample5.png', sysdate);
 
+
+--insert into club_member values('user9',2,sysdate,null,default,default);
+--insert into club_member values('user9',4,sysdate,null,default,default);
+--insert into club_member values('user9',7,sysdate,null,default,default);
+
 update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'honggd';
-
-insert into club_member values('user9',2,sysdate,null,default,default);
-insert into club_member values('user9',4,sysdate,null,default,default);
-insert into club_member values('user9',7,sysdate,null,default,default);
-
+update member set password = '$2a$10$6mGnuDMeoW8UGDfKxQQwaOBZK0zi7OGz/wyo63SzlhnLx8ZdR2PpO' where member_id = 'admin';
 
 commit;
 
-insert into club_member values('honggddd',1,default,default,3,default);
-insert into club_member values('honggddd',2,default,default,3,default);
-insert into club_member values('honggddd',3,default,default,3,default);
-insert into club_member values('honggddd',4,default,default,3,default);
-insert into club_member values('honggddd',5,default,default,3,default);
-insert into club_member values('honggddd',6,default,default,3,default);
-insert into club_member values('honggddd',7,default,default,3,default);
+select * from club_member;
+
+SELECT * FROM club_member where member_id = 'honggd';
+
+--insert into club_member values('honggd',2,default,default,0,default);
+insert into club_member values('honggd',3,default,default,0,default);
+insert into club_member values('honggd',4,default,default,0,default);
+insert into club_member values('honggd',5,default,default,0,default);
+
+
+--insert into club_member values('user9',1,default,default,3,default);
+insert into club_member values('user9',2,default,default,3,default);
+insert into club_member values('user9',3,default,default,3,default);
+insert into club_member values('user9',4,default,default,3,default);
+insert into club_member values('user9',5,default,default,3,default);
+insert into club_member values('user9',6,default,default,3,default);
+insert into club_member values('user9',7,default,default,3,default);
+select * from member;
+
+
+commit;

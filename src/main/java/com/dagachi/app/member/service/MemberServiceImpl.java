@@ -1,5 +1,6 @@
 package com.dagachi.app.member.service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +22,9 @@ import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.member.dto.MemberCreateDto;
+import com.dagachi.app.member.dto.MemberKakaoDto;
+import com.dagachi.app.member.dto.MemberKakaoUpdateDto;
+import com.dagachi.app.member.dto.MemberPwUpdateDto;
 import com.dagachi.app.member.entity.ActivityArea;
 import com.dagachi.app.member.entity.CbcLike;
 import com.dagachi.app.member.entity.Member;
@@ -40,11 +44,31 @@ public class MemberServiceImpl implements MemberService{
 	
 	@Autowired
 	private MemberRepository memberRepository;
-
-	@Override/*임시 회원가입*/
+	
+	
+	@Override
 	public int insertMember(MemberCreateDto member) {
-		return memberRepository.insertMember(member);
+	    int result = 0;
+
+	    result = memberRepository.insertMember(member);
+	    log.debug("member = " + member);
+
+	    memberRepository.insertActivityArea(member);
+
+	    List<String> interestList = member.getInterest();
+
+	    for (String interest : interestList) {
+	        memberRepository.insertMemberInterest(member.getMemberId(), interest);
+	    }
+
+	    return result;
 	}
+	
+
+//	@Override/*임시 회원가입*/
+//	public int insertMember(MemberCreateDto member) {
+//		return memberRepository.insertMember(member);
+//	}
 	
 	@Override
 	public List<Member> adminMemberList(Map<String, Object> params) {
@@ -109,24 +133,7 @@ public class MemberServiceImpl implements MemberService{
 		return memberRepository.findMemberById(memberId);
 	}
 
-	/* 회원가입 (지우지마삼)
-	 * @Override public int insertMember(MemberDetails member1) {
-	 * 
-	 * int result = 0;
-	 * 
-	 * result = memberRepository.insertMember(member1); log.debug("member = " +
-	 * member1);
-	 * 
-	 * MemberProfile memberProfile = ((MemberDetails) member1).getMemberProfile();
-	 * if(memberProfile != null) { memberProfile.setMemberId(member1.getMemberId());
-	 * result = memberRepository.insertMemberProfile(memberProfile); }
-	 * 
-	 * memberRepository.insertActivityArea(member1);
-	 * memberRepository.insertMemberInterest(member1);
-	 * 
-	 * 
-	 * return result; }
-	 */
+
 	@Override
 	public List<Member> quitMemberSearch(String keyword, String column) {
 		// TODO Auto-generated method stub
@@ -179,6 +186,10 @@ public class MemberServiceImpl implements MemberService{
 		return memberRepository.memberLike(params);
 	}
 	
+	@Override
+	public int cancelMemberLike(Map<String, Object> params) {
+		return memberRepository.cancelMemberLike(params);
+	}
 	
 	public int UpdateMember(Member member) {
 		int result = 0;	
@@ -216,4 +227,64 @@ public class MemberServiceImpl implements MemberService{
 	public int checkDuplicateMemberId(String memberId) {
 		return memberRepository.checkDuplicateMemberId(memberId);
 	}
+
+
+	@Override
+	public int KakaoMember(MemberKakaoDto memberKakaoDto) {
+		return memberRepository.KakaoMember(memberKakaoDto);
+	}
+	
+	@Override
+	public Member findmemberIdByEmail(String email) {
+		return memberRepository.findmemberIdByEmail(email);
+	}
+
+
+	@Override
+	public int kakaoUpadteCreate(MemberCreateDto member) {
+	    int result = 0;
+
+	    result = memberRepository.kakaoUpadteCreate(member);
+	    log.debug("member = " + member);
+
+	    memberRepository.insertActivityArea(member);
+	    List<String> interestList = member.getInterest();
+
+	    for (String interest : interestList) {
+	        memberRepository.insertMemberInterest(member.getMemberId(), interest);
+	    }
+	    return result;
+	}
+	
+	@Override
+	public int memberPwUpdate(MemberPwUpdateDto memberPwUpdateDto) {
+		return memberRepository.memberPwUpdate(memberPwUpdateDto);
+	}
+
+	@Override
+	public UserDetails checkKakao(String memberId) {
+		return memberRepository.checkKakao(memberId);
+	}
+	@Override
+	public int buyCreateClubTicket(String memberId) {
+		return memberRepository.buyCreateClubTicket(memberId);
+	}
+
+
+	@Override
+	public Member checkNickNameDuplicate(String nickname) {
+		return memberRepository.checkNickNameDuplicate(nickname);
+	}
+
+
+	@Override
+	public Member checkEmailDuplicate(String email) {
+		return memberRepository.checkEmailDuplicate(email);
+	}
+	
+	@Override
+	public int checkDuplicateMemberIdAndMyId(Map<String, Object> params) {
+		return memberRepository.checkDuplicateMemberIdAndMyId(params);
+	}
+	
 }

@@ -1,21 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<script src="https://kit.fontawesome.com/d7ccac7be9.js" crossorigin="anonymous"></script>
 <style>
 #chat-open-btn {
-	width: 80px;
-	height: 80px;
-	border-radius: 50%;
 	z-index: 10;
 	position: fixed;
-	background: white;
 	right: 20px;
     bottom: 20px;
+	width: 80px;
+	height: 80px;
     text-align: center;
+	/* border-radius: 50%;
+	background: white; */
 }
 
-#chat-open-btn:hover {
-	cursor: pointer;
-}
+#chat-open-btn:hover {cursor: pointer;}
 
 #chat-wrapper {
 	width: 300px;
@@ -29,14 +28,18 @@
     display: none;
 }
 
-#chat-box-title {
-	height: 50px;
-}
+#chat-box-title {height: 50px;}
+
+/* 채팅이모티콘 */
+.fa-cat {font-size : 60px;}
 </style>
 
-<button id="chat-open-btn">
-	채팅
-</button>
+<div id="chat-open-btn">
+	<i class="fa-solid fa-cat" style="color: #1060ea;"></i>
+</div>
+<!-- <button id="chat-open-btn">
+	chat
+</button> -->
 
 <div id="chat-wrapper">
 	<div id="chat-box-title">

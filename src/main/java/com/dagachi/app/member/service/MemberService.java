@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
@@ -12,6 +13,9 @@ import com.dagachi.app.admin.entity.AdminInquiry;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.member.dto.MemberCreateDto;
+import com.dagachi.app.member.dto.MemberKakaoDto;
+import com.dagachi.app.member.dto.MemberKakaoUpdateDto;
+import com.dagachi.app.member.dto.MemberPwUpdateDto;
 import com.dagachi.app.member.entity.ActivityArea;
 import com.dagachi.app.member.entity.CbcLike;
 import com.dagachi.app.member.entity.Member;
@@ -20,11 +24,7 @@ import com.dagachi.app.member.entity.MemberInterest;
 import com.dagachi.app.member.entity.MemberLike;
 import com.dagachi.app.member.entity.MemberProfile;
 
-
-
 public interface MemberService extends UserDetailsService {
-	
-	
 
 	Member findMemberById(String memberId);
 	
@@ -41,8 +41,9 @@ public interface MemberService extends UserDetailsService {
 	int memberDelete(String memberId);
 
 	Member findMemberBymemberId(String memberId);
-	/*임시로그인*/
-	int insertMember(MemberCreateDto member);
+	
+//	/*임시로그인*/
+//	int insertMember(MemberCreateDto member);
 
 	int InquiryCreate(AdminInquiryCreateDto inquiry);
 
@@ -74,6 +75,26 @@ public interface MemberService extends UserDetailsService {
 
 	int checkDuplicateMemberId(String memberId);
 
+	int insertMember(MemberCreateDto member);
 
+	int cancelMemberLike(Map<String, Object> params);
+	
+	Member findmemberIdByEmail(String email);
+	
+	int KakaoMember(MemberKakaoDto memberKakaoDto);
+
+	int kakaoUpadteCreate(MemberCreateDto member);
+	
+	int memberPwUpdate(MemberPwUpdateDto memberPwUpdateDto);
+
+	UserDetails checkKakao(String memberId);
+	
+	int buyCreateClubTicket(String memberId);
+
+	Member checkNickNameDuplicate(String nickname);
+
+	Member checkEmailDuplicate(String email);
+	
+	int checkDuplicateMemberIdAndMyId(Map<String, Object> params);
 
 }

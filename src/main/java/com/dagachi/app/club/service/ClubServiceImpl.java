@@ -1,10 +1,8 @@
 package com.dagachi.app.club.service;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -13,46 +11,47 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
 import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
-import com.dagachi.app.club.dto.ClubManageApplyDto;
-import com.dagachi.app.club.dto.ClubMemberAndImage;
 import com.dagachi.app.club.dto.ClubEnrollDto;
 import com.dagachi.app.club.dto.ClubGalleryAndImage;
+import com.dagachi.app.club.dto.ClubManageApplyDto;
+import com.dagachi.app.club.dto.ClubMemberAndImage;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
+import com.dagachi.app.club.dto.ClubNameAndCountDto;
 import com.dagachi.app.club.dto.ClubReportDto;
 import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
 import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.ClubStyleUpdateDto;
+import com.dagachi.app.club.dto.CreateGalleryDto;
 import com.dagachi.app.club.dto.GalleryAndImageDto;
 import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.KickMember;
 import com.dagachi.app.club.dto.ManageMember;
+import com.dagachi.app.club.entity.BoardComment;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
 import com.dagachi.app.club.entity.ClubBoardAttachment;
 import com.dagachi.app.club.entity.ClubBoardDetails;
-import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubDetails;
 import com.dagachi.app.club.entity.ClubGalleryAttachment;
+import com.dagachi.app.club.entity.ClubGalleryDetails;
 import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.club.entity.ClubRecentVisited;
 import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.club.repository.ClubRepository;
-import com.dagachi.app.member.entity.CbcLike;
 import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.entity.MemberProfile;
 import com.dagachi.app.member.repository.MemberRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Service
 @Slf4j
+@Service
 @Transactional(rollbackFor = Exception.class)
 public class ClubServiceImpl implements ClubService {
 
@@ -123,8 +122,8 @@ public class ClubServiceImpl implements ClubService {
 		List<ClubSearchDto> clubs = clubRepository.searchClubWithFilter(rowBounds, params);
 
 		// 모임 인원 가져오기
-		for (ClubSearchDto club : clubs)
-			club.setMemberCount(clubRepository.countClubMember(club.getClubId()));
+//		for (ClubSearchDto club : clubs)
+//			club.setMemberCount(clubRepository.countClubMember(club.getClubId()));
 
 		return clubs;
 	}
@@ -208,11 +207,13 @@ public class ClubServiceImpl implements ClubService {
 	}
 
 	@Override
-	public int insertClub(Club club) {
+	public int insertClub(Club club, String memberId) {
 		int result = 0;
+		int clubId = club.getClubId();
+		
 		// club 저장
 		result = clubRepository.insertClub(club);
-		log.debug("club = " + club);
+		
 		// clubProfile 저장
 		ClubProfile clubProfile = ((ClubDetails) club).getClubProfile();
 		if (clubProfile != null) {
@@ -221,11 +222,14 @@ public class ClubServiceImpl implements ClubService {
 		}
 		// clubTag 저장
 		for (String tag : ((ClubDetails) club).getTagList()) {
-			ClubTag clubTag = new ClubTag(club.getClubId(), tag);
+			ClubTag clubTag = new ClubTag(clubId, tag);
 			result = clubRepository.insertClubTag(clubTag);
 		}
-		// layout 생성
-		result = clubRepository.insertLayout(club.getClubId());
+		
+		// 클럽리더 저장
+		Map<String, Object> params = Map.of("memberId", memberId, "clubId", clubId);
+		result += clubRepository.insertClubLeaderById(params);
+		
 		return result;
 	}
 
@@ -270,7 +274,29 @@ public class ClubServiceImpl implements ClubService {
 
 		return result;
 	}
-
+	
+	@Override
+	public int likeBoard(Map<String, Object> params) {
+		Boolean like = (Boolean) params.get("like");
+		ClubBoard board = (ClubBoard) params.get("board");
+		
+		// board의 좋아요 수 업데이트
+		int result = clubRepository.updateBoard(board); 
+		
+		if(like) { // 좋아요테이블에 추가
+			result += clubRepository.insertClubLike(params);
+		} else { // 좋아요 취소(삭제)
+			result += clubRepository.deleteClubLike(params);
+		}
+		return result;
+	}
+	
+	@Override
+	public int checkBoardLiked(Map<String, Object> params) {
+		return clubRepository.checkBoardLiked(params);
+	}
+	
+	
 	@Override
 	public int clubMemberRoleUpdate(ClubMemberRoleUpdate member) {
 		return clubRepository.clubMemberRoleUpdate(member);
@@ -438,7 +464,7 @@ public class ClubServiceImpl implements ClubService {
 		List<Member> member = new ArrayList<>();
 		for (Member mn : memberName) {
 			String id = mn.getMemberId();
-			member.add(clubRepository.findMembersById(id));
+			member.add(clubRepository.findMemberById(id));
 		}
 
 		List<ClubMemberAndImage> members = new ArrayList<>();
@@ -487,10 +513,16 @@ public class ClubServiceImpl implements ClubService {
 	public int updateClubMainContent(ClubLayout clubLayout) {
 		return  clubRepository.updateClubMainContent(clubLayout);
 	}
+	@Override
 	public int clubLike(Map<String, Object> params) {
 		return clubRepository.clubLike(params);
 	}
 	
+	@Override
+	public int cancelClubLike(Map<String, Object> params) {
+		return clubRepository.cancelClubLike(params);
+	}
+
 	@Override
 	public List<ClubBoard> searchBoards(Map<String, Object> searchBoardMap, Map<String, Object> params) {
 		int limit = (int) params.get("limit");
@@ -521,5 +553,80 @@ public class ClubServiceImpl implements ClubService {
 	@Override
 	public List<Club> findClubsByMemberId(String memberId) {
 		return clubRepository.findClubsByMemberId(memberId);
+	}
+	
+	@Override
+	public ClubNameAndCountDto findClubInfoById(int clubId) {
+		return clubRepository.findClubInfoById(clubId);
+	}
+	
+	@Override
+	public List<GalleryAndImageDto> findGalleryAndImageByGalleryId(int id) {
+		return clubRepository.findGalleryAndImageByGalleryId(id);
+	}
+	
+	@Override
+	public int clubGalleryDelete(int id) {
+		int result = 0;
+		result = clubRepository.clubGalleryAttachDelete(id);
+		
+		return clubRepository.clubGalleryDelete(id);
+	}
+	
+	@Override
+	public int clubGalleryCreate(CreateGalleryDto createGalleryDto) {
+		int result =  clubRepository.clubGalleryCreate(createGalleryDto);
+		return clubRepository.clubGalleryAttachCreate(createGalleryDto);
+	}
+	
+	@Override
+	public int clubGalleryCreate2(CreateGalleryDto createGalleryDto) {
+		return clubRepository.clubGalleryCreate2(createGalleryDto);
+	}
+	
+	@Override
+	public int boardCommentCreate(BoardComment comment) {
+		return clubRepository.boardCommentCreate(comment);
+	}
+	
+	@Override
+	public List<BoardComment> findComments(int no) {
+		return clubRepository.findComments(no);
+	}
+	
+	@Override
+	public BoardComment findBoardComment(int commentId) {
+		return clubRepository.findBoardComment(commentId);
+	}
+	
+	@Override
+	public int clubMemberDelete(Map<String, Object> params) {
+		return clubRepository.clubMemberDelete(params);
+	}
+	
+	@Override
+	public ClubMember findClubMemberRoleByClubId(Map<String, Object> params) {
+		return clubRepository.findClubMemberRoleByClubId(params);
+	}
+	
+	@Override
+	public int postGallery(ClubGalleryDetails clubGallery) {
+		int result = 0;
+
+		result = clubRepository.postGallery(clubGallery);
+
+		List<ClubGalleryAttachment> attachments = ((ClubGalleryDetails) clubGallery).getAttachments();
+		if (attachments != null && !attachments.isEmpty()) {
+			for (ClubGalleryAttachment attach : attachments) {
+				attach.setGalleryId(clubGallery.getGalleryId());
+				result = clubRepository.insertAttachment(attach);
+			}
+		}
+		return result;
+	}
+	
+	@Override
+	public int checkDuplicateClubIdAndId(Map<String, Object> params) {
+		return clubRepository.checkDuplicateClubIdAndId(params);
 	}
 }

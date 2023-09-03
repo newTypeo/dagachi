@@ -9,6 +9,7 @@ import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
 import com.dagachi.app.admin.dto.AdminInquiryUpdateDto;
 import com.dagachi.app.admin.entity.AdminInquiry;
 import com.dagachi.app.admin.entity.MainPage;
+import com.dagachi.app.club.entity.ClubBoardAttachment;
 
 public interface AdminService {
 
@@ -25,6 +26,8 @@ public interface AdminService {
 
 	List<AdminInquiry> searchInquirys(Map<String, Object> searchInquirydMap, Map<String, Object> params);
 	List<AdminInquiry> searchInquiry(Map<String, Object> searchInquirydMap);
+
+	int updateBanner(ClubBoardAttachment attach);
 
 
 }
