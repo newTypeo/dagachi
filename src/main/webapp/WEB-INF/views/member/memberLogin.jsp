@@ -133,7 +133,7 @@
 		<br/>
 	<div class = kakaoLoginDiv>
 		 <a href="${pageContext.request.contextPath}/oauth2/authorization/kakao">
-			<img src="${pageContext.request.contextPath}/resources/kakao/kakao_login_medium_narrow.png" alt="카카오 로그인">
+			<img src="${pageContext.request.contextPath}/resources/images/kakaoL.png" alt="카카오 로그인">
 		 </a>
 		 
 		 <br/>
@@ -378,4 +378,3 @@ TweenMax.set(armR, {x: -93, y: 220, rotation: -105, transformOrigin: "top right"
 </script>
 
 
-<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

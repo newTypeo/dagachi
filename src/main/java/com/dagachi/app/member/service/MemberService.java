@@ -14,6 +14,7 @@ import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.member.dto.MemberCreateDto;
 import com.dagachi.app.member.dto.MemberKakaoDto;
+import com.dagachi.app.member.dto.MemberKakaoUpdateDto;
 import com.dagachi.app.member.dto.MemberPwUpdateDto;
 import com.dagachi.app.member.entity.ActivityArea;
 import com.dagachi.app.member.entity.CbcLike;
@@ -82,7 +83,7 @@ public interface MemberService extends UserDetailsService {
 	
 	int KakaoMember(MemberKakaoDto memberKakaoDto);
 
-	int kakaoUpadteCreate( MemberCreateDto member);
+	int kakaoUpadteCreate(MemberCreateDto member);
 	
 	int memberPwUpdate(MemberPwUpdateDto memberPwUpdateDto);
 
