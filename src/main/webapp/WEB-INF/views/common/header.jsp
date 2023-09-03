@@ -3,10 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
 <style>
@@ -123,11 +121,11 @@
 
 					<div class="dropdown">
 						
-						<sec:authorize access="hasRole('ADMIN')">
+						<%-- <sec:authorize access="hasRole('ROLE_ADMIN')"> --%>
 							<button id="admin-nav-btn"
 								class="btn btn-secondary dropdown-toggle" type="button"
 								data-toggle="dropdown" aria-expanded="false">회원관리</button>
-						</sec:authorize>
+						<%-- </sec:authorize> --%>
 					
 						<div class="dropdown-menu">
 							<button class="dropdown-item" type="button">
@@ -154,30 +152,30 @@
 				<!-- 로그인한 회원에 한해 최초 1회 실행되는 코드(반경 동정보 session에 저장) -->
 				<c:if test="${empty zoneSet1 or zoneSet1 eq null}">
 					<script>
-				console.log("최초 로그인 시에만 찍혀야하는 로그(종환)");
-				$.ajax({ // 로그인한 회원의 주활동지역 코드 세션에 저장
-					url : "${pageContext.request.contextPath}/club/getMainAreaId.do",
-					success({mainAreaId}) {
-						
-						$.ajax({
-							url : "https://grpc-proxy-server-mkvo6j4wsq-du.a.run.app/v1/regcodes?regcode_pattern=" + mainAreaId,
-							data : {is_ignore_zero : true},
-							success({regcodes}) {
-								// 서울특별시 **구 **동 (회원의 주활동지역)
-								const mainAreaName = regcodes[0].name; 
-								$.ajax({
-									url : "${pageContext.request.contextPath}/club/setZoneInSession.do",
-									data : {mainAreaName},
-									success() {
-										// console.log("session에 동네 저장 완료!(종환)");
-									}
-								}); // ajax3
-							} // success2
-						}); // ajax2
-					}// success2
-				}); // ajax1
-				
-				</script>
+					// console.log("최초 로그인 시에만 찍혀야하는 로그(종환)");
+					$.ajax({ // 로그인한 회원의 주활동지역 코드 세션에 저장
+						url : "${pageContext.request.contextPath}/club/getMainAreaId.do",
+						success({mainAreaId}) {
+							
+							$.ajax({
+								url : "https://grpc-proxy-server-mkvo6j4wsq-du.a.run.app/v1/regcodes?regcode_pattern=" + mainAreaId,
+								data : {is_ignore_zero : true},
+								success({regcodes}) {
+									// 서울특별시 **구 **동 (회원의 주활동지역)
+									const mainAreaName = regcodes[0].name; 
+									$.ajax({
+										url : "${pageContext.request.contextPath}/club/setZoneInSession.do",
+										data : {mainAreaName},
+										success() {
+											// console.log("session에 동네 저장 완료!(종환)");
+										}
+									}); // ajax3
+								} // success2
+							}); // ajax2
+						}// success2
+					}); // ajax1
+					
+					</script>
 				</c:if>
 				
 				<script>

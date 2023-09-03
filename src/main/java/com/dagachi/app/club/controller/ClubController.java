@@ -922,6 +922,7 @@ public class ClubController {
 			@AuthenticationPrincipal MemberDetails member, 
 			@RequestParam(value = "upFile") MultipartFile upFile) throws IllegalStateException, IOException {
 		System.out.println(_club);
+		System.out.println(upFile);
 		// 1. 파일저장
 		String uploadDir = "/club/profile/";
 		ClubProfile clubProfile = null;
