@@ -109,12 +109,12 @@
 	<div class="inputGroup inputGroup1">
 	
 		<label for="memberId">ID</label>
-		<input type="text" id="email" class="email" maxlength="30" name="memberId" placeholder="아이디를 입력하세요" />
+		<input type="text" id="email" class="email" maxlength="30" name="memberId" placeholder="아이디를 입력하세요" value="honggd"/>
 		<span class="indicator"></span>
 	</div>
 	<div class="inputGroup inputGroup2">
 		<label for="password">PASSWORD</label>
-		<input type="password" id="password" class="password" name="password" placeholder="비밀번호를 입력하세요" />
+		<input type="password" id="password" class="password" name="password" placeholder="비밀번호를 입력하세요" value="1234"/>
 	</div>
 	<div class="inputGroup inputGroup3">
 		<c:if test="${param.error ne null}">

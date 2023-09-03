@@ -38,7 +38,7 @@ public class StompMessageController {
 	public Payload notice(@DestinationVariable String memberId,Payload message) {
 		log.debug("message = {}", message);
 		log.debug("memberId = {}", memberId);
-		// notificationService.insertNotification(message);
+
 		return message;
 	}
 	
@@ -60,12 +60,5 @@ public class StompMessageController {
 		return message;
 	}
 	
-	@MessageMapping("/moimtalk/{moimTitle}")
-	@SendTo("/app/notice/{moimTitle}")
-	public Payload moimtalk(@DestinationVariable String moimTitle, Payload message) {
-		log.debug("moimTitle = {}", moimTitle);
-		log.debug("message = {}", message);
-		return message;
-	}
 	
 }

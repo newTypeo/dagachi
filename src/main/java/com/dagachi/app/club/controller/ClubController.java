@@ -84,6 +84,8 @@ import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.entity.MemberDetails;
 import com.dagachi.app.member.entity.MemberProfile;
 import com.dagachi.app.member.service.MemberService;
+import com.dagachi.app.notification.service.NotificationService;
+import com.dagachi.app.notification.service.notificationServiceImpl;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -100,6 +102,9 @@ public class ClubController {
 
 	@Autowired
 	private HttpSession httpSession;
+	
+	@Autowired
+	NotificationService notificationService;
 
 	private final JavaMailSender javaMailSender;
 
@@ -159,6 +164,13 @@ public class ClubController {
 			@AuthenticationPrincipal MemberDetails member, RedirectAttributes redirectAttr) {
 		enroll.setMemberId(member.getMemberId());
 		int result = clubService.ClubEnroll(enroll);
+		
+		//가입신청시 방장에게 알람
+		Club club =clubService.findByDomain(domain);
+		JoinClubMember master=clubService.hostFindByClubId(club.getClubId());
+		result= notificationService.membershipRequest(club,member,master);
+		
+		
 		redirectAttr.addFlashAttribute("msg", "💡가입 신청 완료.💡");
 		return "redirect:/club/" + domain;
 	}
@@ -334,12 +346,22 @@ public class ClubController {
 	@PostMapping("/{domain}/manageApply.do")
 	public String permitApply(@PathVariable("domain") String domain, ClubManageApplyDto clubManageApplyDto) {
 		
-		log.debug("ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ = {}" ,clubManageApplyDto);
-		if (clubManageApplyDto.isPermit())
+		//log.debug("ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ = {}" ,clubManageApplyDto);
+		Club club=clubService.findByDomain(domain);
+		JoinClubMember master=clubService.hostFindByClubId(club.getClubId());
+		
+		if (clubManageApplyDto.isPermit()) {
 			clubService.permitApply(clubManageApplyDto); // 가입 승인
-		else
+			//가입 승인 거절 알람 - 상윤
+			int permitApply=notificationService.permitApply(club,clubManageApplyDto.getMemberId(),master);
+		}
+		else {
 			clubService.refuseApply(clubManageApplyDto); // 가입 거절
+			int permitApply=notificationService.refuseApply(club,clubManageApplyDto.getMemberId(),master);
+		}
 
+		
+		
 		return "redirect:/club/" + domain + "/manageMember.do";
 	}
 

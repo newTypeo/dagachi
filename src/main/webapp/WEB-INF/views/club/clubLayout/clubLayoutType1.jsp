@@ -49,7 +49,7 @@
 				</div>
 				<div class="myProfile3">
 					<button class="btn" style="background-color: ${layout.fontColor}">글쓰기</button>
-					<button class="btn" style="background-color: ${layout.fontColor}">일정생성</button>
+					<button id="scheduleCreateBtn" class="btn" style="background-color: ${layout.fontColor}">일정생성</button>
 				</div>
 			</c:if>
 			<c:if test="${memberRole eq 10}">
@@ -301,6 +301,10 @@
 </nav>
 
 <script>
+scheduleCreateBtn.addEventListener('click', () => {
+	location.href = "${pageContext.request.contextPath}/club/${domain}/scheduleCreate.do";
+});
+
 $('.carousel').carousel({
 	interval: false
 })
