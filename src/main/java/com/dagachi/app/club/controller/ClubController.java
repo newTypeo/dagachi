@@ -209,7 +209,7 @@ public class ClubController {
 	 */
 	@PostMapping("/{domain}/boardCreate.do")
 	public String boardCreate(@Valid ClubBoardCreateDto _board, @PathVariable("domain") String domain,
-			@AuthenticationPrincipal MemberDetails member,
+			@AuthenticationPrincipal MemberDetails member, Model model,
 			@RequestParam(value = "upFile", required = false) List<MultipartFile> upFiles)
 			throws IllegalStateException, IOException {
 		List<ClubBoardAttachment> attachments = new ArrayList<>();
@@ -217,6 +217,14 @@ public class ClubController {
 			attachments = insertAttachment(upFiles, attachments);
 		Club club = clubService.findByDomain(domain);
 		int clubId = club.getClubId();
+		
+		String clubName = club.getClubName();
+		ClubLayout layout = clubService.findLayoutById(clubId);
+		
+		model.addAttribute(layout);
+		model.addAttribute(clubName);
+		
+		
 		String memberId = member.getMemberId();
 		ClubBoardDetails clubBoard = ClubBoardDetails.builder().clubId(clubId).writer(memberId).type(_board.getType())
 				.attachments(attachments).content(_board.getContent()).title(_board.getTitle()).build();
