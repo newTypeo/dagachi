@@ -237,6 +237,9 @@ const payment = () => {
 			const url = response.next_redirect_pc_url;
 			window.open(url, "_blank", 'status=no, width=500, height=700' + 
 						', left=' + popupX + ', top=' + popupY);
+		},
+		complete() {
+			console.log("결제완료");
 		}
 	});
 };
