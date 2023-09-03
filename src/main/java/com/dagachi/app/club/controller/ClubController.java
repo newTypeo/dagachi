@@ -19,7 +19,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -49,19 +48,17 @@ import com.dagachi.app.club.dto.ClubManageApplyDto;
 import com.dagachi.app.club.dto.ClubMemberAndImage;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
+import com.dagachi.app.club.dto.ClubNameAndCountDto;
 import com.dagachi.app.club.dto.ClubReportDto;
 import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
 import com.dagachi.app.club.dto.ClubSearchDto;
 import com.dagachi.app.club.dto.ClubStyleUpdateDto;
 import com.dagachi.app.club.dto.ClubTitleUpdateDto;
 import com.dagachi.app.club.dto.ClubUpdateDto;
-import com.dagachi.app.club.dto.CreateGalleryDto;
 import com.dagachi.app.club.dto.GalleryAndImageDto;
 import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.dto.KickMember;
 import com.dagachi.app.club.dto.ManageMember;
-import com.dagachi.app.club.dto.SearchClubBoard;
-import com.dagachi.app.club.dto.ClubNameAndCountDto;
 import com.dagachi.app.club.entity.BoardComment;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubApply;
@@ -69,7 +66,6 @@ import com.dagachi.app.club.entity.ClubBoard;
 import com.dagachi.app.club.entity.ClubBoardAttachment;
 import com.dagachi.app.club.entity.ClubBoardDetails;
 import com.dagachi.app.club.entity.ClubDetails;
-import com.dagachi.app.club.entity.ClubGallery;
 import com.dagachi.app.club.entity.ClubGalleryAttachment;
 import com.dagachi.app.club.entity.ClubGalleryDetails;
 import com.dagachi.app.club.entity.ClubLayout;
@@ -82,10 +78,8 @@ import com.dagachi.app.common.DagachiUtils;
 import com.dagachi.app.member.entity.ActivityArea;
 import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.entity.MemberDetails;
-import com.dagachi.app.member.entity.MemberProfile;
 import com.dagachi.app.member.service.MemberService;
 import com.dagachi.app.notification.service.NotificationService;
-import com.dagachi.app.notification.service.notificationServiceImpl;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -209,7 +203,7 @@ public class ClubController {
 	 */
 	@PostMapping("/{domain}/boardCreate.do")
 	public String boardCreate(@Valid ClubBoardCreateDto _board, @PathVariable("domain") String domain,
-			@AuthenticationPrincipal MemberDetails member,
+			@AuthenticationPrincipal MemberDetails member, Model model,
 			@RequestParam(value = "upFile", required = false) List<MultipartFile> upFiles)
 			throws IllegalStateException, IOException {
 		List<ClubBoardAttachment> attachments = new ArrayList<>();
@@ -217,6 +211,14 @@ public class ClubController {
 			attachments = insertAttachment(upFiles, attachments);
 		Club club = clubService.findByDomain(domain);
 		int clubId = club.getClubId();
+		
+		String clubName = club.getClubName();
+		ClubLayout layout = clubService.findLayoutById(clubId);
+		
+		model.addAttribute(layout);
+		model.addAttribute(clubName);
+		
+		
 		String memberId = member.getMemberId();
 		ClubBoardDetails clubBoard = ClubBoardDetails.builder().clubId(clubId).writer(memberId).type(_board.getType())
 				.attachments(attachments).content(_board.getContent()).title(_board.getTitle()).build();
@@ -369,7 +371,6 @@ public class ClubController {
 
 	/**
 	 * 로그인한 회원의 활동지역 Model에 저장하고 페이지 이동
-	 * 
 	 * @author 종환
 	 */
 	@GetMapping("/clubSearchSurrounded.do")
@@ -381,7 +382,6 @@ public class ClubController {
 
 	/**
 	 * 활동지역 중심 주변모임 검색 (session에 저장되어있는 정보 사용)
-	 * 
 	 * @author 종환
 	 */
 	@GetMapping("/clubSearchByDistance.do")
@@ -420,7 +420,6 @@ public class ClubController {
 
 	/**
 	 * 최초 로그인 시 km 별로 반경에 있는 법정동명 session에 저장
-	 * 
 	 * @author 종환
 	 */
 	@ResponseBody
@@ -932,7 +931,7 @@ public class ClubController {
 			File destFile = new File(uploadDir + renamedFilename); // 부모디렉토리 생략가능. spring.servlet.multipart.location 값을
 																   // 사용
 			upFile.transferTo(destFile); // 실제파일 저장
-
+			System.out.println("파일이 저장 됬나?");
 			clubProfile = ClubProfile.builder()
 									 .originalFilename(originalFilename)
 									 .renamedFilename(renamedFilename).build();
@@ -1085,10 +1084,17 @@ public class ClubController {
 			Model model) {
 		int clubId = clubService.clubIdFindByDomain(domain);
 		Club club = clubService.findClubById(clubId);
+		
+		String clubName = club.getClubName();
+		ClubLayout layout = clubService.findLayoutById(clubId);
+		
+		
 		List<ClubMemberAndImage> clubMembers = clubService.findClubMembers(clubId);
 
 		model.addAttribute("clubMembers", clubMembers);
 		model.addAttribute("club", club);
+		model.addAttribute("layout", layout);
+		model.addAttribute("clubName", clubName);
 
 		return "/club/clubMemberList";
 	}
@@ -1410,8 +1416,6 @@ public class ClubController {
 	public String memberClubDetail(@PathVariable("domain") String domain, Model model) {
 
 		model.addAttribute("domain", domain);
-		log.debug("종환아 여기 잘 봐바 = {}," + domain);
-
 		return "/club/memberClubDetail";
 	}
 

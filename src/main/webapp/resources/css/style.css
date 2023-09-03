@@ -2,6 +2,13 @@
 /* a태그 밑줄 제거 */
 a:hover {
   text-decoration: none;
+  color: #000;
+}
+.my-club-a:link {
+	color: #000;
+}
+a {
+	color: #000;
 }
 
 /* #2990D0 */
@@ -84,7 +91,7 @@ header #header-nav-container span {
 
 #admin-nav-btn {
 	position: absolute;
-    transform: translate(-96px, -16px);
+    transform: translate(-96px, -40px);
 }
 
 /********** main-page-sec **********/

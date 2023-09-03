@@ -74,5 +74,15 @@ public class ScheduleServiceImpl implements ScheduleService {
 		}
 		return result;
 	}
+	
+	@Override
+	public int updateScheduleStatus(int no) {
+		return scheduleRepository.updateScheduleStatus(no);
+	}
+	
+	@Override
+	public int getMyRole(Map<String, Object> mIdAndcId) {
+		return scheduleRepository.getMyRole(mIdAndcId);
+	}
 }
 

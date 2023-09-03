@@ -50,7 +50,7 @@
 						<c:forEach items="${attachments}" var="attach">
 							<img
 								src="${pageContext.request.contextPath}/resources/upload/club/board/${attach.renamedFilename}"
-								class="card-img-top attach-img" alt="첨부된 이미지" style="width: 500px;">
+								class="card-img-top attach-img" alt="첨부된 이미지" style="width: 690px;">
 						</c:forEach>
 						<p class="card-text1">${clubBoard.content}</p>
 						
@@ -185,6 +185,7 @@ const creatComment = () => {
 				</div>
 			`;
 			
+			 document.querySelector(".profile-info").innerHTML = '';
 			 const commentBox = document.querySelector("#commentBox");
 		     commentBox.appendChild(newCommentDiv);
 		} // success

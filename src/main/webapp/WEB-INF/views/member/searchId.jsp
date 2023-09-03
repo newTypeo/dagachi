@@ -25,7 +25,7 @@
 	crossorigin="anonymous">
 <fmt:requestEncoding value="utf-8"/>
 <style>
-.submit-div {
+/* .submit-div {
     margin-left: 212px;
     margin-top: -17px;
 }
@@ -36,22 +36,24 @@
 .email-div{
 	margin-top: 43px;
     height: 14%;
-}
+} */
 
 </style>
 	<form:form
 		action = "${pageContext.request.contextPath}/member/memberSearchId.do"
 		method = "post"
+		style="width: 300px; margin: 100PX auto;;"
 		>
 		<div class="email-div">
-		<h3>등록되어있는 이메일을 입력하세요.</h3>
+		<h3 style="margin:0 auto; margin-top:10px;">• 이메일을 입력하세요</h3>
 		</div>
 	<div class="form-floating mb-3">
-	  <input type="email" class="form-control" id="floatingInputDisabled" placeholder="name@example.com" name = "email">
+	  <input type="email" class="form-control" id="floatingInputDisabled" placeholder="name@example.com" name = "email"
+	  style="margin-top: 20px;">
 	  <label for="floatingInputDisabled"></label>
 	</div>
 	<div class = "submit-div">
-	<button type="submit" class="btn btn-primary">제출</button>
+	<button type="submit" class="btn btn-primary" style="margin-left: 115px;">제출</button>
 	</div>
 	</form:form>	
 	

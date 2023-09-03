@@ -90,6 +90,10 @@ public class ScheduleController {
 			}
 		}
 		
+		mIdAndcId = Map.of("myId", member.getMemberId(), "clubId", club.getClubId());
+		int myRole = scheduleService.getMyRole(mIdAndcId);
+		
+		model.addAttribute("myRole", myRole);
 		model.addAttribute("myAddress", member.getAddress());
 		model.addAttribute("myHome", myHome);
 		model.addAttribute("isEnrolled", isEnrolled);
@@ -206,4 +210,17 @@ public class ScheduleController {
 		return localDateTime;
 	}
 	
+	@PostMapping("/scheduleRemove.do")
+	public String scheduleRemove (
+		@PathVariable("domain") String domain,
+		@RequestParam int no,
+		RedirectAttributes redirectAttr
+		) {
+		
+		int result = scheduleService.updateScheduleStatus(no);
+		
+		redirectAttr.addFlashAttribute("msg", "일정을 취소했습니다.");
+		
+		return "redirect:/club/"+domain+"/clubSchedule.do";
+	}
 }

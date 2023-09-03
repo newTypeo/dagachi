@@ -29,7 +29,7 @@ h1{
     padding: 8px; 
 }
 #admin-report-inquiry-list-sec {
- margin-left:720px; 
+ margin-left:320px; 
  hight : 3000px;
 }
 .gray-text {
