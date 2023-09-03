@@ -349,10 +349,16 @@ h5, h3 {
 	position: absolute;
 	transform: translate(1090px, 88px);
 }
-#schedule-enroll-form-container button {
+#enrollBtn1, #enrollBtn2 {
 	font-weight: bold;
 	font-size: 24px;
 	background-color: #2990D0;
+	color: white;
+}
+#enrollBtn3 {
+	font-weight: bold;
+	font-size: 24px;
+	background-color: #fd6c70;
 	color: white;
 }
 
