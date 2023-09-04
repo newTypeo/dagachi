@@ -26,7 +26,7 @@ public class ChatServiceImpl implements ChatService {
 	}
 	
 	@Override
-	public List<ChatLog> clubChat(int no) {
+	public List<ChatLogDetail> clubChat(int no) {
 		return chatRepository.clubChat(no);	}
 	
 	@Override

@@ -14,6 +14,10 @@
 <meta charset="UTF-8">
 <title>채팅방</title>
 
+<!-- 아이콘 링크 -->
+<script src="https://kit.fontawesome.com/d7ccac7be9.js" crossorigin="anonymous"></script>
+
+
 <script src="https://code.jquery.com/jquery-3.6.0.js"
 	integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
 	crossorigin="anonymous"></script>
@@ -59,7 +63,7 @@
 
 	<sec:authorize access="isAuthenticated()">
 
-		<sec:authentication property="principal.username" var="memberId" />
+		<sec:authentication property="principal.memberId" var="memberId" />
 
 		<script>
 		const memberId = "${memberId}";
@@ -72,9 +76,9 @@
 	
 
 		<article id="club-chatRoom-sec" class="">
-
-			<a href="${pageContext.request.contextPath}/chat/chatBox.jsp">목록으로
-				돌아가기</a>
+			<div class="backToList">
+				<a href="${pageContext.request.contextPath}/chat/chatBox.jsp" style="color: black;"><i class="fa-solid fa-angles-left"></i>목록으로 돌아가기</a>
+			</div>
 			<div class="wrap" id="chatWrap">
 
 
@@ -84,18 +88,15 @@
 						<c:if test="${chatlog.writer eq memberId}">
 							<div class="chat ch2">
 								<div class="icon">
-									<i class="fa-solid fa-user"></i> <img alt=""
-										src="${pageContext.request.contextPath}/resources/upload/member/profile/<sec:authentication property="principal.memberProfile.renamedFilename"/>" class="resized-image"/>
+									<img alt="" src="${pageContext.request.contextPath}/resources/upload/member/profile/<sec:authentication property="principal.memberProfile.renamedFilename"/>" class="resized-image"/>
 								</div>
 								<div class="textbox">${chatlog.content}</div>
 							</div>
 						</c:if>
 
 						<c:if test="${chatlog.writer ne memberId}">
-						<div><h6 class="chatIdPrintL">${chatlog.writer}</h6></div>
 							<div class="chat ch1">
 								<div class="icon">
-									<i class="fa-solid fa-user"></i>
 									<c:forEach items="${memberProfiles}" var="memberProfile">
 										<c:if test="${memberProfile.memberId eq chatlog.writer}">
 											<img alt=""
@@ -103,7 +104,12 @@
 										</c:if>
 									</c:forEach>
 								</div>
-								<div class="textbox">${chatlog.content}</div>
+								<div>
+									<div class="chatIdPrintL">
+										<h6>${chatlog.nickname}</h6>
+									</div>
+									<div class="textbox">${chatlog.content}</div>
+								</div>
 							</div>
 						</c:if>
 
@@ -116,8 +122,7 @@
 				<c:if test="${empty chatlogs}">
 					<div class="chat">
 						<div class="icon">
-							<i class="fa-solid fa-user"></i> <img alt=""
-								src="${pageContext.request.contextPath}/resources/upload/member/profile/<sec:authentication property="principal.memberProfile.renamedFilename" />" class="resized-image" />
+							<img alt="" src="${pageContext.request.contextPath}/resources/upload/member/profile/<sec:authentication property="principal.memberProfile.renamedFilename" />" class="resized-image" />
 						</div>
 						<div class="textbox">채팅을 시작하세요</div>
 					</div>
@@ -125,7 +130,7 @@
 
 			</div>
 
-			<div>
+			<div style="height: 91px; background: #eee;">
 				<textarea rows="3" cols="30" id="msgBox"></textarea>
 				<button id="snedMsg">전송</button>
 			</div>

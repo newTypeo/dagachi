@@ -9,7 +9,7 @@ public interface ChatService {
 
 	ChatLogDetail findByRecentChat(int clubId);
 
-	List<ChatLog> clubChat(int no);
+	List<ChatLogDetail> clubChat(int no);
 
 	int sendClubChat(ChatLog chatlog);
 

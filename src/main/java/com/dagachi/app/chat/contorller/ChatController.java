@@ -48,7 +48,6 @@ public class ChatController {
 	public ResponseEntity<?> findChatList(
 			@RequestParam int clubId
 	) {
-		System.out.println(clubId);
 		Club club = clubService.findClubById(clubId);
 		String clubName= club.getClubName();
 		ClubProfile clubProfile = clubService.findClubProfileById(clubId);
@@ -78,7 +77,12 @@ public class ChatController {
 			@RequestParam int no,
 			Model model
 	) {
-		List<ChatLog> chatlogs=chatService.clubChat(no);
+		List<ChatLogDetail> chatlogs=chatService.clubChat(no);
+		
+		for(ChatLogDetail chatlog : chatlogs) {
+			String writer = chatlog.getWriter();
+			chatlog.setNickname(chatService.getNicknameById(writer));
+		}
 		log.debug("cahtlogs={}",chatlogs);
 		int clubId=no;
 		
