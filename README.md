@@ -1,4 +1,4 @@
-![상단이미지](https://github.com/newTypeo/dagachi/blob/master/githubImg/images.jpg?raw=true)
+![상단이미지](https://github.com/newTypeo/dagachi/blob/master/src/main/webapp/resources/images/004.png?raw=true)
 
 <br /> <br />
 
@@ -10,7 +10,7 @@
 취미를 함께 공유하는 즐거움. 다가치에서 모임을 찾아보세요!
 평소에 하고싶었지만 도전해보지 못 한 취미도 편하게 다가가보세요.
 <br />
-![이미지](https://github.com/newTypeo/dagachi/blob/master/githubImg/images.jpg?raw=true)  
+![이미지](https://github.com/newTypeo/dagachi/blob/master/src/main/webapp/resources/images/main.png?raw=true)  
 </div>
 
 <br /> <br />
@@ -35,26 +35,22 @@
 
 | 기능1 | 기능2 |
 |:------:|:------:|
-| ![1](https://github.com/newTypeo/dagachi/blob/master/githubImg/images.jpg?raw=true) | ![2](https://github.com/newTypeo/dagachi/blob/master/githubImg/images.jpg?raw=true) |
+| ![1](https://github.com/newTypeo/dagachi/blob/master/src/main/webapp/resources/images/%EB%A9%94%EC%9D%B8%ED%8E%98%EC%9D%B4%EC%A7%80.png?raw=true) | ![2](https://github.com/newTypeo/dagachi/blob/master/src/main/webapp/resources/images/%EB%A7%88%EC%9D%B4%ED%8E%98%EC%9D%B4%EC%A7%80.png?raw=true) |
 
 | 기능3 | 기능4 |
 |:------:|:------:|
-| ![3](https://github.com/newTypeo/dagachi/blob/master/githubImg/images.jpg?raw=true) | ![4](https://github.com/newTypeo/dagachi/blob/master/githubImg/images.jpg?raw=true) |
+| ![3](https://github.com/newTypeo/dagachi/blob/master/src/main/webapp/resources/images/%EB%AA%A8%EC%9E%84%EC%83%81%EC%84%B8%ED%8E%98%EC%9D%B4%EC%A7%80.png?raw=true) | ![4](https://github.com/newTypeo/dagachi/blob/master/src/main/webapp/resources/images/%EB%AA%A8%EC%9E%84%EC%83%81%EC%84%B8%ED%8E%98%EC%9D%B4%EC%A7%802.png?raw=true) |
 
 | 기능5 | 기능6 |
 |:------:|:------:|
-| ![5](https://github.com/newTypeo/dagachi/blob/master/githubImg/images.jpg?raw=true) | ![6](https://github.com/newTypeo/dagachi/blob/master/githubImg/images.jpg?raw=true) |
+| ![5](https://github.com/newTypeo/dagachi/blob/master/src/main/webapp/resources/images/%EB%AA%A8%EC%9E%84%EC%BA%98%EB%A6%B0%EB%8D%94.png?raw=true) | ![6](https://github.com/newTypeo/dagachi/blob/master/src/main/webapp/resources/images/%EB%AA%A8%EC%9E%84%EC%9D%BC%EC%A0%95%EB%B3%B4%EA%B8%B0.png?raw=true) |
 
 | 기능7 | 기능8 |
 |:------:|:------:|
-| ![7](https://github.com/newTypeo/dagachi/blob/master/githubImg/images.jpg?raw=true) | ![8](https://github.com/newTypeo/dagachi/blob/master/githubImg/images.jpg?raw=true) |
+| ![7](https://github.com/newTypeo/dagachi/blob/master/src/main/webapp/resources/images/%EC%A3%BC%EB%B3%80%EB%AA%A8%EC%9E%84%EA%B2%80%EC%83%89.png?raw=true) | ![8](https://github.com/newTypeo/dagachi/blob/master/src/main/webapp/resources/images/%EB%AA%A8%EC%9E%84%EB%B3%84%EC%B1%84%ED%8C%85%EB%B0%A9.png?raw=true) |
 
 <br /> <br />
 
-## ⚙️ 서비스 아키텍쳐
-![아키텍쳐](https://github.com/newTypeo/dagachi/blob/master/githubImg/images.jpg?raw=true)
-
-<br /> <br />
 
 ## 📌 핵심 기술
 - 설명~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
