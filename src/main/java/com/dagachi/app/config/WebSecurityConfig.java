@@ -90,6 +90,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		http.oauth2Login()
 			.loginPage("/")
+			.defaultSuccessUrl("/member/memberLoginSuccess.do")
 			.userInfoEndpoint()
 			.userService(oauth2UserService);
 	}
