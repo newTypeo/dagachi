@@ -57,7 +57,7 @@
     text-align: center;
     font-weight: bold;
 }
-}
+
 </style>
 
 <section id="club-create-sec" class="">
@@ -110,10 +110,9 @@
 			<div class="form-group">
 				<label for="inputGroupFile01">소모임 프로필</label>
 				<div class="custom-file">
-					<input type="file" class="custom-file-input" id="inputGroupFile01"
-						name="upFile" aria-describedby="inputGroupFileAddon01"> <label
-						class="custom-file-label" for="inputGroupFile01" required>Choose
-						file</label>
+					<input type="file" class="custom-file-input" id="inputGroupFile01" name="upFile" 
+							aria-describedby="inputGroupFileAddon01" required> 
+					<label class="custom-file-label" for="inputGroupFile01" >Choose file</label>
 				</div>
 			</div>
 			

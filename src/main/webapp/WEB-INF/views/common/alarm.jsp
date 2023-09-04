@@ -1,6 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<style>
+.bellStyle2 {
+	position: relative;
+    color: #777;
+    transform: translate(13px, 11px);
+    font-size: 26px;
+}
+.bellStyle2::after {
+	position: relative;
+    color: #777;
+    transform: translate(13px, 11px);
+    font-size: 26px;
+}
+</style>
+
 
 <sec:authorize access="isAuthenticated()">
 <script >
@@ -13,7 +28,7 @@
 		
 </script>
 
-		<i id="bell" class="fa-solid fa-bell fa-xl"></i>
+		<i id="bell" class="fa-solid fa-bell fa-xl bellStyle2"></i>
 		<div id="alarmBox" class=""></div>
 
 		<script>

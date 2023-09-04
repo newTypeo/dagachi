@@ -10,8 +10,7 @@
 <style>
 .insertGallery-div{
 	position : absolute;
-	margin-left :1630px;
-	margin-top : 100px;
+	margin-left :1230px;
 
 }
 #club-detail-gallery{
