@@ -44,7 +44,6 @@
 	<c:forEach items="${currentUser.clubMember}" var="club">
 		
 		clubIds.push(${club.clubId});
-		
 	</c:forEach>
 	
 		window.onload = ()=>{

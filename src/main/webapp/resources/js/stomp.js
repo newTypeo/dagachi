@@ -4,12 +4,12 @@ const stompClient = Stomp.over(ws);
 
 stompClient.connect({}, (frame) => {
 	
-	stompClient.subscribe(`/app/clubTalk/${clubId}`, (message) => {
-		
-		if(message.headers["content-type"])
-			renderMessage(message);
-			
-	});
+	if(typeof clubId !== 'undefined'){
+		stompClient.subscribe(`/app/clubTalk/${clubId}`, (message) => {
+			if(message.headers["content-type"])
+				renderMessage(message);
+		});
+	}
 	
 	stompClient.subscribe(`/app/notice/${memberId}`, (message) => {
 	
@@ -104,6 +104,8 @@ const renderMessage = (message) => {
 	 	 
 	 	 case "NOTICE":
 	 	 	
+	 	 	const noticeWrap=window.parent.document.querySelector("#alarmBox");
+	 	 	
 	 	 	const noticeAlarm=document.createElement('div');
 				noticeAlarm.className = 'list-group';
 				noticeAlarm.innerHTML=`
@@ -111,9 +113,10 @@ const renderMessage = (message) => {
 						${content} 
 					</a>
 				`;
-				alarmWrap.appendChild(alanoticeAlarmrm);
+				noticeWrap.appendChild(noticeAlarm);
 				
-			bell.classList.add("fa-beat");
+			const Nbell=window.parent.document.querySelector("#bell");
+			Nbell.classList.add("fa-beat");
 			
 	 	 break;
 	 	 
