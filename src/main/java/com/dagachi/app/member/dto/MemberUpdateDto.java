@@ -5,13 +5,9 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.dagachi.app.club.entity.Club;
-import com.dagachi.app.club.entity.ClubDetails;
-import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.member.entity.Member;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;

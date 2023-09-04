@@ -1,12 +1,5 @@
 package com.dagachi.app.admin.dto;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
-import javax.validation.constraints.NotNull;
-
-import com.dagachi.app.member.dto.MemberCreateDto;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -1,22 +1,23 @@
 package com.dagachi.app.member.controller;
 
+import static com.dagachi.app.common.DagachiUtils.kakaoMapApi;
+
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import static com.dagachi.app.common.DagachiUtils.*;
-import javax.servlet.http.HttpServletRequest;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -28,10 +29,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,7 +38,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
 import com.dagachi.app.admin.entity.AdminInquiry;
-import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.common.DagachiUtils;
 import com.dagachi.app.member.dto.MemberCreateDto;
@@ -49,25 +47,11 @@ import com.dagachi.app.member.entity.ActivityArea;
 import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.entity.MemberDetails;
 import com.dagachi.app.member.entity.MemberInterest;
-import com.dagachi.app.member.entity.MemberLike;
 import com.dagachi.app.member.entity.MemberProfile;
 import com.dagachi.app.member.service.MemberService;
-import com.dagachi.app.oauth.service.Oauth2UserServiceImpl;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
-import java.net.URL;
- 
-import javax.json.Json;
-import javax.json.JsonReader;
-import javax.net.ssl.HttpsURLConnection;
-
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -133,6 +117,12 @@ public class MemberSecurityController {
 	    
 	    member.setMemberId(_member.getMemberId()); 
 	    
+	    
+	    _member.setMemberProfile(new MemberProfile());
+	    _member.getMemberProfile().setRenamedFilename("default.png");
+	    _member.setAddress(member.getActivityArea());
+	    _member.setNickname(member.getNickname());
+	    
 	    List<String> interest = Arrays.asList(interests.split(","));
 	    member.setInterest(interest);
 	    member.setMainAreaId(bCode);
@@ -186,7 +176,7 @@ public class MemberSecurityController {
 		SavedRequest savedRequest = (SavedRequest) session.getAttribute("SPRING_SECURITY_SAVED_REQUEST");
 		String location = savedRequest == null ? "/" : savedRequest.getRedirectUrl();
 //		log.debug("location = {}", location);
-		return "redirect:" + location;
+		return "redirect:/";
 	}
 
 	// 회원 아이디 중복 여부를 확인하기 위해 사용하는 코드

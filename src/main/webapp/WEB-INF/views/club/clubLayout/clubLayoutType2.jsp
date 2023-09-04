@@ -50,10 +50,9 @@
 					<c:if test ="${memberRole eq 0}">
 						<p><strong>🎀일반회원</strong></p>
 					</c:if>
-					<%-- <p><a href="${pageContext.request.contextPath}/club/${domain}/memberClubDetail.do">나의 모임 정보</a></p> --%>
 				</div>
 				<div class="myProfile3">
-					<button class="btn" style="background-color: ${layout.fontColor}">글쓰기</button>
+					<button id="boardCreateBtn" class="btn" style="background-color: ${layout.fontColor}">글쓰기</button>
 					<button id="scheduleCreateBtn" class="btn" style="background-color: ${layout.fontColor}">일정생성</button>
 				</div>
 			</c:if>
@@ -305,9 +304,6 @@ const clubMemberDelete = () => {
 	}
 }
 
-scheduleCreateBtn.addEventListener('click', () => {
-	location.href = "${pageContext.request.contextPath}/club/${domain}/scheduleCreate.do";
-});
 
 $('.carousel').carousel({
 	interval: false
@@ -423,7 +419,18 @@ const clubLike = () => {
 		}
 	});
 	
-	
 }
 
 </script>
+
+<c:if test="${memberRole ne 10}">
+	<script>
+		scheduleCreateBtn.addEventListener('click', () => {
+			location.href = "${pageContext.request.contextPath}/club/${domain}/scheduleCreate.do";
+		});	
+		
+		boardCreateBtn.addEventListener('click', () => {
+			location.href = "${pageContext.request.contextPath}/club/${domain}/clubBoardCreate.do";
+		});	
+	</script> 
+</c:if>

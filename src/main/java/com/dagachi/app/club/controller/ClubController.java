@@ -176,7 +176,14 @@ public class ClubController {
 	@GetMapping("/{domain}/clubBoardList.do")
 	public String boardList(@PathVariable("domain") String domain, @RequestParam(required = false) int no,
 			Model model) {
-
+		Club club = clubService.findByDomain(domain);
+		int clubId = club.getClubId();
+		String clubName = club.getClubName();
+		
+		ClubLayout layout = clubService.findLayoutById(clubId);
+		
+		model.addAttribute("layout", layout);
+		model.addAttribute("clubName", clubName);
 		model.addAttribute("domain", domain);
 		model.addAttribute("no", no);
 		return "/club/clubBoardList";
@@ -189,6 +196,14 @@ public class ClubController {
 	 */
 	@GetMapping("/{domain}/clubBoardCreate.do")
 	public String boardCreate(@PathVariable("domain") String domain, Model model) {
+		Club club = clubService.findByDomain(domain);
+		int clubId = club.getClubId();
+		String clubName = club.getClubName();
+		
+		ClubLayout layout = clubService.findLayoutById(clubId);
+		
+		model.addAttribute("layout", layout);
+		model.addAttribute("clubName", clubName);
 		model.addAttribute("domain", domain);
 		return "/club/clubBoardCreate";
 	}
@@ -240,11 +255,14 @@ public class ClubController {
 
 				ClubBoardAttachment attach = ClubBoardAttachment.builder().originalFilename(originalFilename)
 						.renamedFilename(renamedFilename).build();
-				if (!attachments.isEmpty() && i == 0)
+				System.out.println("before첨부파일" + i + "   "+ attach);
+				if (i == 0) {
 					attach.setThumbnail(Status.Y);
-				else
+				} else {
 					attach.setThumbnail(Status.N);
-
+				}
+				System.out.println("첨부파일" + i + "   "+ attach);
+				
 				attachments.add(attach);
 			}
 		}
@@ -294,17 +312,16 @@ public class ClubController {
 	 */
 	@GetMapping("/searchClubWithFilter.do")
 	public String searchClubWithFilter(Model model, HttpSession session, HttpServletRequest request,
-			@RequestParam String zone, @RequestParam String region, @RequestParam String category,
+			@RequestParam(defaultValue = "") String zone, @RequestParam(defaultValue = "") String region, @RequestParam(defaultValue = "") String category,
 			@RequestParam(defaultValue = "1") int page) {
 		String area = region + " " + zone;
-
 		String getCount = "getCount";
 		String inputText = (String) session.getAttribute("inputText");
 
 		Map<String, Object> params = new HashMap<>();
 		params.put("area", area);
 		params.put("page", page);
-		params.put("limit", LIMIT);
+		params.put("limit", LIMIT / 2);
 		params.put("category", category);
 		params.put("inputText", inputText);
 
@@ -314,8 +331,8 @@ public class ClubController {
 		int totalCount = clubService.searchClubWithFilter(params).size();
 		// log.debug("totalCount, clubs = {}{}", totalCount, clubs);
 		String url = request.getRequestURI();
-		url += "#&inputText=" + inputText + "&region=" + region + "zone" + zone + "&category=" + category;
-		String pageBar = Pagination.getPagebar(page, LIMIT, totalCount, url);
+		url += "#&inputText=" + inputText + "&region=" + region + "&zone=" + zone + "&category=" + category;
+		String pageBar = Pagination.getPagebar(page, LIMIT / 2, totalCount, url);
 		pageBar = pageBar.replaceAll("\\?", "&");
 		pageBar = pageBar.replaceAll("#&", "\\?");
 
@@ -454,7 +471,6 @@ public class ClubController {
 		List<GalleryAndImageDto> galleries = clubService.findgalleryById(clubId);
 		List<ClubScheduleAndMemberDto> schedules = clubService.findScheduleById(clubId);
 		List<BoardAndImageDto> boardAndImages = clubService.findBoardAndImageById(clubId);
-
 		String memberId = member.getMemberId();
 
 		// 최근 본 모임 전체 조회 (현우)
