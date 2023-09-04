@@ -9,7 +9,6 @@
 <fmt:requestEncoding value="utf-8"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/layoutType0.css"/>
 
-<div>${boardAndImages}</div>
 <article id="club-page-article">
 	<div id="club-util-box">
 		<div id="club-info-container">

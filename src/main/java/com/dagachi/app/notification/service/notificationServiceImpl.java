@@ -17,7 +17,6 @@ import com.dagachi.app.notification.repository.NotificationRepository;
 import com.dagachi.app.ws.dto.Payload;
 import com.dagachi.app.ws.dto.PayloadType;
 
-import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 
 @Service

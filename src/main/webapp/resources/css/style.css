@@ -46,7 +46,7 @@ section {
 /********** header **********/
 #main-letter-logo {
     position: absolute;
-    transform: translate(-430px, 45px);
+    transform: translate(-430px, 60px);
     width: 142px;
     height: 71px;
 }
@@ -67,7 +67,7 @@ header {
 
 #main-logo {
 	height: 120px;
-	margin-top: 24px;
+	margin-top: 50px;
 }
 
 header #header-nav-container {
@@ -90,6 +90,7 @@ header #header-nav-container {
     position: absolute;
     width: 420px;
     transform: translate(-165px, 37px);
+    z-index: 10;
 }
 
 header #header-nav-container a {
@@ -552,15 +553,15 @@ figure.snip0045.green .position {
 .search-memberPw-div{
 	
 }
-.searchIdBtn{
-    background-color:#0a0a23;
+.searchIdBtn {
+    background-color:dimgrey;
     color: #fff;
     border:none;
-    border-radius:10px;
+    border-radius:4px;
 }
 .searchPwBtn{
-    background-color:#0a0a23;
+    background-color:dimgrey;
     color: #fff;
     border:none;
-    border-radius:10px;
+    border-radius:4px;
 }

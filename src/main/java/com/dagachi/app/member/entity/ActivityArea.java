@@ -1,11 +1,5 @@
 package com.dagachi.app.member.entity;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
-import com.dagachi.app.club.entity.Club;
-import com.dagachi.app.club.entity.ClubProfile;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

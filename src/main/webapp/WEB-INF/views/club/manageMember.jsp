@@ -270,7 +270,7 @@ document.querySelectorAll('#searchType').forEach((select) => {
 			case '3' : role = '방장'; break;
 		}
 		
-		if(confirm(`\${memberName}님의 권한을 \${role}로 변경?`)) {
+		if(confirm(`\${memberName}님의 권한을 \${role}로 변경하시겠습니까?`)) {
 			frm.memberId.value = memberId;
 			frm.clubMemberRole.value = memberRole;
 			

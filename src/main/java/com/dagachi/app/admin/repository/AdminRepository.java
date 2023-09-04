@@ -9,7 +9,6 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.session.RowBounds;
 
-import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
 import com.dagachi.app.admin.dto.AdminInquiryUpdateDto;
 import com.dagachi.app.admin.entity.AdminInquiry;
 import com.dagachi.app.admin.entity.MainPage;
