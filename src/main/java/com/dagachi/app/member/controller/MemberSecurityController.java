@@ -83,11 +83,8 @@ public class MemberSecurityController {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
-
-
 	@GetMapping("/memberCreate.do")
-	public void memberCreate() {
-	}
+	public void memberCreate() {}
 	
 	@PostMapping("/memberCreate.do")
 	public String create(@Valid MemberCreateDto member, BindingResult bindingResult, RedirectAttributes redirectAttr,
@@ -96,7 +93,6 @@ public class MemberSecurityController {
 		if(bindingResult.hasErrors()) {
 			ObjectError error = bindingResult.getAllErrors().get(0);
 			redirectAttr.addFlashAttribute("msg", "다시 확인하고 입력하세요");
-			 log.debug("이게 interest -> {}", error);
 			return "redirect:/member/memberCreate.do";
 		} 
 	    
@@ -114,27 +110,20 @@ public class MemberSecurityController {
 	    member.setInterest(interest);
 	    member.setPassword(encodedPassword);
 	    member.setMainAreaId(bCode);
-	    log.debug("이게 interest -> {}", interest);
 	    int result = memberService.insertMember(member);
 	    return "redirect:/";
 	}
 
 	@GetMapping("/memberKakaoCreate.do")
-	public String kakaoUpadteCreate(
-	    		@AuthenticationPrincipal MemberDetails loginMember
-	    		) {
+	public String kakaoUpadteCreate(@AuthenticationPrincipal MemberDetails loginMember) {
 	        return "member/memberKakaoCreate";
-	        
 	    }
 	
-	
-	// 카카오정보 업데이트 
+
 	@PostMapping("/memberKakaoCreate.do")
 	public String kakaoUpadteCreate(@AuthenticationPrincipal MemberDetails _member,
 			@Valid MemberKakaoUpdateDto member, BindingResult bindingResult, RedirectAttributes redirectAttr,
 			@RequestParam String interests) throws UnsupportedEncodingException {
-		log.debug("이게 member -> {}", member);
-	    log.debug("이게 interests -> {}", interests);		
 	    
 		JsonArray documents = kakaoMapApi(member.getMainAreaId(), "address"); 
 	    JsonElement document = documents.getAsJsonArray().get(0);
@@ -147,7 +136,6 @@ public class MemberSecurityController {
 	    List<String> interest = Arrays.asList(interests.split(","));
 	    member.setInterest(interest);
 	    member.setMainAreaId(bCode);
-	    log.debug("이게 interest -> {}", interest);
 	    int result = memberService.kakaoUpadteCreate(member);
 	    return "redirect:/";
 	}
@@ -163,7 +151,6 @@ public class MemberSecurityController {
 		List<AdminInquiry> inquiry = new ArrayList<>();
 		inquiry = memberService.memberAdminInquiryList();
 		model.addAttribute("inquiry", inquiry);
-		System.out.println(inquiry);
 		return "member/memberAdminInquiryList";
 	}
 
@@ -190,10 +177,10 @@ public class MemberSecurityController {
 		List<MemberInterest> interests = memberService.findMemberInterestsByMemberId(memberId);
 		List<ClubMember> clubMembers = memberService.findClubMemberByMemberId(memberId);
 
-		memberDetails.setActivityArea(activityArea);
 		memberDetails.setMemberProfile(profile);
-		memberDetails.setMemberInterest(interests);
 		memberDetails.setClubMember(clubMembers);
+		memberDetails.setMemberInterest(interests);
+		memberDetails.setActivityArea(activityArea);
 		
 		// 리다이렉트 처리
 		SavedRequest savedRequest = (SavedRequest) session.getAttribute("SPRING_SECURITY_SAVED_REQUEST");
@@ -235,8 +222,6 @@ public class MemberSecurityController {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
 		int result = memberService.memberDelete(member.getMemberId());
-		System.out.println("회원탈퇴 result = " + result);
-		System.out.println("member.getMemberId() = " + member.getMemberId());
 		if (authentication != null) {
 			SecurityContextHolder.clearContext(); // 인증 정보 삭제
 		}
@@ -256,7 +241,6 @@ public class MemberSecurityController {
 	public String memberUpdate(@AuthenticationPrincipal MemberDetails loginMember,
 			@RequestParam(value = "upFile") MultipartFile upFile, @Valid MemberUpdateDto _member,
 			BindingResult bindingResult) throws IllegalStateException, IOException {
-		log.debug("_member ={} ", _member);
 		String uploadDir = "/member/profile/";
 		MemberProfile memberProfile = null;
 		if (!upFile.isEmpty()) {

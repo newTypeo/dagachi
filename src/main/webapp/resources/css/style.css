@@ -75,6 +75,22 @@ header #header-nav-container {
 	top: 65px;
 	position: absolute;
 }
+.bellStyle1::after {
+	position: relative;
+    color: #777;
+    transform: translate(13px, 0px);
+}
+.bellStyle1::before {
+	position: relative;
+    color: #777;
+    transform: translate(13px, 0px);
+}
+#alarmBox {
+	display : none;
+    position: absolute;
+    width: 420px;
+    transform: translate(-165px, 37px);
+}
 
 header #header-nav-container a {
 	font-family: 'IBM Plex Sans KR', sans-serif;
@@ -162,6 +178,7 @@ header #header-nav-container span {
 
 .img-place {
 	margin-top: 30px;
+	border-radius: 8px;
 }
 
 .myProfile > img {

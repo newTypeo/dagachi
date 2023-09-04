@@ -205,6 +205,14 @@ div#search-content {
 						</form>`; break;
 					}
 					
+					const parsedDate =new Date(createdAt);
+					const options={   year: '2-digit',
+							  month: '2-digit',
+							  day: '2-digit',
+							  hour: '2-digit',
+							  minute: '2-digit',
+							  hour12: false};
+					const formattedDate = parsedDate.toLocaleDateString('ko-KR', options);
 					
 					
 					return html + `
@@ -214,7 +222,7 @@ div#search-content {
 							<td>\${typeText}</td>
 							<td>\${title}</td>
 							<td>\${writer}</td>
-							<td>\${createdAt}</td>
+							<td>\${formattedDate}</td>
 							<td>\${statusText}</td>
 						</tr>
 						`;
@@ -307,7 +315,15 @@ div#search-content {
 						<button type="submit">수정</button>
 						</form>`; break;
 					}
-
+					
+					const parsedDate =new Date(createdAt);
+					const options={   year: '2-digit',
+							  month: '2-digit',
+							  day: '2-digit',
+							  hour: '2-digit',
+							  minute: '2-digit',
+							  hour12: false};
+					const formattedDate = parsedDate.toLocaleDateString('ko-KR', options);
 					return html + `
 						<tr>
 							<td>\${inquiryId}</td>
@@ -315,7 +331,7 @@ div#search-content {
 							<td>\${typeText}</td>
 							<td>\${title}</td>
 							<td>\${writer}</td>
-							<td>\${createdAt}</td>
+							<td>\${formattedDate}</td>
 							<td>\${statusText}</td>
 						</tr>
 						`;

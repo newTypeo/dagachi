@@ -43,7 +43,7 @@
 	<nav id="club-title" class="">
 		<c:if test="${layout.title eq null}">
 			<div id="default-title">
-				<h2>${domain}</h2>
+				<h2>${clubInfo.clubName}</h2>
 			</div>
 		</c:if>
 		
