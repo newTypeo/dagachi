@@ -160,7 +160,7 @@ categoryDiv.forEach((element) => {
 					row.innerHTML += `
 						<div class="col col-lg-6" style="padding-right: 0px;">
 							<a class="card" id="ccc" style="width: 9.5rem; text-align:center;" href="${pageContext.request.contextPath}/club/\${club.domain}">
-								<img src="${pageContext.request.contextPath}/resources/upload/club/profile/\${club.renamedFilename}" class="card-img-top" style="height: 9rem;" alt="..." />
+								<img src="${pageContext.request.contextPath}/resources/upload/club/profile/\${club.renamedFilename}" class="card-img-top" style="height: 8.4rem;" alt="..." />
 								    <span class="card-title" style="height: 3rem;">\${club.clubName}</span>
 							</a>
 						</div>

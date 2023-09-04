@@ -82,6 +82,11 @@
 	float: right;
 }
 
+#club-main-image-container img {
+	width:600px;
+	height:400px
+}
+
 
 /* 커스텀 */
 
