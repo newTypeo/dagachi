@@ -4,7 +4,6 @@ import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +30,6 @@ import com.dagachi.app.club.entity.ClubSchedulePlace;
 import com.dagachi.app.club.service.ClubService;
 import com.dagachi.app.common.DagachiUtils;
 import com.dagachi.app.member.entity.MemberDetails;
-import com.dagachi.app.schedule.dto.ScheduleAndWriterProfileDto;
 import com.dagachi.app.schedule.dto.ScheduleCreateDto;
 import com.dagachi.app.schedule.dto.ScheduleDetailsDto;
 import com.dagachi.app.schedule.entity.ClubSchedulePlaceDetail;

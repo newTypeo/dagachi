@@ -10,7 +10,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.session.RowBounds;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
 import com.dagachi.app.admin.entity.AdminInquiry;
@@ -20,7 +19,6 @@ import com.dagachi.app.member.dto.MemberKakaoDto;
 import com.dagachi.app.member.dto.MemberKakaoUpdateDto;
 import com.dagachi.app.member.dto.MemberPwUpdateDto;
 import com.dagachi.app.member.entity.ActivityArea;
-import com.dagachi.app.member.entity.CbcLike;
 import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.entity.MemberDetails;
 import com.dagachi.app.member.entity.MemberInterest;
@@ -48,7 +46,7 @@ public interface MemberRepository {
 	int KakaoMember(MemberKakaoDto memberKakaoDto);
 	
 	//카카오톡 회원 정보 업데이트
-	@Update("update set member where nickname = #{nickname}, phone_no=  #{phoneNo}, birthday = #{birthday, jdbcType=DATE}, gender = #{gender}, mbti = #{mbti},  address = #{activityArea}")
+	@Update("update  member set nickname = #{nickname}, phone_no=  #{phoneNo}, birthday = #{birthday, jdbcType=DATE}, gender = #{gender}, mbti = #{mbti},  address = #{activityArea} where member_id =#{memberId}")
 	int kakaoUpadteCreate(MemberKakaoUpdateDto member);
 	
 	//카카오톡 회원 업데이트 안한 사람 찾아오기

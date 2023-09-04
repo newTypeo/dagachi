@@ -312,17 +312,16 @@ public class ClubController {
 	 */
 	@GetMapping("/searchClubWithFilter.do")
 	public String searchClubWithFilter(Model model, HttpSession session, HttpServletRequest request,
-			@RequestParam String zone, @RequestParam String region, @RequestParam String category,
+			@RequestParam(defaultValue = "") String zone, @RequestParam(defaultValue = "") String region, @RequestParam(defaultValue = "") String category,
 			@RequestParam(defaultValue = "1") int page) {
 		String area = region + " " + zone;
-
 		String getCount = "getCount";
 		String inputText = (String) session.getAttribute("inputText");
 
 		Map<String, Object> params = new HashMap<>();
 		params.put("area", area);
 		params.put("page", page);
-		params.put("limit", LIMIT);
+		params.put("limit", LIMIT / 2);
 		params.put("category", category);
 		params.put("inputText", inputText);
 
@@ -332,8 +331,8 @@ public class ClubController {
 		int totalCount = clubService.searchClubWithFilter(params).size();
 		// log.debug("totalCount, clubs = {}{}", totalCount, clubs);
 		String url = request.getRequestURI();
-		url += "#&inputText=" + inputText + "&region=" + region + "zone" + zone + "&category=" + category;
-		String pageBar = Pagination.getPagebar(page, LIMIT, totalCount, url);
+		url += "#&inputText=" + inputText + "&region=" + region + "&zone=" + zone + "&category=" + category;
+		String pageBar = Pagination.getPagebar(page, LIMIT / 2, totalCount, url);
 		pageBar = pageBar.replaceAll("\\?", "&");
 		pageBar = pageBar.replaceAll("#&", "\\?");
 

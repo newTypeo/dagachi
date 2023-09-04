@@ -1,7 +1,5 @@
 package com.dagachi.app.schedule.entity;
 
-import java.time.LocalDateTime;
-
 import com.dagachi.app.club.entity.ClubScheduleEnrollMember;
 
 import lombok.AllArgsConstructor;

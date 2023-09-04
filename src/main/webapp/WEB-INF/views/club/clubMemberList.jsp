@@ -47,7 +47,7 @@
 			<c:if test ="${not empty clubMembers}">
 				<c:forEach items="${clubMembers}" var="member" varStatus="vs">
 				
-					<a class="card" style="width: 18rem; margin:19px;" href = "${pageContext.request.contextPath}/member/${member.memberId}">
+					<a class="card" style="width: 180px; margin:19px;" href = "${pageContext.request.contextPath}/member/${member.memberId}">
 					  <img src="${pageContext.request.contextPath}/resources/upload/member/profile/${member.renamedFilename}" 
 					  class="card-img-top" alt="..." style="width:180px; height:180px;">
 					  <%-- <div class="card-body">
