@@ -51,7 +51,10 @@
 					$.ajax({
 						url : "https://grpc-proxy-server-mkvo6j4wsq-du.a.run.app/v1/regcodes?regcode_pattern=" + <sec:authentication property="principal.activityArea.mainAreaId"/>,
 						success({regcodes}) {
-							document.querySelector(".mainArea").innerHTML = regcodes[0].name; 
+							const strArr = regcodes[0].name.split(' ');
+							const area = strArr.slice(1).join(' ');
+							
+							document.querySelector(".mainArea").innerHTML = "활동지역 : " + area; 
 						}
 					}); 
 					</script>
