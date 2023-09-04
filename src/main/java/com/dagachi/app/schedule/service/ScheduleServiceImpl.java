@@ -11,7 +11,6 @@ import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubSchedule;
 import com.dagachi.app.club.entity.ClubScheduleEnrollMember;
 import com.dagachi.app.club.entity.ClubSchedulePlace;
-import com.dagachi.app.schedule.dto.ScheduleAndWriterProfileDto;
 import com.dagachi.app.schedule.dto.ScheduleCreateDto;
 import com.dagachi.app.schedule.dto.ScheduleDetailsDto;
 import com.dagachi.app.schedule.entity.ClubScheduleEnrollMemberDetail;

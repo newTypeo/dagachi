@@ -3,7 +3,6 @@ package com.dagachi.app.schedule.dto;
 import java.util.List;
 
 import com.dagachi.app.club.entity.ClubSchedule;
-import com.dagachi.app.club.entity.ClubScheduleEnrollMember;
 import com.dagachi.app.schedule.entity.ClubScheduleEnrollMemberDetail;
 import com.dagachi.app.schedule.entity.ClubSchedulePlaceDetail;
 
