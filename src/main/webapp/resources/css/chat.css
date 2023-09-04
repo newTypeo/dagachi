@@ -11,6 +11,28 @@ a {
 	color: #777;
 }
 
+/* 수직 스크롤바 */
+::-webkit-scrollbar {
+	width: 12px; /* 스크롤바 너비 */
+}
+
+/* 스크롤바 트랙 */
+::-webkit-scrollbar-track {
+	background: #f1f1f1;
+}
+
+/* 스크롤바 색상 */
+::-webkit-scrollbar-thumb {
+	background: #bbb;
+	border-radius: 5px;
+}
+
+/* 마우스 hover 시 스크롤바 색상 */
+::-webkit-scrollbar-thumb:hover {
+	background: #aaa;
+	border-radius: 5px;
+}
+
 #chatBox {
   background-color: white;
   border-radius: 10px;
@@ -66,7 +88,7 @@ a {
 	margin-left: 5px;
 }
 .noChatBox {
-	width: 286px;
+	width: 289px;
     display: block;
     font-size: 14px;
     margin: 0px 4px;
@@ -83,7 +105,7 @@ a {
     padding: 0 5px;
 }
 .content {
-	width: 286px;
+	width: 289px;
     border-width: 0 2px 2px 2px;
     border-style: solid;
 	border-color: #2990D0;
