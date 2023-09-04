@@ -10,6 +10,7 @@
 	</script>
 </c:if>
 
+
 <fmt:requestEncoding value="utf-8"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/views/common/navBar.jsp"></jsp:include>
@@ -36,7 +37,7 @@
 		</div>
 	</nav>
 	<nav id="my-club-info">
-	<sec:authorize access="isAnonymous()"><img style="margin-top:0px;" class="img-place" alt="" src="${pageContext.request.contextPath}/resources/images/main.png"></sec:authorize>
+	<sec:authorize access="isAnonymous()"><img style="margin-top:0px; hight:600px" class="img-place" alt="" src="${pageContext.request.contextPath}/resources/images/main2.png"></sec:authorize>
 		
 		<sec:authorize access="isAuthenticated()">
 			<div class="myInfo">
