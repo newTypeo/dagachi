@@ -98,7 +98,7 @@ public class MemberController {
 	    }
 	 
 	 /**
-	  * 회원 좋아요
+	  * 회원 관심표시 
 	  * @author 현우 
 	  */
 	 @PostMapping("/memberLike.do")
@@ -125,7 +125,10 @@ public class MemberController {
 		 return "redirect:/member/" + memberId;
 	 }
 	 
-
+	 /**
+	  * 회원 관심표시 중복체크 
+	  * @author 현우
+	  */
 	 @GetMapping("memberLikeCheck.do")
 	 public ResponseEntity<?> memberLikeCheck(
 			 @RequestParam String memberId,
@@ -143,6 +146,10 @@ public class MemberController {
 		 return ResponseEntity.status(HttpStatus.OK).body(memberLikeCheck);
 	 }
 	 
+	 /**
+	  * 회원 관심표시 취소 
+	  * @author 현우
+	  */
 	 @PostMapping("/deleteMemberLike.do")
 	 public String deleteMemberLike(
 			 @AuthenticationPrincipal MemberDetails loginMember,
