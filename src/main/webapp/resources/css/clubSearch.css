@@ -1,5 +1,8 @@
 @charset "UTF-8";
 
+img:hover {
+	cursor: pointer;
+}
 /* 카드 스타일 */
 table {
 	width: 100%;

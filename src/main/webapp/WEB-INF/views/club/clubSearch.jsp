@@ -33,21 +33,20 @@
 		<c:forEach items="${clubs}" var="club" varStatus="vs">
 			<table>
 				<tr class="cards" onclick="checkLogin('${club.domain}');">
-						<td class="card-images">
-							<img src="${pageContext.request.contextPath}/resources/upload/club/profile/${club.renamedFilename}" width="200px">
-						</td>
-						<td class="card-content">
-							<p>모임명 : ${club.clubName}</p>
-							<p>모임 지역 : ${club.activityArea}</p>
-							<p>모임 분류 : ${club.category}</p>
-							<p>모임 인원 : ${club.memberCount}/100</p>
-							<p>
-								모임 생성일 :
-								<fmt:parseDate value="${club.createdAt}"
-									pattern="yyyy-MM-dd'T'HH:mm" var="createdAt" />
-								<fmt:formatDate value="${createdAt}" pattern="yyyy-MM-dd" />
-							</p>
-						</td>
+					<td class="card-images">
+						<img src="${pageContext.request.contextPath}/resources/upload/club/profile/${club.renamedFilename}" width="200px">
+					</td>
+					<td class="card-content">
+						<p>모임명 : ${club.clubName}</p>
+						<p>모임 지역 : ${club.activityArea}</p>
+						<p>모임 분류 : ${club.category}</p>
+						<p>모임 인원 : ${club.memberCount}/100</p>
+						<p>
+							모임 생성일 :
+							<fmt:parseDate value="${club.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="createdAt" />
+							<fmt:formatDate value="${createdAt}" pattern="yyyy-MM-dd" />
+						</p>
+					</td>
 				</tr>
 			</table>
 		</c:forEach>

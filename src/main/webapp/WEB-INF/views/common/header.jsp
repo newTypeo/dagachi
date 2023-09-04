@@ -118,11 +118,11 @@
 
 					<div class="dropdown">
 						
-						<%-- <sec:authorize access="hasRole('ROLE_ADMIN')"> --%>
+						<sec:authorize access="hasRole('ROLE_ADMIN')">
 							<button id="admin-nav-btn"
 								class="btn btn-secondary dropdown-toggle" type="button"
 								data-toggle="dropdown" aria-expanded="false">회원관리</button>
-						<%-- </sec:authorize> --%>
+						</sec:authorize>
 					
 						<div class="dropdown-menu">
 							<button class="dropdown-item" type="button">
@@ -152,13 +152,12 @@
 					$.ajax({ // 로그인한 회원의 주활동지역 코드 세션에 저장
 						url : "${pageContext.request.contextPath}/club/getMainAreaId.do",
 						success({mainAreaId}) {
-							
 							$.ajax({
 								url : "https://grpc-proxy-server-mkvo6j4wsq-du.a.run.app/v1/regcodes?regcode_pattern=" + mainAreaId,
 								data : {is_ignore_zero : true},
 								success({regcodes}) {
 									// 서울특별시 **구 **동 (회원의 주활동지역)
-									const mainAreaName = regcodes[0].name; 
+									const mainAreaName = regcodes[0].name;
 									$.ajax({
 										url : "${pageContext.request.contextPath}/club/setZoneInSession.do",
 										data : {mainAreaName}
@@ -166,13 +165,11 @@
 								} // success2
 							}); // ajax2
 						}// success2
-// 					}); // ajax1
-					
+ 					}); // ajax1
 					</script>
 				</c:if>
 				
 				<script>
-				
 				document.querySelector("#bell").addEventListener("click",(e)=>{
 					const receiver= memberId;
 					const bell=e.target;
