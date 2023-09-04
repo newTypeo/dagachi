@@ -1,3 +1,4 @@
+@charset "UTF-8";
 
 body {
 	font-family: 'IBM Plex Sans KR', sans-serif;
@@ -10,23 +11,19 @@ a {
 	color: #777;
 }
 
-/* 수직 스크롤바 */
 ::-webkit-scrollbar {
-	width: 12px; /* 스크롤바 너비 */
+	width: 12px;
 }
 
-/* 스크롤바 트랙 */
 ::-webkit-scrollbar-track {
 	background: #f1f1f1;
 }
 
-/* 스크롤바 색상 */
 ::-webkit-scrollbar-thumb {
 	background: #bbb;
 	border-radius: 5px;
 }
 
-/* 마우스 hover 시 스크롤바 색상 */
 ::-webkit-scrollbar-thumb:hover {
 	background: #aaa;
 	border-radius: 5px;
@@ -53,10 +50,6 @@ a {
   text-align: left;
   font-weight: bold;
 }
-
-/* #chatListBox td {
-  margin: 5px 10px;
-} */
 
 #chatListBox img {
 	width: 52px;

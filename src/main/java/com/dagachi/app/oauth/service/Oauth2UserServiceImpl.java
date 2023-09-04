@@ -65,8 +65,9 @@ public class Oauth2UserServiceImpl extends DefaultOAuth2UserService {
 			member = (MemberDetails) memberService.loadUserByUsername(memberId);
 		}
 		
-		int memberDetails = memberService.checkKakao(memberId);
+//		int memberDetails = memberService.checkKakao(memberId);
 		
+		log.debug("member = {}", member);
 
 	
 		return member;
