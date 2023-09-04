@@ -370,7 +370,7 @@ img {
                </div>
                <div class="modal-body">
                   <label for="main-area-id-search-box">주 활동지 : </label> 
-                  <input id="main-area-id-search-box" name="address" readonly/><br>
+                  <input id="main-area-id-search-box"  readonly/><br>
                   <label for="gu-filter">서울특별시 </label>
                   <select id="gu-filter"></select>
                   <div class="main-area-id-box">
