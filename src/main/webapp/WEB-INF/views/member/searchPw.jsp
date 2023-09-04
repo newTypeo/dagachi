@@ -49,6 +49,7 @@
 }
 
 
+
 </style>
 	
 	<c:if test="${msg ne null}">
@@ -95,6 +96,7 @@
 	var token = $("meta[name='_csrf']").attr("content");
 	var header = $("meta[name='_csrf_header']").attr("content");
 	sendCodeButton.addEventListener("click", function() {
+		alert('인증코드를 이메일로 발송합니다. 등록된 정보가 없을 시 코드가 발송되지 않으니 주의바랍니다!');
 		var username = document.getElementById('floatingInputDisabled').value; // username 입력 필드 값
         var email = document.getElementById('floatingInputDisabled2').value; // email 입력 필드 값
 		console.log(email);
@@ -108,22 +110,21 @@
                 email: email
             },
             beforeSend(xhr) {
-            	console.log('xhr : ', xhr)
     			xhr.setRequestHeader(header, token);
     		},
             success: function(response) {
-                alert('인증코드를 이메일로 발송합니다. 등록된 정보가 없을 시 코드가 발송되지 않으니 주의바랍니다!');
+                
                 console.log(response); // test를 위해 브라우저 콘솔창에서도 코드보여줄수있게함
                 
 			compareCodeBtn.addEventListener("click", function() {
 			    var userEnteredCode = document.getElementById('floatingInputDisabled3').value;
 			    
 			    if(userEnteredCode === response){
-			    	alert('일치 ㅋ' + email);
+			    	alert('인증코드가 일치합니다.');
 			    	window.location.href ="${pageContext.request.contextPath}/member/"+email+"/memberPwUpdate.do";
 			    }
 			    else{
-			    	alert('불일치 ㅋ');
+			    	alert('인증코드가 불일치 합니다.');
 			    }
 			});
             }

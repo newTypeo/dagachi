@@ -220,7 +220,6 @@ const payment = () => {
 			xhr.setRequestHeader(header, token);
 		},
 		success: function(response) {
-			console.log(response);
 			const url = response.next_redirect_pc_url;
 			window.open(url, "_blank", 'status=no, width=500, height=700' + 
 						', left=' + popupX + ', top=' + popupY);
@@ -238,14 +237,12 @@ const memberLike = () => {
 		url : "${pageContext.request.contextPath}/member/memberLikeCheck.do",
 		data : { memberId: memberId }, // 객체 프로퍼티 이름을 명시해줘야 함
 		success: function(responseData) {
-			console.log(responseData);
 			if(responseData) {	
 				
 				if(confirm("관심표시를 취소하시겠습니까?")) {
-					console.log("현우야 잘했어 다 왔다!!!!");
 					const deleteMemberLikeFrm = document.deleteMemberLikeFrm;
-					console.log(deleteMemberLikeFrm);		
 					deleteMemberLikeFrm.submit();
+					alert("성공적으로 관심 표시를 취소했습니다.");
 				} 
 				
 			} else {
@@ -253,10 +250,9 @@ const memberLike = () => {
 				
 				if(confirm(memberNickname + "님께 관심 표시를 하시겠습니까?")) {
 					const memberLikeFrm = document.memberLikeFrm;
-					console.log(memberLikeFrm);
 					memberLikeFrm.submit();
+					alert("성공적으로 관심 표시를 완료했습니다.");
 				} // 좋아요
-				
 			} // else
 		} // success 
 	}); // ajax

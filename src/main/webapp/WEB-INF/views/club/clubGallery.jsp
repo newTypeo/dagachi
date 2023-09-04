@@ -10,18 +10,18 @@
 <style>
 .insertGallery-div{
 	position : absolute;
-	margin-left :1630px;
-	margin-top : 100px;
+	margin-left :1230px;
 
 }
 #club-detail-gallery{
 	display: flex;
     width: 1320px;
-    margin: 30px;
+    margin: 50px 30px;
     flex-wrap: wrap;
 }
-
-
+#galleryCreateBtn {
+	background-color: #2990D0;
+}
 
 #gallery-photo {
     height: 295px;
@@ -72,7 +72,7 @@
 	</nav>
 	
 	<div class= insertGallery-div>
-	<button onclick = "insertGallery()">사진 올리기</button>
+	<button onclick = "insertGallery()" class="btn" id="galleryCreateBtn">사진 올리기</button>
 	</div>
 	<div id = "club-detail-gallery">
 		<c:forEach items="${clubGalleryAndImages}" var="clubGalleryAndImage" >

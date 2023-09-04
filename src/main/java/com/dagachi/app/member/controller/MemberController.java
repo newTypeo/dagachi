@@ -58,7 +58,10 @@ public class MemberController {
 	@Autowired
     private JavaMailSender javaMailSender;
 	
-	   
+	 /**
+	  * 멤버 상세정보
+	  * @author 준한 
+	  */
 	 @GetMapping("/{memberId}")
 	    public String memberDetail(
 	    		Model model,
@@ -95,7 +98,7 @@ public class MemberController {
 	    }
 	 
 	 /**
-	  * 회원 좋아요
+	  * 회원 관심표시 
 	  * @author 현우 
 	  */
 	 @PostMapping("/memberLike.do")
@@ -122,7 +125,10 @@ public class MemberController {
 		 return "redirect:/member/" + memberId;
 	 }
 	 
-
+	 /**
+	  * 회원 관심표시 중복체크 
+	  * @author 현우
+	  */
 	 @GetMapping("memberLikeCheck.do")
 	 public ResponseEntity<?> memberLikeCheck(
 			 @RequestParam String memberId,
@@ -140,6 +146,10 @@ public class MemberController {
 		 return ResponseEntity.status(HttpStatus.OK).body(memberLikeCheck);
 	 }
 	 
+	 /**
+	  * 회원 관심표시 취소 
+	  * @author 현우
+	  */
 	 @PostMapping("/deleteMemberLike.do")
 	 public String deleteMemberLike(
 			 @AuthenticationPrincipal MemberDetails loginMember,
@@ -164,8 +174,8 @@ public class MemberController {
 
 	 
 	 /**
-	 * @author 김준한
 	 * 아이디 찾기
+	 * @author 김준한
 	 */
 	@PostMapping("/memberSearchId.do")
 	 public String memberSearchId(
@@ -311,7 +321,6 @@ public class MemberController {
 		return "/member/memberPwUpdate";
 	}
 	
-	
 	/**
 	 * @author 김준한
 	 * 이메일인증을 통한 비밀번호 찾기후 변경
@@ -322,8 +331,6 @@ public class MemberController {
 			@RequestParam("email") String email,
 			RedirectAttributes redirectAttr
 			) {
-//		log.debug("passwordzzzzzzzzzzzzzzzz = {}",password);
-//		log.debug("email = {}",email);
 		String encodedPassword = passwordEncoder.encode(password);
 		MemberPwUpdateDto memberPwUpdateDto = MemberPwUpdateDto.builder()
 				.password(encodedPassword)

@@ -34,7 +34,6 @@ let currentPage=1;
 		if(currentPage<lastPage){
 			currentPage++;
 			renderBoardList(boardTypeVal);
-			console.log(currentPage);
 		}
 	});
 	

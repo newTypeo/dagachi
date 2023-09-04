@@ -1,4 +1,16 @@
 @charset "UTF-8";
+/*************** modal ****************/
+#reportModal {
+  top: auto;
+  bottom: 0;
+  transform: translate(0, 100%);
+  transition: transform 0.3s ease-out;
+}
+
+#reportModal.show {
+  transform: translate(0, 0);
+}
+
 
 /************ club-title *************/
 
@@ -30,14 +42,14 @@
 }
 .container-main-long > div > a:first-of-type {
 	display: inline-block;
-    width: 800px;
+    width: 700px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 .container-main-short > div > a:first-of-type {
 	display: inline-block;
-    width: 375px;
+    width: 300px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -77,6 +89,11 @@
 .container-main-schedule > div > span:nth-of-type(3) {
 	float: right;
 	margin-left: 10px;
+}
+
+#club-main-image-container img {
+	width:600px;
+	height:400px
 }
 
 
@@ -131,6 +148,7 @@
 
 .img-thumbnail {
 	width: 174px;
+	height: 151px;
 }
 
 #club-board-container {

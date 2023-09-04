@@ -1,23 +1,17 @@
-console.log('Hello stomp.js');
 
 const ws = new SockJS(`http://${location.host}/dagachi/stomp`); // endpoint
 const stompClient = Stomp.over(ws);
 
 stompClient.connect({}, (frame) => {
-	console.log('open : ', frame);
 	
-	
-	
-	stompClient.subscribe(`/app/clubTalk/${clubId}`, (message) => {
-		console.log(`/app/clubTalk/${clubId} : `, message);
-		
-		if(message.headers["content-type"])
-			renderMessage(message);
-			
-	});
+	if(typeof clubId !== 'undefined'){
+		stompClient.subscribe(`/app/clubTalk/${clubId}`, (message) => {
+			if(message.headers["content-type"])
+				renderMessage(message);
+		});
+	}
 	
 	stompClient.subscribe(`/app/notice/${memberId}`, (message) => {
-			console.log(`/app/notice/${memberId} : `, message);
 	
 		if(message.headers["content-type"])
 			renderMessage(message);
@@ -39,11 +33,9 @@ const renderMessage = (message) => {
 		case "CHATNOTICE":
 			const alarmWrap=window.parent.document.querySelector("#alarmBox");
 			const roomMaps= window.parent.roomMaps;
-			console.log(roomMaps,"룸 널인지 확인");
 			const divId=`#${content.replace(/\s/g, "_")}`;
 			const spanId=`#${content.replace(/\s/g, "-")}`;
 			const chatRoomCheck=window.parent.document.querySelector(divId);
-			console.log(window.parent.document.querySelector(spanId),spanId,content.replace(/\s/g, "."));
 			if(chatRoomCheck === null){
 				roomMaps.set(content, 1);
 				const alarmDiv=document.createElement('div');
@@ -74,10 +66,10 @@ const renderMessage = (message) => {
 		 	const chatWrap =document.querySelector("#chatWrap");
 		 	const divbox=document.createElement('div');
 			let pro="";
+			const namebox=document.createElement('div');
 			
 			if(proList.length>0){
 				for(let i=0; i<proList.length; i++){
-				console.log("i번인덱스 확인",proList[i]["userProfileName"]);
 					if(proList[i]["userName"]===from){
 						pro=proList[i]["userProfileName"];
 					}
@@ -89,22 +81,30 @@ const renderMessage = (message) => {
 			
 		 	if(from === memberId)
 		 		divbox.className = 'chat ch2';
-		 	else
+		 	else{
 		 		divbox.className = 'chat ch1';
+		 		namebox.innerHTML=`
+		 			<h6 class="chatIdPrintL">${from}</h6>
+		 		`;
+		 		chatWrap.appendChild(namebox);
+		 	}
 		 		
 		 	divbox.innerHTML=`
-	            <div class="icon"><i class="fa-solid fa-user"></i>
+	            <div class="icon">
 	           		<img alt="" src="${root}/resources/upload/member/profile/${pro}" class="resized-image" />
 	            </div>
 	            <div class="textbox">${content}</div>
 	      	 	</div>
 		 	` ;
+		 	
 		 	chatWrap.appendChild(divbox);
 	      	 document.querySelector("#chatWrap").scrollTop = document.querySelector("#chatWrap").scrollHeight;
 	 	 break;
 	 	 
 	 	 
 	 	 case "NOTICE":
+	 	 	
+	 	 	const noticeWrap=window.parent.document.querySelector("#alarmBox");
 	 	 	
 	 	 	const noticeAlarm=document.createElement('div');
 				noticeAlarm.className = 'list-group';
@@ -113,9 +113,10 @@ const renderMessage = (message) => {
 						${content} 
 					</a>
 				`;
-				alarmWrap.appendChild(alanoticeAlarmrm);
+				noticeWrap.appendChild(noticeAlarm);
 				
-			bell.classList.add("fa-beat");
+			const Nbell=window.parent.document.querySelector("#bell");
+			Nbell.classList.add("fa-beat");
 			
 	 	 break;
 	 	 

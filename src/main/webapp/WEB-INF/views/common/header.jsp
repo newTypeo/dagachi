@@ -7,9 +7,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
-<style>
-#alarmBox {display : none;}
-</style>
 
 <head>
 <meta charset="UTF-8">
@@ -61,7 +58,7 @@
 			alarmLoad();
 		};
 		
-		</script>
+	</script>
 
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"
@@ -106,7 +103,7 @@
 
 			<sec:authorize access="isAuthenticated()">
 				<div id="header-nav-container">
-						 <i id="bell" class="fa-solid fa-bell fa-2xl"></i> 
+						 <i id="bell" class="fa-solid fa-bell fa-xl bellStyle1"></i> 
 							<div  id="alarmBox" class="" ></div>
 					<span>
 						 	<a title="<sec:authentication property="authorities"/>"
@@ -120,13 +117,12 @@
 				</div>
 
 					<div class="dropdown">
-						
-						<%-- <sec:authorize access="hasRole('ROLE_ADMIN')"> --%>
+						<sec:authentication property="authorities" var="role"/>
+						<c:if test="${role eq '[ADMIN]'}">
 							<button id="admin-nav-btn"
 								class="btn btn-secondary dropdown-toggle" type="button"
 								data-toggle="dropdown" aria-expanded="false">회원관리</button>
-						<%-- </sec:authorize> --%>
-					
+						</c:if>
 						<div class="dropdown-menu">
 							<button class="dropdown-item" type="button">
 								<a href="${pageContext.request.contextPath}/admin/adminMemberList.do?keyword=&column=">회원조회</a>
@@ -152,34 +148,27 @@
 				<!-- 로그인한 회원에 한해 최초 1회 실행되는 코드(반경 동정보 session에 저장) -->
 				<c:if test="${empty zoneSet1 or zoneSet1 eq null}">
 					<script>
-					// console.log("최초 로그인 시에만 찍혀야하는 로그(종환)");
 					$.ajax({ // 로그인한 회원의 주활동지역 코드 세션에 저장
 						url : "${pageContext.request.contextPath}/club/getMainAreaId.do",
 						success({mainAreaId}) {
-							
 							$.ajax({
 								url : "https://grpc-proxy-server-mkvo6j4wsq-du.a.run.app/v1/regcodes?regcode_pattern=" + mainAreaId,
 								data : {is_ignore_zero : true},
 								success({regcodes}) {
 									// 서울특별시 **구 **동 (회원의 주활동지역)
-									const mainAreaName = regcodes[0].name; 
+									const mainAreaName = regcodes[0].name;
 									$.ajax({
 										url : "${pageContext.request.contextPath}/club/setZoneInSession.do",
-										data : {mainAreaName},
-										success() {
-											// console.log("session에 동네 저장 완료!(종환)");
-										}
+										data : {mainAreaName}
 									}); // ajax3
 								} // success2
 							}); // ajax2
 						}// success2
-					}); // ajax1
-					
+ 					}); // ajax1
 					</script>
 				</c:if>
 				
 				<script>
-				
 				document.querySelector("#bell").addEventListener("click",(e)=>{
 					const receiver= memberId;
 					const bell=e.target;
@@ -214,12 +203,10 @@
 				
 				const alarmLoad=()=>{
 					const receiver= memberId;
-					console.log(receiver);
 					$.ajax({
 						url:"${pageContext.request.contextPath}/notification/findAlarms.do",
 						data:{receiver},
 						success(alarms){
-							console.log(alarms);
 					
 							if(alarms.length>0){
 								alarms.forEach((alarm)=>{
@@ -278,3 +265,6 @@
 			</sec:authorize>
 
 		</header>
+		<sec:authorize access="isAuthenticated()">
+			<jsp:include page="/WEB-INF/views/common/chatBtn.jsp"></jsp:include>
+		</sec:authorize>

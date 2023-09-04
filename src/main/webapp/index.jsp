@@ -10,10 +10,11 @@
 	</script>
 </c:if>
 
+
 <fmt:requestEncoding value="utf-8"/>
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/views/common/navBar.jsp"></jsp:include>
-<jsp:include page="/WEB-INF/views/common/chatBtn.jsp"></jsp:include>
+
 
 <section id="main-page-sec" class="">
 <div id="banner-and-info-container">
@@ -36,6 +37,8 @@
 		</div>
 	</nav>
 	<nav id="my-club-info">
+	<sec:authorize access="isAnonymous()"><img style="margin-top:0px; width : 320px; height : 398px" class="img-place" alt="" src="${pageContext.request.contextPath}/resources/images/main2.png"></sec:authorize>
+		
 		<sec:authorize access="isAuthenticated()">
 			<div class="myInfo">
 				<div class="myProfile">
@@ -43,14 +46,17 @@
 				</div>
 				<div class="my-info-place">
 					<span class="my-info-nickname"><sec:authentication property="principal.nickname"/></span><br>
-					<span class="mainArea"></span>
+					<span class="mainArea" style="font-size: 14px;"></span>
 					<script>
 					$.ajax({
 						url : "https://grpc-proxy-server-mkvo6j4wsq-du.a.run.app/v1/regcodes?regcode_pattern=" + <sec:authentication property="principal.activityArea.mainAreaId"/>,
 						success({regcodes}) {
-							document.querySelector(".mainArea").innerHTML = regcodes[0].name; 
+							const strArr = regcodes[0].name.split(' ');
+							const area = strArr.slice(1).join(' ');
+							
+							document.querySelector(".mainArea").innerHTML = "활동지역 : " + area; 
 						}
-					});
+					}); 
 					</script>
 					<sec:authentication property="principal.memberInterest" var="interestList"/>
 
@@ -217,6 +223,7 @@ $.ajax({
 		carouselInner.innerHTML = '';
 		banners.forEach((banner) => {
 			const { renamedFilename } = banner;
+			
 			carouselInner.innerHTML += `
 				<div class="carousel-item">
 					<img src="${pageContext.request.contextPath}/resources/upload/main/\${renamedFilename}" class="d-block w-100">
@@ -232,9 +239,5 @@ $.ajax({
 
 </script>
 
-<script>
-
-
-</script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

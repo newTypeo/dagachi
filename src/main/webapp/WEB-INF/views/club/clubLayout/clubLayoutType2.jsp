@@ -39,21 +39,23 @@
 				<div class="myProfile2">
 					<p><strong><sec:authentication property="principal.nickname"/></strong></p>
 					<c:if test ="${memberRole eq 3}">
-						<p><strong>🥇방장</strong>|<a href="${pageContext.request.contextPath}/club/${domain}/clubUpdate.do">모임 관리</a></p>
+						<p><strong>🥇방장</strong></p>
+						<a href="${pageContext.request.contextPath}/club/${domain}/clubUpdate.do">모임 관리</a>
 					</c:if>
 					<c:if test ="${memberRole eq 2}">
-						<p><strong>🥇부방장</strong>|<a href="${pageContext.request.contextPath}/club/${domain}/clubUpdate.do">모임 관리</a></p>
+						<p><strong>🥇부방장</strong></p>
+						<a href="${pageContext.request.contextPath}/club/${domain}/clubUpdate.do">모임 관리</a>
 					</c:if>
 					<c:if test ="${memberRole eq 1}">
-						<p><strong>🥇임원</strong>|<a href="${pageContext.request.contextPath}/club/${domain}/clubUpdate.do">모임 관리</a></p>
+						<p><strong>🥇임원</strong></p>
+						<a href="${pageContext.request.contextPath}/club/${domain}/clubUpdate.do">모임 관리</a>
 					</c:if>
 					<c:if test ="${memberRole eq 0}">
 						<p><strong>🎀일반회원</strong></p>
 					</c:if>
-					<%-- <p><a href="${pageContext.request.contextPath}/club/${domain}/memberClubDetail.do">나의 모임 정보</a></p> --%>
 				</div>
 				<div class="myProfile3">
-					<button class="btn" style="background-color: ${layout.fontColor}">글쓰기</button>
+					<button id="boardCreateBtn" class="btn" style="background-color: ${layout.fontColor}">글쓰기</button>
 					<button id="scheduleCreateBtn" class="btn" style="background-color: ${layout.fontColor}">일정생성</button>
 				</div>
 			</c:if>
@@ -153,7 +155,7 @@
 						</span>
 						<span>❤${board.likeCount < 100 ? board.likeCount : '99+'}</span>
 						<a href="/" class="fontColors">
-							${board.writer}
+							${board.nickname}
 						</a>
 					</div>
 				</c:if>
@@ -180,7 +182,7 @@
 						</span>
 						<span>❤${board.likeCount < 100 ? board.likeCount : '99+'}</span>
 						<a href="/" class="fontColors">
-							${board.writer}
+							${board.nickname}
 						</a>
 					</div>
 				</c:if>
@@ -226,7 +228,7 @@
 							</span>
 							<span>❤${board.likeCount < 100 ? board.likeCount : '99+'}</span>
 							<a href="/" class="fontColors">
-								${board.writer}
+								${board.nickname}
 							</a>
 						</div>
 					</c:if>
@@ -253,7 +255,7 @@
 							</span>
 							<span>❤${board.likeCount < 100 ? board.likeCount : '99+'}</span>
 							<a href="/" class="fontColors">
-								${board.writer}
+								${board.nickname}
 							</a>
 						</div>
 					</c:if>
@@ -299,18 +301,12 @@
 </nav>
 
 <script>
-console.log("memberRole= ", ${memberRole});
-
 const clubMemberDelete = () => {
 	if(confirm("모임을 정말 탈퇴하시겠습니까?")) {
-		// console.log(document.clubMemberDeleteFrm);
 		document.clubMemberDeleteFrm.submit();
 	}
 }
 
-scheduleCreateBtn.addEventListener('click', () => {
-	location.href = "${pageContext.request.contextPath}/club/${domain}/scheduleCreate.do";
-});
 
 $('.carousel').carousel({
 	interval: false
@@ -325,7 +321,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		url: '${pageContext.request.contextPath}/club/${domain}/getSchedules.do',
 		success(schedules) {
 			
-			// console.log(schedules);
 			var eventLists = [];
 			schedules.forEach((schedule) => {
 				var {scheduleId, title, startDate, endDate} = schedule;
@@ -337,7 +332,6 @@ document.addEventListener('DOMContentLoaded', function() {
 				};
 				eventLists.push(event);
 			});
-			// console.log(eventLists);
 			
 			var calendarEl = document.getElementById('calendar');
 			var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -361,7 +355,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 //창환(모임 신고)
 document.querySelector("#clubReport").onclick = () => {
-	const frm = document.clubReportFrm;
+	console.log('Type2');
 	$("#reportModal")
 	.modal()
 	.on('shown.bs.modal', () => {
@@ -388,9 +382,6 @@ const clubReportSubmit = () => {
 		data : { domain, reporter, reason },
 		beforeSend(xhr) {
 			xhr.setRequestHeader(header, token);
-		},
-		success(response) {
-			// console.log(response);
 		}
 	});
 	
@@ -407,7 +398,6 @@ const clubLike = () => {
 		url : "${pageContext.request.contextPath}/club/clubLikeCheck.do",
 		data : {domain},
 		success(responseData) {
-			// console.log("responseData : ", responseData);
 			
 			if (responseData) {
 				if(confirm("찜하신 모임을 취소하시겠습니까?")) {
@@ -426,13 +416,21 @@ const clubLike = () => {
 					}
 				}
 				alert("성공적으로 모임 찜을 완료했습니다.");
-				
 			}
-					
-		}
-	});
-	
-	
+		} // success
+	}); // ajax
 }
 
 </script>
+
+<c:if test="${memberRole ne 10}">
+	<script>
+		scheduleCreateBtn.addEventListener('click', () => {
+			location.href = "${pageContext.request.contextPath}/club/${domain}/scheduleCreate.do";
+		});	
+		
+		boardCreateBtn.addEventListener('click', () => {
+			location.href = "${pageContext.request.contextPath}/club/${domain}/clubBoardCreate.do";
+		});	
+	</script> 
+</c:if>

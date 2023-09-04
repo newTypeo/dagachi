@@ -1,10 +1,7 @@
 package com.dagachi.app.member.service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
-import javax.validation.Valid;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,23 +9,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.Errors;
-import org.springframework.validation.FieldError;
 
 import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
 import com.dagachi.app.admin.entity.AdminInquiry;
-import com.dagachi.app.club.entity.ClubDetails;
 import com.dagachi.app.club.entity.ClubMember;
-import com.dagachi.app.club.entity.ClubProfile;
-import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.member.dto.MemberCreateDto;
 import com.dagachi.app.member.dto.MemberKakaoDto;
 import com.dagachi.app.member.dto.MemberKakaoUpdateDto;
 import com.dagachi.app.member.dto.MemberPwUpdateDto;
 import com.dagachi.app.member.entity.ActivityArea;
-import com.dagachi.app.member.entity.CbcLike;
 import com.dagachi.app.member.entity.Member;
-import com.dagachi.app.member.entity.MemberDetails;
 import com.dagachi.app.member.entity.MemberInterest;
 import com.dagachi.app.member.entity.MemberLike;
 import com.dagachi.app.member.entity.MemberProfile;
@@ -241,15 +231,15 @@ public class MemberServiceImpl implements MemberService{
 
 
 	@Override
-	public int kakaoUpadteCreate(MemberCreateDto member) {
+	public int kakaoUpadteCreate(MemberKakaoUpdateDto member) {
 	    int result = 0;
 
 	    result = memberRepository.kakaoUpadteCreate(member);
 	    log.debug("member = " + member);
 
-	    memberRepository.insertActivityArea(member);
+	    memberRepository.kakaoinsertActivityArea(member);
+	    
 	    List<String> interestList = member.getInterest();
-
 	    for (String interest : interestList) {
 	        memberRepository.insertMemberInterest(member.getMemberId(), interest);
 	    }
@@ -262,7 +252,7 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public UserDetails checkKakao(String memberId) {
+	public int checkKakao(String memberId) {
 		return memberRepository.checkKakao(memberId);
 	}
 	@Override

@@ -1,6 +1,29 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<style>
+.bellStyle2::after {
+	position: relative;
+    color: #777;
+    font-size: 26px;
+}
+.bellStyle2::before {
+	position: relative;
+    color: #777;
+    font-size: 26px;
+}
+#bellContainer {
+ 	display: flex;
+ 	align-items: center;
+}
+#alarmBox {
+	display : none;
+    position: absolute;
+    width: 420px;
+    transform: translate(-165px, 37px);
+}
+</style>
+
 
 <sec:authorize access="isAuthenticated()">
 <script >
@@ -12,8 +35,9 @@
 		};
 		
 </script>
-
-		<i id="bell" class="fa-solid fa-bell fa-2xl"></i>
+		<div id="bellContainer">
+			<i id="bell" class="fa-solid fa-bell fa-xl bellStyle2"></i>
+		</div>
 		<div id="alarmBox" class=""></div>
 
 		<script>
@@ -52,12 +76,11 @@
 				
 				const alarmLoad=()=>{
 					const receiver= memberId;
-					console.log(receiver);
+					// console.log(receiver);
 					$.ajax({
 						url:"${pageContext.request.contextPath}/notification/findAlarms.do",
 						data:{receiver},
 						success(alarms){
-							console.log(alarms);
 					
 							if(alarms.length>0){
 								alarms.forEach((alarm)=>{

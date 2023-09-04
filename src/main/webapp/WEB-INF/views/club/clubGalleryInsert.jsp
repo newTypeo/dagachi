@@ -52,6 +52,27 @@
 	
 </section>
 <script>
+document.addEventListener('DOMContentLoaded', function() {
+	  const fileInput = document.getElementById('fileInput');
+	  const submitButton = document.querySelector('.btn-primary');
+	  
+	  fileInput.addEventListener('change', function() {
+	    // 파일이 선택되었을 때 실행되는 함수
+	    if (fileInput.files.length > 0) {
+	      submitButton.removeAttribute('disabled'); // 파일이 첨부되면 버튼 활성화
+	    } else {
+	      submitButton.setAttribute('disabled', 'disabled'); // 파일이 첨부되지 않으면 버튼 비활성화
+	    }
+	  });
+	  
+	  submitButton.addEventListener('click', function(event) {
+	    // 제출 버튼 클릭 시 실행되는 함수
+	    if (fileInput.files.length === 0) {
+	      event.preventDefault(); // 파일이 첨부되지 않았을 때 제출 방지
+	      alert('썸네일 사진을 먼저 첨부해주세요!');
+	    }
+	  });
+	});
 document.querySelector("#fileInput").addEventListener("change",(e) => {
 	
 	const label = e.target.nextElementSibling;

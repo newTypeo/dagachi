@@ -24,17 +24,35 @@
 	integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
 	crossorigin="anonymous">
 <fmt:requestEncoding value="utf-8"/>
-	
+
+<style>
+.idResult{
+	text-align : center;
+	margin-top: 100px;
+}
+p{
+	font-size : 20px;
+}
+mark {
+
+  background-color: yellow;
+
+  color: black;
+
+}
+</style>
+	<div class="idResult">
 	<c:if test="${member eq null}">
-		<h3>${email} 에 해당하는 아이디는 </h3>
-		<h3>${memberId} 입니다.</h3>
+		<p>${email} 이메일에 <br> 해당하는 아이디는 </p>
+		<h3>" <mark>${memberId}</mark> "</h3> <p>입니다.</p>
 	</c:if>
 	
 	<c:if test="${member ne null}">
-		<h3>${email} 에 해당하는 아이디는 </h3>
-		<h3>${memberId} 입니다.</h3>
+		<p>${email} 이메일에 <br> 해당하는 아이디는 </p>
+		<h3>" <mark>${memberId}</mark> "</h3> <p>입니다.</p>
+		
 	</c:if>
-	
+	</div>
 	
 	
 	

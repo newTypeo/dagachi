@@ -10,7 +10,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.session.RowBounds;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
 import com.dagachi.app.admin.entity.AdminInquiry;
@@ -20,7 +19,6 @@ import com.dagachi.app.member.dto.MemberKakaoDto;
 import com.dagachi.app.member.dto.MemberKakaoUpdateDto;
 import com.dagachi.app.member.dto.MemberPwUpdateDto;
 import com.dagachi.app.member.entity.ActivityArea;
-import com.dagachi.app.member.entity.CbcLike;
 import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.entity.MemberDetails;
 import com.dagachi.app.member.entity.MemberInterest;
@@ -48,12 +46,16 @@ public interface MemberRepository {
 	int KakaoMember(MemberKakaoDto memberKakaoDto);
 	
 	//카카오톡 회원 정보 업데이트
-	@Update("update set member where nickname = #{nickname}, phone_no=  #{phoneNo}, birthday = #{birthday, jdbcType=DATE}, gender = #{gender}, mbti = #{mbti},  address = #{activityArea}")
-	int kakaoUpadteCreate(MemberCreateDto member);
+	@Update("update  member set nickname = #{nickname}, phone_no=  #{phoneNo}, birthday = #{birthday, jdbcType=DATE}, gender = #{gender}, mbti = #{mbti},  address = #{activityArea} where member_id =#{memberId}")
+	int kakaoUpadteCreate(MemberKakaoUpdateDto member);
 	
 	//카카오톡 회원 업데이트 안한 사람 찾아오기
-	@Select("SELECT COUNT(*) FROM member WHERE member_id = CONCAT(#{memberId}, '@Kakao') AND phoneNo IS NULL")
-	UserDetails checkKakao(String memberId);
+	@Select("SELECT COUNT(*) FROM member WHERE member_Id = #{memberId} AND phone_no IS NULL AND nickname IS NULL")
+	int checkKakao(String memberId);
+	
+	//카카오톡 회원 정보
+	@Insert("INSERT INTO activity_area values(#{memberId}, #{mainAreaId}, null, null)") 
+	void kakaoinsertActivityArea(MemberKakaoUpdateDto member);
 	// 회원가입 ------------------
 	MemberDetails loadUserByUsername(String memberId);
 	
@@ -133,6 +135,9 @@ public interface MemberRepository {
 	@Update("update member set create_club_cnt = create_club_cnt + 1 where member_id = #{memberId}")
 	int buyCreateClubTicket(String memberId);
 	
+	@Update("update member set create_club_cnt = create_club_cnt - 1 where member_id = #{memberId}")
+	int useTicket(String memberId);
+	
 	@Select("select * from member where nickname = #{nickname}")
 	Member checkNickNameDuplicate(String nickname);
 	
@@ -141,6 +146,7 @@ public interface MemberRepository {
 	
 	@Select("select count(*) from member_like where member_id = #{memberId} and like_sender = #{loginMemberId}")
 	int checkDuplicateMemberIdAndMyId(Map<String, Object> params);
+
 
 	
 }

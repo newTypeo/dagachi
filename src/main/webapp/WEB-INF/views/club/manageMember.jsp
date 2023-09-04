@@ -11,41 +11,48 @@
 <br/><br/><br/><br/>
 <section>
 <div id="update-btn-container">
+	<div class="btn-group" role="group" aria-label="Basic example">
+		<button type="button" class="btn btn-primary" id="club-update-btn">정보 수정</button>
+		<button type="button" class="btn btn-primary" id="club-style-update">스타일 설정</button>
+		<button type="button" class="btn btn-primary" id="club-title-update">타이틀 설정</button>
+		<button type="button" class="btn btn-primary" id="club-member-manage">회원 관리</button>
+	</div>
 	<c:if test ="${memberRole eq 3}">
-		<div class="btn-group" role="group" aria-label="Basic example">
-			<button type="button" class="btn btn-primary" id="club-update-btn">정보 수정</button>
-			<button type="button" class="btn btn-primary" id="club-style-update">스타일 설정</button>
-			<button type="button" class="btn btn-primary" id="club-title-update">타이틀 설정</button>
-			<button type="button" class="btn btn-primary" id="club-member-manage">회원 관리</button>
-		</div>
 		<button type="button" class="btn btn-danger" id="clubDisabled">모임 해산</button>
 	</c:if>
 </div>
 <div>
 	<fieldset>
 		<legend>가입신청회원</legend>
-		<table>
-			<thead>
-				<tr>
-					<th>번호</th>
-					<th>이름</th>
-					<th>답변</th>
-					<th>승인</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach items="${clubApplies}" var="clubApply" varStatus="vs">
+		<table class="listTable">
+			<c:if test="${empty clubApplies}">
+			<div>가입 신청한 회원이 없습니다.</div>
+			</c:if>
+			<c:if test="${not empty clubApplies}">
+				<thead class="thead-light">
 					<tr>
-						<td>${vs.count}</td>
-						<td>${clubApply.name}</td>
-						<td>${clubApply.answer}</td>
-						<td>
-							<button value="${clubApply.memberId}" onclick="manageApply(${clubId}, '${clubApply.memberId}', 'true');">승인</button>
-							<button value="${clubApply.memberId}" onclick="manageApply(${clubId}, '${clubApply.memberId}', 'false');">거절</button>
-						</td>
+						<th scope="col">번호</th>
+						<th scope="col">이름</th>
+						<th scope="col">답변</th>
+						<th scope="col">승인</th>
 					</tr>
-				</c:forEach>
-			</tbody>
+				</thead>
+				<tbody>
+					<c:forEach items="${clubApplies}" var="clubApply" varStatus="vs">
+						<tr>
+							<td>${vs.count}</td>
+							<td>${clubApply.name}</td>
+							<td>${clubApply.answer}</td>
+							<td>
+								<button value="${clubApply.memberId}" onclick="manageApply(${clubId}, '${clubApply.memberId}', 'true');"
+										class="btn btn-outline-success">승인</button>
+								<button value="${clubApply.memberId}" onclick="manageApply(${clubId}, '${clubApply.memberId}', 'false');"
+										class="btn btn-outline-danger">거절</button>
+							</td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</c:if>
 		</table>
 	</fieldset>
 </div>
@@ -76,8 +83,8 @@ const manageApply = (clubId, memberId, permit) => {
 <div>
 	<fieldset>
 		<legend>모임 회원</legend>
-		<table>
-			<thead>
+		<table class="listTable">
+			<thead class="thead-light">
 				<tr>
 					<th>번호</th>
 					<th>회원이름</th>
@@ -90,7 +97,10 @@ const manageApply = (clubId, memberId, permit) => {
 				<tr>
 					<td>1</td>
 					<td>${host.name}</td>
-					<td>${host.enrollAt}</td>
+					<td>
+						<fmt:parseDate value="${host.enrollAt}" var="enrollAt" pattern="yyyy-MM-dd" />
+		                <fmt:formatDate value="${enrollAt}" pattern="yyyy/MM/dd"/>
+					</td>
 					<td></td>
 					<td>
 						<select id="host">
@@ -104,9 +114,12 @@ const manageApply = (clubId, memberId, permit) => {
 						<tr>
 							<td>${vs.count+1}</td>
 							<td>${clubMember.name}</td>
-							<td>${clubMember.enrollAt}</td>
 							<td>
-								<button id="kick" value="${clubMember.memberId}">추방</button>
+								<fmt:parseDate value="${clubMember.enrollAt}" var="enrollAt" pattern="yyyy-MM-dd" />
+           						<fmt:formatDate value="${enrollAt}" pattern="yyyy/MM/dd"/>
+							</td>
+							<td>
+								<button id="kick" value="${clubMember.memberId}" class="btn btn-outline-danger">추방</button>
 							</td>
 							<td>
 								<select id="searchType" class="" title="${clubMember.memberId}">
@@ -126,7 +139,10 @@ const manageApply = (clubId, memberId, permit) => {
 						<tr>
 							<td>${vs.count+1}</td>
 							<td>${clubMember.name}</td>
-							<td>${clubMember.enrollAt}</td>
+							<td>
+								<fmt:parseDate value="${clubMember.enrollAt}" var="enrollAt" pattern="yyyy-MM-dd" />
+           						<fmt:formatDate value="${enrollAt}" pattern="yyyy/MM/dd"/>
+							</td>
 							<c:if test="${clubMember.clubMemberRole eq 3 or clubMember.clubMemberRole eq 2 or
 										loginMemberId eq clubMember.memberId}">
 								<td>
@@ -135,7 +151,7 @@ const manageApply = (clubId, memberId, permit) => {
 							</c:if>
 							<c:if test="${clubMember.clubMemberRole eq 1 or clubMember.clubMemberRole eq 0}">
 								<td>
-									<button id="kick" value="${clubMember.memberId}">추방</button>
+									<button id="kick" value="${clubMember.memberId}" class="btn btn-outline-danger">추방</button>
 								</td>
 							</c:if>
 							<td>
@@ -168,7 +184,10 @@ const manageApply = (clubId, memberId, permit) => {
 						<tr>
 							<td>${vs.count+1}</td>
 							<td>${clubMember.name}</td>
-							<td>${clubMember.enrollAt}</td>
+							<td>
+								<fmt:parseDate value="${clubMember.enrollAt}" var="enrollAt" pattern="yyyy-MM-dd" />
+           						<fmt:formatDate value="${enrollAt}" pattern="yyyy/MM/dd"/>
+							</td>
 							<c:if test="${clubMember.clubMemberRole ne 0}">
 								<td>
 									<button disabled>추방</button>
@@ -176,7 +195,7 @@ const manageApply = (clubId, memberId, permit) => {
 							</c:if>
 							<c:if test="${clubMember.clubMemberRole eq 0}">
 								<td>
-									<button id="kick" value="${clubMember.memberId}">추방</button>
+									<button id="kick" value="${clubMember.memberId}" class="btn btn-outline-danger">추방</button>
 								</td>
 							</c:if>
 							<td>
@@ -227,7 +246,6 @@ document.querySelectorAll('#kick').forEach((kickButton) => {
 			const frm = document.kickMember;
 			
 			frm.memberId.value = e.target.value;
-			console.log(e.target.value);
 			
 			frm.submit();
 		}
@@ -252,7 +270,7 @@ document.querySelectorAll('#searchType').forEach((select) => {
 			case '3' : role = '방장'; break;
 		}
 		
-		if(confirm(`\${memberName}님의 권한을 \${role}로 변경?`)) {
+		if(confirm(`\${memberName}님의 권한을 \${role}로 변경하시겠습니까?`)) {
 			frm.memberId.value = memberId;
 			frm.clubMemberRole.value = memberRole;
 			
@@ -263,15 +281,6 @@ document.querySelectorAll('#searchType').forEach((select) => {
 
 //준한(모임 비활성화)
 const domain = "<%= request.getAttribute("domain") %>"; 
-//서버 사이드에서 domain 값을 가져와서 설정
-document.querySelector("#clubDisabled").onclick = (e) => {
-  const userConfirmation = confirm("정말 비활성화 하시겠습니까?");
-  if (userConfirmation) {
-      // 도메인 값을 사용하여 컨트롤러로 이동하는 코드를 추가
-      window.location.href = "${pageContext.request.contextPath}/club/" + domain + "/clubDisabled.do";
-      alert('모임이 성공적으로 비활성화 되었습니다.');
-  }
-};
 
 document.querySelector("#club-update-btn").onclick = () => {
 	location.href = '${pageContext.request.contextPath}/club/'+domain+'/clubUpdate.do';
@@ -290,4 +299,17 @@ document.querySelector("#club-member-manage").onclick = () => {
 }
 </script>
 
+<c:if test="${memberRole eq 3}">
+	<script>
+	//서버 사이드에서 domain 값을 가져와서 설정
+	document.querySelector("#clubDisabled").onclick = (e) => {
+	  const userConfirmation = confirm("정말 비활성화 하시겠습니까?");
+	  if (userConfirmation) {
+	      // 도메인 값을 사용하여 컨트롤러로 이동하는 코드를 추가
+	      window.location.href = "${pageContext.request.contextPath}/club/" + domain + "/clubDisabled.do";
+	      alert('모임이 성공적으로 비활성화 되었습니다.');
+	  }
+	};
+	</script>
+</c:if>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

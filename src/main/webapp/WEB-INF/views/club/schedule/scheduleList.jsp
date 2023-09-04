@@ -78,7 +78,7 @@
 	</div>
 </section>
 
-<div id="scheduleSummaryBox"></div>
+<!-- <div id="scheduleSummaryBox"></div> -->
 
 <script>
 
@@ -131,29 +131,32 @@ $.ajax({
 		});
 		calendar.render();
 		document.querySelector("#scheduleCreateBtn").style.display = "block";
-		document.querySelectorAll(".fc-event-title-container").forEach((e) => {
-			e.addEventListener('mouseenter', (event) => {
-				var scrollX = window.scrollX || window.pageXOffset; // 가로 스크롤 위치
-				var scrollY = window.scrollY || window.pageYOffset; // 세로 스크롤 위치
-				
-				var newX = event.clientX + scrollX; // 마우스 클릭 위치 X 좌표 + 가로 스크롤 위치
-				var newY = event.clientY + scrollY; // 마우스 클릭 위치 Y 좌표 + 세로 스크롤 위치
-				
-				// 이동할 div의 위치를 변경합니다.
-				scheduleSummaryBox.style.left = newX + "px";
-				scheduleSummaryBox.style.top = newY + "px";
-				scheduleSummaryBox.style.display = "block";
-			});
-			e.addEventListener('mouseleave', (event) => {
-				scheduleSummaryBox.style.display = "none";
-			});
-		})
 	}
 });
 
 scheduleCreateBtn.addEventListener('click', () => {
 	location.href = "${pageContext.request.contextPath}/club/${domain}/scheduleCreate.do";
 });
+
+/* 마우스위치에 인포 띄우기 
+document.querySelectorAll(".fc-event-title-container").forEach((e) => {
+	e.addEventListener('mouseenter', (event) => {
+		var scrollX = window.scrollX || window.pageXOffset; // 가로 스크롤 위치
+		var scrollY = window.scrollY || window.pageYOffset; // 세로 스크롤 위치
+		
+		var newX = event.clientX + scrollX; // 마우스 클릭 위치 X 좌표 + 가로 스크롤 위치
+		var newY = event.clientY + scrollY; // 마우스 클릭 위치 Y 좌표 + 세로 스크롤 위치
+		
+		// 이동할 div의 위치를 변경합니다.
+		scheduleSummaryBox.style.left = newX + "px";
+		scheduleSummaryBox.style.top = newY + "px";
+		scheduleSummaryBox.style.display = "block";
+	});
+	e.addEventListener('mouseleave', (event) => {
+		scheduleSummaryBox.style.display = "none";
+	}); 
+})
+*/
 
 </script>
 

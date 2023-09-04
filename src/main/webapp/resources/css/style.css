@@ -46,7 +46,7 @@ section {
 /********** header **********/
 #main-letter-logo {
     position: absolute;
-    transform: translate(-430px, 45px);
+    transform: translate(-430px, 60px);
     width: 142px;
     height: 71px;
 }
@@ -67,13 +67,30 @@ header {
 
 #main-logo {
 	height: 120px;
-	margin-top: 24px;
+	margin-top: 50px;
 }
 
 header #header-nav-container {
 	float: right;
 	top: 65px;
 	position: absolute;
+}
+.bellStyle1::after {
+	position: relative;
+    color: #777;
+    transform: translate(13px, 0px);
+}
+.bellStyle1::before {
+	position: relative;
+    color: #777;
+    transform: translate(13px, 0px);
+}
+#alarmBox {
+	display : none;
+    position: absolute;
+    width: 420px;
+    transform: translate(-165px, 37px);
+    z-index: 10;
 }
 
 header #header-nav-container a {
@@ -162,6 +179,7 @@ header #header-nav-container span {
 
 .img-place {
 	margin-top: 30px;
+	border-radius: 8px;
 }
 
 .myProfile > img {
@@ -226,7 +244,7 @@ section .posts3 .card{
     border-top-left-radius: calc(0.25rem - 1px);
     border-top-right-radius: calc(0.25rem - 1px);
     width: 100%;
-    height: 50%;
+    height: 220px;
 }
 .card-body {
     -ms-flex: 1 1 auto;
@@ -535,15 +553,15 @@ figure.snip0045.green .position {
 .search-memberPw-div{
 	
 }
-.searchIdBtn{
-    background-color:#0a0a23;
+.searchIdBtn {
+    background-color:dimgrey;
     color: #fff;
     border:none;
-    border-radius:10px;
+    border-radius:4px;
 }
 .searchPwBtn{
-    background-color:#0a0a23;
+    background-color:dimgrey;
     color: #fff;
     border:none;
-    border-radius:10px;
+    border-radius:4px;
 }

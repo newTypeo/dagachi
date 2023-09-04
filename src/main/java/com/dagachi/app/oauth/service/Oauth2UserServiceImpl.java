@@ -22,7 +22,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Oauth2UserServiceImpl extends DefaultOAuth2UserService {
 	
-	
 	@Autowired
 	private MemberService memberService;
 	
@@ -66,8 +65,11 @@ public class Oauth2UserServiceImpl extends DefaultOAuth2UserService {
 			member = (MemberDetails) memberService.loadUserByUsername(memberId);
 		}
 		
+//		int memberDetails = memberService.checkKakao(memberId);
 		
-		
+		log.debug("member = {}", member);
+
+	
 		return member;
 	}
 

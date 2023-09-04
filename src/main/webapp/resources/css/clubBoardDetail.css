@@ -77,3 +77,8 @@
 #count-input {
 	transform: translate(660px, 40px);
 }
+
+.comment-createdAt {
+	font-size: smaller;	
+}
+

@@ -29,8 +29,8 @@ h1{
     padding: 8px; 
 }
 #admin-report-inquiry-list-sec {
- margin-left:320px; 
- hight : 3000px;
+	 hight : 3000px;
+ 	transform: translate(182px, 10px);
 }
 .gray-text {
     color: gray; 
@@ -51,13 +51,13 @@ h1{
 }
 
 .button:hover {
-    background-color: #005dbf; /* 호버 시 배경 색상 변경 */
+    background-color: #005dbf; /* 호버 시 배경 색상 변경 */ 
 }
 
 </style>
 
 <section id="admin-report-inquiry-list-sec" class="p-2 report-inquiry-list">
-	<h1>📢QnA📢</h1>
+	<h1>📢Q&A📢</h1>
 	<a href="${pageContext.request.contextPath}/member/memberAdminInquiry.do"  class="button"> 문의하기</a>
 	<div id="report-inquiry-list-wrapper">
 				<table id="reportInquiryListTable">
@@ -115,8 +115,7 @@ h1{
 									                <c:if test="${not empty inquiry.response}">
 									         	        문의 내용 :  ${inquiry.content} </br></br>
 									                	문의 답변 :  ${inquiry.response}</br></br>
-									                    문의 답변 일자 : <fmt:parseDate value="${inquiry.responseAt}" var="responseAt" pattern="yyyy-MM-dd"></fmt:parseDate>
-									                    <fmt:formatDate value="${responseAt}" pattern="yy/MM/dd"/>
+									                    문의 답변 일자 : <fmt:formatDate value="${inquiry.responseAt}" pattern="yy/MM/dd"/>
 									                </c:if>
 								                </c:if>
 								               <!--  // 여기에 권한 추가해야함 -->

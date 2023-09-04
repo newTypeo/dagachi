@@ -1,14 +1,25 @@
 @charset "UTF-8";
 
+/*************** modal ****************/
+#reportModal {
+  top: auto;
+  bottom: 0;
+  transform: translate(0, 100%);
+  transition: transform 0.3s ease-out;
+}
+
+#reportModal.show {
+  transform: translate(0, 0);
+}
+
+
 /************ club-title *************/
 
 #previewContainer{
 	width: 1320px;
-	height: 300px;
 }
 #previewContainer2{
 	width: 508px;
-	height: 337px;
 }
 
 
@@ -38,14 +49,14 @@
 }
 .container-main-long > div > a:first-of-type {
 	display: inline-block;
-    width: 800px;
+    width: 700px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 .container-main-short > div > a:first-of-type {
 	display: inline-block;
-    width: 375px;
+    width: 300px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -89,6 +100,10 @@
 .container-main-schedule > div > a:last-of-type {
 	display: inline-block;
 	float: right;
+}
+#club-main-image-container img {
+	width:600px;
+	height:400px
 }
 
 /* 커스텀 */
@@ -143,6 +158,7 @@
 
 .img-thumbnail {
 	width: 174px;
+	height: 151px;
 }
 
 #club-board-container {

@@ -179,7 +179,6 @@ document.body.style.fontFamily = "${layout.font}";
 		if(currentPage<lastPage){
 			currentPage++;
 			renderBoardList(boardTypeVal);
-			console.log(currentPage);
 		}
 	});
     
@@ -216,7 +215,6 @@ document.body.style.fontFamily = "${layout.font}";
 			method:"GET",
 			data :{searchKeywordVal,searchTypeVal,boardTypeVal},
 			success(data){
-				console.log(data);
 				
 				const tbody =document.querySelector("#boardTable tbody");
 				let html='';
@@ -232,6 +230,17 @@ document.body.style.fontFamily = "${layout.font}";
 						case 4: typeText ="공지사항"; break;
 					}
 					
+					
+					const parsedDate =new Date(createdAt);
+					const options={   year: '2-digit',
+							  month: '2-digit',
+							  day: '2-digit',
+							  hour: '2-digit',
+							  minute: '2-digit',
+							  hour12: false};
+					const formattedDate = parsedDate.toLocaleDateString('ko-KR', options);
+				
+					
 						return html + `
 							<tr>
 							<td>\${typeText}</td>
@@ -240,7 +249,7 @@ document.body.style.fontFamily = "${layout.font}";
 							</td>
 							<td>\${writer}</td>
 							<td>\${likeCount}</td>
-							<td>\${createdAt}</td>
+							<td>\${formattedDate}</td>
 						</tr>
 						`;
 						
@@ -296,7 +305,6 @@ document.body.style.fontFamily = "${layout.font}";
 			method:"GET",
 			data :{boardType,page},
 			success(data){
-				console.log(data);
 				const tbody =document.querySelector("#boardTable tbody");
 				let html='';
 				if(data.boards.length>0){
@@ -322,6 +330,14 @@ document.body.style.fontFamily = "${layout.font}";
 						`;
 					}
 					
+					const parsedDate =new Date(createdAt);
+					const options={   year: '2-digit',
+							  month: '2-digit',
+							  day: '2-digit',
+							  hour: '2-digit',
+							  minute: '2-digit',
+							  hour12: false};
+					const formattedDate = parsedDate.toLocaleDateString('ko-KR', options);
 					
 						return html + `
 							<tr>
@@ -331,7 +347,7 @@ document.body.style.fontFamily = "${layout.font}";
 							</td>
 							<td>\${writer}</td>
 							<td>\${likeCount}</td>
-							<td>\${createdAt}</td>
+							<td>\${formattedDate}</td>
 						</tr>
 						`;
 						
@@ -388,9 +404,9 @@ document.body.style.fontFamily = "${layout.font}";
         	li.parentNode.removeChild(li);
         });
         
-		for(let i=1; i<=pagebarSize; i++){
+		for(let i=1; i<=pagebarSize; i++) {
 			if(showPage+i <= lastPage){
-				if(showPage+i===currentPage){
+				if(showPage+i===currentPage) {
 					document.querySelector("#nextPage").insertAdjacentHTML('beforebegin',
 								`<li class="page-item pageLiTag" ><a class="page-link" style="background-color : #ddd;">\${showPage+i}</a></li>`
 					);
@@ -402,13 +418,11 @@ document.body.style.fontFamily = "${layout.font}";
 			}
 		}
 		
-		if(lastPage===0){
+		if(lastPage===0) {
 			document.querySelector("#nextPage").insertAdjacentHTML('beforebegin',
 					`<li class="page-item pageLiTag"><a class="page-link" >1</a></li>`
 			)
 		}
-		
-		
 	};
 </script>
 

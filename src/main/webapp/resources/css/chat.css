@@ -1,4 +1,4 @@
-@CHARSET "UTF-8";
+@charset "UTF-8";
 
 body {
 	font-family: 'IBM Plex Sans KR', sans-serif;
@@ -9,6 +9,24 @@ body {
 }
 a {
 	color: #777;
+}
+
+::-webkit-scrollbar {
+	width: 12px;
+}
+
+::-webkit-scrollbar-track {
+	background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+	background: #bbb;
+	border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: #aaa;
+	border-radius: 5px;
 }
 
 #chatBox {
@@ -32,10 +50,6 @@ a {
   text-align: left;
   font-weight: bold;
 }
-
-/* #chatListBox td {
-  margin: 5px 10px;
-} */
 
 #chatListBox img {
 	width: 52px;
@@ -66,7 +80,7 @@ a {
 	margin-left: 5px;
 }
 .noChatBox {
-	width: 286px;
+	width: 289px;
     display: block;
     font-size: 14px;
     margin: 0px 4px;
@@ -83,7 +97,7 @@ a {
     padding: 0 5px;
 }
 .content {
-	width: 286px;
+	width: 289px;
     border-width: 0 2px 2px 2px;
     border-style: solid;
 	border-color: #2990D0;

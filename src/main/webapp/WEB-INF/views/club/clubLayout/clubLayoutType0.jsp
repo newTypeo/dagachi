@@ -9,7 +9,6 @@
 <fmt:requestEncoding value="utf-8"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/layoutType0.css"/>
 
-	
 <article id="club-page-article">
 	<div id="club-util-box">
 		<div id="club-info-container">
@@ -34,20 +33,23 @@
 				<div class="myProfile2">
 					<p><strong><sec:authentication property="principal.nickname"/></strong></p>
 					<c:if test ="${memberRole eq 3}">
-						<p><strong>🥇방장</strong>|<a href="${pageContext.request.contextPath}/club/${domain}/clubUpdate.do">모임 관리</a></p>
+						<p><strong>🥇방장</strong></p>
+						<a href="${pageContext.request.contextPath}/club/${domain}/clubUpdate.do">모임 관리</a>
 					</c:if>
 					<c:if test ="${memberRole eq 2}">
-						<p><strong>🥇부방장</strong>|<a href="${pageContext.request.contextPath}/club/${domain}/clubUpdate.do">모임 관리</a></p>
+						<p><strong>🥇부방장</strong></p>
+						<a href="${pageContext.request.contextPath}/club/${domain}/clubUpdate.do">모임 관리</a>
 					</c:if>
 					<c:if test ="${memberRole eq 1}">
-						<p><strong>🥇임원</strong>|<a href="${pageContext.request.contextPath}/club/${domain}/clubUpdate.do">모임 관리</a></p>
+						<p><strong>🥇임원</strong></p>
+						<a href="${pageContext.request.contextPath}/club/${domain}/clubUpdate.do">모임 관리</a>
 					</c:if>
 					<c:if test ="${memberRole eq 0}">
 						<p><strong>🎀일반회원</strong></p>
 					</c:if>
 				</div>
 				<div class="myProfile3">
-					<button class="btn" style="background-color: ${layout.fontColor}">글쓰기</button>
+					<button id="boardCreateBtn" class="btn" style="background-color: ${layout.fontColor}">글쓰기</button>
 					<button id="scheduleCreateBtn" class="btn" style="background-color: ${layout.fontColor}">일정생성</button>
 				</div>
 			</c:if>
@@ -117,7 +119,7 @@
 						</span>
 						<span>❤${board.likeCount < 100 ? board.likeCount : '99+'}</span>
 						<a href="/" class="fontColors">
-							${board.writer}
+							${board.nickname}
 						</a>
 					</div>
 				</c:if>
@@ -144,7 +146,7 @@
 						</span>
 						<span>❤${board.likeCount < 100 ? board.likeCount : '99+'}</span>
 						<a href="/" class="fontColors">
-							${board.writer}
+							${board.nickname}
 						</a>
 					</div>
 				</c:if>
@@ -190,7 +192,7 @@
 							</span>
 							<span>❤${board.likeCount < 100 ? board.likeCount : '99+'}</span>
 							<a href="/" class="fontColors">
-								${board.writer}
+								${board.nickname}
 							</a>
 						</div>
 					</c:if>
@@ -218,7 +220,7 @@
 						</span>
 						<span>❤${board.likeCount < 100 ? board.likeCount : '99+'}</span>
 						<a href="/" class="fontColors">
-							${board.writer}
+							${board.nickname}
 						</a>
 					</div>
 				</c:if>
@@ -247,7 +249,7 @@
     					<fmt:formatDate value="${endDate}" pattern="MM.dd"/>
 					</span>
 					<a href="/" class="fontColors">
-						${schedule.writer}
+						${schedule.nickname}
 					</a>
 				</div>
 			</c:forEach>
@@ -292,22 +294,15 @@
 </nav>
 
 <script>
-console.log("memberRole= ", ${memberRole});
-
 const clubMemberDelete = () => {
 	if(confirm("모임을 정말 탈퇴하시겠습니까?")) {
-		// console.log(document.clubMemberDeleteFrm);
 		document.clubMemberDeleteFrm.submit();
 	}
 }
 
-scheduleCreateBtn.addEventListener('click', () => {
-	location.href = "${pageContext.request.contextPath}/club/${domain}/scheduleCreate.do";
-});
-
 //창환(모임 신고)
 document.querySelector("#clubReport").onclick = () => {
-	const frm = document.clubReportFrm;
+	console.log('Type0');
 	$("#reportModal")
 	.modal()
 	.on('shown.bs.modal', () => {
@@ -334,9 +329,6 @@ const clubReportSubmit = () => {
 		data : { domain, reporter, reason },
 		beforeSend(xhr) {
 			xhr.setRequestHeader(header, token);
-		},
-		success(response) {
-			// console.log(response);
 		}
 	});
 	
@@ -352,7 +344,6 @@ function clubLike(domain, contextPath) {
         url: contextPath + "/club/clubLikeCheck.do",
         data: { domain },
         success(responseData) {
-            // console.log("responseData : ", responseData);
 
             if (responseData) {
                 if (confirm("찜하신 모임을 취소하시겠습니까?")) {
@@ -381,4 +372,16 @@ function clubLike(domain, contextPath) {
 }
 
 </script>
+
+<c:if test="${memberRole ne 10}">
+	<script>
+		scheduleCreateBtn.addEventListener('click', () => {
+			location.href = "${pageContext.request.contextPath}/club/${domain}/scheduleCreate.do";
+		});	
+		
+		boardCreateBtn.addEventListener('click', () => {
+			location.href = "${pageContext.request.contextPath}/club/${domain}/clubBoardCreate.do";
+		});	
+	</script> 
+</c:if>
 

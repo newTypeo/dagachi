@@ -14,6 +14,10 @@
 <meta charset="UTF-8">
 <title>채팅방</title>
 
+<!-- 아이콘 링크 -->
+<script src="https://kit.fontawesome.com/d7ccac7be9.js" crossorigin="anonymous"></script>
+
+
 <script src="https://code.jquery.com/jquery-3.6.0.js"
 	integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
 	crossorigin="anonymous"></script>
@@ -34,7 +38,7 @@
 
 <!-- 사용자작성 css -->
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/chat.css" />
+	href="${pageContext.request.contextPath}/resources/css/chatRoom.css" />
 
 
 <script
@@ -47,107 +51,7 @@
 	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="${pageContext.request.contextPath}/resources/js/stomp.js"></script>
 </head>
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/style.css" />
-<style>
- .resized-image {
-    width: 100%; /* 원하는 크기로 조절 */
-    height: auto; /* 가로 세로 비율을 유지하기 위해 */
-}
-#chatWrap {
-	overflow-y: scroll;
-	max-height: 400px; /* 원하는 최대 높이로 설정 */
-}
 
-.textbox {
-	margin-top: 10px;
-	margin-bottom: 10px;
-}
-
-* {
-	padding: 0;
-	margin: 0;
-	box-sizing: border-box;
-}
-
-a {
-	text-decoration: none;
-}
-
-.wrap {bbnb
-	padding: 40px 0;
-	background-color: #A8C0D6;
-}
-
-.wrap .chat {
-	display: flex;
-	align-items: flex-start;
-	padding: 20px;
-}
-
-.wrap .chat .icon {
-	position: relative;
-	overflow: hidden;
-	width: 50px;
-	height: 50px;
-	border-radius: 50%;
-	background-color: #eee;
-}
-
-.wrap .chat .icon i {
-	position: absolute;
-	top: 10px;
-	left: 50%;
-	font-size: 2.5rem;
-	color: #aaa;
-	transform: translateX(-50%);
-}
-
-.wrap .chat .textbox {
-	position: relative;
-	display: inline-block;
-	max-width: calc(100% - 70px);
-	padding: 10px;
-	margin-top: 7px;
-	font-size: 13px;
-	border-radius: 10px;
-}
-
-.wrap .chat .textbox::before {
-	position: absolute;
-	display: block;
-	top: 0;
-	font-size: 1.5rem;
-}
-
-.wrap .ch1 .textbox {
-	margin-left: 20px;
-	background-color: #ddd;
-}
-
-.wrap .ch1 .textbox::before {
-	left: -15px;
-	content: "◀";
-	color: #ddd;
-}
-
-.wrap .ch2 {
-	flex-direction: row-reverse;
-}
-
-.wrap .ch2 .textbox {
-	margin-right: 20px;
-	background-color: #F9EB54;
-}
-
-.wrap .ch2 .textbox::before {
-	right: -15px;
-	content: "▶";
-	color: #F9EB54;
-}
-
-
-</style>
 <script>
 	window.onload=()=>{
 		 document.querySelector("#chatWrap").scrollTop = document.querySelector("#chatWrap").scrollHeight;
@@ -159,7 +63,7 @@ a {
 
 	<sec:authorize access="isAuthenticated()">
 
-		<sec:authentication property="principal.username" var="memberId" />
+		<sec:authentication property="principal.memberId" var="memberId" />
 
 		<script>
 		const memberId = "${memberId}";
@@ -172,9 +76,9 @@ a {
 	
 
 		<article id="club-chatRoom-sec" class="">
-
-			<a href="${pageContext.request.contextPath}/chat/chatBox.jsp">목록으로
-				돌아가기</a>
+			<div class="backToList">
+				<a href="${pageContext.request.contextPath}/chat/chatBox.jsp" style="color: black;"><i class="fa-solid fa-angles-left"></i>목록으로 돌아가기</a>
+			</div>
 			<div class="wrap" id="chatWrap">
 
 
@@ -182,21 +86,17 @@ a {
 
 					<c:forEach items="${chatlogs}" var="chatlog">
 						<c:if test="${chatlog.writer eq memberId}">
-							<div><h6 class="chatIdPrintR">${chatlog.writer}</h6></div>
 							<div class="chat ch2">
 								<div class="icon">
-									<i class="fa-solid fa-user"></i> <img alt=""
-										src="${pageContext.request.contextPath}/resources/upload/member/profile/<sec:authentication property="principal.memberProfile.renamedFilename"/>" class="resized-image"/>
+									<img alt="" src="${pageContext.request.contextPath}/resources/upload/member/profile/<sec:authentication property="principal.memberProfile.renamedFilename"/>" class="resized-image"/>
 								</div>
 								<div class="textbox">${chatlog.content}</div>
 							</div>
 						</c:if>
 
 						<c:if test="${chatlog.writer ne memberId}">
-						<div><h6 class="chatIdPrintL">${chatlog.writer}</h6></div>
 							<div class="chat ch1">
 								<div class="icon">
-									<i class="fa-solid fa-user"></i>
 									<c:forEach items="${memberProfiles}" var="memberProfile">
 										<c:if test="${memberProfile.memberId eq chatlog.writer}">
 											<img alt=""
@@ -204,7 +104,12 @@ a {
 										</c:if>
 									</c:forEach>
 								</div>
-								<div class="textbox">${chatlog.content}</div>
+								<div>
+									<div class="chatIdPrintL">
+										<h6>${chatlog.nickname}</h6>
+									</div>
+									<div class="textbox">${chatlog.content}</div>
+								</div>
 							</div>
 						</c:if>
 
@@ -217,8 +122,7 @@ a {
 				<c:if test="${empty chatlogs}">
 					<div class="chat">
 						<div class="icon">
-							<i class="fa-solid fa-user"></i> <img alt=""
-								src="${pageContext.request.contextPath}/resources/upload/member/profile/<sec:authentication property="principal.memberProfile.renamedFilename" />" class="resized-image" />
+							<img alt="" src="${pageContext.request.contextPath}/resources/upload/member/profile/<sec:authentication property="principal.memberProfile.renamedFilename" />" class="resized-image" />
 						</div>
 						<div class="textbox">채팅을 시작하세요</div>
 					</div>
@@ -226,7 +130,7 @@ a {
 
 			</div>
 
-			<div>
+			<div style="height: 91px; background: #eee;">
 				<textarea rows="3" cols="30" id="msgBox"></textarea>
 				<button id="snedMsg">전송</button>
 			</div>
@@ -241,13 +145,11 @@ const loadPro=(from,to)=>{
  		data : {from,to},
  		async :false,
  		success(data){
- 			console.log(data,decodeURI(data));
  			if(data !== null){
  				 pro= decodeURI(data);
  			}
  			const profileInfo ={userName : from, userProfileName : data};
  			proList.push(profileInfo);
- 			console.log("유저당 한번만 나와야하는 콘솔");
  		}
  		
  	});
@@ -265,7 +167,6 @@ document.querySelector("#msgBox").addEventListener("keydown",(e)=>{
 document.querySelector("#snedMsg").addEventListener("click",()=>{
 	const msgbox=document.querySelector("#msgBox");
 	const content=msgbox.value;
-	console.log(content);
 	msgbox.value="";
 	
 	if(content===""){
@@ -280,7 +181,6 @@ document.querySelector("#snedMsg").addEventListener("click",()=>{
 			content : content,
 			createdAt : Date.now()
 		};
-		console.log(payload);
 		
 		const url = `/app/clubTalk/\${payload.to}`;
 		

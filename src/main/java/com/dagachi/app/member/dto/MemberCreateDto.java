@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.NotEmpty; // @NotEmpty 어노테이션 추가
 
 import org.springframework.format.annotation.DateTimeFormat;
