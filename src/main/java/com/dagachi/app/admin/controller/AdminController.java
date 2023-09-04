@@ -28,7 +28,6 @@ import com.dagachi.app.admin.dto.AdminInquiryUpdateDto;
 import com.dagachi.app.admin.entity.AdminInquiry;
 import com.dagachi.app.admin.entity.MainPage;
 import com.dagachi.app.admin.service.AdminService;
-import com.dagachi.app.club.common.Status;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubBoardAttachment;
 import com.dagachi.app.club.service.ClubService;
