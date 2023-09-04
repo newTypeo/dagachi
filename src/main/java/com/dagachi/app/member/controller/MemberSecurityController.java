@@ -177,7 +177,7 @@ public class MemberSecurityController {
 		SavedRequest savedRequest = (SavedRequest) session.getAttribute("SPRING_SECURITY_SAVED_REQUEST");
 		String location = savedRequest == null ? "/" : savedRequest.getRedirectUrl();
 //		log.debug("location = {}", location);
-		return "redirect:" + location;
+		return "redirect:/";
 	}
 
 	// 회원 아이디 중복 여부를 확인하기 위해 사용하는 코드
