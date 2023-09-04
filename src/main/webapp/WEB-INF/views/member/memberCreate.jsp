@@ -1066,12 +1066,10 @@ document.addEventListener("DOMContentLoaded", function () {
 	    const emailRegMsg = document.querySelector(".email.reg");
 	    const emailValid = document.querySelector("#emailValid");
 	    const emailReg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-	    var sendCodeButton = document.getElementById('sendCodeButton');
 	    
 	    const value = emailInput.value;
 	    
 	    if (!emailReg.test(value)) {
-	      sendCodeButton.style.cssText = "opacity: 0.7; pointer-events: none;";
 	      emailRegMsg.style.display = "inline";
 	      emailError.style.display = "none";
 	      emailValid.value = "0";
@@ -1087,11 +1085,9 @@ document.addEventListener("DOMContentLoaded", function () {
 	        success: function(responseData) {
 	          const { available } = responseData;
 	          if (available) {
-	        	  sendCodeButton.style.cssText = "opacity: 1; pointer-events: auto;";
 	        	  emailError.style.display = "none";
 	        	  emailValid.value = "1";
 	        	} else {
-	        	  sendCodeButton.style.cssText = "opacity: 0.7; pointer-events: none;";
 	        	  emailError.style.display = "inline";
 	        	  emailValid.value = "0";
 	        	}
@@ -1221,11 +1217,6 @@ function checkConditions() {
     ];
     console.log(validConditions);
     const isValid = validConditions.every(tag => tag.value === "1" && tag.value !== "");
-    
-    console.log("하이하이");
-    
-    console.log(isValid);
-    
     if (isValid) {
     	enrollbtn.removeAttribute("disabled");
     } else {

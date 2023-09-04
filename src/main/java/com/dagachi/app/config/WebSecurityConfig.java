@@ -52,7 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-			.antMatchers("/", "/index.jsp","/club/categoryList.do","/club/clubList.do","/admin/mainBannerList.do","/club/clubSearch.do","/member/memberCreate.do","member/sendCode.do","/member/checkNicknameDuplicate.do","/member/checkEmailDuplicate.do").permitAll() //요청은 모든 사용자에게 허용
+			.antMatchers("/", "/index.jsp","/club/categoryList.do","/club/clubList.do","/admin/mainBannerList.do","/club/clubSearch.do","/member/memberCreate.do","member/sendCode.do","/member/checkNicknameDuplicate.do", "/member/memebrInsertEmail.do","/member/checkIdDuplicate.do").permitAll() //요청은 모든 사용자에게 허용
 			.antMatchers("/member/memberLogin.do","/member/searchId.do","/member/searchPw.do").anonymous()
 			.antMatchers("/admin/**").hasAuthority("ADMIN")
 			.anyRequest().authenticated(); //(로그인한) 사용자에게만 허용된다는 것을 의미
