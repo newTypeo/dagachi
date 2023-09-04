@@ -304,7 +304,7 @@ scheduleCreateBtn.addEventListener('click', () => {
 
 //창환(모임 신고)
 document.querySelector("#clubReport").onclick = () => {
-	const frm = document.clubReportFrm;
+	console.log('Type0');
 	$("#reportModal")
 	.modal()
 	.on('shown.bs.modal', () => {
