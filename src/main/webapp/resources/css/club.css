@@ -43,6 +43,7 @@ header {
 header #header-nav-container {
 	float: right;
 	position: absolute;
+	display: flex;
 }
 
 header #header-nav-container a {
@@ -59,17 +60,26 @@ header #header-nav-container span {
 }
 
 /************ club-title *************/
+#club-title {
+	margin-bottom: 10px; 
+}
+
 #club-title img {
 	width: 1320px;
-	margin-bottom: 10px; 
 }
 
 #default-title {
 	width: 1320px;
 	height: 100px;
-	background-color: pink;
+	background-color: #2990D0;
+	display: flex;
+	align-items: center;
 }
-
+#default-title h2 {
+	color: white;
+	font-weight: bold;
+	margin: 0 20px;
+}
 
 /********** footer **********/
 footer {

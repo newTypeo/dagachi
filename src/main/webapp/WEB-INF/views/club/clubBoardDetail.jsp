@@ -11,6 +11,15 @@
 	<jsp:param value="게시글" name="title" />
 </jsp:include>
 
+<script>
+	 window.onload=()=>{
+		 
+		 const likeCheck=${liked};
+		 console.log(likeCheck);
+		 likeChecked(likeCheck);
+	 }
+</script>
+
 <section id="club-boardDetail-sec" class="">
 		<nav id="club-title" class="">
 		<c:if test="${layout.title eq null}">
@@ -71,7 +80,9 @@
 					</div>
 					<div class="card-footer">
 						<div class="like-wrapper">
-							<input type="checkbox" id="like" ${liked ? 'checked' : ''} /> <label
+							<i id="heartEM" class="fa-regular fa-heart fa-2xl" style="color: #f50000;" onclick="heartClick1(event)"></i>
+							<i id="heartEM2" class="fa-solid fa-heart fa-bounce fa-2xl" style="color: #f50000;" onclick="heartClick2(event)"></i>
+							<input type="checkbox" id="like" ${liked ? 'checked' : ''} style="display: none;" /> <label
 								for="heart" id="heartButton"> ${clubBoard.likeCount} </label>
 						</div>
 					</div>
@@ -117,6 +128,7 @@
 			</c:if>
 		</div>
 	</div>
+	
 
 	<form:form name="detailFrm"></form:form>
 
@@ -219,6 +231,36 @@ const deleteButton=()=>{
 		
 	
 };
+
+const likeChecked=(like)=>{
+	
+	if(like){
+		document.querySelector("#heartEM").style.display = "none";
+		document.querySelector("#heartEM2").style.display = "inline";
+	}
+	else{
+		document.querySelector("#heartEM2").style.display = "none";
+		document.querySelector("#heartEM").style.display = "inline";
+	}
+};
+
+
+const heartClick1=(e)=> {
+ 
+	e.target.style.display = "none";
+	document.querySelector("#heartEM2").style.display = "inline";
+	document.querySelector("#like").click();
+	
+};
+
+const heartClick2=(e)=>  {
+	 
+	e.target.style.display = "none";
+	document.querySelector("#heartEM").style.display = "inline";
+	document.querySelector("#like").click();
+	
+};
+
 
 document.querySelector("#like").addEventListener("click", () => {
 	const like = document.querySelector("#like").checked;
