@@ -110,7 +110,6 @@
                 email: email
             },
             beforeSend(xhr) {
-            	console.log('xhr : ', xhr)
     			xhr.setRequestHeader(header, token);
     		},
             success: function(response) {
