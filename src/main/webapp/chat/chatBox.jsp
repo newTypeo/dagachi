@@ -91,6 +91,14 @@
 						console.log(data);
 						if(data.cahtlog !=null){
 							const {id,clubId,writer,content,createdAt}=data.cahtlog
+							const parsedDate =new Date(createdAt);
+							const options={   year: '2-digit',
+									  month: '2-digit',
+									  day: '2-digit',
+									  hour: '2-digit',
+									  minute: '2-digit'};
+							const formattedDate = parsedDate.toLocaleDateString('ko-KR', options);
+							
 							html+=`
 								<tr>
 									<td colspan = "2" class="clubNameWrapper">
@@ -104,7 +112,7 @@
 									<td>
 										<div class="writerAndCreatedAt">
 											<span>\${writer}</span>
-											<span>\${createdAt}</span>
+											<span>\${formattedDate}</span>
 										</div>
 									</td>
 								</tr>
