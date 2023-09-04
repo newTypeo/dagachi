@@ -314,7 +314,6 @@ public class MemberController {
 		return "/member/memberPwUpdate";
 	}
 	
-	
 	/**
 	 * @author 김준한
 	 * 이메일인증을 통한 비밀번호 찾기후 변경

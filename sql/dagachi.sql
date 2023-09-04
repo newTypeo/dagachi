@@ -1307,9 +1307,12 @@ insert into club_member values('user9',5,default,default,3,default);
 insert into club_member values('user9',6,default,default,3,default);
 insert into club_member values('user9',7,default,default,3,default);
 select * from activity_area;
-select * from member;
+select * from member where name = '김준한';
 
+select * from member_profile;
 select * from club;
 select * from club_member;
 commit;
-
+delete club_gallery where gallery_id = ;
+select * from club_gallery;
+select * from club_gallery_attachment;
