@@ -90,6 +90,7 @@ header #header-nav-container {
     position: absolute;
     width: 420px;
     transform: translate(-165px, 37px);
+    z-index: 10;
 }
 
 header #header-nav-container a {
