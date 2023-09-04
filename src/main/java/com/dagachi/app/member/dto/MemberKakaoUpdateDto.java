@@ -19,7 +19,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MemberKakaoUpdateDto {
-
+	
+	private String memberId;// 아이디 
+	 
     @NotBlank(message = "닉네임은 필수입니다.")
     private String nickname;// 닉네임 
 
@@ -46,4 +48,9 @@ public class MemberKakaoUpdateDto {
 
     @NotEmpty(message = "관심사는 필수입니다.") // @NotEmpty로 수정
     private List<String> interest;// 관심사
+
+	public String getMemberId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

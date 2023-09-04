@@ -232,6 +232,17 @@ document.body.style.fontFamily = "${layout.font}";
 						case 4: typeText ="공지사항"; break;
 					}
 					
+					
+					const parsedDate =new Date(createdAt);
+					const options={   year: '2-digit',
+							  month: '2-digit',
+							  day: '2-digit',
+							  hour: '2-digit',
+							  minute: '2-digit',
+							  hour12: false};
+					const formattedDate = parsedDate.toLocaleDateString('ko-KR', options);
+				
+					
 						return html + `
 							<tr>
 							<td>\${typeText}</td>
@@ -240,7 +251,7 @@ document.body.style.fontFamily = "${layout.font}";
 							</td>
 							<td>\${writer}</td>
 							<td>\${likeCount}</td>
-							<td>\${createdAt}</td>
+							<td>\${formattedDate}</td>
 						</tr>
 						`;
 						
@@ -322,6 +333,14 @@ document.body.style.fontFamily = "${layout.font}";
 						`;
 					}
 					
+					const parsedDate =new Date(createdAt);
+					const options={   year: '2-digit',
+							  month: '2-digit',
+							  day: '2-digit',
+							  hour: '2-digit',
+							  minute: '2-digit',
+							  hour12: false};
+					const formattedDate = parsedDate.toLocaleDateString('ko-KR', options);
 					
 						return html + `
 							<tr>
@@ -331,7 +350,7 @@ document.body.style.fontFamily = "${layout.font}";
 							</td>
 							<td>\${writer}</td>
 							<td>\${likeCount}</td>
-							<td>\${createdAt}</td>
+							<td>\${formattedDate}</td>
 						</tr>
 						`;
 						

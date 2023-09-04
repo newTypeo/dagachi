@@ -77,14 +77,23 @@
     display: inline-block;
     margin-right: 10px; 
 }
+  .blue-line {
+    border-bottom: 2px solid #2990D0;  /* 파란색 선을 그리고 싶은 두께와 색상을 조절할 수 있습니다. */
+  }
+ element.style {
+    transform: translate(190px, 3px);
+}
 
+.center{
+	    text-align: center;
+}
 </style>
 <section id="club-Inquiry-sec" class="">
 	<form:form  name="InquiryFrm"
 		action="${pageContext.request.contextPath}/admin/adminInquiryUpdate.do?no=${inquiry.inquiryId}"
 		enctype="multipart/form-data" method="post">
 		<input type ="hidden" value = "${inquiry.inquiryId}" name ="inquiryId" />
-	<div>
+	<div class = "center">
 	 	<span class = "title">문의 번호</span>
 		<h1>${inquiry.inquiryId}</h1>
 		<c:choose>
@@ -109,21 +118,32 @@
 			<c:if test="${inquiry.open == 0}"><td class = "cta" >공개 문의</td></c:if>		
 		</div>
 	</div>
- 
+	 </br> 
+		<div class = "blue-line"></div>
+ </br>
 	<div>
 		 <span class = "title">작성자 아이디 :</span> <span class = "member">${inquiry.writer}</span>
 	</div>
-	<div>
-		 <span class = "title">제목 :</span> <span class = "member">${inquiry.title}</span>
+	<div >
+		 <span class = "title">제목 :</span> <span class = "member ">${inquiry.title}</span>
 	</div>
 		   <span class = "title">문의 내용 :</span> <span class = "member"> ${inquiry.content}</span>
-
+			</br></br>
+			<div class = "blue-line"></div>
+			<c:if test="${inquiry.adminId != null}">
+				<div class = "blue-line"></br>
+				<span class = "title">답변자 :</span><span class = "member">${inquiry.adminId}</span></br>
+				<span class = "title">답변 내용:</span> <span class = "member">${inquiry.response}</span></br>
+				<span class = "title"> 답변일자 :</span> <span class = "member">${inquiry.responseAt}</span>
+				 </br></br>
+				 </div>
+			</c:if>
  		<div class="form-group">
 			<label for="exampleFormControlTextarea1"></label>
 			<textarea class="form-control" name="response" id="exampleFormControlTextarea1"
 				rows="3" placeholder="문의 내용 답변을 입력해주세요."></textarea>
 		</div>
-		<button type="submit" class="btn btn-primary btn-lg">답변 하기</button>
+		<button type="submit" class="btn btn-primary btn-lg" style=" transform: translate(190px, 3px)">답변/수정 하기</button>
 	 </form:form>
 </section>
 <script>

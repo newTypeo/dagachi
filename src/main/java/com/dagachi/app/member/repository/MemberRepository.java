@@ -49,11 +49,15 @@ public interface MemberRepository {
 	
 	//카카오톡 회원 정보 업데이트
 	@Update("update set member where nickname = #{nickname}, phone_no=  #{phoneNo}, birthday = #{birthday, jdbcType=DATE}, gender = #{gender}, mbti = #{mbti},  address = #{activityArea}")
-	int kakaoUpadteCreate(MemberCreateDto member);
+	int kakaoUpadteCreate(MemberKakaoUpdateDto member);
 	
 	//카카오톡 회원 업데이트 안한 사람 찾아오기
-	@Select("SELECT COUNT(*) FROM member WHERE member_id = CONCAT(#{memberId}, '@Kakao') AND phone_No IS NULL")
+	@Select("SELECT COUNT(*) FROM member WHERE member_Id = #{memberId} AND phone_no IS NULL AND nickname IS NULL")
 	int checkKakao(String memberId);
+	
+	//카카오톡 회원 정보
+	@Insert("INSERT INTO activity_area values(#{memberId}, #{mainAreaId}, null, null)") 
+	void kakaoinsertActivityArea(MemberKakaoUpdateDto member);
 	// 회원가입 ------------------
 	MemberDetails loadUserByUsername(String memberId);
 	
@@ -144,6 +148,7 @@ public interface MemberRepository {
 	
 	@Select("select count(*) from member_like where member_id = #{memberId} and like_sender = #{loginMemberId}")
 	int checkDuplicateMemberIdAndMyId(Map<String, Object> params);
+
 
 	
 }

@@ -241,15 +241,15 @@ public class MemberServiceImpl implements MemberService{
 
 
 	@Override
-	public int kakaoUpadteCreate(MemberCreateDto member) {
+	public int kakaoUpadteCreate(MemberKakaoUpdateDto member) {
 	    int result = 0;
 
 	    result = memberRepository.kakaoUpadteCreate(member);
 	    log.debug("member = " + member);
 
-	    memberRepository.insertActivityArea(member);
+	    memberRepository.kakaoinsertActivityArea(member);
+	    
 	    List<String> interestList = member.getInterest();
-
 	    for (String interest : interestList) {
 	        memberRepository.insertMemberInterest(member.getMemberId(), interest);
 	    }

@@ -34,7 +34,7 @@
 
 <!-- 사용자작성 css -->
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/chat.css" />
+	href="${pageContext.request.contextPath}/resources/css/chatRoom.css" />
 
 
 <script
@@ -47,107 +47,7 @@
 	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="${pageContext.request.contextPath}/resources/js/stomp.js"></script>
 </head>
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/style.css" />
-<style>
- .resized-image {
-    width: 100%; /* 원하는 크기로 조절 */
-    height: auto; /* 가로 세로 비율을 유지하기 위해 */
-}
-#chatWrap {
-	overflow-y: scroll;
-	max-height: 400px; /* 원하는 최대 높이로 설정 */
-}
 
-.textbox {
-	margin-top: 10px;
-	margin-bottom: 10px;
-}
-
-* {
-	padding: 0;
-	margin: 0;
-	box-sizing: border-box;
-}
-
-a {
-	text-decoration: none;
-}
-
-.wrap {bbnb
-	padding: 40px 0;
-	background-color: #A8C0D6;
-}
-
-.wrap .chat {
-	display: flex;
-	align-items: flex-start;
-	padding: 20px;
-}
-
-.wrap .chat .icon {
-	position: relative;
-	overflow: hidden;
-	width: 50px;
-	height: 50px;
-	border-radius: 50%;
-	background-color: #eee;
-}
-
-.wrap .chat .icon i {
-	position: absolute;
-	top: 10px;
-	left: 50%;
-	font-size: 2.5rem;
-	color: #aaa;
-	transform: translateX(-50%);
-}
-
-.wrap .chat .textbox {
-	position: relative;
-	display: inline-block;
-	max-width: calc(100% - 70px);
-	padding: 10px;
-	margin-top: 7px;
-	font-size: 13px;
-	border-radius: 10px;
-}
-
-.wrap .chat .textbox::before {
-	position: absolute;
-	display: block;
-	top: 0;
-	font-size: 1.5rem;
-}
-
-.wrap .ch1 .textbox {
-	margin-left: 20px;
-	background-color: #ddd;
-}
-
-.wrap .ch1 .textbox::before {
-	left: -15px;
-	content: "◀";
-	color: #ddd;
-}
-
-.wrap .ch2 {
-	flex-direction: row-reverse;
-}
-
-.wrap .ch2 .textbox {
-	margin-right: 20px;
-	background-color: #F9EB54;
-}
-
-.wrap .ch2 .textbox::before {
-	right: -15px;
-	content: "▶";
-	color: #F9EB54;
-}
-
-
-</style>
 <script>
 	window.onload=()=>{
 		 document.querySelector("#chatWrap").scrollTop = document.querySelector("#chatWrap").scrollHeight;
@@ -182,7 +82,6 @@ a {
 
 					<c:forEach items="${chatlogs}" var="chatlog">
 						<c:if test="${chatlog.writer eq memberId}">
-							<div><h6 class="chatIdPrintR">${chatlog.writer}</h6></div>
 							<div class="chat ch2">
 								<div class="icon">
 									<i class="fa-solid fa-user"></i> <img alt=""

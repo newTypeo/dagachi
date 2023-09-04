@@ -83,7 +83,7 @@ public interface MemberService extends UserDetailsService {
 	
 	int KakaoMember(MemberKakaoDto memberKakaoDto);
 
-	int kakaoUpadteCreate(MemberCreateDto member);
+	int kakaoUpadteCreate(MemberKakaoUpdateDto member);
 	
 	int memberPwUpdate(MemberPwUpdateDto memberPwUpdateDto);
 

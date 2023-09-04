@@ -587,11 +587,7 @@ public class ClubController {
 
 		List<ManageMember> clubApplies = clubService.clubApplyByFindByClubId(clubId); // clubId로 club_apply, member 테이블
 																						// 조인
-//		log.debug("clubId = {}", clubId);
-//		log.debug("clubApplies = {}", clubApplies);
-
 		List<ClubMember> clubMembers = clubService.clubMemberByFindAllByClubId(clubId); // clubId로 club_member 조회(방장 제외)
-//		log.debug("clubMembers = {}", clubMembers);
 
 		List<JoinClubMember> joinClubMembersInfo = clubService.clubMemberInfoByFindByMemberId(clubMembers, clubId); // 해당
 																													// 모임에
@@ -600,17 +596,12 @@ public class ClubController {
 																													// 정보(이름,
 																													// 닉네임,
 																													// 가입일)
-//		log.debug("joinClubMembersInfo = {}", joinClubMembersInfo);
-
 		JoinClubMember host = clubService.hostFindByClubId(clubId);
-//		log.debug("host = {}", host);
 
 		String loginMemberId = member.getMemberId(); // 로그인 한 회원 아이디
 		ClubMemberRole clubMemberRole = ClubMemberRole.builder().clubId(clubId).loginMemberId(loginMemberId).build();
 		// 로그인한 회원 아이디로 해당 모임의 권한 가져오기
 		int memberRole = clubService.memberRoleFindByMemberId(clubMemberRole);
-
-//		log.debug("memberRole = {}", memberRole);
 
 		model.addAttribute("host", host); // 해당 모임의 방장 정보(아이디, 이름, 닉네임, 가입일, 권한)
 		model.addAttribute("clubId", clubId); // 가입승인 시 필요 (종환)
@@ -631,8 +622,6 @@ public class ClubController {
 	public String kickMember(@PathVariable("domain") String domain, @RequestParam String memberId,
 			KickMember kickMember) {
 
-//		log.debug("domain = {}", domain);
-//		log.debug("memberId = {}", memberId);
 		int clubId = clubService.clubIdFindByDomain(domain); // clubId 찾아오기
 
 		kickMember.setClubId(clubId);
@@ -670,7 +659,6 @@ public class ClubController {
 		List<ClubBoard> boards = clubService.boardList(clubBoard, params);
 
 		int boardSize = clubService.boardSize(clubBoard);
-		log.debug("boardSize={}", boardSize);
 
 		Map<String, Object> boardInfo = Map.ofEntries(Map.entry("boardSize", boardSize), Map.entry("boards", boards));
 
@@ -844,8 +832,6 @@ public class ClubController {
 
 		int result = clubService.updateBoard(clubBoard);
 
-//		log.debug("clubBoard = {}", clubBoard);
-
 		return "redirect:/club/" + domain + "/boardDetail.do?no=" + no;
 	}
 
@@ -858,15 +844,10 @@ public class ClubController {
 	public String clubMemberRoleUpdate(@PathVariable("domain") String domain, @RequestParam String memberId,
 			@RequestParam int clubMemberRole) {
 
-//		log.debug("memberId = {}", memberId);
-//		log.debug("clubMemberRole = {}", clubMemberRole);
-
 		ClubMemberRoleUpdate member = ClubMemberRoleUpdate.builder().memberId(memberId).clubMemberRole(clubMemberRole)
 				.build();
 
-//		log.debug("member = {}", member);
 		int result = clubService.clubMemberRoleUpdate(member);
-//		log.debug("result = {}", result);
 
 		return "redirect:/club/" + domain + "/manageMember.do";
 	}
@@ -920,8 +901,6 @@ public class ClubController {
 			@Valid ClubCreateDto _club, 
 			@AuthenticationPrincipal MemberDetails member, 
 			@RequestParam(value = "upFile") MultipartFile upFile) throws IllegalStateException, IOException {
-		System.out.println(_club);
-		System.out.println(upFile);
 		// 1. 파일저장
 		String uploadDir = "/club/profile/";
 		ClubProfile clubProfile = null;
@@ -931,7 +910,6 @@ public class ClubController {
 			File destFile = new File(uploadDir + renamedFilename); // 부모디렉토리 생략가능. spring.servlet.multipart.location 값을
 																   // 사용
 			upFile.transferTo(destFile); // 실제파일 저장
-			//System.out.println("파일이 저장 됬나?");
 			clubProfile = ClubProfile.builder()
 									 .originalFilename(originalFilename)
 									 .renamedFilename(renamedFilename).build();
@@ -1002,8 +980,9 @@ public class ClubController {
 																	// 사용
 			upFile.transferTo(destFile); // 실제파일 저장
 
-			clubProfile = ClubProfile.builder().originalFilename(originalFilename).renamedFilename(renamedFilename)
-					.build();
+			clubProfile = ClubProfile.builder().originalFilename(originalFilename)
+												.renamedFilename(renamedFilename)
+												 .build();
 		}
 
 		List<String> tagList = new ArrayList<>();
@@ -1063,12 +1042,15 @@ public class ClubController {
 		ClubBoardAttachment attach = clubService.findAttachment(id);
 		int no = attach.getBoardId();
 		result = clubService.delAttachment(id);
+		
 		if (attach.getThumbnail() == Status.Y) {
 			attachments = clubService.findAttachments(no);
+			
 			if (!attachments.isEmpty()) {
 				attachments.get(0).setThumbnail(Status.Y);
 				result = clubService.updateThumbnail(attachments.get(0));
 			}
+			
 		}
 
 		return ResponseEntity.status(HttpStatus.OK).body(attachments);
@@ -1091,10 +1073,10 @@ public class ClubController {
 		
 		List<ClubMemberAndImage> clubMembers = clubService.findClubMembers(clubId);
 
-		model.addAttribute("clubMembers", clubMembers);
 		model.addAttribute("club", club);
 		model.addAttribute("layout", layout);
 		model.addAttribute("clubName", clubName);
+		model.addAttribute("clubMembers", clubMembers);
 
 		return "/club/clubMemberList";
 	}
@@ -1196,7 +1178,6 @@ public class ClubController {
 
 	/**
 	 * 게시글 삭제
-	 * 
 	 * @author 상윤
 	 */
 	@PostMapping("/{domain}/delBoard.do")
@@ -1210,7 +1191,6 @@ public class ClubController {
 
 	/**
 	 * 게시판 조회
-	 * 
 	 * @author 상윤
 	 */
 	@GetMapping("/{domain}/searchClubBoard.do")
@@ -1271,7 +1251,6 @@ public class ClubController {
 
 	/**
 	 * 찜 목록에 모임이 있는지 확인 후 리턴
-	 * 
 	 * @author 현우
 	 */
 	@GetMapping("/clubLikeCheck.do")
@@ -1279,7 +1258,6 @@ public class ClubController {
 
 		Club club = clubService.findByDomain(domain);
 		int targetId = club.getClubId();
-		log.debug("잘왔니 정말 정말 정말 = {}", targetId);
 
 		int checkDuplicate = clubService.checkDuplicateClubLike(targetId);
 
@@ -1290,7 +1268,6 @@ public class ClubController {
 
 	/**
 	 * 갤러리 들어가기
-	 * 
 	 * @author 준한
 	 */
 	@GetMapping("{domain}/clubGallery.do")
@@ -1313,7 +1290,6 @@ public class ClubController {
 
 	/**
 	 * 갤러리 상세보기
-	 * 
 	 * @author 준한
 	 */
 	@GetMapping("/{domain}/{galleryId}")
@@ -1326,39 +1302,42 @@ public class ClubController {
 		ClubLayout layout = clubService.findLayoutById(club.getClubId());
 
 		String writer = galleryAndImages.get(0).getMemberId();
+		
+		model.addAttribute("id", id);
 		model.addAttribute("domain", domain);
 		model.addAttribute("layout", layout);
-		model.addAttribute("clubName", club.getClubName());
-		model.addAttribute("id", id);
 		model.addAttribute("writer", writer); // 갤러리 게시글 작성자
-		model.addAttribute("galleryAndImages", galleryAndImages); // 갤러리 첨부파일 배열
 		model.addAttribute("loginMember", loginMember); // 로그인 객체
+		model.addAttribute("clubName", club.getClubName());
+		model.addAttribute("galleryAndImages", galleryAndImages); // 갤러리 첨부파일 배열
 
 		return "/club/clubGalleryDetail";
 	}
 
 	/**
 	 * 갤러리 삭제
-	 * 
 	 * @author 준한
 	 */
 	@GetMapping("/{domain}/{id}/clubGalleryDelete.do")
 	public String clubGalleryDelete(@AuthenticationPrincipal MemberDetails loginMember, Model model,
-			@PathVariable("id") int id, @PathVariable("domain") String domain
-
-	) {
+			@PathVariable("id") int id, @PathVariable("domain") String domain) {
+		
 		int result = clubService.clubGalleryDelete(id);
 
 		return "redirect:/club/" + domain + "/clubGallery.do";
 	}
 
+	/**
+	 * 
+	 * @author ?
+	 */
 	@GetMapping("/{domain}/clubGalleryInsert.do")
 	public String clubGalleryInsert(@AuthenticationPrincipal MemberDetails loginMember, Model model,
 			@PathVariable("domain") String domain) {
 		int clubId = clubService.clubIdFindByDomain(domain);
 
-		model.addAttribute("domain", domain);
 		model.addAttribute("clubId", clubId);
+		model.addAttribute("domain", domain);
 		model.addAttribute("loginMember", loginMember);
 
 		return "club/clubGalleryInsert";
@@ -1432,10 +1411,8 @@ public class ClubController {
 		int clubMemberRole = clubMember.getClubMemberRole();
 
 		if (clubMemberRole == 3) {
-			log.debug("여기는 if문이 실행 되는지 확인하는 곳 {}", clubMemberRole);
 			String clubAdminMsg = "방장은 모임에서 탈퇴할 수 없습니다.";
 			model.addAttribute("clubAdminMsg", clubAdminMsg);
-			System.out.println(clubAdminMsg);
 
 			// 해당 세션을 삭제
 			httpSession.removeAttribute(clubAdminMsg);

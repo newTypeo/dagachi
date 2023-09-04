@@ -42,8 +42,8 @@ div#search-content {
 						<option value="4">신고 문의</option>
 					</select>
 					<select class="searchType" id="inquiryStatus">
-						<option value="1">답변</option>
-						<option value="2"> 비답변</option>
+						<option value="1">비답변</option>
+						<option value="2"> 답변</option>
 						<option value="0" selected>답변여부 / 전체</option>
 					</select>
 					 <select id="searchType">
@@ -90,7 +90,6 @@ div#search-content {
 				<th scope="col">작성자</th>
 				<th scope="col">질문일자</th>
 				<th scope="col">답변</th>
-				<th scope="col">상세보기</th>
 			</tr>
 		</thead>
 		<tbody></tbody>
@@ -199,12 +198,22 @@ div#search-content {
 					<input type="hidden" name="inquiryId" value=\${inquiryId}>
 					<button type="submit">답변</button>
 					</form>`; break;
-					case 2: statusText ="답변 완료"; break;
+					case 2: statusText=`
+						<form action="${pageContext.request.contextPath}/admin/adminInquiryUpdate.do" method="GET">
+						<input type="hidden" name="inquiryId" value=\${inquiryId}>
+						<button type="submit">수정</button>
+						</form>`; break;
 					}
-					switch(status){
-					case 1: _statusText = "아직 답변하지 않은 문의입니다."; break;
-					case 2: _statusText =`답변자 : \${adminId}</br> 답변 내용: \${response} </br> 답변일자 : \${responseAt} `; break;
-					}
+					
+					const parsedDate =new Date(createdAt);
+					const options={   year: '2-digit',
+							  month: '2-digit',
+							  day: '2-digit',
+							  hour: '2-digit',
+							  minute: '2-digit',
+							  hour12: false};
+					const formattedDate = parsedDate.toLocaleDateString('ko-KR', options);
+					
 					
 					return html + `
 						<tr>
@@ -213,9 +222,8 @@ div#search-content {
 							<td>\${typeText}</td>
 							<td>\${title}</td>
 							<td>\${writer}</td>
-							<td>\${createdAt}</td>
+							<td>\${formattedDate}</td>
 							<td>\${statusText}</td>
-							<td>\${_statusText}</td>
 						</tr>
 						`;
 					},"");
@@ -301,12 +309,21 @@ div#search-content {
 					<input type="hidden" name="inquiryId" value=\${inquiryId}>
 					<button type="submit">답변</button>
 					</form>`; break;
-					case 2: statusText ="답변 완료"; break;
+					case 2:statusText=`
+						<form action="${pageContext.request.contextPath}/admin/adminInquiryUpdate.do" method="GET">
+						<input type="hidden" name="inquiryId" value=\${inquiryId}>
+						<button type="submit">수정</button>
+						</form>`; break;
 					}
-					switch(status){
-					case 1: _statusText = "아직 답변하지 않은 문의입니다."; break;
-					case 2: _statusText =`답변자 : \${adminId}</br> 답변 내용: \${response} </br> 답변일자 : \${responseAt} `; break;
-					}
+					
+					const parsedDate =new Date(createdAt);
+					const options={   year: '2-digit',
+							  month: '2-digit',
+							  day: '2-digit',
+							  hour: '2-digit',
+							  minute: '2-digit',
+							  hour12: false};
+					const formattedDate = parsedDate.toLocaleDateString('ko-KR', options);
 					return html + `
 						<tr>
 							<td>\${inquiryId}</td>
@@ -314,9 +331,8 @@ div#search-content {
 							<td>\${typeText}</td>
 							<td>\${title}</td>
 							<td>\${writer}</td>
-							<td>\${createdAt}</td>
+							<td>\${formattedDate}</td>
 							<td>\${statusText}</td>
-							<td>\${_statusText}</td>
 						</tr>
 						`;
 					},"");
