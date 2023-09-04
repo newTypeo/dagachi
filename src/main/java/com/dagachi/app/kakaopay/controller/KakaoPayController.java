@@ -46,7 +46,6 @@ public class KakaoPayController {
     		@AuthenticationPrincipal MemberDetails member) {
     	
         KakaoApproveResponse kakaoApprove = kakaoPayService.approveResponse(pgToken);
-//        System.out.println("kakaoApprove = " + kakaoApprove);
         String memberId = member.getMemberId();
         
         int result = memberService.buyCreateClubTicket(memberId);
