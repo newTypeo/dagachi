@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.dagachi.app.chat.entity.ChatLog;
 import com.dagachi.app.chat.entity.ChatLogDetail;
 import com.dagachi.app.chat.repository.ChatRepository;
-import com.dagachi.app.ws.dto.Payload;
 
 import lombok.extern.slf4j.Slf4j;
 

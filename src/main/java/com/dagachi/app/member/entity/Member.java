@@ -3,10 +3,7 @@ package com.dagachi.app.member.entity;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import com.dagachi.app.club.entity.Club;
-
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
