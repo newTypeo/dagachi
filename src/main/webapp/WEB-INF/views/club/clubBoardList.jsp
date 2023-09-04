@@ -179,7 +179,6 @@ document.body.style.fontFamily = "${layout.font}";
 		if(currentPage<lastPage){
 			currentPage++;
 			renderBoardList(boardTypeVal);
-			console.log(currentPage);
 		}
 	});
     
@@ -216,7 +215,6 @@ document.body.style.fontFamily = "${layout.font}";
 			method:"GET",
 			data :{searchKeywordVal,searchTypeVal,boardTypeVal},
 			success(data){
-				console.log(data);
 				
 				const tbody =document.querySelector("#boardTable tbody");
 				let html='';
@@ -307,7 +305,6 @@ document.body.style.fontFamily = "${layout.font}";
 			method:"GET",
 			data :{boardType,page},
 			success(data){
-				console.log(data);
 				const tbody =document.querySelector("#boardTable tbody");
 				let html='';
 				if(data.boards.length>0){
@@ -407,9 +404,9 @@ document.body.style.fontFamily = "${layout.font}";
         	li.parentNode.removeChild(li);
         });
         
-		for(let i=1; i<=pagebarSize; i++){
+		for(let i=1; i<=pagebarSize; i++) {
 			if(showPage+i <= lastPage){
-				if(showPage+i===currentPage){
+				if(showPage+i===currentPage) {
 					document.querySelector("#nextPage").insertAdjacentHTML('beforebegin',
 								`<li class="page-item pageLiTag" ><a class="page-link" style="background-color : #ddd;">\${showPage+i}</a></li>`
 					);
@@ -421,13 +418,11 @@ document.body.style.fontFamily = "${layout.font}";
 			}
 		}
 		
-		if(lastPage===0){
+		if(lastPage===0) {
 			document.querySelector("#nextPage").insertAdjacentHTML('beforebegin',
 					`<li class="page-item pageLiTag"><a class="page-link" >1</a></li>`
 			)
 		}
-		
-		
 	};
 </script>
 

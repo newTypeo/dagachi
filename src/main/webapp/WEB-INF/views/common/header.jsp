@@ -149,7 +149,6 @@
 				<!-- 로그인한 회원에 한해 최초 1회 실행되는 코드(반경 동정보 session에 저장) -->
 				<c:if test="${empty zoneSet1 or zoneSet1 eq null}">
 					<script>
-					// console.log("최초 로그인 시에만 찍혀야하는 로그(종환)");
 					$.ajax({ // 로그인한 회원의 주활동지역 코드 세션에 저장
 						url : "${pageContext.request.contextPath}/club/getMainAreaId.do",
 						success({mainAreaId}) {
@@ -162,15 +161,12 @@
 									const mainAreaName = regcodes[0].name; 
 									$.ajax({
 										url : "${pageContext.request.contextPath}/club/setZoneInSession.do",
-										data : {mainAreaName},
-										success() {
-											// console.log("session에 동네 저장 완료!(종환)");
-										}
+										data : {mainAreaName}
 									}); // ajax3
 								} // success2
 							}); // ajax2
 						}// success2
-					}); // ajax1
+// 					}); // ajax1
 					
 					</script>
 				</c:if>
@@ -211,12 +207,10 @@
 				
 				const alarmLoad=()=>{
 					const receiver= memberId;
-					console.log(receiver);
 					$.ajax({
 						url:"${pageContext.request.contextPath}/notification/findAlarms.do",
 						data:{receiver},
 						success(alarms){
-							console.log(alarms);
 					
 							if(alarms.length>0){
 								alarms.forEach((alarm)=>{
