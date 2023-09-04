@@ -58,7 +58,7 @@
 			alarmLoad();
 		};
 		
-		</script>
+	</script>
 
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"
@@ -117,13 +117,12 @@
 				</div>
 
 					<div class="dropdown">
-						
-						<sec:authorize access="hasRole('ROLE_ADMIN')">
+						<sec:authentication property="authorities" var="role"/>
+						<c:if test="${role eq '[ADMIN]'}">
 							<button id="admin-nav-btn"
 								class="btn btn-secondary dropdown-toggle" type="button"
 								data-toggle="dropdown" aria-expanded="false">회원관리</button>
-						</sec:authorize>
-					
+						</c:if>
 						<div class="dropdown-menu">
 							<button class="dropdown-item" type="button">
 								<a href="${pageContext.request.contextPath}/admin/adminMemberList.do?keyword=&column=">회원조회</a>
