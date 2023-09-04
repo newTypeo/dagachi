@@ -89,7 +89,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		    .tokenValiditySeconds(60 * 60 * 24 * 14); // 2주
 		
 		http.oauth2Login()
-			.loginPage("/index.jsp")
+			.loginPage("/")
 			.userInfoEndpoint()
 			.userService(oauth2UserService);
 	}
