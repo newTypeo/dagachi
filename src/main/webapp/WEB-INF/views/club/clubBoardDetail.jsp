@@ -13,9 +13,7 @@
 
 <script>
 	 window.onload=()=>{
-		 
 		 const likeCheck=${liked};
-		 console.log(likeCheck);
 		 likeChecked(likeCheck);
 	 }
 </script>
@@ -54,7 +52,10 @@
 				<div class="card">
 					<div class="card-body">
 						<h3 class="card-title">${clubBoard.title}</h3>
-						<p class="card-text2"> ${nickname} &nbsp;|&nbsp; ${clubBoard.createdAt}</p>
+						<p class="card-text2"> ${nickname} &nbsp;|&nbsp; 
+							<fmt:parseDate value="${clubBoard.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="boardCreatedAt"/>
+			    			<fmt:formatDate value="${boardCreatedAt}" pattern="yy.MM.dd HH:mm"/>
+						</p>
 						<hr>
 						<c:forEach items="${attachments}" var="attach">
 							<img
@@ -95,7 +96,7 @@
 
 		<div class="comment-input">
 			<div id="count-input">0/99</div>
-			<textarea id="comment-textarea" class="comment-textarea" placeholder="댓글을 입력하세요." maxlength="150" style="height: 65px;"></textarea>
+			<textarea id="comment-textarea" class="comment-textarea" placeholder="댓글을 입력하세요." maxlength="98" style="height: 65px;"></textarea>
 			<button id="comment-button" class="comment-button"
 				onclick="creatComment()">게시</button>
 		</div>
@@ -113,6 +114,7 @@
 			<c:if test="${not empty comments}">
 
 				<c:forEach items="${comments}" var="comment">
+				
 					<div class="profile-card">
 						<img class="profile-picture"
 							src="${pageContext.request.contextPath}/resources/upload/member/profile/${comment.profile}"
@@ -120,7 +122,10 @@
 						<div class="profile-info">
 							<h2 class="name">${comment.nickname}</h2>
 							<p class="comment">${comment.content}</p>
-							<p class="created-at">${comment.createdAt}</p>
+							<p class="comment-createdAt">
+								<fmt:parseDate value="${comment.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="createdAt"/>
+				    			<fmt:formatDate value="${createdAt}" pattern="yy.MM.dd HH:mm"/>
+				    		</p>
 						</div>
 					</div>
 				</c:forEach>
@@ -154,7 +159,7 @@ document.body.style.fontFamily = "${layout.font}";
 document.querySelector("#comment-textarea").onkeyup = (e) => {
 	const tag = document.querySelector("#count-input");
 	tag.innerHTML = e.target.textLength;
-	tag.innerHTML += '/150';
+	tag.innerHTML += '/99';
 };
 
 
@@ -171,7 +176,6 @@ const creatComment = () => {
 	const content= commentContent.value;
 	const boardId=${clubBoard.boardId};
 	const token= document.detailFrm._csrf.value;
-	console.log(token);
 	commentContent.value="";
 	
 	$.ajax({
@@ -182,8 +186,20 @@ const creatComment = () => {
 			"X-CSRF-TOKEN": token
 		},
 		success(data) {
-			// console.log(data);
 			const {boardId, commentId, commentLevel, commentRef, content, createdAt, status, nickname, profile} = data;
+			
+			// date formatting
+			const parsedDate = new Date(createdAt);
+			const options={ 
+					year: '2-digit',
+					month: '2-digit',
+					day: '2-digit',
+				 	hour: '2-digit',
+					minute: '2-digit',
+					hour12: false};
+			
+			const formattedDate = parsedDate.toLocaleDateString('ko-KR', options);
+			
 			
 			const newCommentDiv = document.createElement("div");
 			newCommentDiv.className="profile-card";
@@ -194,6 +210,7 @@ const creatComment = () => {
 				<div class="profile-info">
 					<h2 class="name">\${nickname}</h2>
 					<p class="comment">\${content}</p>
+					<p class='comment-createdAt'>\${formattedDate}</p>
 				</div>
 			`;
 			
@@ -264,7 +281,6 @@ const heartClick2=(e)=>  {
 
 document.querySelector("#like").addEventListener("click", () => {
 	const like = document.querySelector("#like").checked;
-	// console.log(like);
 	const token= document.detailFrm._csrf.value;
 	const boardId="${clubBoard.boardId}";
 	
@@ -274,7 +290,6 @@ document.querySelector("#like").addEventListener("click", () => {
 		data :{like , boardId},
 		headers: {"X-CSRF-TOKEN": token},
 		success(board) {
-			console.log(board);
 			const {boardId,clubId,content,createdAt,likeCount,status,title,type,writer} = board;
 			const likeCountBox =document.querySelector("#heartButton");
 			likeCountBox.innerText=`\${likeCount}`;

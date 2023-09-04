@@ -145,13 +145,11 @@ const loadPro=(from,to)=>{
  		data : {from,to},
  		async :false,
  		success(data){
- 			console.log(data,decodeURI(data));
  			if(data !== null){
  				 pro= decodeURI(data);
  			}
  			const profileInfo ={userName : from, userProfileName : data};
  			proList.push(profileInfo);
- 			console.log("유저당 한번만 나와야하는 콘솔");
  		}
  		
  	});
@@ -169,7 +167,6 @@ document.querySelector("#msgBox").addEventListener("keydown",(e)=>{
 document.querySelector("#snedMsg").addEventListener("click",()=>{
 	const msgbox=document.querySelector("#msgBox");
 	const content=msgbox.value;
-	console.log(content);
 	msgbox.value="";
 	
 	if(content===""){
@@ -184,7 +181,6 @@ document.querySelector("#snedMsg").addEventListener("click",()=>{
 			content : content,
 			createdAt : Date.now()
 		};
-		console.log(payload);
 		
 		const url = `/app/clubTalk/\${payload.to}`;
 		

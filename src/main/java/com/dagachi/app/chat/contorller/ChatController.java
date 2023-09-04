@@ -52,7 +52,6 @@ public class ChatController {
 	public ResponseEntity<?> findChatList(
 			@RequestParam int clubId
 	) {
-		System.out.println(clubId);
 		Club club = clubService.findClubById(clubId);
 		String clubName= club.getClubName();
 		ClubProfile clubProfile = clubService.findClubProfileById(clubId);
