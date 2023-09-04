@@ -548,7 +548,6 @@ public class ClubController {
 		clubReportDto.setClubId(clubId);
 
 		int result = clubService.insertClubReport(clubReportDto);
-
 		return ResponseEntity.status(HttpStatus.OK).body(clubReportDto);
 	}
 

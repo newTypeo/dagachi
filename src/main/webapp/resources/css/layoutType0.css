@@ -1,14 +1,25 @@
 @charset "UTF-8";
 
+/*************** modal ****************/
+#reportModal {
+  top: auto;
+  bottom: 0;
+  transform: translate(0, 100%);
+  transition: transform 0.3s ease-out;
+}
+
+#reportModal.show {
+  transform: translate(0, 0);
+}
+
+
 /************ club-title *************/
 
 #previewContainer{
 	width: 1320px;
-	height: 300px;
 }
 #previewContainer2{
 	width: 508px;
-	height: 337px;
 }
 
 
