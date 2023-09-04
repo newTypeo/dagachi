@@ -149,19 +149,15 @@
 				<!-- 로그인한 회원에 한해 최초 1회 실행되는 코드(반경 동정보 session에 저장) -->
 				<c:if test="${empty zoneSet1 or zoneSet1 eq null}">
 					<script>
-					console.log('1');
 					$.ajax({ // 로그인한 회원의 주활동지역 코드 세션에 저장
 						url : "${pageContext.request.contextPath}/club/getMainAreaId.do",
 						success({mainAreaId}) {
-							console.log('2');
 							$.ajax({
 								url : "https://grpc-proxy-server-mkvo6j4wsq-du.a.run.app/v1/regcodes?regcode_pattern=" + mainAreaId,
 								data : {is_ignore_zero : true},
 								success({regcodes}) {
-									console.log('3');
 									// 서울특별시 **구 **동 (회원의 주활동지역)
 									const mainAreaName = regcodes[0].name;
-									console.log("mainAreaName= ", mainAreaName);
 									$.ajax({
 										url : "${pageContext.request.contextPath}/club/setZoneInSession.do",
 										data : {mainAreaName}
@@ -169,13 +165,11 @@
 								} // success2
 							}); // ajax2
 						}// success2
-// 					}); // ajax1
-					
+ 					}); // ajax1
 					</script>
 				</c:if>
 				
 				<script>
-				
 				document.querySelector("#bell").addEventListener("click",(e)=>{
 					const receiver= memberId;
 					const bell=e.target;
