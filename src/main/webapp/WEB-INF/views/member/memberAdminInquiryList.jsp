@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <fmt:requestEncoding value="utf-8" />
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 
@@ -107,7 +109,8 @@ h1{
 							            <tr class ="twoList">
 							            <td colspan="6">
 							                <div id="response-${vs.index}" style="display: none; background-color: lightgray ; ">
-							              		<c:if test="${inquiry.open == 0}">
+											<sec:authentication property="principal.username" var="username"/>
+							              		<c:if test="${inquiry.open == 0 or inquiry.writer eq username }">
 										           <c:if test="${empty inquiry.response}">
 											             </br>문의 내용 : ${inquiry.content}</br></br>
 											           <span  class="gray-text" >아직 답변이 달리지 않았습니다.</span></br></br>
@@ -115,12 +118,11 @@ h1{
 									                <c:if test="${not empty inquiry.response}">
 									         	        문의 내용 :  ${inquiry.content} </br></br>
 									                	문의 답변 :  ${inquiry.response}</br></br>
-									                    문의 답변 일자 : <fmt:formatDate value="${inquiry.responseAt}" pattern="yy/MM/dd"/>
 									                </c:if>
 								                </c:if>
 								               <!--  // 여기에 권한 추가해야함 -->
-									            <c:if test="${inquiry.open == 1}">
-									            		</br><span  class="gray-text" >권한이 없습니다.</span></br></br>
+									            <c:if test="${inquiry.open == 1 and inquiry.writer eq username}">
+									            		</br><span  class="gray-text" >비공개 문의입니다.</span></br></br>
 									            </c:if>								                
 								              </div>							            
 							            </td>
