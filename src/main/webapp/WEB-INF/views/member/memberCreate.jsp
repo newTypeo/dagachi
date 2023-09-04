@@ -433,7 +433,7 @@ img {
          <div class="fadeIn first">
             <label>아이디</label>
                   <div id="memberId-container">
-                     <input type="text" class="form-control" name="memberId" id="memberId"  placeholder="아이디를 작성해주세요.">
+                     <input type="text" class="form-control" name="memberId" id="memberId"  placeholder="아이디를 작성해주세요." value ="anana091">
                      <span class="guide error" style="color: GRAY; font-size: 12px;">이 아이디는 이미 사용중입니다.</span>
                      <span class="guide reg"style="color: GRAY; font-size: 12px;" >영,숫자로만 이루어진 5~19자리여야합니다.</span>
                      <input type="hidden" id="idValid" value="0"/>
@@ -443,7 +443,7 @@ img {
 		<div class="fadeIn first">
 		    <label>비밀번호</label>
 		     <div id="name-container">
-		    <input type="password" class="form-control" name="password" id="password" placeholder="대소문자 영문,특수문자,숫자를 포함하여 9자 이상" required>
+		    <input type="password" class="form-control" name="password" id="password" placeholder="대소문자 영문,특수문자,숫자를 포함하여 9자 이상" value ="1234" required>
 		    <span class="password error" style="color: GRAY; font-size: 12px;">비밀번호 형식이 올바르지 않습니다.</span>
 		    <input type="hidden" id="passwordValid" value="0"/>
 		    </div>
@@ -452,7 +452,7 @@ img {
 		<div class="fadeIn first">
 		    <label>비밀번호 확인</label>
 		     <div id="passwordConfirmation-container">
-		    <input type="password" class="form-control" id="passwordConfirmation" placeholder="위의 비밀번호를 다시 입력해주세요." required>
+		    <input type="password" class="form-control" id="passwordConfirmation" placeholder="위의 비밀번호를 다시 입력해주세요." value ="1234" required>
 			<span class="passwordConfirmation error" style="color: GRAY; font-size: 12px;">비밀번호가 일치하지 않습니다.</span>
 			 <input type="hidden" id="passwordConfirmationValid" value="0"/>
 			</div>
@@ -461,7 +461,7 @@ img {
 		<div class="fadeIn first">
 		   <label>이름</label>
 			  <div id="name-container">
-			  <input type="text" class="form-control" name="name" id="name" placeholder="이름을 입력(2글자 이상) 해주세요." required>
+			  <input type="text" class="form-control" name="name" id="name" placeholder="이름을 입력(2글자 이상) 해주세요." value ="나요미" required>
 			  <span class="name reg" style="color: GRAY; font-size: 12px;">이름은 한글 2~5글자 여야합니다.</span>
 			  <input type="hidden" id="nameValid" value="0"/>	
  
@@ -471,7 +471,7 @@ img {
          <div class="fadeIn first">
                 <label>닉네임</label>
 			    <div id="nickname-container">
-			        <input type="text" class="form-control" name="nickname" id="nickname"  placeholder="닉네임을 입력해주세요.">
+			        <input type="text" class="form-control" name="nickname" id="nickname" value ="요미요미나나"  placeholder="닉네임을 입력해주세요.">
 			        <span class="nickname error" style="color: GRAY; font-size: 12px;">이 닉네임은 이미 사용중입니다.</span>
 			        <span class="nickname reg" style="color: GRAY; font-size: 12px;">특수문자가 안들어간 5~10자리여야합니다.</span>
 			        <input type="hidden" id="nicknameValid" value="0"/>
@@ -481,17 +481,17 @@ img {
          <div class="fadeIn first">
             <label>전화번호  </label><span class="phone error" style="color: GRAY; font-size: 12px;"> 핸드폰 번호 형식이 올바르지 않습니다.</span>
 			<div id="phone-container">
-			  <input type="text" class="form-control" name="phone1" id="phone1" maxlength="3" required  placeholder="3자리">-
-			  <input type="text" class="form-control" name="phone2" id="phone2" maxlength="4" required placeholder="4자리">-
-			  <input type="text" class="form-control" name="phone3" id="phone3" maxlength="4" required placeholder="4자리">
-			  <input type="hidden" id="phoneNo" name="phoneNo" value="">
+			  <input type="text" class="form-control" name="phone1" id="phone1" maxlength="3" required  placeholder="3자리"value ="010" >-
+			  <input type="text" class="form-control" name="phone2" id="phone2" maxlength="4" required placeholder="4자리" value ="0910">-
+			  <input type="text" class="form-control" name="phone3" id="phone3" maxlength="4" required placeholder="4자리" value ="1209">
 			   <input type="hidden" id="phoneNoValid" value="0"/>
 			</div>
          </div>   
+          <input type="hidden" id="phoneNo" name="phoneNo" value="">
          
          <div class="fadeIn first">
             <label>생년월일</label>
-               <input type="date" class="form-control" name="birthday" id="birthday" required/>
+               <input type="date" class="form-control" name="birthday" id="birthday" value ="202-01-01" required/>
          </div>      
                      
          <div class="fadeIn first">
@@ -507,7 +507,7 @@ img {
             <label>이메일</label>
             <div class = "email_group">
 			    <div id="email-container">
-			        <input type="text" class="form-control" name="email" id="email" placeholder="이메일 양식에 맞게 작성해주세요.">
+			        <input type="text" class="form-control" name="email" id="email" placeholder="이메일 양식에 맞게 작성해주세요." value ="klind092_na@naver.com" >
 			        <span class="email error" style="color: GRAY; font-size: 12px;" >이 이메일은 이미 사용중입니다.</span>
 			        <span class="email reg" style="color: GRAY; font-size: 12px;">올바른 이메일 형식이어야 합니다.</span>
 			        <input type="hidden" id="emailValid" value="0"/>
@@ -519,7 +519,7 @@ img {
 	         
 	          <div class = "email_group">
 	            <div>
-	              <input type="text" class="form-control" id="floatingInputDisabled3" placeholder="인증코드를 입력해주세요." name = "code" required>
+	              <input type="text" class="form-control" id="floatingInputDisabled3" placeholder="인증코드를 입력해주세요." name = "code"value ="123456"  required>
 	              <label for="floatingInputDisabled"></label>
 	              <input type="hidden" id="emailCkValid" value="0"/>
 	            </div>
@@ -566,7 +566,7 @@ img {
          <div class="fadeIn first"> 
              <label for="mbti">MBTI</label>
                     <div class="toggle-radio" data-style="rounded"> 
-                        <label><input type="radio" name="mbti" value="ISTJ" class="custom-radio"> ISTJ</label>
+                        <label><input type="radio" name="mbti" value="ISTJ" class="custom-radio" checked> ISTJ</label>
                         <label><input type="radio" name="mbti" value="ISFJ" class="custom-radio"> ISFJ</label>
                         <label><input type="radio" name="mbti" value="INFJ" class="custom-radio"> INFJ</label>
                         <label><input type="radio" name="mbti" value="INTJ" class="custom-radio"> INTJ</label>
@@ -587,9 +587,9 @@ img {
 				<div class="fadeIn first"> 
 			    <label for="interests">관심사</label>
 				        <div class="form-group">
-				            <label><input type="checkbox" name="interests" value="차/오토바이" > 차/오토바이</label>
-				            <label><input type="checkbox" name="interests" value="게임/오락" > 게임/오락</label>
-				            <label><input type="checkbox" name="interests" value="여행" > 여행</label>
+				            <label><input type="checkbox" name="interests" value="차/오토바이" checked> 차/오토바이</label>
+				            <label><input type="checkbox" name="interests" value="게임/오락" checked > 게임/오락</label>
+				            <label><input type="checkbox" name="interests" value="여행"  checked> 여행</label>
 				            <label><input type="checkbox" name="interests" value="운동/스포츠"> 운동/스포츠</label>
 				            <label><input type="checkbox" name="interests" value="인문학/독서"> 인문학/독서</label>
 				            <label><input type="checkbox" name="interests" value="업종/직무"> 업종/직무</label>
@@ -609,16 +609,14 @@ img {
 				        </div>		
 			         </div>
 			         <input type="hidden" name="interest" > 
-
-
       </fieldset>
          
            <fieldset class="agreement">
                             <legend class="sub_title1">이용약관 / 개인정보 수집 및 이용 동의</legend>
                             <div class="agree-check">
                                 <div class="all_check_area">
-                                    <input type="checkbox" id="all" class="all_check">
-                                    <label for="all">전체동의</label>
+                                    <input type="checkbox" id="all" class="all_check" checked>
+                                    <label for="all" >전체동의</label>
                                 </div>
                                 <div data-error_insert_container="">
                                     <input type="checkbox" id="chk1" class="check" name="" data-parsley-required="true" data-parsley-multiple="chk1">
@@ -731,7 +729,6 @@ img {
       </div><!-- 집주소 받는 모달창 end -->
 </div>
 <script> 
-
 //이메일 인증 코드 + 인증확인하기 
 var token = $("meta[name='_csrf']").attr("content");
 var header = $("meta[name='_csrf_header']").attr("content");
@@ -1106,20 +1103,19 @@ document.querySelector("#phone3").addEventListener("input", () => {
 });
 
 function combinePhoneNumbers() {
-    const phone1 = document.querySelector("#phone1").value;
-    const phone2 = document.querySelector("#phone2").value;
-    const phone3 = document.querySelector("#phone3").value;
+    const sanitizedPhone1 = document.querySelector("#phone1").value;
+    const sanitizedPhone2 = document.querySelector("#phone2").value;
+    const sanitizedPhone3 = document.querySelector("#phone3").value;
     const phoneInput = document.querySelector("#phoneNo");
-    // 숫자만 남기고 다른 문자는 제거
-    const sanitizedPhone1 = phone1.replace(/\D/g, "");
-    const sanitizedPhone2 = phone2.replace(/\D/g, "");
-    const sanitizedPhone3 = phone3.replace(/\D/g, "");
-
+    
     if (sanitizedPhone1.length !== 3 || sanitizedPhone2.length !== 4 || sanitizedPhone3.length !== 4) {
         document.querySelector(".phone.error").style.display = "inline";
     } else {
         document.querySelector(".phone.error").style.display = "none";
-        phoneInput.value = `${sanitizedPhone1}-${sanitizedPhone2}-${sanitizedPhone3}`;
+        const combinedPhone = sanitizedPhone1 + sanitizedPhone2 + sanitizedPhone3;
+        phoneInput.value = combinedPhone; 
+        console.log(phoneInput.value);
+    
     }
 }
 
@@ -1127,6 +1123,7 @@ function combinePhoneNumbers() {
         const nameInput = document.getElementById("name");
         const nameReg = document.querySelector(".name.reg");
         const nameValid = document.querySelector("#nameValid");
+        const joinButton = document.querySelector('button[type="submit"]');
 
         nameInput.addEventListener("input", function () {
             const name = nameInput.value.trim();
@@ -1134,13 +1131,26 @@ function combinePhoneNumbers() {
 
             if (!isValid) {
                 nameReg.style.display = "block";
+                joinButton.setAttribute("disabled", "disabled");
                 nameValid.value = "0";
             } else {
                 nameReg.style.display = "none";
+                joinButton.removeAttribute("disabled");
                 nameValid.value = "1";
             }
         });
-</script>
+
+        const idValid = document.querySelector("#idValid");
+        const passwordValid = document.querySelector("#passwordValid");
+        const passwordConfirmationValid = document.querySelector("#passwordConfirmationValid");
+        const nameValid = document.querySelector("#nameValid");
+        const nicknameValid = document.querySelector("#nicknameValid");
+        const emailValid = document.querySelector("#emailValid");
+        const emailCkValid = document.querySelector("#emailCkValid");
+        const activityAreaValid = document.querySelector("#activityAreaValid");
+        const mainAreaIdValid = document.querySelector("#mainAreaIdValid");
+        
+        </script>
 
 
  <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include> 
