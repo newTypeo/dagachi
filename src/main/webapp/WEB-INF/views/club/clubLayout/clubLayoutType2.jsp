@@ -39,13 +39,16 @@
 				<div class="myProfile2">
 					<p><strong><sec:authentication property="principal.nickname"/></strong></p>
 					<c:if test ="${memberRole eq 3}">
-						<p><strong>🥇방장</strong>|<a href="${pageContext.request.contextPath}/club/${domain}/clubUpdate.do">모임 관리</a></p>
+						<p><strong>🥇방장</strong></p>
+						<a href="${pageContext.request.contextPath}/club/${domain}/clubUpdate.do">모임 관리</a>
 					</c:if>
 					<c:if test ="${memberRole eq 2}">
-						<p><strong>🥇부방장</strong>|<a href="${pageContext.request.contextPath}/club/${domain}/clubUpdate.do">모임 관리</a></p>
+						<p><strong>🥇부방장</strong></p>
+						<a href="${pageContext.request.contextPath}/club/${domain}/clubUpdate.do">모임 관리</a>
 					</c:if>
 					<c:if test ="${memberRole eq 1}">
-						<p><strong>🥇임원</strong>|<a href="${pageContext.request.contextPath}/club/${domain}/clubUpdate.do">모임 관리</a></p>
+						<p><strong>🥇임원</strong></p>
+						<a href="${pageContext.request.contextPath}/club/${domain}/clubUpdate.do">모임 관리</a>
 					</c:if>
 					<c:if test ="${memberRole eq 0}">
 						<p><strong>🎀일반회원</strong></p>
@@ -352,7 +355,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 //창환(모임 신고)
 document.querySelector("#clubReport").onclick = () => {
-	const frm = document.clubReportFrm;
+	console.log('Type2');
 	$("#reportModal")
 	.modal()
 	.on('shown.bs.modal', () => {
@@ -413,12 +416,9 @@ const clubLike = () => {
 					}
 				}
 				alert("성공적으로 모임 찜을 완료했습니다.");
-				
 			}
-					
-		}
-	});
-	
+		} // success
+	}); // ajax
 }
 
 </script>

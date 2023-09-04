@@ -59,11 +59,7 @@ public interface ClubRepository {
    List<Club> adminClubList(RowBounds rowBounds, Map<String, Object> params); 
    List<Club> adminClubList(Map<String, Object> params);
    
-   @Select("SELECT c.*, p.*, cm.member_count " +
-               "FROM club c " +
-               "JOIN club_profile p ON c.club_id = p.club_id " +
-               "LEFT JOIN (SELECT club_id, COUNT(member_id) AS member_count FROM club_member GROUP BY club_id) cm " +
-               "ON c.club_id = cm.club_id")
+   @Select("(SELECT c.*, p.*, cm.member_count FROM club c JOIN club_profile p ON c.club_id = p.club_id LEFT JOIN (SELECT club_id, COUNT(member_id) AS member_count FROM club_member GROUP BY club_id) cm ON c.club_id = cm.club_id where rownum <=25) order by 5 desc")
    List<ClubAndImage> clubList();
     
    
@@ -175,7 +171,7 @@ public interface ClubRepository {
 	ClubBoardAttachment findAttachment(int attachNo);
 	
 
-	@Select("select * from (SELECT a.*, b.count AS member_count FROM (SELECT c.*, i.member_id FROM club c JOIN member_interest i ON c.category = i.interest WHERE i.member_id = #{memberId}) a LEFT JOIN (SELECT club_id, COUNT(*) AS count FROM club_member GROUP BY club_id) b ON a.club_id = b.club_id) c left join (select * from club_profile) d on c.club_id = d.club_id")
+	@Select("(select * from (SELECT a.*, b.count AS member_count FROM (SELECT c.*, i.member_id FROM club c JOIN member_interest i ON c.category = i.interest WHERE i.member_id = #{memberId}) a LEFT JOIN (SELECT club_id, COUNT(*) AS count FROM club_member GROUP BY club_id) b ON a.club_id = b.club_id) c left join (select * from club_profile) d on c.club_id = d.club_id where rownum <=10)order by 5 desc")
 	List<ClubAndImage> clubListById(String memberId);
 	
 	List<ClubSearchDto> searchClubWithFilter(Map<String, Object> params);
