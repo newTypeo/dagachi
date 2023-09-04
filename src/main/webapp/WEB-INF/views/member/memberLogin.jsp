@@ -153,7 +153,7 @@
 <script>
 /* 아이디 찾기 */
 function showIdPopup(){
-    window.open("${pageContext.request.contextPath}/member/searchId.do","팝업 테스트","width=500, height=500, top=200, left=695");
+    window.open("${pageContext.request.contextPath}/member/searchId.do","팝업 테스트","width=400, height=400, top=230, left=750");
 }
 
 /* 비밀번호 찾기 */

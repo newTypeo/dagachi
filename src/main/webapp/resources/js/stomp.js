@@ -4,12 +4,12 @@ const ws = new SockJS(`http://${location.host}/dagachi/stomp`); // endpoint
 const stompClient = Stomp.over(ws);
 
 stompClient.connect({}, (frame) => {
-	console.log('open : ', frame);
+	//console.log('open : ', frame);
 	
 	
 	
 	stompClient.subscribe(`/app/clubTalk/${clubId}`, (message) => {
-		console.log(`/app/clubTalk/${clubId} : `, message);
+	//	console.log(`/app/clubTalk/${clubId} : `, message);
 		
 		if(message.headers["content-type"])
 			renderMessage(message);
@@ -74,6 +74,7 @@ const renderMessage = (message) => {
 		 	const chatWrap =document.querySelector("#chatWrap");
 		 	const divbox=document.createElement('div');
 			let pro="";
+			const namebox=document.createElement('div');
 			
 			if(proList.length>0){
 				for(let i=0; i<proList.length; i++){
@@ -89,8 +90,13 @@ const renderMessage = (message) => {
 			
 		 	if(from === memberId)
 		 		divbox.className = 'chat ch2';
-		 	else
+		 	else{
 		 		divbox.className = 'chat ch1';
+		 		namebox.innerHTML=`
+		 			<h6 class="chatIdPrintL">${from}</h6>
+		 		`;
+		 		chatWrap.appendChild(namebox);
+		 	}
 		 		
 		 	divbox.innerHTML=`
 	            <div class="icon"><i class="fa-solid fa-user"></i>
@@ -99,6 +105,7 @@ const renderMessage = (message) => {
 	            <div class="textbox">${content}</div>
 	      	 	</div>
 		 	` ;
+		 	
 		 	chatWrap.appendChild(divbox);
 	      	 document.querySelector("#chatWrap").scrollTop = document.querySelector("#chatWrap").scrollHeight;
 	 	 break;

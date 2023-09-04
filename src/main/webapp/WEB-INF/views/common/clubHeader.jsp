@@ -54,6 +54,7 @@
 			</a>
 		</div>
 		<div id="header-nav-container">
+			<jsp:include page="/WEB-INF/views/common/alarm.jsp"></jsp:include>
 		    <span>
 		    <a title="<sec:authentication property="authorities"/>" href="${pageContext.request.contextPath}/member/<sec:authentication property="principal.memberId"/>">
 		    	<sec:authentication property="principal.nickname"/>
@@ -62,5 +63,4 @@
 		    <span> | </span>
 		    <a type="button" onclick="document.memberLogoutFrm.submit();">로그아웃</a>
 		</div>
-			<jsp:include page="/WEB-INF/views/common/alarm.jsp"></jsp:include>
 	</header>
