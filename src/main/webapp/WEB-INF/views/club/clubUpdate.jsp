@@ -61,7 +61,7 @@
 <section id="club-create-sec" class="">
 	<div id="update-btn-container">
 		<div class="btn-group" role="group" aria-label="Basic example">
-			<button type="button" class="btn btn-primary" id="club-update-btn">정보 수정</button>
+<!-- 			<button type="button" class="btn btn-primary" id="club-update-btn">정보 수정</button> -->
 			<button type="button" class="btn btn-primary" id="club-style-update">스타일 설정</button>
 			<button type="button" class="btn btn-primary" id="club-title-update">타이틀 설정</button>
 			<button type="button" class="btn btn-primary" id="club-member-manage">회원 관리</button>

@@ -14,6 +14,7 @@
 	<c:if test ="${memberRole eq 3}">
 		<div class="btn-group" role="group" aria-label="Basic example">
 			<button type="button" class="btn btn-primary" id="club-update-btn">정보 수정</button>
+			
 			<button type="button" class="btn btn-primary" id="club-style-update">스타일 설정</button>
 			<button type="button" class="btn btn-primary" id="club-title-update">타이틀 설정</button>
 			<button type="button" class="btn btn-primary" id="club-member-manage">회원 관리</button>
@@ -270,7 +271,7 @@ document.querySelectorAll('#searchType').forEach((select) => {
 			case '3' : role = '방장'; break;
 		}
 		
-		if(confirm(`\${memberName}님의 권한을 \${role}로 변경?`)) {
+		if(confirm(`\${memberName}님의 권한을 \${role}로 변경하시겠습니까?`)) {
 			frm.memberId.value = memberId;
 			frm.clubMemberRole.value = memberRole;
 			
