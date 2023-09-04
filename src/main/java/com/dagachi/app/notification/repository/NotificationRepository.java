@@ -8,7 +8,6 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.dagachi.app.notification.entity.Alarm;
-import com.dagachi.app.ws.dto.Payload;
 
 
 @Mapper
