@@ -173,10 +173,10 @@ public class MemberSecurityController {
 		List<MemberInterest> interests = memberService.findMemberInterestsByMemberId(memberId);
 		List<ClubMember> clubMembers = memberService.findClubMemberByMemberId(memberId);
 
-		memberDetails.setActivityArea(activityArea);
 		memberDetails.setMemberProfile(profile);
-		memberDetails.setMemberInterest(interests);
 		memberDetails.setClubMember(clubMembers);
+		memberDetails.setMemberInterest(interests);
+		memberDetails.setActivityArea(activityArea);
 		
 		// 리다이렉트 처리
 		SavedRequest savedRequest = (SavedRequest) session.getAttribute("SPRING_SECURITY_SAVED_REQUEST");
@@ -237,7 +237,6 @@ public class MemberSecurityController {
 	public String memberUpdate(@AuthenticationPrincipal MemberDetails loginMember,
 			@RequestParam(value = "upFile") MultipartFile upFile, @Valid MemberUpdateDto _member,
 			BindingResult bindingResult) throws IllegalStateException, IOException {
-		log.debug("_member ={} ", _member);
 		String uploadDir = "/member/profile/";
 		MemberProfile memberProfile = null;
 		if (!upFile.isEmpty()) {
