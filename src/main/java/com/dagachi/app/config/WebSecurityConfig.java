@@ -52,10 +52,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-			.antMatchers("/", "/index.jsp","/club/categoryList.do","/club/clubList.do","/admin/mainBannerList.do","/club/clubSearch.do","/member/memberCreate.do").permitAll() //요청은 모든 사용자에게 허용
+			.antMatchers("/", "/index.jsp","/club/categoryList.do","/club/clubList.do","/admin/mainBannerList.do","/club/clubSearch.do","/member/memberCreate.do","member/sendCode.do","/member/checkNicknameDuplicate.do","/member/checkEmailDuplicate.do").permitAll() //요청은 모든 사용자에게 허용
 			.antMatchers("/member/memberLogin.do","/member/searchId.do","/member/searchPw.do").anonymous()
 			.antMatchers("/admin/**").hasAuthority("ADMIN")
-			// .antMatchers("/member/memberCreate.do").anonymous() //로그인하지 않은 사용자만 가능
 			.anyRequest().authenticated(); //(로그인한) 사용자에게만 허용된다는 것을 의미
 		http.headers()
 				.contentSecurityPolicy("frame-ancestors 'self' http://localhost:8080/*");
@@ -89,7 +88,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		    .tokenValiditySeconds(60 * 60 * 24 * 14); // 2주
 		
 		http.oauth2Login()
-			.loginPage("/")
+			.loginPage("/member/memberLogin.do")
+			.defaultSuccessUrl("/member/memberLoginSuccess.do")
+//			.successHandler(successHandler)
 			.userInfoEndpoint()
 			.userService(oauth2UserService);
 	}
