@@ -6,9 +6,6 @@
 <%@ taglib prefix="sec"
    uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<jsp:include page="/WEB-INF/views/common/header.jsp">
-   <jsp:param value="카카오톡 회원가입" name="title" />
-</jsp:include>
 
 <c:if test="${not empty msg}">
 	<script>
@@ -968,5 +965,3 @@ function checkConditions() {
 
 
 </script>
-
- <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include> 
