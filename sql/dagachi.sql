@@ -1309,7 +1309,7 @@ insert into club_member values('user9',7,default,default,3,default);
 select * from activity_area;
 select * from member;
 
-
-
+select * from club;
+select * from club_member;
 commit;
 
