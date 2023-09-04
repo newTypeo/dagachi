@@ -38,7 +38,7 @@
 		action="${pageContext.request.contextPath}/member/memberAdminInquiry.do"
 		enctype="multipart/form-data" method="post"
 		style="width: 700px; margin: 80px auto;">
-		<h3 style="text-align: center; font-weight: bold;">📢 Q & A</h3>
+		<h1 style="text-align: center;">📢Q&A📢</h1>
 		<div class="form-group">
 			<label for="exampleFormControlInput1"></label> <input type="text"
 				class="form-control" id="exampleFormControlInput1" name="title"
