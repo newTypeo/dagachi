@@ -2,17 +2,25 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <style>
-.bellStyle2 {
-	position: relative;
-    color: #777;
-    transform: translate(13px, 11px);
-    font-size: 26px;
-}
 .bellStyle2::after {
 	position: relative;
     color: #777;
-    transform: translate(13px, 11px);
     font-size: 26px;
+}
+.bellStyle2::before {
+	position: relative;
+    color: #777;
+    font-size: 26px;
+}
+#bellContainer {
+ 	display: flex;
+ 	align-items: center;
+}
+#alarmBox {
+	display : none;
+    position: absolute;
+    width: 420px;
+    transform: translate(-165px, 37px);
 }
 </style>
 
@@ -27,8 +35,9 @@
 		};
 		
 </script>
-
-		<i id="bell" class="fa-solid fa-bell fa-xl bellStyle2"></i>
+		<div id="bellContainer">
+			<i id="bell" class="fa-solid fa-bell fa-xl bellStyle2"></i>
+		</div>
 		<div id="alarmBox" class=""></div>
 
 		<script>
