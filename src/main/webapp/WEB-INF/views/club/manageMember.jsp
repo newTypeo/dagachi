@@ -151,7 +151,7 @@ const manageApply = (clubId, memberId, permit) => {
 							</c:if>
 							<c:if test="${clubMember.clubMemberRole eq 1 or clubMember.clubMemberRole eq 0}">
 								<td>
-									<button id="kick" value="${clubMember.memberId}">추방</button>
+									<button id="kick" value="${clubMember.memberId}" class="btn btn-outline-danger">추방</button>
 								</td>
 							</c:if>
 							<td>
@@ -195,7 +195,7 @@ const manageApply = (clubId, memberId, permit) => {
 							</c:if>
 							<c:if test="${clubMember.clubMemberRole eq 0}">
 								<td>
-									<button id="kick" value="${clubMember.memberId}">추방</button>
+									<button id="kick" value="${clubMember.memberId}" class="btn btn-outline-danger">추방</button>
 								</td>
 							</c:if>
 							<td>
