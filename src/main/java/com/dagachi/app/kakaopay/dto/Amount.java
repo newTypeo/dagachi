@@ -1,5 +1,8 @@
 package com.dagachi.app.kakaopay.dto;
 
+import lombok.Data;
+
+@Data
 public class Amount {
 	private int total; // 총 결제 금액
     private int tax_free; // 비과세 금액
