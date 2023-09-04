@@ -1313,3 +1313,6 @@ select * from club;
 select * from club_member;
 commit;
 
+select count(*) from cbc_like where target_id = 'honggd';
+select * from cbc_like;
+
