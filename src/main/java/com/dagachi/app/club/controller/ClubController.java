@@ -548,9 +548,6 @@ public class ClubController {
 		clubReportDto.setClubId(clubId);
 
 		int result = clubService.insertClubReport(clubReportDto);
-		System.out.println("domain = " + domain);
-		System.out.println("clubReportDto = " + clubReportDto);
-		System.out.println("result = " + result);
 		return ResponseEntity.status(HttpStatus.OK).body(clubReportDto);
 	}
 
