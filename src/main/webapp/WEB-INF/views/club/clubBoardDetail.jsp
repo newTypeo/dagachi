@@ -213,7 +213,8 @@ const creatComment = () => {
 					<p class='comment-createdAt'>\${formattedDate}</p>
 				</div>
 			`;
-			
+			 
+			 document.querySelector("#count-input").innerHTML = '0/99';
 			 document.querySelector(".profile-info").innerHTML = '';
 			 const commentBox = document.querySelector("#commentBox");
 		     commentBox.appendChild(newCommentDiv);

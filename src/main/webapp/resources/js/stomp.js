@@ -90,7 +90,7 @@ const renderMessage = (message) => {
 		 	}
 		 		
 		 	divbox.innerHTML=`
-	            <div class="icon"><i class="fa-solid fa-user"></i>
+	            <div class="icon">
 	           		<img alt="" src="${root}/resources/upload/member/profile/${pro}" class="resized-image" />
 	            </div>
 	            <div class="textbox">${content}</div>

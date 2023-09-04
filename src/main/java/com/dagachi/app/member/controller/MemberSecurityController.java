@@ -120,8 +120,6 @@ public class MemberSecurityController {
 	    
 	    _member.setMemberProfile(new MemberProfile());
 	    _member.getMemberProfile().setRenamedFilename("default.png");
-	    _member.setAddress(member.getActivityArea());
-	    _member.setNickname(member.getNickname());
 	    
 	    List<String> interest = Arrays.asList(interests.split(","));
 	    member.setInterest(interest);
@@ -172,11 +170,13 @@ public class MemberSecurityController {
 		memberDetails.setMemberInterest(interests);
 		memberDetails.setActivityArea(activityArea);
 		
+		log.debug("memberDetails = {}", memberDetails);
+		
 		// 리다이렉트 처리
 		SavedRequest savedRequest = (SavedRequest) session.getAttribute("SPRING_SECURITY_SAVED_REQUEST");
 		String location = savedRequest == null ? "/" : savedRequest.getRedirectUrl();
 //		log.debug("location = {}", location);
-		return "redirect:/";
+		return "redirect:" + location;
 	}
 
 	// 회원 아이디 중복 여부를 확인하기 위해 사용하는 코드
@@ -262,9 +262,6 @@ public class MemberSecurityController {
 
 		return "redirect:/member/" + member.getMemberId();
 	}
-
-
-	
 
 		
 
