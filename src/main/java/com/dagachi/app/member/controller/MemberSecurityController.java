@@ -120,8 +120,6 @@ public class MemberSecurityController {
 	    
 	    _member.setMemberProfile(new MemberProfile());
 	    _member.getMemberProfile().setRenamedFilename("default.png");
-	    _member.setAddress(member.getActivityArea());
-	    _member.setNickname(member.getNickname());
 	    
 	    List<String> interest = Arrays.asList(interests.split(","));
 	    member.setInterest(interest);
@@ -171,6 +169,8 @@ public class MemberSecurityController {
 		memberDetails.setClubMember(clubMembers);
 		memberDetails.setMemberInterest(interests);
 		memberDetails.setActivityArea(activityArea);
+		
+		log.debug("memberDetails = {}", memberDetails);
 		
 		// 리다이렉트 처리
 		SavedRequest savedRequest = (SavedRequest) session.getAttribute("SPRING_SECURITY_SAVED_REQUEST");
@@ -262,9 +262,6 @@ public class MemberSecurityController {
 
 		return "redirect:/member/" + member.getMemberId();
 	}
-
-
-	
 
 		
 
