@@ -58,7 +58,10 @@ public class MemberController {
 	@Autowired
     private JavaMailSender javaMailSender;
 	
-	   
+	 /**
+	  * 멤버 상세정보
+	  * @author 준한 
+	  */
 	 @GetMapping("/{memberId}")
 	    public String memberDetail(
 	    		Model model,
@@ -164,8 +167,8 @@ public class MemberController {
 
 	 
 	 /**
-	 * @author 김준한
 	 * 아이디 찾기
+	 * @author 김준한
 	 */
 	@PostMapping("/memberSearchId.do")
 	 public String memberSearchId(

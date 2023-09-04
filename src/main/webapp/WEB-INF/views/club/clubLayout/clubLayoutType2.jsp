@@ -299,11 +299,8 @@
 </nav>
 
 <script>
-console.log("memberRole= ", ${memberRole});
-
 const clubMemberDelete = () => {
 	if(confirm("모임을 정말 탈퇴하시겠습니까?")) {
-		// console.log(document.clubMemberDeleteFrm);
 		document.clubMemberDeleteFrm.submit();
 	}
 }
@@ -325,7 +322,6 @@ document.addEventListener('DOMContentLoaded', function() {
 		url: '${pageContext.request.contextPath}/club/${domain}/getSchedules.do',
 		success(schedules) {
 			
-			// console.log(schedules);
 			var eventLists = [];
 			schedules.forEach((schedule) => {
 				var {scheduleId, title, startDate, endDate} = schedule;
@@ -337,7 +333,6 @@ document.addEventListener('DOMContentLoaded', function() {
 				};
 				eventLists.push(event);
 			});
-			// console.log(eventLists);
 			
 			var calendarEl = document.getElementById('calendar');
 			var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -388,9 +383,6 @@ const clubReportSubmit = () => {
 		data : { domain, reporter, reason },
 		beforeSend(xhr) {
 			xhr.setRequestHeader(header, token);
-		},
-		success(response) {
-			// console.log(response);
 		}
 	});
 	
@@ -407,7 +399,6 @@ const clubLike = () => {
 		url : "${pageContext.request.contextPath}/club/clubLikeCheck.do",
 		data : {domain},
 		success(responseData) {
-			// console.log("responseData : ", responseData);
 			
 			if (responseData) {
 				if(confirm("찜하신 모임을 취소하시겠습니까?")) {
