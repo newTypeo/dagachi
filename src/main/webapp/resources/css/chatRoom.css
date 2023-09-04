@@ -1,12 +1,37 @@
 @CHARSET "UTF-8";
 
+/* 수직 스크롤바 */
+::-webkit-scrollbar {
+	width: 12px; /* 스크롤바 너비 */
+}
+
+/* 스크롤바 트랙 */
+::-webkit-scrollbar-track {
+	background: #f1f1f1;
+}
+
+/* 스크롤바 색상 */
+::-webkit-scrollbar-thumb {
+	background: #bbb;
+	border-radius: 5px;
+}
+
+/* 마우스 hover 시 스크롤바 색상 */
+::-webkit-scrollbar-thumb:hover {
+	background: #aaa;
+	border-radius: 5px;
+}
+#club-chatRoom-sec {
+	overflow: hidden;
+}
 .resized-image {
     width: 100%; /* 원하는 크기로 조절 */
     height: auto; /* 가로 세로 비율을 유지하기 위해 */
 }
 #chatWrap {
 	overflow-y: scroll;
-	max-height: 400px; /* 원하는 최대 높이로 설정 */
+	max-height: 431px; /* 원하는 최대 높이로 설정 */
+	min-height: 431px; /* 원하는 최대 높이로 설정 */
 }
 
 .textbox {
@@ -24,15 +49,14 @@ a {
 	text-decoration: none;
 }
 
-.wrap {bbnb
-	padding: 40px 0;
-	background-color: #A8C0D6;
+.wrap {
+	background-color: #eee;
 }
 
 .wrap .chat {
 	display: flex;
 	align-items: flex-start;
-	padding: 20px;
+	margin: 15px 10px;
 }
 
 .wrap .chat .icon {
@@ -42,6 +66,7 @@ a {
 	height: 50px;
 	border-radius: 50%;
 	background-color: #eee;
+	display: flex;
 }
 
 .wrap .chat .icon i {
@@ -56,7 +81,7 @@ a {
 .wrap .chat .textbox {
 	position: relative;
 	display: inline-block;
-	max-width: calc(100% - 70px);
+	max-width: 204px;
 	padding: 10px;
 	margin-top: 7px;
 	font-size: 13px;
@@ -69,16 +94,19 @@ a {
 	top: 0;
 	font-size: 1.5rem;
 }
-
+.ch1 {
+	display: flex;
+}
 .wrap .ch1 .textbox {
 	margin-left: 20px;
-	background-color: #ddd;
+	background-color: #ade1ff;
+	transform: translate(0px, -10px);
 }
 
 .wrap .ch1 .textbox::before {
 	left: -15px;
 	content: "◀";
-	color: #ddd;
+	color: #ade1ff;
 }
 
 .wrap .ch2 {
@@ -87,11 +115,36 @@ a {
 
 .wrap .ch2 .textbox {
 	margin-right: 20px;
-	background-color: #F9EB54;
+	background-color: #ffef49;
 }
 
 .wrap .ch2 .textbox::before {
 	right: -15px;
 	content: "▶";
-	color: #F9EB54;
+	color: #ffef49;
+}
+.chatIdPrintL {
+	font-size: 14px;
+}
+#msgBox {
+	margin: 10px 10px 0 10px;
+    height: 71px;
+    width: 227px;
+    resize: none;
+}
+#snedMsg {
+	transform: translate(241px, -77px);
+    height: 72px;
+    width: 61px;
+    margin: 0;
+    border: none;
+    background-color: #2990D0;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 2px;
+}
+.backToList {
+	background-color: #ccc;
+    padding: 0 10px;
 }
