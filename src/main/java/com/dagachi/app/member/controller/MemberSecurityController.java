@@ -233,6 +233,10 @@ public class MemberSecurityController {
 		return "/member/memberUpdate";
 	}
 
+	/**
+	  * 회원 정보수정
+	  * @author 준한
+	  */
 	@PostMapping("/memberUpdate.do")
 	public String memberUpdate(@AuthenticationPrincipal MemberDetails loginMember,
 			@RequestParam(value = "upFile") MultipartFile upFile, @Valid MemberUpdateDto _member,
