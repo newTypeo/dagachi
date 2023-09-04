@@ -331,7 +331,7 @@ public interface ClubRepository {
 			statement = "select seq_board_comment_id.currval from dual")
 	int boardCommentCreate(BoardComment comment);
 	
-	@Select("select * from board_comment where board_id=#{no}")
+	@Select("select * from board_comment where board_id=#{no} order by created_at desc")
 	List<BoardComment> findComments(int no);
 	
 	@Select("select * from  board_comment where comment_id=#{commentId}")
