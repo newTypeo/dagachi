@@ -120,7 +120,6 @@ public class MemberSecurityController {
 	    
 	    _member.setMemberProfile(new MemberProfile());
 	    _member.getMemberProfile().setRenamedFilename("default.png");
-	    
 	    _member.setAddress(member.getActivityArea());
 	    _member.setNickname(member.getNickname());
 	    
