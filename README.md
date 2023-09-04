@@ -94,7 +94,7 @@
 |:---:|:---:|:---:|:---:|
 | ![나영](https://github.com/newTypeo/dagachi/blob/master/src/main/webapp/resources/images/%EA%B9%80%EB%82%98%EC%98%81.png?raw=true) | ![준한](https://github.com/newTypeo/dagachi/blob/master/src/main/webapp/resources/images/%EA%B9%80%EC%A4%80%ED%95%9C.png?raw=true) | ![동찬](https://github.com/newTypeo/dagachi/blob/master/src/main/webapp/resources/images/%EA%B9%80%EB%8F%99%EC%B0%AC%20(1).png?raw=true) | ![창환](https://github.com/newTypeo/dagachi/blob/master/src/main/webapp/resources/images/%EA%B9%80%EC%B0%BD%ED%99%98.png?raw=true) |
 | BE/SPRING | BE/SPRING | BE/SPRING | BE/SPRING |
-| **[남현우](https://github.com)** | **[신종환](https://github.com)** | **[정상윤](https://github.com)** | **공백** |
+| **[남현우](https://github.com)** | **[신종환](https://github.com)** | **[정상윤](https://github.com)** |  |
 | ![남현우](https://github.com/newTypeo/dagachi/blob/master/src/main/webapp/resources/images/%EB%82%A8%ED%98%84%EC%9A%B0.png?raw=true) | ![신종환](https://github.com/newTypeo/dagachi/blob/master/src/main/webapp/resources/images/%EC%8B%A0%EC%A2%85%ED%99%98%ED%8C%80%EC%9E%A5.png?raw=true) | ![정상윤](https://github.com/newTypeo/dagachi/blob/master/src/main/webapp/resources/images/%EC%A0%95%EC%83%81%EC%9C%A4.png?raw=true) |
 | BE/SPRING | BE/SPRING | BE/SPRING |  |
 </div>
