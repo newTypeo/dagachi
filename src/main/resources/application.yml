@@ -61,7 +61,7 @@ spring:
 logging:
   level:
     root: info
-    '[com.dagachi.app]': info
+    '[com.dagachi.app]': debug
     
 #mybatis
 mybatis:
