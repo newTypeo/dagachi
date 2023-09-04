@@ -52,9 +52,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-			.antMatchers("/", "/club/clubSearch.do", "/club/searchClubWithFilter.do", 
-					"/club/clubSearchSurrounded.do", "/club/clubSearchByDistance.do").permitAll() //요청은 모든 사용자에게 허용
-			.antMatchers("/member/memberCreate.do").anonymous() //로그인하지 않은 사용자만 가능
+			.antMatchers("/", "/**").permitAll() //요청은 모든 사용자에게 허용
+			// .antMatchers("/member/memberCreate.do").anonymous() //로그인하지 않은 사용자만 가능
 			.anyRequest().authenticated(); //(로그인한) 사용자에게만 허용된다는 것을 의미
 		http.headers()
 				.contentSecurityPolicy("frame-ancestors 'self' http://localhost:8080/*");
