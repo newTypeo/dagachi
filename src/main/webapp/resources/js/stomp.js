@@ -17,11 +17,12 @@ stompClient.connect({}, (frame) => {
 	});
 	
 	stompClient.subscribe(`/app/notice/${memberId}`, (message) => {
-			console.log(`/app/clubTalk/${memberId} : `, message);
+			console.log(`/app/notice/${memberId} : `, message);
 	
 		if(message.headers["content-type"])
 			renderMessage(message);
 	});
+	
 	
 	
 });
@@ -63,7 +64,8 @@ const renderMessage = (message) => {
 				window.parent.document.querySelector(spanId).innerText=`${roomMaps.get(content)}`;
 			}
 			
-		
+			const bell=window.parent.document.querySelector("#bell");
+			bell.classList.add("fa-beat");
 		break;
 		
 		
@@ -101,6 +103,21 @@ const renderMessage = (message) => {
 	      	 document.querySelector("#chatWrap").scrollTop = document.querySelector("#chatWrap").scrollHeight;
 	 	 break;
 	 	 
+	 	 
+	 	 case "NOTICE":
+	 	 	
+	 	 	const noticeAlarm=document.createElement('div');
+				noticeAlarm.className = 'list-group';
+				noticeAlarm.innerHTML=`
+					 <a href="#" class="list-group-item list-group-item-action list-group-item-light">
+						${content} 
+					</a>
+				`;
+				alarmWrap.appendChild(alanoticeAlarmrm);
+				
+			bell.classList.add("fa-beat");
+			
+	 	 break;
 	 	 
 	}
 }; 

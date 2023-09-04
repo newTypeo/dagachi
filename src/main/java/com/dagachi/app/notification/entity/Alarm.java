@@ -2,6 +2,7 @@ package com.dagachi.app.notification.entity;
 
 import java.time.LocalDateTime;
 
+import com.dagachi.app.club.common.Status;
 import com.dagachi.app.ws.dto.PayloadType;
 
 import lombok.AllArgsConstructor;
@@ -18,7 +19,7 @@ public class Alarm {
 	private String receiver;
 	private String sender;
 	private String content;
-	private int isRead;
+	private Status isRead;
 	private LocalDateTime createdAt;
 	private PayloadType type;
 }

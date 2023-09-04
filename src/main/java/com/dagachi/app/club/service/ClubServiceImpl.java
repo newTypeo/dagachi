@@ -1,10 +1,8 @@
 package com.dagachi.app.club.service;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -13,13 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
 import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
-import com.dagachi.app.club.dto.ClubManageApplyDto;
-import com.dagachi.app.club.dto.ClubMemberAndImage;
 import com.dagachi.app.club.dto.ClubEnrollDto;
 import com.dagachi.app.club.dto.ClubGalleryAndImage;
+import com.dagachi.app.club.dto.ClubManageApplyDto;
+import com.dagachi.app.club.dto.ClubMemberAndImage;
 import com.dagachi.app.club.dto.ClubMemberRole;
 import com.dagachi.app.club.dto.ClubMemberRoleUpdate;
 import com.dagachi.app.club.dto.ClubNameAndCountDto;
@@ -38,7 +35,6 @@ import com.dagachi.app.club.entity.ClubApply;
 import com.dagachi.app.club.entity.ClubBoard;
 import com.dagachi.app.club.entity.ClubBoardAttachment;
 import com.dagachi.app.club.entity.ClubBoardDetails;
-import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubDetails;
 import com.dagachi.app.club.entity.ClubGalleryAttachment;
 import com.dagachi.app.club.entity.ClubGalleryDetails;
@@ -48,15 +44,14 @@ import com.dagachi.app.club.entity.ClubProfile;
 import com.dagachi.app.club.entity.ClubRecentVisited;
 import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.club.repository.ClubRepository;
-import com.dagachi.app.member.entity.CbcLike;
 import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.entity.MemberProfile;
 import com.dagachi.app.member.repository.MemberRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Service
 @Slf4j
+@Service
 @Transactional(rollbackFor = Exception.class)
 public class ClubServiceImpl implements ClubService {
 
@@ -212,11 +207,13 @@ public class ClubServiceImpl implements ClubService {
 	}
 
 	@Override
-	public int insertClub(Club club) {
+	public int insertClub(Club club, String memberId) {
 		int result = 0;
+		
 		// club 저장
 		result = clubRepository.insertClub(club);
-		log.debug("club = " + club);
+		int clubId = club.getClubId();
+		
 		// clubProfile 저장
 		ClubProfile clubProfile = ((ClubDetails) club).getClubProfile();
 		if (clubProfile != null) {
@@ -225,9 +222,14 @@ public class ClubServiceImpl implements ClubService {
 		}
 		// clubTag 저장
 		for (String tag : ((ClubDetails) club).getTagList()) {
-			ClubTag clubTag = new ClubTag(club.getClubId(), tag);
+			ClubTag clubTag = new ClubTag(clubId, tag);
 			result = clubRepository.insertClubTag(clubTag);
 		}
+		
+		// 클럽리더 저장
+		Map<String, Object> params = Map.of("memberId", memberId, "clubId", clubId);
+		result += clubRepository.insertClubLeaderById(params);
+		
 		return result;
 	}
 
@@ -282,10 +284,8 @@ public class ClubServiceImpl implements ClubService {
 		int result = clubRepository.updateBoard(board); 
 		
 		if(like) { // 좋아요테이블에 추가
-			System.out.println("좋아요 추가");
 			result += clubRepository.insertClubLike(params);
 		} else { // 좋아요 취소(삭제)
-			System.out.println("좋아요 삭제");
 			result += clubRepository.deleteClubLike(params);
 		}
 		return result;

@@ -19,7 +19,7 @@ form {
    position: absolute;
    top: 70%;
    left: 50%;
-   transform: translate(-50%, -50%);
+   transform: translate(-50%, -45%);
    display: block;
    width: 100%;
    max-width: 500px;

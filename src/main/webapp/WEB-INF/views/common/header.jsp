@@ -3,23 +3,18 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
-<style>
-#alarmBox{
-            visibility: hidden;
-}
-</style>
+
 <head>
 <meta charset="UTF-8">
 <title>다가치</title>
 
 <script src="https://code.jquery.com/jquery-3.6.0.js"
-	integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
-	crossorigin="anonymous"></script>
+		integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+		crossorigin="anonymous"></script>
 
 <!-- bootstrap js: jquery load 이후에 작성할것.-->
 <script
@@ -36,8 +31,7 @@
 	crossorigin="anonymous">
 
 <!-- 아이콘 링크 -->
-<script src="https://kit.fontawesome.com/d7ccac7be9.js"
-	crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/d7ccac7be9.js" crossorigin="anonymous"></script>
 
 <!-- 폰트 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -47,8 +41,7 @@
 	rel="stylesheet">
 
 <!-- 사용자작성 css -->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/style.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css" />
 
 <!-- 토큰 -->
 <meta id="_csrf" name="_csrf" content="${_csrf.token}" />
@@ -60,7 +53,12 @@
 	<script >
 		const memberId= "<sec:authentication property="principal.memberId"/>";
 		window.roomMaps = new Map();
-	</script>
+
+		window.onload=()=>{
+			alarmLoad();
+		};
+		
+		</script>
 
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"
@@ -71,6 +69,7 @@
 		integrity="sha512-iKDtgDyTHjAitUDdLljGhenhPwrbBfqTKWO1mkhSFH3A7blITC9MhYon6SjnMhp4o0rADGw9yAC6EW4t5a4K3g=="
 		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/stomp.js"></script>
+
 </sec:authorize>
 
 <body>
@@ -84,10 +83,15 @@
 
 		<header>
 			<div id="main-logo-container">
-				<a href="${pageContext.request.contextPath}"> <img
-					id="main-logo"
-					src="${pageContext.request.contextPath}/resources/images/004.png"
-					class="p-2"></a>
+				<a href="${pageContext.request.contextPath}">
+					<img id="main-letter-logo"
+						 src="${pageContext.request.contextPath}/resources/images/mainLogo.png"
+						 class="p-2"></a>
+			
+				<a href="${pageContext.request.contextPath}">
+					<img id="main-logo"
+						 src="${pageContext.request.contextPath}/resources/images/004.png"
+						 class="p-2"></a>
 			</div>
 			<sec:authorize access="isAnonymous()">
 				<div id="header-nav-container">
@@ -99,10 +103,8 @@
 
 			<sec:authorize access="isAuthenticated()">
 				<div id="header-nav-container">
-						 <i class="fa-solid fa-bell fa-beat"></i> 
-						 <i id="bell" class="fa-solid fa-bell"></i> 
-							<div  id="alarmBox" class="" > 
-							</div>
+						 <i id="bell" class="fa-solid fa-bell fa-2xl bellStyle1"></i> 
+							<div  id="alarmBox" class="" ></div>
 					<span>
 						 	<a title="<sec:authentication property="authorities"/>"
 							href="${pageContext.request.contextPath}/member/<sec:authentication property="principal.memberId"/>">
@@ -114,11 +116,14 @@
 						onclick="document.memberLogoutFrm.submit();">로그아웃</a>
 				</div>
 
-				<c:if test="${memberId eq admin}">
 					<div class="dropdown">
-						<button id="admin-nav-btn"
-							class="btn btn-secondary dropdown-toggle" type="button"
-							data-toggle="dropdown" aria-expanded="false">회원관리</button>
+						
+						<%-- <sec:authorize access="hasRole('ROLE_ADMIN')"> --%>
+							<button id="admin-nav-btn"
+								class="btn btn-secondary dropdown-toggle" type="button"
+								data-toggle="dropdown" aria-expanded="false">회원관리</button>
+						<%-- </sec:authorize> --%>
+					
 						<div class="dropdown-menu">
 							<button class="dropdown-item" type="button">
 								<a href="${pageContext.request.contextPath}/admin/adminMemberList.do?keyword=&column=">회원조회</a>
@@ -141,60 +146,129 @@
 	
 						</div>
 					</div>
-				</c:if>
 				<!-- 로그인한 회원에 한해 최초 1회 실행되는 코드(반경 동정보 session에 저장) -->
 				<c:if test="${empty zoneSet1 or zoneSet1 eq null}">
 					<script>
-				console.log("최초 로그인 시에만 찍혀야하는 로그(종환)");
-				$.ajax({ // 로그인한 회원의 주활동지역 코드 세션에 저장
-					url : "${pageContext.request.contextPath}/club/getMainAreaId.do",
-					success({mainAreaId}) {
-						
-						$.ajax({
-							url : "https://grpc-proxy-server-mkvo6j4wsq-du.a.run.app/v1/regcodes?regcode_pattern=" + mainAreaId,
-							data : {is_ignore_zero : true},
-							success({regcodes}) {
-								// 서울특별시 **구 **동 (회원의 주활동지역)
-								const mainAreaName = regcodes[0].name; 
-								$.ajax({
-									url : "${pageContext.request.contextPath}/club/setZoneInSession.do",
-									data : {mainAreaName},
-									success() {
-										console.log("session에 동네 저장 완료!(종환)");
-									}
-								}); // ajax3
-							} // success2
-						}); // ajax2
-					}// success2
-				}); // ajax1
-				
-				</script>
+					// console.log("최초 로그인 시에만 찍혀야하는 로그(종환)");
+					$.ajax({ // 로그인한 회원의 주활동지역 코드 세션에 저장
+						url : "${pageContext.request.contextPath}/club/getMainAreaId.do",
+						success({mainAreaId}) {
+							
+							$.ajax({
+								url : "https://grpc-proxy-server-mkvo6j4wsq-du.a.run.app/v1/regcodes?regcode_pattern=" + mainAreaId,
+								data : {is_ignore_zero : true},
+								success({regcodes}) {
+									// 서울특별시 **구 **동 (회원의 주활동지역)
+									const mainAreaName = regcodes[0].name; 
+									$.ajax({
+										url : "${pageContext.request.contextPath}/club/setZoneInSession.do",
+										data : {mainAreaName},
+										success() {
+											// console.log("session에 동네 저장 완료!(종환)");
+										}
+									}); // ajax3
+								} // success2
+							}); // ajax2
+						}// success2
+					}); // ajax1
+					
+					</script>
 				</c:if>
 				
 				<script>
 				
-			/* 	document.querySelector("#bell").addEventListener("click",(e)=>{
-					console.log(e.target);
+				document.querySelector("#bell").addEventListener("click",(e)=>{
+					const receiver= memberId;
 					const bell=e.target;
+					const token= document.memberLogoutFrm._csrf.value;
 					bell.classList.remove("fa-beat");
 					
-					const alarmToggle=document.querySelector("#alarmBox");
+					const alarmBox=document.querySelector("#alarmBox");
+					const computedStyle = window.getComputedStyle(alarmBox);
+					const displayPropertyValue = computedStyle.getPropertyValue("display");
 					
-					 if (alarmBox.style.visibility === "hidden") {
-						 alarmBox.style.visibility = "visible";
-					console.log(alarmBox);
-						 console.log("visible");
-					 }else{
-						 alarmBox.style.visibility = "hidden";
-						 console.log("hidden");
-					console.log(alarmBox);
-					 }
+					if (displayPropertyValue === "none"){
+						  alarmBox.style.display = "inline";
+		
+						$.ajax({
+							url:"${pageContext.request.contextPath}/notification/checkedAlarm.do",
+							method :"POST",
+							data:{receiver},
+							headers: {
+								"X-CSRF-TOKEN": token
+							},
+							success(){}
+						});
+						
+					}
+					else 
+						  alarmBox.style.display = "none";
+					
+					
+					 
 				});
 				
 				
 				const alarmLoad=()=>{
+					const receiver= memberId;
+					console.log(receiver);
+					$.ajax({
+						url:"${pageContext.request.contextPath}/notification/findAlarms.do",
+						data:{receiver},
+						success(alarms){
+							console.log(alarms);
 					
-				}; */
+							if(alarms.length>0){
+								alarms.forEach((alarm)=>{
+									const {id,receiver,sender,type,createdAt,content}=alarm;
+									
+									const alarmWrap=document.querySelector("#alarmBox");
+									if(type==="CHATNOTICE"){
+										const divId=`#\${content.replace(/\s/g, "_")}`;
+										const spanId=`#\${content.replace(/\s/g, "-")}`;
+										
+										const chatRoomCheck=document.querySelector(divId);
+										if(chatRoomCheck === null){
+											roomMaps.set(content, 1);
+											const alarmDiv=document.createElement('div');
+											alarmDiv.setAttribute('id', content.replace(/\s/g, "_"));
+											alarmDiv.className = 'list-group';
+											alarmDiv.innerHTML=`
+												 <a href="#" class="list-group-item list-group-item-action list-group-item-light">
+													\${content} :새로운 메세지가 도착하였습니다 
+													<span id="\${content.replace(/\s/g, "-")}" class="badge badge-primary">
+														\${roomMaps.get(content)}
+													</span>
+												</a>
+											`;
+											alarmWrap.appendChild(alarmDiv);
+										}else{
+											roomMaps.set(content, (roomMaps.get(content)+ 1));
+											
+											document.querySelector(spanId).innerText=`\${roomMaps.get(content)}`;
+										}
+									
+									}else{
+						
+								 	 	const noticeAlarm=document.createElement('div');
+								 	 	noticeAlarm.className = 'list-group';
+								 	 	noticeAlarm.innerHTML=`
+												 <a href="#" class="list-group-item list-group-item-action list-group-item-light">
+													\${content} 
+												</a>
+											`;
+										alarmWrap.appendChild(noticeAlarm);
+									}
+								
+								});
+								
+								document.querySelector("#bell").classList.add("fa-beat");
+							}
+						
+						}
+						
+					});
+				}; 
 				
 				</script>
 

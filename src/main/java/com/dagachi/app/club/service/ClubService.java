@@ -72,7 +72,7 @@ public interface ClubService {
 
 	List<JoinClubMember> clubMemberInfoByFindByMemberId(List<ClubMember> clubMembers, int clubId);
 	
-	int insertClub(Club club);
+	int insertClub(Club club, String memberId);
 
 	Club findClubById(int clubId);
 	

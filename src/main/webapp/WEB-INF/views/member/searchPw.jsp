@@ -28,25 +28,28 @@
 <meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}"/>
 <style>
 .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
-    margin-bottom: 0.5rem;
     font-weight: 500;
     line-height: 1.2;
     text-align: center;
-        height: 53px;
+        
     }
 .code-btn{
-margin-left: 175px;
+	margin-left: 175px;
     margin-top: -14px;
     height: 56px;
 }
 .codeConpare-btn{
-margin-left: 184px;
+	margin-left: 184px;
     margin-top: -14px;
     height: 56px;
 }
-
-
+.input-bar {
+	width: 300px;
+    margin: 0 auto;
 }
+
+
+
 </style>
 	
 	<c:if test="${msg ne null}">
@@ -59,16 +62,17 @@ margin-left: 184px;
 	<form:form
 		action = "${pageContext.request.contextPath}/member/memberSearchPw.do"
 		method = "post"
+		style="width:500px; margin:0 auto;"
 		>
-		<h3>등록되어있는 이름을 입력하세요.</h3>
+		<h4 style="margin-top: 80px;">◾이름을 입력하세요</h4>
 	<div class="form-floating mb-3">
-	  <input type="text" class="form-control" id="floatingInputDisabled" placeholder="홍길동" name = "name" required>
+	  <input type="text" class="form-control input-bar" id="floatingInputDisabled" placeholder="홍길동" name = "name" required>
 	  <label for="floatingInputDisabled"></label>
 	</div>
 	
-	<h3>등록되어있는 이메일을 입력하세요.</h3>
+	<h4>◾이메일을 입력하세요</h4>
 	<div class="form-floating mb-3">
-	  <input type="email" class="form-control" id="floatingInputDisabled2" placeholder="name@example.com" name = "email" required>
+	  <input type="email" class="form-control input-bar" id="floatingInputDisabled2" placeholder="name@example.com" name = "email" required>
 	  <label for="floatingInputDisabled"></label>
 	</div>
 	
@@ -76,9 +80,9 @@ margin-left: 184px;
 	<button type="button" class="btn btn-primary" id="sendCodeButton">인증코드 보내기</button>
 	</div>
 	
-	<h3>인증코드를 입력하세요</h3>
+	<h4>◾인증코드를 입력하세요</h4>
 	<div class="form-floating mb-3">
-	  <input type="text" class="form-control" id="floatingInputDisabled3" placeholder="q1w2e3r4" name = "code" required>
+	  <input type="text" class="form-control input-bar" id="floatingInputDisabled3" placeholder="q1w2e3r4" name = "code" required>
 	  <label for="floatingInputDisabled"></label>
 	</div>
 	
@@ -87,11 +91,12 @@ margin-left: 184px;
 	<button type="button" class="btn btn-primary" id="compareCodeBtn">인증번호 확인</button>
 	</div>
 	</form:form>	
-	
+
 	<script>
 	var token = $("meta[name='_csrf']").attr("content");
 	var header = $("meta[name='_csrf_header']").attr("content");
 	sendCodeButton.addEventListener("click", function() {
+		alert('인증코드를 이메일로 발송합니다. 등록된 정보가 없을 시 코드가 발송되지 않으니 주의바랍니다!');
 		var username = document.getElementById('floatingInputDisabled').value; // username 입력 필드 값
         var email = document.getElementById('floatingInputDisabled2').value; // email 입력 필드 값
 		console.log(email);
@@ -109,18 +114,18 @@ margin-left: 184px;
     			xhr.setRequestHeader(header, token);
     		},
             success: function(response) {
-                alert('인증코드를 이메일로 발송합니다. 등록된 정보가 없을 시 코드가 발송되지 않으니 주의바랍니다!');
+                
                 console.log(response); // test를 위해 브라우저 콘솔창에서도 코드보여줄수있게함
                 
 			compareCodeBtn.addEventListener("click", function() {
 			    var userEnteredCode = document.getElementById('floatingInputDisabled3').value;
 			    
 			    if(userEnteredCode === response){
-			    	alert('일치 ㅋ' + email);
+			    	alert('인증코드가 일치합니다.');
 			    	window.location.href ="${pageContext.request.contextPath}/member/"+email+"/memberPwUpdate.do";
 			    }
 			    else{
-			    	alert('불일치 ㅋ');
+			    	alert('인증코드가 불일치 합니다.');
 			    }
 			});
             }

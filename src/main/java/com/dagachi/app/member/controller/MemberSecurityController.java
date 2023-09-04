@@ -28,6 +28,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -47,6 +48,7 @@ import com.dagachi.app.member.entity.ActivityArea;
 import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.entity.MemberDetails;
 import com.dagachi.app.member.entity.MemberInterest;
+import com.dagachi.app.member.entity.MemberLike;
 import com.dagachi.app.member.entity.MemberProfile;
 import com.dagachi.app.member.service.MemberService;
 import com.dagachi.app.oauth.service.Oauth2UserServiceImpl;
@@ -89,6 +91,14 @@ public class MemberSecurityController {
 	@PostMapping("/memberCreate.do")
 	public String create(@Valid MemberCreateDto member, BindingResult bindingResult, RedirectAttributes redirectAttr,
 			@RequestParam String interests) throws UnsupportedEncodingException {
+	
+		if(bindingResult.hasErrors()) {
+			ObjectError error = bindingResult.getAllErrors().get(0);
+			redirectAttr.addFlashAttribute("msg", "다시 확인하고 입력하세요");
+			 log.debug("이게 interest -> {}", error);
+			 log.debug("오류가 나는걱이야 -> {}");
+			return "redirect:/member/memberCreate.do";
+		} 
 	    
 		JsonArray documents = kakaoMapApi(member.getMainAreaId(), "address"); 
 	    JsonElement document = documents.getAsJsonArray().get(0);
@@ -108,10 +118,20 @@ public class MemberSecurityController {
 	    int result = memberService.insertMember(member);
 	    return "redirect:/";
 	}
-	
+
+	@GetMapping("/memberKakaoCreate.do")
+	public String kakaoUpadteCreate(
+	    		@AuthenticationPrincipal MemberDetails loginMember
+	    		) {
+	        return "member/memberKakaoCreate";
+	        
+	    }
+
 	@PostMapping("/memberKakaoCreate.do")
 	public String kakaoUpadteCreate(@Valid MemberCreateDto member, BindingResult bindingResult, RedirectAttributes redirectAttr,
 			@RequestParam String interests) throws UnsupportedEncodingException {
+		log.debug("이게 member -> {}", member);
+	    log.debug("이게 interests -> {}", interests);		
 	    
 		JsonArray documents = kakaoMapApi(member.getMainAreaId(), "address"); 
 	    JsonElement document = documents.getAsJsonArray().get(0);
@@ -119,13 +139,9 @@ public class MemberSecurityController {
 	    JsonObject params = item.get("address").getAsJsonObject();
 	    String bCode = params.get("b_code").getAsString();
 	 
-	    String rawPassword = member.getPassword();
-	    String encodedPassword = passwordEncoder.encode(rawPassword);
-	    
 	    
 	    List<String> interest = Arrays.asList(interests.split(","));
 	    member.setInterest(interest);
-	    member.setPassword(encodedPassword);
 	    member.setMainAreaId(bCode);
 	    log.debug("이게 interest -> {}", interest);
 	    int result = memberService.kakaoUpadteCreate(member);
@@ -153,13 +169,15 @@ public class MemberSecurityController {
 		int result = memberService.InquiryCreate(inquiry);
 		return "redirect:/member/memberAdminInquiryList.do";
 	}
-
-
 	
 
 	@GetMapping("/memberLogin.do")
 	public void memberLogin() {}
 
+	/**
+	 * 로그인 시 principal에 추가 정보 삽입
+	 * @author 동찬
+	 */
 	@PostMapping("/memberLoginSuccess.do")
 	public String memberLoginSuccess(@AuthenticationPrincipal MemberDetails memberDetails, HttpSession session) {
 		String memberId = memberDetails.getMemberId();
@@ -172,13 +190,11 @@ public class MemberSecurityController {
 		memberDetails.setMemberProfile(profile);
 		memberDetails.setMemberInterest(interests);
 		memberDetails.setClubMember(clubMembers);
-
-		System.out.println(memberDetails);
 		
 		// 리다이렉트 처리
 		SavedRequest savedRequest = (SavedRequest) session.getAttribute("SPRING_SECURITY_SAVED_REQUEST");
 		String location = savedRequest == null ? "/" : savedRequest.getRedirectUrl();
-		log.debug("location = {}", location);
+//		log.debug("location = {}", location);
 		return "redirect:" + location;
 	}
 
@@ -202,7 +218,7 @@ public class MemberSecurityController {
 	public ResponseEntity<?> checkKakao(@RequestParam String memberId) {
 		boolean available = false;
 		try {
-			UserDetails memberDetails = memberService.checkKakao(memberId);
+			int memberDetails = memberService.checkKakao(memberId);
 		} catch (UsernameNotFoundException e) {
 			available = true;
 		}
@@ -250,11 +266,15 @@ public class MemberSecurityController {
 					.originalFilename(originalFilename).renamedFilename(renamedFilename).build();
 
 			int result = memberService.updateMemberProfile(memberProfile);
+			
+			// 프로필사진 업데이트시 principal객체 업데이트
+			if(result != 0)
+				loginMember.getMemberProfile().setRenamedFilename(renamedFilename);
 		}
 
 		Member member = Member.builder().memberId(loginMember.getMemberId()).name(_member.getName())
-				.nickname(_member.getNickname()).phoneNo(_member.getPhoneNo()).address(_member.getAddress())
-				.gender(_member.getGender()).mbti(_member.getMbti()).birthday(_member.getBirthday()).build();
+								.nickname(_member.getNickname()).phoneNo(_member.getPhoneNo()).address(_member.getAddress())
+								.gender(_member.getGender()).mbti(_member.getMbti()).birthday(_member.getBirthday()).build();
 
 		int result2 = memberService.UpdateMember(member);
 

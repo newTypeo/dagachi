@@ -13,7 +13,7 @@ import com.dagachi.app.ws.dto.Payload;
 @Mapper
 public interface ChatRepository {
 
-	@Select("select * from(select * from chat_log where club_id=#{clubId} order by id desc) where rownum = 1")
+	@Select("select * from (select * from chat_log where club_id=#{clubId} order by id desc) where rownum = 1")
 	ChatLog findByRecentChat(int clubId);
 
 	@Select("select * from chat_log where club_id=#{no} order by id")

@@ -12,6 +12,7 @@ import com.dagachi.app.club.entity.ClubSchedule;
 import com.dagachi.app.club.entity.ClubScheduleEnrollMember;
 import com.dagachi.app.club.entity.ClubSchedulePlace;
 import com.dagachi.app.schedule.dto.ScheduleAndWriterProfileDto;
+import com.dagachi.app.schedule.dto.ScheduleCreateDto;
 import com.dagachi.app.schedule.dto.ScheduleDetailsDto;
 import com.dagachi.app.schedule.entity.ClubScheduleEnrollMemberDetail;
 import com.dagachi.app.schedule.entity.ClubSchedulePlaceDetail;
@@ -60,6 +61,28 @@ public class ScheduleServiceImpl implements ScheduleService {
 	@Override
 	public int deleteEnrollMember(ClubScheduleEnrollMember memberInfo) {
 		return scheduleRepository.deleteEnrollMember(memberInfo);
+	}
+	
+	@Override
+	public int insertSchedule(ScheduleCreateDto scheduleCreateDto) {
+		int result = 0;
+		result = scheduleRepository.insertSchedule(scheduleCreateDto);
+		int scheduleId = scheduleCreateDto.getScheduleId();
+		for (ClubSchedulePlace place : scheduleCreateDto.getPlaces()) {
+			place.setScheduleId(scheduleId);
+			result = scheduleRepository.insertSchedulePlace(place);
+		}
+		return result;
+	}
+	
+	@Override
+	public int updateScheduleStatus(int no) {
+		return scheduleRepository.updateScheduleStatus(no);
+	}
+	
+	@Override
+	public int getMyRole(Map<String, Object> mIdAndcId) {
+		return scheduleRepository.getMyRole(mIdAndcId);
 	}
 }
 

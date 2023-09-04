@@ -626,7 +626,7 @@ AFTER INSERT ON club
 FOR EACH ROW
 BEGIN
     INSERT INTO club_layout (club_id, title, main_image, main_content)
-    VALUES (:NEW.club_id, NULL, NULL, NULL);
+    VALUES (:NEW.club_id, NULL, '003.png', '모임 관리에서 대문의 내용을 작성해보세요.');
 END;
 /
 -- 소모임샘플

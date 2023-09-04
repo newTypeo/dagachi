@@ -1,6 +1,9 @@
 package com.dagachi.app.schedule.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +32,7 @@ import com.dagachi.app.club.service.ClubService;
 import com.dagachi.app.common.DagachiUtils;
 import com.dagachi.app.member.entity.MemberDetails;
 import com.dagachi.app.schedule.dto.ScheduleAndWriterProfileDto;
+import com.dagachi.app.schedule.dto.ScheduleCreateDto;
 import com.dagachi.app.schedule.dto.ScheduleDetailsDto;
 import com.dagachi.app.schedule.entity.ClubSchedulePlaceDetail;
 import com.dagachi.app.schedule.service.ScheduleService;
@@ -86,6 +90,10 @@ public class ScheduleController {
 			}
 		}
 		
+		mIdAndcId = Map.of("myId", member.getMemberId(), "clubId", club.getClubId());
+		int myRole = scheduleService.getMyRole(mIdAndcId);
+		
+		model.addAttribute("myRole", myRole);
 		model.addAttribute("myAddress", member.getAddress());
 		model.addAttribute("myHome", myHome);
 		model.addAttribute("isEnrolled", isEnrolled);
@@ -132,6 +140,87 @@ public class ScheduleController {
 		int result = scheduleService.deleteEnrollMember(memberInfo);
 		redirectAttr.addFlashAttribute("msg", "😥참여를 취소하였습니다.");
 		
-		return "redirect:/club/{domain}/scheduleDetail.do?no=" + no;
+		return "redirect:/club/"+domain+"/scheduleDetail.do?no=" + no;
 	};
+	
+	@GetMapping("/clubSchedule.do")
+	public String clubSchedule(@PathVariable("domain") String domain, Model model) {
+		
+		Club club = clubService.findByDomain(domain);
+		ClubLayout layout = clubService.findLayoutById(club.getClubId());
+		
+		
+		model.addAttribute("clubName", club.getClubName());
+		model.addAttribute("layout", layout);
+		return "/club/schedule/scheduleList";
+	}
+	
+	@GetMapping("/scheduleCreate.do")
+	public String clubScheduleCreate(@PathVariable("domain") String domain, Model model) {
+		Club club = clubService.findByDomain(domain);
+		ClubLayout layout = clubService.findLayoutById(club.getClubId());
+		
+		
+		model.addAttribute("clubName", club.getClubName());
+		model.addAttribute("layout", layout);
+		return "/club/schedule/scheduleCreate";
+	}
+	
+	@PostMapping("/scheduleCreate.do")
+	public String insertClubSchedule(
+			@PathVariable("domain") String domain,
+			@AuthenticationPrincipal MemberDetails member,
+			ScheduleCreateDto scheduleCreateDto,
+			@RequestParam String placesArr,
+			@RequestParam String placesStartTimeArr
+			) {
+		Club club = clubService.findByDomain(domain);
+		int clubId = club.getClubId();
+		ClubLayout layout = clubService.findLayoutById(clubId);
+		scheduleCreateDto.setClubId(clubId);
+		scheduleCreateDto.setWriter(member.getMemberId());
+		
+		String[] placesArr_ = placesArr.split(",");
+		String[] placesStartTimeArr_ = placesStartTimeArr.split(",");
+		int leng = placesArr_.length;
+		int loop = leng / 4;
+		List<ClubSchedulePlace> places = new ArrayList<>();
+		for (int i = 0; i < loop; i++) {
+			ClubSchedulePlace place = 
+				new ClubSchedulePlace(0, 0, 
+					placesArr_[loop + i], 
+					placesArr_[2*loop + i],
+					placesArr_[3*loop + i],
+					Integer.parseInt(placesArr_[i]), 
+					stringToLDTime(placesStartTimeArr_[i])
+			);
+			places.add(place);
+		};
+		scheduleCreateDto.setPlaces(places);
+		
+		int result = scheduleService.insertSchedule(scheduleCreateDto);
+		
+		
+		return "redirect:/club/"+domain+"/clubSchedule.do";
+	}
+	
+	public LocalDateTime stringToLDTime(String dateTimeStr) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+        LocalDateTime localDateTime = LocalDateTime.parse(dateTimeStr, formatter);
+		return localDateTime;
+	}
+	
+	@PostMapping("/scheduleRemove.do")
+	public String scheduleRemove (
+		@PathVariable("domain") String domain,
+		@RequestParam int no,
+		RedirectAttributes redirectAttr
+		) {
+		
+		int result = scheduleService.updateScheduleStatus(no);
+		
+		redirectAttr.addFlashAttribute("msg", "일정을 취소했습니다.");
+		
+		return "redirect:/club/"+domain+"/clubSchedule.do";
+	}
 }

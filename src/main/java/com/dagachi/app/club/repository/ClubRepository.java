@@ -289,8 +289,7 @@ public interface ClubRepository {
 	@Select("select * from club_gallery a join club_gallery_attachment b on a.gallery_id = b.gallery_id where (club_id = #{clubId} and thumbnail = 'Y') order by 9")
 	List<ClubGalleryAndImage> clubGalleryAndImageFindByClubId(int clubId);
 	
-	@Select("select * from club c join club_member cm on (c.club_id = cm.club_id) where cm.member_id = #{memberId}")
-	
+	@Select("select * from club c join club_member cm on (c.club_id = cm.club_id) where cm.member_id = #{memberId} and c.status = 'Y'")
 	List<Club> findClubsByMemberId(String memberId);
 	
 	@Select("select club_name, created_at, (select count(*) from club_member where club_id = #{clubId}) member_count from club where club_id = #{clubId}")
@@ -356,6 +355,9 @@ public interface ClubRepository {
 	@Insert("insert into club_gallery_attachment (id, gallery_id, original_filename, renamed_filename,created_at, thumbnail) " +
 	        "values (seq_club_gallery_attachment_id.nextval, #{galleryId}, #{originalFilename}, #{renamedFilename}, default , #{thumbnail})")
 	int insertAttachment(ClubGalleryAttachment attach);
+	
+	@Insert("insert into club_member values(#{memberId}, #{clubId}, default, sysdate, 3, default)")
+	int insertClubLeaderById(Map<String, Object> params);
 	
 	@Select("select count(*) from recent_visit_list where club_id = #{clubId} and member_id = #{memberId}")
 	int checkDuplicateClubIdAndId(Map<String, Object> params);

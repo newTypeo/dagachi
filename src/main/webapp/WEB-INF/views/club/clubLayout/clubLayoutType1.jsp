@@ -45,11 +45,10 @@
 					<c:if test ="${memberRole eq 0}">
 						<p><strong>🎀일반회원</strong></p>
 					</c:if>
-					<p><a href="${pageContext.request.contextPath}/club/${domain}/memberClubDetail.do">나의 모임 정보</a></p>
 				</div>
 				<div class="myProfile3">
 					<button class="btn" style="background-color: ${layout.fontColor}">글쓰기</button>
-					<button class="btn" style="background-color: ${layout.fontColor}">일정생성</button>
+					<button id="scheduleCreateBtn" class="btn" style="background-color: ${layout.fontColor}">일정생성</button>
 				</div>
 			</c:if>
 			<c:if test="${memberRole eq 10}">
@@ -297,10 +296,39 @@
 </form:form>
 
 <nav style="display: flex; flex-direction: row-reverse;">
+
+	<c:if test="${memberRole ne 10 and memberRole lt 3}">
+		<button type="button" onclick="clubMemberDelete();" class="btn btn-danger">😿모임탈퇴</button>
+	</c:if>
+	<form:form 
+		name="clubMemberDeleteFrm"
+		action="${pageContext.request.contextPath}/club/${domain}/clubMemberDelete.do"
+		method = "post">
+	</form:form>
+	<c:if test="${not empty clubAdminMsg}">
+		<script>
+			alert('${clubAdminMsg}');
+			<%session.removeAttribute("clubAdminMsg");%>
+		</script>
+	</c:if>
+	&nbsp;
 	<button type="button" class="btn btn-danger" id="clubReport">🚨모임 신고하기</button>
 </nav>
 
 <script>
+console.log("memberRole= ", ${memberRole});
+
+const clubMemberDelete = () => {
+	if(confirm("모임을 정말 탈퇴하시겠습니까?")) {
+		// console.log(document.clubMemberDeleteFrm);
+		document.clubMemberDeleteFrm.submit();
+	}
+}
+
+scheduleCreateBtn.addEventListener('click', () => {
+	location.href = "${pageContext.request.contextPath}/club/${domain}/scheduleCreate.do";
+});
+
 $('.carousel').carousel({
 	interval: false
 })
@@ -336,7 +364,7 @@ const clubReportSubmit = () => {
 			xhr.setRequestHeader(header, token);
 		},
 		success(response) {
-			console.log(response);
+			// console.log(response);
 		}
 	});
 	
@@ -353,7 +381,7 @@ const clubLike = () => {
 		url : "${pageContext.request.contextPath}/club/clubLikeCheck.do",
 		data : {domain},
 		success(responseData) {
-			console.log("responseData : ", responseData);
+			// console.log("responseData : ", responseData);
 			
 			if (responseData) {
 				if(confirm("찜하신 모임을 취소하시겠습니까?")) {

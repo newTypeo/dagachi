@@ -3,11 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -65,18 +63,14 @@
 		<table id="chatListBox">
 			<thead>
 				<tr>
-					
-					<th>채팅</th>
-					<th>보낸이</th>
-					<th>시간</th>
-				<tr>
+					<th colspan="2">채팅</th>
+				</tr>
 			</thead>
 
 			<tbody>
 				
 			</tbody>
 		</table>
-
 
 	</div>
 
@@ -94,28 +88,54 @@
 					url : "${pageContext.request.contextPath}/chat/chat/findChatList.do",
 					data : {clubId},
 					success(data) {
-						// console.log(data);
+						console.log(data);
 						if(data.cahtlog !=null){
 							const {id,clubId,writer,content,createdAt}=data.cahtlog
 							html+=`
 								<tr>
-									<td colspan=4>\${data.clubName}</td>
+									<td colspan = "2" class="clubNameWrapper">
+										<img src="${pageContext.request.contextPath}/resources/upload/club/profile/\${data.clubProfile}"/>
+										<div class="clubNameContainer">
+											<span class="clubName">\${data.clubName}</span>
+										</div>
+									</td>
+								</tr>
 								<tr>
+									<td>
+										<div class="writerAndCreatedAt">
+											<span>\${writer}</span>
+											<span>\${createdAt}</span>
+										</div>
+									</td>
+								</tr>
 								<tr>
-									<td><a href="${pageContext.request.contextPath}/chat/chatRoom?no=\${clubId}">\${content}</a></td>
-									<td>\${writer}</td>
-									<td>\${createdAt}</td>
-								<tr>
+									<td colspan = "2">
+										<div class="content">
+											<a href="${pageContext.request.contextPath}/chat/chatRoom?no=\${clubId}">
+												<div class="truncate-text">\${content}</div>
+											</a>
+										</div>
+									</td>
+								</tr>
 							`;
 							
 						}else{
 							html+=`
 								<tr>
-									<td colspan=4>\${data.clubName}</td>
-								<tr>
-								<tr>
-									<td colspan=4><a href="${pageContext.request.contextPath}/chat/chatRoom?no=\${clubId}">대화 목록이 없습니다 대화를 시작하세요</a></td>
-								<tr>
+									<td colspan = "2" class="clubNameWrapper">
+										<img src="${pageContext.request.contextPath}/resources/upload/club/profile/\${data.clubProfile}"/>
+										<div class="clubNameContainer">
+											<span class="clubName">\${data.clubName}</span>
+										</div>
+									</td>
+								</tr>
+								<tr class="border2">
+									<td colspan = "2">
+										<div class="noChatBox">
+											<a href="${pageContext.request.contextPath}/chat/chatRoom?no=\${clubId}">대화 목록이 없습니다. 대화를 시작하세요.</a>
+										</div>
+									</td>
+								</tr>
 							`;
 						}
 						chatListBody.innerHTML=html;

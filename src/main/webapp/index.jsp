@@ -36,6 +36,8 @@
 		</div>
 	</nav>
 	<nav id="my-club-info">
+	<sec:authorize access="isAnonymous()"><img style="margin-top:0px;" class="img-place" alt="" src="${pageContext.request.contextPath}/resources/images/main.png"></sec:authorize>
+		
 		<sec:authorize access="isAuthenticated()">
 			<div class="myInfo">
 				<div class="myProfile">
@@ -50,7 +52,7 @@
 						success({regcodes}) {
 							document.querySelector(".mainArea").innerHTML = regcodes[0].name; 
 						}
-					});
+					}); 
 					</script>
 					<sec:authentication property="principal.memberInterest" var="interestList"/>
 
@@ -62,7 +64,7 @@
 				</div>
 			</div>
 			<div class="myClubList">
-				<h5 class="myClubList-header-text-style"">👌 나의 소모임</h5>
+				<h5 class="myClubList-header-text-style">👌 나의 소모임</h5>
 				<ul style="list-style: none;">
 				</ul>
 				<script>
@@ -73,7 +75,7 @@
 							const clubListUl = document.querySelector(".myClubList ul");
 							clubs.forEach((club) => {
 								clubListUl.innerHTML += `
-									<li>▸ \${club.clubName}</li>
+									<li>▸ <a class='my-club-a' href='${pageContext.request.contextPath}/club/\${club.domain}'>\${club.clubName}</a></li>
 								`;					
 							});
 						}

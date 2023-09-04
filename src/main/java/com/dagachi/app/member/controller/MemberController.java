@@ -1,51 +1,34 @@
 package com.dagachi.app.member.controller;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.multipart.MultipartFile;
-import javax.mail.internet.MimeMessage;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.core.io.FileSystemResource;
-
 
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.service.ClubService;
-import com.dagachi.app.common.DagachiUtils;
 import com.dagachi.app.member.dto.MemberPwUpdateDto;
-import com.dagachi.app.member.dto.MemberUpdateDto;
-import com.dagachi.app.member.entity.CbcLike;
 import com.dagachi.app.member.entity.Member;
 import com.dagachi.app.member.entity.MemberDetails;
 import com.dagachi.app.member.entity.MemberLike;
@@ -54,12 +37,12 @@ import com.dagachi.app.member.service.MemberService;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Controller
-@Validated
-@SessionAttributes({"likeMe"})
 @Slf4j
-@RequestMapping("/member")
+@Validated
+@Controller
 @Configuration
+@RequestMapping("/member")
+@SessionAttributes({"likeMe"})
 @ConfigurationProperties(prefix = "spring.mail")
 public class MemberController {
 
@@ -78,8 +61,8 @@ public class MemberController {
 	   
 	 @GetMapping("/{memberId}")
 	    public String memberDetail(
-	    		@PathVariable("memberId") String memberId,
 	    		Model model,
+	    		@PathVariable("memberId") String memberId,
 	    		@AuthenticationPrincipal MemberDetails loginMember
 	    		) {
 		 	Member member = memberService.findMemberBymemberId(memberId);
@@ -224,7 +207,6 @@ public class MemberController {
              @RequestParam("email") String email
 			 ){
 		 
-		 
 		 Member member = memberService.findMemberByName(username);
 		 Member member2 = memberService.findMemberByEmail(email);
 		 String randomCode = null;
@@ -249,7 +231,76 @@ public class MemberController {
 		 }
 		 return ResponseEntity.status(HttpStatus.OK).body(randomCode);
 	 }
+	
+	 /**
+	  * @author 김나영
+	  * 회원가입 이메일 인증 코드 
+	  */
+	@GetMapping("/memebrInsertEmail.do")
+	public ResponseEntity<?> memebrInsertEmail(
+            @RequestParam("email") String email
+			 ){
+		 
+		 Member member2 = memberService.findMemberByEmail(email);
+		 String randomCode = null;
+		 if(member2 == null) {
+			 // 입력받은 이름과 이메일이 db에 있는 정보와 일치할 시,
+			 int min = 100000;
+		     int max = 999999;
+		     Random random = new Random();
+		     int randomNumber = random.nextInt(max - min + 1) + min;
+		     randomCode = String.valueOf(randomNumber);
+		     
+			 SimpleMailMessage message = new SimpleMailMessage();
+			 message.setFrom("khsso102649@gmail.com");
+			 message.setTo(email);
+			 message.setSubject("다가치 홈페이지 인증코드 메일");
+			 message.setText(randomCode);
+			 
+			 javaMailSender.send(message);
+			 
+		 }else {
+			 randomCode = null;
+		 }
+		 return ResponseEntity.status(HttpStatus.OK).body(randomCode);
+	 }
 	 
+	
+	 /**
+	  * @author 김나영
+	  *닉네임/이메일 중복 검사
+	  */
+	@GetMapping("/checkNicknameDuplicate.do")
+	@ResponseBody
+	public ResponseEntity<?> checkNicknameDuplicate(@RequestParam("nickname") String nickname){
+		 System.out.println("nickname" + nickname);
+		 Member _nickname = memberService.checkNickNameDuplicate(nickname);
+		 System.out.println("nicknamenicknamenickname" + _nickname);
+		 boolean available = false; 
+		 if(_nickname == null) {
+				 available = true;
+		 }else {
+				 available = false;
+		 }
+		 System.out.println("이메알" + available);
+			return ResponseEntity.status(HttpStatus.OK).body(Map.of("available", available));
+	}
+	
+	@GetMapping("/checkEmailDuplicate.do")
+	@ResponseBody
+	public ResponseEntity<?> checkEmailDuplicate(@RequestParam("email") String email){
+		System.out.println("바바바"+email);
+		 Member _email = memberService.checkEmailDuplicate(email);
+		 boolean available = false; 
+
+		 if(_email == null) {
+				 available = true;
+		 }else {
+				 available = false;
+		 }
+			return ResponseEntity.status(HttpStatus.OK).body(Map.of("available", available));
+	}
+	
 	@RequestMapping("{email}/memberPwUpdate.do")
 	public String updateMemberPassword(
 			@PathVariable("email") String email,
