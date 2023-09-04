@@ -130,7 +130,6 @@ div#search-content {
 		if(currentPage<lastPage){
 			currentPage++;
 			renderInquiryList(inquiryTypeVal,inquiryStatusVal);
-			console.log(currentPage);
 		}
 	});
     
@@ -156,10 +155,6 @@ div#search-content {
 		const searchTypeVal= frm.searchType.value;
 		const inquiryTypeVal= document.querySelector("#inquiryType").value;
 		const inquiryStatusVal= document.querySelector("#inquiryStatus").value;
-		console.log("바바바"+searchKeywordVal);
-		console.log("바바바"+searchTypeVal);
-		console.log("바바바"+inquiryTypeVal);
-		console.log("바바바"+inquiryStatusVal);
 		
 		 $.ajax({
 			url : '${pageContext.request.contextPath}/admin/searchInquiryType.do',
@@ -167,10 +162,6 @@ div#search-content {
 			data :{searchKeywordVal,searchTypeVal,inquiryTypeVal,inquiryStatusVal},
 			success(data){
 				const tbody =document.querySelector("#inquiryTable tbody");
-				console.log("바바바inquiryTypeVal"+inquiryTypeVal);
-				console.log("바바바searchTypeVal"+searchTypeVal);
-				console.log("data.inquiryTypeVal: ", data.inquirys);
-				console.log("data.inquirySize: ", data.inquirySize);
 				let html='';
 				if(data.inquirys.length>0){
 					html = data.inquirys.reduce((html,inquiry)=>{	
@@ -274,7 +265,6 @@ div#search-content {
 			method:"GET",
 			data :{inquiryType,inquiryStatus,page},
 			success(data){
-				console.log(data);
 				const tbody =document.querySelector("#inquiryTable tbody");
 				let html='';
 				if(data.inquirys.length>0){

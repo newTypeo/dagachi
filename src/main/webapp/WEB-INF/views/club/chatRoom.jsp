@@ -56,9 +56,6 @@
 			content : document.querySelector("#msgBox").value,
 			createdAt : Date.now()
 		};
-		console.log(payload);
-		
-	
 		
 		const url = `/app/moimtalk/\${payload.to}`;
 		

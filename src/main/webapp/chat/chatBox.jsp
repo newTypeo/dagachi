@@ -83,12 +83,10 @@
 		
 		if(clubIds.length>0){
 			clubIds.forEach((clubId)=>{
-					// console.log(clubId);
 				$.ajax({
 					url : "${pageContext.request.contextPath}/chat/chat/findChatList.do",
 					data : {clubId},
 					success(data) {
-						console.log(data);
 						if(data.cahtlog !=null){
 							const {id,clubId,writer,content,createdAt}=data.cahtlog
 							const parsedDate =new Date(createdAt);

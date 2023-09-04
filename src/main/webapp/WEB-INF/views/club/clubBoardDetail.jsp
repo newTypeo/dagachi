@@ -13,9 +13,7 @@
 
 <script>
 	 window.onload=()=>{
-		 
 		 const likeCheck=${liked};
-		 console.log(likeCheck);
 		 likeChecked(likeCheck);
 	 }
 </script>
@@ -178,7 +176,6 @@ const creatComment = () => {
 	const content= commentContent.value;
 	const boardId=${clubBoard.boardId};
 	const token= document.detailFrm._csrf.value;
-	console.log(token);
 	commentContent.value="";
 	
 	$.ajax({
@@ -284,7 +281,6 @@ const heartClick2=(e)=>  {
 
 document.querySelector("#like").addEventListener("click", () => {
 	const like = document.querySelector("#like").checked;
-	// console.log(like);
 	const token= document.detailFrm._csrf.value;
 	const boardId="${clubBoard.boardId}";
 	
@@ -294,7 +290,6 @@ document.querySelector("#like").addEventListener("click", () => {
 		data :{like , boardId},
 		headers: {"X-CSRF-TOKEN": token},
 		success(board) {
-			console.log(board);
 			const {boardId,clubId,content,createdAt,likeCount,status,title,type,writer} = board;
 			const likeCountBox =document.querySelector("#heartButton");
 			likeCountBox.innerText=`\${likeCount}`;

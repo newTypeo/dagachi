@@ -179,7 +179,6 @@ document.body.style.fontFamily = "${layout.font}";
 		if(currentPage<lastPage){
 			currentPage++;
 			renderBoardList(boardTypeVal);
-			console.log(currentPage);
 		}
 	});
     
@@ -216,7 +215,6 @@ document.body.style.fontFamily = "${layout.font}";
 			method:"GET",
 			data :{searchKeywordVal,searchTypeVal,boardTypeVal},
 			success(data){
-				console.log(data);
 				
 				const tbody =document.querySelector("#boardTable tbody");
 				let html='';
@@ -307,7 +305,6 @@ document.body.style.fontFamily = "${layout.font}";
 			method:"GET",
 			data :{boardType,page},
 			success(data){
-				console.log(data);
 				const tbody =document.querySelector("#boardTable tbody");
 				let html='';
 				if(data.boards.length>0){

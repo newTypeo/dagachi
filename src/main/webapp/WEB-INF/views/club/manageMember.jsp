@@ -227,7 +227,6 @@ document.querySelectorAll('#kick').forEach((kickButton) => {
 			const frm = document.kickMember;
 			
 			frm.memberId.value = e.target.value;
-			console.log(e.target.value);
 			
 			frm.submit();
 		}
