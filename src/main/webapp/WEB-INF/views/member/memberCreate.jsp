@@ -730,7 +730,7 @@ img {
          </div>
       </div><!-- 집주소 받는 모달창 end -->
 </div>
-<script>
+<script> 
 
 //이메일 인증 코드 + 인증확인하기 
 var token = $("meta[name='_csrf']").attr("content");
