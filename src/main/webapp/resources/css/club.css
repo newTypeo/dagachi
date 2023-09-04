@@ -133,6 +133,7 @@ h5, h3 {
 	background-color: white;
 	width: 540px;
 	border-radius: 5px;
+	padding: 15px;
 }
 .lscr {
 	background-color: white;
@@ -214,8 +215,14 @@ h5, h3 {
 }
 
 #club-info-container {
-	width: 260px;
+	width: 281px;
 	margin: 0;
+	overflow: hidden;
+	white-space: nowrap;
+}
+#club-info-container > h5 {
+ 	text-overflow: ellipsis;
+  	overflow: hidden;
 }
 #club-info-container > span:first-of-type {
 	margin: 0 20px;

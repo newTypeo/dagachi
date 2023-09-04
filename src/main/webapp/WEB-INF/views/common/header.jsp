@@ -266,3 +266,6 @@
 			</sec:authorize>
 
 		</header>
+		<sec:authorize access="isAuthenticated()">
+			<jsp:include page="/WEB-INF/views/common/chatBtn.jsp"></jsp:include>
+		</sec:authorize>
