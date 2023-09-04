@@ -82,7 +82,6 @@
 
 					<c:forEach items="${chatlogs}" var="chatlog">
 						<c:if test="${chatlog.writer eq memberId}">
-							<div><h6 class="chatIdPrintR">${chatlog.writer}</h6></div>
 							<div class="chat ch2">
 								<div class="icon">
 									<i class="fa-solid fa-user"></i> <img alt=""

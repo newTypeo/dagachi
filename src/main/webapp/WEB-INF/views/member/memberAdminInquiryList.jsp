@@ -29,8 +29,8 @@ h1{
     padding: 8px; 
 }
 #admin-report-inquiry-list-sec {
- margin-left:320px; 
- hight : 3000px;
+ 	transform: translate(182px, 10px);
+ 
 }
 .gray-text {
     color: gray; 
@@ -57,7 +57,7 @@ h1{
 </style>
 
 <section id="admin-report-inquiry-list-sec" class="p-2 report-inquiry-list">
-	<h1>📢QnA📢</h1>
+	<h1>📢Q&A📢</h1>
 	<a href="${pageContext.request.contextPath}/member/memberAdminInquiry.do"  class="button"> 문의하기</a>
 	<div id="report-inquiry-list-wrapper">
 				<table id="reportInquiryListTable">

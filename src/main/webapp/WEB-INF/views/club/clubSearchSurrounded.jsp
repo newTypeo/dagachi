@@ -12,11 +12,12 @@
 
 
 	<div>
-		<label for="category">모임 분류:</label>
+		<label for="category">모임 분류 :</label>
 		<select id="filter-category" name="category"><!-- js로 options 처리 --></select>
 		<input type="range" id="kmRange" value="0" min="1" max="6" step="1" oninput="setValue(this);">
 		<span id="range_val"></span>
 	</div>
+	<hr>
 	<div class="mt-4"><div class="row" id="clubs-wrapper"></div></div>
 </section>
 	
@@ -95,6 +96,10 @@ const loadCLubs = (target) => {
 				        	</div>
 						`;
 					}); // forEach
+					if(html == '') {
+						html += `<h4>검색 결과가 없습니다.</h4></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br></br>`;
+					}
+					
 					clubsWrapper.innerHTML = html;
 				} // success
 			}); // ajax
