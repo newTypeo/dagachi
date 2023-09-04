@@ -463,7 +463,8 @@ img {
 			  <div id="name-container">
 			  <input type="text" class="form-control" name="name" id="name" placeholder="이름을 입력(2글자 이상) 해주세요." required>
 			  <span class="name reg" style="color: GRAY; font-size: 12px;">이름은 한글 2~5글자 여야합니다.</span>
-			  <input type="hidden" id="nameValid" value="0"/>	
+			  <input type="text" id="nameValid" value="0"/>
+			  
  
 			</div>
 		</div>
@@ -753,8 +754,7 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             success: function(response) {
                emailWarning.textContent = ' ! ! !인증번호 발송 완료 ! ! ! 인증번호가 오지 않으면 입력하신 정보가 맞는지 확인해주세요.문제가 지속된다면 관리자에게 문의 바랍니다.';
-                console.log(response); // 이메일로 보내진 인증코드
-                
+                console.log(response); 
                 var compareCodeBtn = document.getElementById('compareCodeBtn'); // 버튼 엘리먼트
                 compareCodeBtn.addEventListener("click", function() {
                     var userEnteredCode = document.getElementById('floatingInputDisabled3').value;
@@ -765,13 +765,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         emailWarning.textContent = '이메일 인증 실패! 다시 시도해주세요.';
                         emailCkValid.value = "0";
                     }
+                    checkConditions();
                 });
             }
         });
     });
 });
-
-
 
 //전체동의 체크 (누르면 전체동의 한번더 누르면 전체동의 안됨)
 document.getElementById("all").addEventListener("click", function () {
@@ -804,11 +803,13 @@ function updateAgreementValid() {
     } else {
         agreementValid.value = "0";
     }
+    checkConditions();
 }
 
 // 초기 상태에서 필수 체크박스들을 체크한 경우 agreementValid 값을 1로 설정합니다.
 if (chk1.checked && chk2.checked && chk3.checked) {
     agreementValid.value = "1";
+    checkConditions();
 }
 
 //-----------이용약관 모달창 열고 닫기 
@@ -863,7 +864,9 @@ document.addEventListener('click', (e) => {
     document.querySelector("#activity_area").value = addressSearchBox.value;
     $('#activity-area-modal').modal('hide');
     activityAreaValid.value = "1";
+    
  }
+ checkConditions();
 });
 //-------------------------------------- 집 주소 끝 --------------------------------
 //-------------------------------------- 주 활동지역start--------------------------------
@@ -934,6 +937,7 @@ document.addEventListener('click', (e) => {
        $('#main-area-modal').modal('hide');
        mainAreaIdValid.value = "1";
     }
+    checkConditions();
 });
 //-------------------------------------- 활동지역end--------------------------------
 
@@ -968,6 +972,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 .join(", ");
             // 선택한 관심사를 쉼표로 구분된 문자열로 만들어서 input 필드에 설정
             document.querySelector('input[name="interest"]').value = selectedInterests;
+            checkConditions();
         });
     });
 });
@@ -1005,6 +1010,7 @@ $(document).ready(function() {
             guideError.style.display = "inline";
             idValid.value = "0";
           } 
+          checkConditions();
         }
       });
     }
@@ -1043,6 +1049,7 @@ document.addEventListener("DOMContentLoaded", function () {
             nicknameError.style.display = "inline";
             nicknameValid.value = "0";
           }
+          checkConditions();
         }
       });
     }
@@ -1088,6 +1095,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	        	  emailError.style.display = "inline";
 	        	  emailValid.value = "0";
 	        	}
+	          checkConditions();
 	        }
 	      });
 	    }
@@ -1113,6 +1121,7 @@ document.addEventListener("DOMContentLoaded", function () {
             passwordError.style.display = "none";
             passwordValid.value = "1";
         }
+        checkConditions();
     });
 
     passwordConfirmationInput.addEventListener("keyup", () => {
@@ -1125,6 +1134,7 @@ document.addEventListener("DOMContentLoaded", function () {
             passwordConfirmationError.style.display = "none";
             passwordConfirmationValid.value = "1";
         }
+        checkConditions();
     });
 	
 // 핸드폰 유효성 검사
@@ -1156,17 +1166,16 @@ function combinePhoneNumbers() {
         phoneInput.value = combinedPhone; 
         phoneNoValid.value = "1";
     }
+    checkConditions();
 }
 
 // 이름 유효성 검사
         const nameInput = document.getElementById("name");
         const nameReg = document.querySelector(".name.reg");
         const nameValid = document.querySelector("#nameValid");
-
         nameInput.addEventListener("input", function () {
             const name = nameInput.value.trim();
             const isValid = /^[가-힣]{2,5}$/.test(name);
-
             if (!isValid) {
                 nameReg.style.display = "block";
                 nameValid.value = "0";
@@ -1174,6 +1183,7 @@ function combinePhoneNumbers() {
                 nameReg.style.display = "none";
                 nameValid.value = "1";
             }
+            checkConditions();
         });
 </script>
 
@@ -1195,7 +1205,7 @@ var _agreementValid = document.getElementById("agreementValid");
 var enrollbtn = document.querySelector(".enrollbtn button[type='submit']");
 
 function checkConditions() {
-	
+	 console.log('checkConditions');
     const validConditions = [
         _idValid,
         _passwordValid,
@@ -1217,25 +1227,12 @@ function checkConditions() {
     console.log(isValid);
     
     if (isValid) {
-    	
     	enrollbtn.removeAttribute("disabled");
     } else {
     	enrollbtn.setAttribute("disabled", "disabled");
     }
 }
 
-_nicknameValid.addEventListener("change", checkConditions);
-_nameValid.addEventListener("change", checkConditions);
-_passwordConfirmationValid.addEventListener("change", console.log("하이하이"));
-_passwordValid.addEventListener("change", checkConditions);
-_idValid.addEventListener("keyup", console.log("하이하이"));
-_emailValid.addEventListener("change", console.log("하이하이"));
-_emailCkValid.addEventListener("change", checkConditions);
-_phoneNoValid.addEventListener("change", checkConditions);
-_interestValid.addEventListener("change", checkConditions);
-_activityAreaValid.addEventListener("change", checkConditions);
-_mainAreaIdValid.addEventListener("change", checkConditions);
-_agreementValid.addEventListener("change", checkConditions);
 
 </script>
 
