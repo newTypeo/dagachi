@@ -43,6 +43,7 @@ import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.common.DagachiUtils;
 import com.dagachi.app.member.dto.MemberCreateDto;
+import com.dagachi.app.member.dto.MemberKakaoUpdateDto;
 import com.dagachi.app.member.dto.MemberUpdateDto;
 import com.dagachi.app.member.entity.ActivityArea;
 import com.dagachi.app.member.entity.Member;
@@ -116,10 +117,12 @@ public class MemberSecurityController {
 	@GetMapping("/memberKakaoCreate.do")
 	public String kakaoUpadteCreate(@AuthenticationPrincipal MemberDetails loginMember) {
 	        return "member/memberKakaoCreate";
-    }
+	    }
+	
 
 	@PostMapping("/memberKakaoCreate.do")
-	public String kakaoUpadteCreate(@Valid MemberCreateDto member, BindingResult bindingResult, RedirectAttributes redirectAttr,
+	public String kakaoUpadteCreate(@AuthenticationPrincipal MemberDetails _member,
+			@Valid MemberKakaoUpdateDto member, BindingResult bindingResult, RedirectAttributes redirectAttr,
 			@RequestParam String interests) throws UnsupportedEncodingException {
 	    
 		JsonArray documents = kakaoMapApi(member.getMainAreaId(), "address"); 
@@ -127,7 +130,8 @@ public class MemberSecurityController {
 	    JsonObject item = document.getAsJsonObject();
 	    JsonObject params = item.get("address").getAsJsonObject();
 	    String bCode = params.get("b_code").getAsString();
-	 
+	    
+	    member.setMemberId(_member.getMemberId()); 
 	    
 	    List<String> interest = Arrays.asList(interests.split(","));
 	    member.setInterest(interest);
@@ -173,10 +177,10 @@ public class MemberSecurityController {
 		List<MemberInterest> interests = memberService.findMemberInterestsByMemberId(memberId);
 		List<ClubMember> clubMembers = memberService.findClubMemberByMemberId(memberId);
 
-		memberDetails.setActivityArea(activityArea);
 		memberDetails.setMemberProfile(profile);
-		memberDetails.setMemberInterest(interests);
 		memberDetails.setClubMember(clubMembers);
+		memberDetails.setMemberInterest(interests);
+		memberDetails.setActivityArea(activityArea);
 		
 		// 리다이렉트 처리
 		SavedRequest savedRequest = (SavedRequest) session.getAttribute("SPRING_SECURITY_SAVED_REQUEST");
@@ -233,11 +237,14 @@ public class MemberSecurityController {
 		return "/member/memberUpdate";
 	}
 
+	/**
+	  * 회원 정보수정
+	  * @author 준한
+	  */
 	@PostMapping("/memberUpdate.do")
 	public String memberUpdate(@AuthenticationPrincipal MemberDetails loginMember,
 			@RequestParam(value = "upFile") MultipartFile upFile, @Valid MemberUpdateDto _member,
 			BindingResult bindingResult) throws IllegalStateException, IOException {
-		log.debug("_member ={} ", _member);
 		String uploadDir = "/member/profile/";
 		MemberProfile memberProfile = null;
 		if (!upFile.isEmpty()) {

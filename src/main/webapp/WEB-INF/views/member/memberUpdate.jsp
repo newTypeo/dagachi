@@ -453,7 +453,7 @@ img {
 					<label for="activity_area">거주지</label> <!-- 필수값 지도 API 사용 + 상세 주소값 받아야함  -->
 						
 						<div class="input-group">
-								<input type="text" class="form-control" id="activity_area" name="activityArea" readonly aria-describedby="button-addon2" placeholder="본인의 집 주소를 입력해주세요"">
+								<input type="text" class="form-control" id="activity_area" name="activityArea" readonly aria-describedby="button-addon2" placeholder="본인의 집 주소를 입력해주세요" value="${loginMember.address}">
 								<div class="input-group-append">
 									<button class="btn btn-outline-secondary" type="button" data-toggle="modal" 
 									data-target="#activity-area-modal" id="activity-area-search-btn" >검색</button>
@@ -607,9 +607,6 @@ $.ajax({
          //'구'를 선택할수있는 HTML의 만들고 select 로 요소 선택
          selectArea.innerHTML += `<option value="\${region[1]}">\${region[1]}</option>`;
       });
-   },
-   complete() {
-      console.log("ASd");
    }
 });
 // 구 선택 값이 변경될때마다 이벤트 핸들러
@@ -681,7 +678,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 .filter((checkbox) => checkbox.checked)
                 .map((checkbox) => checkbox.value)
                 .join(", ");
-            console.log(selectedInterests);
             // 선택한 관심사를 쉼표로 구분된 문자열로 만들어서 input 필드에 설정
             document.querySelector('input[name="interest"]').value = selectedInterests;
         });

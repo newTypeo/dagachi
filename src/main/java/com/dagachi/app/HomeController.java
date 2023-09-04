@@ -21,13 +21,12 @@ public class HomeController {
 	// @ResponseBody // 응답메세지에 리턴객체 출력 (viewName으로 사용하지 않음)
 	public String home(@AuthenticationPrincipal MemberDetails member) {
 		
-		
 		if(member != null) {
 			int checkKakao = memberService.checkKakao(member.getMemberId());
-			
-			if(checkKakao == 0) {
-				
-				//return "redirect:/member/memberKakaoCreate.do";
+			if(checkKakao == 1) {
+				return "redirect:/member/memberKakaoCreate.do";
+			}else {
+				return "forward:/index.jsp";
 			}			
 			
 		}

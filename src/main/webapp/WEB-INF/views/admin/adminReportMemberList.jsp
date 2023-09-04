@@ -102,14 +102,12 @@ document.querySelector("#searchType").onchange = (e) => {
 	});
 	
 	const inputId = $("#searchType option:selected").val();
-	console.log(document.querySelector(`#\${inputId}`));
 	const selectedInput = document.querySelector(`#\${inputId}`);
 	selectedInput.parentElement.style.display = 'inline-block';
 };
 
 //검색유형 별 검색시 동기로 탈퇴회원 조회
 const reportSearchMember = (btnTag) => {
-	console.log(btnTag);
 	const keyword = btnTag.previousElementSibling.value;
 	const column = btnTag.name;
 	document.querySelector("#keywordHidden").value = keyword;

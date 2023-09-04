@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dagachi.app.chat.entity.ChatLog;
+import com.dagachi.app.chat.entity.ChatLogDetail;
 import com.dagachi.app.chat.service.ChatService;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubMember;
@@ -51,19 +52,23 @@ public class ChatController {
 	public ResponseEntity<?> findChatList(
 			@RequestParam int clubId
 	) {
-		
 		Club club = clubService.findClubById(clubId);
 		String clubName= club.getClubName();
 		ClubProfile clubProfile = clubService.findClubProfileById(clubId);
 		String filename = clubProfile.getRenamedFilename();
 		
-		ChatLog cahtlog=chatService.findByRecentChat(clubId);
+		ChatLogDetail chatlog = chatService.findByRecentChat(clubId);
 		
-		log.debug("cahtlog={}",cahtlog);
+		if (chatlog != null) {
+			String writer = chatlog.getWriter();
+			chatlog.setNickname(chatService.getNicknameById(writer));
+		}
+		
+		log.debug("chatlog={}",chatlog);
 		log.debug("clubName={}",clubName);
 		
 		Map<String, Object> data = new HashMap<>();
-		data.put("cahtlog", cahtlog);
+		data.put("cahtlog", chatlog);
 		data.put("clubName", clubName);
 		data.put("clubProfile", filename);
 		
@@ -76,7 +81,12 @@ public class ChatController {
 			@RequestParam int no,
 			Model model
 	) {
-		List<ChatLog> chatlogs=chatService.clubChat(no);
+		List<ChatLogDetail> chatlogs=chatService.clubChat(no);
+		
+		for(ChatLogDetail chatlog : chatlogs) {
+			String writer = chatlog.getWriter();
+			chatlog.setNickname(chatService.getNicknameById(writer));
+		}
 		log.debug("cahtlogs={}",chatlogs);
 		int clubId=no;
 		

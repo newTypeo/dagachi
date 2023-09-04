@@ -9,7 +9,7 @@
 <fmt:requestEncoding value="utf-8"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/layoutType0.css"/>
 
-	
+<div>${boardAndImages}</div>
 <article id="club-page-article">
 	<div id="club-util-box">
 		<div id="club-info-container">
@@ -47,7 +47,7 @@
 					</c:if>
 				</div>
 				<div class="myProfile3">
-					<button class="btn" style="background-color: ${layout.fontColor}">글쓰기</button>
+					<button id="boardCreateBtn" class="btn" style="background-color: ${layout.fontColor}">글쓰기</button>
 					<button id="scheduleCreateBtn" class="btn" style="background-color: ${layout.fontColor}">일정생성</button>
 				</div>
 			</c:if>
@@ -292,18 +292,11 @@
 </nav>
 
 <script>
-console.log("memberRole= ", ${memberRole});
-
 const clubMemberDelete = () => {
 	if(confirm("모임을 정말 탈퇴하시겠습니까?")) {
-		// console.log(document.clubMemberDeleteFrm);
 		document.clubMemberDeleteFrm.submit();
 	}
 }
-
-scheduleCreateBtn.addEventListener('click', () => {
-	location.href = "${pageContext.request.contextPath}/club/${domain}/scheduleCreate.do";
-});
 
 //창환(모임 신고)
 document.querySelector("#clubReport").onclick = () => {
@@ -334,9 +327,6 @@ const clubReportSubmit = () => {
 		data : { domain, reporter, reason },
 		beforeSend(xhr) {
 			xhr.setRequestHeader(header, token);
-		},
-		success(response) {
-			// console.log(response);
 		}
 	});
 	
@@ -352,7 +342,6 @@ function clubLike(domain, contextPath) {
         url: contextPath + "/club/clubLikeCheck.do",
         data: { domain },
         success(responseData) {
-            // console.log("responseData : ", responseData);
 
             if (responseData) {
                 if (confirm("찜하신 모임을 취소하시겠습니까?")) {
@@ -381,4 +370,16 @@ function clubLike(domain, contextPath) {
 }
 
 </script>
+
+<c:if test="${memberRole ne 10}">
+	<script>
+		scheduleCreateBtn.addEventListener('click', () => {
+			location.href = "${pageContext.request.contextPath}/club/${domain}/scheduleCreate.do";
+		});	
+		
+		boardCreateBtn.addEventListener('click', () => {
+			location.href = "${pageContext.request.contextPath}/club/${domain}/clubBoardCreate.do";
+		});	
+	</script> 
+</c:if>
 

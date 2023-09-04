@@ -52,9 +52,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-			.antMatchers("/", "/club/clubSearch.do", "/club/searchClubWithFilter.do", 
-					"/club/clubSearchSurrounded.do", "/club/clubSearchByDistance.do").permitAll() //요청은 모든 사용자에게 허용
-			.antMatchers("/member/memberCreate.do").anonymous() //로그인하지 않은 사용자만 가능
+			.antMatchers("/", "/index.jsp","/club/categoryList.do","/club/clubList.do","/admin/mainBannerList.do","/club/clubSearch.do").permitAll() //요청은 모든 사용자에게 허용
+			.antMatchers("/member/memberKakaoCreate.do","/member/memberLogin.do","/member/searchId.do","/member/searchPw.do").anonymous()
+			.antMatchers("/admin/**").hasAuthority("ADMIN")
+			// .antMatchers("/member/memberCreate.do").anonymous() //로그인하지 않은 사용자만 가능
 			.anyRequest().authenticated(); //(로그인한) 사용자에게만 허용된다는 것을 의미
 		http.headers()
 				.contentSecurityPolicy("frame-ancestors 'self' http://localhost:8080/*");
@@ -67,7 +68,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.successForwardUrl("/member/memberLoginSuccess.do")
 			.usernameParameter("memberId") // 기본 파라미터 바꿈
 			.passwordParameter("password") // 똑같으면 그냥 안적어도 된다
-//			.defaultSuccessUrl("/")
 			.permitAll(); // 모두 허용해달라
 		
 		// logout
@@ -89,12 +89,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		    .tokenValiditySeconds(60 * 60 * 24 * 14); // 2주
 		
 		http.oauth2Login()
-		    .userInfoEndpoint()
-		    .userService(oauth2UserService)
-		    .and()
-		    .successHandler(new FirstTimeLoginSuccessHandler())
-		    .defaultSuccessUrl("/")
-		    .permitAll();
+			.loginPage("/member/memberLogin.do")
+			.userInfoEndpoint()
+			.userService(oauth2UserService);
 	}
 	
 

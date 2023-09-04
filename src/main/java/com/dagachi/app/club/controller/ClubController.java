@@ -90,8 +90,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 @RequestMapping("/club")
-@SessionAttributes({ "inputText", "zoneSetList", "zoneSet1", "zoneSet2", "zoneSet3", "zoneSet4", "zoneSet5", "zoneSet6",
-		"clubAdminMsg", "clubName", "layout" })
+@SessionAttributes({ "inputText", "zoneSetList", "zoneSet1", "zoneSet2", "zoneSet3", 
+						"zoneSet4", "zoneSet5", "zoneSet6","clubAdminMsg", "clubName", "layout" })
 public class ClubController {
 
 	@Autowired
@@ -105,7 +105,7 @@ public class ClubController {
 	static final int LIMIT = 10;
 
 	static final Map<Integer, Double> ANGLEPATTERN // km(key)별로 360도를 나눌 각도(value)
-			= Map.of(1, 45.0, 2, 30.0, 3, 22.5, 4, 18.0, 5, 15.0, 6, 11.25, 7, 9.0, 8, 7.5, 9, 6.0, 10, 5.0);
+			= Map.of(1, 45.0, 2, 30.0, 3, 22.5, 4, 18.0, 5, 15.0, 6, 11.25, 7, 9.0); // , 8, 7.5, 9, 6.0, 10, 5.0
 
 	@Autowired
 	private MemberService memberService;
@@ -128,7 +128,6 @@ public class ClubController {
 
 	/**
 	 * 모임 가입 신청
-	 * 
 	 * @author 나영
 	 */
 	@GetMapping("/{domain}/clubEnroll.do")
@@ -152,7 +151,6 @@ public class ClubController {
 
 	/**
 	 * 모임 가입 신청
-	 * 
 	 * @author 나영
 	 */
 	@PostMapping("/{domain}/clubEnroll.do")
@@ -166,7 +164,6 @@ public class ClubController {
 		JoinClubMember master=clubService.hostFindByClubId(club.getClubId());
 		result= notificationService.membershipRequest(club,member,master);
 		
-		
 		redirectAttr.addFlashAttribute("msg", "💡가입 신청 완료.💡");
 		return "redirect:/club/" + domain;
 	}
@@ -179,7 +176,14 @@ public class ClubController {
 	@GetMapping("/{domain}/clubBoardList.do")
 	public String boardList(@PathVariable("domain") String domain, @RequestParam(required = false) int no,
 			Model model) {
-
+		Club club = clubService.findByDomain(domain);
+		int clubId = club.getClubId();
+		String clubName = club.getClubName();
+		
+		ClubLayout layout = clubService.findLayoutById(clubId);
+		
+		model.addAttribute("layout", layout);
+		model.addAttribute("clubName", clubName);
 		model.addAttribute("domain", domain);
 		model.addAttribute("no", no);
 		return "/club/clubBoardList";
@@ -192,6 +196,14 @@ public class ClubController {
 	 */
 	@GetMapping("/{domain}/clubBoardCreate.do")
 	public String boardCreate(@PathVariable("domain") String domain, Model model) {
+		Club club = clubService.findByDomain(domain);
+		int clubId = club.getClubId();
+		String clubName = club.getClubName();
+		
+		ClubLayout layout = clubService.findLayoutById(clubId);
+		
+		model.addAttribute("layout", layout);
+		model.addAttribute("clubName", clubName);
 		model.addAttribute("domain", domain);
 		return "/club/clubBoardCreate";
 	}
@@ -243,11 +255,14 @@ public class ClubController {
 
 				ClubBoardAttachment attach = ClubBoardAttachment.builder().originalFilename(originalFilename)
 						.renamedFilename(renamedFilename).build();
-				if (!attachments.isEmpty() && i == 0)
+				System.out.println("before첨부파일" + i + "   "+ attach);
+				if (i == 0) {
 					attach.setThumbnail(Status.Y);
-				else
+				} else {
 					attach.setThumbnail(Status.N);
-
+				}
+				System.out.println("첨부파일" + i + "   "+ attach);
+				
 				attachments.add(attach);
 			}
 		}
@@ -256,7 +271,6 @@ public class ClubController {
 
 	/**
 	 * 메인화면에서 모임 검색 (페이지바 처리 & getPagebar재활용위해 url에 replace처리)
-	 * 
 	 * @author 종환
 	 */
 	@GetMapping("/clubSearch.do")
@@ -344,27 +358,23 @@ public class ClubController {
 
 	/**
 	 * 가입신청 승인 & 거절 - 승인시에는 dto.isPermit이 true로 온다.
-	 * 
 	 * @author 종환
 	 */
 	@PostMapping("/{domain}/manageApply.do")
 	public String permitApply(@PathVariable("domain") String domain, ClubManageApplyDto clubManageApplyDto) {
 		
-		//log.debug("ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ = {}" ,clubManageApplyDto);
-		Club club=clubService.findByDomain(domain);
-		JoinClubMember master=clubService.hostFindByClubId(club.getClubId());
+		Club club = clubService.findByDomain(domain);
+		JoinClubMember master = clubService.hostFindByClubId(club.getClubId());
 		
 		if (clubManageApplyDto.isPermit()) {
 			clubService.permitApply(clubManageApplyDto); // 가입 승인
 			//가입 승인 거절 알람 - 상윤
-			int permitApply=notificationService.permitApply(club,clubManageApplyDto.getMemberId(),master);
+			int permitApply = notificationService.permitApply(club,clubManageApplyDto.getMemberId(),master);
 		}
 		else {
 			clubService.refuseApply(clubManageApplyDto); // 가입 거절
-			int permitApply=notificationService.refuseApply(club,clubManageApplyDto.getMemberId(),master);
+			int permitApply = notificationService.refuseApply(club,clubManageApplyDto.getMemberId(),master);
 		}
-
-		
 		
 		return "redirect:/club/" + domain + "/manageMember.do";
 	}
@@ -405,7 +415,6 @@ public class ClubController {
 
 	/**
 	 * 최초로그인시 비동기로 회원의 주활동지역코드 구하는 코드 (주변모임 추천용)
-	 * 
 	 * @author 종환
 	 */
 	@ResponseBody
@@ -463,7 +472,6 @@ public class ClubController {
 		List<GalleryAndImageDto> galleries = clubService.findgalleryById(clubId);
 		List<ClubScheduleAndMemberDto> schedules = clubService.findScheduleById(clubId);
 		List<BoardAndImageDto> boardAndImages = clubService.findBoardAndImageById(clubId);
-
 		String memberId = member.getMemberId();
 
 		// 최근 본 모임 전체 조회 (현우)

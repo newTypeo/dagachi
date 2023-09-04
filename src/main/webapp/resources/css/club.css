@@ -90,6 +90,21 @@ footer {
 }
 
 
+/************ table ************/
+.listTable {
+	width: 100%;
+}
+.listTable th,
+.listTable td {
+  padding: 20px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+.listTable th {
+  background-color: #f5f5f5;
+  color: #333;
+}
 
 
 
@@ -495,3 +510,6 @@ h5, h3 {
 	color: white;
 	transform: translate(914px, 0px);
 }
+
+
+
