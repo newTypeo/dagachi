@@ -48,7 +48,7 @@ public interface MemberRepository {
 	int KakaoMember(MemberKakaoDto memberKakaoDto);
 	
 	//카카오톡 회원 정보 업데이트
-	@Update("update set member where nickname = #{nickname}, phone_no=  #{phoneNo}, birthday = #{birthday, jdbcType=DATE}, gender = #{gender}, mbti = #{mbti},  address = #{activityArea}")
+	@Update("update  member set nickname = #{nickname}, phone_no=  #{phoneNo}, birthday = #{birthday, jdbcType=DATE}, gender = #{gender}, mbti = #{mbti},  address = #{activityArea} where member_id =#{memberId}")
 	int kakaoUpadteCreate(MemberKakaoUpdateDto member);
 	
 	//카카오톡 회원 업데이트 안한 사람 찾아오기

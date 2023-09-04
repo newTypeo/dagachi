@@ -133,6 +133,13 @@ public class MemberSecurityController {
 	    
 	    member.setMemberId(_member.getMemberId()); 
 	    
+	    
+	    _member.setMemberProfile(new MemberProfile());
+	    _member.getMemberProfile().setRenamedFilename("default.png");
+	    
+	    _member.setAddress(member.getActivityArea());
+	    _member.setNickname(member.getNickname());
+	    
 	    List<String> interest = Arrays.asList(interests.split(","));
 	    member.setInterest(interest);
 	    member.setMainAreaId(bCode);
