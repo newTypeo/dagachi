@@ -108,18 +108,21 @@ public class DagachiUtils {
 	public static Set<String> getAreaNamesByDistance(double x, double y, int distance, Map<Integer, Double> anglePattern) 
 			throws UnsupportedEncodingException {
 		Set<String> zoneSet = new HashSet<>();
-		// 내부for문 반복 횟수
-		// anglePattern과 distance를 통해 반복문 생성
+		// [내부for문 반복 횟수]
+		// - anglePattern과 distance를 통해 반복문 생성
+		
+//		static final Map<Integer, Double> ANGLEPATTERN // km(key)별로 360도를 나눌 각도(value)
+//		= Map.of(1, 45.0, 2, 30.0, 3, 22.5, 4, 18.0, 5, 15.0, 6, 11.25, 7, 9.0);
 		
 		// i는 km, j는 km마다 반복할 수(360/n)
-		for (int i = 1; i <= distance; i++) {
-			double angle = anglePattern.get(i);
+		for (int km = 1; km <= distance; km++) {
+			double angle = anglePattern.get(km); // km가 4면 angle = 18이 되고 360 / 18 해서 내부 for문의 반복 수는 20번이 된다.
 			int repeatCnt = (int) (360 / angle);
 			
-			for (int j = 0; j < repeatCnt; j++) {
+			for (int loop = 0; loop < repeatCnt; loop++) {
 				// sin, cos 계산 (0.009는 좌표상 대략 1km를 의미)
-				double _x = x + (i * 0.009) * (Math.cos(angle * j) == 0 ? 1 : Math.cos(angle * j));
-				double _y = y + (i * 0.009) * (Math.sin(angle * j) == 0 ? 1 : Math.sin(angle * j));
+				double _x = x + (km * 0.009) * (Math.cos(angle * loop) == 0 ? 1 : Math.cos(angle * loop));
+				double _y = y + (km * 0.009) * (Math.sin(angle * loop) == 0 ? 1 : Math.sin(angle * loop));
 				
 				// 위에서 구한 좌표로 api에 요청하여 법정동명 구하기
 				String xAndY = "x=" + _x + "&y=" + _y;
@@ -130,6 +133,7 @@ public class DagachiUtils {
 		        httpHeaders.add(HttpHeaders.AUTHORIZATION, "KakaoAK " + "0b08c9c74b754bc22377c45ec5ce2736");
 		        HttpEntity<HttpHeaders> httpEntity = new HttpEntity<>(httpHeaders);
 		        
+		        			// 계산한 x,y 좌표값으로 법정동 얻기위한 요청 
 		        String uri = "https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?" + xAndY;
 		        ResponseEntity<?> responseEntity = 
                 restTemplate.exchange(URI.create(uri), HttpMethod.GET, httpEntity, Map.class);
@@ -145,7 +149,7 @@ public class DagachiUtils {
 
 		            // region_3depth_name 값을 가져옴
 		            String state = firstDocument.path("region_1depth_name").asText(); // 시|군|구
-		            if(!"서울특별시".equals(state)) {
+		            if(!"서울특별시".equals(state)) { // 경기도는 pass
 		            	continue;
 		            }
 		            String zone = firstDocument.path("region_3depth_name").asText(); // 동
