@@ -453,7 +453,7 @@ img {
 					<label for="activity_area">거주지</label> <!-- 필수값 지도 API 사용 + 상세 주소값 받아야함  -->
 						
 						<div class="input-group">
-								<input type="text" class="form-control" id="activity_area" name="activityArea" readonly aria-describedby="button-addon2" placeholder="본인의 집 주소를 입력해주세요"">
+								<input type="text" class="form-control" id="activity_area" name="activityArea" readonly aria-describedby="button-addon2" placeholder="본인의 집 주소를 입력해주세요" value="${loginMember.address}">
 								<div class="input-group-append">
 									<button class="btn btn-outline-secondary" type="button" data-toggle="modal" 
 									data-target="#activity-area-modal" id="activity-area-search-btn" >검색</button>
