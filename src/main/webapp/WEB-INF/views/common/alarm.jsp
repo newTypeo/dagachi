@@ -13,7 +13,7 @@
 		
 </script>
 
-		<i id="bell" class="fa-solid fa-bell fa-2xl"></i>
+		<i id="bell" class="fa-solid fa-bell fa-xl"></i>
 		<div id="alarmBox" class=""></div>
 
 		<script>

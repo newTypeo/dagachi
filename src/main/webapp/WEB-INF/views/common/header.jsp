@@ -106,7 +106,7 @@
 
 			<sec:authorize access="isAuthenticated()">
 				<div id="header-nav-container">
-						 <i id="bell" class="fa-solid fa-bell fa-2xl"></i> 
+						 <i id="bell" class="fa-solid fa-bell fa-xl"></i> 
 							<div  id="alarmBox" class="" ></div>
 					<span>
 						 	<a title="<sec:authentication property="authorities"/>"
