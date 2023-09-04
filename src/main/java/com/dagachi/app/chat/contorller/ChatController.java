@@ -82,7 +82,12 @@ public class ChatController {
 			@RequestParam int no,
 			Model model
 	) {
-		List<ChatLog> chatlogs=chatService.clubChat(no);
+		List<ChatLogDetail> chatlogs=chatService.clubChat(no);
+		
+		for(ChatLogDetail chatlog : chatlogs) {
+			String writer = chatlog.getWriter();
+			chatlog.setNickname(chatService.getNicknameById(writer));
+		}
 		log.debug("cahtlogs={}",chatlogs);
 		int clubId=no;
 		
