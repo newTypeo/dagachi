@@ -176,7 +176,14 @@ public class ClubController {
 	@GetMapping("/{domain}/clubBoardList.do")
 	public String boardList(@PathVariable("domain") String domain, @RequestParam(required = false) int no,
 			Model model) {
-
+		Club club = clubService.findByDomain(domain);
+		int clubId = club.getClubId();
+		String clubName = club.getClubName();
+		
+		ClubLayout layout = clubService.findLayoutById(clubId);
+		
+		model.addAttribute("layout", layout);
+		model.addAttribute("clubName", clubName);
 		model.addAttribute("domain", domain);
 		model.addAttribute("no", no);
 		return "/club/clubBoardList";
@@ -189,6 +196,14 @@ public class ClubController {
 	 */
 	@GetMapping("/{domain}/clubBoardCreate.do")
 	public String boardCreate(@PathVariable("domain") String domain, Model model) {
+		Club club = clubService.findByDomain(domain);
+		int clubId = club.getClubId();
+		String clubName = club.getClubName();
+		
+		ClubLayout layout = clubService.findLayoutById(clubId);
+		
+		model.addAttribute("layout", layout);
+		model.addAttribute("clubName", clubName);
 		model.addAttribute("domain", domain);
 		return "/club/clubBoardCreate";
 	}
@@ -240,11 +255,14 @@ public class ClubController {
 
 				ClubBoardAttachment attach = ClubBoardAttachment.builder().originalFilename(originalFilename)
 						.renamedFilename(renamedFilename).build();
-				if (!attachments.isEmpty() && i == 0)
+				System.out.println("before첨부파일" + i + "   "+ attach);
+				if (i == 0) {
 					attach.setThumbnail(Status.Y);
-				else
+				} else {
 					attach.setThumbnail(Status.N);
-
+				}
+				System.out.println("첨부파일" + i + "   "+ attach);
+				
 				attachments.add(attach);
 			}
 		}
@@ -454,7 +472,6 @@ public class ClubController {
 		List<GalleryAndImageDto> galleries = clubService.findgalleryById(clubId);
 		List<ClubScheduleAndMemberDto> schedules = clubService.findScheduleById(clubId);
 		List<BoardAndImageDto> boardAndImages = clubService.findBoardAndImageById(clubId);
-
 		String memberId = member.getMemberId();
 
 		// 최근 본 모임 전체 조회 (현우)
