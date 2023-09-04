@@ -24,7 +24,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import lombok.extern.slf4j.Slf4j;
@@ -34,30 +33,25 @@ public class DagachiUtils {
 	
 	/**
 	 * 카카오지도
-	 * @author ssusss
+	 * @author 동찬
 	 */
 	public static JsonArray kakaoMapApi(String keyword, String searchType) throws UnsupportedEncodingException {
 		String apiKey = "0b08c9c74b754bc22377c45ec5ce2736";
 		String query = keyword; // 검색할 행정동 정보
 		
-//		System.out.println("query" + query);
 	    String encodedQuery = URLEncoder.encode(query, "UTF-8");
-//	    System.out.println("encodedQuery" + encodedQuery);
 	    String url = "https://dapi.kakao.com/v2/local/search/" 
 	    		+ searchType + ".json?query=" + encodedQuery;
 
 	    if("coord2regioncode".equals(searchType)) {
 	    	url = url.replace("search", "geo");
 	    }
-//	    System.out.println("searchType" + searchType);
-//	    System.out.println("url" + url);
 	    JsonObject data = null;
 	    JsonArray documents;
 		try {
 			data = fetchJsonData(url, apiKey);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-		}
+		} catch (Exception e) {}
+		
 		documents = data.getAsJsonArray("documents");
 		
 		return documents;
@@ -91,7 +85,7 @@ public class DagachiUtils {
 	
 	/**
 	 * yyyyMMdd_HHmmssSSS_123.png
-	 * @author ?
+	 * @author ?	
 	 */
 	public static String getRenameFilename(String originalFilename) {
 		// 확장자 
@@ -123,7 +117,7 @@ public class DagachiUtils {
 			int repeatCnt = (int) (360 / angle);
 			
 			for (int j = 0; j < repeatCnt; j++) {
-				// sin, cos 계산
+				// sin, cos 계산 (0.009는 좌표상 대략 1km를 의미)
 				double _x = x + (i * 0.009) * (Math.cos(angle * j) == 0 ? 1 : Math.cos(angle * j));
 				double _y = y + (i * 0.009) * (Math.sin(angle * j) == 0 ? 1 : Math.sin(angle * j));
 				
@@ -160,7 +154,6 @@ public class DagachiUtils {
 		        } catch (Exception e) {
 		            e.printStackTrace();
 		        }
-		        
 			}
 		}
 		return zoneSet;

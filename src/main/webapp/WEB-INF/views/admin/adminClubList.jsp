@@ -99,7 +99,6 @@ document.querySelector("#searchType").onchange = (e) => {
 	});
 	
 	const inputId = $("#searchType option:selected").val();
-	console.log(document.querySelector(`#\${inputId}`));
 	const selectedInput = document.querySelector(`#\${inputId}`);
 	selectedInput.parentElement.style.display = 'inline-block';
 };
@@ -107,7 +106,6 @@ document.querySelector("#searchType").onchange = (e) => {
 const searchClub = (btnTag) => {
 	const keyword = btnTag.previousElementSibling.value;
 	const column = btnTag.name;
-	// console.log("keyword, column", keyword, column);
 	document.querySelector("#keywordHidden").value = keyword;
 	document.querySelector("#columnHidden").value = column;
 	document.searchClubFrm.submit();
