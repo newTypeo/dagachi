@@ -16,8 +16,7 @@
 	}
 	
 	.btn-div{
-	margin-left :1630px;
-	margin-top : 100px;
+	margin-left :1230px;
 	}
 </style>
 <section>
@@ -52,8 +51,8 @@
 		<figure class="figure">
 		  <img src="${pageContext.request.contextPath}/resources/upload/club/gallery/${image.renamedFilename}" class="figure-img img-fluid rounded" alt="...">
 		</figure>
-		</div>
 		</c:forEach>
+		</div>
 		
 		<div class="btn-div">
 	 	 <h1>❤${image.likeCount}</h1>

@@ -251,22 +251,7 @@ public class MemberSecurityController {
 	@PostMapping("/memberUpdate.do")
 	public String memberUpdate(@AuthenticationPrincipal MemberDetails loginMember,
 			@RequestParam(value = "upFile") MultipartFile upFile, @Valid MemberUpdateDto _member,
-			@RequestParam String interests,
 			BindingResult bindingResult) throws IllegalStateException, IOException {
-		_member.setMemberId(loginMember.getMemberId());
-		JsonArray documents = kakaoMapApi(_member.getMainAreaId(), "address"); 
-		JsonElement document = documents.getAsJsonArray().get(0);
-		JsonObject item = document.getAsJsonObject();
-		JsonObject params = item.get("address").getAsJsonObject();
-		String bCode = params.get("b_code").getAsString();
-		
-		List<String> interest = Arrays.asList(interests.split(","));
-	    _member.setInterest(interest);
-	    _member.setMainAreaId(bCode);
-	    int result = memberService.updateMember(_member);
-	    
-	    int result2 = memberService.updateMemberArea(_member);
-	    int result3 = memberService.updateMemberInterest(_member);
 		log.debug("_member ={} ", _member);
 		String uploadDir = "/member/profile/";
 		MemberProfile memberProfile = null;
@@ -280,15 +265,25 @@ public class MemberSecurityController {
 			memberProfile = MemberProfile.builder().memberId(loginMember.getMemberId())
 					.originalFilename(originalFilename).renamedFilename(renamedFilename).build();
 
-			int result4 = memberService.updateMemberProfile(memberProfile);
+			int result = memberService.updateMemberProfile(memberProfile);
 			
 			// 프로필사진 업데이트시 principal객체 업데이트
-			if(result4 != 0)
+			if(result != 0)
 				loginMember.getMemberProfile().setRenamedFilename(renamedFilename);
 		}
 
-		return "redirect:/member/" + _member.getMemberId();
+		Member member = Member.builder().memberId(loginMember.getMemberId()).name(_member.getName())
+								.nickname(_member.getNickname()).phoneNo(_member.getPhoneNo()).address(_member.getAddress())
+								.gender(_member.getGender()).mbti(_member.getMbti()).birthday(_member.getBirthday()).build();
+
+		int result2 = memberService.UpdateMember(member);
+
+		return "redirect:/member/" + member.getMemberId();
 	}
 
+
+	
+
+		
 
 }
