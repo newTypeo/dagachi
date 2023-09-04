@@ -49,8 +49,7 @@
 	<header>
 		<div id="mini-logo-container">
 			<a href="${pageContext.request.contextPath}">
-				<img src="${pageContext.request.contextPath}/resources/images/002.png"/>
-				<img src="${pageContext.request.contextPath}/resources/images/006.png"/>
+				<img src="${pageContext.request.contextPath}/resources/images/clubDetailLogo.png"/>
 			</a>
 		</div>
 		<div id="header-nav-container">
