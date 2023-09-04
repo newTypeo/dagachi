@@ -884,11 +884,6 @@ $.ajax({
          //'구'를 선택할수있는 HTML의 만들고 select 로 요소 선택
          selectArea.innerHTML += `<option value="\${region[1]}">\${region[1]}</option>`;
       });
-<<<<<<< HEAD
-   },
-   complete() {
-=======
->>>>>>> branch 'master' of https://github.com/newTypeo/dagachi
    }
 });
 // 구 선택 값이 변경될때마다 이벤트 핸들러
