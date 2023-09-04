@@ -49,8 +49,12 @@
 					</c:if>
 				</div>
 				<div class="myProfile3">
-					<button id="boardCreateBtn" class="btn" style="background-color: ${layout.fontColor}">글쓰기</button>
-					<button id="scheduleCreateBtn" class="btn" style="background-color: ${layout.fontColor}">일정생성</button>
+					<button id="boardCreateBtn" class="btn" 
+						style="background-color: ${layout.fontColor}">글쓰기
+					</button>
+					<button id="scheduleCreateBtn" class="btn" 
+						style="background-color: ${layout.fontColor}">일정생성
+					</button>
 				</div>
 			</c:if>
 			<c:if test="${memberRole eq 10}">
@@ -344,7 +348,6 @@ function clubLike(domain, contextPath) {
         url: contextPath + "/club/clubLikeCheck.do",
         data: { domain },
         success(responseData) {
-
             if (responseData) {
                 if (confirm("찜하신 모임을 취소하시겠습니까?")) {
                     document.deleteClubLikeFrm.submit();
