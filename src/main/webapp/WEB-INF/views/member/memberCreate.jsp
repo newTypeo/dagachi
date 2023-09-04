@@ -463,7 +463,7 @@ img {
 			  <div id="name-container">
 			  <input type="text" class="form-control" name="name" id="name" placeholder="이름을 입력(2글자 이상) 해주세요." required>
 			  <span class="name reg" style="color: GRAY; font-size: 12px;">이름은 한글 2~5글자 여야합니다.</span>
-			  <input type="text" id="nameValid" value="0"/>
+			  <input type="hidden" id="nameValid" value="0"/>
 			  
  
 			</div>
@@ -482,9 +482,9 @@ img {
          <div class="fadeIn first">
             <label>전화번호  </label><span class="phone error" style="color: GRAY; font-size: 12px;"> 핸드폰 번호 형식이 올바르지 않습니다.</span>
 			<div id="phone-container">
-			  <input type="text" class="form-control" name="phone1" id="phone1" maxlength="3" required  placeholder="3자리"value ="010" >-
-			  <input type="text" class="form-control" name="phone2" id="phone2" maxlength="4" required placeholder="4자리" value ="0910">-
-			  <input type="text" class="form-control" name="phone3" id="phone3" maxlength="4" required placeholder="4자리" value ="1209">
+			  <input type="text" class="form-control" name="phone1" id="phone1" maxlength="3" required  placeholder="3자리" >-
+			  <input type="text" class="form-control" name="phone2" id="phone2" maxlength="4" required placeholder="4자리">-
+			  <input type="text" class="form-control" name="phone3" id="phone3" maxlength="4" required placeholder="4자리">
 			</div>
          </div>   
           <input type="hidden" id="phoneNo" name="phoneNo" value="">
@@ -1205,7 +1205,6 @@ var _agreementValid = document.getElementById("agreementValid");
 var enrollbtn = document.querySelector(".enrollbtn button[type='submit']");
 
 function checkConditions() {
-	 console.log('checkConditions');
     const validConditions = [
         _idValid,
         _passwordValid,
@@ -1221,10 +1220,6 @@ function checkConditions() {
     ];
     console.log(validConditions);
     const isValid = validConditions.every(tag => tag.value === "1" && tag.value !== "");
-    
-    console.log("하이하이");
-    
-    console.log(isValid);
     
     if (isValid) {
     	enrollbtn.removeAttribute("disabled");
