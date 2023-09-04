@@ -423,10 +423,10 @@ img {
           <div>회원 가입</div>
       </div> 
       
-      <legend class="sub_title">간편 회원가입</legend>  
+<%--       <legend class="sub_title">간편 회원가입</legend>  
 		 <a href="${pageContext.request.contextPath}/oauth2/authorization/kakao">
 			<img src="${pageContext.request.contextPath}/resources/images/kakaoL.png" alt="카카오 로그인">
-		 </a>
+		 </a> --%>
 		 
       <fieldset class = "area_agreement">
        <legend class="sub_title">회원 정보</legend>
