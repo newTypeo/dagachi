@@ -16,6 +16,11 @@
 </jsp:include>
 
 <style>
+        /* 비활성화된 버튼 스타일 */
+        button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
 * {
   box-sizing: border-box;
   font-family: 'IBM Plex Sans KR', sans-serif;
@@ -440,6 +445,7 @@ img {
 		     <div id="name-container">
 		    <input type="password" class="form-control" name="password" id="password" placeholder="대소문자 영문,특수문자,숫자를 포함하여 9자 이상" required>
 		    <span class="password error" style="color: GRAY; font-size: 12px;">비밀번호 형식이 올바르지 않습니다.</span>
+		    <input type="hidden" id="passwordValid" value="0"/>
 		    </div>
 		</div>
 		
@@ -448,6 +454,7 @@ img {
 		     <div id="passwordConfirmation-container">
 		    <input type="password" class="form-control" id="passwordConfirmation" placeholder="위의 비밀번호를 다시 입력해주세요." required>
 			<span class="passwordConfirmation error" style="color: GRAY; font-size: 12px;">비밀번호가 일치하지 않습니다.</span>
+			 <input type="hidden" id="passwordConfirmationValid" value="0"/>
 			</div>
 		</div>   
 		
@@ -456,7 +463,8 @@ img {
 			  <div id="name-container">
 			  <input type="text" class="form-control" name="name" id="name" placeholder="이름을 입력(2글자 이상) 해주세요." required>
 			  <span class="name reg" style="color: GRAY; font-size: 12px;">이름은 한글 2~5글자 여야합니다.</span>
-			  <input type="hidden" id=nameValid" value="0"/>		  
+			  <input type="hidden" id="nameValid" value="0"/>	
+ 
 			</div>
 		</div>
 		
@@ -477,6 +485,7 @@ img {
 			  <input type="text" class="form-control" name="phone2" id="phone2" maxlength="4" required placeholder="4자리">-
 			  <input type="text" class="form-control" name="phone3" id="phone3" maxlength="4" required placeholder="4자리">
 			  <input type="hidden" id="phoneNo" name="phoneNo" value="">
+			   <input type="hidden" id="phoneNoValid" value="0"/>
 			</div>
          </div>   
          
@@ -512,6 +521,7 @@ img {
 	            <div>
 	              <input type="text" class="form-control" id="floatingInputDisabled3" placeholder="인증코드를 입력해주세요." name = "code" required>
 	              <label for="floatingInputDisabled"></label>
+	              <input type="hidden" id="emailCkValid" value="0"/>
 	            </div>
 	            <div>
 	              <button type="button" class = "btn-email"  id="compareCodeBtn">인증번호 확인</button>
@@ -520,7 +530,7 @@ img {
             <div><p id="emailWarning" style="color: GRAY;"></p></div>
               <div class = "emailWarning "></div>
          </div>   
-   
+
       </fieldset>
       
       <fieldset class = "area_interest">
@@ -533,6 +543,7 @@ img {
                   
                   <div class="input-group">
                         <input type="text" class="form-control" id="activity_area" name="activityArea" readonly aria-describedby="button-addon2" value = "서울 강남구 역삼1동" placeholder="본인의 집 주소를 입력해주세요" required>
+                         <input type="hidden" id="activityAreaValid" value="0"/>
                         <div class="input-group-append">
                            <button class="btn btn-outline-secondary" type="button" data-toggle="modal" 
                            data-target="#activity-area-modal" id="activity-area-search-btn" >검색</button>
@@ -543,6 +554,7 @@ img {
                <label for="main_area_id">활동 지역</label>
                   <div class="input-group">
                      <input type="text" class="form-control" id="main_area_id" name="mainAreaId" placeholder="주로 활동할 지역을 입력해주세요" value = "서울특별시 종로구 청운동"   readonly aria-describedby="button-addon2" required>
+                       <input type="hidden" id="mainAreaIdValid" value="0"/>
                      <div class="input-group-append">
                         <button class="btn btn-outline-secondary" type="button" data-toggle="modal" 
                         data-target="#main-area-id-modal" id="activity-area-search-btn">검색</button>
@@ -718,7 +730,8 @@ img {
          </div>
       </div><!-- 집주소 받는 모달창 end -->
 </div>
-<script>
+<script> 
+
 //이메일 인증 코드 + 인증확인하기 
 var token = $("meta[name='_csrf']").attr("content");
 var header = $("meta[name='_csrf_header']").attr("content");
@@ -727,6 +740,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var email = ""; // email 변수 초기화
     var emailWarning = document.getElementById('emailWarning'); // ID로 찾음
     var sendCodeButton = document.getElementById('sendCodeButton'); // 버튼 엘리먼트
+    const emailCkValid = document.querySelector("#emailCkValid");
     sendCodeButton.addEventListener("click", function() {
     	emailWarning.textContent = '인증번호 전송중. . . ';
         email = emailInput.value; // 버튼 클릭 시 입력 필드의 값을 가져옴
@@ -749,8 +763,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     var userEnteredCode = document.getElementById('floatingInputDisabled3').value;
                     if (userEnteredCode === response) {
                         emailWarning.textContent = '이메일 인증 성공!';
+                        emailCkValid.value = "1";
                     } else {
                         emailWarning.textContent = '이메일 인증 실패! 다시 시도해주세요.';
+                        emailCkValid.value = "0";
                     }
                 });
             }
@@ -844,7 +860,7 @@ $.ajax({
       });
    },
    complete() {
-      console.log("ASd");
+      console.log("바바바");
    }
 });
 // 구 선택 값이 변경될때마다 이벤트 핸들러
@@ -1056,6 +1072,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const passwordConfirmationInput = document.querySelector("#passwordConfirmation");
     const passwordError = document.querySelector(".password.error");
     const passwordConfirmationError = document.querySelector(".passwordConfirmation.error");
+    const emailValid= document.querySelector("#emailValid");
+    const emailCkValid = document.querySelector("#emailCkValid");
 
     const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{9,}$/;
 
@@ -1063,8 +1081,10 @@ document.addEventListener("DOMContentLoaded", function () {
         const password = passwordInput.value;
         if (!passwordPattern.test(password)) {
             passwordError.style.display = "inline";
+            emailValid.value = "0";
         } else {
             passwordError.style.display = "none";
+            emailValid.value = "1";
         }
     });
 
@@ -1073,8 +1093,10 @@ document.addEventListener("DOMContentLoaded", function () {
         const passwordConfirmation = passwordConfirmationInput.value;
         if (password !== passwordConfirmation) {
             passwordConfirmationError.style.display = "inline";
+            emailCkValid.value = "0";
         } else {
             passwordConfirmationError.style.display = "none";
+            emailCkValid.value = "1";
         }
     });
 	
@@ -1112,6 +1134,7 @@ function combinePhoneNumbers() {
 // 이름 유효성 검사
         const nameInput = document.getElementById("name");
         const nameReg = document.querySelector(".name.reg");
+        const nameValid = document.querySelector("#nameValid");
 
         nameInput.addEventListener("input", function () {
             const name = nameInput.value.trim();
@@ -1119,8 +1142,10 @@ function combinePhoneNumbers() {
 
             if (!isValid) {
                 nameReg.style.display = "block";
+                nameValid.value = "0";
             } else {
                 nameReg.style.display = "none";
+                nameValid.value = "1";
             }
         });
 </script>

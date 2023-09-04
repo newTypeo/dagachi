@@ -99,13 +99,13 @@
 				<h5>장소</h5>
 				<label for="address-name">장소명</label>	
 				<div class="input-group">
-			    	<input type="text" id="address-name" name="address-name" class="form-control" placeholder="장소 이름을 입력하세요" aria-describedby="basic-addon1" value="zzz">
+			    	<input type="text" id="address-name" name="address-name" class="form-control" placeholder="장소 이름을 입력하세요" aria-describedby="basic-addon1">
 				</div>
 				<div id="address-input-container">
 					<div id="address-input-container1">
 						<label for="address-address">주소</label> <!-- 필수값 지도 API 사용 + 상세 주소값 받아야함  -->
 	    	         	<div class="input-group address-input">
-	        	            <input type="text" class="form-control" id="address-address" readonly aria-describedby="button-addon2" placeholder="주소를 입력해주세요" required value="정자동">
+	        	            <input type="text" class="form-control" id="address-address" readonly aria-describedby="button-addon2" placeholder="주소를 입력해주세요" required>
 	            	        <div class="input-group-append">
 	                	    	<button class="btn btn-secondary" type="button" data-toggle="modal" 
 	                	         data-target="#activity-area-modal" id="activity-area-search-btn" >검색</button>
