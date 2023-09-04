@@ -422,11 +422,11 @@ img {
        <div class="header"> 
           <div>회원 가입</div>
       </div> 
-<%--       
+      
       <legend class="sub_title">간편 회원가입</legend>  
 		 <a href="${pageContext.request.contextPath}/oauth2/authorization/kakao">
 			<img src="${pageContext.request.contextPath}/resources/images/kakaoL.png" alt="카카오 로그인">
-		 </a> --%>
+		 </a>
 		 
       <fieldset class = "area_agreement">
        <legend class="sub_title">회원 정보</legend>
@@ -1066,7 +1066,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	    const emailRegMsg = document.querySelector(".email.reg");
 	    const emailValid = document.querySelector("#emailValid");
 	    const emailReg = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-	    var sendCodeButton = document.getElementById('sendCodeButton');
 	    
 	    const value = emailInput.value;
 	    
@@ -1202,6 +1201,7 @@ var _agreementValid = document.getElementById("agreementValid");
 var enrollbtn = document.querySelector(".enrollbtn button[type='submit']");
 
 function checkConditions() {
+	 console.log('checkConditions');
     const validConditions = [
         _idValid,
         _passwordValid,
@@ -1217,7 +1217,6 @@ function checkConditions() {
     ];
     console.log(validConditions);
     const isValid = validConditions.every(tag => tag.value === "1" && tag.value !== "");
-    
     if (isValid) {
     	enrollbtn.removeAttribute("disabled");
     } else {
