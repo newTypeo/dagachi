@@ -413,12 +413,9 @@ const clubLike = () => {
 					}
 				}
 				alert("성공적으로 모임 찜을 완료했습니다.");
-				
 			}
-					
-		}
-	});
-	
+		} // success
+	}); // ajax
 }
 
 </script>
