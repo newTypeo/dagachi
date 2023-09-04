@@ -292,11 +292,8 @@
 </nav>
 
 <script>
-console.log("memberRole= ", ${memberRole});
-
 const clubMemberDelete = () => {
 	if(confirm("모임을 정말 탈퇴하시겠습니까?")) {
-		// console.log(document.clubMemberDeleteFrm);
 		document.clubMemberDeleteFrm.submit();
 	}
 }
@@ -334,9 +331,6 @@ const clubReportSubmit = () => {
 		data : { domain, reporter, reason },
 		beforeSend(xhr) {
 			xhr.setRequestHeader(header, token);
-		},
-		success(response) {
-			// console.log(response);
 		}
 	});
 	
@@ -352,7 +346,6 @@ function clubLike(domain, contextPath) {
         url: contextPath + "/club/clubLikeCheck.do",
         data: { domain },
         success(responseData) {
-            // console.log("responseData : ", responseData);
 
             if (responseData) {
                 if (confirm("찜하신 모임을 취소하시겠습니까?")) {

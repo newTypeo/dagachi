@@ -34,9 +34,9 @@ public class KakaoPayServiceImpl implements KakaoPayService {
 		parameters.add("cid", cid);
 		parameters.add("partner_order_id", "partner_order_id");
 		parameters.add("partner_user_id", "partner_user_id");
-		parameters.add("item_name", "상품명");
+		parameters.add("item_name", "모임생성 1회권");
 		parameters.add("quantity", "1");
-		parameters.add("total_amount", "2200");
+		parameters.add("total_amount", "10000");
 		parameters.add("tax_free_amount", "0");
 		parameters.add("vat_amount", "200");
 		parameters.add("approval_url", "http://localhost:8080/dagachi/payment/success");
@@ -45,23 +45,18 @@ public class KakaoPayServiceImpl implements KakaoPayService {
 		
 		// 요청 header, 사용자입력값
         HttpHeaders httpHeaders = new HttpHeaders();
-//        httpHeaders.set("Authorization", HttpHeaders.AUTHORIZATION);
         httpHeaders.set("Authorization", "KakaoAK " + admin_key);
         httpHeaders.set("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
         
-//        httpHeaders.add(HttpHeaders.AUTHORIZATION, "KakaoAK " + admin_key);
-		
         // 파라미터, 헤더
         HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(parameters, httpHeaders);
 		
 		RestTemplate restTemplate = new RestTemplate(); // 타서버로의 요청객체
-//        String uri = "https://kapi.kakao.com/v1/payment/ready";
-//        kakaoReady = restTemplate.exchange(URI.create(uri), HttpMethod.GET, requestEntity, KakaoReadyResponse.class);
         kakaoReady = restTemplate.postForObject(
                 "https://kapi.kakao.com/v1/payment/ready",
                 requestEntity,
                 KakaoReadyResponse.class);
-//        restTemplate.postForObject("https://kapi.kakao.com/v1/payment/ready", requestEntity, KakaoReadyResponse.class);
+        
 		return kakaoReady;
 	}
 	

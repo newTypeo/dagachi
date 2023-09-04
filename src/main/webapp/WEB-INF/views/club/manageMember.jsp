@@ -24,28 +24,35 @@
 <div>
 	<fieldset>
 		<legend>가입신청회원</legend>
-		<table>
-			<thead>
-				<tr>
-					<th>번호</th>
-					<th>이름</th>
-					<th>답변</th>
-					<th>승인</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach items="${clubApplies}" var="clubApply" varStatus="vs">
+		<table class="listTable">
+			<c:if test="${empty clubApplies}">
+			<div>가입 신청한 회원이 없습니다.</div>
+			</c:if>
+			<c:if test="${not empty clubApplies}">
+				<thead class="thead-light">
 					<tr>
-						<td>${vs.count}</td>
-						<td>${clubApply.name}</td>
-						<td>${clubApply.answer}</td>
-						<td>
-							<button value="${clubApply.memberId}" onclick="manageApply(${clubId}, '${clubApply.memberId}', 'true');">승인</button>
-							<button value="${clubApply.memberId}" onclick="manageApply(${clubId}, '${clubApply.memberId}', 'false');">거절</button>
-						</td>
+						<th scope="col">번호</th>
+						<th scope="col">이름</th>
+						<th scope="col">답변</th>
+						<th scope="col">승인</th>
 					</tr>
-				</c:forEach>
-			</tbody>
+				</thead>
+				<tbody>
+					<c:forEach items="${clubApplies}" var="clubApply" varStatus="vs">
+						<tr>
+							<td>${vs.count}</td>
+							<td>${clubApply.name}</td>
+							<td>${clubApply.answer}</td>
+							<td>
+								<button value="${clubApply.memberId}" onclick="manageApply(${clubId}, '${clubApply.memberId}', 'true');"
+										class="btn btn-outline-success">승인</button>
+								<button value="${clubApply.memberId}" onclick="manageApply(${clubId}, '${clubApply.memberId}', 'false');"
+										class="btn btn-outline-danger">거절</button>
+							</td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</c:if>
 		</table>
 	</fieldset>
 </div>
@@ -76,8 +83,8 @@ const manageApply = (clubId, memberId, permit) => {
 <div>
 	<fieldset>
 		<legend>모임 회원</legend>
-		<table>
-			<thead>
+		<table class="listTable">
+			<thead class="thead-light">
 				<tr>
 					<th>번호</th>
 					<th>회원이름</th>
@@ -90,7 +97,10 @@ const manageApply = (clubId, memberId, permit) => {
 				<tr>
 					<td>1</td>
 					<td>${host.name}</td>
-					<td>${host.enrollAt}</td>
+					<td>
+						<fmt:parseDate value="${host.enrollAt}" var="enrollAt" pattern="yyyy-MM-dd" />
+		                <fmt:formatDate value="${enrollAt}" pattern="yyyy/MM/dd"/>
+					</td>
 					<td></td>
 					<td>
 						<select id="host">
@@ -104,9 +114,12 @@ const manageApply = (clubId, memberId, permit) => {
 						<tr>
 							<td>${vs.count+1}</td>
 							<td>${clubMember.name}</td>
-							<td>${clubMember.enrollAt}</td>
 							<td>
-								<button id="kick" value="${clubMember.memberId}">추방</button>
+								<fmt:parseDate value="${clubMember.enrollAt}" var="enrollAt" pattern="yyyy-MM-dd" />
+           						<fmt:formatDate value="${enrollAt}" pattern="yyyy/MM/dd"/>
+							</td>
+							<td>
+								<button id="kick" value="${clubMember.memberId}" class="btn btn-outline-danger">추방</button>
 							</td>
 							<td>
 								<select id="searchType" class="" title="${clubMember.memberId}">
@@ -126,7 +139,10 @@ const manageApply = (clubId, memberId, permit) => {
 						<tr>
 							<td>${vs.count+1}</td>
 							<td>${clubMember.name}</td>
-							<td>${clubMember.enrollAt}</td>
+							<td>
+								<fmt:parseDate value="${clubMember.enrollAt}" var="enrollAt" pattern="yyyy-MM-dd" />
+           						<fmt:formatDate value="${enrollAt}" pattern="yyyy/MM/dd"/>
+							</td>
 							<c:if test="${clubMember.clubMemberRole eq 3 or clubMember.clubMemberRole eq 2 or
 										loginMemberId eq clubMember.memberId}">
 								<td>
@@ -168,7 +184,10 @@ const manageApply = (clubId, memberId, permit) => {
 						<tr>
 							<td>${vs.count+1}</td>
 							<td>${clubMember.name}</td>
-							<td>${clubMember.enrollAt}</td>
+							<td>
+								<fmt:parseDate value="${clubMember.enrollAt}" var="enrollAt" pattern="yyyy-MM-dd" />
+           						<fmt:formatDate value="${enrollAt}" pattern="yyyy/MM/dd"/>
+							</td>
 							<c:if test="${clubMember.clubMemberRole ne 0}">
 								<td>
 									<button disabled>추방</button>
@@ -227,7 +246,6 @@ document.querySelectorAll('#kick').forEach((kickButton) => {
 			const frm = document.kickMember;
 			
 			frm.memberId.value = e.target.value;
-			console.log(e.target.value);
 			
 			frm.submit();
 		}

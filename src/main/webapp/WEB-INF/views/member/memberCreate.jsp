@@ -749,12 +749,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 email: email
             },
             beforeSend(xhr) {
-                console.log('xhr: ', xhr)
                 xhr.setRequestHeader(header, token);
             },
             success: function(response) {
                emailWarning.textContent = ' ! ! !인증번호 발송 완료 ! ! ! 인증번호가 오지 않으면 입력하신 정보가 맞는지 확인해주세요.문제가 지속된다면 관리자에게 문의 바랍니다.';
-                console.log(response);
+                console.log(response); // 이메일로 보내진 인증코드
                 
                 var compareCodeBtn = document.getElementById('compareCodeBtn'); // 버튼 엘리먼트
                 compareCodeBtn.addEventListener("click", function() {
@@ -885,8 +884,11 @@ $.ajax({
          //'구'를 선택할수있는 HTML의 만들고 select 로 요소 선택
          selectArea.innerHTML += `<option value="\${region[1]}">\${region[1]}</option>`;
       });
+<<<<<<< HEAD
    },
    complete() {
+=======
+>>>>>>> branch 'master' of https://github.com/newTypeo/dagachi
    }
 });
 // 구 선택 값이 변경될때마다 이벤트 핸들러
@@ -969,7 +971,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 .filter((checkbox) => checkbox.checked)
                 .map((checkbox) => checkbox.value)
                 .join(", ");
-            console.log(selectedInterests);
             // 선택한 관심사를 쉼표로 구분된 문자열로 만들어서 input 필드에 설정
             document.querySelector('input[name="interest"]').value = selectedInterests;
         });
@@ -987,7 +988,6 @@ $(document).ready(function() {
   const memberIdReg = /^[a-z]+[a-z0-9]{5,19}$/;
   memberIdInput.onkeyup = () => {
     const value = memberIdInput.value;
-    console.log(value);
     if (!memberIdReg.test(value)) {
       guideReg.style.display = "inline";
       guideError.style.display = "none";
@@ -1002,7 +1002,6 @@ $(document).ready(function() {
         type: "GET",
         dataType: "json",
         success: function(responseData) {
-          console.log(responseData);
           const { available } = responseData;
           if (available) {
             guideError.style.display = "none";
@@ -1041,7 +1040,6 @@ document.addEventListener("DOMContentLoaded", function () {
         type: "GET",
         dataType: "json",
         success: function(responseData) {
-          console.log(responseData);
           const {available} = responseData;
           if (available) {
             nicknameError.style.display = "none";

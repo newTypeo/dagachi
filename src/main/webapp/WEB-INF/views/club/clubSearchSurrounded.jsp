@@ -76,7 +76,6 @@ const loadCLubs = (target) => {
 				url : "${pageContext.request.contextPath}/club/clubSearchByDistance.do", // 입력한 km반경을 알고리즘으로 구해서 모임을 검색해온다.
 				data : {distance, mainAreaName, category},
 				success(clubs) {
-					// console.log("주변모임 비동기검색 success= ", clubs);
 					let html = '';
 					const clubsWrapper = document.querySelector("#clubs-wrapper");
 					clubsWrapper.innerHTML = '';
