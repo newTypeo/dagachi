@@ -90,7 +90,7 @@
 					success(data) {
 						console.log(data);
 						if(data.cahtlog !=null){
-							const {id,clubId,writer,content,createdAt}=data.cahtlog
+							const {id,clubId,writer,content,createdAt,nickname}=data.cahtlog
 							html+=`
 								<tr>
 									<td colspan = "2" class="clubNameWrapper">
@@ -103,7 +103,7 @@
 								<tr>
 									<td>
 										<div class="writerAndCreatedAt">
-											<span>\${writer}</span>
+											<span>\${nickname}</span>
 											<span>\${createdAt}</span>
 										</div>
 									</td>
