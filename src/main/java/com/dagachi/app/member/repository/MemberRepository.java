@@ -133,6 +133,9 @@ public interface MemberRepository {
 	@Update("update member set create_club_cnt = create_club_cnt + 1 where member_id = #{memberId}")
 	int buyCreateClubTicket(String memberId);
 	
+	@Update("update member set create_club_cnt = create_club_cnt - 1 where member_id = #{memberId}")
+	int useTicket(String memberId);
+	
 	@Select("select * from member where nickname = #{nickname}")
 	Member checkNickNameDuplicate(String nickname);
 	
