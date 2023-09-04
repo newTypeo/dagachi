@@ -94,7 +94,7 @@
 <br /> <br />
 <div align=center>
 
-|  [김나영](src/main/webapp/resources/images/김나영.png)  | [김준한](src/main/webapp/resources/images/김준한.png) | [김동찬](src/main/webapp/resources/images/김동찬.png) | [김창환](src/main/webapp/resources/images/김창환.png) |
+|  [김나영](https://github.com/newTypeo/dagachi/blob/master/src/main/webapp/resources/images/%EA%B9%80%EB%82%98%EC%98%81.png?raw=true)  | [김준한](src/main/webapp/resources/images/김준한.png) | [김동찬](src/main/webapp/resources/images/김동찬.png) | [김창환](src/main/webapp/resources/images/김창환.png) |
 |:---:|:---:|:---:|:---:|
 | ![나영](https://github.com/newTypeo/dagachi/blob/master/githubImg/images.jpg?raw=true) | ![준한](https://github.com/newTypeo/dagachi/blob/master/githubImg/images.jpg?raw=true) | ![동찬](https://github.com/newTypeo/dagachi/blob/master/githubImg/images.jpg?raw=true) | ![창환](https://github.com/newTypeo/dagachi/blob/master/githubImg/images.jpg?raw=true) |
 | BE/SPRING | BE/SPRING | BE/SPRING | BE/SPRING |
