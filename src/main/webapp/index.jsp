@@ -219,6 +219,7 @@ $.ajax({
 		carouselInner.innerHTML = '';
 		banners.forEach((banner) => {
 			const { renamedFilename } = banner;
+			
 			carouselInner.innerHTML += `
 				<div class="carousel-item">
 					<img src="${pageContext.request.contextPath}/resources/upload/main/\${renamedFilename}" class="d-block w-100">
@@ -234,9 +235,5 @@ $.ajax({
 
 </script>
 
-<script>
-
-
-</script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
