@@ -64,3 +64,4 @@
 		    <a type="button" onclick="document.memberLogoutFrm.submit();">로그아웃</a>
 		</div>
 	</header>
+		<jsp:include page="/WEB-INF/views/common/chatBtn.jsp"></jsp:include>
