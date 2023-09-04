@@ -67,12 +67,11 @@
 				
 				const alarmLoad=()=>{
 					const receiver= memberId;
-					console.log(receiver);
+					// console.log(receiver);
 					$.ajax({
 						url:"${pageContext.request.contextPath}/notification/findAlarms.do",
 						data:{receiver},
 						success(alarms){
-							console.log(alarms);
 					
 							if(alarms.length>0){
 								alarms.forEach((alarm)=>{

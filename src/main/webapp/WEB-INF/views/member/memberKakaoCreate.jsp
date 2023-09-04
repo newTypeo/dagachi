@@ -671,8 +671,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 .map((checkbox) => checkbox.value)
                 .join(", ");
             
-            console.log(selectedInterests);
-                
             // 선택한 관심사를 쉼표로 구분된 문자열로 만들어서 input 필드에 설정
             document.querySelector('input[name="interest"]').value = selectedInterests;
         });
@@ -762,11 +760,9 @@ $.ajax({
          //'구'를 선택할수있는 HTML의 만들고 select 로 요소 선택
          selectArea.innerHTML += `<option value="\${region[1]}">\${region[1]}</option>`;
       });
-   },
-   complete() {
-      console.log("ASd");
    }
 });
+
 // 구 선택 값이 변경될때마다 이벤트 핸들러
 document.querySelector("#gu-filter").onchange = (e) => {
    const zone = e.target.value; 
@@ -863,7 +859,6 @@ document.addEventListener("DOMContentLoaded", function () {
         type: "GET",
         dataType: "json",
         success: function(responseData) {
-          console.log(responseData);
           const {available} = responseData;
           if (available) {
             nicknameError.style.display = "none";

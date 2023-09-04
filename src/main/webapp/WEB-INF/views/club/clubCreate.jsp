@@ -210,9 +210,6 @@ $.ajax({
 			selectArea.innerHTML += `<option value="\${region[1]}">\${region[1]}</option>`;
 			
 		});
-	},
-	complete() {
-		console.log("ASd");
 	}
 });
 
@@ -304,7 +301,6 @@ tagInputBtn.onclick = () => {
 	
 	tagList.push(tagInput.value);
 	
-	console.log(tagList);
 	tagContainer.insertAdjacentHTML('beforeend', `
 			<div class="tagWrapper">
 				<div class="tagBox">#\${tagInput.value}</div>
@@ -320,7 +316,6 @@ tagInputBtn.onclick = () => {
 	tagInput.value = "";
 };
 const cancelTag = (elem) => {
-	console.log(elem.previousElementSibling.innerHTML.replace("#", ""));
 	elem.parentElement.remove();
 	
 	const value = elem.previousElementSibling.innerHTML.replace("#", ""); // 삭제할 값을 지정
@@ -328,7 +323,6 @@ const cancelTag = (elem) => {
 	if (index !== -1) {
 		tagList.splice(index, 1); // 해당 인덱스의 요소를 1개 삭제
 	}
-	console.log(tagList);
 	tags.value = tagList;
 }
 

@@ -48,15 +48,13 @@
 				<c:forEach items="${clubMembers}" var="member" varStatus="vs">
 				
 					<a class="card" style="width: 18rem; margin:19px;" href = "${pageContext.request.contextPath}/member/${member.memberId}">
-					  <img src="${pageContext.request.contextPath}/resources/upload/member/profile/${member.renamedFilename}" class="card-img-top" alt="...">
-					  <div class="card-body">
-					    <h5 class="card-title">${member.nickname}(직위 나중에 추가함)</h5>
-					  </div>
+					  <img src="${pageContext.request.contextPath}/resources/upload/member/profile/${member.renamedFilename}" 
+					  class="card-img-top" alt="..." style="width:180px; height:180px;">
+					  <%-- <div class="card-body">
+					    <p class="card-title">${member.nickname}</p>
+					  </div>  --%>
 					  <ul class="list-group list-group-flush">
-					    <li class="list-group-item">${member.name}</li>
-					    <li class="list-group-item">${member.gender eq 'M' ? '남자' : '여자'}</li>
-					    <li class="list-group-item">${member.mbti}</li>
-					    <li class="list-group-item">${member.email}</li>
+					    <li style="list-style: none; margin: 3px auto;">${member.nickname}</li>
 					  </ul>
 					</a>
 				</c:forEach>
