@@ -83,13 +83,13 @@ div#search-content {
 	<table  class="listTable" id="inquiryTable">
 		<thead class="thead-light">
 			<tr>
-				<th scope="col">번호</th>
+				<th scope="col">No</th>
 				<th scope="col">공개여부</th>
 				<th scope="col">카테고리</th>
 				<th scope="col">제목</th>
 				<th scope="col">작성자</th>
 				<th scope="col">질문일자</th>
-				<th scope="col">답변하기</th>
+				<th scope="col">답변</th>
 				<th scope="col">상세보기</th>
 			</tr>
 		</thead>

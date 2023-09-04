@@ -18,7 +18,7 @@
 			</if>
 		</where>
 		order by
-		Inquiry_id desc
+		Inquiry_id asc
 	</select>
 
 
@@ -40,7 +40,7 @@
 				</if>
 			</where>
 			order by
-			Inquiry_id desc
+			Inquiry_id asc
 		)
 	</select>
 	
@@ -62,7 +62,7 @@
 			
 			</where>
 			order by
-			Inquiry_id desc
+			Inquiry_id asc
 
 	</select>
 	
@@ -84,7 +84,7 @@
 			
 			</where>
 			order by
-			Inquiry_id desc
+			Inquiry_id asc
 
 	</select>	
 	
