@@ -43,6 +43,7 @@ import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.common.DagachiUtils;
 import com.dagachi.app.member.dto.MemberCreateDto;
+import com.dagachi.app.member.dto.MemberKakaoUpdateDto;
 import com.dagachi.app.member.dto.MemberUpdateDto;
 import com.dagachi.app.member.entity.ActivityArea;
 import com.dagachi.app.member.entity.Member;
@@ -96,7 +97,6 @@ public class MemberSecurityController {
 			ObjectError error = bindingResult.getAllErrors().get(0);
 			redirectAttr.addFlashAttribute("msg", "다시 확인하고 입력하세요");
 			 log.debug("이게 interest -> {}", error);
-			 log.debug("오류가 나는걱이야 -> {}");
 			return "redirect:/member/memberCreate.do";
 		} 
 	    
@@ -126,9 +126,12 @@ public class MemberSecurityController {
 	        return "member/memberKakaoCreate";
 	        
 	    }
-
+	
+	
+	// 카카오정보 업데이트 
 	@PostMapping("/memberKakaoCreate.do")
-	public String kakaoUpadteCreate(@Valid MemberCreateDto member, BindingResult bindingResult, RedirectAttributes redirectAttr,
+	public String kakaoUpadteCreate(@AuthenticationPrincipal MemberDetails _member,
+			@Valid MemberKakaoUpdateDto member, BindingResult bindingResult, RedirectAttributes redirectAttr,
 			@RequestParam String interests) throws UnsupportedEncodingException {
 		log.debug("이게 member -> {}", member);
 	    log.debug("이게 interests -> {}", interests);		
@@ -138,7 +141,8 @@ public class MemberSecurityController {
 	    JsonObject item = document.getAsJsonObject();
 	    JsonObject params = item.get("address").getAsJsonObject();
 	    String bCode = params.get("b_code").getAsString();
-	 
+	    
+	    member.setMemberId(_member.getMemberId()); 
 	    
 	    List<String> interest = Arrays.asList(interests.split(","));
 	    member.setInterest(interest);

@@ -29,7 +29,7 @@ h1{
     padding: 8px; 
 }
 #admin-report-inquiry-list-sec {
- margin-left:320px; 
+ margin-left:490px; 
  hight : 3000px;
 }
 .gray-text {
@@ -51,7 +51,7 @@ h1{
 }
 
 .button:hover {
-    background-color: #005dbf; /* 호버 시 배경 색상 변경 */
+    background-color: #005dbf; /* 호버 시 배경 색상 변경 */ 
 }
 
 </style>
@@ -115,8 +115,7 @@ h1{
 									                <c:if test="${not empty inquiry.response}">
 									         	        문의 내용 :  ${inquiry.content} </br></br>
 									                	문의 답변 :  ${inquiry.response}</br></br>
-									                    문의 답변 일자 : <fmt:parseDate value="${inquiry.responseAt}" var="responseAt" pattern="yyyy-MM-dd"></fmt:parseDate>
-									                    <fmt:formatDate value="${responseAt}" pattern="yy/MM/dd"/>
+									                    문의 답변 일자 : <fmt:formatDate value="${inquiry.responseAt}" pattern="yy/MM/dd"/>
 									                </c:if>
 								                </c:if>
 								               <!--  // 여기에 권한 추가해야함 -->
