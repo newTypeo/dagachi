@@ -63,4 +63,6 @@
 		    <a type="button" onclick="document.memberLogoutFrm.submit();">로그아웃</a>
 		</div>
 	</header>
+	<sec:authorize access="isAuthenticated()">
 		<jsp:include page="/WEB-INF/views/common/chatBtn.jsp"></jsp:include>
+	</sec:authorize>

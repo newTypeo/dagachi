@@ -16,7 +16,9 @@
 				<button type="button" class="btn btn-primary" id="club-title-update">타이틀 설정</button>
 				<button type="button" class="btn btn-primary" id="club-member-manage">회원 관리</button>
 			</div>
-			<button type="button" class="btn btn-danger" id="clubDisabled">모임 해산</button>
+			<c:if test ="${memberRole eq 3}">
+				<button type="button" class="btn btn-danger" id="clubDisabled">모임 해산</button>
+			</c:if>
 		</c:if>
 	</div>
 	<form:form action="${pageContext.request.contextPath}/club/${domain}/clubStyleUpdate.do" method="POST">
@@ -160,15 +162,7 @@ const toDefault = () => {
 
 //준한(모임 비활성화)
 const domain = "<%= request.getAttribute("domain") %>"; 
-//서버 사이드에서 domain 값을 가져와서 설정
-document.querySelector("#clubDisabled").onclick = (e) => {
-  const userConfirmation = confirm("정말 비활성화 하시겠습니까?");
-  if (userConfirmation) {
-      // 도메인 값을 사용하여 컨트롤러로 이동하는 코드를 추가
-      window.location.href = "${pageContext.request.contextPath}/club/" + domain + "/clubDisabled.do";
-      alert('모임이 성공적으로 비활성화 되었습니다.');
-  }
-};
+
 
 document.querySelector("#club-update-btn").onclick = () => {
 	location.href = '${pageContext.request.contextPath}/club/'+domain+'/clubUpdate.do';
@@ -187,5 +181,19 @@ document.querySelector("#club-member-manage").onclick = () => {
 }
 
 </script>
+
+<c:if test="${memberRole eq 3}">
+	<script>
+	//서버 사이드에서 domain 값을 가져와서 설정
+	document.querySelector("#clubDisabled").onclick = (e) => {
+	  const userConfirmation = confirm("정말 비활성화 하시겠습니까?");
+	  if (userConfirmation) {
+	      // 도메인 값을 사용하여 컨트롤러로 이동하는 코드를 추가
+	      window.location.href = "${pageContext.request.contextPath}/club/" + domain + "/clubDisabled.do";
+	      alert('모임이 성공적으로 비활성화 되었습니다.');
+	  }
+	};
+	</script>
+</c:if>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
