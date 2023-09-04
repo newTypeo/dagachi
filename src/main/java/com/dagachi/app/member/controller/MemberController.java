@@ -325,8 +325,6 @@ public class MemberController {
 			@RequestParam("email") String email,
 			RedirectAttributes redirectAttr
 			) {
-//		log.debug("passwordzzzzzzzzzzzzzzzz = {}",password);
-//		log.debug("email = {}",email);
 		String encodedPassword = passwordEncoder.encode(password);
 		MemberPwUpdateDto memberPwUpdateDto = MemberPwUpdateDto.builder()
 				.password(encodedPassword)

@@ -242,6 +242,7 @@ const memberLike = () => {
 				if(confirm("관심표시를 취소하시겠습니까?")) {
 					const deleteMemberLikeFrm = document.deleteMemberLikeFrm;
 					deleteMemberLikeFrm.submit();
+					alert("성공적으로 관심 표시를 취소했습니다.");
 				} 
 				
 			} else {
@@ -250,6 +251,7 @@ const memberLike = () => {
 				if(confirm(memberNickname + "님께 관심 표시를 하시겠습니까?")) {
 					const memberLikeFrm = document.memberLikeFrm;
 					memberLikeFrm.submit();
+					alert("성공적으로 관심 표시를 완료했습니다.");
 				} // 좋아요
 			} // else
 		} // success 
