@@ -552,15 +552,15 @@ figure.snip0045.green .position {
 .search-memberPw-div{
 	
 }
-.searchIdBtn{
-    background-color:#0a0a23;
+.searchIdBtn {
+    background-color:dimgrey;
     color: #fff;
     border:none;
-    border-radius:10px;
+    border-radius:4px;
 }
 .searchPwBtn{
-    background-color:#0a0a23;
+    background-color:dimgrey;
     color: #fff;
     border:none;
-    border-radius:10px;
+    border-radius:4px;
 }

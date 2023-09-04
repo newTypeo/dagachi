@@ -118,11 +118,11 @@
 
 					<div class="dropdown">
 						
-						<%-- <sec:authorize access="hasRole('ROLE_ADMIN')"> --%>
+						<sec:authorize access="hasRole('ROLE_ADMIN')">
 							<button id="admin-nav-btn"
 								class="btn btn-secondary dropdown-toggle" type="button"
 								data-toggle="dropdown" aria-expanded="false">회원관리</button>
-						<%-- </sec:authorize> --%>
+						</sec:authorize>
 					
 						<div class="dropdown-menu">
 							<button class="dropdown-item" type="button">
