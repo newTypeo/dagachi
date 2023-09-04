@@ -17,6 +17,11 @@
 </c:if>
 
 <style>
+        /* 비활성화된 버튼 스타일 */
+        button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
 * {
   box-sizing: border-box;
   font-family: 'IBM Plex Sans KR', sans-serif;
@@ -34,7 +39,7 @@ body {
   flex-direction: column;
   align-items: center;
   width: 700px;
-  height: 1900px;
+  height: 1500px;
   margin-top: 130px;
   margin-bottom: 60px;
   background: #ffffff;
@@ -93,7 +98,7 @@ body {
   width: 20px;
   height: 19.95px;
   background: #ebebeb;
-  border: 1px solid #2990D0;
+  border: 1px solid #2990d0;
 }
 
 
@@ -107,14 +112,14 @@ body {
   color: #000000;
 }
 
-.loginbtn button {
+.enrollbtn button {
   display: flex;
   flex-direction: column;
   justify-content: center; /* 텍스트를 수직 방향 가운데 정렬 */
   align-items: center; /* 텍스트를 수평 방향 가운데 정렬 */
-  margin-top: 40px;
+  margin-top: 25x;
   width: 470px;
-  height: 106px;
+  height:70px
   border-top: 1px solid #2990D0;
   font-size: 30px;
   color: #ffffff;
@@ -126,13 +131,14 @@ body {
 .btn-email {
   background: #2990D0;
   color: #ffffff;
+  height: 36px;
   border-radius: 5px;
   border: 1px solid #2990D0; 
    
 }
 /******/
 .modal {
-    top: 50px;
+    top: 20px;
 }
 
 .modal-body {
@@ -249,9 +255,10 @@ span.passwordConfirmation { display:none; font-size:12px; position:absolute; top
     border: 1px solid #ccc;
     border-radius: 10px;
     padding: 20px;
-    margin-top: 20px;
-    height: 400px;
-    background-color: #f8f8f8;
+    margin-top: -20px;
+    margin-bottom: 40px;
+    height: 340px;
+    background-color: #e9ecef;
 }
 
 /* 전체 동의 제목 스타일 */
@@ -273,11 +280,13 @@ span.passwordConfirmation { display:none; font-size:12px; position:absolute; top
 
 /* 전체 동의 체크박스 및 라벨 스타일 */
 .all_check_area {
-  border-bottom: 1px solid #ccc;
-  padding-bottom: 10px;
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
+    border-bottom: 1px solid #ccc;
+    font-size: 24px;
+    margin-top: -60px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
 }
 
 .all_check_area input[type="checkbox"] {
@@ -322,6 +331,7 @@ span.passwordConfirmation { display:none; font-size:12px; position:absolute; top
 
 .form-control#email {
     width: 370px; /* 원하는 너비로 설정 (예: 100%는 부모 요소의 너비에 맞게 확장) */
+    margin-bottom: 10px;
 }
 .form-control#floatingInputDisabled3 {
     width: 370px; /* 원하는 너비로 설정 (예: 100%는 부모 요소의 너비에 맞게 확장) */
@@ -332,6 +342,7 @@ span.passwordConfirmation { display:none; font-size:12px; position:absolute; top
     align-items: stretch;
     flex-wrap: wrap;
     justify-content: space-between;
+    margin: 3px;
 }
 
 
@@ -390,12 +401,14 @@ span.passwordConfirmation { display:none; font-size:12px; position:absolute; top
     color: #fff;
     border-color: #2990D0;
 }
-/* 마우스 커서 숨기기 */
-.fadeIn.first {
-    cursor: none;}
+
+img {
+    vertical-align: middle;
+    border-style: none;
+    margin-bottom: 60px;
+}
 .kakao{
-	font-size: 12px;
-    margin-top: -13px;
+ 	font-size : 13px;
 }
 </style>
 
@@ -411,34 +424,33 @@ span.passwordConfirmation { display:none; font-size:12px; position:absolute; top
           <div>카카오톡 회원 가입</div>
            <div class = "kakao">카카오톡으로 회원가입 진행시, 아래 칸을 필수로 작성해주셔야 이용이 가능합니다.</div>
       </div> 
+		 
       <fieldset class = "area_agreement">
-       <legend class="sub_title">필수 정보</legend>
-		
+       <legend class="sub_title">회원 정보</legend>
          <div class="fadeIn first">
                 <label>닉네임</label>
 			    <div id="nickname-container">
-			        <input type="text" class="form-control" name="nickname" id="nickname"  placeholder="닉네임을 입력해주세요.">
+			        <input type="text" class="form-control" name="nickname" id="nickname"   placeholder="닉네임을 입력해주세요." required>
 			        <span class="nickname error" style="color: GRAY; font-size: 12px;">이 닉네임은 이미 사용중입니다.</span>
 			        <span class="nickname reg" style="color: GRAY; font-size: 12px;">특수문자가 안들어간 5~10자리여야합니다.</span>
 			        <input type="hidden" id="nicknameValid" value="0"/>
 			    </div>		  
          </div>   
-         
          <div class="fadeIn first">
             <label>전화번호  </label><span class="phone error" style="color: GRAY; font-size: 12px;"> 핸드폰 번호 형식이 올바르지 않습니다.</span>
 			<div id="phone-container">
-			  <input type="text" class="form-control" name="phone1" id="phone1" maxlength="3" required  placeholder="010">-
+			  <input type="text" class="form-control" name="phone1" id="phone1" maxlength="3" required  placeholder="3자리" >-
 			  <input type="text" class="form-control" name="phone2" id="phone2" maxlength="4" required placeholder="4자리">-
 			  <input type="text" class="form-control" name="phone3" id="phone3" maxlength="4" required placeholder="4자리">
-			  <input type="hidden" id="phone" name="phoneNo" value="">
 			</div>
          </div>   
+          <input type="hidden" id="phoneNo" name="phoneNo" value="">
+			   <input type="hidden" id="phoneNoValid" value="0"/>
          
          <div class="fadeIn first">
             <label>생년월일</label>
                <input type="date" class="form-control" name="birthday" id="birthday" required/>
          </div>      
-                     
          <div class="fadeIn first">
             <label>성별</label>
                  <input type="radio" name="gender" id="male" value="M" checked>
@@ -447,12 +459,8 @@ span.passwordConfirmation { display:none; font-size:12px; position:absolute; top
                  <input type="radio" name="gender" id="female" value="F">
                  <label for="female">여</label>
          </div>
-         
-   
       </fieldset>
-      
       <fieldset class = "area_interest">
-      
        <legend class="sub_title">관심 정보</legend>
        
              <div class="fadeIn first">
@@ -460,6 +468,7 @@ span.passwordConfirmation { display:none; font-size:12px; position:absolute; top
                   
                   <div class="input-group">
                         <input type="text" class="form-control" id="activity_area" name="activityArea" readonly aria-describedby="button-addon2" placeholder="본인의 집 주소를 입력해주세요" required>
+                         <input type="hidden" id="activityAreaValid" value="0"/>
                         <div class="input-group-append">
                            <button class="btn btn-outline-secondary" type="button" data-toggle="modal" 
                            data-target="#activity-area-modal" id="activity-area-search-btn" >검색</button>
@@ -470,6 +479,7 @@ span.passwordConfirmation { display:none; font-size:12px; position:absolute; top
                <label for="main_area_id">활동 지역</label>
                   <div class="input-group">
                      <input type="text" class="form-control" id="main_area_id" name="mainAreaId" placeholder="주로 활동할 지역을 입력해주세요" readonly aria-describedby="button-addon2" required>
+                       <input type="hidden" id="mainAreaIdValid" value="0"/>
                      <div class="input-group-append">
                         <button class="btn btn-outline-secondary" type="button" data-toggle="modal" 
                         data-target="#main-area-id-modal" id="activity-area-search-btn">검색</button>
@@ -481,30 +491,30 @@ span.passwordConfirmation { display:none; font-size:12px; position:absolute; top
          <div class="fadeIn first"> 
              <label for="mbti">MBTI</label>
                     <div class="toggle-radio" data-style="rounded"> 
-                        <label><input type="radio" name="mbti" value="ISTJ" class="custom-radio" checked> ISTJ</label>
-                        <label><input type="radio" name="mbti" value="ISFJ" class="custom-radio"> ISFJ</label>
-                        <label><input type="radio" name="mbti" value="INFJ" class="custom-radio"> INFJ</label>
-                        <label><input type="radio" name="mbti" value="INTJ" class="custom-radio"> INTJ</label>
-                        <label><input type="radio" name="mbti" value="ISTP" class="custom-radio"> ISTP</label>
-                        <label><input type="radio" name="mbti" value="ISFP" class="custom-radio"> ISFP</label>
-                        <label><input type="radio" name="mbti" value="INFP" class="custom-radio"> INFP</label>
-                        <label><input type="radio" name="mbti" value="INTP" class="custom-radio"> INTP</label>
-                        <label><input type="radio" name="mbti" value="ESTP" class="custom-radio"> ESTP</label>
-                        <label><input type="radio" name="mbti" value="ESFP" class="custom-radio"> ESFP</label>
-                        <label><input type="radio" name="mbti" value="ENFP" class="custom-radio"> ENFP</label>
-                        <label><input type="radio" name="mbti" value="ENTP" class="custom-radio"> ENTP</label>
-                        <label><input type="radio" name="mbti" value="ESTJ" class="custom-radio"> ESTJ</label>
-                        <label><input type="radio" name="mbti" value="ESFJ" class="custom-radio"> ESFJ</label>
-                        <label><input type="radio" name="mbti" value="ENFJ" class="custom-radio"> ENFJ</label>
-                        <label><input type="radio" name="mbti" value="ENTJ" class="custom-radio"> ENTJ</label>
+                        <label><input type="radio" name="mbti" value="ISTJ" class="custom-radio" required> ISTJ</label>
+                        <label><input type="radio" name="mbti" value="ISFJ" class="custom-radio" required> ISFJ</label>
+                        <label><input type="radio" name="mbti" value="INFJ" class="custom-radio"required> INFJ</label>
+                        <label><input type="radio" name="mbti" value="INTJ" class="custom-radio"required> INTJ</label>
+                        <label><input type="radio" name="mbti" value="ISTP" class="custom-radio"required> ISTP</label>
+                        <label><input type="radio" name="mbti" value="ISFP" class="custom-radio"required> ISFP</label>
+                        <label><input type="radio" name="mbti" value="INFP" class="custom-radio"required> INFP</label>
+                        <label><input type="radio" name="mbti" value="INTP" class="custom-radio"required> INTP</label>
+                        <label><input type="radio" name="mbti" value="ESTP" class="custom-radio"required> ESTP</label>
+                        <label><input type="radio" name="mbti" value="ESFP" class="custom-radio"required> ESFP</label>
+                        <label><input type="radio" name="mbti" value="ENFP" class="custom-radio"required> ENFP</label>
+                        <label><input type="radio" name="mbti" value="ENTP" class="custom-radio"required> ENTP</label>
+                        <label><input type="radio" name="mbti" value="ESTJ" class="custom-radio"required> ESTJ</label>
+                        <label><input type="radio" name="mbti" value="ESFJ" class="custom-radio"required> ESFJ</label>
+                        <label><input type="radio" name="mbti" value="ENFJ" class="custom-radio"required> ENFJ</label>
+                        <label><input type="radio" name="mbti" value="ENTJ" class="custom-radio"required> ENTJ</label>
                     </div>
                 </div>
 				<div class="fadeIn first"> 
 			    <label for="interests">관심사</label>
 				        <div class="form-group">
-				            <label><input type="checkbox" name="interests" value="차/오토바이" checked> 차/오토바이</label>
-				            <label><input type="checkbox" name="interests" value="게임/오락"> 게임/오락</label>
-				            <label><input type="checkbox" name="interests" value="여행"> 여행</label>
+				            <label><input type="checkbox" name="interests" value="차/오토바이" > 차/오토바이</label>
+				            <label><input type="checkbox" name="interests" value="게임/오락"  > 게임/오락</label>
+				            <label><input type="checkbox" name="interests" value="여행"  > 여행</label>
 				            <label><input type="checkbox" name="interests" value="운동/스포츠"> 운동/스포츠</label>
 				            <label><input type="checkbox" name="interests" value="인문학/독서"> 인문학/독서</label>
 				            <label><input type="checkbox" name="interests" value="업종/직무"> 업종/직무</label>
@@ -520,20 +530,18 @@ span.passwordConfirmation { display:none; font-size:12px; position:absolute; top
 				            <label><input type="checkbox" name="interests" value="요리/제조"> 요리/제조</label>
 				            <label><input type="checkbox" name="interests" value="애완동물"> 애완동물</label>
 				            <label><input type="checkbox" name="interests" value="자유주제"> 자유주제</label>
-				            <input type="hidden" name="interest" > 
 				            <div><p id="interestError" style="color: GRAY;"></p></div>
 				        </div>		
 			         </div>
-
-
+			         <input type="hidden" name="interest" > 
+			         <input type="hidden" id="interestValid" value="0"/> 
       </fieldset>
-         
            <fieldset class="agreement">
                             <legend class="sub_title1">이용약관 / 개인정보 수집 및 이용 동의</legend>
                             <div class="agree-check">
                                 <div class="all_check_area">
-                                    <input type="checkbox" id="all" class="all_check">
-                                    <label for="all">전체동의</label>
+                                    <input type="checkbox" id="all" class="all_check" >
+                                    <label for="all" >전체동의</label>
                                 </div>
                                 <div data-error_insert_container="">
                                     <input type="checkbox" id="chk1" class="check" name="" data-parsley-required="true" data-parsley-multiple="chk1">
@@ -544,12 +552,11 @@ span.passwordConfirmation { display:none; font-size:12px; position:absolute; top
                             <label for="chk2">(필수) 이용약관 동의</label>
                             <a href="javascript:void(0);" class="btn_view" title="이용약관 동의" id="openModalBtn1">내용보기</a>
                         </div>
-                  
+                 	 <input type="hidden" id="agreementValid" value="0">
                                 <div data-error_insert_container="">
                                     <input type="checkbox" id="chk3" class="check" name="PRIVACY" data-parsley-required="true" data-parsley-multiple="PRIVACY">
                                     <label for="chk3">(필수) 개인정보 수집 및 이용 동의</label>
                                 <div>
-
                                     </div>
                                     <dl>
                                         <dt>개인정보 수집</dt>
@@ -568,14 +575,14 @@ span.passwordConfirmation { display:none; font-size:12px; position:absolute; top
                                 </div>
                             </div>
                         </fieldset>
-      <div class="loginbtn">
+      <div class="enrollbtn">
          <button type="submit">가입</button>
        </div>   
       </form:form>
    </div>
 </div>
 <!-- 모달 -->
-   <!-- 모달 창 -->
+   <!-- 동의 목록 모달 창 -->
    <div id="myModal1" class="modal1">
        <div class="modal-content1">
            <span class="close1">&times;</span>
@@ -645,40 +652,10 @@ span.passwordConfirmation { display:none; font-size:12px; position:absolute; top
          </div>
       </div><!-- 집주소 받는 모달창 end -->
 </div>
-<script>
-//관심사 체크
-document.addEventListener("DOMContentLoaded", function () {
-    const interestCheckboxes = document.querySelectorAll('input[name="interests"]');
-    const interestError = document.getElementById("interestError");
-    
-    interestCheckboxes.forEach((checkbox) => {
-        checkbox.addEventListener("change", function () {
-            const checkedInterestCount = document.querySelectorAll(
-                'input[name="interests"]:checked'
-            ).length;
 
-            if (checkedInterestCount === 0) {
-                interestError.textContent = "최소 1개의 관심사를 선택해야 합니다.";
-            } else if (checkedInterestCount > 3) {
-                interestError.textContent = "최대 3개의 관심사까지 선택 가능합니다.";
-                this.checked = false; // 3개 이상 선택 시 체크 해제
-            } else {
-                interestError.textContent = "";
-            }
+<script> 
 
-            const selectedInterests = Array.from(interestCheckboxes)
-                .filter((checkbox) => checkbox.checked)
-                .map((checkbox) => checkbox.value)
-                .join(", ");
-            
-            // 선택한 관심사를 쉼표로 구분된 문자열로 만들어서 input 필드에 설정
-            document.querySelector('input[name="interest"]').value = selectedInterests;
-        });
-    });
-});
-
-
-// 전체동의 체크 (누르면 전체동의 한번더 누르면 전체동의 안됨)
+//전체동의 체크 (누르면 전체동의 한번더 누르면 전체동의 안됨)
 document.getElementById("all").addEventListener("click", function () {
     var checkboxes = document.querySelectorAll(".check");
     var allChecked = this.checked;
@@ -686,26 +663,54 @@ document.getElementById("all").addEventListener("click", function () {
     checkboxes.forEach(function (checkbox) {
         checkbox.checked = allChecked;
     });
+
+    updateAgreementValid();
 });
+
+// 필수 체크박스들의 변경 이벤트를 처리합니다.
+var chk1 = document.getElementById("chk1");
+var chk2 = document.getElementById("chk2");
+var chk3 = document.getElementById("chk3");
+chk1.addEventListener("change", updateAgreementValid);
+chk2.addEventListener("change", updateAgreementValid);
+chk3.addEventListener("change", updateAgreementValid);
+
+// 필수 체크박스 상태에 따라 agreementValid 값을 업데이트합니다.
+function updateAgreementValid() {
+    var chk1Checked = chk1.checked;
+    var chk2Checked = chk2.checked;
+    var chk3Checked = chk3.checked;
+
+    if (chk1Checked && chk2Checked && chk3Checked) {
+        agreementValid.value = "1";
+    } else {
+        agreementValid.value = "0";
+    }
+    checkConditions();
+}
+
+// 초기 상태에서 필수 체크박스들을 체크한 경우 agreementValid 값을 1로 설정합니다.
+if (chk1.checked && chk2.checked && chk3.checked) {
+    agreementValid.value = "1";
+    checkConditions();
+}
 
 //-----------이용약관 모달창 열고 닫기 
 document.getElementById("openModalBtn1").addEventListener("click", function() {//모달 열기
     document.getElementById("myModal1").style.display = "block";
 });
-
 document.getElementsByClassName("close1")[0].addEventListener("click", function() {//모달 닫기
     document.getElementById("myModal1").style.display = "none";
 });
-
 window.addEventListener("click", function(event) {//모달 닫기 ( 외부)
     if (event.target == document.getElementById("myModal")) {
         document.getElementById("myModal1").style.display = "none";
     }
 });
-
 //-------------------------------------- 집 주소 시작 --------------------------------
 const addressSearchBox = document.querySelector("#address-search-box");
-const addressBox = document.querySelector(".address-box");   
+const addressBox = document.querySelector(".address-box");  
+const activityAreaValid = document.querySelector("#activityAreaValid");
 //주소검색에 키 입력 리스너를 추가
 addressSearchBox.onkeyup = (e) => {
    $.ajax({
@@ -735,17 +740,22 @@ document.addEventListener('click', (e) => {
  // 클릭된 요소가 'address-checked' 클래스를 가진 경우 주소 검색 상자에 값을 설정
  if (clickedElement.matches(".address-checked")) {
      addressSearchBox.value = e.target.innerHTML;
+     activityAreaValid.value = "1";
  }
  // 클릭된 요소가 'address-confirm-btn' 아이디를 가진 경우 활동 영역 값을 설정하고 모달을 닫습니다.
  if (clickedElement.matches("#address-confirm-btn")) {
     document.querySelector("#activity_area").value = addressSearchBox.value;
     $('#activity-area-modal').modal('hide');
+    activityAreaValid.value = "1";
+    
  }
+ checkConditions();
 });
 //-------------------------------------- 집 주소 끝 --------------------------------
 //-------------------------------------- 주 활동지역start--------------------------------
 const mainAreaIdSearchBox = document.querySelector("#main-area-id-search-box");
 const mainAreaIdBox = document.querySelector(".main-area-id-box");   
+const mainAreaIdValid = document.querySelector("#mainAreaIdValid");
 //활동지역 option 
 $.ajax({
    // 요청 url 은 서버에서 서울시 지역을 가져옴
@@ -762,7 +772,6 @@ $.ajax({
       });
    }
 });
-
 // 구 선택 값이 변경될때마다 이벤트 핸들러
 document.querySelector("#gu-filter").onchange = (e) => {
    const zone = e.target.value; 
@@ -797,40 +806,57 @@ document.querySelector("#gu-filter").onchange = (e) => {
       } // success
    }); // ajax
 };
+
 //클릭 이벤트 리스너 
 document.addEventListener('click', (e) => {
     const clickedElement = e.target;
     if (clickedElement.matches(".main-area-id-checked")) {
        mainAreaIdSearchBox.value = e.target.innerHTML;
+       mainAreaIdValid.value = "1";
     }
     // 사용자가 확인 버튼 클릭시 활동지역을 activity_area 요소에 설정하고 모달 창을 닫음
     if (clickedElement.matches("#main-area-id-confirm-btn")) {
        document.querySelector("#main_area_id").value = mainAreaIdSearchBox.value;
-       $('#activity-area-modal').modal('hide');
+       $('#main-area-modal').modal('hide');
+       mainAreaIdValid.value = "1";
     }
+    checkConditions();
 });
 //-------------------------------------- 활동지역end--------------------------------
 
 // ------------------------------- 실시간 유효성 검사들 -------------------------------
-// 관심사 체크
-const minInterestCount = 1;
-const maxInterestCount = 3;
-const interestCheckboxes = document.querySelectorAll('input[type="checkbox"][name="interests"]');
-const interestError = document.getElementById('interestError');
+//관심사 체크
+document.addEventListener("DOMContentLoaded", function () {
+    const interestCheckboxes = document.querySelectorAll('input[name="interests"]');
+    const interestError = document.getElementById("interestError");
+    const interestValid = document.querySelector("#interestValid"); 
+    
+    interestCheckboxes.forEach((checkbox) => {
+        checkbox.addEventListener("change", function () {
+            const checkedInterestCount = document.querySelectorAll(
+                'input[name="interests"]:checked'
+            ).length;
 
-interestCheckboxes.forEach((checkbox) => {
-    checkbox.addEventListener('change', () => {
-        const selectedInterestCount = document.querySelectorAll('input[type="checkbox"][name="interests"]:checked').length;
-
-        if (selectedInterestCount < minInterestCount) {
-            interestError.textContent = '최소 하나 이상의 관심사를 선택하세요.';
-            checkbox.checked = true; 
-        } else if (selectedInterestCount > maxInterestCount) {
-            interestError.textContent = '최대 세 개의 관심사까지 선택할 수 있습니다.';
-            checkbox.checked = false; 
-        } else {
-            interestError.textContent = '';
-        }
+            if (checkedInterestCount === 0) {
+                interestError.textContent = "최소 1개의 관심사를 선택해야 합니다.";
+                interestValid.value = "0";
+            }else if (checkedInterestCount > 1) { 
+            	interestValid.value = "1";
+            }else if (checkedInterestCount > 3) {
+                interestError.textContent = "최대 3개의 관심사까지 선택 가능합니다.";
+                interestValid.value = "1";
+                this.checked = false; // 3개 이상 선택 시 체크 해제
+            } else {
+                interestError.textContent = "";
+            }
+            const selectedInterests = Array.from(interestCheckboxes)
+                .filter((checkbox) => checkbox.checked)
+                .map((checkbox) => checkbox.value)
+                .join(", ");
+            // 선택한 관심사를 쉼표로 구분된 문자열로 만들어서 input 필드에 설정
+            document.querySelector('input[name="interest"]').value = selectedInterests;
+            checkConditions();
+        });
     });
 });
 
@@ -867,12 +893,12 @@ document.addEventListener("DOMContentLoaded", function () {
             nicknameError.style.display = "inline";
             nicknameValid.value = "0";
           }
+          checkConditions();
         }
       });
     }
   };
 });
-
 
 
 // 핸드폰 유효성 검사
@@ -889,29 +915,58 @@ document.querySelector("#phone3").addEventListener("input", () => {
 });
 
 function combinePhoneNumbers() {
-    const phone1 = document.querySelector("#phone1").value;
-    const phone2 = document.querySelector("#phone2").value;
-    const phone3 = document.querySelector("#phone3").value;
-    const phoneInput = document.querySelector("#phone");
-
-    // 숫자만 남기고 다른 문자는 제거
-    const sanitizedPhone1 = phone1.replace(/\D/g, "");
-    const sanitizedPhone2 = phone2.replace(/\D/g, "");
-    const sanitizedPhone3 = phone3.replace(/\D/g, "");
-
+    const sanitizedPhone1 = document.querySelector("#phone1").value;
+    const sanitizedPhone2 = document.querySelector("#phone2").value;
+    const sanitizedPhone3 = document.querySelector("#phone3").value;
+    const phoneInput = document.querySelector("#phoneNo");
+    const phoneNoValid = document.querySelector("#phoneNoValid");
+    
     if (sanitizedPhone1.length !== 3 || sanitizedPhone2.length !== 4 || sanitizedPhone3.length !== 4) {
         document.querySelector(".phone.error").style.display = "inline";
-        phoneInput.value = "";
+        phoneNoValid.value = "0";
     } else {
-        phoneAlert.innerText = "";
         document.querySelector(".phone.error").style.display = "none";
-        phoneInput.value = `${sanitizedPhone1}-${sanitizedPhone2}-${sanitizedPhone3}`;
+        const combinedPhone = sanitizedPhone1 + sanitizedPhone2 + sanitizedPhone3;
+        phoneInput.value = combinedPhone; 
+        phoneNoValid.value = "1";
+    }
+    checkConditions();
+}
+
+
+</script>
+
+<script>
+//필요한 요소들을 가져옵니다.
+var _nicknameValid = document.getElementById("nicknameValid");
+var _phoneNoValid = document.getElementById("phoneNoValid"); // x
+var _interestValid = document.getElementById("interestValid");
+var _activityAreaValid = document.getElementById("activityAreaValid");
+var _mainAreaIdValid = document.getElementById("mainAreaIdValid");
+var _agreementValid = document.getElementById("agreementValid");
+
+var enrollbtn = document.querySelector(".enrollbtn button[type='submit']");
+
+function checkConditions() {
+    const validConditions = [
+        _nicknameValid,
+        _phoneNoValid,
+        _interestValid,
+        _activityAreaValid,
+        _mainAreaIdValid,
+        _agreementValid,
+    ];
+    console.log(validConditions);
+    const isValid = validConditions.every(tag => tag.value === "1" && tag.value !== "");
+    
+    if (isValid) {
+    	enrollbtn.removeAttribute("disabled");
+    } else {
+    	enrollbtn.setAttribute("disabled", "disabled");
     }
 }
 
-        
+
 </script>
 
-
  <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include> 
-   
