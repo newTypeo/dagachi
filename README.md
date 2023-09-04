@@ -96,7 +96,7 @@
 
 |  [김나영](https://github.com)  | [김준한](https://github.com) | [김동찬](https://github.com) | [김창환](https://github.com) |
 |:---:|:---:|:---:|:---:|
-| ![나영](https://github.com/newTypeo/dagachi/blob/master/src/main/webapp/resources/images/%EA%B9%80%EB%82%98%EC%98%81.png?raw=true) | ![준한](https://github.com/newTypeo/dagachi/blob/master/githubImg/images.jpg?raw=true) | ![동찬](https://github.com/newTypeo/dagachi/blob/master/githubImg/images.jpg?raw=true) | ![창환](https://github.com/newTypeo/dagachi/blob/master/githubImg/images.jpg?raw=true) |
+| ![나영](https://github.com/newTypeo/dagachi/blob/master/src/main/webapp/resources/images/%EA%B9%80%EB%82%98%EC%98%81.png?raw=true) | ![준한](https://github.com/newTypeo/dagachi/blob/master/src/main/webapp/resources/images/%EA%B9%80%EC%A4%80%ED%95%9C.png?raw=true) | ![동찬](https://github.com/newTypeo/dagachi/blob/master/githubImg/images.jpg?raw=true) | ![창환](https://github.com/newTypeo/dagachi/blob/master/githubImg/images.jpg?raw=true) |
 | BE/SPRING | BE/SPRING | BE/SPRING | BE/SPRING |
 | **[남현우](https://github.com)** | **[신종환](https://github.com)** | **[정상윤](https://github.com)** | **[빈칸](https://github.com)** |
 | ![남현우](https://github.com/newTypeo/dagachi/blob/master/githubImg/images.jpg?raw=true) | ![신종환](https://github.com/newTypeo/dagachi/blob/master/githubImg/images.jpg?raw=true) | ![정상윤](https://github.com/newTypeo/dagachi/blob/master/githubImg/images.jpg?raw=true) | ![빈칸](https://github.com/newTypeo/dagachi/blob/master/githubImg/images.jpg?raw=true) |
