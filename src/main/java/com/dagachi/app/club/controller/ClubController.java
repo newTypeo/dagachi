@@ -692,7 +692,7 @@ public class ClubController {
 
 		Club club = clubService.findByDomain(domain);
 		ClubLayout layout = clubService.findLayoutById(club.getClubId());
-
+		System.out.println(domain);
 		ClubBoard clubBoard = clubBoardGet(domain, no);
 
 		Map<String, Object> params = Map.of("type", 2, "memberId", member.getMemberId(), "targetId",
