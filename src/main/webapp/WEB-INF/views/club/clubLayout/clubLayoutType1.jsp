@@ -160,7 +160,7 @@
 						</span>
 						<span>❤${board.likeCount < 100 ? board.likeCount : '99+'}</span>
 						<a href="/" class="fontColors">
-							${board.writer}
+							${board.nickname}
 						</a>
 					</div>
 				</c:if>
@@ -189,7 +189,7 @@
 						</span>
 						<span>❤${board.likeCount < 100 ? board.likeCount : '99+'}</span>
 						<a href="/" class="fontColors">
-							${board.writer}
+							${board.nickname}
 						</a>
 					</div>
 				</c:if>
@@ -216,7 +216,7 @@
 						</span>
 						<span>❤${board.likeCount < 100 ? board.likeCount : '99+'}</span>
 						<a href="/" class="fontColors">
-							${board.writer}
+							${board.nickname}
 						</a>
 					</div>
 				</c:if>
@@ -245,7 +245,7 @@
     					<fmt:formatDate value="${endDate}" pattern="MM.dd"/>
 					</span>
 					<a href="/" class="fontColors">
-						${schedule.writer}
+						${schedule.nickname}
 					</a>
 				</div>
 			</c:forEach>
@@ -271,7 +271,7 @@
 						</span>
 						<span>❤${board.likeCount < 100 ? board.likeCount : '99+'}</span>
 						<a href="/" class="fontColors">
-							${board.writer}
+							${board.nickname}
 						</a>
 					</div>
 				</c:if>
