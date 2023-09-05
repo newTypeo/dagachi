@@ -116,7 +116,7 @@
 				<c:if test="${board.type eq 4}">
 					<div>
 						<span class="badge badge-danger">공지</span>
-						<a class="fontColors" href="${pageContext.request.contextPath}/club/sportsclub/boardDetail.do?no=${board.boardId}">${board.title}</a>
+						<a class="fontColors" href="${pageContext.request.contextPath}/club/${domain}/boardDetail.do?no=${board.boardId}">${board.title}</a>
 						<span>
 							<fmt:parseDate value="${board.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="createdAt"/>
 	    					<fmt:formatDate value="${createdAt}" pattern="yy.MM.dd HH:mm"/>
@@ -143,7 +143,7 @@
 				<c:if test="${board.type eq 1}">
 					<div>
 						<span class="pointColors">·</span>
-						<a class="fontColors" href="${pageContext.request.contextPath}/club/sportsclub/boardDetail.do?no=${board.boardId}">${board.title}</a>
+						<a class="fontColors" href="${pageContext.request.contextPath}/club/${domain}/boardDetail.do?no=${board.boardId}">${board.title}</a>
 						<span>
 							<fmt:parseDate value="${board.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="createdAt"/>
 	    					<fmt:formatDate value="${createdAt}" pattern="MM.dd HH:mm"/>
@@ -189,7 +189,7 @@
 					<c:if test="${board.type eq 3}">
 						<div>
 							<span class="pointColors">·</span>
-							<a class="fontColors" href="${pageContext.request.contextPath}/club/sportsclub/boardDetail.do?no=${board.boardId}">${board.title}</a>
+							<a class="fontColors" href="${pageContext.request.contextPath}/club/${domain}/boardDetail.do?no=${board.boardId}">${board.title}</a>
 							<span>
 								<fmt:parseDate value="${board.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="createdAt"/>
 		    					<fmt:formatDate value="${createdAt}" pattern="MM.dd HH:mm"/>
@@ -217,7 +217,7 @@
 				<c:if test="${board.type eq 2}">
 					<div>
 						<span class="pointColors">·</span>
-						<a class="fontColors" href="${pageContext.request.contextPath}/club/sportsclub/boardDetail.do?no=${board.boardId}">${board.title}</a>
+						<a class="fontColors" href="${pageContext.request.contextPath}/club/${domain}/boardDetail.do?no=${board.boardId}">${board.title}</a>
 						<span>
 							<fmt:parseDate value="${board.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="createdAt"/>
 	    					<fmt:formatDate value="${createdAt}" pattern="MM.dd HH:mm"/>
