@@ -3,107 +3,136 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dagachi.app.member.repository.MemberRepository">
-	
-	<select id="loadUserByUsername" resultMap="memberAuthMap">
-		select
-		    *
-		from 
-		    member M
-		  left join Authority A
-		    on M.member_id = A.member_id
-		where 
-		    M.member_id = #{username}
+   
+   <select id="loadUserByUsername" resultMap="memberAuthMap">
+      select
+          *
+      from 
+          member M
+      left join Authority A
+          on M.member_id = A.member_id
+      left join member_profile MP
+         on M.member_id = MP.member_id
+      left join activity_area AA
+         on M.member_id = AA.member_id
+      left join member_interest MI
+         on M.member_id = MI.member_id
+      where 
+          M.member_id = #{username}
   </select>
-  
-	<resultMap type="memberDetails" id="memberAuthMap">
-	  <id column="member_id" property="memberId"/>
-	  <result column="password" property="password"/>
-	  <result column="name" property="name"/>
-	  <result column="nickname" property="nickname"/>
-	  <result column="phone_no" property="phoneNo"/>
-	   <result column="email" property="email"/>
-	  <result column="birthday" property="birthday"/>
-	  <result column="email" property="email"/>
-	  <result column="gender" property="gender"/>
-	  <result column="mbti" property="mbti"/>
-	  <result column="address" property="address"/>
-	  <result column="report_count" property="reportCount"/>
-	  <result column="enroll_date" property="enrollDate"/>
-	  <result column="withdrawal_date" property="withdrawalDate"/>
-	  <result column="password_change_date" property="passwordChangeDate"/>
-	  <result column="last_login_date" property="lastLoginDate"/>
-	  <result column="status" property="status"/>
-	  
-	  <collection property="authorities"
+   <resultMap id="activityAreaResultMap" type="activityArea">
+       <result property="memberId" column="member_id" />
+       <result property="mainAreaId" column="main_area_id" />
+       <result property="sub1AreaId" column="sub1_area_id" />
+       <result property="sub2AreaId" column="sub2_area_id" />
+   </resultMap>
+   <resultMap id="memberInterestResultMap" type="memberInterest">
+       <result property="memberId" column="member_id" />
+       <result property="interest" column="interest" />
+   </resultMap>
+    <resultMap id="memberProfileResultMap" type="memberProfile">
+       <id property="memberId" column="member_id" />
+       <result property="originalFilename" column="original_filename" />
+       <result property="renamedFilename" column="renamed_filename" />
+       <result property="createdAt" column="created_at" />
+   </resultMap>
+   <resultMap type="memberDetails" id="memberAuthMap">
+     <id column="member_id" property="memberId"/>
+     <result column="password" property="password"/>
+     <result column="name" property="name"/>
+     <result column="nickname" property="nickname"/>
+     <result column="phone_no" property="phoneNo"/>
+      <result column="email" property="email"/>
+     <result column="birthday" property="birthday"/>
+     <result column="email" property="email"/>
+     <result column="gender" property="gender"/>
+     <result column="mbti" property="mbti"/>
+     <result column="address" property="address"/>
+     <result column="report_count" property="reportCount"/>
+     <result column="enroll_date" property="enrollDate"/>
+     <result column="withdrawal_date" property="withdrawalDate"/>
+     <result column="password_change_date" property="passwordChangeDate"/>
+     <result column="last_login_date" property="lastLoginDate"/>
+     <result column="status" property="status"/>
+     <association property="memberProfile" resultMap="memberProfileResultMap" />
+     <association property="activityArea" resultMap="activityAreaResultMap" />
+     <collection property="authorities"
                   ofType="simpleGrantedAuthority">
           <constructor>
               <!-- javaType 필수 -->
               <arg column="auth" javaType="string"/>
           </constructor>
       </collection>
-	  
-	  <!-- collection 1:N 관계의 테이블 조회시 사용 -->
-<!-- 	  <collection 
-	  	property="authorities"
-	  	column="member_id"
-	  	ofType="simpleGrantedAuthority"
-	  	select="findAuthorities"></collection> -->
-	</resultMap>
-	
-	<select id="findAuthorities" resultMap="simpleGrantedAuthorityMap">
-	  select
-	  	*
-	  from
-	  	authority
-	  where
-	  	member_id = #{memberId}
-	</select>
-	
-	<resultMap type="simpleGrantedAuthority" id="simpleGrantedAuthorityMap">
-		<constructor>
-			<arg column="auth" javaType="String"/>
-		</constructor>
-	</resultMap>
-	
-	<select id="adminMemberList">
-	 select
-	 	* 
-	 from 
-	 	member
-	 <if test="keyword != null and keyword != ''">
-		 where 
-		 ${column} like '%' || #{keyword} || '%'
-	 </if> 
-	 order by
-	 	enroll_date desc
-	</select>
-	
-	<select id="adminQuitMemberList">
-	 select
-	 	* 
-	 from 
-	 	member
-	 where 
-		withdrawal_date is not null
-	 <if test="keyword != null and keyword != ''">
-		and ${column} like '%' || #{keyword} || '%'
-	 </if> 
-	 order by
-	 	withdrawal_date desc
-	</select>
-	
-	<select id="adminReportMemberList">
-	 select
-	 	* 
-	 from 
-	 	member
-	 where 
-		report_count != 0
-	 <if test="keyword != null and keyword != ''">
-		 and ${column} like '%' || #{keyword} || '%'
-	 </if> 
-	 order by
-	 	enroll_date desc
-	</select>
-	
+      <collection property="memberInterest" ofType="memberInterest">
+         <constructor>
+            <arg column="member_id" javaType="string" />
+            <arg column="interest" javaType="string" />
+         </constructor>
+      </collection>
+
+     
+     <!-- collection 1:N 관계의 테이블 조회시 사용 -->
+<!--      <collection 
+        property="authorities"
+        column="member_id"
+        ofType="simpleGrantedAuthority"
+        select="findAuthorities"></collection> -->
+   </resultMap>
+   
+   <select id="findAuthorities" resultMap="simpleGrantedAuthorityMap">
+     select
+        *
+     from
+        authority
+     where
+        member_id = #{memberId}
+   </select>
+   
+   <resultMap type="simpleGrantedAuthority" id="simpleGrantedAuthorityMap">
+      <constructor>
+         <arg column="auth" javaType="String"/>
+      </constructor>
+   </resultMap>
+   
+   <select id="adminMemberList">
+    select
+       * 
+    from 
+       member
+    <if test="keyword != null and keyword != ''">
+       where 
+       ${column} like '%' || #{keyword} || '%'
+    </if> 
+    order by
+       enroll_date desc
+   </select>
+   
+   <select id="adminQuitMemberList">
+    select
+       * 
+    from 
+       member
+    where 
+      withdrawal_date is not null
+    <if test="keyword != null and keyword != ''">
+      and ${column} like '%' || #{keyword} || '%'
+    </if> 
+    order by
+       withdrawal_date desc
+   </select>
+   
+   <select id="adminReportMemberList">
+    select
+       * 
+    from 
+       member
+    where 
+      report_count != 0
+    <if test="keyword != null and keyword != ''">
+       and ${column} like '%' || #{keyword} || '%'
+    </if> 
+    order by
+       enroll_date desc
+   </select>
+   
 </mapper>
