@@ -355,7 +355,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 //창환(모임 신고)
 document.querySelector("#clubReport").onclick = () => {
-	console.log('Type2');
 	$("#reportModal")
 	.modal()
 	.on('shown.bs.modal', () => {
