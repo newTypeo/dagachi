@@ -36,6 +36,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.dagachi.app.Pagination;
+import com.dagachi.app.chat.service.ChatService;
 import com.dagachi.app.club.common.Status;
 import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.BoardCommentDto;
@@ -112,6 +113,9 @@ public class ClubController {
 
 	@Autowired
 	private ClubService clubService;
+	
+	@Autowired
+	private ChatService chatService;
 
 	@Autowired
 	public ClubController(JavaMailSender javaMailSender) {
@@ -472,6 +476,12 @@ public class ClubController {
 		List<ClubScheduleAndMemberDto> schedules = clubService.findScheduleById(clubId);
 		List<BoardAndImageDto> boardAndImages = clubService.findBoardAndImageById(clubId);
 		String memberId = member.getMemberId();
+		for (BoardAndImageDto board : boardAndImages) {
+			board.setNickname(chatService.getNicknameById(board.getWriter()));
+		}
+		for (ClubScheduleAndMemberDto schedule : schedules) {
+			schedule.setNickname(chatService.getNicknameById(schedule.getWriter()));
+		}
 
 		// 최근 본 모임 전체 조회 (현우)
 		List<ClubRecentVisited> recentVisitClubs = clubService.findAllrecentVisitClubs();

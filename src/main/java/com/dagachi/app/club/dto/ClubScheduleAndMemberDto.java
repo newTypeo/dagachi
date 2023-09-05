@@ -22,4 +22,6 @@ public class ClubScheduleAndMemberDto {
 	private LocalDateTime createdAt;
 	
 	private int memberCount;
+	
+	private String nickname;
 }

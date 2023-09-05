@@ -39,14 +39,14 @@
 }
 .container-main-long > div > a:first-of-type {
 	display: inline-block;
-    width: 800px;
+    width: 700px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 .container-main-short > div > a:first-of-type {
 	display: inline-block;
-    width: 375px;
+    width: 300px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
