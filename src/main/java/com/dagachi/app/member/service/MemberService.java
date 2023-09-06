@@ -14,6 +14,7 @@ import com.dagachi.app.member.dto.MemberKakaoUpdateDto;
 import com.dagachi.app.member.dto.MemberPwUpdateDto;
 import com.dagachi.app.member.entity.ActivityArea;
 import com.dagachi.app.member.entity.Member;
+import com.dagachi.app.member.entity.MemberDetails;
 import com.dagachi.app.member.entity.MemberInterest;
 import com.dagachi.app.member.entity.MemberLike;
 import com.dagachi.app.member.entity.MemberProfile;
@@ -75,7 +76,7 @@ public interface MemberService extends UserDetailsService {
 	
 	Member findmemberIdByEmail(String email);
 	
-	int KakaoMember(MemberKakaoDto memberKakaoDto);
+	int KakaoMember(MemberDetails memberDetails);
 
 	int kakaoUpadteCreate(MemberKakaoUpdateDto member);
 	

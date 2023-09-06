@@ -29,10 +29,10 @@
           <div>회원 가입</div>
       </div> 
       
-<%--       <legend class="sub_title">간편 회원가입</legend>  
+<     <legend class="sub_title">간편 회원가입</legend>  
 		 <a href="${pageContext.request.contextPath}/oauth2/authorization/kakao">
 			<img src="${pageContext.request.contextPath}/resources/images/kakaoL.png" alt="카카오 로그인">
-		 </a> --%>
+		 </a> 
 		 
       <fieldset class = "area_agreement">
        <legend class="sub_title">회원 정보</legend>
@@ -501,7 +501,7 @@ document.querySelector("#gu-filter").onchange = (e) => {
    if(zone == "") {
       detail.style.display = 'none';
       detail.value = '';
-      return;
+      return;$
    }
    // 아래는 선택한 구에 따라 동을 가져오고 화면에 뿌려줌
    $.ajax({ // 1. 서울시의 모든 구를 요청

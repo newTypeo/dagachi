@@ -1,4 +1,4 @@
- <%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -7,10 +7,12 @@
    uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
 <c:if test="${not empty msg}">
-	<script>
-		alert('${msg}');
-	</script>
+   <script>
+      alert('${msg}');
+   </script>
 </c:if>
 
 <style>
@@ -36,7 +38,7 @@ body {
   flex-direction: column;
   align-items: center;
   width: 700px;
-  height: 1500px;
+  height: 1990px;
   margin-top: 130px;
   margin-bottom: 60px;
   background: #ffffff;
@@ -244,7 +246,7 @@ span.passwordConfirmation { display:none; font-size:12px; position:absolute; top
   margin-top: 5px; /* 원하는 간격 설정 */
 }
 .phone.error{
-	display: none;
+   display: none;
 }
 
 /* 전체 동의 영역 스타일 */
@@ -335,7 +337,7 @@ span.passwordConfirmation { display:none; font-size:12px; position:absolute; top
 }
 /* fadeIn.first 내부 요소를 가로로 나란히 표시 */
 .fadeIn.first {
-	display: flex;
+   display: flex;
     align-items: stretch;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -404,45 +406,48 @@ img {
     border-style: none;
     margin-bottom: 60px;
 }
+
 .kakao{
- 	font-size : 13px;
+   font-size : 10px;
+   
+
 }
+
 </style>
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/memberCreate.css"/>
  <div class="container">
    <div class="member-container">
    <div class = "main_area">
-	 <form:form name="memberCreateFrm"
-		  action="${pageContext.request.contextPath}/member/memberKakaoCreate.do"
-		  method="POST"
-		  enctype="multipart/form-data">
+    <form:form name="memberCreateFrm"
+        action="${pageContext.request.contextPath}/member/memberKakaoCreate.do"
+        method="POST"
+        enctype="multipart/form-data">
        <div class="header"> 
           <div>카카오톡 회원 가입</div>
            <div class = "kakao">카카오톡으로 회원가입 진행시, 아래 칸을 필수로 작성해주셔야 이용이 가능합니다.</div>
       </div> 
-		 
+       
       <fieldset class = "area_agreement">
        <legend class="sub_title">회원 정보</legend>
          <div class="fadeIn first">
                 <label>닉네임</label>
-			    <div id="nickname-container">
-			        <input type="text" class="form-control" name="nickname" id="nickname"   placeholder="닉네임을 입력해주세요." required>
-			        <span class="nickname error" style="color: GRAY; font-size: 12px;">이 닉네임은 이미 사용중입니다.</span>
-			        <span class="nickname reg" style="color: GRAY; font-size: 12px;">특수문자가 안들어간 5~10자리여야합니다.</span>
-			        <input type="hidden" id="nicknameValid" value="0"/>
-			    </div>		  
+             <div id="nickname-container">
+                 <input type="text" class="form-control" name="nickname" id="nickname"   placeholder="닉네임을 입력해주세요." required>
+                 <span class="nickname error" style="color: GRAY; font-size: 12px;">이 닉네임은 이미 사용중입니다.</span>
+                 <span class="nickname reg" style="color: GRAY; font-size: 12px;">특수문자가 안들어간 5~10자리여야합니다.</span>
+                 <input type="hidden" id="nicknameValid" value="0"/>
+             </div>        
          </div>   
          <div class="fadeIn first">
             <label>전화번호  </label><span class="phone error" style="color: GRAY; font-size: 12px;"> 핸드폰 번호 형식이 올바르지 않습니다.</span>
-			<div id="phone-container">
-			  <input type="text" class="form-control" name="phone1" id="phone1" maxlength="3" required  placeholder="3자리" >-
-			  <input type="text" class="form-control" name="phone2" id="phone2" maxlength="4" required placeholder="4자리">-
-			  <input type="text" class="form-control" name="phone3" id="phone3" maxlength="4" required placeholder="4자리">
-			</div>
+         <div id="phone-container">
+           <input type="text" class="form-control" name="phone1" id="phone1" maxlength="3" required  placeholder="3자리" >-
+           <input type="text" class="form-control" name="phone2" id="phone2" maxlength="4" required placeholder="4자리">-
+           <input type="text" class="form-control" name="phone3" id="phone3" maxlength="4" required placeholder="4자리">
+         </div>
          </div>   
           <input type="hidden" id="phoneNo" name="phoneNo" value="">
-			   <input type="hidden" id="phoneNoValid" value="0"/>
+            <input type="hidden" id="phoneNoValid" value="0"/>
          
          <div class="fadeIn first">
             <label>생년월일</label>
@@ -458,29 +463,29 @@ img {
          </div>
       </fieldset>
       <fieldset class = "area_interest">
-       <legend class="sub_title">관심 정보</legend>
+     <!--   <legend class="sub_title">관심 정보</legend> -->
        
              <div class="fadeIn first">
-               <label for="activity_area">거주지</label> <!-- 필수값 지도 API 사용 + 상세 주소값 받아야함  -->
+              <!--  <label for="activity_area">거주지</label>  --><!-- 필수값 지도 API 사용 + 상세 주소값 받아야함  -->
                   
                   <div class="input-group">
-                        <input type="text" class="form-control" id="activity_area" name="activityArea" readonly aria-describedby="button-addon2" placeholder="본인의 집 주소를 입력해주세요" required>
+                        <input type="hidden" class="form-control" id="activity_area" name="activityArea" readonly aria-describedby="button-addon2"  value = "영등포구 영등포동1가" placeholder="본인의 집 주소를 입력해주세요" required>
                          <input type="hidden" id="activityAreaValid" value="0"/>
-                        <div class="input-group-append">
+                       <!--  <div class="input-group-append">
                            <button class="btn btn-outline-secondary" type="button" data-toggle="modal" 
                            data-target="#activity-area-modal" id="activity-area-search-btn" >검색</button>
-                        </div>
+                        </div> -->
                   </div>
                </div>
             <div class="fadeIn first">
-               <label for="main_area_id">활동 지역</label>
+              <!--  <label for="main_area_id">활동 지역</label> -->
                   <div class="input-group">
-                     <input type="text" class="form-control" id="main_area_id" name="mainAreaId" placeholder="주로 활동할 지역을 입력해주세요" readonly aria-describedby="button-addon2" required>
+                     <input type="hidden" class="form-control" id="main_area_id" name="mainAreaId" placeholder="주로 활동할 지역을 입력해주세요" value = "영등포구 영등포동1가"  readonly aria-describedby="button-addon2" required>
                        <input type="hidden" id="mainAreaIdValid" value="0"/>
-                     <div class="input-group-append">
+                   <!--   <div class="input-group-append">
                         <button class="btn btn-outline-secondary" type="button" data-toggle="modal" 
                         data-target="#main-area-id-modal" id="activity-area-search-btn">검색</button>
-                     </div>
+                     </div> -->
                   </div>   
                </div>      
       </fieldset>
@@ -506,32 +511,32 @@ img {
                         <label><input type="radio" name="mbti" value="ENTJ" class="custom-radio"required> ENTJ</label>
                     </div>
                 </div>
-				<div class="fadeIn first"> 
-			    <label for="interests">관심사</label>
-				        <div class="form-group">
-				            <label><input type="checkbox" name="interests" value="차/오토바이" > 차/오토바이</label>
-				            <label><input type="checkbox" name="interests" value="게임/오락"  > 게임/오락</label>
-				            <label><input type="checkbox" name="interests" value="여행"  > 여행</label>
-				            <label><input type="checkbox" name="interests" value="운동/스포츠"> 운동/스포츠</label>
-				            <label><input type="checkbox" name="interests" value="인문학/독서"> 인문학/독서</label>
-				            <label><input type="checkbox" name="interests" value="업종/직무"> 업종/직무</label>
-				            <label><input type="checkbox" name="interests" value="언어/회화"> 언어/회화</label>
-				            <label><input type="checkbox" name="interests" value="공연/축제"> 공연/축제</label>
-				            <label><input type="checkbox" name="interests" value="음악/악기"> 음악/악기</label>
-				            <label><input type="checkbox" name="interests" value="공예/만들기"> 공예/만들기</label>
-				            <label><input type="checkbox" name="interests" value="댄스/무용"> 댄스/무용</label>
-				            <label><input type="checkbox" name="interests" value="봉사활동"> 봉사활동</label>
-				            <label><input type="checkbox" name="interests" value="사교/인맥"> 사교/인맥</label>
-				            <label><input type="checkbox" name="interests" value="사진/영상"> 사진/영상</label>
-				            <label><input type="checkbox" name="interests" value="야구관람"> 야구관람</label>
-				            <label><input type="checkbox" name="interests" value="요리/제조"> 요리/제조</label>
-				            <label><input type="checkbox" name="interests" value="애완동물"> 애완동물</label>
-				            <label><input type="checkbox" name="interests" value="자유주제"> 자유주제</label>
-				            <div><p id="interestError" style="color: GRAY;"></p></div>
-				        </div>		
-			         </div>
-			         <input type="hidden" name="interest" > 
-			         <input type="hidden" id="interestValid" value="0"/> 
+            <div class="fadeIn first"> 
+             <label for="interests">관심사</label>
+                    <div class="form-group">
+                        <label><input type="checkbox" name="interests" value="차/오토바이" > 차/오토바이</label>
+                        <label><input type="checkbox" name="interests" value="게임/오락"  > 게임/오락</label>
+                        <label><input type="checkbox" name="interests" value="여행"  > 여행</label>
+                        <label><input type="checkbox" name="interests" value="운동/스포츠"> 운동/스포츠</label>
+                        <label><input type="checkbox" name="interests" value="인문학/독서"> 인문학/독서</label>
+                        <label><input type="checkbox" name="interests" value="업종/직무"> 업종/직무</label>
+                        <label><input type="checkbox" name="interests" value="언어/회화"> 언어/회화</label>
+                        <label><input type="checkbox" name="interests" value="공연/축제"> 공연/축제</label>
+                        <label><input type="checkbox" name="interests" value="음악/악기"> 음악/악기</label>
+                        <label><input type="checkbox" name="interests" value="공예/만들기"> 공예/만들기</label>
+                        <label><input type="checkbox" name="interests" value="댄스/무용"> 댄스/무용</label>
+                        <label><input type="checkbox" name="interests" value="봉사활동"> 봉사활동</label>
+                        <label><input type="checkbox" name="interests" value="사교/인맥"> 사교/인맥</label>
+                        <label><input type="checkbox" name="interests" value="사진/영상"> 사진/영상</label>
+                        <label><input type="checkbox" name="interests" value="야구관람"> 야구관람</label>
+                        <label><input type="checkbox" name="interests" value="요리/제조"> 요리/제조</label>
+                        <label><input type="checkbox" name="interests" value="애완동물"> 애완동물</label>
+                        <label><input type="checkbox" name="interests" value="자유주제"> 자유주제</label>
+                        <div><p id="interestError" style="color: GRAY;"></p></div>
+                    </div>      
+                  </div>
+                  <input type="hidden" name="interest" > 
+                  <input type="hidden" id="interestValid" value="0"/> 
       </fieldset>
            <fieldset class="agreement">
                             <legend class="sub_title1">이용약관 / 개인정보 수집 및 이용 동의</legend>
@@ -549,7 +554,7 @@ img {
                             <label for="chk2">(필수) 이용약관 동의</label>
                             <a href="javascript:void(0);" class="btn_view" title="이용약관 동의" id="openModalBtn1">내용보기</a>
                         </div>
-                 	 <input type="hidden" id="agreementValid" value="0">
+                     <input type="hidden" id="agreementValid" value="0">
                                 <div data-error_insert_container="">
                                     <input type="checkbox" id="chk3" class="check" name="PRIVACY" data-parsley-required="true" data-parsley-multiple="PRIVACY">
                                     <label for="chk3">(필수) 개인정보 수집 및 이용 동의</label>
@@ -838,7 +843,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 interestError.textContent = "최소 1개의 관심사를 선택해야 합니다.";
                 interestValid.value = "0";
             }else if (checkedInterestCount > 1) { 
-            	interestValid.value = "1";
+               interestValid.value = "1";
             }else if (checkedInterestCount > 3) {
                 interestError.textContent = "최대 3개의 관심사까지 선택 가능합니다.";
                 interestValid.value = "1";
@@ -929,8 +934,6 @@ function combinePhoneNumbers() {
     }
     checkConditions();
 }
-
-
 </script>
 
 <script>
@@ -938,8 +941,6 @@ function combinePhoneNumbers() {
 var _nicknameValid = document.getElementById("nicknameValid");
 var _phoneNoValid = document.getElementById("phoneNoValid"); // x
 var _interestValid = document.getElementById("interestValid");
-var _activityAreaValid = document.getElementById("activityAreaValid");
-var _mainAreaIdValid = document.getElementById("mainAreaIdValid");
 var _agreementValid = document.getElementById("agreementValid");
 
 var enrollbtn = document.querySelector(".enrollbtn button[type='submit']");
@@ -949,17 +950,14 @@ function checkConditions() {
         _nicknameValid,
         _phoneNoValid,
         _interestValid,
-        _activityAreaValid,
-        _mainAreaIdValid,
         _agreementValid,
     ];
-    console.log(validConditions);
     const isValid = validConditions.every(tag => tag.value === "1" && tag.value !== "");
     
     if (isValid) {
-    	enrollbtn.removeAttribute("disabled");
+       enrollbtn.removeAttribute("disabled");
     } else {
-    	enrollbtn.setAttribute("disabled", "disabled");
+       enrollbtn.setAttribute("disabled", "disabled");
     }
 }
 

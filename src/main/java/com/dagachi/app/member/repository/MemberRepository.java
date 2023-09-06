@@ -43,7 +43,7 @@ public interface MemberRepository {
 	
 	//카카오톡 회원가입
 	@Insert("insert into member values (#{memberId}, #{password},#{name}, null , null, #{email}, null , null , null,  null , 0, SYSDATE, NULL, SYSDATE, NULL, 'Y' , default)")
-	int KakaoMember(MemberKakaoDto memberKakaoDto);
+	int KakaoMember(MemberDetails memberDetails);
 	
 	//카카오톡 회원 정보 업데이트
 	@Update("update  member set nickname = #{nickname}, phone_no=  #{phoneNo}, birthday = #{birthday, jdbcType=DATE}, gender = #{gender}, mbti = #{mbti},  address = #{activityArea} where member_id =#{memberId}")
