@@ -198,13 +198,6 @@ public interface ClubRepository {
 	int insertClubRecentVisitd(String memberId, int clubId);
 
 	
-	@Select("select * from recent_visit_list")
-	List<ClubRecentVisited> findAllrecentVisitClubs();
-	
-	@Select("select count(*) from recent_visit_list where club_id = #{clubId}")
-	int checkDuplicateClubId(int clubId);
-
-	
 	@Update("update club_board_attachment set thumbnail=#{thumbnail} where id=#{id}")
 	int updateThumbnail(ClubBoardAttachment clubBoardAttachment);
 	

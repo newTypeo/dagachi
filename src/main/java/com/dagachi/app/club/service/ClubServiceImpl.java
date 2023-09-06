@@ -381,16 +381,6 @@ public class ClubServiceImpl implements ClubService {
 	}
 
 	@Override
-	public List<ClubRecentVisited> findAllrecentVisitClubs() {
-		return clubRepository.findAllrecentVisitClubs();
-	}
-
-	@Override
-	public int checkDuplicateClubId(int clubId) {
-		return clubRepository.checkDuplicateClubId(clubId);
-	}
-
-	@Override
 	public int delAttachment(int id) {
 		return clubRepository.delAttachment(id);
 	}

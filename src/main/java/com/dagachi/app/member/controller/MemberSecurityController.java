@@ -57,9 +57,9 @@ import com.google.gson.JsonObject;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Controller
 @Slf4j
 @Validated
+@Controller
 @RequestMapping("/member")
 public class MemberSecurityController {
 

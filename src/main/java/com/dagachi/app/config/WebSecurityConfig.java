@@ -53,9 +53,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
    @Override
    protected void configure(HttpSecurity http) throws Exception {
       http.authorizeRequests()
-         .antMatchers("/", "/index.jsp", "/club/categoryList.do", "/club/clubList.do", "/admin/mainBannerList.do", "/club/clubSearch.do", "/member/memberCreate.do", "/member/sendCode.do", "/member/checkNicknameDuplicate.do", 
-               "/member/checkEmailDuplicate.do", "/memberSearchId.do","/member/memebrInsertEmail.do",
-               "/searchPw.do","/member/searchIdResult.jsp","/searchIdResult.jsp","/resources/WEB-INF/views/member/searchIdResult.jsp","/resources/WEB-INF/views/member/searchIdResult.jsp","/member/searchId.do","/member/memberSearchId.do","/member/searchPw.do","/member/sendCode.do","/member/memberPwUpdate.jsp","/memberPwUpdate.jsp","/member/searchPw.do","/sendCode.do","/searchPw.do","/member/memberPwUpdate.do","/member/{email}/memberPwUpdate.do").permitAll() //요청은 모든 사용자에게 허용
+         .antMatchers("/", "/index.jsp", "/club/categoryList.do", "/club/clubList.do", 
+        		"/admin/mainBannerList.do", "/club/clubSearch.do", "/member/memberCreate.do", 
+        		"/member/sendCode.do", "/member/checkNicknameDuplicate.do", 
+	            "/member/checkEmailDuplicate.do", "/memberSearchId.do","/member/memebrInsertEmail.do",
+	            "/searchPw.do","/member/searchIdResult.jsp","/searchIdResult.jsp",
+	            "/resources/WEB-INF/views/member/searchIdResult.jsp",
+	            "/resources/WEB-INF/views/member/searchIdResult.jsp","/member/searchId.do","/member/memberSearchId.do",
+	            "/member/searchPw.do","/member/sendCode.do","/member/memberPwUpdate.jsp","/memberPwUpdate.jsp",
+               	"/member/searchPw.do","/sendCode.do","/searchPw.do","/member/memberPwUpdate.do",
+               	"/member/{email}/memberPwUpdate.do").permitAll() //요청은 모든 사용자에게 허용
          .antMatchers("/member/memberLogin.do","/member/searchId.do","/member/searchPw.do").anonymous()
          .antMatchers("/admin/**").hasAuthority("ADMIN")
          .anyRequest().authenticated(); //(로그인한) 사용자에게만 허용된다는 것을 의미
@@ -78,7 +85,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
          .logoutSuccessUrl("/")
          .permitAll();
       
-// 보안상의 이유로 key값 무작위로 받아오는 코드부분
+      // 보안상의 이유로 key값 무작위로 받아오는 코드부분
       SecureRandom random = new SecureRandom(); 
       byte[] keyBytes = new byte[64];
        random.nextBytes(keyBytes);
