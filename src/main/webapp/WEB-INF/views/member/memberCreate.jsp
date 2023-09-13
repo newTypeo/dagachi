@@ -29,7 +29,7 @@
           <div>회원 가입</div>
       </div> 
       
-<     <legend class="sub_title">간편 회원가입</legend>  
+     <legend class="sub_title">간편 회원가입</legend>  
 		 <a href="${pageContext.request.contextPath}/oauth2/authorization/kakao">
 			<img src="${pageContext.request.contextPath}/resources/images/kakaoL.png" alt="카카오 로그인">
 		 </a> 
@@ -80,7 +80,7 @@
 			    <div id="nickname-container">
 			        <input type="text" class="form-control" name="nickname" id="nickname"   placeholder="닉네임을 입력해주세요." required>
 			        <span class="nickname error" style="color: GRAY; font-size: 12px;">이 닉네임은 이미 사용중입니다.</span>
-			        <span class="nickname reg" style="color: GRAY; font-size: 12px;">특수문자가 안들어간 5~10자리여야합니다.</span>
+			        <span class="nickname reg" style="color: GRAY; font-size: 12px;">특수문자가 안들어간 2~10자리여야합니다.</span>
 			        <input type="hidden" id="nicknameValid" value="0"/>
 			    </div>		  
          </div>   
@@ -540,7 +540,7 @@ document.addEventListener('click', (e) => {
     // 사용자가 확인 버튼 클릭시 활동지역을 activity_area 요소에 설정하고 모달 창을 닫음
     if (clickedElement.matches("#main-area-id-confirm-btn")) {
        document.querySelector("#main_area_id").value = mainAreaIdSearchBox.value;
-       $('#main-area-modal').modal('hide');
+       $('#main-area-id-modal').modal('hide');
        mainAreaIdValid.value = "1";
     }
     checkConditions();
@@ -629,7 +629,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const nicknameError = document.querySelector(".nickname.error");
   const nicknameRegMsg = document.querySelector(".nickname.reg");
   const nicknameValid = document.querySelector("#nicknameValid");
-  const nicknameReg = /^[a-zA-Z0-9가-힣]{5,10}$/;
+  const nicknameReg = /^[a-zA-Z0-9가-힣]{2,10}$/;
 
   nicknameInput.onkeyup = () => {
     const value = nicknameInput.value;
@@ -803,11 +803,24 @@ var _interestValid = document.getElementById("interestValid");
 var _activityAreaValid = document.getElementById("activityAreaValid");
 var _mainAreaIdValid = document.getElementById("mainAreaIdValid");
 var _agreementValid = document.getElementById("agreementValid");
-
 var enrollbtn = document.querySelector(".enrollbtn button[type='submit']");
 
 function checkConditions() {
-	 console.log('checkConditions');
+	
+	 
+/* 	 console.log(_nicknameValid);
+	 console.log(_nameValid);
+	 console.log(_passwordConfirmationValid);
+	 console.log(_passwordValid);
+	 console.log(_idValid);
+	 console.log(_emailValid);
+	 console.log(_emailCkValid);
+	 console.log(_phoneNoValid);
+	 console.log(_interestValid);
+	 console.log(_activityAreaValid);
+	 console.log(_mainAreaIdValid);
+	 console.log(_agreementValid); */
+
     const validConditions = [
         _idValid,
         _passwordValid,
@@ -821,8 +834,9 @@ function checkConditions() {
         _mainAreaIdValid,
         _agreementValid,
     ];
-    console.log(validConditions);
+    
     const isValid = validConditions.every(tag => tag.value === "1" && tag.value !== "");
+    
     if (isValid) {
     	enrollbtn.removeAttribute("disabled");
     } else {
@@ -831,7 +845,13 @@ function checkConditions() {
 }
 
 
-</script>
 
+</script>
+	 
+
+	
+	 
+	 
+	 
  <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include> 
    

@@ -53,9 +53,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
    @Override
    protected void configure(HttpSecurity http) throws Exception {
       http.authorizeRequests()
-         .antMatchers("/", "/index.jsp", "/club/categoryList.do", "/club/clubList.do", 
+         .antMatchers("/", "/index.jsp", "/club/categoryList.do", "/club/clubList.do", "/club/findAddress.do",
         		"/admin/mainBannerList.do", "/club/clubSearch.do", "/member/memberCreate.do", 
-        		"/member/sendCode.do", "/member/checkNicknameDuplicate.do", 
+        		"/member/sendCode.do", "/member/checkNicknameDuplicate.do", "/member/checkIdDuplicate.do",
 	            "/member/checkEmailDuplicate.do", "/memberSearchId.do","/member/memebrInsertEmail.do",
 	            "/searchPw.do","/member/searchIdResult.jsp","/searchIdResult.jsp",
 	            "/resources/WEB-INF/views/member/searchIdResult.jsp",
