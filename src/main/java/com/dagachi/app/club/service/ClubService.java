@@ -108,12 +108,6 @@ public interface ClubService {
 	
 	int insertClubRecentVisitd(String memberId, int clubId);
 
-
-	List<ClubRecentVisited> findAllrecentVisitClubs();
-
-	int checkDuplicateClubId(int clubId);
-
-
 	int updateThumbnail(ClubBoardAttachment clubBoardAttachment);
 
 	List<ClubAndImage> categoryList(String category);

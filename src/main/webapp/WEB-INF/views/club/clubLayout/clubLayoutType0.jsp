@@ -12,7 +12,7 @@
 <article id="club-page-article">
 	<div id="club-util-box">
 		<div id="club-info-container">
-			<button type="button" class="btn btn-danger" id="clubLike" onclick="clubLike('${domain}', '${pageContext.request.contextPath}')">❤️</button>
+			<button type="button" class="btn btn-danger" id="clubLike" onclick="clubLike()">❤️</button>
 			<h5>🚩${clubInfo.clubName}</h5>
 			<span class="fontColors">since 
 				<fmt:parseDate value="${clubInfo.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="createdAt"/>
@@ -49,12 +49,8 @@
 					</c:if>
 				</div>
 				<div class="myProfile3">
-					<button id="boardCreateBtn" class="btn" 
-						style="background-color: ${layout.fontColor}">글쓰기
-					</button>
-					<button id="scheduleCreateBtn" class="btn" 
-						style="background-color: ${layout.fontColor}">일정생성
-					</button>
+					<button id="boardCreateBtn" class="btn" style="background-color: ${layout.fontColor}">글쓰기</button>
+					<button id="scheduleCreateBtn" class="btn" style="background-color: ${layout.fontColor}">일정생성</button>
 				</div>
 			</c:if>
 			<c:if test="${memberRole eq 10}">
@@ -116,14 +112,14 @@
 				<c:if test="${board.type eq 4}">
 					<div>
 						<span class="badge badge-danger">공지</span>
-						<a class="fontColors" href="${pageContext.request.contextPath}/club/${domain}/boardDetail.do?no=${board.boardId}">${board.title}</a>
+						<a class="fontColors" href="${pageContext.request.contextPath}/club/sportsclub/boardDetail.do?no=${board.boardId}">${board.title}</a>
 						<span>
 							<fmt:parseDate value="${board.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="createdAt"/>
 	    					<fmt:formatDate value="${createdAt}" pattern="yy.MM.dd HH:mm"/>
 						</span>
 						<span>❤${board.likeCount < 100 ? board.likeCount : '99+'}</span>
 						<a href="/" class="fontColors">
-							${board.nickname}
+							${board.writer}
 						</a>
 					</div>
 				</c:if>
@@ -143,14 +139,14 @@
 				<c:if test="${board.type eq 1}">
 					<div>
 						<span class="pointColors">·</span>
-						<a class="fontColors" href="${pageContext.request.contextPath}/club/${domain}/boardDetail.do?no=${board.boardId}">${board.title}</a>
+						<a class="fontColors" href="${pageContext.request.contextPath}/club/sportsclub/boardDetail.do?no=${board.boardId}">${board.title}</a>
 						<span>
 							<fmt:parseDate value="${board.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="createdAt"/>
 	    					<fmt:formatDate value="${createdAt}" pattern="MM.dd HH:mm"/>
 						</span>
 						<span>❤${board.likeCount < 100 ? board.likeCount : '99+'}</span>
 						<a href="/" class="fontColors">
-							${board.nickname}
+							${board.writer}
 						</a>
 					</div>
 				</c:if>
@@ -189,14 +185,14 @@
 					<c:if test="${board.type eq 3}">
 						<div>
 							<span class="pointColors">·</span>
-							<a class="fontColors" href="${pageContext.request.contextPath}/club/${domain}/boardDetail.do?no=${board.boardId}">${board.title}</a>
+							<a class="fontColors" href="${pageContext.request.contextPath}/club/sportsclub/boardDetail.do?no=${board.boardId}">${board.title}</a>
 							<span>
 								<fmt:parseDate value="${board.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="createdAt"/>
 		    					<fmt:formatDate value="${createdAt}" pattern="MM.dd HH:mm"/>
 							</span>
 							<span>❤${board.likeCount < 100 ? board.likeCount : '99+'}</span>
 							<a href="/" class="fontColors">
-								${board.nickname}
+								${board.writer}
 							</a>
 						</div>
 					</c:if>
@@ -217,14 +213,14 @@
 				<c:if test="${board.type eq 2}">
 					<div>
 						<span class="pointColors">·</span>
-						<a class="fontColors" href="${pageContext.request.contextPath}/club/${domain}/boardDetail.do?no=${board.boardId}">${board.title}</a>
+						<a class="fontColors" href="${pageContext.request.contextPath}/club/sportsclub/boardDetail.do?no=${board.boardId}">${board.title}</a>
 						<span>
 							<fmt:parseDate value="${board.createdAt}" pattern="yyyy-MM-dd'T'HH:mm" var="createdAt"/>
 	    					<fmt:formatDate value="${createdAt}" pattern="MM.dd HH:mm"/>
 						</span>
 						<span>❤${board.likeCount < 100 ? board.likeCount : '99+'}</span>
 						<a href="/" class="fontColors">
-							${board.nickname}
+							${board.writer}
 						</a>
 					</div>
 				</c:if>
@@ -253,7 +249,7 @@
     					<fmt:formatDate value="${endDate}" pattern="MM.dd"/>
 					</span>
 					<a href="/" class="fontColors">
-						${schedule.nickname}
+						${schedule.writer}
 					</a>
 				</div>
 			</c:forEach>
@@ -306,6 +302,7 @@ const clubMemberDelete = () => {
 
 //창환(모임 신고)
 document.querySelector("#clubReport").onclick = () => {
+	console.log('Type0');
 	$("#reportModal")
 	.modal()
 	.on('shown.bs.modal', () => {
@@ -340,39 +337,33 @@ const clubReportSubmit = () => {
 };
 
 
-//모임 좋아요 (현우)
-function clubLike(domain, contextPath) {
-    // 찜 목록에 해당 클럽이 있는 지 확인.
-    $.ajax({
-        url: contextPath + "/club/clubLikeCheck.do",
-        data: { domain },
-        success(responseData) {
-            if (responseData) {
-                if (confirm("찜하신 모임을 취소하시겠습니까?")) {
-                    document.deleteClubLikeFrm.submit();
-                    alert("성공적으로 모임 찜을 취소했습니다.");
-                }
-
-            } else {
-
-                if (confirm("모임을 찜 하시겠습니까?")) {
-                    var clubLikeFrm = document.forms["clubLikeFrm"];
-                    if (clubLikeFrm) {
-                        clubLikeFrm.submit();
-                        alert("성공적으로 모임 찜을 완료했습니다.");
-                    } else {
-                        console.log("Form not found");
-                    }
-                }
-
-            }
-
-        }
-    });
-	
-	
-}
-
+const clubLike = () => {
+	//모임 좋아요 (현우)
+		// 찜 목록에 해당클럽이 있는 지 확인.
+		const domain = "${domain}";
+		$.ajax({
+			url : "${pageContext.request.contextPath}/club/clubLikeCheck.do",
+			data : {domain},
+			success(responseData) {
+				console.log(responseData);
+				if (responseData) {
+					if(confirm("찜하신 모임을 취소하시겠습니까?")) {
+						document.deleteClubLikeFrm.submit();
+						alert("성공적으로 모임 찜을 취소했습니다.");
+					}
+					
+				} else {
+					
+						if(confirm("모임을 찜 하시겠습니까?")) {
+					    	document.clubLikeFrm.submit();
+							alert("성공적으로 모임 찜을 완료했습니다.");
+						} 
+					}
+					
+				}
+						
+			});
+		}
 </script>
 
 <c:if test="${memberRole ne 10}">

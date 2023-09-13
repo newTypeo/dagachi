@@ -1,7 +1,6 @@
 package com.dagachi.app.club.controller;
 
-import static com.dagachi.app.common.DagachiUtils.getAreaNamesByDistance;
-import static com.dagachi.app.common.DagachiUtils.kakaoMapApi;
+import static com.dagachi.app.common.DagachiUtils.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -72,7 +71,6 @@ import com.dagachi.app.club.entity.ClubGalleryDetails;
 import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
-import com.dagachi.app.club.entity.ClubRecentVisited;
 import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.club.service.ClubService;
 import com.dagachi.app.common.DagachiUtils;
@@ -106,7 +104,7 @@ public class ClubController {
 	static final int LIMIT = 10;
 
 	static final Map<Integer, Double> ANGLEPATTERN // km(key)별로 360도를 나눌 각도(value)
-			= Map.of(1, 45.0, 2, 30.0, 3, 22.5, 4, 18.0, 5, 15.0, 6, 11.25, 7, 9.0); // , 8, 7.5, 9, 6.0, 10, 5.0
+				= Map.of(1, 45.0, 2, 30.0, 3, 22.5, 4, 18.0, 5, 15.0, 6, 11.25, 7, 9.0); // , 8, 7.5, 9, 6.0, 10, 5.0
 
 	@Autowired
 	private MemberService memberService;
@@ -174,7 +172,6 @@ public class ClubController {
 
 	/**
 	 * 게시판 조회
-	 * 
 	 * @author 상윤
 	 */
 	@GetMapping("/{domain}/clubBoardList.do")
@@ -195,7 +192,6 @@ public class ClubController {
 
 	/**
 	 * 게시글 작성 페이지 반환
-	 * 
 	 * @author 상윤
 	 */
 	@GetMapping("/{domain}/clubBoardCreate.do")
@@ -214,7 +210,6 @@ public class ClubController {
 
 	/**
 	 * 모임내 게시글 작성
-	 * 
 	 * @author 상윤, 종환
 	 */
 	@PostMapping("/{domain}/boardCreate.do")
@@ -244,7 +239,6 @@ public class ClubController {
 
 	/**
 	 * 게시글 작성 시 첨부파일이 있는 경우 저장
-	 * 
 	 * @author 상윤
 	 */
 	public List<ClubBoardAttachment> insertAttachment(List<MultipartFile> upFiles,
@@ -311,7 +305,6 @@ public class ClubController {
 
 	/**
 	 * 메인에서 모임 검색 후 필터 추가 검색
-	 * 
 	 * @author 종환
 	 */
 	@GetMapping("/searchClubWithFilter.do")
@@ -352,12 +345,10 @@ public class ClubController {
 	}
 
 	@GetMapping("/chatList.do")
-	public void chatList() {
-	}
+	public void chatList() {}
 
 	@GetMapping("/chatRoom.do")
-	public void chatRoom() {
-	}
+	public void chatRoom() {}
 
 	/**
 	 * 가입신청 승인 & 거절 - 승인시에는 dto.isPermit이 true로 온다.
@@ -411,7 +402,6 @@ public class ClubController {
 		if (!"".equals(category))
 			params.put("category", category); // 사용자가 카테고리를 선택했을 때만 params에 추가
 		List<ClubSearchDto> clubs = clubService.findClubByDistance(params);
-//		log.debug("ClubSearchDto = {}", clubs);
 
 		return ResponseEntity.status(HttpStatus.OK).body(clubs);
 	}
@@ -460,13 +450,12 @@ public class ClubController {
 
 	/**
 	 * 인덱스 페이지에서 클럽 상세보기 할 때 매핑입니다. 도메인도 domain 변수 안에 넣어놨습니다. (창환) - layout 가져오도록
-	 * 
 	 * @author 동찬
 	 */
 	@GetMapping("/{domain}")
 	public String clubDetail(@PathVariable("domain") String domain, @AuthenticationPrincipal MemberDetails member,
 			Model model) {
-
+		// ===================== 요청 1개로 합칠 것 ===============================
 		int clubId = clubService.clubIdFindByDomain(domain);
 		ClubLayout layout = clubService.findLayoutById(clubId);
 
@@ -474,26 +463,24 @@ public class ClubController {
 
 		List<GalleryAndImageDto> galleries = clubService.findgalleryById(clubId);
 		List<ClubScheduleAndMemberDto> schedules = clubService.findScheduleById(clubId);
-		List<BoardAndImageDto> boardAndImages = clubService.findBoardAndImageById(clubId);
+		List<BoardAndImageDto> boardAndImages = clubService.findBoardAndImageById(clubId); // (1)
+		// =====================================================================
+		// 쿼리 덩치가 너무 크면 프로시저 생성하는 방법 알아보기
+		
 		String memberId = member.getMemberId();
 		for (BoardAndImageDto board : boardAndImages) {
-			board.setNickname(chatService.getNicknameById(board.getWriter()));
+			board.setNickname(chatService.getNicknameById(board.getWriter())); // (1)요청에 포함시킬 것
 		}
 		for (ClubScheduleAndMemberDto schedule : schedules) {
-			schedule.setNickname(chatService.getNicknameById(schedule.getWriter()));
+			schedule.setNickname(chatService.getNicknameById(schedule.getWriter())); // 이것도 마찬가지 합칠 수 있는 곳으로
 		}
 
-		// 최근 본 모임 전체 조회 (현우)
-		List<ClubRecentVisited> recentVisitClubs = clubService.findAllrecentVisitClubs();
-		
 		Map<String, Object> params = Map.of(
 				 "memberId", memberId,
 				 "clubId", clubId
 				 );
 		
-		int checkDuplicate = clubService.checkDuplicateClubId(clubId);
 		int checkDuplicated = clubService.checkDuplicateClubIdAndId(params);
-//		log.debug("recentVisitClubs = {}", recentVisitClubs);
 
 		// 최근 본 모임 클릭 시 중복검사 후 db에 삽입
 		if (checkDuplicated == 0) {
@@ -704,8 +691,6 @@ public class ClubController {
 
 		List<BoardComment> _comments = clubService.findComments(no);
 		List<BoardCommentDto> comments = new ArrayList<>();
-		// List<MemberProfile> clubProfiles =
-		// memberService.findMemberProfileByClubId(clubBoard.getClubId());
 
 		if (!_comments.isEmpty()) {
 			for (BoardComment comment : _comments) {
@@ -719,11 +704,11 @@ public class ClubController {
 
 		model.addAttribute("liked", liked);
 		model.addAttribute("layout", layout);
-		model.addAttribute("clubName", club.getClubName());
 		model.addAttribute("comments", comments);
 		model.addAttribute("nickname", nickname);
 		model.addAttribute("clubBoard", clubBoard);
 		model.addAttribute("attachments", attachments);
+		model.addAttribute("clubName", club.getClubName());
 		model.addAttribute("ClubMemberRole", ClubMemberRole);
 
 		return "/club/clubBoardDetail";
@@ -786,7 +771,6 @@ public class ClubController {
 
 		Map<String, Object> params = Map.of("type", 2, "like", like, "board", board, "targetId", boardId, "memberId",
 				memberId);
-//		log.debug("params = {}", params);
 
 		int result = 0;
 		if (like) {
@@ -842,9 +826,11 @@ public class ClubController {
 		if (!upFiles.isEmpty() && upFiles != null)
 			attachments = insertAttachment(upFiles, attachments);
 
-		ClubBoardDetails clubBoard = ClubBoardDetails.builder().attachments(attachments).title(_board.getTitle())
-				.status(_board.getStatus()).content(_board.getContent()).likeCount(_board.getLikeCount())
-				.type(_board.getType()).boardId(_board.getBoardId()).build();
+		ClubBoardDetails clubBoard = ClubBoardDetails.builder()
+													 .status(_board.getStatus()).content(_board.getContent())
+													 .likeCount(_board.getLikeCount()).type(_board.getType())
+													 .attachments(attachments).title(_board.getTitle())
+													 .boardId(_board.getBoardId()).build();
 
 		int result = clubService.updateBoard(clubBoard);
 
