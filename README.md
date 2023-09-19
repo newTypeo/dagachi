@@ -1,7 +1,8 @@
-
+<div align=center>
+  
 ![상단이미지](https://github.com/newTypeo/dagachi/blob/master/src/main/webapp/resources/images/004.png?raw=true)
 
-<br /> <br />
+</div>
 
 # 다가치 (다같이 가치있게!)
 <div align=center>
@@ -86,8 +87,6 @@
 ## 🧑🏻‍💻 개발 기간 & 조원
 ✔️ 2023.08.14 - 2023.09.05
 <br />
-✔️ 멤버 이름 클릭 시, 해당 멤버의 깃허브를 방문하실 수 있습니다.
-<br /> <br />
 <div align=center>
 
 |  [김나영](https://github.com)  | [김준한](https://github.com) | [김동찬](https://github.com) | [김창환](https://github.com) |
