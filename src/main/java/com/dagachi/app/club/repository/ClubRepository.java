@@ -257,7 +257,7 @@ public interface ClubRepository {
 	@Update("update club_layout set main_content = #{mainContent} where club_id = #{clubId}")
 	int updateClubMainContent(ClubLayout clubLayout);
 	
-	@Select("select count(*) from cbc_like where target_id = #{targetId} and type = 2")
+	@Select("select count(*) from cbc_like where target_id = #{targetId} and type = 1")
 	int checkDuplicateClubLike(int targetId);
 	
 	@Insert("insert into cbc_like values(#{memberId}, 1, #{targetId}, default)")
