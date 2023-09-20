@@ -73,8 +73,10 @@ const renderMessage = (message) => {
 						pro=proList[i]["userProfileName"];
 				}
 			}
+			
 			if(pro === "")
 				pro=loadPro(from,to);
+				
 		 	if(from === memberId)
 		 		divbox.className = 'chat ch2';
 		 	else{

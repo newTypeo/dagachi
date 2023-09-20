@@ -133,7 +133,7 @@
 		</article>
 
 	</sec:authorize>
-	<script>
+<script>
 const loadPro=(from,to)=>{
 	let pro="";
 	$.ajax({
@@ -171,16 +171,16 @@ document.querySelector("#snedMsg").addEventListener("click",()=>{
 		return false;
 	}
 	const payload = {
-			type : "MOIMTALK",
-			from : memberId,
-			to : clubId,
-			content : content,
-			createdAt : Date.now()
-		};
-		
-		const url = `/app/clubTalk/\${payload.to}`;
-		
-		stompClient.send(url, null, JSON.stringify(payload));
+		type : "MOIMTALK",
+		from : memberId,
+		to : clubId,
+		content : content,
+		createdAt : Date.now()
+	};
+	
+	const url = `/app/clubTalk/\${payload.to}`;
+	
+	stompClient.send(url, null, JSON.stringify(payload));
 
 	msgbox.focus();
 });

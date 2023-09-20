@@ -34,13 +34,11 @@ public class notificationServiceImpl implements NotificationService {
 	
 	@Override
 	public int sendChatalarm(ChatLog chatlog) {
+		
 		List<ClubMemberAndImage> members=clubService.findClubMembers(chatlog.getClubId());
 		String clubName= clubService.findClubInfoById(chatlog.getClubId()).getClubName();
 		
-		
-		
 		int result=0;
-		System.out.println("chat 알람 확인");
 		for(ClubMemberAndImage member : members) {
 			String to=member.getMemberId();
 			if(!to.equals(chatlog.getWriter())) {
