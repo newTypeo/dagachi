@@ -6,6 +6,9 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import com.dagachi.app.chat.dto.ChatDetail;
+import com.dagachi.app.chat.dto.ChatListDetail;
+import com.dagachi.app.chat.dto.ClubInfo;
 import com.dagachi.app.chat.entity.ChatLog;
 import com.dagachi.app.chat.entity.ChatLogDetail;
 import com.dagachi.app.ws.dto.Payload;
@@ -25,6 +28,12 @@ public interface ChatRepository {
 
 	@Select("select nickname from member where member_id = #{writer}")
 	String getNicknameById(String writer);
+	
+	ChatListDetail findByRecentChatDetail(int clubId);
+
+	ClubInfo findByClubInfo(int clubId);
+
+	List<ChatDetail> findClubChat(int no);
 
 
 }

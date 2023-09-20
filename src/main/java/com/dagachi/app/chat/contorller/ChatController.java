@@ -1,5 +1,6 @@
 package com.dagachi.app.chat.contorller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.dagachi.app.chat.dto.ChatDetail;
+import com.dagachi.app.chat.dto.ChatListDetail;
+import com.dagachi.app.chat.dto.ClubInfo;
 import com.dagachi.app.chat.entity.ChatLog;
 import com.dagachi.app.chat.entity.ChatLogDetail;
 import com.dagachi.app.chat.service.ChatService;
@@ -43,57 +47,76 @@ public class ChatController {
 
 		return "chat/chatBox";
 	}
-
+	
 	@GetMapping("/chat/findChatList.do")
 	public ResponseEntity<?> findChatList(
 			@RequestParam int clubId
 	) {
-		Club club = clubService.findClubById(clubId);
-		String clubName= club.getClubName();
-		ClubProfile clubProfile = clubService.findClubProfileById(clubId);
-		String filename = clubProfile.getRenamedFilename();
 		
 		ChatLogDetail chatlog = chatService.findByRecentChat(clubId);
+		ClubInfo clubInfo=new ClubInfo();
 		
-		if (chatlog != null) {
-			String writer = chatlog.getWriter();
-			chatlog.setNickname(chatService.getNicknameById(writer));
-		}
+		ChatListDetail chatList= new ChatListDetail();
 		
-		log.debug("chatlog={}",chatlog);
-		log.debug("clubName={}",clubName);
+		
+		if(chatlog !=null)
+			chatList=chatService.findByRecentChatDetail(clubId);
+		else 
+			clubInfo=chatService.findByClubInfo(clubId);
 		
 		Map<String, Object> data = new HashMap<>();
-		data.put("cahtlog", chatlog);
-		data.put("clubName", clubName);
-		data.put("clubProfile", filename);
+		data.put("chatList", chatList);
+		data.put("clubInfo", clubInfo);
 		
 		
 		return ResponseEntity.status(HttpStatus.OK).body(data);
 	}
+
+	
+	
 	
 	@GetMapping("/chatRoom")
 	public void chatRoom(
 			@RequestParam int no,
 			Model model
 	) {
-		List<ChatLogDetail> chatlogs=chatService.clubChat(no);
 		
-		for(ChatLogDetail chatlog : chatlogs) {
-			String writer = chatlog.getWriter();
-			chatlog.setNickname(chatService.getNicknameById(writer));
-		}
-		log.debug("cahtlogs={}",chatlogs);
+		
+		List<ChatDetail> chatlogs=chatService.findClubChat(no);
+		//log.debug("chatlogs={}",chatlogs);
 		int clubId=no;
 		
-		List<MemberProfile> memberProfiles = memberService.findMemberProfileByClubId(clubId);
-		
-		
-		model.addAttribute("clubId",clubId);
-		model.addAttribute("memberProfiles",memberProfiles);
 		model.addAttribute("chatlogs",chatlogs);
+		model.addAttribute("clubId",clubId);
+
 		
 	}
+
+	
+	
+	
+	
+	
+	/*
+	 * @GetMapping("/chatRoom22") public void chatRoom22(
+	 * 
+	 * @RequestParam int no, Model model ) { List<ChatLogDetail>
+	 * chatlogs=chatService.clubChat(no);
+	 * 
+	 * for(ChatLogDetail chatlog : chatlogs) { String writer = chatlog.getWriter();
+	 * chatlog.setNickname(chatService.getNicknameById(writer)); }
+	 * log.debug("cahtlogs={}",chatlogs); int clubId=no;
+	 * 
+	 * List<MemberProfile> memberProfiles =
+	 * memberService.findMemberProfileByClubId(clubId);
+	 * 
+	 * 
+	 * model.addAttribute("clubId",clubId);
+	 * model.addAttribute("memberProfiles",memberProfiles);
+	 * model.addAttribute("chatlogs",chatlogs);
+	 * 
+	 * }
+	 */
 	
 	@GetMapping("/findWriterProfile.do")
 	public ResponseEntity<?> findWriterProfile(

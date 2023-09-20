@@ -34,13 +34,13 @@ public class notificationServiceImpl implements NotificationService {
 	
 	@Override
 	public int sendChatalarm(ChatLog chatlog) {
-	
-		
 		List<ClubMemberAndImage> members=clubService.findClubMembers(chatlog.getClubId());
 		String clubName= clubService.findClubInfoById(chatlog.getClubId()).getClubName();
 		
-		int result=0;
 		
+		
+		int result=0;
+		System.out.println("chat 알람 확인");
 		for(ClubMemberAndImage member : members) {
 			String to=member.getMemberId();
 			if(!to.equals(chatlog.getWriter())) {
@@ -51,12 +51,7 @@ public class notificationServiceImpl implements NotificationService {
 						.content(clubName)
 						.build();
 				
-				Alarm alarm = Alarm.builder()
-						.receiver(to)
-						.sender(chatlog.getWriter())
-						.content(clubName)
-						.type(PayloadType.CHATNOTICE)
-						.build();
+				Alarm alarm = getAlarm(payload);
 				
 				result= notificationRepository.insertChatAlarm(alarm);
 				
@@ -163,6 +158,7 @@ public class notificationServiceImpl implements NotificationService {
 				.receiver(payload.getTo())
 				.sender(payload.getFrom())
 				.type(payload.getType())
+				.content(payload.getContent())
 				.build();
 		
 		return alarm;

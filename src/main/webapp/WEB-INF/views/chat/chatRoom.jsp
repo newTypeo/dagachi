@@ -97,12 +97,8 @@
 						<c:if test="${chatlog.writer ne memberId}">
 							<div class="chat ch1">
 								<div class="icon">
-									<c:forEach items="${memberProfiles}" var="memberProfile">
-										<c:if test="${memberProfile.memberId eq chatlog.writer}">
 											<img alt=""
-												src="${pageContext.request.contextPath}/resources/upload/member/profile/${memberProfile.renamedFilename}" class="resized-image" />
-										</c:if>
-									</c:forEach>
+												src="${pageContext.request.contextPath}/resources/upload/member/profile/${chatlog.renamedFilename}" class="resized-image" />
 								</div>
 								<div>
 									<div class="chatIdPrintL">

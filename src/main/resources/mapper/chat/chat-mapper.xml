@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dagachi.app.chat.repository.ChatRepository">
+
+	<select id="findByRecentChatDetail" resultType="chatListDetail">
+		SELECT 
+		 chat_subquery.*,
+		 club.club_name,
+		 pro.renamed_filename,
+		 m.nickname
+		FROM (
+		  SELECT *
+		  FROM (
+		    SELECT *
+		    FROM chat_log
+		    WHERE club_id = #{clubId}
+		    ORDER BY id DESC
+		  )
+		  WHERE ROWNUM = 1
+		) chat_subquery
+		JOIN club 
+		ON chat_subquery.club_Id = club.club_id 
+		join club_profile pro
+		on club.club_id = pro.club_id
+		join member m
+		on chat_subquery.writer = m.member_id
+	</select>
+	
+	<select id="findByClubInfo" resultType="clubInfo">
+	select
+	     c.club_id,
+	     c.club_name,
+	    pro.renamed_filename
+	from
+	    club c 
+	    join club_profile pro
+	    on c.club_id= pro.club_id
+	where c.club_id= #{clubId}
+	
+	
+	</select>
+	
+	<select id="findClubChat" resultType="chatDetail">
+
+		select
+		    chat.*,
+		    m.nickname,
+		    pro.renamed_filename
+		from
+		    chat_log chat
+		     join member m
+		        on chat.writer = m.member_Id
+		    join member_profile pro
+		        on chat.writer = pro.member_id
+		 where chat.club_id=#{no}
+		order by chat.id
+	</select>
+	
+</mapper>
+
