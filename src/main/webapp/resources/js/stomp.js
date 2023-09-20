@@ -67,18 +67,14 @@ const renderMessage = (message) => {
 		 	const divbox=document.createElement('div');
 			let pro="";
 			const namebox=document.createElement('div');
-			
 			if(proList.length>0){
 				for(let i=0; i<proList.length; i++){
-					if(proList[i]["userName"]===from){
+					if(proList[i]["userName"]===from)
 						pro=proList[i]["userProfileName"];
-					}
 				}
 			}
-			
 			if(pro === "")
 				pro=loadPro(from,to);
-			
 		 	if(from === memberId)
 		 		divbox.className = 'chat ch2';
 		 	else{
@@ -88,7 +84,6 @@ const renderMessage = (message) => {
 		 		`;
 		 		chatWrap.appendChild(namebox);
 		 	}
-		 		
 		 	divbox.innerHTML=`
 	            <div class="icon">
 	           		<img alt="" src="${root}/resources/upload/member/profile/${pro}" class="resized-image" />
@@ -96,7 +91,6 @@ const renderMessage = (message) => {
 	            <div class="textbox">${content}</div>
 	      	 	</div>
 		 	` ;
-		 	
 		 	chatWrap.appendChild(divbox);
 	      	 document.querySelector("#chatWrap").scrollTop = document.querySelector("#chatWrap").scrollHeight;
 	 	 break;
