@@ -58,5 +58,6 @@
 		order by chat.id
 	</select>
 	
+	
 </mapper>
 

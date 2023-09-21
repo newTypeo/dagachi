@@ -27,7 +27,6 @@ const renderMessage = (message) => {
 	const {type, from, to, content, createdAt} = JSON.parse(message.body);
 	
 	
-	
 	switch(type){
 	
 		case "CHATNOTICE":
@@ -73,8 +72,10 @@ const renderMessage = (message) => {
 						pro=proList[i]["userProfileName"];
 				}
 			}
+			
 			if(pro === "")
 				pro=loadPro(from,to);
+				
 		 	if(from === memberId)
 		 		divbox.className = 'chat ch2';
 		 	else{
@@ -93,6 +94,9 @@ const renderMessage = (message) => {
 		 	` ;
 		 	chatWrap.appendChild(divbox);
 	      	 document.querySelector("#chatWrap").scrollTop = document.querySelector("#chatWrap").scrollHeight;
+	 		
+	 		sendAlarms(from);
+	 		
 	 	 break;
 	 	 
 	 	 

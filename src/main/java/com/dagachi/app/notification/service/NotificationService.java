@@ -7,6 +7,7 @@ import com.dagachi.app.club.dto.JoinClubMember;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.member.entity.MemberDetails;
 import com.dagachi.app.notification.entity.Alarm;
+import com.dagachi.app.ws.dto.Payload;
 
 public interface NotificationService {
 
@@ -21,6 +22,8 @@ public interface NotificationService {
 	int permitApply(Club club, String memberId, JoinClubMember master);
 
 	int refuseApply(Club club, String memberId, JoinClubMember master);
+
+	int insertAlarm(Payload payload);
  
 	
 	

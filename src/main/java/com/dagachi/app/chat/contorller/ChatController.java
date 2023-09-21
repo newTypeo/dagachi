@@ -54,8 +54,8 @@ public class ChatController {
 	) {
 		
 		ChatLogDetail chatlog = chatService.findByRecentChat(clubId);
-		ClubInfo clubInfo=new ClubInfo();
 		
+		ClubInfo clubInfo=new ClubInfo();
 		ChatListDetail chatList= new ChatListDetail();
 		
 		
@@ -92,31 +92,6 @@ public class ChatController {
 		
 	}
 
-	
-	
-	
-	
-	
-	/*
-	 * @GetMapping("/chatRoom22") public void chatRoom22(
-	 * 
-	 * @RequestParam int no, Model model ) { List<ChatLogDetail>
-	 * chatlogs=chatService.clubChat(no);
-	 * 
-	 * for(ChatLogDetail chatlog : chatlogs) { String writer = chatlog.getWriter();
-	 * chatlog.setNickname(chatService.getNicknameById(writer)); }
-	 * log.debug("cahtlogs={}",chatlogs); int clubId=no;
-	 * 
-	 * List<MemberProfile> memberProfiles =
-	 * memberService.findMemberProfileByClubId(clubId);
-	 * 
-	 * 
-	 * model.addAttribute("clubId",clubId);
-	 * model.addAttribute("memberProfiles",memberProfiles);
-	 * model.addAttribute("chatlogs",chatlogs);
-	 * 
-	 * }
-	 */
 	
 	@GetMapping("/findWriterProfile.do")
 	public ResponseEntity<?> findWriterProfile(

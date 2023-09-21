@@ -38,7 +38,6 @@ public class DagachiUtils {
 	public static JsonArray kakaoMapApi(String keyword, String searchType) throws UnsupportedEncodingException {
 		String apiKey = "0b08c9c74b754bc22377c45ec5ce2736";
 		String query = keyword; // 검색할 행정동 정보
-		
 	    String encodedQuery = URLEncoder.encode(query, "UTF-8");
 	    String url = "https://dapi.kakao.com/v2/local/search/" 
 	    		+ searchType + ".json?query=" + encodedQuery;

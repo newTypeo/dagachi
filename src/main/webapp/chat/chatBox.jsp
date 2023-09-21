@@ -50,7 +50,6 @@
 			
 			openChatList();
 						
-			//openChatList(memberId)
 		};
 	</script>
 </sec:authorize>
@@ -74,23 +73,7 @@
 	</div>
 
 	<script>
-	
-	const openChatListR=()=>{
-		
-		const clubIdsString = clubIds.join(',');
-		
-		$.ajax({
-			url : "${pageContext.request.contextPath}/chat/chat/findChatLists.do",
-			data : {clubIdsString},
-			contentType: "application/json; charset=utf-8",
-		    dataType: "json",
-			success(data) {
-				
-			}
-			
-		});
-	};
-	
+
 	
 	const openChatList=()=>{
 		
@@ -143,7 +126,7 @@
 							`;
 							
 						}else{
-							console.log(data.clubInfo);
+							
 							const{clubId,clubName,renamedFilename}=data.clubInfo;
 							html+=`
 								<tr>
