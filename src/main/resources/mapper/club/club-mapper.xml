@@ -90,27 +90,27 @@
 
 	<select id="clubSearch">
 		select
-		c.*,
-		cp.club_id profile_club_id,
-		original_filename,
-		renamed_filename,
-		cp.created_at profile_created_at
+			c.*,
+			cp.club_id profile_club_id,
+			original_filename,
+			renamed_filename,
+			cp.created_at profile_created_at,
+			(select count(*) from club_member cm where cm.club_id = c.club_id) member_count
 		from
-		club c left join club_profile cp
-		on c.club_id = cp.club_id
+			club c left join club_profile cp
+				on c.club_id = cp.club_id
 		where
-		<if test="inputText != ''">
-			club_name like '%' || #{inputText} || '%'
-			or
-			category like '%' ||
-			#{inputText} || '%'
-			or
-			activity_area like '%' || #{inputText} || '%'
-			and
-		</if>
-		status = 'Y'
+			<if test="inputText != ''">
+				club_name like '%' || #{inputText} || '%'
+				or
+				category like '%' || #{inputText} || '%'
+				or
+				activity_area like '%' || #{inputText} || '%'
+				and
+			</if>
+			status = 'Y'
 		order by
-		c.created_at desc
+			c.created_at desc
 	</select>
 
 	<select id="searchClubWithFilter">
@@ -122,9 +122,8 @@
 			cp.created_at profile_created_at,
 			(select count(*) from club_member cm where cm.club_id = c.club_id) member_count
 		from
-			club c left join
-			club_profile cp
-			on c.club_id = cp.club_id
+			club c left join club_profile cp
+				on c.club_id = cp.club_id
 		<where>
 			<if test="inputText != ''">
 				(club_name like '%' || #{inputText} || '%'

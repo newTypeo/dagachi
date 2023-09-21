@@ -54,14 +54,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
    protected void configure(HttpSecurity http) throws Exception {
       http.authorizeRequests()
          .antMatchers("/", "/index.jsp", "/club/categoryList.do", "/club/clubList.do", "/club/findAddress.do",
-        		"/admin/mainBannerList.do", "/club/clubSearch.do", "/member/memberCreate.do", 
+        		"/searchPw.do","/member/searchIdResult.jsp","/searchIdResult.jsp", "/member/memberCreate.do",
         		"/member/sendCode.do", "/member/checkNicknameDuplicate.do", "/member/checkIdDuplicate.do",
 	            "/member/checkEmailDuplicate.do", "/memberSearchId.do","/member/memebrInsertEmail.do",
-	            "/searchPw.do","/member/searchIdResult.jsp","/searchIdResult.jsp",
-	            "/resources/WEB-INF/views/member/searchIdResult.jsp",
-	            "/resources/WEB-INF/views/member/searchIdResult.jsp","/member/searchId.do","/member/memberSearchId.do",
-	            "/member/searchPw.do","/member/sendCode.do","/member/memberPwUpdate.jsp","/memberPwUpdate.jsp",
-               	"/member/searchPw.do","/sendCode.do","/searchPw.do","/member/memberPwUpdate.do",
+	            "/admin/mainBannerList.do", "/club/clubSearch.do", "/club/searchClubWithFilter.do", 
+	            "/member/searchPw.do","/member/sendCode.do","/member/memberPwUpdate.jsp",
+	            "/sendCode.do","/searchPw.do","/member/memberPwUpdate.do",
+	            "/member/searchId.do","/member/memberSearchId.do",
                	"/member/{email}/memberPwUpdate.do").permitAll() //요청은 모든 사용자에게 허용
          .antMatchers("/member/memberLogin.do","/member/searchId.do","/member/searchPw.do").anonymous()
          .antMatchers("/admin/**").hasAuthority("ADMIN")
