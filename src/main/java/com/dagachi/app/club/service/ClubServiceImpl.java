@@ -102,8 +102,8 @@ public class ClubServiceImpl implements ClubService {
 		List<ClubSearchDto> clubs = clubRepository.clubSearch(rowBounds, params);
 
 		// 모임 인원 가져오기
-		for (ClubSearchDto club : clubs)
-			club.setMemberCount(clubRepository.countClubMember(club.getClubId()));
+//		for (ClubSearchDto club : clubs)
+//			club.setMemberCount(clubRepository.countClubMember(club.getClubId()));
 
 		return clubs;
 	}
