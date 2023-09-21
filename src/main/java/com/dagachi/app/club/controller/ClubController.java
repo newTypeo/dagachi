@@ -1006,7 +1006,6 @@ public class ClubController {
 
 	/**
 	 * 도메인이랑 게시글 번호로 ClubBoard객체 반환하는 메소드
-	 * 
 	 * @author 상윤
 	 */
 	public ClubBoard clubBoardGet(String domain, int no) {
@@ -1034,7 +1033,6 @@ public class ClubController {
 
 	/**
 	 * 첨부파일 삭제
-	 * 
 	 * @author 상윤
 	 */
 	@PostMapping("/delAttach.do")
@@ -1060,7 +1058,6 @@ public class ClubController {
 
 	/**
 	 * 클럽 내 가입되어있는 회원들 조회페이지로 이동
-	 * 
 	 * @author 준한
 	 */
 	@GetMapping("/{domain}/clubMemberList.do")
@@ -1088,7 +1085,7 @@ public class ClubController {
 	}
 
 	/**
-	 * @author ?
+	 * @author 동찬
 	 */
 	@GetMapping("/{domain}/clubStyleUpdate.do")
 	public String clubLayoutUpdate(@PathVariable("domain") String domain, @AuthenticationPrincipal MemberDetails member,
@@ -1108,7 +1105,7 @@ public class ClubController {
 	}
 
 	/**
-	 * @author ?
+	 * @author 동찬
 	 */
 	@PostMapping("/{domain}/clubStyleUpdate.do")
 	public String clubLayoutUpdate(@PathVariable("domain") String domain, ClubStyleUpdateDto style) {
@@ -1121,7 +1118,7 @@ public class ClubController {
 	}
 
 	/**
-	 * @author ?
+	 * @author 동찬
 	 */
 	@GetMapping("/{domain}/clubTitleUpdate.do")
 	public String clubTitleUpdate(@PathVariable("domain") String domain, @AuthenticationPrincipal MemberDetails member,
@@ -1221,7 +1218,8 @@ public class ClubController {
 	}
 
 	/**
-	 * @author 현우 모임 찜 목록
+	 * 모임 찜 목록
+	 * @author 현우
 	 */
 	@PostMapping("/clubLike.do")
 	public String clubLike(@RequestParam String memberId, @RequestParam String domain, RedirectAttributes attr) {
@@ -1331,7 +1329,7 @@ public class ClubController {
 
 	/**
 	 * 
-	 * @author ?
+	 * @author 준한
 	 */
 	@GetMapping("/{domain}/clubGalleryInsert.do")
 	public String clubGalleryInsert(@AuthenticationPrincipal MemberDetails loginMember, Model model,
