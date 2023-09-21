@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-public class notificationServiceImpl implements NotificationService {
+public class NotificationServiceImpl implements NotificationService {
 	
 	@Autowired
 	SimpMessagingTemplate simpMessagingTemplate;
@@ -49,15 +49,23 @@ public class notificationServiceImpl implements NotificationService {
 						.content(clubName)
 						.build();
 				
-				Alarm alarm = getAlarm(payload);
+				//Alarm alarm = getAlarm(payload);
 				
-				result= notificationRepository.insertChatAlarm(alarm);
+				//result= notificationRepository.insertChatAlarm(alarm);
 				
 				simpMessagingTemplate.convertAndSend("/app/notice/" +to,payload);
 			}
 		}
 
 		return result;
+	}
+	
+	@Override
+	public int insertAlarm(Payload payload) {
+		
+		Alarm alarm = getAlarm(payload);
+		
+		return notificationRepository.insertChatAlarm(alarm);
 	}
 	
 	

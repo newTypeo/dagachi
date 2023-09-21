@@ -131,6 +131,8 @@
 				<button id="snedMsg">전송</button>
 			</div>
 		</article>
+		
+		<form:form name="alarmFrm"></form:form>
 
 	</sec:authorize>
 <script>
@@ -152,6 +154,22 @@ const loadPro=(from,to)=>{
 	return pro;
 };
 
+const sendAlarms=( from)=>{
+
+	console.log(from,);
+	const token= document.alarmFrm._csrf.value;
+	$.ajax({
+ 		url:'${pageContext.request.contextPath}/notification/insertAlarm.do',
+ 		data : {clubId, from},
+ 		headers: {
+			"X-CSRF-TOKEN": token
+		},
+ 		success(data){
+ 			console.log(data);
+ 		}
+ 		
+ 	});
+};
 
 document.querySelector("#msgBox").addEventListener("keydown",(e)=>{
 	 if (e.key === "Enter" && !e.shiftKey) {
