@@ -50,7 +50,6 @@
 			
 			openChatList();
 						
-			//openChatList(memberId)
 		};
 	</script>
 </sec:authorize>
@@ -74,6 +73,7 @@
 	</div>
 
 	<script>
+
 	
 	const openChatList=()=>{
 		
@@ -86,8 +86,9 @@
 					url : "${pageContext.request.contextPath}/chat/chat/findChatList.do",
 					data : {clubId},
 					success(data) {
-						if(data.cahtlog !=null){
-							const {id,clubId,writer,content,createdAt,nickname}=data.cahtlog
+						
+						if(data.chatList.id !=0){
+							const {id,clubId,writer,content,createdAt,nickname,clubName,renamedFilename}=data.chatList;
 							const parsedDate =new Date(createdAt);
 							const options={   year: '2-digit',
 									  month: '2-digit',
@@ -99,9 +100,9 @@
 							html+=`
 								<tr>
 									<td colspan = "2" class="clubNameWrapper">
-										<img src="${pageContext.request.contextPath}/resources/upload/club/profile/\${data.clubProfile}"/>
+										<img src="${pageContext.request.contextPath}/resources/upload/club/profile/\${renamedFilename}"/>
 										<div class="clubNameContainer">
-											<span class="clubName">\${data.clubName}</span>
+											<span class="clubName">\${clubName}</span>
 										</div>
 									</td>
 								</tr>
@@ -125,12 +126,14 @@
 							`;
 							
 						}else{
+							
+							const{clubId,clubName,renamedFilename}=data.clubInfo;
 							html+=`
 								<tr>
 									<td colspan = "2" class="clubNameWrapper">
-										<img src="${pageContext.request.contextPath}/resources/upload/club/profile/\${data.clubProfile}"/>
+										<img src="${pageContext.request.contextPath}/resources/upload/club/profile/\${renamedFilename}"/>
 										<div class="clubNameContainer">
-											<span class="clubName">\${data.clubName}</span>
+											<span class="clubName">\${clubName}</span>
 										</div>
 									</td>
 								</tr>
@@ -161,6 +164,7 @@
 		
 		
 	};
+	
 	
 	</script>
 

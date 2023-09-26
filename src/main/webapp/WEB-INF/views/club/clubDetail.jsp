@@ -61,13 +61,6 @@
 		</c:if>
 		
 	</nav>
-	<form:form
-		name="clubLikeFrm"
-		action="${pageContext.request.contextPath}/club/clubLike.do"
-		method="POST">
-			<input type="hidden" id="memberId" name="memberId" value="${memberId}">
-			<input type="hidden" id="domain" name="domain" value="${domain}">
-	</form:form>
 	
 
 	<jsp:include page="/WEB-INF/views/club/clubLayout/clubLayoutType${clubDetail.type}.jsp"></jsp:include>

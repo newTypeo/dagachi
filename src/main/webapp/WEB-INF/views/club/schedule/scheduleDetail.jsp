@@ -222,8 +222,7 @@ function getPath(elem) {
 		var xStr = document.querySelector(".seq"+i).classList[1];
 		var yStr = document.querySelector(".seq"+i).classList[2];
 		var name = document.querySelector(".seq"+i).innerHTML;
-		if (i == startSeq) {
-			origin = xStr + ',' + yStr;
+		if (i == startSeq) { origin = xStr + ',' + yStr;
 		} else if (i == endSeq) {
 			destination = xStr + ',' + yStr;
 		} else {

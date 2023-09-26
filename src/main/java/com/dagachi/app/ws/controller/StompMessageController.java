@@ -45,7 +45,6 @@ public class StompMessageController {
 	@MessageMapping("/clubTalk/{clubId}")
 	@SendTo("/app/clubTalk/{clubId}")
 	public Payload noticeEach(@DestinationVariable  int clubId, Payload message) {
-		log.debug("message = {}", message);
 		
 		ChatLog chatlog=ChatLog.builder()
 				.clubId(clubId)

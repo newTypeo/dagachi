@@ -42,7 +42,6 @@ import com.dagachi.app.club.entity.ClubGalleryDetails;
 import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
-import com.dagachi.app.club.entity.ClubRecentVisited;
 import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.club.repository.ClubRepository;
 import com.dagachi.app.member.entity.Member;
@@ -102,10 +101,6 @@ public class ClubServiceImpl implements ClubService {
 
 		List<ClubSearchDto> clubs = clubRepository.clubSearch(rowBounds, params);
 
-		// 모임 인원 가져오기
-		for (ClubSearchDto club : clubs)
-			club.setMemberCount(clubRepository.countClubMember(club.getClubId()));
-
 		return clubs;
 	}
 
@@ -121,10 +116,6 @@ public class ClubServiceImpl implements ClubService {
 		RowBounds rowBounds = new RowBounds(offset, limit);
 
 		List<ClubSearchDto> clubs = clubRepository.searchClubWithFilter(rowBounds, params);
-
-		// 모임 인원 가져오기
-//		for (ClubSearchDto club : clubs)
-//			club.setMemberCount(clubRepository.countClubMember(club.getClubId()));
 
 		return clubs;
 	}
@@ -379,16 +370,6 @@ public class ClubServiceImpl implements ClubService {
 	public List<GalleryAndImageDto> findgalleryById(int clubId) {
 		return clubRepository.findgalleryById(clubId);
 
-	}
-
-	@Override
-	public List<ClubRecentVisited> findAllrecentVisitClubs() {
-		return clubRepository.findAllrecentVisitClubs();
-	}
-
-	@Override
-	public int checkDuplicateClubId(int clubId) {
-		return clubRepository.checkDuplicateClubId(clubId);
 	}
 
 	@Override

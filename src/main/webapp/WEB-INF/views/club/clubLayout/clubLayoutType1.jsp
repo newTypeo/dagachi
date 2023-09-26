@@ -148,6 +148,7 @@
 				더보기<i class="fa-solid fa-angle-right"></i>
 			</a>
 		</div>
+
 		<div class="container-main container-main-long boardType4">
 			
 		</div>
@@ -255,7 +256,6 @@ $('.carousel').carousel({
 
 //창환(모임 신고)
 document.querySelector("#clubReport").onclick = () => {
-	console.log('Type1');
 	$("#reportModal")
 	.modal()
 	.on('shown.bs.modal', () => {
@@ -290,36 +290,34 @@ const clubReportSubmit = () => {
 };
 
 
-//모임 좋아요 (현우)
 const clubLike = () => {
-	// 찜 목록에 해당클럽이 있는 지 확인.
-	const domain = "${domain}";
-	$.ajax({
-		url : "${pageContext.request.contextPath}/club/clubLikeCheck.do",
-		data : {domain},
-		success(responseData) {
-			
-			if (responseData) {
-				if(confirm("찜하신 모임을 취소하시겠습니까?")) {
-					document.deleteClubLikeFrm.submit();
-				}
-				alert("성공적으로 모임 찜을 취소했습니다.");
-				
-			} else {
-				
-				if(confirm("모임을 찜 하시겠습니까?")) {
-					var clubLikeFrm = document.forms["clubLikeFrm"];
-					if (clubLikeFrm) {
-					    clubLikeFrm.submit();
-					} else {
-					    console.log("Form not found");
+	//모임 좋아요 (현우)
+		// 찜 목록에 해당클럽이 있는 지 확인.
+		const domain = "${domain}";
+		$.ajax({
+			url : "${pageContext.request.contextPath}/club/clubLikeCheck.do",
+			data : {domain},
+			success(responseData) {
+				console.log(responseData);
+				if (responseData) {
+					if(confirm("찜하신 모임을 취소하시겠습니까?")) {
+						document.deleteClubLikeFrm.submit();
+						alert("성공적으로 모임 찜을 취소했습니다.");
 					}
-				}
-				alert("성공적으로 모임 찜을 완료했습니다.");
-				
-			}
 					
+				} else {
+					
+						if(confirm("모임을 찜 하시겠습니까?")) {
+					    	document.clubLikeFrm.submit();
+							alert("성공적으로 모임 찜을 완료했습니다.");
+						} 
+					}
+					
+				}
+						
+			});
 		}
+
 	});
 }
 document.addEventListener('DOMContentLoaded', function() {
@@ -414,6 +412,7 @@ const clubScheduleLoadFtn = () => {
 		}
 	});
 }
+
 </script>
 
 <c:if test="${clubDetail.memberRole ne 10}">

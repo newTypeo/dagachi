@@ -52,15 +52,26 @@ public class Oauth2UserServiceImpl extends DefaultOAuth2UserService {
 			
 			String name = (String) profile.get("nickname");
 			String email = (String) kakaoAccount.get("email");
-			MemberKakaoDto memberKakaoDto = 
-					MemberKakaoDto.builder()
+			MemberDetails memberDetails = 
+					MemberDetails.builder()
 						.memberId(memberId)
 						.password("1234")
 						.name(name)
 						.email(email)
+						.activityArea(null)
+						.phoneNo(null)
+						.birthday(null)
+						.mbti(null)
+						.activityArea(null)
+						.gender(null)
+						.memberInterest(null)
+						.activityArea(null)
+						.attributes(null)
+						.authorities(null)
+						.clubMember(null)
 						.build();
 			
-			int result = memberService.KakaoMember(memberKakaoDto);
+			int result = memberService.KakaoMember(memberDetails);
 			
 			member = (MemberDetails) memberService.loadUserByUsername(memberId);
 		}
