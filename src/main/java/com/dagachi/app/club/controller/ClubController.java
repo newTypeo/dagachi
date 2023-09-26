@@ -42,6 +42,7 @@ import com.dagachi.app.club.dto.BoardCommentDto;
 import com.dagachi.app.club.dto.ClubAndImage;
 import com.dagachi.app.club.dto.ClubBoardCreateDto;
 import com.dagachi.app.club.dto.ClubCreateDto;
+import com.dagachi.app.club.dto.ClubDetailDto;
 import com.dagachi.app.club.dto.ClubEnrollDto;
 import com.dagachi.app.club.dto.ClubGalleryAndImage;
 import com.dagachi.app.club.dto.ClubManageApplyDto;
@@ -455,25 +456,24 @@ public class ClubController {
 	@GetMapping("/{domain}")
 	public String clubDetail(@PathVariable("domain") String domain, @AuthenticationPrincipal MemberDetails member,
 			Model model) {
-		// ===================== 요청 1개로 합칠 것 ===============================
-		int clubId = clubService.clubIdFindByDomain(domain);
-		ClubLayout layout = clubService.findLayoutById(clubId);
 
-		ClubNameAndCountDto clubInfo = clubService.findClubInfoById(clubId);
-
-		List<GalleryAndImageDto> galleries = clubService.findgalleryById(clubId);
-		List<ClubScheduleAndMemberDto> schedules = clubService.findScheduleById(clubId);
-		List<BoardAndImageDto> boardAndImages = clubService.findBoardAndImageById(clubId); // (1)
-		// =====================================================================
-		// 쿼리 덩치가 너무 크면 프로시저 생성하는 방법 알아보기
 		
 		String memberId = member.getMemberId();
-		for (BoardAndImageDto board : boardAndImages) {
-			board.setNickname(chatService.getNicknameById(board.getWriter())); // (1)요청에 포함시킬 것
-		}
-		for (ClubScheduleAndMemberDto schedule : schedules) {
-			schedule.setNickname(chatService.getNicknameById(schedule.getWriter())); // 이것도 마찬가지 합칠 수 있는 곳으로
-		}
+		Map<String, String> domainAndMemberId = Map.of("domain", domain, "memberId", memberId);
+		ClubDetailDto clubDetail = clubService.findClubDetailByDomainAndMemberId(domainAndMemberId);
+
+
+		int clubId = clubService.clubIdFindByDomain(domain);
+//		ClubLayout layout = clubService.findLayoutById(clubId);
+//		ClubNameAndCountDto clubInfo = clubService.findClubInfoById(clubId);
+//		ClubMemberRole clubMemberRole = ClubMemberRole.builder().clubId(clubId).loginMemberId(memberId).build();
+//		
+//		// 로그인한 회원 아이디로 해당 모임의 권한 가져오기
+//		int memberRole = clubService.memberRoleFindByMemberId(clubMemberRole);
+
+
+		List<GalleryAndImageDto> galleries = clubService.findgalleryById(clubId);
+
 
 		Map<String, Object> params = Map.of(
 				 "memberId", memberId,
@@ -487,22 +487,33 @@ public class ClubController {
 			int result = clubService.insertClubRecentVisitd(memberId, clubId);
 		}
 
-		ClubMemberRole clubMemberRole = ClubMemberRole.builder().clubId(clubId).loginMemberId(memberId).build();
-
-		// 로그인한 회원 아이디로 해당 모임의 권한 가져오기
-		int memberRole = clubService.memberRoleFindByMemberId(clubMemberRole);
+		System.out.println(clubDetail);
+		
 		model.addAttribute("domain", domain);
-		model.addAttribute("layout", layout);
 		model.addAttribute("memberId", memberId);
-		model.addAttribute("clubInfo", clubInfo);
+		
+		model.addAttribute("clubDetail", clubDetail);
+
 		model.addAttribute("galleries", galleries);
-		model.addAttribute("schedules", schedules);
-		model.addAttribute("memberRole", memberRole);
-		model.addAttribute("boardAndImages", boardAndImages);
 
 		return "club/clubDetail";
 	}
-
+	
+	@GetMapping("/{domain}/clubBoardLoad.do")
+	@ResponseBody
+	public ResponseEntity<?> clubBoardLoad(
+			@PathVariable("domain") String domain,
+			@RequestParam(name = "type", defaultValue = "0") int type,
+			@RequestParam(name = "length", defaultValue = "0") int length) {
+		
+		Map<String, Object> params = Map.of("domain", domain, "type", type, "length", length);
+		List<BoardAndImageDto> boardAndImages = clubService.findBoardAndImageByMap(params);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(boardAndImages);
+	}
+	
+	
+	
 	/**
 	 * 로그인이 안되어 있을시 메인에서 소모임 전체 조회(카드로 출력)
 	 * 
