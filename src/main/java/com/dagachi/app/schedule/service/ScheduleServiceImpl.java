@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubSchedule;
 import com.dagachi.app.club.entity.ClubScheduleEnrollMember;
@@ -28,8 +29,8 @@ public class ScheduleServiceImpl implements ScheduleService {
 	private ScheduleRepository scheduleRepository;
 	
 	@Override
-	public List<ClubSchedule> findSchedulesByClubId(int clubId) {
-		return scheduleRepository.findSchedulesByClubId(clubId);
+	public List<ClubScheduleAndMemberDto> findSchedulesByDomain(String domain) {
+		return scheduleRepository.findSchedulesByDomain(domain);
 	}
 	
 	@Override

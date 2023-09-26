@@ -18,6 +18,7 @@ import org.apache.ibatis.session.RowBounds;
 import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
 import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
+import com.dagachi.app.club.dto.ClubDetailDto;
 import com.dagachi.app.club.dto.ClubManageApplyDto;
 import com.dagachi.app.club.dto.ClubEnrollDto;
 import com.dagachi.app.club.dto.ClubGalleryAndImage;
@@ -357,6 +358,10 @@ public interface ClubRepository {
 	
 	@Select("select count(*) from recent_visit_list where club_id = #{clubId} and member_id = #{memberId}")
 	int checkDuplicateClubIdAndId(Map<String, Object> params);
+	
+	ClubDetailDto findClubDetailByDomainAndMemberId(Map<String, String> domainAndMemberId);
+	
+	List<BoardAndImageDto> findBoardAndImageByMap(Map<String, Object> params);
 	
 	
 }
