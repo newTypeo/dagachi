@@ -178,4 +178,74 @@
 	    
 	</select>
 	
+	<select id="findClubDetailByDomainAndMemberId">
+		SELECT
+		    c.club_name,
+		    c.created_at,
+		    l.*,
+		    cm.member_count,
+		    cm_role.member_role
+		FROM
+		    club c
+		JOIN
+		    club_layout l
+		    ON c.club_id = l.club_id
+		LEFT JOIN (
+		    SELECT
+		        club_id,
+		        COUNT(*) AS member_count
+		    FROM
+		        club_member
+		    WHERE
+		        club_id = (SELECT club_id FROM club WHERE domain = #{domain})
+		    GROUP BY
+		        club_id
+		) cm
+		ON
+		    c.club_id = cm.club_id
+		LEFT JOIN (
+		    SELECT
+		        club_id,
+		        club_member_role AS member_role
+		    FROM
+		        club_member
+		    WHERE
+		        member_id = #{memberId}
+		        AND club_id = (SELECT club_id FROM club WHERE domain = #{domain})
+		) cm_role
+		ON
+		    c.club_id = cm_role.club_id
+		WHERE
+		    c.domain = #{domain}
+	</select>
+	
+	<select id="findBoardAndImageByMap">
+		SELECT
+			*
+		FROM (
+		    SELECT 
+		    	cb.*,
+           		(SELECT nickname FROM member WHERE member_id = cb.writer) AS nickname
+		    FROM 
+		    	club_board cb
+		    LEFT JOIN 
+		    	club_board_attachment ca
+		    ON 
+		    	cb.board_id = ca.board_id
+		    WHERE 
+		    	(ca.thumbnail = 'Y' OR ca.thumbnail IS NULL)
+		    AND 
+		    	club_id = (
+		        	SELECT club_id
+		        	FROM club
+		        	WHERE domain = #{domain}
+		    	)
+		    AND 
+		    	type = #{type}
+		    ORDER BY 
+		    	cb.board_id DESC
+		)
+		WHERE ROWNUM &lt;= #{length}
+	</select>
+	
 </mapper>

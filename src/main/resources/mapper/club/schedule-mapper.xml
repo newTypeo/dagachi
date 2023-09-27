@@ -2,13 +2,16 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.dagachi.app.club.repository.ClubRepository">
+<mapper namespace="com.dagachi.app.schedule.repository.ScheduleRepository">
 
-	<select id="findScheduleById" resultMap="scheduleResultMap">
-		select * from
+	<select id="findSchedulesByDomain">
+		select 
+			* 
+		from
 			(select
 				cs.*,
-				csem.member_count
+				csem.member_count,
+				(SELECT nickname FROM member WHERE member_id = cs.writer) nickname
 			from 
 				club_schedule cs left join (
 					select schedule_id, 
@@ -22,14 +25,10 @@
 				and
 				cs.club_id = csem.club_id
 			where 
-				cs.club_id = #{club_id}
+				cs.club_id = (SELECT club_id FROM club WHERE domain = #{domain})
 			order by 
 				cs.schedule_id desc)
-			where rownum &lt;= 9
+		where rownum &lt;= 9
 	</select>
-
-	<resultMap type="ClubScheduleAndMemberDto" id="scheduleResultMap">
-
-	</resultMap>
 
 </mapper>

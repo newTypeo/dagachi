@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
+import com.dagachi.app.club.dto.ClubDetailDto;
 import com.dagachi.app.club.dto.ClubEnrollDto;
 import com.dagachi.app.club.dto.ClubGalleryAndImage;
 import com.dagachi.app.club.dto.ClubManageApplyDto;
@@ -612,5 +613,15 @@ public class ClubServiceImpl implements ClubService {
 	@Override
 	public int checkDuplicateClubIdAndId(Map<String, Object> params) {
 		return clubRepository.checkDuplicateClubIdAndId(params);
+	}
+	
+	@Override
+	public ClubDetailDto findClubDetailByDomainAndMemberId(Map<String, String> domainAndMemberId) {
+		return clubRepository.findClubDetailByDomainAndMemberId(domainAndMemberId);
+	}
+	
+	@Override
+	public List<BoardAndImageDto> findBoardAndImageByMap(Map<String, Object> params) {
+		return clubRepository.findBoardAndImageByMap(params);
 	}
 }

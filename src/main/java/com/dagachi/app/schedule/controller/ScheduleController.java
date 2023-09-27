@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
 import com.dagachi.app.club.entity.Club;
 import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubMember;
@@ -51,10 +52,8 @@ public class ScheduleController {
 	@GetMapping("/getSchedules.do")
 	@ResponseBody
 	public ResponseEntity<?> getSchedule(@PathVariable("domain") String domain) {
-		int clubId = clubService.clubIdFindByDomain(domain);
-		
-		List<ClubSchedule> clubSchedules = scheduleService.findSchedulesByClubId(clubId);
-		
+		List<ClubScheduleAndMemberDto> clubSchedules = scheduleService.findSchedulesByDomain(domain);
+		System.out.println(clubSchedules);
 		return ResponseEntity.status(HttpStatus.OK).body(clubSchedules);
 	}
 	
@@ -91,14 +90,16 @@ public class ScheduleController {
 		mIdAndcId = Map.of("myId", member.getMemberId(), "clubId", club.getClubId());
 		int myRole = scheduleService.getMyRole(mIdAndcId);
 		
+		// 하나로 묶기
 		model.addAttribute("myRole", myRole);
 		model.addAttribute("myAddress", member.getAddress());
 		model.addAttribute("myHome", myHome);
 		model.addAttribute("isEnrolled", isEnrolled);
 		model.addAttribute("clubName", club.getClubName());
-		model.addAttribute("schedule", schedule);
-		model.addAttribute("clubMember", clubMember);
 		model.addAttribute("layout", layout);
+		model.addAttribute("clubMember", clubMember);
+		
+		model.addAttribute("schedule", schedule);
 		
 		return "club/schedule/scheduleDetail";
 	}

@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.Update;
 
+import com.dagachi.app.club.dto.ClubScheduleAndMemberDto;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubSchedule;
 import com.dagachi.app.club.entity.ClubScheduleEnrollMember;
@@ -22,8 +23,7 @@ import com.dagachi.app.schedule.entity.ClubSchedulePlaceDetail;
 @Mapper
 public interface ScheduleRepository {
 
-	@Select("select * from club_schedule where club_id = #{clubId} and status = 'Y'")
-	List<ClubSchedule> findSchedulesByClubId(int clubId);
+	List<ClubScheduleAndMemberDto> findSchedulesByDomain(String domain);
 
 	@Select("select cs.*, mp.original_filename, mp.renamed_filename, m.nickname from club_schedule cs join member_profile mp on (cs.writer = mp.member_id) left join member m on (cs.writer = m.member_id) where cs.schedule_id = #{no} and cs.status = 'Y'")
 	ScheduleDetailsDto findScheduleById(int no);
