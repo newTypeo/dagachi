@@ -107,14 +107,6 @@ window.onload = () => {
 
 	</div>
 	
-	<table class="table fontColors" id="mustTable" style="margin-top: 5px; text-align: center">
-		<thead class="thead-light">
-			<tr>
-				<th scope="col">필독</th>
-			</tr>
-		</thead>
-		<tbody></tbody>
-	</table>
 
 	<table class="table fontColors" id="boardTable" style="margin-top: 5px; text-align: center">
 		<thead class="thead-light">
@@ -320,7 +312,7 @@ document.body.style.fontFamily = "${layout.font}";
 						case 5: typeText ="필독"; break;
 					}
 					
-					if(type === 5){
+/* 					if(type === 5){
 						const mustReadBody=document.querySelector("#mustTable tbody");
 						
 						mustReadBody.innerHTML=`
@@ -328,7 +320,7 @@ document.body.style.fontFamily = "${layout.font}";
 								[필독] <a href="${pageContext.request.contextPath}/club/${domain}/boardDetail.do?no=\${boardId}">\${title}❗</a>
 							</td>
 						`;
-					}
+					} */
 					
 					const parsedDate =new Date(createdAt);
 					const options={   year: '2-digit',

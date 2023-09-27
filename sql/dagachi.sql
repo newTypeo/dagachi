@@ -1310,3 +1310,9 @@ insert into club_member values('user9',7,default,default,3,default);
 
 select * from member;
 commit;
+
+update member set address='서울 서초구 양재대로 2길 90' where member_id='honggd';
+
+select * from alarm;
+
+
