@@ -19,6 +19,7 @@ import com.dagachi.app.member.dto.MemberKakaoUpdateDto;
 import com.dagachi.app.member.dto.MemberPwUpdateDto;
 import com.dagachi.app.member.entity.ActivityArea;
 import com.dagachi.app.member.entity.Member;
+import com.dagachi.app.member.entity.MemberDetails;
 import com.dagachi.app.member.entity.MemberInterest;
 import com.dagachi.app.member.entity.MemberLike;
 import com.dagachi.app.member.entity.MemberProfile;
@@ -220,8 +221,8 @@ public class MemberServiceImpl implements MemberService{
 
 
 	@Override
-	public int KakaoMember(MemberKakaoDto memberKakaoDto) {
-		return memberRepository.KakaoMember(memberKakaoDto);
+	public int KakaoMember(MemberDetails memberDetails) {
+		return memberRepository.KakaoMember(memberDetails);
 	}
 	
 	@Override

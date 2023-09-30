@@ -97,12 +97,8 @@
 						<c:if test="${chatlog.writer ne memberId}">
 							<div class="chat ch1">
 								<div class="icon">
-									<c:forEach items="${memberProfiles}" var="memberProfile">
-										<c:if test="${memberProfile.memberId eq chatlog.writer}">
 											<img alt=""
-												src="${pageContext.request.contextPath}/resources/upload/member/profile/${memberProfile.renamedFilename}" class="resized-image" />
-										</c:if>
-									</c:forEach>
+												src="${pageContext.request.contextPath}/resources/upload/member/profile/${chatlog.renamedFilename}" class="resized-image" />
 								</div>
 								<div>
 									<div class="chatIdPrintL">
@@ -135,9 +131,11 @@
 				<button id="snedMsg">전송</button>
 			</div>
 		</article>
+		
+		<form:form name="alarmFrm"></form:form>
 
 	</sec:authorize>
-	<script>
+<script>
 const loadPro=(from,to)=>{
 	let pro="";
 	$.ajax({
@@ -156,6 +154,22 @@ const loadPro=(from,to)=>{
 	return pro;
 };
 
+const sendAlarms=( from)=>{
+
+	console.log(from,);
+	const token= document.alarmFrm._csrf.value;
+	$.ajax({
+ 		url:'${pageContext.request.contextPath}/notification/insertAlarm.do',
+ 		data : {clubId, from},
+ 		headers: {
+			"X-CSRF-TOKEN": token
+		},
+ 		success(data){
+ 			console.log(data);
+ 		}
+ 		
+ 	});
+};
 
 document.querySelector("#msgBox").addEventListener("keydown",(e)=>{
 	 if (e.key === "Enter" && !e.shiftKey) {
@@ -175,16 +189,16 @@ document.querySelector("#snedMsg").addEventListener("click",()=>{
 		return false;
 	}
 	const payload = {
-			type : "MOIMTALK",
-			from : memberId,
-			to : clubId,
-			content : content,
-			createdAt : Date.now()
-		};
-		
-		const url = `/app/clubTalk/\${payload.to}`;
-		
-		stompClient.send(url, null, JSON.stringify(payload));
+		type : "MOIMTALK",
+		from : memberId,
+		to : clubId,
+		content : content,
+		createdAt : Date.now()
+	};
+	
+	const url = `/app/clubTalk/\${payload.to}`;
+	
+	stompClient.send(url, null, JSON.stringify(payload));
 
 	msgbox.focus();
 });

@@ -22,5 +22,7 @@ public interface NotificationRepository {
 	@Update("update alarm set is_read ='Y' where receiver =#{receiver}")
 	int checkedAlarm(String receiver);
 
+	int insertChatAlarms(List<Alarm> alarmList);
+
 
 }

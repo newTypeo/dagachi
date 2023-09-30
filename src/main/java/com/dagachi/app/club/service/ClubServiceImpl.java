@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
+import com.dagachi.app.club.dto.ClubDetailDto;
 import com.dagachi.app.club.dto.ClubEnrollDto;
 import com.dagachi.app.club.dto.ClubGalleryAndImage;
 import com.dagachi.app.club.dto.ClubManageApplyDto;
@@ -41,7 +42,6 @@ import com.dagachi.app.club.entity.ClubGalleryDetails;
 import com.dagachi.app.club.entity.ClubLayout;
 import com.dagachi.app.club.entity.ClubMember;
 import com.dagachi.app.club.entity.ClubProfile;
-import com.dagachi.app.club.entity.ClubRecentVisited;
 import com.dagachi.app.club.entity.ClubTag;
 import com.dagachi.app.club.repository.ClubRepository;
 import com.dagachi.app.member.entity.Member;
@@ -101,10 +101,6 @@ public class ClubServiceImpl implements ClubService {
 
 		List<ClubSearchDto> clubs = clubRepository.clubSearch(rowBounds, params);
 
-		// 모임 인원 가져오기
-		for (ClubSearchDto club : clubs)
-			club.setMemberCount(clubRepository.countClubMember(club.getClubId()));
-
 		return clubs;
 	}
 
@@ -120,10 +116,6 @@ public class ClubServiceImpl implements ClubService {
 		RowBounds rowBounds = new RowBounds(offset, limit);
 
 		List<ClubSearchDto> clubs = clubRepository.searchClubWithFilter(rowBounds, params);
-
-		// 모임 인원 가져오기
-//		for (ClubSearchDto club : clubs)
-//			club.setMemberCount(clubRepository.countClubMember(club.getClubId()));
 
 		return clubs;
 	}
@@ -381,16 +373,6 @@ public class ClubServiceImpl implements ClubService {
 	}
 
 	@Override
-	public List<ClubRecentVisited> findAllrecentVisitClubs() {
-		return clubRepository.findAllrecentVisitClubs();
-	}
-
-	@Override
-	public int checkDuplicateClubId(int clubId) {
-		return clubRepository.checkDuplicateClubId(clubId);
-	}
-
-	@Override
 	public int delAttachment(int id) {
 		return clubRepository.delAttachment(id);
 	}
@@ -631,5 +613,15 @@ public class ClubServiceImpl implements ClubService {
 	@Override
 	public int checkDuplicateClubIdAndId(Map<String, Object> params) {
 		return clubRepository.checkDuplicateClubIdAndId(params);
+	}
+	
+	@Override
+	public ClubDetailDto findClubDetailByDomainAndMemberId(Map<String, String> domainAndMemberId) {
+		return clubRepository.findClubDetailByDomainAndMemberId(domainAndMemberId);
+	}
+	
+	@Override
+	public List<BoardAndImageDto> findBoardAndImageByMap(Map<String, Object> params) {
+		return clubRepository.findBoardAndImageByMap(params);
 	}
 }

@@ -18,6 +18,7 @@ import org.apache.ibatis.session.RowBounds;
 import com.dagachi.app.admin.dto.AdminInquiryCreateDto;
 import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
+import com.dagachi.app.club.dto.ClubDetailDto;
 import com.dagachi.app.club.dto.ClubManageApplyDto;
 import com.dagachi.app.club.dto.ClubEnrollDto;
 import com.dagachi.app.club.dto.ClubGalleryAndImage;
@@ -198,13 +199,6 @@ public interface ClubRepository {
 	int insertClubRecentVisitd(String memberId, int clubId);
 
 	
-	@Select("select * from recent_visit_list")
-	List<ClubRecentVisited> findAllrecentVisitClubs();
-	
-	@Select("select count(*) from recent_visit_list where club_id = #{clubId}")
-	int checkDuplicateClubId(int clubId);
-
-	
 	@Update("update club_board_attachment set thumbnail=#{thumbnail} where id=#{id}")
 	int updateThumbnail(ClubBoardAttachment clubBoardAttachment);
 	
@@ -264,7 +258,7 @@ public interface ClubRepository {
 	@Update("update club_layout set main_content = #{mainContent} where club_id = #{clubId}")
 	int updateClubMainContent(ClubLayout clubLayout);
 	
-	@Select("select count(*) from cbc_like where target_id = #{targetId}")
+	@Select("select count(*) from cbc_like where target_id = #{targetId} and type = 1")
 	int checkDuplicateClubLike(int targetId);
 	
 	@Insert("insert into cbc_like values(#{memberId}, 1, #{targetId}, default)")
@@ -357,6 +351,10 @@ public interface ClubRepository {
 	
 	@Select("select count(*) from recent_visit_list where club_id = #{clubId} and member_id = #{memberId}")
 	int checkDuplicateClubIdAndId(Map<String, Object> params);
+	
+	ClubDetailDto findClubDetailByDomainAndMemberId(Map<String, String> domainAndMemberId);
+	
+	List<BoardAndImageDto> findBoardAndImageByMap(Map<String, Object> params);
 	
 	
 }

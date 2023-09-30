@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import com.dagachi.app.club.dto.BoardAndImageDto;
 import com.dagachi.app.club.dto.ClubAndImage;
+import com.dagachi.app.club.dto.ClubDetailDto;
 import com.dagachi.app.club.dto.ClubEnrollDto;
 import com.dagachi.app.club.dto.ClubGalleryAndImage;
 import com.dagachi.app.club.dto.ClubManageApplyDto;
@@ -108,12 +109,6 @@ public interface ClubService {
 	
 	int insertClubRecentVisitd(String memberId, int clubId);
 
-
-	List<ClubRecentVisited> findAllrecentVisitClubs();
-
-	int checkDuplicateClubId(int clubId);
-
-
 	int updateThumbnail(ClubBoardAttachment clubBoardAttachment);
 
 	List<ClubAndImage> categoryList(String category);
@@ -193,6 +188,10 @@ public interface ClubService {
 	int postGallery(ClubGalleryDetails clubGallery);
 
 	int checkDuplicateClubIdAndId(Map<String, Object> params);
+
+	ClubDetailDto findClubDetailByDomainAndMemberId(Map<String, String> domainAndMemberId);
+
+	List<BoardAndImageDto> findBoardAndImageByMap(Map<String, Object> params);
 
 	
 

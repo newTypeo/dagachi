@@ -132,9 +132,9 @@
 		</div>
 		<br/>
 	<div class = kakaoLoginDiv>
-<%-- 		 <a href="${pageContext.request.contextPath}/oauth2/authorization/kakao">
+ 		 <a href="${pageContext.request.contextPath}/oauth2/authorization/kakao">
 			<img src="${pageContext.request.contextPath}/resources/images/kakaoL.png" alt="카카오 로그인">
-		 </a> --%>
+		 </a> 
 		 
 		 <br/>
 		 		<!-- 아이디 찾기 버튼(준한) -->	

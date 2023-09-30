@@ -10,12 +10,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -55,9 +57,9 @@ import com.google.gson.JsonObject;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Controller
 @Slf4j
 @Validated
+@Controller
 @RequestMapping("/member")
 public class MemberSecurityController {
 
@@ -85,6 +87,11 @@ public class MemberSecurityController {
 	    JsonObject item = document.getAsJsonObject();
 	    JsonObject params = item.get("address").getAsJsonObject();
 	    String bCode = params.get("b_code").getAsString();
+	    log.debug("documents ={}",documents);
+	    log.debug("document ={}",document);
+	    log.debug("item ={}",item);
+	    log.debug("params ={}",params);
+	    log.debug("bCode ={}",bCode);
 	 
 	    String rawPassword = member.getPassword();
 	    String encodedPassword = passwordEncoder.encode(rawPassword);
@@ -106,27 +113,41 @@ public class MemberSecurityController {
 
 	@PostMapping("/memberKakaoCreate.do")
 	public String kakaoUpadteCreate(@AuthenticationPrincipal MemberDetails _member,
-			@Valid MemberKakaoUpdateDto member, BindingResult bindingResult, RedirectAttributes redirectAttr,
-			@RequestParam String interests) throws UnsupportedEncodingException {
-	    
-		JsonArray documents = kakaoMapApi(member.getMainAreaId(), "address"); 
+	        @Valid MemberKakaoUpdateDto member, BindingResult bindingResult, RedirectAttributes redirectAttr,
+	        @RequestParam String interests, HttpServletRequest request) throws UnsupportedEncodingException {
+
+	    JsonArray documents = kakaoMapApi(member.getMainAreaId(), "address");
 	    JsonElement document = documents.getAsJsonArray().get(0);
 	    JsonObject item = document.getAsJsonObject();
 	    JsonObject params = item.get("address").getAsJsonObject();
 	    String bCode = params.get("b_code").getAsString();
-	    
-	    member.setMemberId(_member.getMemberId()); 
-	    
-	    
-	    _member.setMemberProfile(new MemberProfile());
-	    _member.getMemberProfile().setRenamedFilename("default.png");
-	    
+
+	    // 사용자 정보 업데이트 (예: 이메일 업데이트)
+	    String userId = _member.getMemberId(); // 사용자 ID 가져오기
+	    String newEmail = "new_email@example.com"; // 새 이메일 정보 설정
+
+
 	    List<String> interest = Arrays.asList(interests.split(","));
 	    member.setInterest(interest);
 	    member.setMainAreaId(bCode);
+	    member.setMemberId(_member.getMemberId());
 	    int result = memberService.kakaoUpadteCreate(member);
-	    return "redirect:/";
+
+	    // Principal 업데이트
+	    
+	    _member.setMemberProfile(new MemberProfile());
+	    _member.getMemberProfile().setRenamedFilename("default.png");
+
+	    // SecurityContext 업데이트
+	    Authentication authentication = new UsernamePasswordAuthenticationToken(_member, _member.getPassword(), _member.getAuthorities());
+
+	    // Spring Security 로그아웃 수행
+	    request.getSession().invalidate();
+
+	    // 로그아웃 후 리디렉션
+	    return "redirect:/member/memberlogin.do";
 	}
+
 		
 	
 	

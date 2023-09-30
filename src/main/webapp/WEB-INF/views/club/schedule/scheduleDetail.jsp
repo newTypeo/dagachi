@@ -222,8 +222,7 @@ function getPath(elem) {
 		var xStr = document.querySelector(".seq"+i).classList[1];
 		var yStr = document.querySelector(".seq"+i).classList[2];
 		var name = document.querySelector(".seq"+i).innerHTML;
-		if (i == startSeq) {
-			origin = xStr + ',' + yStr;
+		if (i == startSeq) { origin = xStr + ',' + yStr;
 		} else if (i == endSeq) {
 			destination = xStr + ',' + yStr;
 		} else {
@@ -233,7 +232,8 @@ function getPath(elem) {
 			}
 		}
 	}
-	keywordUrl += 'origin=' + origin + '&waypoints=' + waypoints + '&destination=' + destination;
+	keywordUrl += 'origin=' + origin + '&waypoints=' 
+			+ waypoints + '&destination=' + destination;
 	const requestUrl = url + keywordUrl;
 	
 	fetch(requestUrl, {
@@ -248,8 +248,7 @@ function getPath(elem) {
 		data.routes[0].sections.forEach((section) => {
 			section.roads.forEach((road) => {
 				road.vertexes.forEach((vertex, index) => {
-					// x,y 좌표가 우르르 들어옵니다. 그래서 인덱스가 짝수일 때만 linePath에 넣어봅시다.
-					// 저도 실수한 것인데 lat이 y이고 lng이 x입니다.
+					// x,y 좌표 반환됨, 2번중 한번만 실행
 					if (index % 2 === 0) {
 						linePath.push(new kakao.maps.LatLng(road.vertexes[index + 1], road.vertexes[index]));
 					}

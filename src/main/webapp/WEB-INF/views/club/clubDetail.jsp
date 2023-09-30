@@ -41,14 +41,14 @@
       </div>
     </div>
 	<nav id="club-title" class="">
-		<c:if test="${layout.title eq null}">
+		<c:if test="${clubDetail.title eq null}">
 			<div id="default-title">
-				<h2>${clubInfo.clubName}</h2>
+				<h2>${clubDetail.clubName}</h2>
 			</div>
 		</c:if>
 		
-		<c:if test="${layout.title ne null}">
-			<img src="${pageContext.request.contextPath}/resources/upload/club/title/${layout.title}">
+		<c:if test="${clubDetail.title ne null}">
+			<img src="${pageContext.request.contextPath}/resources/upload/club/title/${clubDetail.title}">
 		</c:if>
 	
 	</nav>
@@ -61,33 +61,26 @@
 		</c:if>
 		
 	</nav>
-	<form:form
-		name="clubLikeFrm"
-		action="${pageContext.request.contextPath}/club/clubLike.do"
-		method="POST">
-			<input type="hidden" id="memberId" name="memberId" value="${memberId}">
-			<input type="hidden" id="domain" name="domain" value="${domain}">
-	</form:form>
 	
 
-	<jsp:include page="/WEB-INF/views/club/clubLayout/clubLayoutType${layout.type}.jsp"></jsp:include>
+	<jsp:include page="/WEB-INF/views/club/clubLayout/clubLayoutType${clubDetail.type}.jsp"></jsp:include>
 
 	
 </section>
 <script>
 
 
-document.body.style.background = '${layout.backgroundColor}';
+document.body.style.background = '${clubDetail.backgroundColor}';
 
 document.querySelectorAll('.fontColors').forEach((elem) => {
-	elem.style.color = '${layout.fontColor}';
+	elem.style.color = '${clubDetail.fontColor}';
 });
 
 document.querySelectorAll('.pointColors').forEach((elem) => {
-	elem.style.color = '${layout.pointColor}';
+	elem.style.color = '${clubDetail.pointColor}';
 });
 
-document.body.style.fontFamily = "${layout.font}";
+document.body.style.fontFamily = "${clubDetail.font}";
 </script>
 
 <c:if test="${not empty msg}">

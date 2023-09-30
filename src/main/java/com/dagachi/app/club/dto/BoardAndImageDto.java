@@ -26,4 +26,5 @@ public class BoardAndImageDto {
 	private LocalDateTime createAt;
 	private char thumbnail;
 
+	private String nickname;
 }
