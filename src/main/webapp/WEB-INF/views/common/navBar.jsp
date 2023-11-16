@@ -20,7 +20,7 @@
 	
 	<div id="search-container">
 		<form id="clubSearchFrm" action="${pageContext.request.contextPath}/club/clubSearch.do">
-			<input type="text" name="inputText" id="search-club-box" placeholder="BTS 봉준호 손흥민 다가치 Let's go"/>
+			<input type="text" name="inputText" id="search-club-box" placeholder="모임명이나 키워드로 검색"/>
 			<button id="search-club-btn"><i class="fa-solid fa-magnifying-glass fa-xl"></i></button>
 		</form>
 		<div id="search-detail" onclick="checkLoginSearch();">
@@ -36,7 +36,7 @@
 	<div id="category-modal-container" style="z-index: 2">
 		<div id="category-modal-left" style="z-index: 2">
 			<div id="category-modal-left-upper" style="z-index: 2">
-				<div><a>차/오토바이</a></div>
+				<div><a>차/오토바이</a></div> 
 				<div><a>게임/오락</a></div>
 				<div><a>여행</a></div>
 				<div><a>운동/스포츠</a></div>
