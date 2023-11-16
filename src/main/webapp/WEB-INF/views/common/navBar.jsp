@@ -36,7 +36,7 @@
 	<div id="category-modal-container" style="z-index: 2">
 		<div id="category-modal-left" style="z-index: 2">
 			<div id="category-modal-left-upper" style="z-index: 2">
-				<div><a>차/오토바이</a></div>
+				<div><a>차/오토바이</a></div> 
 				<div><a>게임/오락</a></div>
 				<div><a>여행</a></div>
 				<div><a>운동/스포츠</a></div>
