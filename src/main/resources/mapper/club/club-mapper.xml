@@ -175,7 +175,8 @@
 	    <if test="category != '' and category != null">
 	    	and category = #{category}
 	    </if>
-	    
+	    order by
+	    	DBMS_random.random
 	</select>
 	
 	<select id="findClubDetailByDomainAndMemberId">

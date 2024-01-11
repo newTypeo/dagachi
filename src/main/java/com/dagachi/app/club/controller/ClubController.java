@@ -432,21 +432,23 @@ public class ClubController {
 		JsonArray documents = kakaoMapApi(mainAreaName, "address"); // api요청 결과를 json배열로 반환하는 method
 		JsonElement document = documents.getAsJsonArray().get(0);
 		JsonObject item = document.getAsJsonObject();
-		double x = item.get("x").getAsDouble();
-		double y = item.get("y").getAsDouble();
+		double x = item.get("x").getAsDouble(); // 내활동지역을 api를 통해 x와 y 자표값을 double형으로 받는다. 
+		double y = item.get("y").getAsDouble(); // 여기서 x, y를 기준으로 주변검색 알고리즘을 통해 km별 모임을 검색한다.
 
 		StopWatch sw = new StopWatch();
 		sw.start();
 
-		// 싸인 코사인으로 계산하는 메소드
+		// sin과 cos으로 계산하는 메소드
 		for (int i = 1; i <= 6; i++) {
 			Set<String> zoneSet = getAreaNamesByDistance(x, y, i, ANGLEPATTERN); // 검색할 km기반으로 주변 동이름이 들어있는 set 반환
+								// 내활동지역의 좌표값인 x,y를 매개인자로 넘겨주고 i는 km를 뜻한다. static map인 ANGLEPATTERN에 있는 각도를 i(km)별로 사용한다. 
+			
 			model.addAttribute("zoneSet" + i, zoneSet);
 			log.debug("zoneSet{}= {}", i, zoneSet);
 		}
 		sw.stop();
 
-		log.debug("법정동 api 요청시간 = {}초", sw.getTotalTimeSeconds());
+		log.debug("1~6km 반경 법정동 api 총 요청 & 세션세팅 시간 = {}초", sw.getTotalTimeSeconds());
 	}
 
 	/**
