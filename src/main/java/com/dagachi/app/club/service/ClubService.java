@@ -194,6 +194,6 @@ public interface ClubService {
 	List<BoardAndImageDto> findBoardAndImageByMap(Map<String, Object> params);
 
 	
-
+	
 
 }

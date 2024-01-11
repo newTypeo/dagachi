@@ -624,4 +624,7 @@ public class ClubServiceImpl implements ClubService {
 	public List<BoardAndImageDto> findBoardAndImageByMap(Map<String, Object> params) {
 		return clubRepository.findBoardAndImageByMap(params);
 	}
+	
+	
+	
 }

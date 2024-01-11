@@ -661,10 +661,10 @@ public class ClubController {
 		int clubId = club.getClubId();
 		String clubName = club.getClubName();
 		
-		ClubLayout layout = clubService.findLayoutById(clubId);
+		//ClubLayout layout = clubService.findLayoutById(clubId);
 		
-		model.addAttribute("layout", layout);
-		model.addAttribute("clubName", clubName);
+		//model.addAttribute("layout", layout);
+		//model.addAttribute("clubName", clubName);
 
 		int _type = (boardType != 0) ? boardType : 0;
 
