@@ -185,6 +185,8 @@ public class MemberSecurityController {
 		MemberProfile profile = memberService.findMemberProfile(memberId);
 		List<MemberInterest> interests = memberService.findMemberInterestsByMemberId(memberId);
 		List<ClubMember> clubMembers = memberService.findClubMemberByMemberId(memberId);
+		
+		//쿼리 수정
 
 		memberDetails.setMemberProfile(profile);
 		memberDetails.setClubMember(clubMembers);

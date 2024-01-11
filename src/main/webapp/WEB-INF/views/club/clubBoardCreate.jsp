@@ -134,7 +134,7 @@ document.boardFrm.addEventListener("submit",(e)=>{
 	if(title === "" || content === "" || type === ""){
 		
 		e.preventDefault();
-		//임시 얼럿트 추후에 빨간글이든 뭐든 되면 하지 모
+		//임시 얼럿트 
 		alert("입력값이 부족합니다.");
 	}
 	

@@ -155,12 +155,12 @@ document.body.style.fontFamily = "${layout.font}";
 	document.querySelector("#prevPage").addEventListener("click",()=>{
 		const boardTypeVal= document.querySelector("#boardType").value;
 		
-		pageButtonChange(currentPage);
 		
 		if(currentPage>1){
 			currentPage--;
 			renderBoardList(boardTypeVal);
 		}
+		pageButtonChange(currentPage);
 		
 	});
 	
@@ -172,6 +172,8 @@ document.body.style.fontFamily = "${layout.font}";
 			currentPage++;
 			renderBoardList(boardTypeVal);
 		}
+		
+		pageButtonChange(currentPage);
 	});
     
 	//이전 다음 활성, 비활성화
@@ -312,16 +314,6 @@ document.body.style.fontFamily = "${layout.font}";
 						case 5: typeText ="필독"; break;
 					}
 					
-/* 					if(type === 5){
-						const mustReadBody=document.querySelector("#mustTable tbody");
-						
-						mustReadBody.innerHTML=`
-							<td>
-								[필독] <a href="${pageContext.request.contextPath}/club/${domain}/boardDetail.do?no=\${boardId}">\${title}❗</a>
-							</td>
-						`;
-					} */
-					
 					const parsedDate =new Date(createdAt);
 					const options={   year: '2-digit',
 							  month: '2-digit',
@@ -344,9 +336,6 @@ document.body.style.fontFamily = "${layout.font}";
 						`;
 						
 					},"");
-					
-					
-					
 				}else{
 					html=`
 						<tr>
@@ -354,9 +343,7 @@ document.body.style.fontFamily = "${layout.font}";
 						</tr>
 					`;
 				}
-				
 				tbody.innerHTML= html;
-				
 				renderPage(data.boardSize);
 			}
 		});
